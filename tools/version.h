@@ -17,9 +17,9 @@
 
 #define COMPANY "Qualcomm Atheros, Ocala FL USA"
 #define PACKAGE "Qualcomm Atheros Powerline Toolkit"
-#define PROJECT "plc-utils"
-#define VERSION "2.1"
-#define RELEASE "2-dev"
+#define PROJECT "open-plc"
+#define VERSION "0.0"
+#define RELEASE "1-dev"
 #define COMPILE __TIME__ " " __DATE__ 
 #define CONTACT "cmaier@qualcomm.com"
 #define LICENSE "Restricted License"
