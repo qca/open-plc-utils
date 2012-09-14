@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			psgen.7
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='plcwait.7.html' title=' plcwait.7 '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='psgraph.7.html' title=' psgraph.7 '>NEXT</a>]
+			</div>
+<pre>
+psgen(7)                                       Qualcomm Atheros Powerline Toolkit                                       psgen(7)
+
+NAME
+       psgen - Qualcomm Atheros Prescaler Generator
+
+SYNOPSIS
+       psgen [options] input_file
+
+DESCRIPTION
+       Read  a spectrum analyzer output file and write a set of computed prescaler values to stdout or directly into a PIB file.
+       Options permit input file format specification, target chipset selection, power level flattening, gain  adjustment,  car‐
+       rier notching and slope manipulation.
+
+       The  spectrum  manipulating options described below are applied in the following order: -F -N -T (in the case of multiple
+       tweaks, they are applied in order as shown on the command line).
+
+       This program can also adjust the output power level adjustment PIB setting on the 6400 and the scaled tx gain PIB setting
+       on  the  7400.  The  gain  setting  as well as the prescaler values can be inserted directly into the PIB by using the -P
+       option, or the user can manually insert the prescalers and gain setting using tools such as psin and setpib.
+
+       This program is part of the Qualcomm Atheros Powerline Toolkit. See the AMP man page for  an  overview  and  installation
+       instructions.
+
+OPTIONS
+       -d chipset
+              The  target  powerline  device  family (ie; chipset). Supported chipsets are ar6400, ar7400, ar7420 and ar7421. At
+              this point only ar6400 and ar7400 have been tested.
+
+       -i input_format
+              Specifies the input format for the spectrum analyzer file. File format will vary depending in  the  analyser  make
+              and model. Currently only output from the Rohde &amp; Schwarz FSL3 is supported (fsl3).
+
+       -F level
+              Flatten the output power to level dBm.
+
+       -G gain_adjustment
+              Adjust the output power of the AFE by gain_adjustment dB. Valid values depend on the target_device.
+
+       -N notch_set
+              Notch the output prescaler using the notch_set specified. Supported notch sets are &quot;usa&quot; and &quot;japan&quot;.
+
+       -P pib_file
+              Save prescalers and gain setting to pib file pib_file instead of outputting them to standard output.
+
+       -T sf,ef,sd,ed
+              Tweak  the  prescaler  output from sf (start frequency) to ef (end frequency) by sd (start delta) at sf, and by ed
+              (end delta) at ef, sloping linearly in dB from sf to ef. The frequencies sf and ef can contain suffixes M for  MHz
+              or K/k for KHz. Without any suffix they are assumed to be in Hz.
+
+       -v     Output more verbose information. This option does not yet have any effect.
+
+       -?,--help
+              Print program help summary on stdout. This option takes precedence over other options on the command line.
+
+       -!,--version
+              Print  program version information on stdout. This option takes precedence over other options on the command line.
+              Use this option when sending screen dumps to Atheros Technical Support so that they know exactly which version  of
+              the Linux Toolkit you are using.
+
+ARGUMENTS
+       input_file
+              The  spectrum  analyzer file. To create the file, program a powerline device with flat prescalers then run a spec‐
+              tral analysis and save the output. Spectrum analyzer output format will depend on analyzer make and model so  file
+              format may be specified using option -i when executing this program.
+
+EXAMPLES
+       The following example outputs the prescalers for an AR6400 device with USA notches and the non-notched areas at -12dBm.
+
+          $ psgen -d ar6400 -N usa -F -12 fsl3_output.txt
+
+       The following example outputs the prescalers for an AR6400 device with USA notches and the non-notched areas at -12dBm to
+       the PIB file abc.pib.
+
+          $ psgen -d ar6400 -N usa -F -12 -P abc.pib fsl3_output.txt
+
+       The following example outputs the prescalers for an AR6400 device with no notches, flattens the spectrum to  -12dBm,  and
+       adds a slope from 10MHz to 20Mhz from -6dBm at 10MHz to +2dBm at 20MHz. The final result will be a prescaler that is flat
+       at -12dBm except for between 10MHz and 20MHz. From 10MHz to 20MHz, the output will start at -18dBm and increase  until  a
+       value of -10dBm.
+
+          $ psgen -d ar6400 -F -12 -T 10M,20M,-6,2
+
+       The  following example outputs the prescalers for an AR6400 device with no notches, flattens the spectrume to -12dBm, and
+       applies an AFE gain of -4dB. The results are saved in abc.pib.
+
+          $ psgen -d ar6400 -F -12 -G -4 -P abc.pib
+
+       The following example outputs the prescalers for an AR7400 device with USA notches and the non-notched areas at -12dBm to
+       the PIB file abc.pib.
+
+          $ psgen -d ar7400 -N usa -F -12 -P abc.pib fsl3_output.txt
+
+       The  following  example outputs the prescalers for an AR6400 device with no notches, flattens the spectrum to -12dBm, and
+       adds a slope from 10MHz to 20Mhz from -6dBm at 10MHz to +2dBm at 20MHz. It then applies a tweak from 15MHz  to  20MHz  of
+       -3dBm to -3dBm. The second tweak will shift the 15MHz to 20MHz portion of the first tweak down by 3dBm.
+
+          $ psgen -d ar6400 -F -12 -T 10M,20M,-6,2 -T 15M,20M,-3,-3
+
+DISCLAIMER
+       PIB  file structure and content is proprietary to Qualcomm Atheros, Ocala FL USA. Consequently, public information is not
+       available. Qualcomm Atheros reserves the right to modify PIB file structure or content in future firmware releases  with‐
+       out any obligation to notify or compensate users of this program.
+
+SEE ALSO
+       psin(7), psout(7)
+
+CREDITS
+        Nathaniel Houghton &lt;nathaniel.houghton@qca.qualcomm.com&gt;
+
+plc-utils-2.1.1                                             June 2012                                                   psgen(7)
+</pre>
+		<div class='footerlink'>
+			[<a href='plcwait.7.html' title=' plcwait.7 '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='psgraph.7.html' title=' psgraph.7 '>NEXT</a>]
+			</div>
+		</body>
+	</html>

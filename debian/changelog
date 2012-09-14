@@ -1,0 +1,5 @@
+plc-utils (1.3.7p-1) unstable; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Mathieu Olivari <mathieu@qca.qualcomm.com>  Thu, 29 Sep 2011 16:37:55 +0200

@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			Loopback.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='LocalDevices.c.html' title=' LocalDevices.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='MACPasswords.c.html' title=' MACPasswords.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *   
+ *   signed Loopback (struct plc * plc, void * memory, size_t extent);
+ *   
+ *   plc.h
+ * 
+ *   instruct one powerline device to transmit the given Etherenet 
+ *   frame to another for a fixed period of time using VS_FR_LNK 
+ *   message;
+ *
+ *   See the Atheros HomePlug AV Firmware Technical Reference Manual
+ *   for more information;
+ *   
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef LOOPBACK_SOURCE
+#define LOOPBACK_SOURCE
+
+#include &lt;stdint.h&gt;
+#include &lt;memory.h&gt;
+
+#include &quot;../plc/plc.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../tools/memory.h&quot;
+
+signed Loopback (struct plc * plc, void * memory, size_t extent) 
+
+{
+
+	struct channel * channel = (struct channel *)(plc-&gt;channel);
+	struct message * message = (struct message *)(plc-&gt;message);
+
+#ifndef __GNUC__
+#pragma pack (push,1)
+#endif
+
+	struct __packed vs_fr_lbk_request 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+		uint8_t DURATION;
+		uint8_t RESERVED;
+		uint16_t LENGTH;
+		uint8_t PACKET [1038];
+	}
+	* request = (struct vs_fr_lbk_request *) (message);
+	struct __packed vs_fr_lbk_confirm 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+		uint8_t MSTATUS;
+		uint8_t DURATION;
+		uint16_t LENGTH;
+	}
+	* confirm = (struct vs_fr_lbk_confirm *) (message);
+
+#ifndef __GNUC__
+#pragma pack (pop)
+#endif
+
+	memset (message, 0, sizeof (* message));
+	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+	QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_FR_LBK | MMTYPE_REQ));
+	if (extent &gt; sizeof (request-&gt;PACKET)) 
+	{
+		extent = sizeof (request-&gt;PACKET);
+	}
+	memcpy (request-&gt;PACKET, memory, extent);
+	if (extent &lt; (ETHER_MIN_LEN - ETHER_CRC_LEN)) 
+	{
+		extent = (ETHER_MIN_LEN - ETHER_CRC_LEN);
+	}
+	request-&gt;DURATION = plc-&gt;timer;
+	request-&gt;LENGTH = HTOLE16 ((uint16_t)(extent));
+	extent += sizeof (struct ethernet_std);
+	extent += sizeof (struct qualcomm_std);
+	extent += 4;
+	plc-&gt;packetsize = (uint16_t)(extent);
+	if (SendMME (plc) &lt;= 0) 
+	{
+		error (1, ECANCELED, CHANNEL_CANTSEND);
+	}
+	while (ReadMME (plc, 0, (VS_FR_LBK | MMTYPE_CNF)) &gt; 0) 
+	{
+		if (confirm-&gt;MSTATUS) 
+		{
+			Failure (plc, PLC_WONTDOIT);
+			continue;
+		}
+	}
+	return (0);
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='LocalDevices.c.html' title=' LocalDevices.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='MACPasswords.c.html' title=' MACPasswords.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

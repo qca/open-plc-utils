@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			MulticastInfo1.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='Monitor.c.html' title=' Monitor.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='MulticastInfo2.c.html' title=' MulticastInfo2.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *   
+ *   signed MulticastInfo1 (struct plc * plc);
+ *
+ *   plc.h
+ *
+ *   Request multicast group membership information from the peer device
+ *   one VS_MULTICAST_INFO message; 
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *      Nathaniel Houghton &lt;nathaniel.houghton@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef MULTICASTINFO1_SOURCE
+#define MULTICASTINFO1_SOURCE
+
+#include &lt;stdint.h&gt;
+#include &lt;memory.h&gt;
+
+#include &quot;../plc/plc.h&quot;
+#include &quot;../tools/memory.h&quot;
+#include &quot;../tools/number.h&quot;
+#include &quot;../tools/error.h&quot;
+
+signed MulticastInfo1 (struct plc * plc) 
+
+{
+	struct channel * channel = (struct channel *)(plc-&gt;channel);
+	struct message * message = (struct message *)(plc-&gt;message);
+
+#ifndef __GNUC__
+#pragma pack (push,1)
+#endif
+
+	struct __packed source 
+	{
+		uint8_t SOURCEADD [16];
+	}
+	* source;
+	struct __packed member 
+	{
+		uint8_t MEMBERADD [ETHER_ADDR_LEN];
+		uint8_t MEMBERTEI;
+		uint8_t SOURCEMODE;
+		uint8_t NUMSOURCES;
+	}
+	* member;
+	struct __packed group 
+	{
+		uint8_t GROUPADD [16];
+		uint8_t NUMMEMBERS;
+	}
+	* group;
+	struct __packed vs_mcast_info_request 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_fmi qualcomm;
+		uint8_t REQTYPE;
+		uint8_t GROUP_ADDRESS [16];
+	}
+	* request = (struct vs_mcast_info_request *) (message);
+	struct __packed vs_mcast_info_confirm 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_fmi qualcomm;
+		uint8_t REQTYPE;
+		uint8_t MSTATUS;
+		uint8_t NUMGROUP;
+		struct group group [1];
+	}
+	* confirm = (struct vs_mcast_info_confirm *) (message);
+
+#ifndef __GNUC__
+#pragma pack (pop)
+#endif
+
+	char string [16 * 3];
+	Request (plc, &quot;Fetch Multicast Group Information&quot;);
+	memset (message, 0, sizeof (struct message));
+	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+	FragmentHeader (&amp;confirm-&gt;qualcomm, 1, (VS_MULTICAST_INFO | MMTYPE_REQ));
+	request-&gt;REQTYPE = 0x00;
+	plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
+	if (SendMME (plc) &lt;= 0) 
+	{
+		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		return (-1);
+	}
+	if (ReadMME (plc, 1, (VS_MULTICAST_INFO | MMTYPE_CNF)) &lt;= 0) 
+	{
+		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+		return (-1);
+	}
+	if (confirm-&gt;MSTATUS) 
+	{
+		Failure (plc, PLC_WONTDOIT);
+		return (-1);
+	}
+	Confirm (plc, &quot;Found %d Group(s)\n&quot;, confirm-&gt;NUMGROUP);
+	group = (struct group *)(&amp;confirm-&gt;group);
+	while (confirm-&gt;NUMGROUP-- &gt; 0) 
+	{
+		printf (&quot;\tgroup-&gt;GROUPADD = %s\n&quot;, hexstring (string, sizeof (string), group-&gt;GROUPADD, sizeof (group-&gt;GROUPADD)));
+		printf (&quot;\tgroup-&gt;NUMMEMBERS = %d\n&quot;, group-&gt;NUMMEMBERS);
+		printf (&quot;\n&quot;);
+		member = (struct member *)(&amp;group-&gt;NUMMEMBERS + 1);
+		while (group-&gt;NUMMEMBERS-- &gt; 0) 
+		{
+			printf (&quot;\t\tmember-&gt;MEMBERADD = %s\n&quot;, hexstring (string, sizeof (string), member-&gt;MEMBERADD, sizeof (member-&gt;MEMBERADD)));
+			printf (&quot;\t\tmember-&gt;MEMBERTEI = %d\n&quot;, member-&gt;MEMBERTEI);
+			printf (&quot;\t\tmember-&gt;SOURCEMODE = %d\n&quot;, member-&gt;SOURCEMODE);
+			printf (&quot;\t\tmember-&gt;NUMSOURCES = %d\n&quot;, member-&gt;NUMSOURCES);
+			source = (struct source *)(&amp;member-&gt;NUMSOURCES + 1);
+			while (member-&gt;NUMSOURCES-- &gt; 0) 
+			{
+				printf (&quot;\t\t\tsource-&gt;SOURCEADD = %s\n&quot;, hexstring (string, sizeof (string), source-&gt;SOURCEADD, sizeof (source-&gt;SOURCEADD)));
+				printf (&quot;\n&quot;);
+				source++;
+			}
+			member = (struct member *)(source);
+			printf (&quot;\n&quot;);
+		}
+		group = (struct group *)(member);
+	}
+	return (0);
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='Monitor.c.html' title=' Monitor.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='MulticastInfo2.c.html' title=' MulticastInfo2.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

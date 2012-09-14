@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			Monitor.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='ModuleWrite.c.html' title=' ModuleWrite.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='MulticastInfo1.c.html' title=' MulticastInfo1.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *   
+ *   signed Monitor (struct plc * plc, signed colon, signed space);
+ *
+ *   nda.h
+ *   
+ *   capture and print VS_SNIFFER indication messages from powerline 
+ *   devices in sniffer mode which may be enabled and disabled using
+ *   a VS_SNIFFER request message;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef MONITOR_SOURCE
+#define MONITOR_SOURCE
+
+#include &quot;../nda/nda.h&quot;
+#include &quot;../plc/plc.h&quot;
+
+signed Monitor (struct plc * plc, signed colon, signed space) 
+
+{
+	struct channel * channel = (struct channel *)(plc-&gt;channel);
+	struct message * message = (struct message *)(plc-&gt;message);
+
+#ifndef __GNUC__
+#pragma pack (push,1)
+#endif
+
+	struct __packed vs_sniffer_ind 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+		uint8_t SNIFFTYPE;
+		struct vs_sniffer_ind_data 
+		{
+			uint8_t DIRECTION [1];
+			uint8_t SYSTIME [8];
+			uint8_t BEACONTIME [4];
+			uint8_t FRAMECTRL [16];
+			uint8_t BEACONBODY [136];
+		}
+		SNIFFERDATA;
+	}
+	* indicate = (struct vs_sniffer_ind *)(message);
+
+#ifndef __GNUC__
+#pragma pack (pop)
+#endif
+
+	signed length;
+	Request (plc, &quot;Listening&quot;);
+	while ((length = readpacket (channel, message, sizeof (* message))) &gt;= 0) 
+	{
+		if (!length) 
+		{
+			continue;
+		}
+		if (indicate-&gt;ethernet.MTYPE != htons (HOMEPLUG_MTYPE)) 
+		{
+			continue;
+		}
+		if (indicate-&gt;qualcomm.MMV != 0) 
+		{
+			continue;
+		}
+		if (indicate-&gt;qualcomm.MMTYPE != HTOLE16 (VS_SNIFFER | MMTYPE_IND)) 
+		{
+			continue;
+		}
+
+#if 0
+
+/*
+ *	print sniffer data to stdout in binary of stddout is not the console or a tty device.
+ */
+
+		if (!isatty (STDOUT_FILENO)) 
+		{
+			write (STDOUT_FILENO, &amp;indicate-&gt;SNIFFERDATA, sizeof (indicate-&gt;SNIFFERDATA));
+			continue;
+		}
+
+#endif
+
+		hexout (indicate-&gt;SNIFFERDATA.DIRECTION, sizeof (indicate-&gt;SNIFFERDATA.DIRECTION), colon, space, stdout);
+		hexout (indicate-&gt;SNIFFERDATA.SYSTIME, sizeof (indicate-&gt;SNIFFERDATA.SYSTIME), colon, space, stdout);
+		hexout (indicate-&gt;SNIFFERDATA.BEACONTIME, sizeof (indicate-&gt;SNIFFERDATA.BEACONTIME), colon, space, stdout);
+		hexout (indicate-&gt;SNIFFERDATA.FRAMECTRL, sizeof (indicate-&gt;SNIFFERDATA.FRAMECTRL), colon, space, stdout);
+		hexout (indicate-&gt;SNIFFERDATA.BEACONBODY, sizeof (indicate-&gt;SNIFFERDATA.BEACONBODY), colon, '\n', stdout);
+		fflush (stdout);
+	}
+	return (0);
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='ModuleWrite.c.html' title=' ModuleWrite.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='MulticastInfo1.c.html' title=' MulticastInfo1.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

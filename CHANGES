@@ -1,0 +1,1490 @@
+plc-utils-2.1.2
+---------------
+
+1. Changed default channel timeout from 15ms to 50ms for user convenience. Many network situations were causing unwanted timeouts.
+
+2. Minor code changes to programs chkpib, chkpib2, chknvm and chknvm2 to improve consistency between the internal functions accross the programs.
+
+3. Added option -c to program plcmcinfo to support classic (legacy) multicast information display formats.
+
+
+plc-utils-2.1.1
+---------------
+
+1. Function pibfile1 now displays a unique error when a Panther/Lynx PIB is detected.
+
+2. Program mdiodump now prints MDIO commands compatible with program mdioblock by default. Option -s is needed to produce a program summary, which was the previous default behaviour.
+
+3. Program plcmod now accepts option -D instead of rejecting it.
+
+4. Program weeder now acceptc option -r to read relay settings and display in decibels - EV105164.
+
+5. Created programs plcrule and plcwait to upgrade programs int6krule and int6kwait for Panther/Lynx chipsets.
+
+6. Created program pib2xml to replace program odx and handle both old and new pib formats.
+
+7. Added an improved MulticastInfo option to plctool. This option is temporary and will be removed and incorporated into a stand-alone tool of some kind - EV105978.
+
+8. Progams int6kecho, plcecho, int6krate, amprate and plcrate now display the correct default echo duration on their command line menus.
+
+9. Program ptsctl now accepts option -r to read back line neutral and line ground attenuation values and display them on the console - EV105164.
+
+10. Improvements in error checking on read()/write() calls in several programs.
+
+11. Fixed problem in chkpib that would result in the PIB checksum failing on platforms with 64 bit off_t's.
+
+12. Added program plcmcinfo to read and display multicast information using VS_MULTICAST_INFO. This program replaces option -g for programs int6k, amptool and plctool. Users should stop using those programs to display multicast information - EV105978.
+
+13. Rewrote programs ampwait and plcwait to use time based delays instead of retry-based delays - EV107904.
+
+14. Implemented program xml2pib which replaces program pxe for XML based PIB editing. Users are reminded that offsets in Panther/Lynx PIBs are subject to change without notice and so care should be taken when using setpib, getpib and xml2pib.
+
+15. Removed options -c and -p from programs int6ktest, amptest and plctest because the channel timeout is now fixed at 50ms.
+
+16. Modified efbu options -t and -p to work in milliseconds instead of seconds to increase the flexibility. Added option -e to all specification of an Ethertype.
+
+17. Fixed bug that caused program plchost to hang during push-button-join operations. Changes made to module ModuleRead and plchost.
+
+18. Changed logic in module WaitForStart to minimize the number and frequency of VS_SW_VER.REQ messages. Now, only one message is issued.
+
+19. Applied stricter type-casting to lseek statements in module setpib to prevent errors on some 64-bit operating systems.
+
+20. Option weeder -r now works on Linux and Windows. Option ptsctl -r now works on Windows.   
+
+21. Modified timing logic in functions that call gettimeofday (). Added macros SECONDS and MILLISECONDS to types.h to standardize the way in which time intervales are computed across various programs - EV107904.
+
+22. Altered plcrate logic in an attempt to prevent periodic read timeout errors.
+
+23. Complete the migration to Visual Studio 2010. There are separate .sln files for VS2003 and VS2010. They can be used for parallel builds because object files and exe files are kept in separate folders. File plc-utils-2003.sln compiles 32-bit programs and creates xxx-utils-x86.msi files. File plc-utils-2010.sln compiles 64-bit programs and create xxx-utils-x64.msi files.
+
+
+plc-utils-2.1.0
+---------------
+
+1. Program pibdump replaces program odd and will accomodate both old and new PIB formats. Program odd is deprecated.
+
+2. Program pibcomp replaces program odc and will accomodate both old and new PIB formats. Program odc is deprecated.
+
+3. Added option -b to programs amptool, ampinit, plctool and plcinit to fetch a device enumeration ID table using VS_EM_ID_TABLE.
+
+4. Added option -h to programs int6kmdio2 and plcmdio32 so that high-order data can be transmitted before low-order data. See EV102553.
+
+5. Removed redundant chip identity check in function chipset.c. 
+
+6. Fixed program plcrate so that options -t and -T work correctly. Refactored all functions related traffic generation. Delete modules CrossTraffic1 and CrossTraffic2 - EV104031.
+
+7. Fixed program plctool so that option -M works.
+
+8. Fixed program plchost so that attempts to read the PIB no longer loop indefinitely. In addition, some changes were required to the plc firmware to make this work correctly. 
+
+9. Programs odd, odc and odx are deprecated. Program pibdump and pibcomp now replace odd and odc repectively.
+
+10. Added program plcmod to replace int6kmod. 
+
+11. Added program plcwait to replace int6kwait and ampwait. 
+
+12. Started migration from Visual Studio 2003 to Visual Studio 2010. The transition is not complete so VS2010 files are not ready.
+
+13. Windows applications now install in "C:\Program Files (x86)\Qualcomm Atheros\Powerline Toolkit" instead of "C:\Programs Files\Atheros\Toolkit". You may need to change the definition of environment variable "PLC" to support this.
+
+
+plc-utils-2.0.9
+---------------
+
+1. Added length argument to function UnwantedMessage so that zero length messages do not constitute an unwanted message.
+
+2. Fixed bug that caused int6kwait to report "Allow 0 seconds for reset" despite the actual time allowed.
+
+3. Modified program plchost so that options -n and -p are optional and the default filenames are 'user.nvm' and 'user.pib' respectively.
+
+4. Fixed bug in module piblock that cause "can't home file" message for thunderbolt and lightning PIB files.
+
+5. Modified program int6kmod so that custom modules are read and written to flash memory. 
+
+6. Modified functions Topology1 and Topology2 so that the local device BDA is displayed correctly.
+
+6. Added program plcstat to plc-utils-2.0.8.msi package. This program detects the type of device being queried. 
+
+7. Added program plcstat which is a forward looking version of program ampstat. 
+
+8. Added program plcmdio16 which is a forward looking version of program int6kmdio.
+
+9. Added program plcmdio32 which is a forward looking version of program int6kmdio2.
+
+10. Added option -b to program mdiodump in order to print commands in 16-bit format suitable for input to program mdioblock.
+
+
+plc-utils-2.0.8
+---------------
+
+1. Updated module Chipset.c so that new chips such as the QCA6410, QCA7000 and QCA7420, are properly identified.
+
+2. Added option plcinit -E to erase flash memory on local or remote panther/lynx devices. This option determines the extent of flash memory using a VS_GET_NVM message then erases it all. Poof!
+
+3. Modified program plcinit to overwrite the factory PIB on local or remote panther/lynx devices by default. Use program plctool if you do not want to overwrite the factory PIB.
+
+
+plc-utils-2.0.7
+---------------
+
+1. Modified program int6keth to specify that "Device Refused Request" when a device error occurs.
+
+2. Modified program setpib to correct error causing the PIB checksum to be written into the legacy position of contempory PIB files.
+
+3. Modified program modpib to reject HFID characters considered illegal by the HomePlug specification.
+
+4. Modified program grab so that option -v appends input filename to the output;
+
+5. Fixed bug that caused program plchost to boot runtime parameters incorrectly on AR7420 devices.
+
+
+plc-utils-2.0.6
+---------------
+
+1. Added module MulticastInfo to programs ampinit, amptool, plcinit and plctool.
+
+2. Added features to amptest such that it should behave identically to plctest for now but amptest will evetnually be deprecated.
+
+3. Added option -r for "read" and -C for "customer report" to program int6klog.
+
+4. Fixed bug in program int6klog that caused apparent timeout with no output.  
+
+5. Added option -m to program arpc to prefix arpc messages with a millisecond timestamp.
+
+6. Added option -z to program arpc to output current time in both hh:mm:ss and seconds.milliseconds format and exit.
+
+7. Removed module WaitForBootLoader from toolkit. Replaced all references with in-line code to wait for a VS_HST_ACTION message.
+
+8. Added function pibfile2 to validate newer PIB formats.
+
+9. Removed extraneous station output from program mdustats causes by residual debugging code.
+
+10. Merged contents of nvm-utils.msi and pib-utils.msi with nda-utils.msi to reduce the number of independent windows packages. 
+
+11. Modified modpib and setpib to update the nvm image header checksum after modifying PIB images. 
+
+12. Modified program int6keth to accept option -p for port number to indicate internal or external interface. Options -R and -W are now gone.
+
+13. Defined macro SIZEOF in tools/types.h and implemented it in various modules that could take advantage of it. 
+
+
+plc-utils-2.0.5
+---------------
+
+1. Added new manifest data types to prevent "Mystery Data Type xx" messages for "chknvm -m"  and "chkpib -m".
+
+2. Added macro OPTSTR to file putoptv.h to display numeric program constants in program menu strings. (yet another cool macro from Nate Houghton).
+
+3. Modified make files by removing "su root -c" statements. User may now do "su make install" then "su make manuals". This assists in design of Debian package scripts.
+
+4. Changed Device ID codes to reflect latest changes to chipset identifiers. Programs should now identify QCA6410, QCA7000 and QCA7420 devices correctly.
+
+5. Added more detail to description of boot-from-host and flash-upgrade process. 
+
+
+plc-utils-2.0.4
+---------------
+
+1. Updated makefile to flag build errors and to remove dependencies causing unecessary rebuilds.
+
+2. Added projects pib-utils, nvm-utils and key-utils to segment toolkit programs into practical groups. These packages are experimental and may be deleted in the future.
+
+3. Made timer checks in ReadMME () permanent by removing conditional compile statements.
+
+4. Reinstated program plcinit to nda-utils.
+
+
+plc-utils-2.0.3
+---------------
+
+1. Modified program adccap to handle and added applet QCA6410-adc-capture to handle panther and lynx chipset.
+
+
+plc-utils-2.0.2
+---------------
+
+1. Programs ampsnif and ampsnot have been removed from the toolkit and replaced with program ampsnif which combines their functionality.
+
+2. Programs plcboot and plctool now boot and flash QCA7420 devices only. Programs ampboot and amptool boot and flash INT6400 and AR7400 devices. Programs int6kboot and int6k should be used for INT6300 devices and earlier.
+
+3. Most applets have been removed from the toolkit. Applet names now begin with the chipset that they were written for.
+
+4. Programs ampsnif and ampsnot have been removed and replaces with program plcsnif which combines their functionality.
+
+5. There are now four (4) .msi files named amp-utils.msi, plc-utils.msi, nda-utils.msi and qca-utils.msi. Each contains a subset of the toolkit programs. All source code for all programs is still included in the package with a few exceptions.
+
+plc-utils-2.0.1
+---------------
+
+1. Refactored and renamed virtually all functions having to do with device boot and flash operations and file validation operations. 
+
+2. Program plcboot now boot and flashes Panther/Lynx powerline devices.
+
+3. Programs chknvm and chknvm2 now check both Thunderbolt/Lightning and Panther/Lynx image files. Option -m has been added to display the chain manifest on Panther/Lynx image files.
+
+4. Programs chkpib and chkpib2 now check both Thunderbolt/Lightning and Panther/Lynx image files. Option -m has been added to display the chaing manifest on Panther/Lynx image files.
+
+5. Program setpib can now be used to edit both Thunderbolt/Lightning and Panther/Lynx image files.
+
+6. Program modpib can now be used to edit both Thunderbolt/Lightning and Panther/Lynx image files.
+
+
+amp-utils-1.3.7
+---------------
+
+1. Added option -p to programs amptone and ampsnr to indicate primary or alternate coupling when collecting tonemap data.
+
+2. Modified function WaitForStart to call function Chipset so that all chipset detection logic is located in one module. Function chipset is then called by functions WaitForStart and Topology.
+
+3. Modified programs chknvm and chknvm2 to detect and handle the older thunderbolt and lightning and the newer panther and lynx firmware image files and heder chains.
+
+4. Moved source files in folders ./int6k and ./amp to folder ./plc. Renamed "struct int6k" to "struct plc" and renamed constants "INT6k_*" to "PLC_*" throughout.
+
+5. Updated applet flastest.nvm to accommodate newer flash memory chipsets.
+
+6. Removed deprecated programs int6kfp, int6kbootp and ampinit because they are not needed. The same functionality is available using int6kf, int6kboot and ampboot. 
+
+7. Modified programs int6krate and amprate such that option -n is now the default if other options are specified. Option -n is still permitted.
+
+8. Added '1000Full' as an argument for option -a on program int6keth.
+
+9. Added program plctest to replace amptest because it supports old and new nvm file formats and will (soon) support old and new boot methods.
+
+10. Performed major re-factoring of most programs that communicate with powerline devices or handle .nvm files.
+
+11. Modified programs odd and odc to reports size descrepencies between definition and data files.          
+
+12. Removed function alert from the toolkit. Occurances of "alert (...)" have been replaced by "error (0, 0, ...)" to reduce the number of modules comprisingthe toolkit.
+
+13. Modified function UnwantedMessage to handle fragmented messages. Removed function UnwantedFragment from the toolkit. At this version only programs ampsnr and adccap process fragmented messages.
+
+14. Fixed bug that caused a segment fault on Linux and memory access violation on Windows.                
+
+15. Added program plctool to support Panther/Lynx platforms.
+
+16. Remove program watchdog from the toolkit.
+
+17. Modified prgrams int6kboot, ampboot and plcboot to use the true device address, instead of the local management address, after booting the device. This should reduce the possibity of crosstalk between devices in production environments. 
+
+18 Deprecated program int6km in favor of program plcm which performs memory write/read in one step.       
+
+
+amp-utils-1.3.6
+---------------
+
+1. Fixed bug that prevents int6kboot, ampboot, int64host, amphost from booting an AR7x00 chipset. This change is of particular interest to customers doing AR7x00 boot-from-host designs.
+
+
+amp-utils-1.3.5
+---------------
+
+1. Added program plcget to implement the VS_GET_PROPERTY message type. Presently, properties can only be fetched by numeric id.
+
+2. Modified program int6kid to read and print the manufacturer, user or network HFID.
+
+3. Added JEDEC codes 3215 = FM25S16/FM25Q1 and 3216 = FM25Q32 to modules nvram.h and nvram.c.
+
+4. Improved robustness of powerline network topology logic by filtering out unwanted frames when requesting VS_SW_VER information from network neighbors.
+
+5. Moved programs plcget and plcset from folder int6k to folder plc.
+
+6. Added option -p to program efbu to insert a pause in milliseconds between each frame.
+
+7. Added program plcfwd to manage vendor specific message VS_FORWARD_CONFIG.
+
+
+amp-utils-1.3.4
+---------------
+
+1. Created toys folder for programs that will not be released (even under nda) because they are experimental or unique to one customer or project. Moved several existing programs from the hybrid and nda folder into the toys folder.
+
+2. Added program slac to demonstrate Green PHY proof of concept testing. This program is minimal and not of general use.
+
+3. Added program plcotst (PLC One-Time Self-Test) to configure Atheros One-Time Self-Test and read stored results using the VS_SELFTEST_ONETIME_CONFIG and VS_SELFTEST_RESULTS message types.              
+
+4. Added option -X to programs int6kp and ampinit to erase a given sector of flash memory using the VS_FLASH_ERASE message type.
+
+5. Fixed bug in module UnwantedFragment.c that caused all fragments, except VS_TONEMAP_CHAR, to be rejected.
+
+
+amp-utils-1.3.3
+---------------
+
+1. Created folder "mdio" and move mdio related functions and modules to that folder.
+
+2. Added program mdioblock. Renamed program ar8236mdio to mdioblock2. Program mdioblock produces a clause 22 MDIO program block for download by program int6kmod. Program mdio block2 produces a clause 45 MDIO program block.
+
+3. Fixed a bug that would cause -n in program int6k to not read the entire NVM from the device.
+
+4. Added program ptsctl to control multiple weeder modules used in the newer Atheros PTS units.
+
+5. Added program mdustats to to implement the VS_MDU_TRAFFIC_STATS message.    
+
+6. Added program ampagc to collect and display agc and snr data in robo mode using a modified version of the VS_DBG_INFO message. This is a test application that will be used to explore special conditions and so it may be removed from future toolkit versions without notice.
+
+7. Option -s, used to read SDRAM configuration information, has been removed from programs aptool and ampinit because the VS_RD_CBLOCK message is not supported on AR7400 devices. 
+
+8. Added option -o to program int6krate to set the read timeout in milliseconds. The default timeout on both the Windows and Linux version is 50 milliseconds. If you do not like that value then change it using this option. This option has the same effect as option -t on int6k, int6kp and so forth.
+
+9. Added option -r to program nda/ampsnr to collect, process and output ROBO SNR data using a special format. Removed option -g from ampsnr since Tim Gargraves is no longer using this program. Removed program ampagc from toolkit.
+
+amp-utils-1.3.2
+---------------
+
+1. Programs int6kfp and int6kbootp are no longer compiled by default because they are redundant. Program int6kf performs the same as program int6kfp and program int6kboot performs the same as program int6kboot. User may manually compile and install int6kfp and int6kbootp or merely add symbolic links in folder /usr/local/bin.
+
+2. Replaced calls to function HomePlugHeader () with calls to function EthernetHeader () throughout the toolkit and have removed function HomePlugHeader () from the source tree.
+
+3. Modified program mdiogen to accomodate Atheros AR8236 special registers by adding a new macro that takes the address, data, and mask. Also, the program now sets file permissions and pads the output to an even multiple of four bytes and will delete the output file on error. This program still requires manual comiplation using command "gcc -o mdiogen mdiogen.c".
+
+4. Fixed bug in program hpavkeys that failed to handle passwords longer than 512 bytes and, in some cases, did not terminate password strings.
+
+5. Fixed a problem that resulted in a missing wanpacket.dll message on Windows Vista and Windows 7 operating systems. File wanpacket.dll is no longer included in Microsoft operating system distributions as of Windows Vista. If you experience this problem then delete files packet.dll and wpcap.dll from folder c:\Program Files\Atheros\Toolkit, if you have permission. If you do not have permission then uninstall the current toolkit package and install another that does not include these files. Older toolkit packages included these files by design but some newer toolkit packages still include them by mistake. 
+
+6. Added program mdiodump to display the contents of an MDIO block in human readable format.
+
+7. Added program ar8236mdio to write data into AR8236 special registers.
+
+8. Remove folders cgi, scan and ttcp from the toolkit to reduce clutter.
+
+
+amp-utils-1.3.1
+---------------
+
+1. Modified programs chknvm and chknvm2 to display firmware revision string for version 5 firmware. The algorithm for extracting the string is based on some assumptions and may require modification at a later date but the programs are now usable for INT6x00 and AR7x00 chipsets.
+
+2. Fixed bug that prevented the chipset and firmware strings from being displayed for int6kstat -t. This but was introduced recently but has now been corrected.
+
+3. Modified program int6klog to suppress unwanted carriage-returns in Windows output.
+
+4. Added TR-069 data types url, username, password, accessusername, accesspassword, adminusername and adminpassword to program setpib.
+
+5. Modified module Attributes.c to display line frequency. Program int6k and int6kp option -a now displays line frequency.
+
+6. Updated MME constants and lookup tables.
+
+7. Implemented VS_NW_INFO.COUPLING field into functions NetworkInfo and PhyRates for AR7x00. Additional information now appears for AR7x00 devices only when using amptool -m and amprate -n.
+
+8. Modified program psin and psout to properly handle AR7x00 prescalars.
+
+9. Added new option '-g' to int6k to read a device's IGMP snooped group table.
+
+10. Created programs int6kmdio to edit PHY registers and ar8236mdio to manage general purpose MDIO registers. These programs complement programs int6kmod and mdiogen.     
+
+11. Added module read functionality to program int6kmod.
+
+12. Corrected bug in program setpib that caused decimal values to be write in the wrong endian order.
+
+ 
+amp-utils-1.3.0
+---------------
+
+1. Prepended Atheros TLA text to source code modules that require it. Some modules were developed by a third party and do not require permission from Atheros.
+
+2. Modified program ampsnot so that ARPC message content always appears on on the console in ASCII hexadecimal format.
+
+3. Removed stray OS/X debugging messages fronm function openchannel.
+
+4. Fixed a compile error that prevented int6kboot and int6kbootp from bootint INT6400 devices on Windows platforms.
+
+
+amp-utils-1.2.9
+---------------
+
+1. Fixed typo in program int6keth where keyword "Off" started with digit '0' instead of letter 'O' as reported in FB1477.
+
+2. Program int6k now performs push button joins and leaves using option -B on big endian hosts. 
+
+3. Program int6km now displays binary register contents in correct endian order on big-endian hosts. The actual fix was applied to function regview32.
+
+4. Program ampboot now initializes SDRAM on AR7x00 devices, as intended.
+
+
+amp-utils-1.2.8
+---------------
+
+1. Applied endian conversion fixes to functions InitDevice and BootDevice which caused boot failures on big-endian hosts. The IGNOREMASK and IMAGETYPE fields had the wrong size endian conversion for their datatype such that the error was not apparent on little-endian hosts.  
+
+2. Modified variou pib functions so that version 5 PIBs are now recognized; however, this means that some interim PIBs released with beta 5 firmware are no longer recognized.
+
+3. Programs ampboot, ampinit and amphost do not work properly on the AR7400 in this toolkit release. Toolkit users should use programs int6k64host, int6kboot and int6kbootp on AR7400 devices.
+
+4. Program ampsnot now prints VS_SNIFFER indications correctly. Previously, 5 bytes were being omitted from the output.
+
+5. Fixed bug in ampsnot that resulted in a partial last frame when ampsnif is turned off.
+
+
+amp-utils-1.2.7
+---------------
+
+1. Modified function BootDevice so that it no longer configures SDRAM when the memctl applet is present in the nvm image chain. This means that InitDevice should be called on device bootup.
+
+2. Modified int6kboot and int6kbootp to call function InitDevice before calling function BootDevice because BootDevice no longer configures SDRAM. 
+
+
+amp-utils-1.2.6
+---------------
+
+1. Fixed bug in int6krule that sent ethertype values in LittleEndian instead of BigEndian. This bug was introduced with toolkit version 1.0.5 and has been present since May 2009. Affected int6krule users should upgrade.
+
+2. Added program efbu to blast IP broadcast frames of maximum length at maximum rate over a given interface for a given period of time in seconds.       
+
+3. Added sypport for "mac" data type in program setpib. Removed support for "hex" data type in program setpib.  Removed support for "text" data type in program getpib. These changes improve symmetry between the two programs.
+
+4. Fixed bug in program int64host that caused an error message to be displayed for host action 0x00 which is, in fact, not an error.
+
+
+amp-utils-1.2.5
+---------------
+
+1. Added program nics and ifs to enumerate host Ethernet interfaces. The former only runs on Linux and OSX at present. The latter runs on all platforms. Externally, they serve the same function.
+
+2. Added program plcnets to locate and enumerate PLC networks accessible from the local host;
+
+3. Modified channel functions to support IEEE 802.2 frames on Windows and OS X platforms. This is only used for UART-enabled powerline devices, at present.
+
+4. Added warning message "Superfluous command line arguments" to programs that need it.
+
+5. Remove programs ampsnif and ampsnot because they are not for general use by customers.
+
+6. Added programs edru and edsu to receive Ethernet frames from a remote Atheros UART-enabled powerline device or send Ethernet frames to a remote Atheros UART-enabled powerline device.
+
+7. Added program ttycat to send data over powerline using a local UART-enabled powerline device.
+
+
+amp-utils-1.2.4
+---------------
+
+1. Fixed bug that caused tools to block indefinitely on Mac OS X 10.6 (Snow Leopard). This bug did not affect programs executing on OS X 10.5.
+
+2. Reworked XML parsing functions in nodes folder. Some older functions now have a new interface and new functionality.
+
+3. Fix a bug in program int6kuart that prevented option -b from updating host serial port settings.
+
+
+amp-utils-1.2.3
+---------------
+
+1. In previous toolkit versions, most programs would display a help summary if no arguments were present on the command line. This caused ocassional conflicts when attempting to pipe information from one program to another. Now, all programs require you to enter "-?" on the command line in order to view the help summary. 
+
+2. Extensively modified the behavior of program ttycat. The overall functionality is now different rendering the previous version obsolete. It was create to send serial data to the local UART-enabled powerline device.
+
+3. Added program efru to read 802.2 Ethernet frames and write the payload to stdout. This program was created to receive frames sent by a remote UART-enabled powerline device. This programs only works on Linux and has not been extensively tested. Expect changes in the next toolkit release.
+
+4. Add program ethcat to read one or more files and send 802.2 Ethernet frames to a specified network interface. This program was created to send network data to a remote UART-enabled powerline device. This program only works on Linux and has not been extensively tested. Expect changes in the next toolkit release. 
+
+5. The contents of folder efsu have been moved to folder ether and folder efsu has been removed.  
+
+6. Function openchannel now requires a protocol (ie; ether type) argument. This argument will overwrite the channel.type member so structure member initialization is no longer necessary.
+
+7. Variables of type size_t are being converted to unsigned to prevent compiler warnings when printing size_t values on 64-bit systems. The alternative was to use different format specification strings for 32-bit and 64-bit environments. This change permits one specification string to be used in both environments.
+
+8. Fixed a bug in setpib that would cause values to not be inserted into the PIB correctly on little endian machines.
+
+
+amp-utils-1.2.2
+---------------
+
+1. Toolkit now installs in correct windows folder. Previous version incorrectly installed in c:\Program Files\Atheros\Atheros Powerline Toolkit 1.2.1\ thus invalidating previous path references.
+
+2. Modified program int6kuart which was failing to communicate with UART-enabled powerline devices.
+
+
+amp-utils-1.2.1
+---------------
+
+1. Renamed package from int6000-utils to amp-utils. Package now includes two Windows install files: int6x00-utils-x.x.x.msi and ar7x00-utils-x.x.x.msi.
+
+2. Fixed bug in int6kuart where option -b failed to change host serial port parameters on Windows.
+
+3. Renamed package files having "int6000" prefix to have "int6x00" prefix.
+
+4. Renamed package files having "amp" prefix to have "ar7x00" prefix.
+
+5. Added a series of "ampxxxx" programs as ar7x00 counterparts to int6x00 programs. Generally speaking, command line arguments are identical but there are internal changes to accomodate new and proposed vendor specific message types, many of which permit fragmentation and have larger 16-bit phy rate fields. 
+6. Modified make.def to support cross-compilation on Atheros Wireless platforms.
+
+7. Added conditional compile constants, INT6x00 and AR7x00, to several older files to accommodate new and proposed message formats for AR7400 firmware. Several AMP*.c modules have been deleted as a result. This means that some programs require one constant or the other to be defined in order to compile. 
+
+
+int6000-utils-1.2.0
+-------------------
+
+1. Added option -u to program int6krate to display uncoded PHY rates. Option -c previously returned uncoded PHY rates which was incorrect. Option remains enabled but now returns coded PHY rates.    
+
+2. Added program ampsnif and ampsnot to monitor powerline traffic. These programs are experimental and so their functionality and output will probably change in the next release.
+
+3. Added program ampboot as an alternative to int6kboot for the AR7400 chipset and FW5.0 firmware. The functionaility of ampboot is identical to int6kboot in this release but may change in the next release.
+
+4. Change program int6kuart transparent mode buffer size options -b and -B to -z and -Z respectively.    
+
+5. Added option -l to programs amptest and int6ktest causing the program to repeat all applets in the first applet file until the program is terminated.
+
+6. Moved the contents of folder ./hpav to ./mme;    
+
+7. Added program int6kbaud to set URART-enabled powerline serial communications paramters using the ATBR serial line command. 
+
+8. Added program mme to help lookup error messages associated with vendor-specific message types. 
+
+9. Fixed endian errors in modules nvrampeek.
+
+10. Modified frame formatting functions to accept MMV as a argument in preparation for proposed changes to Atheros vendor-specific message formats. 
+
+11. Renamed function EthernetHeader to HomePlugHeader to better reflect it's function.
+
+12. Refactored serial line command buffer handling functions to support anticipated additions to the serial line command set.
+
+13. Incorporated contents of folder ./pts into folder ./serial and removed folder ./pts from the toolkit.
+
+14. Modified program efsu so that the minimum permitted frame length is 60 bytes instead of 64 bytes.
+
+15. Modified function readpacket to call function hexin when compile time constant __DEBUG__ is defined. This transparently fetches Ethernet frames from stdin instead of the network interface. Function hexin is the same function used by program efsu and so any frame description file may be used.
+
+16. Added function UnwantedFragment to deal with MMV=1 message fragments in preparation for propsed fragmented message types.
+
+17. Added program ampboot which is identical to program int6kboot except for the name and console messages.
+
+18. Added program amphost which is identical to program int64host except for the name and console messages.
+
+19. Added program amprate which is identical to program int6krate but will accept the proposed MMV=1 VS_NE_INFO message type.
+
+20. Added program amptool which is identical to program int6k but will accept the proposed MMV=1 VS_NW_INFO and other new message types that may appear. 
+
+21. Added program ampstat which is identical to program int6kstat but will accept the proposed MMV=1 VS_LNK_STATS message types. 
+
+22. Added program amptone which is similar to program int6ktone but will accept the proposed MMV=1 VS_TONWMAP_CHAR and VS_RX_TONEMAP_CHAR message types. 
+
+23. Modified uintspec to properly display the upper-limit when a numeric command line argument was out-of-range. The upper-limit of the range was always displayed as '0' on Windows platforms. This was a long standing bug.
+
+24. Added option -f to int6klog to control output format. Output can be in XML format or raw. Fixed a bug in the XML output.
+
+25. Add program int6kflog to read XML or raw INT6x00 device log files and output them in a human readable format. Only raw logs are supported at this time.
+
+int6000-utils-1.1.9
+-------------------
+
+1. Corrected bug in int6kuart that cause an error whenever the powerline device returned an error.
+
+2. Corrected typographical error in module MMECode, changing "DAC Mismatch" to "MAC Mismatch" for VS_MOD_NVM.
+
+3. With this release, there has been a difference in the chipset ID reported between the Bootloader and Firmware. Consequently, the toolkit may report an AR7400 as either an AR7400 or an UNKNOWN chipset. Live with it for now.
+
+
+int6000-utils-1.1.8
+-------------------
+
+1. Added program amptest as an alternative to program int6ktest. Program int6ktest displays ARPC messages in a non-standard way. Program amptest displays ARPC messages in a standard way that is compatible with the format used by Windows Device Manager. Program amptest will eventually replace int6ktest.
+
+2. Modified functions openchannel and readpacket to improve responsiveness under Windows.
+
+
+int6000-utils-1.1.7
+-------------------
+
+1. Replaced new "sudo" commands in all makefiles with old "su root -c" commands. The use of sudo was causing long delays on newer Ubuntu distributions for some reason. The cause is not yet known.
+
+2. Changed the function of option -t on int6krule to match other toolkit programs. Previously, it printed the int6krule symbol tables but it now sets the channel timeout. Use option -s to display the int6krule symbol tables.
+
+3. Replace references to "Intellon" with "Atheros" and "Intellon Corporation" with "Atheros Communications".
+
+4. The Intellon Linux Toolkit has been renamed to the "Atheros Powerline Toolkit". It is now installed in "c:\Program Files\Atheros\Toolkit" by default on Windows systems. Legacy Windows Toolkit users need to change their PATH environment string to reflect this change. They should also delete legacy folder "c:\Program Files\Intellon\Toolkit" to avoid potential installation conflicts. Linux users have nothing to do.
+
+5. Added hardware ID code for AR7400 chipset. Modified module WaitForStart.c to account for the fact that the AR7400 BootLoader returns an INT6400 hardware ID. This change is critical for AR7400 users.
+
+6. Added option -c to program int6krate to print coded PHY rates instead of raw PHY rates.
+
+7. Added AR7400 MME codes to module MMEName.c.
+
+8. Added program int6kuart to manage Atheros powerline uart-enabled devices using serial line commands over any host serial line interface.
+
+
+int6000-utils-1.1.6
+-------------------
+
+1. Corrected size of MME table type member in function MMECode. This should produce smaller compiled code;
+
+2. Corrected error in efsu that prevented echo of returning packets.
+
+3. Added option -R to int6kwait to reset device then retry until the device accepts the reset request or the wait period times out.
+
+4. Patched modules ReadPIB.c, Identity.c, SignalToNoise.c and ToneMaps.c to property convert 16-bit values on big-endian hosts;
+
+
+int6000-utils-1.1.5
+-------------------
+
+1. Added the "key" data type to program setpib. This can be used to enter the DAK, NMK and NVAK. The main advantage over the "data" datatype is length checking.
+
+2. Fixed a big-endian problem in functions BootDevice and EmulateHost where the PIBLENGTH member of the PIB header was incorrectly being converted using macro LE32TOH instead of LE16TOH.
+
+
+int6000-utils-1.1.4
+-------------------
+
+1. Modified docbook/docbook.css to highlight constants in red, variables and acronyms in blue.
+
+2. Modified the filter string for WINPCAP in openchannel.c to accept HomePlug AV broadcast frames. This is an experiment. The change was needed for the arpc utility.
+
+3. Made extensive modification to the arpc utility.
+
+4. Added function hexwrite to the tools folder.
+
+5. Added a section "Test a Device" to the "Procedures" chapter of the documentation.
+
+6. Added function ARPCPeek to the mme folder.
+
+7. Added recommendation to platform warning message in programs int6kf and int6kboot.
+
+8. Convert variables in SignalToNoise.c from float to double because we ere experiencing ocassional "nan" values.
+
+9. Reorganized include statements throughout to accommodate OpenBSD.
+
+10. Reworked channel.h, channel.c, openchannel.c, closechannel.c, sendpacket.c and readpacket.c to work on OpenBSD. The package now supports Linux, OpenBSD, MacOSX and Windows.
+
+11. Fixed typo in int6k command line menu.
+
+12. Miscellaneous changes so that the Toolkit and Application Development Package use the same logic;
+
+
+int6000-utils-1.1.3
+-------------------
+
+1. Modified tools that perform raw Ethernet I/O to recognize environment variable PLC on Windows platforms.
+
+
+int6000-utils-1.1.2
+-------------------
+
+1. Modified module ReadPIB to account for new behavior of the VS_READ_MOD message.
+
+2. Removed ./Windows folder and moved contents to ./VisualStudioNET folder. This keeps Microsoft specific things under one folder.
+
+3. Fixed int6keth so that flow control is not always enabled despite command line settings. 
+
+4. Fixed bug in hexdump.c that caused a segment fault on 64-bit systems. The problem was the unsigned/size_t mismatch on 64-bit systems. 
+
+5. Added a description for option -T (reset to factory defaults) in both int6k and int6kp man pages. Apparently, no description was ever provided.
+
+
+int6000-utils-1.1.1
+-------------------
+
+1. Modified module cgi/topology to highlight the selected device in yellow.
+
+2. Added AV-ator widget installation instructions. The widget is not yet included in the toolkit because it is still being evaluated.
+
+3. Modified program int6krate to bailout with an error message when option -x is selected and RX or TX is 0.
+
+4. Removed unused components and renamed existing components in folder ./cgi.
+
+5. Modified module cgi/device to allow selection of a host interface card.
+
+6. Re-wrote program hpav to use the toolkit channel interface. The old version used the Linux kernel interface. The new version does not support option -d which cause the program to run as a daemon.
+
+7. Renamed function getmacaddr() to gethwaddr() to conform to similar names used by other open source software.
+
+8. Added Bits-Per-Carrier (BPC) and Attenuation-Per-Carriet (ATN) to int6ktone -s option output.
+
+9. Added functions NetworkBridges and NetworkDevices to return an array of local device addresses or network device addresses, respectively.
+
+10. Added program int6klist to enumerate local devices, network devices and remote devices in undecorated format. This program is designed to simplify Linux scripting. It needs polish so expect options to change in future releases.
+
+11. Started the process of relocating system level include statements to accommodate OpenBSD. 
+
+12. Added optios -t, -T and -d to program int6krate. Option -t automatically generates powerline traffic between the local device and each remote device on each accessible powerline network. Option -T automatically generates powerline traffic between all nodes on each accessible powerline network. Option -d deterimes the duration of traffic between each node pair.
+
+13. Added program int6kecho to send custom payloads using the VS_FR_LBK message.
+
+
+int6000-utils-1.1.0
+-------------------
+
+1. Added folder ./patches and included send-to-self patches and Ubuntu installation scripts. Updated the docbook Hardware chapter to explain the the patch.
+
+2. Modified the Windows Install project to exclude packet.dll and wpcap.dll from the .msi file to address item #4 mentioned in the int6000-utils-1.0.9 section. 
+
+3. Added program int6klist to enumerate local devices and neighbor devices to make scripting easier.
+
+4. Modified modules cgi/topology.c and int6k/NetworkTopology.c so that they now display all devices on all AVLNs accessible from the local host. This changes the output and behavior of program int6kstat option -t. 
+
+
+int6000-utils-1.0.9
+-------------------
+
+1. Fixed bug in program efsu that computed incorrect EtherType when option -e was given a numeric valie. The symbolic values of hpav and hp10 were working as expected.
+
+2. Fixed a bug in program efsu that caused a "buffer overrun" message on the latest version of WinPcap.
+
+3. Modified the Windows Install project to display the Toolkit version. 
+
+4. The latest version of WinPcap (4.1 Beta5) prevents Toolkit programs from starting up on Windows XP because file wanpacket.dll is missing. The solution, at this time, is to delete packet.dll and wpcap.dll from folder C:\Program Files\Intellon\Toolkit. Visual Studio detects automatically detects them as dependencies and includes them in the .msi file. They may be removed from the packege in future releases. 
+
+
+int6000-utils-1.0.8
+-------------------
+
+1. Minor edits throughout to accomodate OS X Leopard and Tiger.
+
+2. Added man pages and documentation for pibrump and pibruin.
+
+
+int6000-utils-1.0.7
+-------------------
+
+1. Added option -s to program int6ktone to display SNR values instead of a tone map.
+
+2. Updated readpacket and openchannel WINPCAP implementation. This affects all programs compiled for Windows that send raw Ethernet frames (int5khost, int5kboot, int5krate, etc). Linux versions of the tools are not affected by this change.
+
+3. Added program pibrump to dump QoS classifier rules from a PIB file. Rules are dumped in a format suitable for input to program int6krule.
+
+4. Added program pibruin to read QoS classifier rules from stdin and insert them into a PIB file. This is basically a file based version of int6krule but cross-rule validation is not performed.
+
+5. Modified files channel.h, channel.c, openchannel.c, sendpacket.c, readpacket.c and closechannel.c to compile and run on OSX using Berkley Packet Filters. All applications seem to work except for hpav.
+
+6. Moved QoS rule symbol tables to external module rule.c. This change affects program int6krule and will eventually affect program coqos_add.
+
+
+int6000-utils-1.0.6
+-------------------
+
+1. Added option -e to all int6k and coqos programs. This option internally redirects stderr messages to stdout when status and progress messages are wanted in one stream. This elminates the need to add "2>&1" on the command line. 
+
+2. Added option -c to program int6ktone to print comma-seperated output for people who want that format.
+
+3. Added option -t to int6k, int6kp, int6kf, int6kfp, in6kboot and int6kbootp to set the read timeout in milliseconds. The default timeout on both the Windows and Linux version is 50 milliseconds. If you do not like that value then change it using this option.
+
+4, Modified channel.h (again) to detect WINPCAP or LIBPCAP and define a lower timeout value that normal; previously, we detected WIN32 which was incorrect.
+
+5. Modified int6k and int6kp to so that option Q takes effect.
+
+6. Changed int6keth option -n value from "0ff" to "Off". The first has a leading zero while the second had a leading capital 'o'.                 
+
+int6000-utils-1.0.5.1
+---------------------
+
+1. Corrected int6k/Makefile where name "int6kprobe" had been truncated to "robe" in several places by the cleansing script.
+
+int6000-utils-1.0.5
+-------------------
+
+1. Changed program int6ktone to separate output fields with a space instead of a comma. This change simplified parsing logic in program psnotch. People wanting to load this information into a spread sheet should now choose fix-column format instead of CSV format.
+
+2. Modified program psnotch to display all 6 tone maps slots and to display prescalar values in decimal rather than hexadecimal. 
+
+3. Added applets burstadrinadrtestloop.nvm, burstreadtest6400.nvm, burstwrite6400.nvm and burstwritereadtest6400.nvm to folder ./applets. No documentation is available at this time.
+
+4. The pxe schema has been extended to include new data types dataWord, dataLong and dataHuge so that large decimal values may be entered without concern for their endianess.
+
+5. Programs int6k and int6kp have new option -Q that skips the WaitForReset() function during flash opeartions when used with options -F or -C. Files affected are int6k.h FlashDevice.c, int6k.c and int6kp.c. Thss option was added then removed then added again after much discussion, debate and profanity.
+
+6. Fixed bug in function dataspec() that returned an error when hidden cr or lf appeared at the end of a hex string.
+
+7. Added a series of pre-coded .hex files provided by Andy Barnes to folder ./efsu.
+
+8. Program odx now strips out array indices, if present, from variable names found in piboffset.txt files. 
+
+9. Program int6khost64 has been renamed to int64host. Sorry!
+
+10. Fixed program psnotch to correct a number of errors introduced by earlier editing. It was failing to read tonemap files, printing only 5 of 6 tonemap time slots and skipping the even numbered slots.
+
+11. Started changes for Berkley Packet Filters as a means of sending and receiving raw Ethernet frames. These changes may take several releases to complete. In the end, BPF may be used on OpenBSD and OSX.
+
+12. Added program int6kmod to support VS_MODULE_OPERATION messages.
+
+int6000-utils-1.0.4
+-------------------
+
+1. Folder coqos has been refactored to account for changes in struct int6k and struct channel.
+
+2. Functions lookup, assist and espect are now independent functions having previously been included inline in programs int6krule, coqos_add, coqos_info and coqos_mod.
+
+3. Programs coqos_add, coqos_info, coqos_man, cosoq_mod and coqos_rel now have man pages.
+
+4. Program int6km now assumes the default offset 0x00000000 instead of 0x00001000 and the default length 4 instead of 32. New option -r displays selected memory in 32-bit binary register format to help locate specific register bit patterns.
+
+5. Program int6kwait now prints the message "Allow xx seconds for ..." instead of "Wait xx seconds for ..." because the word 'Wait' was confusing.
+
+6. Modified function Failure so that the "Bailing Out!" message is suppressed when option -q is selected. Some people found this message alarming. The change affects all toolkit programs.
+
+7. Added program getpib as the companion to program setpib.  
+
+9. Added header files symbol.h and base64.h and redistributed some constant definitions and function declarations.
+
+10. Program int6krule now recognizes actions 'DropTX', 'DropRX', 'StripTX' and 'StripRX', operand 'Always' and fields 'VLANTag' and 'TCPAck'. 
+
+12. Added program int6kprobe to test the VS_DIAG_PROBE message.
+
+13. Program efsu now reads freame description from stdin. This feature did not work on previous versions. Applications can now 'pipe' their output directly into efsu without creating an intermmediate file.
+
+14. Added program int6keth to inspect and change Ethernet PHY Settings. Program input format is stable but program output format may change to better support scripting requirements.
+
+15. Refactored all int6k and coqos programs and related modules. The int6k structure no longer contains a template Ethernet header. The channel structure now contains the Ethernet address of the peer device. Functions EthernetHeader and IntellonHeader are used throughout to format frame headers.
+
+16. Program int6k option -a now displays additional information related to SDRAM size. This information was added to the VS_SW_VER message in some erlier release but was never displayed. 
+
+17. Program chknvm option -r now directs output to stdout instead of stderr. 
+
+18. Program chknvm is deprecated by chknvm2 which is faster; however, chknvm2 does not display the SDRAM configuration block stored inside *.nvm files because SDRAM configuration parameters are now considered legacy.
+
+19. Added program int6klog to print a combined Watchdog/Checkpoint Report in XML format on stdout. This output format cannot be read by the Customer Device Manager but can be read by the Engineering Device Manager. Because the output is a text file, it can be included directly into email messages and sent to Intellon.
+
+20. Modified programs mac2pw and mac2pwd so that they will produce the same passwords as the Intellon Windows DB Builder Utility. There have been corresponding changes made to the Intellon DB Builder Utility that will virtually eliminate the chances of two OUIs generating identical password sets or having duplicate passwords occur within a given OUI password set.
+
+21. Modified programs mac2pw and mac2pwd so that option -v now performs the same function as option -u did in previous versions. Option -u still works but all references to -u have been removed from the program menu and documentation.
+
+22. Modified programs mac2pw and mac2pwd so that option -q now omits the device address on output. Th utility of this feature will be apparent to anyone involved in script writing.
+
+23. Function MACKeys has been replaced by function MACPasswords in the ./crypt folder. The new function will permit simple salting of the vendor and device portion of MAC addresses to help confound potential hackers. Salting is optional and must be done by the calling application.
+
+
+int6000-utils-1.0.3
+-------------------
+
+1. Added an "fflush (stdout)" statement inside the Manager loop of int6k, int6kp and int6krate to support use in an http environment;
+
+2. Modified program hpav to optionally print VS_ARPC messages on the console, much like int6ktest.
+
+3. Modified program int6krule to implement classification rules for VLAN ID and IPV6 Flow Label.
+
+4. Modified program int6km to accept options -a (absolute) and -r (relative) to display absolute or relative memory offsets. The default is relative for backwards compatibility.
+
+5. Modified program int6km so that the offset argument is assumed to be hexadecimal thereby making the explicit 0x prefix optional. 
+
+6. Modified program int6ktest and function BootDevice and InitDevice to convert the IGNOREMASK field in NVM headers to host endian format. This was causing image load failures on big endian hosts.
+
+7. Updated SDRAM configuration files in folder ram. Added file sdram08mb.cfg to the folder. 
+
+8. Refactored all int6k modules. The channel structure now supports a peer address in addition to the host address. The int6k structure no longer contains an Ethernet header template.
+
+9. Option int6k -a now displays additional information added to VS_SW_VER confirm messages with firmware v3.3.4. Specifically, the device SDRAM size.
+
+
+int6000-utils-1.0.2
+-------------------
+
+1. Modified int6k/chipsets.c to ommit hardware revsion codes for all device types because they were causing confusion.
+
+2. Reworked programs psin and psout to conform to companion programs cfgpsin and cfgpsout in int5500-utils.
+
+3. Fixed bug in function StartDevice that caused too many bytes to be written to the PIB Length member.
+   
+4. Fixed bug in ReadMME that caused frame dumps to be printed on stderr instead of stderr when running on Windows.
+
+5. Modified struct int6k by removing embedded struct channel and replacing it with a pointer to struct channel. This affects all int6k* programs and most of their modules.
+
+6. Modified program int6kstat by reversing the values of symbols "tx" and "rx" to be correct.
+
+7. Fixed function Classification which incorrectly failed to return to the main program under certain conditions. 
+
+8. Modified program setpib to permit the insertion of 0xFF over a range of bytes with option "ones", similar to option "zero".
+
+9. Modified function ReadMME to suppress console messages printed when unwanted or unexpected frames are received.
+
+
+int6000-utils-1.0.1
+-------------------
+
+1. Added serial line initialization code to program pts/weeder for Linux systems only. This code has not been tested and similar code is needed for WIndows systems.
+
+2. Added script int6000-utils.sh to help Intellon developers and users install the latest version of the toolkit over the corporate network.  End users may delete it without consequence.
+
+3. Fixed bug in program psin that returned error "Prescalers out of order" for prescaler input files that  contain cr/lf line endings.
+
+4. Fixed bug that showed 4-0 PIBs as unsupported.
+
+5. Fixed bug that broke network connectivity on Windows.
+
+
+int6000-utils-1.0.0
+-------------------
+
+1. Fixed bug in function Classification that truncated the third QoS rule within an outgoing MME. This module is only used by program int6krule at this time.
+
+2. Fixed bug in function Attributes that failed to initialize counters inside a loop. This caused output from multiple devices to be printed incorrectly. It only affects program int6k.
+
+3. Reduced TIMEOUT constant for WIN32 in int6k.h from 100ms to 50ms to speed firmware download on Windows. This value should remain unless there is some need to increase it. Download time reduced from about 60 seconds to about 10 seconds.
+
+4. Added folder ./scan to store lexical scanning functions. These function are only needed for CGI development and may eventually be removed from the package.
+
+5. Added keyword "none" to modpib option -D to simplify setting the PIB DAK to all zeros.
+
+
+int6000-utils-0.9.9
+-------------------
+
+1. Rebuilt package to include missing int6kp and int6kbootp in the *.msi files.
+
+2. Fixed bug in nvmmerge that failed to terminate the output image header chain correctly. This caused other programs, like chknvm and int6ktest, to report errors reading a non-existant image header.
+
+3. Added applets linesynctest.nvm to the applets folder. Added documentation for most other applets.
+
+4. Fixed bug in ReadMME that failed to properly terminate progress messages.
+
+
+int6000-utils-0.9.8
+-------------------
+
+1. Added folder cgi to hold experimental code. This code has no operational value.
+
+2. Added program int6k/int6ktone to extract tone map information from a given device.    
+
+3. Added program pib/pibnotch and script pibnotch.sh to test dynamic frequency notching. These are experimental and have no operational value.
+
+4. Added program pib/psgraph to print an amplitude map graph from a pib file.
+
+5. Added target "all" to Makfiles. This target is now synonymous with target "compile".
+
+6. Modified program psout to elminate the comment line at the start of output to simplify reading of the file by other programs.
+
+7. Modified program efsu to include a conditional in-line definition of constant ETHER_CRC_LEN for environments that do not provide it.
+
+8. Modified program int6ktest by removing an interlock that prevented use with INT6400 devices.
+
+9. Removed programs fp and ds from toolkit.
+
+10. Merged programs from int6400 toolkit into this toolkit. The int6400 toolkit may be discontinued.
+
+11. Added file make.def in main folder and include it in all Makefiles to support cross-compiling. 
+
+12. Fixed bug in function int6k/Classifications.c to correct the endianess of the MMTYPE field in VS_CLASSIFICATION messages.
+
+13. Edited ihpapi/ihp.h, ihpapi/EncodeIntellonHeader.c and ihpapi/RxFrame.c, replacing references to HOMEPLUG_MMV with references to INTELLON_MMV.
+
+14. Edited ihpapi/EncodeIntellonHeader.c to remove references to the FMI field for Intellon messages.
+
+15. Modified flash functions to use the legacy PIB offset for PIB files prior to PIB 3-5 which corresponds to firmware version 3.3.0.
+
+16. Fixed a bug in modpib that incorrectly appended 4 bytes to the PIB size if the NMK or SL was changed on a PIB 2-0 or earlier.
+
+
+int6000-utils-0.9.7
+-------------------
+
+1. program pxe now prints it's own schema on stdout with option -o. Added function tools/output.c and xml/xmlschema.c to support this feature.
+
+2. added man page for proposed program int6kfdm which does not yet exist.
+
+3. renamed folder 'keys' to 'crypt' for maintenance reasons. make associates changes to makefiles and source files.
+
+4. added program fp to generate file fingerprints. this program has several potential uses. added function crypt/SHA256Ident to support this program.
+
+5. added program ds to validate files against a registry. this program has several potential uses. added function crypt/SHA256Match to support this program.
+
+6. added program odx to print pxe XML edit instructions based on an object definition file and to print a schema.
+ 
+7. Fixed bug preventing int6k and int6kf from exiting with error code when the "BootLoader" starts following a flash operation.
+
+8. Fixed bug in program efsu that caused C language comments to truncate frames. Change was applied to function hexin().
+
+9. Reordered this README file so that the latest versions appear first.
+
+10. Corrected bug in int6k2 that cause errors on exit because certain files were closed twice on exit. The fix was an improvement and was applied to programs int6k and int6kf.
+
+
+int6000-utils-0.9.6
+-------------------
+
+1. Replaced symbolic openmode flags with POSIX flags throughout and removed their defintions in files.h.
+
+2. Added programs psin, psout and pskeys to manage prescalers. PRescalers can be inported, exported and copied from on pib to another. They can also be finger printed.
+
+3. Added folder "./applets" containing configuration and diagnostic programs that can be loaded using int6ktest.
+
+4. Program int6kf and int6kfp now exit with an error code if the Bootloader starts instead of firmware after a flash operation.
+
+5. All tools now intercept and print VS_ARPC messages from the device on stderr.
+
+6. Modified int6ktest to allow variable timeout via command line.                   
+
+7. Modified int6ktest to detect VA_ARPC messages from the device and print messages on the console. 
+
+8. Modified int6ktest to bailout on test applet failure and return an error code to the shell when option -x is specified. 
+
+9. Replace original applets sdramtest and nvram test with new versions that report error messages and return error codes. 
+
+
+int6000-utils-0.9.5
+-------------------
+
+1. Included the generic utilities odd and odc to tools folder. 
+
+2. Removed various getopt include guards from main programs and added them as CFLAGS -D options in Makefiles.
+
+3. Renamed preprocessor constant USEMAKEFILE to MAKEFILE throughout.
+
+4. Renamed program int6kmojo to int6ktest and altered command line syntax to allow multiple nvm files to be executed in sequence. Option -N no longer exists.
+
+5. Fixed bug in module xmledit that was introduced around 0.9.1 that caused data to be inserted into the wrong location.
+ 
+6. Changed the install location for linux man pages from /usr/share/man/man1 to /usr/share/man/man7. The makefile should purge most of the old pages from /usr/share/man/man1.
+
+
+int6000-utils-0.9.4
+-------------------
+
+1. Modified CMEncrypt to limit frame length to 502 bytes in all cases, even to local devices.
+
+2. Added new homeplug message header definition to homeplug.h. This structure includes the FMI field. Modified affect modules to accomodate new header type.
+
+3. Updated the definition of constant HOMEPLUG_MMV in file homeplug.h from 0x00 to 0x01 and added constant INTELLON_MMV.
+
+4. Added pts folder to hold PTS related programs.
+
+5. Added program weeder to control Weeder Solid State Relay Modules to pts folder. 
+
+6. Finished moving man pages from man1 to man7 where they belong.
+
+7. Renamed preprocessor constant INTELLON_MAKEFILE to USEMAKEFILE so that modules can be ported to other packages. This change affects all main programs, makefiles and *.vcproj files.
+
+
+int6000-utils-0.9.3
+-------------------
+
+1. Updated the definition of constant HOMEPLUG_MMV in file homeplug.h from 0x00 to 0x01.
+
+2. Added symbolic devices "all" and "broadcast" to program CMEncrypt for compatibility with other toolkit programs.
+
+3. Started moving man pages from man1 to man7 where they belong.
+
+4. Modified program int6krule to support QoS classification by MMTYPE.
+
+
+int6000-utils-0.9.2
+-------------------
+
+1. Reorganized command line for program odd. The object definition file is now specified using option -f instead of being the first file on the command line.
+
+2. Added program CMEncrypt to send a file using CM_ENCRYPTED_PAYLOAD.
+
+
+int6000-utils-0.9.1
+-------------------
+
+1. Added member 'chipset' to structure int6k to identify the type of Intellon device during boot and flash operations. This value is set by function WaitForStart. THis member is currently no used but will be in future releases.
+
+2. Added interlock to function StartDevice so that the new format NVM files cannot be accientally loaded. This is a temporary measure to protect users during transition.
+
+3. Renamed functions ReadMAC and WriteMAC to ReadNVM and WriteNVM to better reflect the nature of their functionality.
+
+4. Program modpib can no longer be used to repair a PIB file checksum. Instead use setpib -x.
+
+5. Incorprated function pibfileA as the main function for program chkpib and removed it as a stand-alone file.
+
+6. Incorported function pibedit as the main function for program modpib and removed is as a stand-alone file.
+
+7. Removed option -n from int6kid. The option was never implemented and is probably not needed.
+
+
+int6000-utils-0.9.0
+-------------------
+
+1. Modified int6krule to insert MMV followed by MMTYPE in little-endian instead of big-endian. 
+
+2. Added program odd which is an offset driven dump utility. Also included an example offset description file, piboffset.txt.
+
+3. Add programs nvmsplit and nvmmerge to dissect and combine NVM file images chains. This program is for Intellon FAEs only. Customers should not use this program.
+
+4. Fixed bug in EmulateHost so that Reset Factory Defaults now works correctly. Previsously, the logic attempted to flash the device which was incorrect.
+
+5. Modified function EmulateHost so that the proper filenames appear in console messages. 
+
+
+int6000-utils-0.8.9.1
+---------------------
+
+1. Fixed bug in int6k that prevented reading NVM from device to a file.
+
+2. Modified behaviour of efsu so that option -e requires the ethertype as an argument. Previously it required no argument. The ethertype filters the type of incoming frame received and causes efsu to wait for a response of that ethertype within the timeout period. The frame will be displayed if -v is also specified.
+
+
+int6000-utils-0.8.9
+-------------------
+
+1. Modified program modpib so that option -v will print the editied pib header on stdout.
+
+2. Modified wait times affecting WaitForReset, WaitForStart and WaitForAssoc so that VS_SW_VER are sent every 200 milliseconds instead of every second.
+
+
+int6000-utils-0.8.8
+-------------------
+
+1. Fixed Makefile error that failed to replace the .msi file in folder VisualStudioNET with the latest version.
+
+2. Added program mac2pwd to read MAC address from a file and output address and password pairs.
+
+3. Implemented the MME Boost option in program int6krule.
+
+4. Removed data types xbyte, xword, xlong and xhuge as arguments for program setpib.
+
+5. Fixed bug in setpib that caused option -w to misbehave for types data and hfid. 
+
+6. Updated MME constants and tables to reflect newest MME reserved status.
+
+7. Removed function number from tools folder.        
+
+
+int6000-utils-0.8.7
+-------------------
+
+1. Added function todigit which is similar to function hexvalue but supports number bases 2 through 36. Replaced references to function hexvalue with references to todigit and removed function hexvalue from the code base.
+
+2. Fixed bug that prevented modpib from opening PIB files on Windows.
+
+3. Added function ipv6spec to the tools folder and removed function decencode.
+
+4. Program int6krule now supports IPv6 addresses.
+
+int6000-utils-0.7.2
+-------------------
+
+1. Removed references to unecessary header files from various modules.
+
+2. Replaced virutally all references to macros ihtons, intohs, ihtonl and intohl with macros IHTONS, INTONS, IHTONL and INTOHL, repectively. The former are defined in ihpapi/ihp.h and the latter are defined in tools/memory.h
+
+3. Modified function PHYRates to ignore devices having address FF:FF:FF:FF:FF:FF and to treat 0 RX or 0 TX PHY Rate as an error. This function is only used by program int6krate at present.
+
+4. Renamed macro INTONS, in tools/memory.h, with INTOHS because the name was incorrect.
+
+5. Added RECOMMENDATIONS section to the rkey man page to advise on the best way to implement unique keys.
+ 
+6. Renamed function SHA256Merge to SHA256Block to better describe the function.
+
+7. Renamed files piboffsets3.xsd and pibOffset3.xml to piboffset.xsd and piboffset.xml, respectively, to reflect their generic nature.
+
+8. Revised functions alert, error, memincr, memdecr, strincr to reflect coding style changes;
+
+9. Changed int6kfp to make force-flash an option requiring -FF instead of implied manditory with -F to avoid confusion with other int6k* tools.
+
+10. Moved memory related definitions and declarations from tools/tools.h to tools/memory.h and adjusted include statements throughout. 
+
+11. Modified function FlashDevice to treat failure to reset as an error.
+
+12. Added option -p to program efsu to pause between packet sends. This option is experimental and may be removed.
+
+
+int6000-utils-0.8.6
+--------------------
+
+1. Remove program modgpio because the same changes can be make using programs pxe and setpib.
+
+2. Moved memory related definitions and declarations from tools/tools.h to tools/memory.h and made corresponding edits to programs and function that reference them.
+
+3. Moved numeric conversion related definitions from tools/tools.h to tools/number.h and made corresponding edits to programs and functions that reverence them.
+
+4. Changed the arguments and return value if function uintspec from unsigned to uint64_t and replaced much of the function body with function strtoul.
+
+5. Added function number to support string to integer conversion for multiple integer sizes and numeric formats.
+
+6. Improved program setpib by calling function number and providing better command line error detection.
+
+7. Added program int6krule to format and send stream classification rules to a device.
+
+8. Added function ipv4spec to the tools folder.
+
+9. Added latest MME codes to mme.h.
+
+
+int6000-utils-0.8.5
+--------------------
+
+1. Fixed incorrect file permission settings defined in files.h for Microsoft Windows PIB files.
+
+2. Removed functions hexstring () and decstring () and replaced them with equivalent printf() statements.
+
+3. Improved display output of program int6kstat.
+
+
+int6000-utils-0.8.4
+-------------------
+
+1. Added an argument to efsu option -e to specify the ethertype of echoed frames. This change generalizes the program and permits detection of either HomePlug 1.0 or HomePlug AV frames. It could break scripts that invoke efsu with option -e but there are probably few cases where this option would be beneficialu in a script.
+
+2. Diabled PIB major/minor version checks in functions pibfile() and pibfileA(). Function pibpeek() now assumes that all PIB versions have the same version header structure.
+
+3. Generalized pibpeek () to display future versions of 1, 2 and 3 series of pibs.
+
+4. Modified program hpavkey and hpavkeys to permit pass phrases having any content or length. Added option -e to enforce HomePlug AV pass phrase content and length rules.
+
+5. Fixed int6k so that option -q suppresses unecessary output when used with option -r.
+
+6. Added program setpib to edit PIB values from the command line.
+
+
+int6000-utils-0.8.3
+-------------------
+
+1. Added support function decstring () in order to display 64-bit integers.
+
+2. Added support function hexstring () in order to simplify printing of hex keys and addresses with printf().
+
+3. Fixed int6k and int6kp so that all seven octets of the NID are displayed with option -m.
+
+4. Added -d option to int6k and int6kp to write the Watchdog Report to a file so that the file can be sent to Intellon for analysis.
+
+5. Fixed int6k2 so that -J no longer ignores it's device address argument.
+
+6. Added program int6kstat to display Network Information and Link Statistics in formats suitable for reading by other programs. The program is usable but is still a work in progress. Feedback is welcome.
+
+7. Modified program modpib to accept the word 'auto' for a MAC address in addition to 'next' and 'plus'
+
+8. Fixed program int6krate so that rate information is ot suppressed when option -q is specified.
+
+9. Modified programs int6k and int6kp to accept symbols "join", "leave" and "status" for pushbutton option -B arguments.
+
+10. Modified programs int6k and int6kp to accept symbols "nvm", "pib" and "both" for commit option -C arguments.
+ 
+
+int6000-utils-0.8.2
+-------------------
+
+1. Removed discussion of Cygwin compilation from the documentation because compilation under Cygwin has not been attempted in over 6 months.
+
+2. Modified hexdump() to use FILE pointers instead of descriptors so that output stays synchronized with other program output. 
+
+3. Replaced call to Failure() with call to Display() in PHYRates() to prevent display of meaningless error code.
+
+4. Modified openchannel() and readpacket() improve performance on Microsoft Windows platforms.
+
+5. Added discussion on Cygwin scripting to documentation.
+
+6. Added option -H to program pcapdevs for printing symbolic definitions in a format suitable for bash scripts.
+
+7. Corrected problem causing int6kid, int6kf, int6krate and int6kwait to read from the wrong NIC under Winpcap.
+
+
+int6000-utils-0.8.1
+-------------------
+
+1. Added program mac2pw to generate user passwords from device addresses.
+
+2. Corrected minor errors and omissions in Windows build environment. 
+
+3. Moved int6000-utils-x.x.x.msi up to folder VisualStudioNET, making it easier to find, and revised docbook documentation to reflect the move. A copy of the *.msi file remains in the VisualStudioNET/install/Release folder for the present.
+
+
+int6000-utils-0.8.0 
+-------------------
+
+1. Included missing description of -FF command line options to man pages for int6kf and int6kfp.
+
+2. Added additional information on workstation setup to the docbook pages.
+
+3. Added program sada (Slave Authorization/Deauthorization) but no man page is available yet.
+
+4. Added program mrgpib (Merge PIB) to transfer information from one PIB to another despite them having different PIUB versions.
+
+5. Moved contents of folders ./sdram and ./nvram into common folder ./ram and folders ./sdram and ./nvram have been removed.
+6. Calls to nvmpeek, sdrampeek and nvrampeek have been removed from modules nvmfile, sdramfile and nvramfile to reduce the amount of unused code that is included. Modules nvmfileA, sdramfileA and nvramfileA have been added. These modules call nvmpeek, sdrampeek and nvrampeek and are only included where output is necessary. 
+
+7. Module pibpeek now includes the NID. This affects 'int6k -I' and 'chkpib -v' command options.
+
+8. Module pib.h has been re-factored to reflect the progression of PIB structures starting with firmware 1.4. 
+
+
+int6000-utils-0.7.9
+-------------------
+ 
+1. Renamed module CommitPTS to FlashPTS with internal function name Flash. This function uses message VS_PTS_NVM and may be called by functions FlashDevice and HostActionWait depending on build instructions.
+
+2. Renamed module Commit to Flash with internal function name Flash. This function uses message VS_MOD_NVM and may be called by functions FlashDevice and HostActionWait depending on build instructions.
+
+
+int6000-utils-0.7.8
+-------------------
+ 
+This version was never released.
+
+
+int6000-utils-0.7.7
+-------------------
+ 
+1. Modified interface definitions and declarations for function WaitForReset, WaitForStart and WaitForAssoc to remove retry count and retry timer as arguments. Instead, structure int6k members retry and timer are used. Made corresponding edits in programs and functions that reference them.
+
+
+int6000-utils-0.7.6
+-------------------
+
+1. Renamed constant FILE_OPENMODE to FILE_SAVEMODE in header tools/files.h. Made corresponding edits in programs that reference this constant.
+
+2. Modified program int6kp to remove the ability to send VS_HST_ACTION indication messages to match change 14 for int6000-utils-0.7.4. 
+
+3. Modified program int6khost to make force-flash explicit using with -FF instead of implicit with option -F. After consideration, this has proven to be the best way to avoid confusion.
+
+4. Modified program int6kfp to make force-flash explicit with option -FF instead of implicit with option -F.
+
+5. Renamed variables oldCFG, oldPIB and oldNVM to cfg, pib and nvm, respectively. Made corresponding edits in programs that reference them.
+
+6. Removed WaitForStart enforcement from function WriteCFG. Moved enforcement to other modules to improve module cohesion.
+
+7. Revised error messages in read and write modules to identify files by name.
+
+8. Converted FlashDevice to a conceptual module that calls appropriate lower-level modules. This is where PTS and non-PTS commit functions are called.
+
+
+int6000-utils-0.7.5
+-------------------
+
+1. Changed interface definition and declaration for function hexin.
+
+2. Added function hexwrite, a descriptor based version of hexdump, then implemented hexdump as a wrapper for hexwrite.
+
+3. Renamed structure config_sdram to config_ram and applied changes throughout.
+
+4. Modified program int6kfp to make force-flash implicit with option -F rather than implicit with option -FF. This reverses change 12 in the previous version.
+
+5. Added dual read to function readpacket for WinPcap to overcome packet capture behavior.
+
+6. Modified function closechannel to use proper close method with WinPcap.
+
+
+int6000-utils-0.7.4
+-------------------
+
+1. Imported function strfbits to support platform bitmap display in function nvmpeek.
+
+2. Started eliminating references to header tools/convert.h in favor of tools/memory.h and tools/number.h.
+
+3. Changed interface definitions and declarations for function binout, decout and hexout.
+
+4. Corrected file mode constants in tools/files.h so that Windows files open in binary mode instead of text mode.
+
+5. Began modification of header pib/pib.h to reflect the evolution of the PIB structure.
+
+6. Modified function pibedit to prevent accidentaly use of the first three Intellon MAC addresses. The feature is disabled but the code remains in place. We decided that engineering tools should not make decisions for the user.
+
+7. Fixed program modpib to enforce presence of a filename on the command line so that scripts will fail at that point.
+
+8. Modified function nvmpeek to decode and display platform masks using function strfbits.
+
+9. Revised header nvm/nvm.h to define the new role for reserved space in nvm image headers.
+
+10. Fixed bug in program int6kp that prevented changing the NMK on a remote device. The argument for option -J was being ignored and the command line instruction were not clearly stated. 
+
+11. Added option -A to program int6kid to echo the device MAC address.
+
+12. Modified program int6kfp to make force-flash explicit with option -FF rather than implicit with option -F.
+
+13. Added constants INT6K_BLOCKSIZE and INT6K_PIBOFFSET to header int6k/int6k.h instead of hard coding values in-line. INT6K_BLOCKSIZE is the amount of data read or written to a device. INT6K_PIBOFFSET is the SDRAM address where the PIB should be written.
+
+14. Modified program int6k to remove the ability to send VS_HST_ACTION indication messages. This can now be done using program efsu. 
+
+15. Corrected improper use of macros IHTONS and INTOHS to access MLENGTH in function WriteMEM. Replaced them with IHTONL and INTOHL. This error has no effect on little-endian hosts but would be incorrect on big-endian hosts.
+
+16. Enforced WaitForStart in function WriteCFG to ensure Bootloader is running.
+
+17. Changed length of firmware version string buffer from 64 to 128 bytes in functions WaitForStart and VersionInfo. The length was stated incorrectly in engineering documentation which has since been revised. 
+
+18. Enforced WaitForStart in function StartDevice to ensure Bootloader is running.
+
+19. Added endian code to function Initialize. 
+
+20. Completely re-wrote function HostActionWait to service VS_HST_ACTION indications. This function is now the core of program int6khost.
+
+21. Modified program hpav to print hex dumps on stderr instead of stdout.
+
+
+int6000-utils-0.7.4
+-------------------
+
+1. Added template script host.sh to support program int6khost using information in scripts hardware.sh and firmware.sh.
+
+2. Added scripts start.sh, flashp.sh and upgradep.sh to support programs int6kfp and int6kp.
+
+3. Added man page for program int6khost.
+
+4. Imported function strfbits to support platform bitmap display in function nvmpeek. Function is declared in tools/memory.h.
+
+5. Began elminating references to header tools/convert.h in favor of headers tools/memory.h and tools/number.h.
+
+6. Added function hexwrite, a descriptor based version of hexdump, and re-wrote hexdump to call hexwrite.
+
+7. Fixed definition of file mode constants in tools/files.h to open Windows files in binary mode. Microsoft Windows was opening files in text mode by default and inserting carriage returns in PIB files.
+
+8. Changed interface definitions and declarations for functions binout, decout and hexout and appended test/demo programs inside files.
+
+9. Updated module preambles to distinguish this toolkit from the planned AR7400 toolkit.
+
+
+int6000-utils-0.7.3
+-------------------
+
+1. Added program int6khost to emulate boot from host conditions and demonstrate host behavior.
+
+2. Added template scripts hardware.sh and firmware.sh to support use of scripts start.sh, flash.sh and upgrade.sh on multipls hosts. 
+
+3. Began revision of pib.h to reflect the evolution of PIB structures starting from v1.4. Applied corresponding changes to function pibpeek.
+
+4. Modified function pibedit to eliminate excessive output with option -v when making PIB changes.
+
+5. Modified function pibedit to re-compute the Preferred NID whenever the NMK or Security Level is changed. The omission of this step was causing long and unpredictable device association delays whenever the NMK changed.
+
+6. Imported function waitspec to support proposed option -t in program efsu.
+
+
+int6000-utils-0.7.2
+-------------------
+
+1. Removed references to unecessary header files from various modules.
+
+2. Replaced virutally all references to macros ihtons, intohs, ihtonl and intohl with macros IHTONS, INTONS, IHTONL and INTOHL, repectively. The former are defined in ihpapi/ihp.h and the latter are defined in tools/memory.h
+
+3. Modified function PHYRates to ignore devices having address FF:FF:FF:FF:FF:FF and to treat 0 RX or 0 TX PHY Rate as an error. This function is only used by program int6krate at present.
+
+4. Renamed macro INTONS, in tools/memory.h, with INTOHS because the name was incorrect.
+
+5. Added RECOMMENDATIONS section to the rkey man page to advise on the best way to implement unique keys.
+ 
+6. Renamed function SHA256Merge to SHA256Block to better describe the function.
+
+7. Renamed files piboffsets3.xsd and pibOffset3.xml to piboffset.xsd and piboffset.xml, respectively, to reflect their generic nature.
+
+8. Revised functions alert, error, memincr, memdecr, strincr to reflect coding style changes;
+
+9. Changed int6kfp to make force-flash an option requiring -FF instead of implied manditory with -F to avoid confusion with other int6k* tools.
+
+10. Moved memory related definitions and declarations from tools/tools.h to tools/memory.h and adjusted include statements throughout. 
+
+11. Modified function FlashDevice to treat failure to reset as an error.
+
+12. Added option -p to program efsu to pause between packet sends. This option is experimental and may be removed.
+
+
+int6000-utils-0.7.2
+-------------------
+
+1. Removed references to unecessary header files from various modules.
+
+2. Replaced virutally all references to macros ihtons, intohs, ihtonl and intohl with macros IHTONS, INTONS, IHTONL and INTOHL, repectively. The former are defined in ihpapi/ihp.h and the latter are defined in tools/memory.h
+
+3. Modified function PHYRates to ignore devices having address FF:FF:FF:FF:FF:FF and to treat 0 RX or 0 TX PHY Rate as an error. This function is only used by program int6krate at present.
+
+4. Renamed macro INTONS, in tools/memory.h, with INTOHS because the name was incorrect.
+
+5. Added RECOMMENDATIONS section to the rkey man page to advise on the best way to implement unique keys.
+ 
+6. Renamed function SHA256Merge to SHA256Block to better describe the function.
+
+7. Renamed files piboffsets3.xsd and pibOffset3.xml to piboffset.xsd and piboffset.xml, respectively, to reflect their generic nature.
+
+8. Revised functions alert, error, memincr, memdecr, strincr to reflect coding style changes;
+
+9. Changed int6kfp to make force-flash an option requiring -FF instead of implied manditory with -F to avoid confusion with other int6k* tools.
+
+10. Moved memory related definitions and declarations from tools/tools.h to tools/memory.h and adjusted include statements throughout. 
+
+11. Modified function FlashDevice to treat failure to reset as an error.
+
+12. Added option -p to program efsu to pause between packet sends. This option is experimental and may be removed.
+
+
+int6000-utils-0.7.1
+-------------------
+
+1. Fixed bug in program efsu that prevented the echo of returning HPAV frames.
+
+2. Changed "Ready" message in functions FlashDevice() and FlashPTS() to read "Start".
+
+3. Changed constant FILE_FILEMODE in files.h to permit group and world write on files created or written by most program. 
+
+4. Changed the data type of arguments for functions SHA256Write, 
+

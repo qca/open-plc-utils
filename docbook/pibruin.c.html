@@ -1,0 +1,587 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			pibruin.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='pibpeek2.c.html' title=' pibpeek2.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='pibruin1.c.html' title=' pibruin1.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   pibruin.c - Atheros Classification Rule Insert Utility;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *      Nathaniel Houghton &lt;nathaniel.houghton@qualcomm.com&gt;
+ *      Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#define _GETOPT_H
+
+/*====================================================================*&quot;
+ *   system header files;
+ *--------------------------------------------------------------------*/
+
+#include &lt;ctype.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;string.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;arpa/inet.h&gt;
+
+/*====================================================================*
+ *   custom header files;
+ *--------------------------------------------------------------------*/
+
+#include &quot;../tools/getoptv.h&quot;
+#include &quot;../tools/memory.h&quot;
+#include &quot;../tools/number.h&quot;
+#include &quot;../tools/symbol.h&quot;
+#include &quot;../tools/chars.h&quot;
+#include &quot;../tools/types.h&quot;
+#include &quot;../tools/flags.h&quot;
+#include &quot;../tools/files.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../plc/rules.h&quot;
+#include &quot;../nvm/nvm.h&quot;
+#include &quot;../pib/pib.h&quot;
+
+/*====================================================================*
+ *   custom source files;
+ *--------------------------------------------------------------------*/
+
+#ifndef MAKEFILE
+#include &quot;../tools/getoptv.c&quot;
+#include &quot;../tools/putoptv.c&quot;
+#include &quot;../tools/version.c&quot;
+#include &quot;../tools/lookup.c&quot;
+#include &quot;../tools/reword.c&quot;
+#include &quot;../tools/hexstring.c&quot;
+#include &quot;../tools/hexdecode.c&quot;
+#include &quot;../tools/fdchecksum32.c&quot;
+#include &quot;../tools/checksum32.c&quot;
+#include &quot;../tools/memout.c&quot;
+#include &quot;../tools/assist.c&quot;
+#include &quot;../tools/bytespec.c&quot;
+#include &quot;../tools/basespec.c&quot;
+#include &quot;../tools/ipv4spec.c&quot;
+#include &quot;../tools/ipv6spec.c&quot;
+#include &quot;../tools/endian.c&quot;
+#include &quot;../tools/emalloc.c&quot;
+#include &quot;../tools/todigit.c&quot;
+#include &quot;../tools/codelist.c&quot;
+#include &quot;../tools/error.c&quot;
+#endif
+
+#ifndef MAKEFILE
+#include &quot;../pib/pibfile1.c&quot;
+#include &quot;../pib/piblock.c&quot;
+#endif
+
+#ifndef MAKEFILE
+#include &quot;../nvm/nvmseek2.c&quot;
+#endif
+
+#ifndef MAKEFILE
+#include &quot;../plc/rules.c&quot;
+#include &quot;../plc/ParseRule.c&quot;
+#endif
+
+/*====================================================================*
+ *   program constants;
+ *--------------------------------------------------------------------*/
+
+#define PIB_MAX_AUTOCONN 16
+#define PIB_MAX_PRIORITY_MAPS 8
+
+#define PIB_OFFSET1 0x0228
+#define PIB_OFFSET2 0x0760
+
+/*====================================================================*
+ *   program variables;
+ *--------------------------------------------------------------------*/
+
+#ifndef __GNUC__
+#pragma pack (push,1)
+#endif
+
+typedef struct __packed classifier_pib 
+
+{
+	uint32_t CR_PID;
+	uint32_t CR_OPERAND;
+	uint8_t CR_VALUE [16];
+}
+
+classifier_pib;
+typedef struct __packed auto_connection 
+
+{
+	uint8_t MACTION;
+	uint8_t MOPERAND;
+	uint16_t NUM_CLASSIFIERS;
+	struct classifier_pib CLASSIFIER [3];
+	struct cspec cspec;
+	uint8_t RSVD [14];
+}
+
+auto_connection;
+typedef struct __packed classifier_priority_map 
+
+{
+	uint32_t Priority;
+	struct classifier_pib CLASSIFIER;
+}
+
+classifier_priority_map;
+typedef struct __packed classifiers 
+
+{
+	uint32_t priority_count;
+	uint32_t autoconn_count;
+	struct classifier_priority_map classifier_priority_map [PIB_MAX_PRIORITY_MAPS];
+	struct auto_connection auto_connection [PIB_MAX_AUTOCONN];
+}
+
+classifiers;
+
+#ifndef __GNUC__
+#pragma pack (pop)
+#endif
+
+/*====================================================================*
+ *
+ *   signed pibimage1 (signed fd, char const * filename, unsigned offset, struct classifiers * classifiers);
+ * 
+ *   read an entire flat parameter file into memory, edit it, save 
+ *   it and display it;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *	Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+static signed pibimage1 (signed fd, char const * filename, unsigned offset, struct classifiers * classifiers) 
+
+{
+	struct pib_header * pib_header;
+	off_t extent;
+	void * memory;
+	if ((extent = lseek (fd, 0, SEEK_END)) == -1) 
+	{
+		error (1, errno, FILE_CANTSIZE, filename);
+	}
+	if (!(memory = malloc (extent))) 
+	{
+		error (1, errno, FILE_CANTLOAD, filename);
+	}
+	if (lseek (fd, 0, SEEK_SET)) 
+	{
+		error (1, errno, FILE_CANTHOME, filename);
+	}
+	if (read (fd, memory, extent) != extent) 
+	{
+		error (1, errno, FILE_CANTREAD, filename);
+	}
+	if (lseek (fd, 0, SEEK_SET)) 
+	{
+		error (1, errno, FILE_CANTHOME, filename);
+	}
+	memcpy ((byte *)(memory) + offset, classifiers, sizeof (*classifiers));
+	pib_header = (struct pib_header *)(memory);
+	pib_header-&gt;CHECKSUM = checksum32 (memory, extent, pib_header-&gt;CHECKSUM);
+	if (write (fd, memory, extent) != extent) 
+	{
+		error (1, errno, FILE_CANTSAVE, filename);
+	}
+	if (lseek (fd, (off_t)(0) - extent, SEEK_CUR) == -1) 
+	{
+		error (1, errno, FILE_CANTHOME, filename);
+	}
+	free (memory);
+	close (fd);
+	return (0);
+}
+
+/*====================================================================*
+ *
+ *   signed pibimage2 (signed fd, char const * filename, struct nvm_header2 * nvm_header, unsigned offset, struct classifiers * classifiers);
+ * 
+ *   read an entire flat parameter file into memory, edit it, save 
+ *   it and display it;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *	Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+static signed pibimage2 (signed fd, char const * filename, struct nvm_header2 * nvm_header, unsigned offset, struct classifiers * classifiers) 
+
+{
+	void * memory;
+	off_t extent = LE32TOH (nvm_header-&gt;ImageLength);
+	if (!(memory = malloc (extent))) 
+	{
+		error (1, errno, FILE_CANTLOAD, filename);
+	}
+	if (read (fd, memory, extent) != extent) 
+	{
+		error (1, errno, FILE_CANTREAD, filename);
+	}
+	if (lseek (fd, (off_t)(0) - extent, SEEK_CUR) == -1) 
+	{
+		error (1, errno, FILE_CANTHOME, filename);
+	}
+	memcpy ((byte *)(memory) + offset, classifiers, sizeof (*classifiers));
+	nvm_header-&gt;ImageChecksum = checksum32 (memory, extent, 0);
+	if (write (fd, memory, extent) != extent) 
+	{
+		error (1, errno, FILE_CANTSAVE, filename);
+	}
+	if (lseek (fd, (off_t)(0) - extent, SEEK_CUR) == -1) 
+	{
+		error (1, errno, FILE_CANTHOME, filename);
+	}
+	nvm_header-&gt;HeaderChecksum = checksum32 (nvm_header, sizeof (* nvm_header), nvm_header-&gt;HeaderChecksum);
+	if (lseek (fd, (off_t)(0) - sizeof (* nvm_header), SEEK_CUR) == -1) 
+	{
+		error (1, errno, FILE_CANTHOME, filename);
+	}
+	if (write (fd, nvm_header, sizeof (* nvm_header)) != sizeof (* nvm_header)) 
+	{
+		error (1, errno, FILE_CANTSAVE, filename);
+	}
+	if (lseek (fd, (off_t)(0) - sizeof (* nvm_header), SEEK_CUR) == -1) 
+	{
+		error (1, errno, FILE_CANTHOME, filename);
+	}
+	free (memory);
+	return (0);
+}
+
+/*====================================================================*
+ *
+ *   void make_rule (int argc, char const * argv [], struct classifiers * classifiers);
+ *
+ *   walk argv [] and populate classifiers according to QCA PLC
+ *   classifier rules; see programmers guide on VS_CLASSIFICATION
+ *   more inforamtion about classification rules; module ParseRule
+ *   used here is used in other programs.
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *--------------------------------------------------------------------*/
+
+static void make_rule (int argc, char const * argv [], struct classifiers * classifiers) 
+
+{
+	static char const * optv [] = 
+	{
+		&quot;T:V:&quot;,
+		&quot;&quot;,
+		&quot;Atheros Classification Rule Insert Utility&quot;,
+		&quot;T\ttag&quot;,
+		&quot;V\tversion&quot;,
+		(char const *) (0)
+	};
+	struct rule rule;
+	struct cspec cspec;
+	signed c;
+	optind = 1;
+	memset (&amp;rule, 0, sizeof (rule));
+	memset (&amp;cspec, 0, sizeof (cspec));
+	while ((c = getoptv (argc, argv, optv)) != -1) 
+	{
+		switch (c) 
+		{
+		case 'T':
+			cspec.VLAN_TAG = (uint32_t)(basespec (optarg, 16, sizeof (cspec.VLAN_TAG)));
+			cspec.VLAN_TAG = htonl (cspec.VLAN_TAG);
+			break;
+		case 'V':
+			cspec.CSPEC_VERSION = (uint16_t)(basespec (optarg, 10, sizeof (cspec.CSPEC_VERSION)));
+			break;
+		default:
+			break;
+		}
+	}
+	argc -= optind;
+	argv += optind;
+	if ((argc) &amp;&amp; (*argv)) 
+	{
+		ParseRule (&amp;argc, &amp;argv, &amp;rule, &amp;cspec);
+		if ((rule.NUM_CLASSIFIERS &gt; 1) || (rule.MACTION == ACTION_STRIPTX) || (rule.MACTION == ACTION_STRIPRX) || (rule.MACTION == ACTION_TAGTX) || (classifiers-&gt;priority_count &gt;= PIB_MAX_PRIORITY_MAPS)) 
+		{
+			struct auto_connection * auto_connection;
+			if (classifiers-&gt;autoconn_count &gt;= PIB_MAX_AUTOCONN) 
+			{
+				error (1, ENOTSUP, &quot;Too many auto connection rules&quot;);
+			}
+			auto_connection = &amp;classifiers-&gt;auto_connection [classifiers-&gt;autoconn_count];
+			auto_connection-&gt;CLASSIFIER [0].CR_PID = 0xFF;
+			auto_connection-&gt;CLASSIFIER [1].CR_PID = 0xFF;
+			auto_connection-&gt;CLASSIFIER [2].CR_PID = 0xFF;
+			auto_connection-&gt;MACTION = rule.MACTION;
+			auto_connection-&gt;MOPERAND = rule.MOPERAND;
+			auto_connection-&gt;NUM_CLASSIFIERS = rule.NUM_CLASSIFIERS;
+			for (c = 0; c &lt; rule.NUM_CLASSIFIERS; ++c) 
+			{
+				auto_connection-&gt;CLASSIFIER [c].CR_PID = rule.CLASSIFIER [c].CR_PID;
+				auto_connection-&gt;CLASSIFIER [c].CR_OPERAND = rule.CLASSIFIER [c].CR_OPERAND;
+				memcpy (&amp;auto_connection-&gt;CLASSIFIER [c].CR_VALUE, &amp;rule.CLASSIFIER [c].CR_VALUE, sizeof (auto_connection-&gt;CLASSIFIER [c].CR_VALUE));
+			}
+			memcpy (&amp;auto_connection-&gt;cspec, &amp;rule.cspec, sizeof (auto_connection-&gt;cspec));
+			classifiers-&gt;autoconn_count++;
+		}
+		else 
+		{
+			struct classifier_priority_map * classifier_priority_map;
+			if (classifiers-&gt;priority_count &gt;= PIB_MAX_PRIORITY_MAPS) 
+			{
+				error (1, ENOTSUP, &quot;Too many priority map rules&quot;);
+			}
+			classifier_priority_map = &amp;classifiers-&gt;classifier_priority_map [classifiers-&gt;priority_count];
+			classifier_priority_map-&gt;Priority = rule.MACTION;
+			classifier_priority_map-&gt;CLASSIFIER.CR_PID = rule.CLASSIFIER [0].CR_PID;
+			classifier_priority_map-&gt;CLASSIFIER.CR_OPERAND = rule.CLASSIFIER [0].CR_OPERAND;
+			memcpy (&amp;classifier_priority_map-&gt;CLASSIFIER.CR_VALUE, &amp;rule.CLASSIFIER [0].CR_VALUE, sizeof (classifier_priority_map-&gt;CLASSIFIER.CR_VALUE));
+			classifiers-&gt;priority_count++;
+		}
+	}
+	return;
+}
+
+/*====================================================================*
+ *
+ *   size_t getargs (char const * vector [], size_t length)
+ *
+ *   read one line from stdin; fill vector with fields from that
+ *   line; return the number of fields found; ignore blank lines 
+ *   and script style comment lines; this implementation inserts
+ *   a program name at vector [0] to look like a true argv [];
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *--------------------------------------------------------------------*/
+
+static size_t getargs (char const * vector [], size_t length) 
+
+{
+	extern char const * program_name;
+	char const ** vp = vector;
+	char string [1024];
+	char * sp = string;
+	signed c = getc (stdin);
+	memset (vector, 0, length * sizeof (char const *));
+	while (nobreak (c)) 
+	{
+		if (isspace (c)) 
+		{
+			do 
+			{
+				c = getc (stdin);
+			}
+			while (isspace (c));
+		}
+		if (c == '#') 
+		{
+			do 
+			{
+				c = getc (stdin);
+			}
+			while (nobreak (c));
+			c = getc (stdin);
+			continue;
+		}
+		*vp++ = program_name;
+		*vp++ = sp = string;
+		while (nobreak (c)) 
+		{
+			if (c == '#') 
+			{
+				do 
+				{
+					c = getc (stdin);
+				}
+				while (nobreak (c));
+				break;
+			}
+			if (isblank (c)) 
+			{
+				c = (char)(0);
+				*vp = sp + 1;
+			}
+			else if (sp == *vp) 
+			{
+				if ((size_t)(vp - vector) &lt; length)
+				{
+					vp++;
+				}
+			}
+			*sp++ = c;
+			c = getc (stdin);
+		}
+		*vp = (char const *)(0);
+		*sp = (char)(0);
+	}
+	return ((size_t)(vp - vector));
+}
+
+/*====================================================================*
+ *   
+ *   int main (int argc, char const * argv[]);
+ *   
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *--------------------------------------------------------------------*/
+
+int main (int argc, char const * argv []) 
+
+{
+	extern char const * program_name;
+	static char const * optv [] = 
+	{
+		&quot;eo:qv&quot;,
+		&quot;pibfile &lt; rules&quot;,
+		&quot;Atheros Classification Rule Insert Utility&quot;,
+		&quot;e\tredirect stderr messages to stdout&quot;,
+		&quot;o x\talternate offset is (x)&quot;,
+		&quot;q\tquiet mode&quot;,
+		&quot;v\tverbose mode&quot;,
+		(char const *) (0)
+	};
+	struct classifiers classifiers;
+	char const * vector [24];
+	uint32_t offset;
+	uint32_t version;
+	signed status;
+	signed fd;
+	size_t count;
+	flag_t flags = (flag_t)(0);
+	signed c;
+	optind = 1;
+	while ((c = getoptv (argc, argv, optv)) != -1) 
+	{
+		switch (c) 
+		{
+		case 'e':
+			dup2 (STDOUT_FILENO, STDERR_FILENO);
+			break;
+		case 'o':
+			offset = (unsigned) (basespec (optarg, 16, sizeof (offset)));
+			break;
+		case 'q':
+			_setbits (flags, PIB_SILENCE);
+			break;
+		case 'v':
+			_setbits (flags, PIB_VERBOSE);
+			break;
+		default:
+			break;
+		}
+	}
+	argc -= optind;
+	argv += optind;
+	memset (&amp;classifiers, 0, sizeof (classifiers));
+	while ((count = getargs (vector, SIZEOF (vector)))) 
+	{
+		make_rule (count, vector, &amp;classifiers);
+	}
+	while ((argc) &amp;&amp; (*argv)) 
+	{
+		status = 0;
+		if ((fd = open (*argv, O_BINARY|O_RDWR)) == -1) 
+		{
+			error (0, errno, &quot;%s&quot;, *argv);
+			status = 1;
+		}
+		else if (read (fd, &amp;version, sizeof (version)) != sizeof (version)) 
+		{
+			error (0, errno, FILE_CANTREAD, *argv);
+			status = 1;
+		}
+		else if (lseek (fd, 0, SEEK_SET)) 
+		{
+			error (0, errno, FILE_CANTHOME, *argv);
+			status = 1;
+		}
+		else if (LE32TOH (version) == 0x00010001) 
+		{
+			struct nvm_header2 nvm_header;
+			if (!nvmseek2 (fd, *argv, &amp;nvm_header, NVM_IMAGE_PIB)) 
+			{
+				status = pibimage2 (fd, *argv, &amp;nvm_header, offset? offset: PIB_OFFSET2, &amp;classifiers);
+			}
+		}
+		else 
+		{
+			status = pibimage1 (fd, *argv, offset? offset: PIB_OFFSET1, &amp;classifiers);
+		}
+		close (fd);
+		argc--;
+		argv++;
+	}
+	exit (0);
+}
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='pibpeek2.c.html' title=' pibpeek2.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='pibruin1.c.html' title=' pibruin1.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

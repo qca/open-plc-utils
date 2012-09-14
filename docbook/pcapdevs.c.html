@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			pcapdevs.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='pcap_nametoindex.c.html' title=' pcap_nametoindex.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='pib2xml.c.html' title=' pib2xml.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+#define _GETOPT_H
+
+/*====================================================================*
+ *   system header files;
+ *--------------------------------------------------------------------*/
+
+#include &lt;unistd.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;string.h&gt;
+#include &lt;pcap.h&gt;
+
+#if defined (__linux__)
+#elif defined (__APPLE__)
+#elif defined (__OpenBSD__)
+#	include &lt;sys/types.h&gt;
+#	include &lt;sys/socket.h&gt;
+#	include &lt;net/if.h&gt;
+#	include &lt;netinet/in.h&gt;
+#	include &lt;netinet/if_ether.h&gt;
+#elif defined (WINPCAP) || defined (LIBPCAP)
+#else
+#error &quot;Unknown environment&quot;
+#endif
+
+/*====================================================================*
+ *   custom header files;
+ *--------------------------------------------------------------------*/
+
+#include &quot;../tools/getoptv.h&quot;
+#include &quot;../tools/putoptv.h&quot;
+#include &quot;../tools/version.h&quot;
+#include &quot;../tools/memory.h&quot;
+#include &quot;../tools/flags.h&quot;
+#include &quot;../tools/types.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../ether/ether.h&quot;
+
+/*====================================================================*
+ *   custom source files;
+ *--------------------------------------------------------------------*/
+
+#ifndef MAKEFILE
+#include &quot;../tools/getoptv.c&quot;
+#include &quot;../tools/putoptv.c&quot;
+#include &quot;../tools/version.c&quot;
+#include &quot;../tools/error.c&quot;
+#include &quot;../tools/hexdecode.c&quot;
+#endif
+
+/*====================================================================*
+ *   program constants;
+ *--------------------------------------------------------------------*/
+
+#define PCAP_VERBOSE (1 &lt;&lt; 0)
+#define PCAP_SILENCE (1 &lt;&lt; 1)
+#define PCAP_DEVICES (1 &lt;&lt; 2)
+#define PCAP_NICS (1 &lt;&lt; 3)
+#define PCAP_MACS (1 &lt;&lt; 4)
+
+/*====================================================================*
+ *
+ *   void pcap_enum (flag_t flags);
+ *   
+ *   pcap_enum available pcap devices on stdout;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *      Nathaniel Houghton &lt;nathaniel.houghton@qualcomm.com&gt;
+ *      
+ *--------------------------------------------------------------------*/
+
+void pcap_enum (flag_t flags) 
+
+{
+	char report [PCAP_ERRBUF_SIZE];
+	char string [ETHER_ADDR_LEN * 3];
+	byte number [ETHER_ADDR_LEN];
+	pcap_if_t * device;
+	pcap_if_t * devices = (pcap_if_t *)(0);
+	unsigned index;
+	if (pcap_findalldevs (&amp;devices, report) == -1) 
+	{
+		error (1, 0, &quot;Can't enumerate interfaces&quot;);
+	}
+	if (!devices) 
+	{
+		error (1, 0, &quot;No interfaces available&quot;);
+	}
+	if (_anyset (flags, PCAP_DEVICES)) 
+	{
+		for (device = devices, index = 1; device; device = device-&gt;next, index++) 
+		{
+			gethwaddr (number, device-&gt;name);
+			hexdecode (number, sizeof (number), string, sizeof (string));
+			printf (&quot;%2d %s %s&quot;, index, string, device-&gt;name);
+			if (device-&gt;description) 
+			{
+				printf (&quot;\t(%s)&quot;, device-&gt;description);
+			}
+			printf (&quot;\n&quot;);
+		}
+	}
+	if (_anyset (flags, PCAP_NICS)) 
+	{
+		for (device = devices, index = 1; device; device = device-&gt;next, index++) 
+		{
+
+#if defined (WIN32)
+
+			printf (&quot;ETH%d=%d&quot;, index, index);
+
+#else
+
+			printf (&quot;ETH%d=%s&quot;, index, device-&gt;name);
+
+#endif
+
+			if (device-&gt;description) 
+			{
+				printf (&quot;\t# %s&quot;, device-&gt;description);
+			}
+			printf (&quot;\n&quot;);
+		}
+		printf (&quot;\n&quot;);
+	}
+	if (_anyset (flags, PCAP_MACS)) 
+	{
+		for (device = devices, index = 1; device; device = device-&gt;next, index++) 
+		{
+			gethwaddr (number, device-&gt;name);
+			hexdecode (number, sizeof (number), string, sizeof (string));
+			printf (&quot;NIC%d=%s&quot;, index, string);
+			if (device-&gt;description) 
+			{
+				printf (&quot;\t# %s&quot;, device-&gt;description);
+			}
+			printf (&quot;\n&quot;);
+		}
+		printf (&quot;\n&quot;);
+	}
+	pcap_freealldevs (devices);
+	return;
+}
+
+/*====================================================================*
+ *   
+ *   int main (int argc, char const * argv []) 
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *--------------------------------------------------------------------*/
+
+int main (int argc, char const * argv []) 
+
+{
+	static char const * optv [] = 
+	{
+		&quot;hqv&quot;,
+		&quot;&quot;,
+		&quot;enumerate available pcap devices on stdout&quot;,
+		&quot;h\tprint host definitions for scripting&quot;,
+		&quot;q\tquiet&quot;,
+		&quot;v\tverbose messages&quot;,
+		(char const *) (0)
+	};
+	flag_t flags = PCAP_DEVICES;
+	signed c;
+	optind = 1;
+	while ((c = getoptv (argc, argv, optv)) != -1) 
+	{
+		switch ((char) (c)) 
+		{
+		case 'h':
+			_clrbits (flags, (PCAP_DEVICES));
+			_setbits (flags, (PCAP_NICS | PCAP_MACS));
+			break;
+		case 'q':
+			_setbits (flags, PCAP_SILENCE);
+			break;
+		case 'v':
+			_setbits (flags, PCAP_VERBOSE);
+			break;
+		default:
+			break;
+		}
+	}
+	argc -= optind;
+	argv += optind;
+	if (argc) 
+	{
+		error (1, ECANCELED, ERROR_TOOMANY);
+	}
+	pcap_enum (flags);
+	return (0);
+}
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='pcap_nametoindex.c.html' title=' pcap_nametoindex.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='pib2xml.c.html' title=' pib2xml.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

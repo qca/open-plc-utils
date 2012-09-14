@@ -1,0 +1,1 @@
+Qualcom Atheros has chosen to take files SHA256.h, SHA256.c, SHA256Block.c, SHA256Fetch.c, SHA256Ident.c, SHA256Match.c, SHA256Print.c, SHA256Reset.c and SHA256Write.c subject to GPLv2 and distributes them only under GPLv2.

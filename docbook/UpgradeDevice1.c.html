@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			UpgradeDevice1.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='UnwantedMessage.c.html' title=' UnwantedMessage.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='VersionInfo1.c.html' title=' VersionInfo1.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *  
+ *   int UpgradeDevice1 (struct int6k * int6k);
+ *
+ *   int6k.h
+ *  
+ *   This plugin upgrades a device having NVRAM; runtime firmware must
+ *   be running for this to work; NVM and PIB files in struct int6k
+ *   must be opened before calling this plugin; this plugin is used by
+ *   several program like int6k, int6kf and int6khost;
+ *   
+ *   See the Atheros HomePlug AV Firmware Technical Reference Manual 
+ *   for more information;
+ *
+ *   This software and documentation is the property of Atheros 
+ *   Corporation, Ocala, Florida. It is provided 'as is' without 
+ *   expressed or implied warranty of any kind to anyone for any 
+ *   reason. Atheros assumes no responsibility or liability for 
+ *   errors or omissions in the software or documentation and 
+ *   reserves the right to make changes without notification. 
+ *   
+ *   Atheros customers may modify and distribute the software 
+ *   without obligation to Atheros. Since use of this software 
+ *   is optional, users shall bear sole responsibility and 
+ *   liability for any consequences of it's use. 
+ *
+ *.  Atheros Powerline Toolkit for HomePlug AV; 
+ *:  Published 2007 by Intellon Corp. ALL RIGHTS RESERVED;
+ *;  For demonstration; Not for production use;
+ *
+ *   Contributor(s):
+ *      Charles Maier &lt;charles.maier@atheros.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef UPGRADEDEVICE1_SOURCE
+#define UPGRADEDEVICE1_SOURCE
+
+#include &quot;../plc/plc.h&quot;
+
+int UpgradeDevice1 (struct plc * plc) 
+
+{
+	if (WriteNVM (plc)) 
+	{
+		return (-1);
+	}
+	if (WritePIB (plc)) 
+	{
+		return (-1);
+	}
+	if (FlashDevice1 (plc)) 
+	{
+		return (-1);
+	}
+	return (0);
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='UnwantedMessage.c.html' title=' UnwantedMessage.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='VersionInfo1.c.html' title=' VersionInfo1.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

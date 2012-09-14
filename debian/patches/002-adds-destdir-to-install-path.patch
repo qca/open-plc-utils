@@ -1,0 +1,21 @@
+Index: amp-utils-1.3.7p/make.def
+===================================================================
+--- amp-utils-1.3.7p.orig/make.def	2011-09-29 17:18:21.000000000 +0200
++++ amp-utils-1.3.7p/make.def	2011-09-29 17:37:07.000000000 +0200
+@@ -68,11 +68,11 @@
+ # installation folders;
+ # --------------------------------------------------------------------
+ 
+-BIN=/usr/local/bin
+-MAN=/usr/share/man/man7
+-DOC=/home/www/software
+-WWW=/home/www
+-FTP=/home/ftp
++BIN=$(DESTDIR)/usr/bin
++MAN=$(DESTDIR)/usr/share/man/man7
++DOC=$(DESTDIR)/home/www/software
++WWW=$(DESTDIR)/home/www
++FTP=$(DESTDIR)/home/ftp
+ 
+ # ====================================================================
+ # runtime file ownership;

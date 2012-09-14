@@ -1,0 +1,580 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			psgen.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='plcwait.c.html' title=' plcwait.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='psgen_util.c.html' title=' psgen_util.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011, Atheros Communications Inc.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   psgen.c - generate prescaler values based on trace results; 
+ *
+ *   This software and documentation is the property of Atheros 
+ *   Corporation, Ocala, Florida. It is provided 'as is' without 
+ *   expressed or implied warranty of any kind to anyone for any 
+ *   reason. Atheros assumes no responsibility or liability for 
+ *   errors or omissions in the software or documentation and 
+ *   reserves the right to make changes without notification. 
+ *   
+ *   Atheros customers may modify and distribute the software 
+ *   without obligation to Atheros. Since use of this software 
+ *   is optional, users shall bear sole responsibility and 
+ *   liability for any consequences of it's use. 
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *	Nathaniel Houghton &lt;nathaniel.houghton@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#define _GETOPT_H
+
+/*====================================================================*
+ *   system header files;
+ *--------------------------------------------------------------------*/
+
+#include &lt;math.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;ctype.h&gt;
+
+/*====================================================================*
+ *   custom header files;
+ *--------------------------------------------------------------------*/
+
+#include &quot;../tools/getoptv.h&quot;
+#include &quot;../tools/putoptv.h&quot;
+#include &quot;../tools/version.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../tools/flags.h&quot;
+#include &quot;../tools/types.h&quot;
+#include &quot;../tools/symbol.h&quot;
+#include &quot;../nda/psgen.h&quot;
+
+/*====================================================================*
+ *   custom source files;
+ *--------------------------------------------------------------------*/
+
+#ifndef MAKEFILE
+#include &quot;../tools/getoptv.c&quot;
+#include &quot;../tools/putoptv.c&quot;
+#include &quot;../tools/version.c&quot;
+#include &quot;../tools/error.c&quot;
+#include &quot;../tools/lookup.c&quot;
+#include &quot;../tools/fdchecksum32.c&quot;
+#endif
+
+#ifndef MAKEFILE
+#include &quot;../pib/pibscalers.c&quot;
+#include &quot;../pib/pibfile1.c&quot;
+#include &quot;../pib/piblock.c&quot;
+#endif
+
+#ifndef MAKEFILE
+#include &quot;../nda/psgen_util.c&quot;
+#endif
+
+/*====================================================================*
+ *   program constants;
+ *--------------------------------------------------------------------*/
+
+#define PSGEN_SILENCE (1 &lt;&lt; 0)
+#define PSGEN_VERBOSE (1 &lt;&lt; 1)
+#define PSGEN_FLATTEN (1 &lt;&lt; 2)
+#define PSGEN_NOTCH   (1 &lt;&lt; 3)
+
+/*====================================================================*
+ *   notches for USA;
+ *--------------------------------------------------------------------*/
+
+struct notch usa_notches [] = 
+
+{
+	{
+		1806640.625,
+		2075195.3125
+	},
+	{
+		3417968.75,
+		4077148.4375
+	},
+	{
+		5249023.4375,
+		5493164.0625
+	},
+	{
+		6909179.6875,
+		7373046.875
+	},
+	{
+		10009765.625,
+		10229492.1875
+	},
+	{
+		13916015.625,
+		14428710.9375
+	},
+	{
+		17993164.0625,
+		18261718.75
+	},
+	{
+		20922851.5625,
+		21533203.125
+	},
+	{
+		24804687.5,
+		25073242.1875
+	}
+};
+
+/*====================================================================*
+ *   notches for Japan;
+ *--------------------------------------------------------------------*/
+
+struct notch japan_notches [] = 
+
+{
+	{
+		1806640.625,
+		2099609.375
+	},
+	{
+		3417968.75,
+		4101562.5
+	},
+	{
+		5249023.4375,
+		5493164.0625
+	},
+	{
+		5932617.1875,
+		6225585.9375
+	},
+	{
+		6884765.625,
+		7421875.0
+	},
+	{
+		9472656.25,
+		9863281.25
+	},
+	{
+		9985351.5625,
+		10278320.3125
+	},
+	{
+		13891601.5625,
+		14453125.0
+	},
+	{
+		17993164.0625,
+		18261718.75
+	},
+	{
+		20922851.5625,
+		21533203.125
+	},
+	{
+		24804687.5,
+		25073242.1875
+	}
+};
+
+/*====================================================================*
+ *   notch sets;
+ *--------------------------------------------------------------------*/
+
+#define NOTCH_SET_USA   0
+#define NOTCH_SET_JAPAN 1
+#define NOTCH_SETS      2
+
+struct _code_ notch_set_name [NOTCH_SETS] = 
+
+{
+	{
+		NOTCH_SET_USA,
+		&quot;usa&quot;
+	},
+	{
+		NOTCH_SET_JAPAN,
+		&quot;japan&quot;
+	}
+};
+
+struct notch_set notch_sets [NOTCH_SETS] = 
+
+{
+	{
+		sizeof (usa_notches) / sizeof (usa_notches [0]),
+		-1000,
+		usa_notches
+	},
+	{
+		sizeof (japan_notches) / sizeof (japan_notches [0]),
+		-1000,
+		japan_notches
+	}
+};
+
+#define DEVICE_SPEC_AR6400  0
+#define DEVICE_SPEC_AR7400  1
+#define DEVICE_SPEC_PANTHER 2
+#define DEVICE_SPEC_LYNX    3
+#define DEVICE_SPECS        4
+
+#define AR7400_NAME &quot;ar7400&quot;
+#define AR6400_NAME &quot;ar6400&quot;
+#define AR7420_NAME &quot;ar7420&quot;
+#define AR7421_NAME &quot;ar7421&quot;
+
+struct _code_ device_spec_name [DEVICE_SPECS] = 
+
+{
+	{
+		DEVICE_SPEC_AR6400,
+		AR6400_NAME
+	},
+	{
+		DEVICE_SPEC_AR7400,
+		AR7400_NAME
+	},
+	{
+		DEVICE_SPEC_PANTHER,
+		AR7420_NAME
+	},
+	{
+		DEVICE_SPEC_LYNX,
+		AR7421_NAME
+	}
+};
+
+struct device_spec device_spec [DEVICE_SPECS] = 
+
+{
+	{
+		AR6400_NAME,
+		1155,
+		256,
+		511,
+		1070,
+		freq_to_index,
+		index_to_freq,
+		amp_to_ps,
+		ps_to_amp,
+		update_pib,
+		set_tx_gain_6400,
+		check_tx_gain_6400
+	},
+	{
+		AR7400_NAME,
+		2880,
+		512,
+		1023,
+		2690,
+		freq_to_index,
+		index_to_freq,
+		amp_to_ps,
+		ps_to_amp,
+		update_pib,
+		NULL,
+		NULL
+	},
+	{
+		AR7420_NAME,
+		1345,
+		128,
+		255,
+		-1,
+		panther_freq_to_index,
+		panther_index_to_freq,
+		amp_to_ps,
+		ps_to_amp,
+		NULL,
+		NULL,
+		NULL
+	},
+	{
+		AR7421_NAME,
+		578,
+		128,
+		255,
+		-1,
+		lynx_freq_to_index,
+		lynx_index_to_freq,
+		amp_to_ps,
+		ps_to_amp,
+		NULL,
+		NULL,
+		NULL
+	}
+};
+
+int main (int argc, const char * argv []) 
+
+{
+	static const char * optv [] = 
+	{
+		&quot;d:F:G:i:N:P:T:v&quot;,
+		&quot;input_file [&gt; output file]&quot;,
+		&quot;Prescaler Generator&quot;,
+		&quot;d s\tTarget device is s [ar6400]&quot;,
+		&quot;F n\tFlatten trace to n dB&quot;,
+		&quot;G n\tOutput power level gain adjustment is n dB&quot;,
+		&quot;i s\tInput format is s [fsl3]&quot;,
+		&quot;N s\tNotch to match regulatory requirements for s (usa, japan)&quot;,
+		&quot;P f\tSave prescalers and gain to pib file f&quot;,
+		&quot;T sf,ef,sd,ed\tTweak prescalers from sf to ef (start freq, end freq) by sd (start delta) at sf, linearly changing to ed (end delta) at ef&quot;,
+		&quot;v\tverbose messages&quot;,
+		(const char *) (0)
+	};
+	flag_t flags = (flag_t)(0);
+	signed c;
+	double flatten;
+	int gain_adj = 0;
+	char * notch_type = &quot;usa&quot;;
+	int notch_set;
+	char * target_device = &quot;ar6400&quot;;
+	int device_type;
+	char * input_format = &quot;fsl3&quot;;
+	char * pib_path = NULL;
+	struct fsl3_file fsl3_file;
+	struct trace trace;
+	struct trace orig_trace;
+	struct trace shaped_trace;
+	struct tweak * tweak = NULL;
+	struct tweak * tweak_tail = NULL;
+	struct dev_config * dconf;
+	struct device_spec * dspec;
+	const char * p;
+	struct tweak * t;
+	int i;
+	optind = 1;
+	while ((c = getoptv (argc, argv, optv)) != -1) 
+	{
+		switch (c) 
+		{
+		case 'd':
+			target_device = optarg;
+			break;
+		case 'F':
+			_setbits (flags, PSGEN_FLATTEN);
+			p = strtodouble (optarg, &amp;flatten);
+			if (*p != '\0') 
+			{
+				error (1, 0, &quot;invalid value to option -F: %s&quot;, optarg);
+			}
+			break;
+		case 'G':
+			gain_adj = atoi (optarg);
+			break;
+		case 'i':
+			input_format = optarg;
+			break;
+		case 'N':
+			_setbits (flags, PSGEN_NOTCH);
+			notch_type = optarg;
+			break;
+		case 'P':
+			pib_path = optarg;
+			break;
+		case 'T':
+			{
+				struct tweak * new_tweak;
+				new_tweak = malloc (sizeof (*new_tweak));
+				if (new_tweak == NULL) 
+				{
+					error (1, 0, &quot;too many tweaks -- ran out of memory&quot;);
+				}
+				memset (new_tweak, 0, sizeof (*new_tweak));
+				if (parse_tweak (new_tweak, optarg) == -1) 
+				{
+					error (1, 0, &quot;bad tweak request: %s&quot;, optarg);
+				}
+				if (tweak_tail != NULL) 
+				{
+					tweak_tail-&gt;next = new_tweak;
+				}
+				if (tweak == NULL) 
+				{
+					tweak = new_tweak;
+				}
+				tweak_tail = new_tweak;
+			}
+			break;
+		default:
+			break;
+		}
+	}
+	argc -= optind;
+	argv += optind;
+	if (argc != 1) 
+	{
+		error (1, 0, &quot;must provide one argument for the filename&quot;);
+	}
+	device_type = lookup (target_device, device_spec_name, DEVICE_SPECS);
+	if (device_type == -1) 
+	{
+		error (1, 0, &quot;unknown device type \&quot;%s\&quot;&quot;, target_device);
+	}
+	dspec = &amp;device_spec [device_type];
+	notch_set = lookup (notch_type, notch_set_name, NOTCH_SETS);
+	if (notch_set == -1) 
+	{
+		error (1, 0, &quot;unknown notch set \&quot;%s\&quot;&quot;, notch_type);
+	}
+	if (strcasecmp (input_format, &quot;fsl3&quot;)) 
+	{
+		error (1, 0, &quot;only input format fsl3 is currently supported&quot;);
+	}
+	if (gain_adj != 0) 
+	{
+		if (dspec-&gt;check_tx_gain == NULL) 
+		{
+			error (1, 0, &quot;gain adjustment is not (yet) supported for device type %s&quot;, target_device);
+		}
+		if (dspec-&gt;check_tx_gain (gain_adj) == -1) 
+		{
+			error (1, 0, &quot;invalid gain adjustment provided&quot;);
+		}
+	}
+	if (load_fsl3 (argv [0], &amp;fsl3_file) == -1) 
+	{
+		error (1, 0, &quot;failed to load %s&quot;, argv [0]);
+	}
+	if (create_trace_fsl3 (&amp;fsl3_file, &amp;orig_trace) == -1) 
+	{
+		error (1, 0, &quot;could not convert input file into internal format&quot;);
+	}
+	if (reshape_trace (&amp;shaped_trace, &amp;orig_trace, dspec) == -1) 
+	{
+		error (1, 0, &quot;could not reshape trace to match prescalers&quot;);
+	}
+
+/* make copy of shaped trace */
+
+	if (create_trace_copy (&amp;trace, &amp;shaped_trace) == -1) 
+	{
+		error (1, 0, &quot;could not copy trace&quot;);
+	}
+
+/* flatten trace */
+
+	if (_anyset (flags, PSGEN_FLATTEN)) 
+	{
+		for (i = 0; i &lt; trace.count; ++i) 
+		{
+			trace.value [i] = flatten;
+		}
+	}
+
+/* apply notching */
+
+	if (_anyset (flags, PSGEN_NOTCH)) 
+	{
+		for (i = 0; i &lt; notch_sets [notch_set].count; ++i) 
+		{
+			struct tweak tw;
+			tw.sf = notch_sets [notch_set].notch [i].sf;
+			tw.ef = notch_sets [notch_set].notch [i].ef;
+			tw.ev = tw.sv = notch_sets [notch_set].depth;
+			apply_tweak (&amp;trace, &amp;tw, TWEAK_ABSOLUTE);
+		}
+
+/* remove the tail (if any) */
+
+		if (dspec-&gt;tail_start != -1) 
+		{
+			for (i = dspec-&gt;tail_start; i &lt; trace.count; ++i) 
+			{
+				trace.value [i] = -1000;
+			}
+		}
+	}
+
+/* apply tweaks */
+
+	for (t = tweak; t != NULL; t = t-&gt;next) 
+	{
+		apply_tweak (&amp;trace, t, TWEAK_RELATIVE);
+	}
+	dconf = generate_config (&amp;shaped_trace, &amp;trace, dspec, gain_adj);
+	if (dconf == NULL) 
+	{
+		error (1, 0, &quot;could not generate device configuration&quot;);
+	}
+
+/* generate prescalers based on device spec, two traces, and gain adjustment */
+
+	if (pib_path == NULL) 
+	{
+		print_config (dconf);
+	}
+	else 
+	{
+		if (dspec-&gt;update_pib == NULL) 
+		{
+			error (1, 0, &quot;a PIB is not yet supported for device type %s&quot;, dspec-&gt;name);
+		}
+		if (dspec-&gt;update_pib (pib_path, dconf) == -1) 
+		{
+			error (1, 0, &quot;could not save configuration to PIB&quot;);
+		}
+	}
+	free_fsl3_file (&amp;fsl3_file);
+	free_trace_data (&amp;trace);
+	free_trace_data (&amp;orig_trace);
+	free_trace_data (&amp;shaped_trace);
+	free_dev_config (dconf);
+	free_tweaks (tweak);
+	return (0);
+}
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='plcwait.c.html' title=' plcwait.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='psgen_util.c.html' title=' psgen_util.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

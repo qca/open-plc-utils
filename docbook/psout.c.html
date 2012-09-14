@@ -1,0 +1,351 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			psout.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='psnotch.c.html' title=' psnotch.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='psread.c.html' title=' psread.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   psout.c - Export PIB Prescalers;
+ *
+ *   This software and documentation is the property of Atheros 
+ *   Corporation, Ocala, Florida. It is provided 'as is' without 
+ *   expressed or implied warranty of any kind to anyone for any 
+ *   reason. Atheros assumes no responsibility or liability for 
+ *   errors or omissions in the software or documentation and 
+ *   reserves the right to make changes without notification. 
+ *   
+ *   Atheros customers may modify and distribute the software 
+ *   without obligation to Atheros. Since use of this software 
+ *   is optional, users shall bear sole responsibility and 
+ *   liability for any consequences of it's use. 
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *	Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#define _GETOPT_H
+
+/*====================================================================*
+ *   system header files;
+ *--------------------------------------------------------------------*/
+
+#include &lt;math.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;sys/stat.h&gt;
+
+/*====================================================================*
+ *   custom header files;
+ *--------------------------------------------------------------------*/
+
+#include &quot;../tools/getoptv.h&quot;
+#include &quot;../tools/number.h&quot;
+#include &quot;../tools/chars.h&quot;
+#include &quot;../tools/types.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../tools/files.h&quot;
+#include &quot;../tools/endian.h&quot;
+#include &quot;../pib/pib.h&quot;
+#include &quot;../plc/plc.h&quot;
+
+/*====================================================================*
+ *   custom source files;
+ *--------------------------------------------------------------------*/
+
+#ifndef MAKEFILE
+#include &quot;../tools/getoptv.c&quot;
+#include &quot;../tools/putoptv.c&quot;
+#include &quot;../tools/version.c&quot;
+#include &quot;../tools/fdchecksum32.c&quot;
+#include &quot;../tools/error.c&quot;
+#endif
+
+#ifndef MAKEFILE
+#include &quot;../pib/pibfile1.c&quot;
+#include &quot;../pib/pibscalers.c&quot;
+#endif
+
+/*====================================================================*
+ *   program constants;
+ *--------------------------------------------------------------------*/
+
+#define PSOUT_VERBOSE (1 &lt;&lt; 0)
+#define PSOUT_SILENCE (1 &lt;&lt; 1)
+
+/*====================================================================*
+ *
+ *   void ar7x00Prescalers (struct _file_ * pib);
+ *
+ *--------------------------------------------------------------------*/
+
+static void ar7x00Prescalers (struct _file_ * pib) 
+
+{
+
+#if 0
+
+	uint32_t value;
+	uint32_t temp;
+	uint32_t buffer = 0;
+	unsigned bits = 0;
+	unsigned index = 0;
+	if (lseek (pib-&gt;file, AMP_PRESCALER_OFFSET, SEEK_SET) != AMP_PRESCALER_OFFSET) 
+	{
+		error (1, errno, FILE_CANTSEEK, pib-&gt;name);
+	}
+
+/* no dependency on math lib */
+
+	while (index &lt; AMP_CARRIERS) 
+	{
+		if (read (pib-&gt;file, &amp;temp, sizeof (temp)) != sizeof (temp)) 
+		{
+			error (1, errno, FILE_CANTREAD, pib-&gt;name);
+		}
+		temp = LE32TOH (temp);
+		buffer |= (temp &lt;&lt; bits);
+		if (bits == 0) 
+		{
+			bits = 8 * sizeof (buffer);
+		}
+		else 
+		{
+			if (lseek (pib-&gt;file, -1, SEEK_CUR) == -1) 
+			{
+				error (1, errno, &quot;could not seek backwards&quot;);
+			}
+			bits += 8 * (sizeof (buffer) - 1);
+		}
+		while (bits &gt;= 10) 
+		{
+			value = (buffer &amp; 0x000003FF);
+			printf (&quot;%08d %08X\n&quot;, index, value);
+			buffer = buffer &gt;&gt; 10;
+			++index;
+			bits -= 10;
+		}
+	}
+
+#elif 0
+
+	uint32_t value;
+	uint32_t temp;
+	uint32_t buffer = 0;
+	unsigned bits = 0;
+	unsigned index = 0;
+	if (lseek (pib-&gt;file, AMP_PRESCALER_OFFSET, SEEK_SET) != AMP_PRESCALER_OFFSET) 
+	{
+		error (1, errno, FILE_CANTSEEK, pib-&gt;name);
+	}
+
+/* more generic code, but requires math lib, add -lm to LFLAGS */
+
+	while (index &lt; AMP_CARRIERS) 
+	{
+		if (read (pib-&gt;file, &amp;temp, sizeof (temp)) != sizeof (temp)) 
+		{
+			error (1, errno, FILE_CANTREAD, pib-&gt;name);
+		}
+		temp = LE32TOH (temp);
+		buffer |= (temp &lt;&lt; bits);
+		if (lseek (pib-&gt;file, (off_t)(-ceil (bits / 8.0)), SEEK_CUR) == -1) 
+		{
+			error (1, errno, &quot;could not seek backwards&quot;);
+		}
+		bits += 8 * (sizeof (buffer) - (unsigned)(ceil (bits / 8.0)));
+		while (bits &gt;= 10) 
+		{
+			value = (buffer &amp; 0x000003FF);
+			printf (&quot;%08d %08X\n&quot;, index, value);
+			buffer = buffer &gt;&gt; 10;
+			++index;
+			bits -= 10;
+		}
+	}
+
+#else
+
+	uint16_t upper;
+	uint16_t lower;
+	unsigned index = 0;
+	byte buffer [AMP_PRESCALER_LENGTH];
+	byte * p = buffer;
+	if (lseek (pib-&gt;file, AMP_PRESCALER_OFFSET, SEEK_SET) != AMP_PRESCALER_OFFSET) 
+	{
+		error (1, errno, FILE_CANTSEEK, pib-&gt;name);
+	}
+	if (read (pib-&gt;file, buffer, sizeof (buffer)) != sizeof (buffer)) 
+	{
+		error (1, errno, FILE_CANTREAD, pib-&gt;name);
+	}
+
+/*
+ * |00000000|00111111|11112222|22222233|33333333|
+ * |01234567|89012345|67890123|45678901|23456789|
+ */
+
+	while (index &lt; AMP_CARRIERS) 
+	{
+		lower = (*p++ &amp; 0xFF) &gt;&gt; 0;
+		upper = (*p &amp; 0x03) &lt;&lt; 8;
+		printf (&quot;%08d %08X\n&quot;, index++, upper | lower);
+		lower = (*p++ &amp; 0xFC) &gt;&gt; 2;
+		upper = (*p &amp; 0x0F) &lt;&lt; 6;
+		printf (&quot;%08d %08X\n&quot;, index++, upper | lower);
+		lower = (*p++ &amp; 0xF0) &gt;&gt; 4;
+		upper = (*p &amp; 0x3F) &lt;&lt; 4;
+		printf (&quot;%08d %08X\n&quot;, index++, upper | lower);
+		lower = (*p++ &amp; 0xC0) &gt;&gt; 6;
+		upper = (*p++ &amp; 0xFF) &lt;&lt; 2;
+		printf (&quot;%08d %08X\n&quot;, index++, upper | lower);
+	}
+
+#endif
+
+	return;
+}
+
+/*====================================================================*
+ *
+ *   void int6x00Prescalers (struct _file_ * pib);
+ *
+ *--------------------------------------------------------------------*/
+
+static void int6x00Prescalers (struct _file_ * pib) 
+
+{
+	unsigned index = 0;
+	if (lseek (pib-&gt;file, INT_PRESCALER_OFFSET, SEEK_SET) != INT_PRESCALER_OFFSET) 
+	{
+		error (1, errno, FILE_CANTSEEK, pib-&gt;name);
+	}
+	while (index &lt; INT_CARRIERS) 
+	{
+		uint32_t value;
+		if (read (pib-&gt;file, &amp;value, sizeof (value)) != sizeof (value)) 
+		{
+			error (1, errno, FILE_CANTREAD, pib-&gt;name);
+		}
+		printf (&quot;%08d %08X\n&quot;, index++, LE32TOH (value));
+	}
+	return;
+}
+
+/*====================================================================*
+ *   
+ *   int main (int argc, char const * argv []) 
+ *   
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *--------------------------------------------------------------------*/
+
+int main (int argc, char const * argv []) 
+
+{
+	static char const * optv [] = 
+	{
+		&quot;&quot;,
+		&quot;pibfile [&gt; scalers]&quot;,
+		&quot;Export PIB Prescalers&quot;,
+		(char const *) (0)
+	};
+	struct _file_ pib;
+	unsigned scalers;
+	signed c;
+	optind = 1;
+	while ((c = getoptv (argc, argv, optv)) != -1) 
+	{
+		switch ((char) (c)) 
+		{
+		default:
+			break;
+		}
+	}
+	argc -= optind;
+	argv += optind;
+	if (argc &gt; 1) 
+	{
+		error (1, ENOTSUP, &quot;Only one file is permitted&quot;);
+	}
+	if ((argc) &amp;&amp; (* argv)) 
+	{
+		pib.name = * argv;
+		if ((pib.file = open (pib.name, O_BINARY|O_RDONLY)) == -1) 
+		{
+			error (1, errno, &quot;Can't open %s&quot;, pib.name);
+		}
+		if (pibfile1 (&amp;pib)) 
+		{
+			error (1, errno, &quot;Bad PIB file: %s&quot;, pib.name);
+		}
+		scalers = pibscalers (&amp;pib);
+		if (scalers == AMP_CARRIERS) 
+		{
+			ar7x00Prescalers (&amp;pib);
+		}
+		else if (scalers == INT_CARRIERS) 
+		{
+			int6x00Prescalers (&amp;pib);
+		}
+		else 
+		{
+			error (1, ENOTSUP, &quot;Unexpected number of carriers&quot;);
+		}
+		close (pib.file);
+	}
+	return (0);
+}
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='psnotch.c.html' title=' psnotch.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='psread.c.html' title=' psread.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

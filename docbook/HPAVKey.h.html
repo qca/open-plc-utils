@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			HPAVKey.h
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='Gnuc.h.html' title=' Gnuc.h '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='Ntddndis.h.html' title=' Ntddndis.h '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   HPAVKey.h - HomePlug AV key definitions and constants;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s);
+ *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef HPAVKEY_HEADER
+#define HPAVKEY_HEADER
+
+/*====================================================================*
+ *   system header files;
+ *--------------------------------------------------------------------*/
+
+#include &lt;stdint.h&gt;
+#include &lt;string.h&gt;
+
+/*====================================================================*
+ *   constants;
+ *--------------------------------------------------------------------*/
+
+#define HPAVKEY_CHAR_MIN 0x20
+#define HPAVKEY_CHAR_MAX 0x7E
+#define HPAVKEY_PHRASE_MIN 12
+#define HPAVKEY_PHRASE_MAX 64
+#define HPAVKEY_DIGEST_LEN 32
+#define HPAVKEY_SHA_LEN 32
+#define HPAVKEY_DAK_LEN 16
+#define HPAVKEY_NMK_LEN 16
+#define HPAVKEY_NID_LEN 7
+
+#define HPAVKEY_SHA 0
+#define HPAVKEY_DAK 1
+#define HPAVKEY_NMK 2
+#define HPAVKEY_NID 3
+
+#define HPAVKEY_VERBOSE (1 &lt;&lt; 0)
+#define HPAVKEY_SILENCE (1 &lt;&lt; 1)
+#define HPAVKEY_ENFORCE (1 &lt;&lt; 2)
+
+/*====================================================================*
+ *
+ *--------------------------------------------------------------------*/
+
+void HPAVKeyNMK (uint8_t NMK [], char const * string);
+void HPAVKeyDAK (uint8_t DAK [], char const * string);
+void HPAVKeyNID (uint8_t NID [], const uint8_t NMK [], uint8_t mode);
+void HPAVKeySHA (uint8_t digest [], char const * string);
+void HPAVKeyOut (const uint8_t digest [], size_t length, char const * phrase, unsigned flags);
+
+/*====================================================================*
+ *
+ *--------------------------------------------------------------------*/
+
+#endif 
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='Gnuc.h.html' title=' Gnuc.h '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='Ntddndis.h.html' title=' Ntddndis.h '>NEXT</a>]
+			</div>
+		</body>
+	</html>

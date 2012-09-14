@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			int6kprobe.7
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='int6kp.7.html' title=' int6kp.7 '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='int6krate.7.html' title=' int6krate.7 '>NEXT</a>]
+			</div>
+<pre>
+int6kprobe(7)                                  Qualcomm Atheros Powerline Toolkit                                  int6kprobe(7)
+
+NAME
+       int6kprobe - Qualcomm Atheros Diagnostic Network Probe
+
+SYNOPSIS
+       int6kprobe [options] [device] [device] [...]
+
+DESCRIPTION
+       None.
+
+       This  program  is  part  of the Qualcomm Atheros Powerline Toolkit. See the plc man page for an overview and installation
+       instructions.
+
+OPTIONS
+       -c     Clear counters after read.
+
+       -e     Redirects stderr messages to stdout. By convention status and error messages are printed on stderr  while  primary
+              program output is printed on stdout. This option prints all output on stdout in cases where this is desired.
+
+       -i interface
+              Select  the  host Ethernet interface. All requests are sent via this host interface and only reponses received via
+              this host interface are recognized. The default interface is eth1 because most people use eth0 as their  principle
+              network  connection;  however,  if  environment  string &quot;PLC&quot; is defined then it takes precedence over the default
+              interface. This option then takes precedence over either default.
+
+       -q     Suppresses status messages on stderr.
+
+       -v     Print additional information on stdout. In particular, this option dumps incoming and outgoing packets  which  can
+              be saved as text files for reference.
+
+       -?,--help
+              Print program help summary on stdout. This option takes precedence over other options on the command line.
+
+       -?,--version
+              Print  program version information on stdout. This option takes precedence over other options on the command line.
+              Use this option when sending screen dumps to Atheros Technical Support so that they know exactly which version  of
+              the Linux Toolkit you are using.
+
+ARGUMENTS
+       device The  MAC  address  of  some  powerline device. More than one address may be specified. If more than one address is
+              specified then operations are performed on each device in turn. The default address  is  local.  See  DEVICES  for
+              information about symbolic device addresses.
+
+DEVICES
+       Powerline  devices  use Ethernet Media Access Control (MAC) addresses. A MAC address is a 48-bit value entered as 12 hex‐
+       adecimal digits in upper, lower or mixed character case. Octets may be separated with colons for  clarity.  For  example,
+       &quot;00b052000001&quot;, &quot;00:b0:52:00:00:01&quot; and &quot;00b052:000001&quot; are valid and equivalent.
+
+       The following MAC addresses are special and may be entered by name instead of number.
+
+       all    Same as &quot;broadcast&quot;.
+
+       broadcast
+              A  synonym  for  the  Ethernet broadcast address, FF:FF:FF:FF:FF:FF. All devices, whether local, remote or foreign
+              recognize messages sent to this address.  A remote device is any device at the far end of a powerline  connection.
+              A foreign device is any device not manufactured by Atheros.
+
+       local  A  synonym  for  the Qualcomm Atheros vendor specific Local Management Address (LMA), 00:B0:52:00:00:01. All local
+              Atheros devices recognize this address but remote and foreign devices do not. A remote device is any device at the
+              far end of a powerline connection. A foreign device is any device not manufactured by Atheros.
+
+REFERENCES
+       See the Qualcomm Atheros HomePlug AV Firmware Technical Reference Manual for more information.
+
+DISCLAIMER
+       Atheros HomePlug AV Vendor Specific Management Message structure and content is proprietary to Qualcomm Atheros, Ocala FL
+       USA. Consequently, public information is not available. Qualcomm Atheros reserves the right to modify  message  structure
+       or content in future firmware releases without any obligation to notify or compensate users of this program.
+
+EXAMPLES
+       None.
+
+SEE ALSO
+       plc(7)
+
+CREDITS
+        Charles Maier &lt;charles.maier@qca.qualcomm.com&gt;
+
+plc-utils-2.1.1                                             June 2012                                              int6kprobe(7)
+</pre>
+		<div class='footerlink'>
+			[<a href='int6kp.7.html' title=' int6kp.7 '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='int6krate.7.html' title=' int6krate.7 '>NEXT</a>]
+			</div>
+		</body>
+	</html>

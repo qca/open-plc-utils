@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			PLCTopologyPrint.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='PLCTopology.c.html' title=' PLCTopology.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='ParseRule.c.html' title=' ParseRule.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   signed TopologyPrint (struct plcnetworks * plctopology);
+ *   
+ *   plc.h
+ * 
+ *   print plctopology structure in human readable format on stdout;
+ *
+ *.  Atheros Powerline Toolkit for HomePlug AV;
+ *:  Published 2010 by Atheros Communications; ALL RIGHTS RESERVED;
+ *;  For demonstration; Not for production use;
+ *
+ *   Contributor(s):
+ *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef TOPOLOGYPRINT_SOURCE
+#define TOPOLOGYPRINT_SOURCE
+
+#include &lt;stdio.h&gt;
+
+#include &quot;../plc/plc.h&quot;
+#include &quot;../tools/memory.h&quot;
+
+signed PLCTopologyPrint (struct plctopology * plctopology) 
+
+{
+	signed plcnetworks = plctopology-&gt;plcnetworks;
+	struct plcnetwork * plcnetwork = (struct plcnetwork *)(&amp;plctopology-&gt;plcnetwork);
+	while (plcnetworks--) 
+	{
+		signed plcstations = plcnetwork-&gt;plcstations;
+		struct plcstation * plcstation = (struct plcstation *)(&amp;plcnetwork-&gt;plcstation);
+		while (plcstations--) 
+		{
+			char address [ETHER_ADDR_LEN * 3];
+			printf (&quot;%s &quot;, plcstation-&gt;LOC? &quot;LOC&quot;: &quot;REM&quot;);
+			printf (&quot;%s &quot;, plcstation-&gt;CCO? &quot;CCO&quot;: &quot;STA&quot;);
+			printf (&quot;%03d &quot;, plcstation-&gt;TEI);
+			printf (&quot;%s &quot;, hexstring (address, sizeof (address), plcstation-&gt;MAC, sizeof (plcstation-&gt;MAC)));
+			printf (&quot;%s &quot;, hexstring (address, sizeof (address), plcstation-&gt;BDA, sizeof (plcstation-&gt;BDA)));
+			printf (&quot;%03d &quot;, plcstation-&gt;RX);
+			printf (&quot;%03d &quot;, plcstation-&gt;TX);
+			printf (&quot;%s &quot;, plcstation-&gt;hardware);
+			printf (&quot;%s &quot;, plcstation-&gt;firmware);
+			printf (&quot;\n&quot;);
+			plcstation++;
+		}
+		plcnetwork = (struct plcnetwork *)(plcstation);
+	}
+
+#if 0
+
+	printf (&quot;\n&quot;);
+
+#endif
+
+	return (0);
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='PLCTopology.c.html' title=' PLCTopology.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='ParseRule.c.html' title=' ParseRule.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

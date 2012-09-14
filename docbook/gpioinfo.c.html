@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			gpioinfo.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='gettimeofday.c.html' title=' gettimeofday.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='hexdecode.c.html' title=' hexdecode.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   gpioinfo.c - print gpio Iinformation
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *--------------------------------------------------------------------*/
+
+#define _GETOPT_H
+
+/*====================================================================*
+ *   system header files;
+ *--------------------------------------------------------------------*/
+
+#include &lt;unistd.h&gt;
+#include &lt;limits.h&gt;
+#include &lt;errno.h&gt;
+
+/*====================================================================*
+ *   custom header files;
+ *--------------------------------------------------------------------*/
+
+#include &quot;../tools/getoptv.h&quot;
+#include &quot;../tools/putoptv.h&quot;
+#include &quot;../tools/number.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../tools/files.h&quot;
+#include &quot;../tools/types.h&quot;
+
+/*====================================================================*
+ *   custom source files;
+ *--------------------------------------------------------------------*/
+
+#ifndef MAKEFILE
+#include &quot;../tools/getoptv.c&quot;
+#include &quot;../tools/putoptv.c&quot;
+#include &quot;../tools/version.c&quot;
+#include &quot;../tools/uintspec.c&quot;
+#include &quot;../tools/todigit.c&quot;
+#include &quot;../tools/hexstring.c&quot;
+#include &quot;../tools/hexdecode.c&quot;
+#include &quot;../tools/error.c&quot;
+#endif
+
+/*====================================================================*
+ *   program constants;
+ *--------------------------------------------------------------------*/
+
+#define TM_VERBOSE (1 &lt;&lt; 0)
+#define TM_SILENCE (1 &lt;&lt; 1)
+
+#define OFFSET 0x24BF
+#define LENGTH 50
+
+/*====================================================================*
+ *
+ *   int main (int argc, char const * argv []);
+ *
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *--------------------------------------------------------------------*/
+
+int main (int argc, char const * argv []) 
+
+{
+	static char const * optv [] = 
+	{
+		&quot;&quot;,
+		&quot;file [file] [...] [&gt; stdout]&quot;,
+		&quot;print GPIO information&quot;,
+		(char const *) (0)
+	};
+
+#ifndef __GNUC__
+#pragma pack (push, 1)
+#endif
+
+	typedef struct __packed EventBlock 
+	{
+		uint8_t EvtPriorityId;
+		uint8_t EvtId;
+		uint8_t BehId [3];
+		uint16_t ParticipatingGPIOs;
+		uint8_t EventAttributes;
+		uint8_t RSVD [3];
+	}
+	EventBlock;
+
+#ifndef __GNUC__
+#pragma pack (pop)
+#endif
+
+	struct EventBlock EventBlockArray [50];
+	file_t fd;
+	signed c;
+	optind = 1;
+	while ((c = getoptv (argc, argv, optv)) != -1) 
+	{
+		switch (c) 
+		{
+		default:
+			break;
+		}
+	}
+	argc -= optind;
+	argv += optind;
+	while ((argc) &amp;&amp; (* argv)) 
+	{
+		if ((fd = open (* argv, O_BINARY|O_RDONLY)) == -1) 
+		{
+			error (0, errno, &quot;Can't open %s&quot;, * argv);
+		}
+		else if (lseek (fd, OFFSET, SEEK_SET) != OFFSET) 
+		{
+			error (0, errno, &quot;Can't seek %s&quot;, * argv);
+			close (fd);
+		}
+		else if (read (fd, &amp;EventBlockArray, sizeof (EventBlockArray)) != sizeof (EventBlockArray)) 
+		{
+			error (0, errno, &quot;Can't read %s&quot;, * argv);
+			close (fd);
+		}
+		else 
+		{
+			for (c = 0; c &lt; LENGTH; c++) 
+			{
+				struct EventBlock * EventBlock = (&amp;EventBlockArray [c]);
+				char string [10];
+				printf (&quot;EvtPriorityId %3d &quot;, EventBlock-&gt;EvtPriorityId);
+				printf (&quot;EvtId %3d &quot;, EventBlock-&gt;EvtId);
+				printf (&quot;BehId %s &quot;, hexstring (string, sizeof (string), EventBlock-&gt;BehId, sizeof (EventBlock-&gt;BehId)));
+				printf (&quot;ParticipatingGPIOs %3d &quot;, EventBlock-&gt;ParticipatingGPIOs);
+				printf (&quot;EventAttributes %3d &quot;, EventBlock-&gt;EventAttributes);
+				printf (&quot;\n&quot;);
+			}
+			close (fd);
+		}
+		argc--;
+		argv++;
+	}
+	return (0);
+}
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='gettimeofday.c.html' title=' gettimeofday.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='hexdecode.c.html' title=' hexdecode.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

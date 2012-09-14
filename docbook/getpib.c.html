@@ -1,0 +1,500 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			getpib.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='getoptv.c.html' title=' getoptv.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='gettimeofday.c.html' title=' gettimeofday.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   getpib.c - PIB Data Extractor
+ *
+ *   This software and documentation is the property of Atheros 
+ *   Corporation, Ocala, Florida. It is provided 'as is' without 
+ *   expressed or implied warranty of any kind to anyone for any 
+ *   reason. Atheros assumes no responsibility or liability for 
+ *   errors or omissions in the software or documentation and 
+ *   reserves the right to make changes without notification. 
+ *   
+ *   Atheros customers may modify and distribute the software 
+ *   without obligation to Atheros. Since use of this software 
+ *   is optional, users shall bear sole responsibility and 
+ *   liability for any consequences of it's use. 
+ *   
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#define _GETOPT_H
+
+/*====================================================================*&quot;
+ *   system header files;
+ *--------------------------------------------------------------------*/
+
+#include &lt;unistd.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;limits.h&gt;
+#include &lt;string.h&gt;
+#include &lt;ctype.h&gt;
+
+/*====================================================================*
+ *   custom header files;
+ *--------------------------------------------------------------------*/
+
+#include &quot;../tools/getoptv.h&quot;
+#include &quot;../tools/memory.h&quot;
+#include &quot;../tools/number.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../tools/types.h&quot;
+#include &quot;../tools/flags.h&quot;
+#include &quot;../tools/files.h&quot;
+#include &quot;../pib/pib.h&quot;
+
+/*====================================================================*
+ *   custom source files;
+ *--------------------------------------------------------------------*/
+
+#ifndef MAKEFILE
+#include &quot;../tools/getoptv.c&quot;
+#include &quot;../tools/putoptv.c&quot;
+#include &quot;../tools/version.c&quot;
+#include &quot;../tools/uintspec.c&quot;
+#include &quot;../tools/basespec.c&quot;
+#include &quot;../tools/todigit.c&quot;
+#include &quot;../tools/hexout.c&quot;
+#include &quot;../tools/error.c&quot;
+#endif
+
+/*====================================================================*
+ *   constants;
+ *--------------------------------------------------------------------*/
+
+#define SETPIB_VERBOSE (1 &lt;&lt; 0)
+#define SETPIB_SILENCE (1 &lt;&lt; 1)
+#define SETPIB_NEWLINE (1 &lt;&lt; 2)
+
+/*====================================================================*
+ *
+ *   void getmemory (byte const * memory, size_t extent, char const * object, size_t length);
+ *
+ *
+ *--------------------------------------------------------------------*/
+
+static void getmemory (byte const * memory, size_t extent, char const * object, size_t length) 
+
+{
+	if (length &gt; extent) 
+	{
+		error (1, ECANCELED, &quot;%s exceeds PIB length of &quot; SIZE_T_SPEC &quot; bytes&quot;, object, length);
+	}
+	hexout (memory, length, ':', 0, stdout);
+	return;
+}
+
+/*====================================================================*
+ *
+ *   void getstring (byte const * memory, size_t extent, char const * object, size_t length);
+ *
+ *
+ *--------------------------------------------------------------------*/
+
+static void getstring (byte const * memory, size_t extent, char const * object, size_t length) 
+
+{
+	char const * string = (char const *)(memory);
+	if (length &gt; extent) 
+	{
+		error (1, ECANCELED, &quot;%s exceeds PIB length &quot; SIZE_T_SPEC &quot; bytes&quot;, object, length);
+	}
+	while (isprint (*string) &amp;&amp; (length--)) 
+	{
+		putc (*string++, stdout);
+	}
+	return;
+}
+
+/*====================================================================*
+ *
+ *   void getpib (int argc, char const * argv [], byte const * memory, size_t extent);
+ *
+ *   extract and print the specified data objects from memory;
+ *
+ *
+ *--------------------------------------------------------------------*/
+
+static void getpib (int argc, char const * argv [], byte const * memory, size_t extent) 
+
+{
+	unsigned length = 0;
+	while ((argc) &amp;&amp; (*argv)) 
+	{
+		char const * object = * argv;
+		argc--;
+		argv++;
+		if (!strcmp (object, &quot;byte&quot;)) 
+		{
+			uint8_t * number = (uint8_t *)(memory);
+			if (sizeof (* number) &gt; extent) 
+			{
+				error (1, ECANCELED, &quot;%s exceeds PIB extent %X&quot;, object, extent);
+			}
+			printf (&quot;%u&quot;, * number);
+			memory += sizeof (* number);
+			extent -= sizeof (* number);
+		}
+		else if (!strcmp (object, &quot;word&quot;)) 
+		{
+			uint16_t * number = (uint16_t *)(memory);
+			if (sizeof (* number) &gt; extent) 
+			{
+				error (1, ECANCELED, &quot;%s exceeds PIB extent %X&quot;, object, extent);
+			}
+			printf (&quot;%u&quot;, LE16TOH (* number));
+			memory += sizeof (* number);
+			extent -= sizeof (* number);
+		}
+		else if (!strcmp (object, &quot;long&quot;)) 
+		{
+			uint32_t * number = (uint32_t *)(memory);
+			if (sizeof (* number) &gt; extent) 
+			{
+				error (1, ECANCELED, &quot;%s exceeds PIB extent %X&quot;, object, extent);
+			}
+			printf (&quot;%u&quot;, LE32TOH (* number));
+			memory += sizeof (* number);
+			extent -= sizeof (* number);
+		}
+		else if (!strcmp (object, &quot;huge&quot;)) 
+		{
+			uint64_t * number = (uint64_t *)(memory);
+			if (sizeof (* number) &gt; extent) 
+			{
+				error (1, ECANCELED, &quot;%s exceeds PIB extent %X&quot;, object, extent);
+			}
+			printf (&quot;%llu&quot;, LE64TOH (* number));
+			memory += sizeof (* number);
+			extent -= sizeof (* number);
+		}
+
+#if 1
+
+		else if (!strcmp (object, &quot;xbyte&quot;)) 
+		{
+			uint8_t * number = (uint8_t *)(memory);
+			if (sizeof (* number) &gt; extent) 
+			{
+				error (1, ECANCELED, &quot;%s exceeds PIB extent %X&quot;, object, extent);
+			}
+			printf (&quot;0x%02X&quot;, * number);
+			memory += sizeof (* number);
+			extent -= sizeof (* number);
+		}
+		else if (!strcmp (object, &quot;xword&quot;)) 
+		{
+			uint16_t * number = (uint16_t *)(memory);
+			if (sizeof (* number) &gt; extent) 
+			{
+				error (1, ECANCELED, &quot;%s exceeds PIB extent %X&quot;, object, extent);
+			}
+			printf (&quot;0x%04X&quot;, LE16TOH (* number));
+			memory += sizeof (* number);
+			extent -= sizeof (* number);
+		}
+		else if (!strcmp (object, &quot;xlong&quot;)) 
+		{
+			uint32_t * number = (uint32_t *)(memory);
+			if (sizeof (* number) &gt; extent) 
+			{
+				error (1, ECANCELED, &quot;%s exceeds PIB extent %X&quot;, object, extent);
+			}
+			printf (&quot;0x%08X&quot;, LE32TOH (* number));
+			memory += sizeof (* number);
+			extent -= sizeof (* number);
+		}
+		else if (!strcmp (object, &quot;xhuge&quot;)) 
+		{
+			uint64_t * number = (uint64_t *)(memory);
+			if (sizeof (* number) &gt; extent) 
+			{
+				error (1, ECANCELED, &quot;%s exceeds PIB extent %X&quot;, object, extent);
+			}
+			printf (&quot;0x%016X&quot;, LE64TOH (* number));
+			memory += sizeof (* number);
+			extent -= sizeof (* number);
+		}
+
+#endif
+
+		else if (!strcmp (object, &quot;mac&quot;)) 
+		{
+			length = ETHER_ADDR_LEN;
+			if (length &gt; extent) 
+			{
+				error (1, ECANCELED, &quot;%s exceeds PIB extent %X&quot;, object, extent);
+			}
+			getmemory (memory, extent, object, length);
+			memory += length;
+			extent -= length;
+		}
+		else if (!strcmp (object, &quot;key&quot;)) 
+		{
+			length = PIB_KEY_LEN;
+			if (length &gt; extent) 
+			{
+				error (1, ECANCELED, &quot;%s exceeds PIB extent %X&quot;, object, extent);
+			}
+			getmemory (memory, extent, object, length);
+			memory += length;
+			extent -= length;
+		}
+		else if (!strcmp (object, &quot;hfid&quot;)) 
+		{
+			length = PIB_HFID_LEN;
+			if (length &gt; extent) 
+			{
+				error (1, ECANCELED, &quot;%s exceeds PIB extent %X&quot;, object, extent);
+			}
+			getstring (memory, extent, object, length);
+			memory += length;
+			extent -= length;
+		}
+
+#if 1
+
+		else if (!strcmp (object, &quot;adminusername&quot;) || !strcmp (object, &quot;adminpassword&quot;) || !strcmp (object, &quot;accessusername&quot;)) 
+		{
+			length = PIB_NAME_LEN + 1;
+			if (length &gt; extent) 
+			{
+				error (1, ECANCELED, &quot;%s exceeds PIB extent %X&quot;, object, extent);
+			}
+			getstring (memory, extent, object, length);
+			memory += length;
+			extent -= length;
+		}
+		else if (!strcmp (object, &quot;accesspassword&quot;)) 
+		{
+			length = PIB_HFID_LEN + 1;
+			if (length &gt; extent) 
+			{
+				error (1, ECANCELED, &quot;%s exceeds PIB extent %X&quot;, object, extent);
+			}
+			getstring (memory, extent, object, length);
+			memory += length;
+			extent -= length;
+		}
+		else if (!strcmp (object, &quot;username&quot;) || !strcmp (object, &quot;password&quot;) || !strcmp (object, &quot;url&quot;)) 
+		{
+			length = PIB_TEXT_LEN + 1;
+			getstring (memory, extent, object, length);
+			memory += length;
+			extent -= length;
+		}
+
+#endif
+
+		else if (!strcmp (object, &quot;data&quot;)) 
+		{
+			if (!* argv) 
+			{
+				error (1, EINVAL, &quot;%s needs a length&quot;, object);
+			}
+			length = (unsigned)(uintspec (* argv, 1, extent));
+			hexout (memory, length, 0, 0, stdout);
+			memory += length;
+			extent -= length;
+			argc--;
+			argv++;
+		}
+		else if (!strcmp (object, &quot;text&quot;)) 
+		{
+			if (!* argv) 
+			{
+				error (1, EINVAL, &quot;%s needs a length&quot;, object);
+			}
+			length = (unsigned)(uintspec (* argv, 1, extent));
+			getstring (memory, extent, object, length);
+			memory += length;
+			extent -= length;
+			argc--;
+			argv++;
+		}
+		else if (!strcmp (object, &quot;skip&quot;)) 
+		{
+			if (!* argv) 
+			{
+				error (1, EINVAL, &quot;%s needs a length&quot;, object);
+			}
+			length = (unsigned)(uintspec (* argv, 1, extent));
+			memory += length;
+			extent -= length;
+			argc--;
+			argv++;
+			continue;
+		}
+		else 
+		{
+			error (1, ENOTSUP, &quot;%s&quot;, object);
+		}
+		if ((argc) &amp;&amp; (* argv)) 
+		{
+			putc (' ', stdout);
+		}
+	}
+}
+
+/*====================================================================*
+ *
+ *   int main (int argc, char const * argv []);
+ *   
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *--------------------------------------------------------------------*/
+
+int main (int argc, char const * argv []) 
+
+{
+	static char const * optv [] = 
+	{
+		&quot;qvn&quot;,
+		&quot;file offset type [size]\n\n\tstandard-length types are 'byte'|'word'|'long'|'huge'|'hfid'|'mac'|'key'\n\tvariable-length types are 'data'|'text'|'skip'&quot;,
+		&quot;PIB Data Extractor&quot;,
+		&quot;n\tappend newline&quot;,
+		&quot;q\tquiet mode&quot;,
+		&quot;v\tverbose mode&quot;,
+		(char const *) (0)
+	};
+	struct _file_ file;
+	struct pib_header * header;
+	unsigned offset = 0;
+	unsigned extent = 0;
+	byte * buffer;
+	flag_t flags = (flag_t)(0);
+	signed c;
+	optind = 1;
+	opterr = 1;
+	while ((c = getoptv (argc, argv, optv)) != -1) 
+	{
+		switch (c) 
+		{
+		case 'n':
+			_setbits (flags, SETPIB_NEWLINE);
+			break;
+		case 'q':
+			_setbits (flags, SETPIB_SILENCE);
+			break;
+		case 'v':
+			_setbits (flags, SETPIB_VERBOSE);
+			break;
+		default:
+			break;
+		}
+	}
+	argc -= optind;
+	argv += optind;
+	if (!argc) 
+	{
+		error (1, 0, &quot;No file to read&quot;);
+	}
+	file.name = * argv;
+	if ((file.file = open (file.name, O_BINARY|O_RDONLY)) == -1) 
+	{
+		error (1, errno, FILE_CANTOPEN, file.name);
+	}
+	if ((extent = lseek (file.file, 0, SEEK_END)) == (unsigned)(-1)) 
+	{
+		error (1, errno, FILE_CANTSIZE, file.name);
+	}
+	if (!(buffer = malloc (extent))) 
+	{
+		error (1, errno, &quot;Can't span %s&quot;, file.name);
+	}
+	if (lseek (file.file, 0, SEEK_SET)) 
+	{
+		error (1, errno, FILE_CANTHOME, file.name);
+	}
+	if (read (file.file, buffer, extent) != (signed)(extent)) 
+	{
+		error (1, errno, FILE_CANTLOAD, file.name);
+	}
+	close (file.file);
+	argc--;
+	argv++;
+	header = (struct pib_header *)(buffer);
+	if (extent != LE16TOH (header-&gt;PIBLENGTH)) 
+	{
+		error (1, ECANCELED, &quot;Bad PIB filesize: %s&quot;, file.name);
+	}
+	if (!argc) 
+	{
+		error (1, ECANCELED, &quot;Need an offset&quot;);
+	}
+	offset = (uint32_t)(basespec (* argv, 16, sizeof (uint32_t)));
+	if (offset &gt; extent) 
+	{
+		error (1, ECANCELED, &quot;PIB offset %X exceeds PIB extent %X&quot;, offset, extent);
+	}
+	argc--;
+	argv++;
+	if (!argc) 
+	{
+		_setbits (flags, SETPIB_VERBOSE);
+	}
+	getpib (argc, argv, buffer + offset, extent - offset);
+	if (_anyset (flags, SETPIB_NEWLINE)) 
+	{
+		putc ('\n', stdout);
+	}
+	free (buffer);
+	return (0);
+}
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='getoptv.c.html' title=' getoptv.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='gettimeofday.c.html' title=' gettimeofday.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

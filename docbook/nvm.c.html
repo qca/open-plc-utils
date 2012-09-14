@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			nvm.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='nics.c.html' title=' nics.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='nvmfile.c.html' title=' nvmfile.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+#ifndef NVM_SOURCE
+#define NVM_SOURCE
+
+#include &quot;../nvm/nvm.h&quot;
+
+char const * nvm_platforms [NVM_PLATFORMS] = 
+
+{
+	&quot;INT6000&quot;,
+	&quot;INT6300&quot;,
+	&quot;INT6400&quot;,
+	&quot;AR7400&quot;,
+	&quot;AR7420&quot;
+};
+
+char const * nvm_imagetypes [NVM_IMAGETYPES] = 
+
+{
+	&quot;Generic Image&quot;,
+	&quot;Synopsis Configuration&quot;,
+	&quot;Denali Configuration&quot;,
+	&quot;Denali Applet&quot;,
+	&quot;Runtime Firmware&quot;,
+	&quot;OAS Client&quot;,
+	&quot;Custom Image&quot;,
+	&quot;Memory Control Applet&quot;,
+	&quot;Power Management Applet&quot;,
+	&quot;OAS Client IP Stack&quot;,
+	&quot;OAS Client TR069&quot;,
+	&quot;SoftLoader&quot;,
+	&quot;Flash Layout&quot;,
+	&quot;Unknown13&quot;,
+	&quot;Chain Manifest&quot;,
+	&quot;Runtime Parameters&quot;,
+	&quot;Custom Module In Scratch&quot;,
+	&quot;Custom Module Update Applet&quot;
+};
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='nics.c.html' title=' nics.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='nvmfile.c.html' title=' nvmfile.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

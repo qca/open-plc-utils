@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			nics.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='modpib.c.html' title=' modpib.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='nvm.c.html' title=' nvm.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   nics.c - network interface enumerator;
+ *
+ *   This software and documentation is the property of Atheros 
+ *   Corporation, Ocala, Florida. It is provided 'as is' without 
+ *   expressed or implied warranty of any kind to anyone for any 
+ *   reason. Atheros assumes no responsibility or liability for 
+ *   errors or omissions in the software or documentation and 
+ *   reserves the right to make changes without notification. 
+ *   
+ *   Atheros customers may modify and distribute the software 
+ *   without obligation to Atheros. Since use of this software 
+ *   is optional, users shall bear sole responsibility and 
+ *   liability for any consequences of it's use. 
+ *   
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *	Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *   system header files;
+ *--------------------------------------------------------------------*/
+
+#include &lt;stdio.h&gt;
+#include &lt;memory.h&gt;
+
+/*====================================================================*
+ *   custom header files;
+ *--------------------------------------------------------------------*/
+
+#include &quot;../tools/getoptv.h&quot;
+#include &quot;../tools/putoptv.h&quot;
+#include &quot;../tools/version.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../tools/memory.h&quot;
+#include &quot;../ether/ether.h&quot;
+
+/*====================================================================*
+ *   custom source files;
+ *--------------------------------------------------------------------*/
+
+#ifndef MAKEFILE
+#include &quot;../tools/getoptv.c&quot;
+#include &quot;../tools/putoptv.c&quot;
+#include &quot;../tools/version.c&quot;
+#include &quot;../tools/error.c&quot;
+#include &quot;../tools/hexdecode.c&quot;
+#include &quot;../tools/decdecode.c&quot;
+#include &quot;../tools/hexstring.c&quot;
+#include &quot;../tools/decstring.c&quot;
+#include &quot;../tools/error.c&quot;
+#endif
+
+#ifndef MAKEFILE
+#include &quot;../ether/hostnics.c&quot;
+#endif
+
+/*====================================================================*
+ *
+ *   void enumerate ();
+ *
+ *   enumerate host interface details on stdout;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *	Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+static void enumerate () 
+
+{
+	struct nic nics [16];
+	struct nic * nic;
+	unsigned count = hostnics (nics, sizeof (nics) / sizeof (struct nic));
+	for (nic = nics; count--; nic++) 
+	{
+		byte memory [ETHER_ADDR_LEN];
+		char string [ETHER_ADDR_LEN * 3];
+		memset (memory, 0x00, sizeof (memory));
+		if (!memcmp (memory, nic-&gt;ethernet, sizeof (memory))) 
+		{
+			continue;
+		}
+		memset (memory, 0xFF, sizeof (memory));
+		if (!memcmp (memory, nic-&gt;ethernet, sizeof (memory))) 
+		{
+			continue;
+		}
+		printf (&quot; %d&quot;, nic-&gt;ifindex);
+		printf (&quot; %s&quot;, hexstring (string, sizeof (string), nic-&gt;ethernet, sizeof (nic-&gt;ethernet)));
+		printf (&quot; %s&quot;, decstring (string, sizeof (string), nic-&gt;internet, sizeof (nic-&gt;internet)));
+		printf (&quot; %s&quot;, nic-&gt;ifname);
+		printf (&quot; %s&quot;, nic-&gt;ifdesc);
+		printf (&quot;\n&quot;);
+	}
+	return;
+}
+
+/*====================================================================*
+ *
+ *   int main (int argc, char const * argv []);
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *	Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+int main (int argc, char const * argv []) 
+
+{
+	static char const * optv [] = 
+	{
+		&quot;&quot;,
+		PUTOPTV_S_DIVINE,
+		&quot;Atheros Ethernet Interface Enumerator&quot;,
+		(char const *) (0)
+	};
+	signed c;
+	while ((c = getoptv (argc, argv, optv)) != -1) 
+	{
+		switch (c) 
+		{
+		default:
+			break;
+		}
+	}
+	argc -= optind;
+	argv += optind;
+	if (argc) 
+	{
+		error (1, ECANCELED, ERROR_TOOMANY);
+	}
+	enumerate ();
+	return (0);
+}
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='modpib.c.html' title=' modpib.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='nvm.c.html' title=' nvm.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

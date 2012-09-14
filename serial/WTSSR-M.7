@@ -1,0 +1,117 @@
+.TH WTSSR-M 7 "June 2012" "plc-utils-2.1.1" "Qualcomm Atheros Powerline Toolkit"
+.SH NAME
+weeder - Weeder Solid State Relay Controller for Atheros PTS
+.SH SYNOPSIS
+This man page documents technical details about the the WTSSR-M Solid State Relay Module from Weeder Technology. Atheros uses two such modules to control a progammable attenuator in their Production Test System and provides the \fBweeder\fR program in the Qualcomm Atheros Powerline Toolkit. The information provided here goes beyond the capabilities of the \fBweeder\fR program and is independent of any particular application.
+.PP
+Relay modules can be chained. One module can be connected to an RS-232 port on a host computer. Another module can be plugged into the first, a third into the second and so on. This allows multiple modules to be controlled via one serial port using text strings that address a specific device. 
+.SH SWITCH SETTINGS
+Each Solid State Relay Module has a DIP switch that sets the module address. There are 16 possible DIP switch configurations. The first character of each command string is an ASCII letter that corresponds to one of these configurations and, consequently, a specific module. 
+.PP
+          0 1 2 3 4           0 1 2 3 4
+   A (41) 0 0 0 0 0    a (61) 1 0 0 0 0
+   B (42) 0 0 0 0 1    b (62) 1 0 0 0 1
+   C (43) 0 0 0 1 0    c (63) 1 0 0 1 0
+   D (44) 0 0 0 1 1    d (64) 1 0 0 1 1
+   E (45) 0 0 1 0 0    e (65) 1 0 1 0 0
+   F (46) 0 0 1 0 1    f (66) 1 0 1 0 1
+   G (47) 0 0 1 1 0    g (67) 1 0 1 1 0
+   H (48) 0 0 1 1 1    h (68) 1 0 1 1 1
+   I (49) 0 1 0 0 0    i (69) 1 1 0 0 0
+   J (4A) 0 1 0 0 1    j (6A) 1 1 0 0 1
+   K (4B) 0 1 0 1 0    k (6B) 1 1 0 1 0
+   L (4C) 0 1 0 1 1    l (6C) 1 1 0 1 1
+   M (4D) 0 1 1 0 0    m (6D) 1 1 1 0 0
+   N (4E) 0 1 1 0 1    n (6E) 1 1 1 0 1
+   O (4F) 0 1 1 1 0    o (6F) 1 1 1 1 0
+   P (50) 0 1 1 1 1    p (70) 1 1 1 1 1
+.SH ACTIONS
+Modules can perform the following actions. Each action has a corresponding command that is described in the following secion.
+.TP
+.BR CLOSE
+Closes the specified solid-state relay.  The relay can be instructed to remain closed until a further command, or open back up after a user defined time-out period in the range of 1 to 65535 mS. For longer time-out values, use the SEQUENCE command. Note, if a time-out value is used, the communications port will be disabled until the timing function has completed.
+.TP
+.BR OPEN
+Opens the specified solid-state relay.  The relay can be instructed to remain open until a further command, or close back up after a user defined time-out period in the range of 1 to 65535 mS. For longer time-out values, use the SEQUENCE command. Note, if a time-out value is used, the communications port will be disabled until the timing function has completed.
+.TP
+.BR READ
+Reads the current state (open or closed) of a specified relay channel, or reads the current state of all relay channels simultaneously as a 5-bit port in binary notation. If used as the latter, a five character ASCII string will be returned whose digits represent the open/close state of each relay channel.
+.TP
+.BR WRITE
+Writes data to all relay channels simultaneously as a 5-bit port in binary notation.  Data consists of a five character ASCII string whose digits represent the open/close state of each relay channel.
+.TP
+.BR PAUSE
+Loads an internal timer which will signal the host when the time interval has expired. Selectable range is from 1 to 65535 mS. This function is useful when time-derived operations or events must be executed without having to rely on timekeeping from the host.  Note, the communications port will be disabled until this function has completed.
+.TP
+.BR SEQUENCE
+Loads a string of WRITE and PAUSE statements which will begin executing sequentially. The event will commence immediately following the reception of the carriage return which terminates the command packet. The syntax for each WRITE and PAUSE statements should be the same as if using these commands separately, and should be placed end to end with no separators between them.  Listed below is a typical sequence command string that will perform the following:
+  
+   SW10000P60000W01000P5000W00100
+
+Close relay A, pause for 60 seconds, open relay A and close relay B, pause for 5 seconds, open relay B and close relay C. Note, if any syntax error exists within the sequence command string, the error symbol will be transmitted to the host and the sequence will not execute.
+.TP
+.BR DEFAULT
+Sets the default state (open or closed) of a specified relay channel which will then be loaded upon power-up or brown-out.  
+.TP
+.BR ECHO
+Turns on or off the confirmation echo which is used to verify reception of a command.  If reception confirmation is not needed, turning ECHO off will increase the repetitive rate at which the host can manipulate the relays.
+.TP
+.BR ERROR
+ERROR - Any data string sent from the host containing the correct header character but an invalid command or variable will be responded to with this error indicator.
+.TP
+.BR RESET
+Upon power-up or any other reset condition, this indicator is transmitted to the host. Note, all user configuration data is stored in non-volatile memory. Therefore, a reset or loss of power will not corrupt these settings.
+.SH COMMANDS
+.TP
+.BI "C " relay " " timer
+Close \fIrelay\fR for a period equal to \fItimer\fR where relay can be "A" or "E" and timer can be 1 to 65535in milliseconds. If timer is omitted then the relay will remain closed. (Note 3) 
+
+ Closes the specified solid-state relay. The relay can be instructed to remain closed until a further command, or open back up after a user defined time-out period in the range of 1 to 65535 mS. For longer time-out values, use the SEQUENCE command. If a time-out value is used, the communications port will be disabled until the timing function has completed.
+.TP
+.BI "O " relay " " timer
+Open \fIrelay\fR for a period equal to \fItimer\fR where relay can be "A" through "E" and timer can be 1 to 65535 milliseconds. If timer is omitted then the relay remains open. (Note 3)
+
+Opens the specified solid-state relay.  The relay can be instructed to remain open until a further command, or close back up after a user defined time-out period in the range of 1 to 65535 mS. For longer time-out values, use the SEQUENCE command. If a time-out value is used, the communications port will be disabled until the timing function has completed.
+.TP
+.BI "R " relay
+Read current state of relay. Returns \fIrelay\fRC\fR or \fIrelay\fBO\fR where \fIrelay\fR is A-E. "C" means closed and "O" means open. If \fIrelay\fR is omitted then read relays A-E as a 5-bit port in binary notation. 1 = closed, 0 = open. Relay A = MSB.
+
+Reads the current state (open or closed) of a specified relay channel, or reads the current state of all relay channels simultaneously as a 5-bit port in binary notation. If used as the latter, a five character ASCII string will be returned whose digits represent the open/close state of each relay channel.
+.TP
+.BI "W " state
+Write \fIstate\fR to relays A-E as a 5-bit port in binary notation where \fIdata\fR can be 00000 to 11111 such that \fB0\fR means open and \fB1\fR means closed. (Note 3)
+
+Writes data to all relay channels simultaneously as a 5-bit port in binary notation. Data consists of a five character ASCII string whose digits represent the open/close state of each relay channel.
+.TP
+.BI "P " timer
+Loads an internal timer which will signal the host when expired.  time = 1 to 65535 and is listed in milliseconds. When this function is complete, the "P" character will be returned to the host.
+.TP
+.BI "S " string
+Loads a string of WRITE and PAUSE statements which will begin executing sequentially. string may contain up to 110 characters. When this function is complete, the "S" character will be returned to the host.
+.TP
+.BI "D " relay " " state
+Sets the default \fIstate\fR of a specific relay which will be loaded upon power-up or brown-out. The \fIrelay\fR can be "A" through "E". The \fIstate\fR can be "C" or "O" where "C" means "closed" and "O" means "open". If the \fIstate\fR is omitted the current setting is read. For example, "DBC" will set the default state of module B to closed. 
+.TP
+.BI "X " value
+Turns on or off the reception confirmation echo. The \fIvalue\fR can be 0 or 1 where 0 means "off" and 1 means "on". The dfault is 1. If value omitted, reads the current setting.  
+
+.SH NOTES
+.TP
+.BR 1 )
+All command strings sent to the data module should be preceded with the header character (see Table 1), and terminated with a carriage return. All responses from the data module will also appear in this format.
+.TP
+.BR 2 )
+Any spaces shown above in the listing of the command strings are for clarity only. They should not be included in the
+actual transmission from the host, nor expected in a response from the data module.
+.TP
+.BR 3 )
+If ECHO is on, after successful execution this command will be echoed back to the host in the same format as received.
+.SH REFERENCES
+Information shown above applies to WTSSR-M Solid State Relay Module by Weeder Technologies, 90-A Beal Pkwy NW, Fort Walton Beach FL 32548 USA; Tel +44 850 863 5723, \fBhttp://www.weedertech.com\fR. 
+.PP
+Most of the text shown here was take from datasheet \fIhttp://www.weedtech.com/wtssr-m.pdf\fR, Copyright 2001-2006 by Weeder Technologies.
+.SH SEE ALSO
+.BR amp ( 7 ),
+.BR weeder ( 7 )
+.SH CREDITS
+ Charles Maier <charles.maier@qca.qualcomm.com>

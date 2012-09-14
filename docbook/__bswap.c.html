@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			__bswap.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='WriteParameters2.c.html' title=' WriteParameters2.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='_main.c.html' title=' _main.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *
+ *   __bswap.c - byte swap functions;
+ *
+ *   endian.h
+ *
+ *   alternative byte-swap functions for systems without them (such 
+ *   as Microsoft Windows);
+ *
+ *.  Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
+ *:  Published 2001-2006 by Charles Maier Associates Limited;
+ *;  Licensed under GNU General Public Licence Version 2 only;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef __BSWAP_SOURCE
+#define __BSWAP_SOURCE
+
+#include &lt;stdint.h&gt;
+
+#include &quot;../tools/endian.h&quot;
+
+uint16_t __bswap_16 (uint16_t x) 
+
+{
+	endian (&amp;x, sizeof (x));
+	return (x);
+}
+
+uint32_t __bswap_32 (uint32_t x) 
+
+{
+	endian (&amp;x, sizeof (x));
+	return (x);
+}
+
+uint64_t __bswap_64 (uint64_t x) 
+
+{
+	endian (&amp;x, sizeof (x));
+	return (x);
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='WriteParameters2.c.html' title=' WriteParameters2.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='_main.c.html' title=' _main.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

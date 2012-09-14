@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			plcsnif.7
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='plcset.7.html' title=' plcset.7 '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='plcstat.7.html' title=' plcstat.7 '>NEXT</a>]
+			</div>
+<pre>
+plcsnif(7)                                     Qualcomm Atheros Powerline Toolkit                                     plcsnif(7)
+
+NAME
+       plcsnif - Qualcomm Atheros AR7x00 Powerline Traffic Sniffer
+
+SYNOPSIS
+       plcsnif [options]
+
+DESCRIPTION
+       Enable  or  disable  powerline  packet sniffing on the local powerline device. Special PIB settings are required for this
+       feature to work and special tools are required to interpret the output. This program is  not  for  general  Atheros  cus‐
+       tomers.
+
+       This  program  is  part  of the Qualcomm Atheros Powerline Toolkit. See the APT man page for an overview and installation
+       instructions.
+
+COMMENTS
+       Enabling the sniffer mode on Atheros Powerline Devices will introduce high processor overheads on the  device  and  flood
+       the  local  Ethernet  subnet  with traffic destined for the local host. This may affect both local Ethernet and powerline
+       data rates. Do not enable sniffer mode on powerline devices connected to operational powerline or Ethernet networks reck‐
+       lessly.
+
+OPTIONS
+       -d     Dump  sniffer  data  on  the  console.  Sniffer data is printed as one or more hexadecimal fields seperated by one
+              space. The first field is direction displayed as two hex digits. The next field is powerline  device  system  time
+              displayed  as  16 hex digits. The next field is powerline beacon time displayed as 8 hex digits. The next field is
+              frame control displayed as 32 hex digits. The last field is the beacon body displayed as 272 hex digits.
+
+       -m mode
+              Enable, disable or inspect the powerline packet sniffer mode on the local powerline device. Valid modes are 0=off,
+              1=on and 2=inspect.
+
+       -i interface
+              Select  the  host Ethernet interface. All requests are sent via this host interface and only reponses received via
+              this host interface are recognized. The default interface is eth1 because most people use eth0 as their  principle
+              network  connection;  however,  if  environment  string &quot;PLC&quot; is defined then it takes precedence over the default
+              interface. This option then takes precedence over either default.
+
+       -q     Suppresses normal progress and status messages.
+
+       -v     Print additional information on stdout.
+
+       -?, --help
+              Print program help summary on stdout. This option takes precedence over other options on the command line.
+
+       -!, --version
+              Print program version information on stdout. This option takes precedence over other options on the command  line.
+              Use  this option when sending screen dumps to Atheros Technical Support so that they know exactly which version of
+              the Linux Toolkit you are using.
+
+ARGUMENTS
+       device The Ethernet hardware address of some powerline device. More than one address may be specified. If more  than  one
+              address  is  specified  then  operations  are  performed on each device in turn. The default address is local. See
+              DEVICES for information about symbolic device addresses.
+
+DEVICES
+       Powerline devices use Ethernet hardware addresses. Hardware addresses are 12 hexadecimal digits in upper, lower or  mixed
+       case.  Individual  octets  may be separated by colons, for clarity, but not all octets need to be seperated. For example,
+       &quot;00b052000001&quot;, &quot;00:b0:52:00:00:01&quot; and &quot;00b052:000001&quot; are valid and equivalent.
+
+       The following addresses are special and may be expressed by name instead of number.
+
+       all    Equivalent to &quot;broadcast&quot;, described next.
+
+       broadcast
+              A synonym for the standard Ethernet broadcast address, FF:FF:FF:FF:FF:FF. All devices, whether  local,  remote  or
+              foreign will respond to this address.
+
+       local  A  synonym  for  the Qualcomm Atheros vendor specific Local Management Address (LMA), 00:B0:52:00:00:01. All local
+              Atheros devices will recognize this address but remote and foreign devices will not. A remote device is any device
+              at the far end of a powerline connection. A foreign device is any device not manufactured by Atheros.
+
+DISCLAIMER
+       Atheros HomePlug AV Vendor Specific Management Message structure and content is proprietary to Qualcomm Atheros, Ocala FL
+       USA. Consequently, public information is not available. Qualcomm Atheros reserves the right to modify  message  structure
+       or content in future firmware releases without any obligation to notify or compensate users of this program.
+
+       This  program  is provided for engineering purposes only and is not required for normal powerline device operation. Qual‐
+       comm Atheros shall not be responsible for any adverse consequences resulting from the use of this program  in  an  opera‐
+       tional environment by anyone for any reason.
+
+EXAMPLES
+       The  following  example  enables  the sniffer mode on all local powerline devices connected to interface eth1 because the
+       program default address is 00:B0:52:00:00:01. Remote powerline devices are not affected. If you only want to enable snif‐
+       fer mode on one local powerline device then specify the address on the command line.
+
+          # plcsnif -m 1 -i eth1
+          eth1 00:07:CB:E0:00:68 SNIFFER ON
+          eth1 00:B0:52:DA:DA:01 SNIFFER ON
+
+       The  program  will return immediately but VS_SNIFFER.IND messages are continuously sent to the local host, in background,
+       until the device is reset or the sniffer mode is diabled. You can use a packet sniffer, such as Wireshare, or run program
+       HPAV or snif in another console window, to observe the messages. Be sure to select the correct Ethernet interface.
+
+       The next example disables the sniffer mode on the local device 00:B0:52:DA:DA:01 connected to interface eth1.
+
+          # plcsnif -i eth1 -m 0 00:B0:52:DA:DA:01
+          eth1 00:B0:52:DA:DA:01 SNIFFER OFF
+
+       The  following example queries local devices to report their sniffer state. Observe that each local device, in this case,
+       is in a different state.
+
+          # plcsnif -m 2 -i eth1
+          eth1 00:07:CB:E0:00:68 SNIFFER ON
+          eth1 00:B0:52:DA:DA:01 SNIFFER OFF
+
+       The following example disables the sniffer state on all local powerline devices connected to interface  eth1.  The  local
+       keyword is shorthand for 00:B0:52:00:00:001 as in the DEVICES section. It is the default device address.
+
+          # plcsnif -m 0 -i eth1 local
+          eth1 00:07:CB:E0:00:68 SNIFFER OFF
+          eth1 00:B0:52:DA:DA:01 SNIFFER OFF
+
+       The  following  example prints sniffer data on the console. The fields in this example are direction, system time, beacon
+       time, frame control and beacon data. Observe that data is displayed in little-endian format.
+
+          # plcsnif -d
+          00 030A6B2A06000000 1E0D0000 F0AFF7F428F200F500F800F600000000 B0F2E695666B8301000100020501060001FD3480CB020502450381CB030600B0520002EC06031E0D00FF0700B0520201807B00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000CCC‐
+       CCCCC
+          00 68C2772A06000000 5B0D0000 F014B00129F500F800F600F100000000 B0F2E695666B8301000100020501060001FD3480CB020502450381CB030600B0520002EC06035B0D00FF0700B0520201817B00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000CCC‐
+       CCCCC
+          00 9C7A842A06000000 640D0000 F048680E29F800F600F100F100000000 B0F2E695666B8301000100020501060001FD3480CB020502450381CB030600B0520002EC0603640D00FF0700B0520201827B00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000CCC‐
+       CCCCC
+          00 8D32912A06000000 270D0000 F039201B29F600F100F100F300000000 B0F2E695666B8301000100020501060001FD3480CB020502450381CB030600B0520002EC0603270D00FF0700B0520201837B00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000CCC‐
+       CCCCC
+          00 F5EA9D2A06000000 630D0000 F0A1D82729F100F100F300F400000000 B0F2E695666B8301000100020501060001FD3480CB020502450381CB030600B0520002EC0603630D00FF0700B0520201847B00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000CCC‐
+       CCCCC
+
+SEE ALSO
+       arpc(7), hpav(7)
+
+CREDITS
+        Charles Maier &lt;charles.maier@qca.qualcomm.com&gt;
+
+plc-utils-2.1.1                                             June 2012                                                 plcsnif(7)
+</pre>
+		<div class='footerlink'>
+			[<a href='plcset.7.html' title=' plcset.7 '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='plcstat.7.html' title=' plcstat.7 '>NEXT</a>]
+			</div>
+		</body>
+	</html>

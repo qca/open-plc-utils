@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			NetInfo1.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='NetInfo.c.html' title=' NetInfo.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='NetInfo2.c.html' title=' NetInfo2.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *   
+ *   signed NetInfo1 (struct plc * plc);
+ *
+ *   plc.h
+ *
+ *   Request network membership information from the peer device using
+ *   the VS_NW_INFO message; 
+ *
+ *   This function is similar to function NetInfo1rmation() but the
+ *   output format is different;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef NETWORKINFO1_SOURCE
+#define NETWORKINFO1_SOURCE
+
+#include &lt;stdint.h&gt;
+#include &lt;memory.h&gt;
+
+#include &quot;../tools/memory.h&quot;
+#include &quot;../tools/number.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../plc/plc.h&quot;
+
+signed NetInfo1 (struct plc * plc) 
+
+{
+	extern char const * StationRole [];
+	struct channel * channel = (struct channel *)(plc-&gt;channel);
+	struct message * message = (struct message *)(plc-&gt;message);
+
+#ifndef __GNUC__
+#pragma pack (push,1)
+#endif
+
+	struct __packed vs_nw_info_request 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+	}
+	* request = (struct vs_nw_info_request *)(message);
+	struct __packed vs_nw_info_confirm 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+		uint8_t data [1];
+	}
+	* confirm = (struct vs_nw_info_confirm *)(message);
+	struct __packed station 
+	{
+		uint8_t MAC [ETHER_ADDR_LEN];
+		uint8_t TEI;
+		uint8_t BDA [ETHER_ADDR_LEN];
+		uint8_t AVGTX;
+		uint8_t AVGRX;
+	}
+	* station;
+	struct __packed network 
+	{
+		uint8_t NID [7];
+		uint8_t SNID;
+		uint8_t TEI;
+		uint8_t ROLE;
+		uint8_t CCO_MAC [ETHER_ADDR_LEN];
+		uint8_t CCO_TEI;
+		uint8_t NUMSTAS;
+		struct station stations [1];
+	}
+	* network;
+	struct __packed networks 
+	{
+		uint8_t NUMAVLNS;
+		struct network networks [1];
+	}
+	* networks = (struct networks *) (&amp;confirm-&gt;data);
+
+#ifndef __GNUC__
+#pragma pack (pop)
+#endif
+
+	Request (plc, &quot;Fetch Network Information&quot;);
+	memset (message, 0, sizeof (* message));
+	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+	QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_NW_INFO | MMTYPE_REQ));
+	plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
+	if (SendMME (plc) &lt;= 0) 
+	{
+		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		return (-1);
+	}
+	while (ReadMME (plc, 0, (VS_NW_INFO | MMTYPE_CNF)) &gt; 0) 
+	{
+		char string [24];
+		Confirm (plc, &quot;Found %d Network(s)\n&quot;, networks-&gt;NUMAVLNS);
+		network = (struct network *)(&amp;networks-&gt;networks);
+		while (networks-&gt;NUMAVLNS--) 
+		{
+			printf (&quot;\tnetwork-&gt;NID = %s\n&quot;, hexstring (string, sizeof (string), network-&gt;NID, sizeof (network-&gt;NID)));
+			printf (&quot;\tnetwork-&gt;SNID = %d\n&quot;, network-&gt;SNID);
+			printf (&quot;\tnetwork-&gt;TEI = %d\n&quot;, network-&gt;TEI);
+			printf (&quot;\tnetwork-&gt;ROLE = 0x%02X (%s)\n&quot;, network-&gt;ROLE, StationRole [network-&gt;ROLE]);
+			printf (&quot;\tnetwork-&gt;CCO_DA = %s\n&quot;, hexstring (string, sizeof (string), network-&gt;CCO_MAC, sizeof (network-&gt;CCO_MAC)));
+			printf (&quot;\tnetwork-&gt;CCO_TEI = %d\n&quot;, network-&gt;CCO_TEI);
+			printf (&quot;\tnetwork-&gt;STATIONS = %d\n&quot;, network-&gt;NUMSTAS);
+			printf (&quot;\n&quot;);
+			station = (struct station *)(&amp;network-&gt;stations);
+			while (network-&gt;NUMSTAS--) 
+			{
+				printf (&quot;\t\tstation-&gt;MAC = %s\n&quot;, hexstring (string, sizeof (string), station-&gt;MAC, sizeof (station-&gt;MAC)));
+				printf (&quot;\t\tstation-&gt;TEI = %d\n&quot;, station-&gt;TEI);
+				printf (&quot;\t\tstation-&gt;BDA = %s\n&quot;, hexstring (string, sizeof (string), station-&gt;BDA, sizeof (station-&gt;BDA)));
+				printf (&quot;\t\tstation-&gt;AvgPHYDR_TX = %03d mbps\n&quot;, station-&gt;AVGTX);
+				printf (&quot;\t\tstation-&gt;AvgPHYDR_RX = %03d mbps\n&quot;, station-&gt;AVGRX);
+				printf (&quot;\n&quot;);
+				station++;
+			}
+			network = (struct network *)(station);
+		}
+	}
+	return (0);
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='NetInfo.c.html' title=' NetInfo.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='NetInfo2.c.html' title=' NetInfo2.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			ampinit.7
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='amphost.7.html' title=' amphost.7 '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='amplist.7.html' title=' amplist.7 '>NEXT</a>]
+			</div>
+<pre>
+ampinit(7)                                     Qualcomm Atheros Powerline Toolkit                                     ampinit(7)
+
+NAME
+       ampinit - Qualcomm Atheros Production Device Manager
+
+SYNOPSIS
+       ampinit [options] [device] [device] [...]
+
+DESCRIPTION
+       The  Production  Device Manager performs basic device operations using the raw Ethernet protocol described in the Atheros
+       HomePlug AV Firmware Technical Reference Manual. It can be used to initialize devices, interrogate and control  them  and
+       upgrade them when on-board NVRAM is present.  It support chipset AR7400.
+
+       This  program  is  a production version of amptool and may not be distributed without the explicit permission of Qualcomm
+       Atheros, Ocala FL USA.
+
+OPTIONS
+       -a     Read device attributes using VS_OP_ATTRIBUTES. Attributes are short strings  and  integers  that  describe  device
+              hardware  and  firmware. They are concatenated to form the output that is similar to option -r but derived differ‐
+              ently.
+
+       -B button
+              Press the simple connect pushbutton using VS_PB_ENC. The button can be specified by  number  1=JOIN,  2=LEAVE  and
+              3=STATUS or string &quot;join&quot;, &quot;leave&quot; or &quot;status&quot;. Use 1 on both devices that are expected to join. Use 2 only on the
+              device that is expected to leave the network.
+
+       -C module
+              Write (commit) downloaded modules to NVRAM using VS_MOD_NVM. The module can be spedified by  number  1=NVM,  2=PIB
+              and  3=BOTH  or  string  &quot;nvm&quot;,  &quot;pib&quot; or &quot;both&quot;. Module 3 is equivalent to option -F which writes the NVM and PIB
+              together. You cannot force flash NVRAM using this option. Use option -FF to force flash.
+
+       -d filename
+              Read Watchdog Report from the device and write it to the named file in binary format using VS_WD_RPT.  The  report
+              file  can  be  sent  to  Qualcomm Atheros for technical analysis. No assumptions are made based on filename and no
+              filename convetions are enforced; however, you should use a .log file extension to indicate binary format.
+
+       -D xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx
+              Define the 16 octet Device Access Key (DAK) in hex format. The DAK is used by options -J, -C and -F. It  may  also
+              be  specified  as  &quot;key1&quot; or &quot;key2&quot; as explained in the KEYS section. You may omit this option on the command line
+              when the device DAK happens to be the same as the program default of &quot;key1&quot;.
+
+       -e     Redirects stderr messages to stdout. By convention status and error messages are printed on stderr  while  primary
+              program output is printed on stdout. This option prints all output on stdout in cases where this is desired.
+
+       -E     Erase  NVRAM  on  the specified device using VS_PTS_NVM and reboot. This option is similar to option -F or -FF but
+              writes all one’s to NVRAM instead of downloaded firmware or paratemeters. Any firmware  or  parameters  that  have
+              been  downloaded  pending  flash  will be lost when the device reboots. You must also specify the device DAK using
+              option -D or the erase operation will fail without indication. This operation can only be performed on  the  local
+              device.  Attempts  to  erase  a  remote device are ignored. Some firmware versions do not permit the operation and
+              those that do permit it will prevent it on INT6000 devices.
+
+       -f     Read flash memory parameters using VS_GET_NVM. An error will be reported if no flash memory is present.
+
+       -F[F]  Write previously downloaded MAC and PIB to NVRAM using VS_MOD_NVM. Adding a second F here or another  -F  anywhere
+              on the command line will force-flash a blank or corrupted NVRAM. Firmware loaded from NVRAM will treat force-flash
+              as an error. Unlike program amptool, this program modifies factory default settings by erasing the  User  PIB  and
+              rewriting the Factory PIB.
+
+       -g     Read multicast group information discovered while IGMP snooping using VS_MULTICAST_INFO.
+
+       -i interface
+              Select  the  host Ethernet interface. All requests are sent via this host interface and only reponses received via
+              this host interface are recognized. The default interface is eth1 because most people use eth0 as their  principle
+              network  connection;  however,  if  environment  string &quot;PLC&quot; is defined then it takes precedence over the default
+              interface. This option then takes precedence over either default.
+
+       -I     Read the device PIB header using VS_RD_MOD and print the PIB major and minor revision number,  Device  Access  Key
+              (DAK),  Network  Membership  Key  (NMK),  MAC address and other information on stdout. The values displayed can be
+              changed using program modpib.
+
+       -J     Set the Network Membership Key (NMK) on a remote device using VS_SET_KEY. This option is similar to option -K  but
+              requires the remote device DAK in addition to NMK and MAC address. The NMK value is defined using option -K unless
+              you want to use the default value. The remote DAK is defined using option -D unless you want to  use  the  default
+              value.  Programming  remote  device  keys is complicated. It is often easier to connect the device directly to the
+              host and use the -K option.
+
+       -K xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx
+              Define the Network Membership Key (NMK) value used by options -M or -J. The symbolic names &quot;key1&quot; and  &quot;key2&quot;  are
+              recognized as described in the KEY section.
+
+       -l count
+              Define  the number of times that the command will be repeated for each device specified. Normally, you will repeat
+              operations on one device only.
+
+       -m     Read network membership information using VS_NW_INFO. This can be used to determine network configuration.
+
+       -M     Set the Network Membership Key (NMK) on the local device using VS_SET_KEY. The NMK value is specified using the -K
+              option unless you want to use the default value.
+
+       -n filename
+              Read the entire firmware image chain from the device flash memory and write it to the named .nvm file using multi‐
+              ple VS_RD_BLK_NVM messages. No assumptions are made based on filename and no filename  conventions  are  enforced.
+              This option is performed before option -N when both are specified.
+
+       -N filename
+              Read  the named .nvm file and write it to volatile memory using multiple VS_WR_MOD messages. The file will also be
+              written to flash memory if option -F is present. No assumptions are made based on filename and no filename conven‐
+              tions  are  enforced; however, files having invalid .nvm format will be rejected. This option is executed after -n
+              when both are specified.
+
+       -p filename
+              Read the entire user parameter block from the flash memory and write it to the  named  .pib  file  using  multiple
+              VS_RD_BLK_NVM  messages.  No  assumptions are made based on filename and no filename convetions are enforced. This
+              option is executed before option -P when both are specified.
+
+       -P filename
+              Read the named .pib file and write it to volatile memory using multiple VS_WR_MOD messages. The file will also  be
+              written to flash memory if option -F is present. No assumptions are made based on filename and no filename conven‐
+              tions are enforced; however, files having invalid .pib format will be rejected. This option is executed  after  -p
+              when both are specified.
+
+       -q     Suppresses status messages on stderr.
+
+       -Q     Quick  flash.  The program will not wait for a device to reset or the firmware to restart after writing flash mem‐
+              ory. This option is desirable with newer firmware that writes flash memory in the background.  It  has  no  effect
+              unless used with option -F or -C.
+
+       -r     Read  device firmware and hardware revision using VS_SW_VER. Output is similar to option -a but is derived differ‐
+              ently. Example output might look like &quot;eth0 00:B0:52:00:00:01  INT6300A0  INT6000-MAC-2-0-2000-1018-20070611-SP1-B
+              NOT-UPGRADEABLE&quot;.
+
+       -R     Reset the device using VS_RS_DEV. This option is executed after all others on the same command line.
+
+       -s     Read device SDRAM configuration using VS_RD_CBLOCK.
+
+       -t timer
+              Read  timeout  in  milliseconds.  Values  range  from  0  through UINT_MAX. This is the maximum time allowed for a
+              response. The default is 50 milliseconds.
+
+       -T     Restore factory defaults. This permanently erases PIB changes made since the device was last programmed with  fac‐
+              tory default values. The device will automatically reset and reboot.
+
+       -v     Print  additional  information on stdout. In particular, this option dumps incoming and outgoing packets which can
+              be saved as text files for reference.
+
+       -w seconds
+              Defines the number of seconds to wait before repeating command line options. This  option  has  no  effect  unless
+              option -l is also specified with a non-zero value.
+
+       -x     Cause  the  program  to  exit  on  the  first error instead of continuing with remaining iterations, operations or
+              devices. Normally, the program reports errors and moves on to the next operation, iteration or device depending on
+              the command line.
+
+       -?,--help
+              Print program help summary on stdout. This option takes precedence over other options on the command line.
+
+       -!,--version
+              Print  program version information on stdout. This option takes precedence over other options on the command line.
+              Use this option when sending screen dumps to Atheros Technical Support so that they know exactly which version  of
+              the Linux Toolkit you are using.
+
+ARGUMENTS
+       device The  MAC  address  of  some  powerline device. More than one address may be specified. If more than one address is
+              specified then operations are performed on each device in turn. The default address  is  local.  See  DEVICES  for
+              information about symbolic device addresses.
+
+KEYS
+       Encryption  keys  are long, tedious to type and prone to error. For convenience, the following symbolic names may be used
+       to specify either a Device Access Key or Network Membership Key. They may be entered in place of the full  16-octet  key.
+       The DAK and NMK will always be different for a given pass phrase.
+
+       key1   This will translate to the HomePlug AV compliant DAK or NMK for pass phrase &quot;HomePlugAV&quot; depending on context.
+
+       key2   This will translate to the HomePlug AV compliant DAK or NMK for pass phrase &quot;HomePlugAV0123&quot; depending on context.
+
+       none   Symbolic name for &quot;00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00&quot;.
+
+DEVICES
+       Powerline devices use Ethernet Media Access Control (MAC) addresses. A MAC address is a 48-bit value entered as  12  hex‐
+       adecimal  digits  in  upper, lower or mixed character case. Octets may be separated with colons for clarity. For example,
+       &quot;00b052000001&quot;, &quot;00:b0:52:00:00:01&quot; and &quot;00b052:000001&quot; are valid and equivalent.
+
+       The following MAC addresses are special and may be entered by name instead of number.
+
+       all    Same as &quot;broadcast&quot;.
+
+       broadcast
+              A synonym for the Ethernet broadcast address, FF:FF:FF:FF:FF:FF. All devices, whether  local,  remote  or  foreign
+              recognize  messages sent to this address.  A remote device is any device at the far end of a powerline connection.
+              A foreign device is any device not manufactured by Atheros.
+
+       local  A synonym for the Atheros vendor specific Local Management Address (LMA),  00:B0:52:00:00:01.  All  local  Atheros
+              devices recognize this address but remote and foreign devices do not. A remote device is any device at the far end
+              of a powerline connection. A foreign device is any device not manufactured by Atheros.
+
+REFERENCES
+       See the Atheros HomePlug AV Firmware Technical Reference Manual for more information.
+
+DISCLAIMER
+       Atheros HomePlug AV Vendor Specific Management Message structure and content is proprietary to Qualcomm Atheros, Ocala FL
+       USA.  Consequently,  public information is not available. Qualcomm Atheros reserves the right to modify message structure
+       or content in future firmware releases without any obligation to notify or compensate users of this program.
+
+EXAMPLES
+       The following command performs 5 operations on one device. It uploads the firmware and PIB from  the  device  and  writes
+       them  to  files  old.nvm and old.pib, respectively. It reads files new.nvm and new.pib and downloads them as new firmware
+       and PIB, respectively. It commits the downloaded firmware and PIB to NVRAM after validating the  device  DAK.  Operations
+       are  executed  in the order just described regardless of the order specified on the command line. If you want reading and
+       writing to occur in a different order then you must use two or more commands to accomplish tasks in the order you want.
+
+          # ampinit -n old.nvm -p old.pib -N new.nvm -P new.pib -D 00112233445566778899AABBCCDDEEFF -F 0123456789AB
+
+       It is not neccessary to specify all operations on one command line. The three command lines below do essentially the same
+       thing  as  the  command line shown above. Notice that this example uses -C 3, instead of -F, as an alternate way to write
+       both firmware and parameters to NVRAM. Specifying -C 1 or -C nvm will write firmware only. Specifying, -C  2  or  -C  pib
+       will  write  parameters  only.  The value 3 is the logical OR of 1 and 2 and could be specified as -C all. The device DAK
+       must appear on the same line as option -C because a valid DAK is required for the commit operation.
+
+          # ampinit -N new.nvm 01:23:45:67:89:28
+          # ampinit -P new.pib 01:23:45:67:89:28
+          # ampinit -C 3 -D 00:11:22:33:44:55:66:77:88:99:BB:CC:DD:EE:FF 01:23:45:67:89:28
+
+       The next example downloads file new.nvm and file new.pib and force flashes the local device. Force  flashing  only  works
+       with  running  firmware  that  has  been downloaded and started by the Atheros Bootloader. See int6kfp to download, start
+       firmware and perform a force flash in one operation.
+
+          # ampinit -N new.nvm -P new.pib -D 01:23:45:67:89:AB:CD:EF:01:23:45:67:89:AB:CD:EF -FF local
+
+       The next two commands are equivalent. They set the NMK on the local device to key1 as descripted in the KEYS section. The
+       first command resets the NMK on the local device with -M then specifies the NMK as key1. The second command omits the key
+       specification since key1 is the program default NMK. One could, of course, type the full encryption key.
+
+          # ampinit -MK key1
+          # ampinit -M
+
+       The next command erases the flash memory on the local device using key1 as the device DAK. Assuming that the  device  DAK
+       matches, NVRAM will be erased. Some older versions of Atheros firmware do not support the erase operation.
+
+          # ampinit -ED key1
+
+       The  next  command  is  similar  to the previous example bu erases only flash memory sector 5 on the local device because
+       option -X was specified. Again, some older versions of Atheros PLC firmware do not support this operation;
+
+          # ampinit -X 5 -D key1
+
+SEE ALSO
+       AMP(7), amptool(7), amphost(7), amprate(7), ampstat(7)
+
+CREDITS
+        Charles Maier &lt;charles.maier@atheros.com&gt;
+        Nathaniel Houghton &lt;nathaniel.houghton@atheros.com&gt;
+
+plc-utils-2.1.1                                             June 2012                                                 ampinit(7)
+</pre>
+		<div class='footerlink'>
+			[<a href='amphost.7.html' title=' amphost.7 '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='amplist.7.html' title=' amplist.7 '>NEXT</a>]
+			</div>
+		</body>
+	</html>

@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			int6kecho.7
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='int6kdetect.7.html' title=' int6kdetect.7 '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='int6keth.7.html' title=' int6keth.7 '>NEXT</a>]
+			</div>
+<pre>
+int6kecho(7)                                   Qualcomm Atheros Powerline Toolkit                                   int6kecho(7)
+
+NAME
+       int6kecho - Qualcomm Atheros Loopback Utility
+
+SYNOPSIS
+       int6kecho [options] [device] [device] [...]
+
+DESCRIPTION
+       Send  an  Ethernet frame to some Qualcomm Atheros powerline device, using the VS_FR_LBK message, and instruct that device
+       to echo that frame once per second for a given period of time. The VS_FR_LBK message is intended for diagnostic  purposes
+       and  has  no  practical  application in an operational environment. Users must sign a formal non-diclosure agreement with
+       Atheros before using this program.
+
+       This program is part of the Qualcomm Atheros Powerline Toolkit. See the plc man page for  an  overview  and  installation
+       instructions.
+
+OPTIONS
+       -f filename
+              A frame description file. When this option is present, the named file is read, converted to binary format and used
+              that the VS_FR_LBK message payload. It defines the Ethernet frame to be echoed by the  target  device.  The  frame
+              will  be  padded to 60 bytes or truncated to 1038 bytes, as needed, to accommodate the VS_FR_LBK message. See efsu
+              for more information on frame description files. If this option is omitted,  a  default  frame  or  pre-programmed
+              frame is used.
+
+       -i interface
+              Select  the  host Ethernet interface. All requests are sent via this host interface and only reponses received via
+              this host interface are recognized. The default interface is eth1 because most people use eth0 as their  principle
+              network  connection;  however,  if  environment  string &quot;PLC&quot; is defined then it takes precedence over the default
+              interface. This option then takes precedence over either default.
+
+       -q     Suppress normal progress and status messages. This option has no effect at this time.
+
+       -v     Print additional information on stdout. Specifically, this option prints incoming and outgoing frames in hexadeci‐
+              mal format on stdout. Output can be directed to a text file for analysis.
+
+       -?, --help
+              Print program help summary on stdout. This option takes precedence over other options on the command line.
+
+       -!, --version
+              Print  program version information on stdout. This option takes precedence over other options on the command line.
+              Use this option when sending screen dumps to Atheros Technical Support so that they know exactly which version  of
+              the Linux Toolkit you are using.
+
+ARGUMENTS
+       device The  MAC  address  of  some  powerline device. More than one address may be specified. If more than one address is
+              specified then operations are performed on each device in turn. The default address  is  local.  See  DEVICES  for
+              information about symbolic device addresses.
+
+DEVICES
+       Powerline  devices  use  Ethernet  Media  Access  Control  (MAC)  addresses.  MAC  addresses  are  12  hexadecimal digits
+       (0123456789ABCDEFabcdef) in upper, lower or mixed case. Individual octets may be separated by colons,  for  clarity,  but
+       not  all  octets need to be seperated. For example, &quot;00b052000001&quot;, &quot;00:b0:52:00:00:01&quot; and &quot;00b052:000001&quot; are valid and
+       equivalent.
+
+       The following MAC addresses are special and may be expressed by name instead of number.
+
+       all    Equivalent to &quot;broadcast&quot;, described next.
+
+       broadcast
+              A synonym for the standard Ethernet broadcast address, FF:FF:FF:FF:FF:FF. All devices, whether  local,  remote  or
+              foreign will respond to this address.
+
+       local  A  synonym  for  the Qualcomm Atheros vendor specific Local Management Address (LMA), 00:B0:52:00:00:01. All local
+              Atheros devices will recognize this address but remote and foreign devices will not. A remote device is any device
+              at the far end of a powerline connection. A foreign device is any device not manufactured by Atheros.
+
+DISCLAIMER
+       Atheros  HomePlug  AV  Vendor Specific Management Message Entry structure and content is proprietary to Qualcomm Atheros,
+       Ocala FL USA. Consequently, public information may not be available. Qualcomm Atheros reserves the right to  modify  mes‐
+       sage  structure and content in future firmware releases without any obligation to notify or compensate users of this pro‐
+       gram.
+
+EXAMPLES
+       The following example sends the Ethernet frame defined in file abc.hex to powerline device 00:Bo:52:BA:BE:01. The  device
+       will echo the frame about once per second for 5 seconds.
+
+          # int6kecho -f abc.hex -d 5 00:B0:52:BA:BE:01
+
+SEE ALSO
+       efsu(7)
+
+CREDITS
+        Charles Maier &lt;charles.maier@qca.qualcomm.com&gt;
+
+plc-utils-2.1.1                                             June 2012                                               int6kecho(7)
+</pre>
+		<div class='footerlink'>
+			[<a href='int6kdetect.7.html' title=' int6kdetect.7 '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='int6keth.7.html' title=' int6keth.7 '>NEXT</a>]
+			</div>
+		</body>
+	</html>

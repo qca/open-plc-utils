@@ -1,0 +1,398 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			chipset.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='checksum32.c.html' title=' checksum32.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='chknvm.c.html' title=' chknvm.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+#ifndef CHIPSET_SOURCE
+#define CHIPSET_SOURCE
+
+#include &lt;string.h&gt;
+#include &lt;errno.h&gt;
+
+#include &quot;../tools/types.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../tools/symbol.h&quot;
+#include &quot;../plc/plc.h&quot;
+
+/*====================================================================*
+ *
+ *   char const * chipsetname (uint8_t MDEVICE) 
+ *
+ *   plc.h
+ *
+ *   return the ASCII name string associated with the DEVICEID value
+ *   from VS_SW_VER.CNF messages; chipsetnames represent a family or
+ *   class of device; 
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+char const * chipsetname (uint8_t MDEVICEID) 
+
+{
+	static const struct _type_ chipsets [] = 
+	{
+		{
+			CHIPSET_UNKNOWN,
+			&quot;UNKNOWN&quot;
+		},
+		{
+			CHIPSET_INT6000,
+			&quot;INT6000&quot;
+		},
+		{
+			CHIPSET_INT6300,
+			&quot;INT6300&quot;
+		},
+		{
+			CHIPSET_INT6400,
+			&quot;INT6400&quot;
+		},
+		{
+			CHIPSET_AR7400,
+			&quot; AR7400&quot;
+		},
+		{
+			CHIPSET_AR6405,
+			&quot; AR6405&quot;
+		},
+		{
+			CHIPSET_PANTHER_LYNX,
+			&quot;PANTHER/LYNX&quot;
+		},
+		{
+			CHIPSET_QCA7450,
+			&quot;QCA7450&quot;
+		},
+		{
+			CHIPSET_QCA7451,
+			&quot;QCA7451&quot;
+		},
+		{
+			CHIPSET_QCA7420,
+			&quot;QCA7420&quot;
+		},
+		{
+			CHIPSET_QCA6410,
+			&quot;QCA6410&quot;
+		},
+		{
+			CHIPSET_QCA7000,
+			&quot;QCA7000&quot;
+		}
+	};
+	return (typename (chipsets, SIZEOF (chipsets), MDEVICEID, chipsets [0].name));
+}
+
+/*====================================================================*
+ *
+ *   void chipset (void const * memory);
+ *
+ *   plc.h
+ *
+ *   replace VS_SW_VER message DEVICEID field with correct device ID
+ *   to compensate for bootloader chipset identification errors and
+ *   the new chipset number scheme implemented with the panther/lynx
+ *   firmware; do not ask for an explanation; just do it;
+ *
+ *   the basic assumption is that the firmware always tells the truth  
+ *   but the bootloader does not; bacause of engineering changes, the
+ *   firmware uses a different device identification scheme than that
+ *   used by the bootloader and that information appears in different
+ *   places depending on the source of the VS_SW_VER confirmation;
+ *   see the Programmer's Guide for more information.
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *   INT6000   0x01 / 0x01  0x00000042 / NA
+ *   INT6300   0x01 / 0x02  0x00006300 / NA
+ *   INT6400   0x03 / 0x03  0x00006400 / NA
+ *    AR7400   0x03 / 0x04  0x00007400 / NA
+ *    AR6405   0x03 / 0x05  0x00006400 / NA
+ *   QCA7450   0x03 / 0x20  0x0F001D1A / NA
+ *   QCA7420   0x06 / 0x20  0x001CFCFC 
+ *   QCA6410   0x06 / 0x21  0x001B58EC
+ *   QCA6411   0x06 / 0x21  0x001B58BC
+ *   QCA7000   0x06 / 0x22  0x001B589C
+ *
+ *   some chipsets have have multiple IDENT numbers below; this is
+ *   not an error;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+void chipset (void const * memory) 
+
+{
+
+#ifndef __GNUC__
+#pragma pack (push,1)
+#endif
+
+	struct __packed vs_sw_ver_confirm 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+		uint8_t MSTATUS;
+		uint8_t MDEVICEID;
+		uint8_t MVERLENGTH;
+		uint8_t MVERSION [254];
+	}
+	* confirm = (struct vs_sw_ver_confirm *) (memory);
+
+#ifndef __GNUC__
+#pragma pack (pop)
+#endif
+
+	uint32_t identity;
+	if (!strcmp ((char *)(confirm-&gt;MVERSION), &quot;BootLoader&quot;)) 
+	{
+		identity = LE32TOH (* (uint32_t *)(&amp;confirm-&gt;MVERSION [65]));
+		if (confirm-&gt;MDEVICEID == CHIPSET_INT6000) 
+		{
+			if (identity == 0x00006300) 
+			{
+				confirm-&gt;MDEVICEID = CHIPSET_INT6300;
+			}
+		}
+		else if (confirm-&gt;MDEVICEID == CHIPSET_INT6400) 
+		{
+			if (identity == 0x00006400) 
+			{
+				confirm-&gt;MDEVICEID = CHIPSET_INT6400;
+			}
+			else if (identity == 0x00007400) 
+			{
+				confirm-&gt;MDEVICEID = CHIPSET_AR7400;
+			}
+			else if (identity == 0x00001D1A) 
+			{
+				confirm-&gt;MDEVICEID = CHIPSET_QCA7450;
+			}
+			else if (identity == 0x0F001D1A) 
+			{
+				confirm-&gt;MDEVICEID = CHIPSET_QCA7450;
+			}
+			else if (identity == 0x0E001D1A) 
+			{
+				confirm-&gt;MDEVICEID = CHIPSET_QCA7451;
+			}
+			else 
+			{
+				confirm-&gt;MDEVICEID = CHIPSET_UNKNOWN;
+			}
+		}
+		else if (confirm-&gt;MDEVICEID == CHIPSET_AR6405) 
+		{
+			if (identity == 0x001CFC00) 
+			{
+				confirm-&gt;MDEVICEID = CHIPSET_QCA7420;
+			}
+			else if (identity == 0x001B5800) 
+			{
+				confirm-&gt;MDEVICEID = CHIPSET_QCA7000;
+			}
+			else 
+			{
+				confirm-&gt;MDEVICEID = CHIPSET_UNKNOWN;
+			}
+		}
+		else if (confirm-&gt;MDEVICEID == CHIPSET_PANTHER_LYNX) 
+		{
+			if (identity == 0x001CFC00) 
+			{
+				confirm-&gt;MDEVICEID = CHIPSET_QCA7420;
+			}
+			else if (identity == 0x001CFCFC) 
+			{
+				confirm-&gt;MDEVICEID = CHIPSET_QCA7420;
+			}
+			else if (identity == 0x001B5800) 
+			{
+				confirm-&gt;MDEVICEID = CHIPSET_QCA7000;
+			}
+			else if (identity == 0x001B58EC) 
+			{
+				confirm-&gt;MDEVICEID = CHIPSET_QCA6410;
+			}
+			else if (identity == 0x001B58BC) 
+			{
+				confirm-&gt;MDEVICEID = CHIPSET_QCA6411;
+			}
+			else if (identity == 0x001B58DC) 
+			{
+				confirm-&gt;MDEVICEID = CHIPSET_QCA7000;
+			}
+			else if (identity == 0x001B589C) 
+			{
+				confirm-&gt;MDEVICEID = CHIPSET_QCA7000;
+			}
+			else 
+			{
+				confirm-&gt;MDEVICEID = CHIPSET_UNKNOWN;
+			}
+		}
+		else 
+		{
+			confirm-&gt;MDEVICEID = CHIPSET_UNKNOWN;
+		}
+	}
+	else if (confirm-&gt;MDEVICEID == CHIPSET_INT6000) 
+	{
+	}
+	else if (confirm-&gt;MDEVICEID == CHIPSET_INT6300) 
+	{
+	}
+	else if (confirm-&gt;MDEVICEID == CHIPSET_INT6400) 
+	{
+	}
+	else if (confirm-&gt;MDEVICEID == CHIPSET_AR7400) 
+	{
+	}
+	else if (confirm-&gt;MDEVICEID == CHIPSET_AR6405) 
+	{
+	}
+	else if (confirm-&gt;MDEVICEID == CHIPSET_QCA7420) 
+	{
+		identity = LE32TOH (* (uint32_t *)(&amp;confirm-&gt;MVERSION [129]));
+		if (identity == 0x00001D1A) 
+		{
+			confirm-&gt;MDEVICEID = CHIPSET_QCA7450;
+		}
+		else if (identity == 0x0F001D1A) 
+		{
+			confirm-&gt;MDEVICEID = CHIPSET_QCA7450;
+		}
+		else if (identity == 0x0E001D1A) 
+		{
+			confirm-&gt;MDEVICEID = CHIPSET_QCA7451;
+		}
+		else 
+		{
+			identity = LE32TOH (* (uint32_t *)(&amp;confirm-&gt;MVERSION [254]));
+			if (identity == 0x001CFC00) 
+			{
+				confirm-&gt;MDEVICEID = CHIPSET_QCA7420;
+			}
+			else	if (identity == 0x001CFCFC) 
+			{
+				confirm-&gt;MDEVICEID = CHIPSET_QCA7420;
+			}
+			else if (identity == 0x001B5800) 
+			{
+				confirm-&gt;MDEVICEID = CHIPSET_QCA7000;
+			}
+			else if (identity == 0x001B589C) 
+			{
+				confirm-&gt;MDEVICEID = CHIPSET_QCA7000;
+			}
+			else if (identity == 0x001B58DC) 
+			{
+				confirm-&gt;MDEVICEID = CHIPSET_QCA7000;
+			}
+			else 
+			{
+				confirm-&gt;MDEVICEID = CHIPSET_UNKNOWN;
+			}
+		}
+	}
+	else if (confirm-&gt;MDEVICEID == CHIPSET_QCA6410) 
+	{
+		identity = LE32TOH (* (uint32_t *)(&amp;confirm-&gt;MVERSION [254]));
+		if (identity == 0x001B58EC) 
+		{
+			confirm-&gt;MDEVICEID = CHIPSET_QCA6410;
+		}
+		else if (identity == 0x001B58BC) 
+		{
+			confirm-&gt;MDEVICEID = CHIPSET_QCA6411;
+		}
+		else 
+		{
+			confirm-&gt;MDEVICEID = CHIPSET_UNKNOWN;
+		}
+	}
+	else if (confirm-&gt;MDEVICEID == CHIPSET_QCA7000) 
+	{
+		identity = LE32TOH (* (uint32_t *)(&amp;confirm-&gt;MVERSION [254]));
+		if (identity == 0x001B5800) 
+		{
+			confirm-&gt;MDEVICEID = CHIPSET_QCA7000;
+		}
+		else if (identity == 0x001B58DC) 
+		{
+			confirm-&gt;MDEVICEID = CHIPSET_QCA7000;
+		}
+		else if (identity == 0x001B589C) 
+		{
+			confirm-&gt;MDEVICEID = CHIPSET_QCA7000I;
+		}
+		else 
+		{
+			confirm-&gt;MDEVICEID = CHIPSET_UNKNOWN;
+		}
+	}
+	else 
+	{
+		confirm-&gt;MDEVICEID = CHIPSET_UNKNOWN;
+	}
+	return;
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='checksum32.c.html' title=' checksum32.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='chknvm.c.html' title=' chknvm.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

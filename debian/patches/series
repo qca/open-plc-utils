@@ -1,0 +1,3 @@
+001-fix-make-sudo-generic.patch
+010-remove-sudo-install.patch
+011-adds-destdir-to-install-path.patch

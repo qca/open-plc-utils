@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			nvmseek1.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='nvmpeek2.c.html' title=' nvmpeek2.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='nvmseek2.c.html' title=' nvmseek2.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   signed nvmseek1 (signed fd, char const * filename, struct nvm_header1 * nvm_header, uint32_t imagetype);
+ *
+ *   nvm.h
+ *
+ *   search a thunderbolt/lightning PIB file for the next image of a
+ *   given type; return 0 on success or -1 on failure to find another
+ *   image of the given type; 
+ *
+ *   the call must provide an image header strucuture for use while
+ *   searching; on success, that structure will contain information
+ *   about the image and file will be positioned to the start of
+ *   the image;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *   
+ *--------------------------------------------------------------------*/
+
+#ifndef NVMSEEK1_SOURCE
+#define NVMSEEK1_SOURCE
+
+#include &lt;unistd.h&gt;
+
+#include &quot;../tools/endian.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../pib/pib.h&quot;
+#include &quot;../nvm/nvm.h&quot;
+
+signed nvmseek1 (signed fd, char const * filename, struct nvm_header1 * nvm_header, uint32_t imagetype)
+
+{
+	signed module = 0;
+	do 
+	{
+		if (read (fd, nvm_header, sizeof (* nvm_header)) != sizeof (* nvm_header)) 
+		{
+			error (1, errno, NVM_HDR_CANTREAD, filename, module);
+		}
+		if (LE32TOH (nvm_header-&gt;HEADERVERSION) != 0x60000000) 
+		{
+			error (1, errno, NVM_HDR_VERSION, filename, module);
+		}
+		if (checksum32 (nvm_header, sizeof (* nvm_header), 0)) 
+		{
+			error (1, 0, NVM_HDR_CHECKSUM, filename, module);
+		}
+		if (nvm_header-&gt;IMAGETYPE == imagetype) 
+		{
+			return (0);
+		}
+		if (fdchecksum32 (fd, LE32TOH (nvm_header-&gt;IMAGELENGTH), nvm_header-&gt;IMAGECHECKSUM)) 
+		{
+			error (1, ECANCELED, NVM_IMG_CHECKSUM, filename, module);
+		}
+		module++;
+	}
+	while (~nvm_header-&gt;NEXTHEADER);
+	if (lseek (fd, 0, SEEK_CUR) != lseek (fd, 0, SEEK_END)) 
+	{
+		error (1, errno, NVM_HDR_LINK, filename, module);
+	}
+	return (-1);
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='nvmpeek2.c.html' title=' nvmpeek2.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='nvmseek2.c.html' title=' nvmseek2.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>
