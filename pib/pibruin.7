@@ -18,6 +18,9 @@ One recommended method of rule set validation is to program a device with indivi
 This program is part of the Qualcomm Atheros Powerline Toolkit. See the \fBAMP\fR man page for an overview and installation instructions. 
 .SH OPTIONS
 .TP
+-\fBo\fI offset\fR
+Specify an alternative PIB offset when inserting the classifier block. Customers should not use this option. It is provided to account for firmware changes that might occur in the future. Improper use of this option can render a PIB file unrecoverable.
+.TP
 .RB - q
 Suppresses progress messages.
 .TP

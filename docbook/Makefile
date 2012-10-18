@@ -9,7 +9,7 @@ include ../make.def
 
 DOCBOOK=/usr/share/xml/docbook/stylesheet/docbook-xsl/fo  
 DOCBOOK=/usr/share/xml/docbook/stylesheet/docbook-xsl/html
-LIBRARY=${DOC}/plc-utils
+LIBRARY=${DOC}/open-plc
 XMLFLAGS=--skip-validation
 
 # ====================================================================
@@ -21,8 +21,9 @@ FILES=Makefile *.txt *.xml *.xsl
 STYLES=param.xsl lists.xsl synop.xsl
 PAGES=plc-utils.xml 
 IMAGES=BootFromHost.png SimpleNetwork.png UpdateLocalHost.png UpgradeDevice.png
-BOOKS=index.html plc-utils.txt plc-utils.pdf
-BOOKS=index.html plc-utils.txt 
+# BOOKS=index.html plc-utils.txt plc-utils.pdf
+# BOOKS=index.html plc-utils.txt 
+BOOKS=index.html 
 
 # ====================================================================
 # pseudo targets;

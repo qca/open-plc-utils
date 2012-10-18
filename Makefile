@@ -16,7 +16,7 @@ PROJECT=plc-utils
 RELEASE=$(shell basename "${CURDIR}")
 LIBRARY=${FTP}/toolkit/${RELEASE}
 CDROM=${FTP}/cdrom/${RELEASE}
-FOLDERS=mdio plc tools ether serial mme ram nvm pib key nodes VisualStudioNET 
+FOLDERS=mdio nda plc programs qca tools ether serial mme ram nvm pib key nodes VisualStudioNET 
 EXCLUDE=--exclude=.git --exclude=.#* --exclude=*.[0-9][0-9][0-9]
 
 # ====================================================================
@@ -32,7 +32,7 @@ all compile compact scripts manuals install uninstall check fresh clean:
 # releasetargets;
 # --------------------------------------------------------------------
 
-.PHONY: package release library prepare cleanse 
+.PHONY: package library prepare cleanse 
 
 debian: clean
 	dpkg-buildpackage -rfakeroot -uc -us
@@ -40,23 +40,26 @@ debian-setup:
 	apt-get install dpkg-dev debhelper devscripts fakeroot linda
 #	apt-get install dpkg dpkg-dev debhelper dh-make devscripts quilt
 
-package: prepare library mine
-library: archive
-	install -m 6775 -o root -g fae -d ${LIBRARY} 
-	install -m 0555 -o root -g root VisualStudioNET/*.msi ${LIBRARY}
-	install -m 0555 -o root -g root ../${RELEASE}.tar.* ${LIBRARY}
-	crlf -w < CHANGES> ${LIBRARY}/_CHANGES.txt
-	crlf -w < README> ${LIBRARY}/_README.txt
-	chown root:fae ${LIBRARY}/*
-	chmod 0444 ${LIBRARY}/*
-	ls -la ${LIBRARY}/*.tar.*
-	ls -la ${LIBRARY}/*.msi
-prepare: clean
+package: archive prepare library mine
+prepare: 
 	rm -fr t.* install.* *.err *.log 
 	rm -fr */t.* */install.* */*.err */*.log */*.o */*.[0-9][0-9][0-9]
 	chmod -fR 0444 */*.c */*.h */*.txt */*.mak */*.xsd */*.xsl */*.xml */*.css */*.html */*.png 
 	chmod -fR 0755 */Makefile */*.sh
 	chown -fR root:root * 
+library: 
+	install -m 6775 -o root -g fae -d ${LIBRARY} 
+	install -m 0555 -o root -g root VisualStudioNET/*.msi ${LIBRARY}
+	install -m 0555 -o root -g root ../${RELEASE}.tar.* ${LIBRARY}
+	cp -r VisualStudioNET/Programs/* ${LIBRARY}/programs
+	crlf -w < CHANGES > ${LIBRARY}/_CHANGES.txt
+	crlf -w < README > ${LIBRARY}/_README.txt
+	crlf -w < LICENCES > ${LIBRARY}/_LICENSES.txt
+	crlf -w < NOTICES > ${LIBRARY}/_NOTICES.txt
+	chown root:fae ${LIBRARY}/*
+	chmod 0444 ${LIBRARY}/*
+	ls -la ${LIBRARY}/*.tar.*
+	ls -la ${LIBRARY}/*.msi
 
 # ====================================================================
 # maintain;
@@ -64,7 +67,7 @@ prepare: clean
 
 .PHONY: archive nightly restore control
 
-archive: clean
+archive: clean 
 	tar ${EXCLUDE} -vzcf ../${RELEASE}.tar.gz  -C .. ${RELEASE}
 	tar ${EXCLUDE} -vjcf ../${RELEASE}.tar.bz2 -C .. ${RELEASE}
 restore:
