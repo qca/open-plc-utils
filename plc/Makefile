@@ -45,8 +45,6 @@ check:
 	${SHELL} plc.sh
 fresh: clean compile
 clean:
-	chmod 0644 *.c *.h *.7 *.mak
-	chmod 0755 Makefile *.sh
 	rm -f ${TRASH} ${TOOLS}
 
 # ====================================================================

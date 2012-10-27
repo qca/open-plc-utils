@@ -43,7 +43,6 @@
 #       if defined (WINPCAP)
 #               include <pcap.h>
 #               include <Packet32.h>
-#               include <pcap/Ntddndis.h>
 #       endif
 #       include <net/ethernet.h>
 #       include <net/if.h>

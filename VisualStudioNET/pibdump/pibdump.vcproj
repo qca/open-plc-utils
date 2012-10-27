@@ -94,9 +94,6 @@
 				RelativePath="..\..\pib\pibdump.c">
 			</File>
 			<File
-				RelativePath="..\..\pib\pibseek.c">
-			</File>
-			<File
 				RelativePath="..\..\tools\putoptv.c">
 			</File>
 			<File

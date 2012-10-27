@@ -16,7 +16,7 @@ PROJECT=plc-utils
 RELEASE=$(shell basename "${CURDIR}")
 LIBRARY=${FTP}/toolkit/${RELEASE}
 CDROM=${FTP}/cdrom/${RELEASE}
-FOLDERS=mdio nda plc programs qca tools ether serial mme ram nvm pib key nodes VisualStudioNET 
+FOLDERS=ether key mdio mme nvm nodes pib plc ram serial tools VisualStudioNET 
 EXCLUDE=--exclude=.git --exclude=.#* --exclude=*.[0-9][0-9][0-9]
 
 # ====================================================================
@@ -44,9 +44,9 @@ package: archive prepare library mine
 prepare: 
 	rm -fr t.* install.* *.err *.log 
 	rm -fr */t.* */install.* */*.err */*.log */*.o */*.[0-9][0-9][0-9]
-	chmod -fR 0444 */*.c */*.h */*.txt */*.mak */*.xsd */*.xsl */*.xml */*.css */*.html */*.png 
-	chmod -fR 0755 */Makefile */*.sh
-	chown -fR root:root * 
+#	chmod -fR 0444 */*.c */*.h */*.txt */*.mak */*.xsd */*.xsl */*.xml */*.css */*.html */*.png 
+#	chmod -fR 0755 */Makefile */*.sh
+#	chown -fR root:root * 
 library: 
 	install -m 6775 -o root -g fae -d ${LIBRARY} 
 	install -m 0555 -o root -g root VisualStudioNET/*.msi ${LIBRARY}

@@ -6,9 +6,9 @@
  *   
  *   print a list of term names on the specified output stream;
  *   
- *.  Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *:  Published 2005 by Charles Maier Associates Limited;
- *;  Licensed under GNU General Public Licence Version 2 only;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 
@@ -29,12 +29,12 @@ void termlist (struct _term_ const list [], size_t size, char const * comma, cha
 		{
 			fputs (comma, fp);
 		}
-		if ((quote) && (*quote))
+		if ((quote) && (*quote)) 
 		{
 			fputc (uote++, fp);
 		}
 		fputs (item->name, fp);
-		if ((quote) && (*quote))
+		if ((quote) && (*quote)) 
 		{
 			fputc (uote++, fp);
 		}
@@ -42,6 +42,7 @@ void termlist (struct _term_ const list [], size_t size, char const * comma, cha
 	}
 	return;
 }
+
 
 #endif
 

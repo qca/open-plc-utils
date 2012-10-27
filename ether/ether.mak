@@ -2,7 +2,6 @@
 # programs;
 # --------------------------------------------------------------------
 
-client.o: client.c error.h flags.h getoptv.h putoptv.h version.c version.h
 edru.o: edru.c channel.h error.h flags.h getoptv.h memory.h number.h putoptv.h types.h
 edsu.o: edsu.c channel.h error.h ether.h files.h flags.h getoptv.h memory.h number.h putoptv.h
 efbu.o: efbu.c channel.h error.h flags.h getoptv.h memory.h number.h putoptv.h symbol.h
@@ -11,7 +10,6 @@ efru.o: efru.c channel.h error.h flags.h getoptv.h memory.h mme.h number.h plc.h
 efsu.o: efsu.c channel.h error.h flags.h getoptv.h memory.h number.h putoptv.h symbol.h
 nics.o: nics.c error.h ether.h getoptv.h memory.h putoptv.h version.h
 pcapdevs.o: pcapdevs.c error.h ether.h flags.h getoptv.h memory.h putoptv.h types.h version.h
-server.o: server.c error.h flags.h getoptv.h putoptv.h version.h
 
 # ====================================================================
 # source files;

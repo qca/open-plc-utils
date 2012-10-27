@@ -8,9 +8,9 @@
  *   an ASCII character display; this function is similar to but not
  *   the same as function hexview;
  *
- *.  Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *:  Published 2005 by Charles Maier Associates Limited;
- *;  Licensed under GNU General Public Licence Version 2 only;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 
@@ -84,7 +84,7 @@ void hexdump (void const * memory, size_t offset, size_t extent, FILE * fp)
 		lower += block;
 		upper += block;
 	}
-	if (extent)
+	if (extent) 
 	{
 		output = buffer;
 		*output++ = '\n';

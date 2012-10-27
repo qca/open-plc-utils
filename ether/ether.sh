@@ -11,8 +11,6 @@ gcc -Wall -Wextra -Wno-unused-parameter -o efbu efbu.c
 gcc -Wall -Wextra -Wno-unused-parameter -o efru efru.c 
 gcc -Wall -Wextra -Wno-unused-parameter -o efsu efsu.c 
 gcc -Wall -Wextra -Wno-unused-parameter -o nics nics.c 
-gcc -Wall -Wextra -Wno-unused-parameter -o client client.c 
-gcc -Wall -Wextra -Wno-unused-parameter -o server server.c 
 
 # ====================================================================
 # functions;

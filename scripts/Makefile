@@ -27,7 +27,6 @@ PAGES=fdm.7
 # --------------------------------------------------------------------
 
 all compile:
-	chmod 0755 *.sh
 install:
 scripts:
 manuals:

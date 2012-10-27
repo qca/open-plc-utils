@@ -15,9 +15,9 @@
  *
  *     0032:0045:0000:0000:0000:0000:1123:4456 
  *
- *.  Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *:  Published 2001-2006 by Charles Maier Associates Limited;
- *;  Licensed under GNU General Public Licence Version 2 only;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *   Contributor(s):
  *	Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
@@ -47,7 +47,7 @@ void memout (void const * memory, size_t extent, char const * format, unsigned g
 		}
 		offset++;
 	}
-	if (e)
+	if (e) 
 	{
 		putc (c, fp);
 	}

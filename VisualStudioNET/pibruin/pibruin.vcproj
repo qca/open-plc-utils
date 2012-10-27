@@ -77,6 +77,9 @@
 				RelativePath="..\..\tools\bytespec.c">
 			</File>
 			<File
+				RelativePath="..\..\tools\checksum32.c">
+			</File>
+			<File
 				RelativePath="..\..\tools\codelist.c">
 			</File>
 			<File
@@ -102,6 +105,9 @@
 			</File>
 			<File
 				RelativePath="..\..\tools\lookup.c">
+			</File>
+			<File
+				RelativePath="..\..\nvm\nvmseek2.c">
 			</File>
 			<File
 				RelativePath="..\..\plc\ParseRule.c">

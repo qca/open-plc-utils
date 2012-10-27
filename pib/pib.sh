@@ -33,7 +33,6 @@ gcc -Wall -Wextra -Wno-unused-parameter -c pibfile2.c
 gcc -Wall -Wextra -Wno-unused-parameter -c pibpeek1.c
 gcc -Wall -Wextra -Wno-unused-parameter -c pibpeek2.c
 gcc -Wall -Wextra -Wno-unused-parameter -c piblock.c
-gcc -Wall -Wextra -Wno-unused-parameter -c pibseek.c
 gcc -Wall -Wextra -Wno-unused-parameter -c pibscalers.c
 gcc -Wall -Wextra -Wno-unused-parameter -c psread.c
 gcc -Wall -Wextra -Wno-unused-parameter -c qosinfo.c

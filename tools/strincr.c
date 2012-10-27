@@ -7,9 +7,9 @@
  *   increment a multi-byte memory region; start at min and reset at
  *   max; return -1 if all bytes are max;
  *
- *.  Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *:  Published 2005 by Charles Maier Associates Limited;
- *;  Licensed under GNU General Public Licence Version 2 only;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 

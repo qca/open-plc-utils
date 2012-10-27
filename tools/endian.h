@@ -32,9 +32,9 @@
  *   available on all Unix systems but they were meant for network
  *   applications and lack little-endian and 64-bit variants;
  *
- *.  Motley Tools by Charles Maier; cmaier@cmassoc.net;
- *:  Published 2005 by Charles Maier Associates for internal use;
- *;  Licensed under GNU General Public License Version 2 only;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 

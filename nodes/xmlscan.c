@@ -6,9 +6,9 @@
  *
  *   scan XML source and create a parse tree;
  *
- *.  Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *:  Published 2001-2006 by Charles Maier Associates Limited;
- *;  Licensed under GNU General Public Licence Version 2 only;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 
@@ -41,9 +41,9 @@
  *   ensures that node strings are NUL terminated and line counts
  *   are accurate;
  *
- *.  Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *:  Published 2001-2006 by Charles Maier Associates Limited;
- *;  Licensed under GNU General Public Licence Version 2 only;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 
@@ -68,9 +68,9 @@ static char * advance (char * string, unsigned * lineno)
  *
  *   discard current character; advance to next character;
  *
- *.  Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *:  Published 2001-2006 by Charles Maier Associates Limited;
- *;  Licensed under GNU General Public Licence Version 2 only;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 
@@ -89,9 +89,9 @@ static char * discard (char * string, unsigned * lineno)
  *
  *   collect nmtoken as per w3c xml 1.0 specification;
  *   
- *.  Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *:  Published 2001-2006 by Charles Maier Associates Limited;
- *;  Licensed under GNU General Public Licence Version 2 only;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 
@@ -113,9 +113,9 @@ static char * nmtoken (char * string)
  *   collect literal string; discard quotes; preserve whitespace; 
  *   count newlines;
  *
- *.  Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *:  Published 2001-2006 by Charles Maier Associates Limited;
- *;  Licensed under GNU General Public Licence Version 2 only;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 
@@ -152,9 +152,9 @@ static char * content (char * string, char quote, unsigned * lineno)
  *   collect entity; an entity consists of non-blank characters 
  *   excluding common tag punctuation;
  *
- *.  Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *:  Published 2001-2006 by Charles Maier Associates Limited;
- *;  Licensed under GNU General Public Licence Version 2 only;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 
@@ -202,9 +202,9 @@ static char * collect (char * string)
  *   preserve whitespace; 
  *   count newlines;
  *
- *.  Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *:  Published 2001-2006 by Charles Maier Associates Limited;
- *;  Licensed under GNU General Public Licence Version 2 only;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 
@@ -248,9 +248,9 @@ static char * comment (char * string, unsigned * lineno)
  *   preserve whitespace; 
  *   count newlines;
  *
- *.  Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *:  Published 2001-2006 by Charles Maier Associates Limited;
- *;  Licensed under GNU General Public Licence Version 2 only;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 
@@ -290,9 +290,9 @@ static char * literal (char *string, char quote, unsigned * lineno)
  *   preserve whitespace; 
  *   count newlines;
  *
- *.  Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *:  Published 2001-2006 by Charles Maier Associates Limited;
- *;  Licensed under GNU General Public Licence Version 2 only;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 
@@ -343,9 +343,9 @@ static char * context (char *string, signed c, unsigned * lineno)
  *
  *   node.h
  *
- *.  Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *:  Published 2001-2006 by Charles Maier Associates Limited;
- *;  Licensed under GNU General Public Licence Version 2 only;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 

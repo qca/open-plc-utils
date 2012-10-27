@@ -2,25 +2,25 @@
  *
  *   fcs.c - ethernet frame check sequence functions
  *
- *.  Motley Tools from Charles Maier at cmaier@cmassoc.net;
- *:  Published 2006 by Charles Maier Associates Limited;
- *;  Licensed under GNU General Public Licence Version 2 only;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 
 #ifndef FCS_SOURCE
 #define FCS_SOURCE
- 
+
 /*====================================================================*
  * system header files;
  *--------------------------------------------------------------------*/
 
 #include <stdint.h>
- 
+
 /*====================================================================*
  * variables;
  *--------------------------------------------------------------------*/
- 
+
 static uint32_t CRCTable [256] = 
 
 {
@@ -282,20 +282,21 @@ static uint32_t CRCTable [256] =
 	0x2d02ef8d
 };
 
+
 /*====================================================================*
  *
  *   uint32_t ReflectBits (uint32_t value, uint32_t bits);
  *
  *   return the bitwise mirror image of an integer value;
  *
- *.  Motley Tools from Charles Maier at cmaier@cmassoc.net;
- *:  Published 2006 by Charles Maier Associates Limited;
- *;  Licensed under GNU General Public Licence Version 2 only;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 
 #if 0
- 
+
 static uint32_t ReflectBits (uint32_t value, uint32_t bits) 
 
 {
@@ -312,8 +313,9 @@ static uint32_t ReflectBits (uint32_t value, uint32_t bits)
 	return (image);
 }
 
+
 #endif
- 
+
 /*====================================================================*
  *
  *   void InitCRCTable (void);
@@ -321,14 +323,14 @@ static uint32_t ReflectBits (uint32_t value, uint32_t bits)
  *   write frame control sequence table with values; this function is
  *   only needed to populate an empty CRCTable;
  *
- *.  Motley Tools from Charles Maier at cmaier@cmassoc.net;
- *:  Published 2006 by Charles Maier Associates Limited;
- *;  Licensed under GNU General Public Licence Version 2 only;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 
 #if 0
- 
+
 static void InitCRCTable (uint32_t CRCTable []) 
 
 {
@@ -342,25 +344,26 @@ static void InitCRCTable (uint32_t CRCTable [])
 		{
 			crc = (crc << 1) ^ ((crc & 0x80000000)? 0x04c11db7: 0);
 		}
-		CRCTable[word] = ReflectBits (crc, 32);
+		CRCTable [word] = ReflectBits (crc, 32);
 	}
 	return;
 }
 
+
 #endif
- 
+
 /*====================================================================*
  *
  *   uint32_t ComputeCRC (uint8_t buffer [], uint32_t length);
  *
  *
  *
- *.  Motley Tools from Charles Maier at cmaier@cmassoc.net;
- *:  Published 2006 by Charles Maier Associates Limited;
- *;  Licensed under GNU General Public Licence Version 2 only;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
- 
+
 uint32_t ComputeCRC (uint8_t buffer [], uint32_t length) 
 
 {
@@ -373,38 +376,40 @@ uint32_t ComputeCRC (uint8_t buffer [], uint32_t length)
 	return (~crc);
 }
 
+
 /*====================================================================*
  *
  *   int VerifyCRC (uint8_t buffer [], uint32_t length, uint32_t crc);
  *
  *
  * 
- *.  Motley Tools from Charles Maier at cmaier@cmassoc.net;
- *:  Published 2006 by Charles Maier Associates Limited;
- *;  Licensed under GNU General Public Licence Version 2 only;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
- 
+
 int VerifyCRC (uint8_t buffer [], uint32_t length, uint32_t crc) 
 
 {
 	return (crc = ComputeCRC (buffer, length));
 }
 
+
 /*====================================================================*
  *
  *   int main (int argc, const char * argv []) 
  *   
  *   
- *.  Motley Tools from Charles Maier at cmaier@cmassoc.net;
- *:  Published 2006 by Charles Maier Associates Limited;
- *;  Licensed under GNU General Public Licence Version 2 only;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 
 #if 0
 #include <stdio.h>
- 
+
 static uint8_t frame [192]= 
 
 {
@@ -607,7 +612,30 @@ int main (int argc, const char * argv [])
 {
 	uint32_t size = sizeof (frame);
 	uint32_t word;
-	uint8_t blah[] = { 0x00, 0xB0, 0x52, 0x11, 0x22, 0x33, 0x00, 0x0A, 0x5E, 0x5A, 0x27, 0x38, 0x88, 0xE1, 0x00, 0x28, 0xA0, 0x00, 0xB0, 0x52, 0x02 };
+	uint8_t blah [] = 
+	{
+		0x00,
+		0xB0,
+		0x52,
+		0x11,
+		0x22,
+		0x33,
+		0x00,
+		0x0A,
+		0x5E,
+		0x5A,
+		0x27,
+		0x38,
+		0x88,
+		0xE1,
+		0x00,
+		0x28,
+		0xA0,
+		0x00,
+		0xB0,
+		0x52,
+		0x02
+	};
 	while (size > 160) 
 	{
 		word = ComputeCRC (frame, size);
@@ -620,12 +648,12 @@ int main (int argc, const char * argv [])
 	return (0);
 }
 
+
 #endif
- 
+
 /*====================================================================*
  *
  *--------------------------------------------------------------------*/
 
 #endif
- 
 

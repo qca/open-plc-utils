@@ -707,9 +707,6 @@ header_eth;
 			Atheros vendor-specific messages contain information in mixed endian format. The Ethernet header portion is sent <emphasis>big endian </emphasis> but the Atheros header and payload are sent in <emphasis>little endian </emphasis>. The traditional endian converstion functions <function>htons()</function>, <function>htonl()</function>, <function>ntohs()</function> and <function>ntohl()</function> can be used to perform platform independent conversions on the Ethernet header but not the Atheros header payload.
 			</para>
 		<para>
-			The Atheros Embedded API defines macros <function>ihtons</function>, <function>ihtonl</function>, <function> intohs</function> and <function>intohl</function> in <ulink url='ihp.h.html'>ihp.h</ulink> to perform the inverse function of their standard counterparts mentioned above. In other words, the standard endian functions do nothing on big-endian hosts while Atheros endian functions do nothing on little-endian hosts. 
-			</para>
-		<para>
 			The Powerline Toolkit includes similar macros <function>HTOLE16</function>, <function>HTOLE32</function>, <function>LE16TOH</function> and <function>LE32TOH</function> in <ulink url="endian.h.html">endian.h</ulink> which serve the same function but conform to recommendations for standarized byte order function on Linux, OpenBSD and FreeBSD. Observe that the names are independent of any network implications.
 			</para>
 <programlisting><![CDATA[

@@ -2,9 +2,9 @@
  *
  *   getoptv.h - getopt related definitions and declarations;
  *
- *.  Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *:  Published 2005 by Charles Maier Associates Limited;
- *;  Licensed under GNU General Public Licence Version 2 only;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 

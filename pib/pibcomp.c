@@ -76,10 +76,6 @@
 #endif
 
 #ifndef MAKEFILE
-#include "../pib/pibseek.c"
-#endif
-
-#ifndef MAKEFILE
 #include "../nvm/nvmseek2.c"
 #endif
 

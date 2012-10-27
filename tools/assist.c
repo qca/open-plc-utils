@@ -8,9 +8,9 @@
  *   type of name expected, the incorrect name and a list of correct
  *   name;
  *   
- *.  Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *:  Published 2005 by Charles Maier Associates Limited;
- *;  Licensed under GNU General Public Licence Version 2 only;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 
@@ -32,11 +32,17 @@ void assist (char const * name, char const * type, struct _code_ const list [], 
 	fprintf (stderr, "%s: ", strerror (ENOTSUP));
 	if (name) 
 	{
+
 #if 0
+
 		fprintf (stderr, "Have %s '%s' but expected %s ", type, name, type);
+
 #else
+
 		fprintf (stderr, "Have '%s' but want ", name);
+
 #endif
+
 	}
 	else 
 	{

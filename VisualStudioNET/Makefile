@@ -32,7 +32,6 @@ uninstall:
 fresh: clean compile
 check:
 clean:
-	chmod 0755 Makefile
 	rm -fr _UpgradeReport_Files *.XML .#*
 	rm -fr */[Dd]ebug */[Rr]elease */*.[0-9][0-9][0-9] 
 	rm -fr Objects/*/*.?db */*.log */*.tlog */*/*.manifest

@@ -42,8 +42,6 @@ check:
 	${SHELL} pib.sh
 fresh: clean compile
 clean:
-	chmod 0644 *.7 *.c *.h *.mak 
-	chmod 0755 Makefile *.sh
 	rm -f ${TRASH} ${TOOLS} ${OTHER}
 
 # ====================================================================

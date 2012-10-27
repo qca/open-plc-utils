@@ -766,7 +766,6 @@ PIB3_6;
  *   functions;
  *--------------------------------------------------------------------*/
 
-signed pibseek (signed fd, char const * filename, flag_t flags);
 signed pibfile (struct _file_ const * pib);
 signed pibfile1 (struct _file_ const * pib);
 signed pibfile2 (struct _file_ const * pib);

@@ -43,7 +43,6 @@ uninstall:
 setup:
 	install ${STYLES} ${DOCBOOK}
 clean:
-	chmod 0644 ${PAGES} ${STYLES}
 	rm -f ${TRASH} ${BOOKS}
 fresh: clean compile
 

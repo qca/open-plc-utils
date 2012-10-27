@@ -51,6 +51,10 @@
 #include "../tools/error.h"
 #include "../ether/ether.h"
 
+#ifndef OID_802_3_CURRENT_ADDRESS
+#define OID_802_3_CURRENT_ADDRESS 0x01010102 
+#endif
+
 int gethwaddr (void * memory, char const * device) 
 
 {

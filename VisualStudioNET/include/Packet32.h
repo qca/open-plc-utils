@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 1999 - 2005 NetGroup, Politecnico di Torino (Italy)
- * Copyright (c) 2005 - 2006 CACE Technologies, Davis (California)
+ * Copyright (c) 2005 - 2007 CACE Technologies, Davis (California)
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,8 +47,6 @@
 
 #include <winsock2.h>
 
-#include "devioctl.h"
-
 #ifdef HAVE_AIRPCAP_API
 #include <airpcap.h>
 #else
@@ -69,39 +67,6 @@ typedef struct _AirpcapHandle *PAirpcapHandle;
 #define PACKET_MODE_DUMP 0x10 ///< Dump mode
 #define PACKET_MODE_STAT_DUMP MODE_DUMP | MODE_STAT ///< Statistical dump Mode
 
-// ioctls
-#define FILE_DEVICE_PROTOCOL        0x8000
-
-#define IOCTL_PROTOCOL_STATISTICS   CTL_CODE(FILE_DEVICE_PROTOCOL, 2 , METHOD_BUFFERED, FILE_ANY_ACCESS)
-#define IOCTL_PROTOCOL_RESET        CTL_CODE(FILE_DEVICE_PROTOCOL, 3 , METHOD_BUFFERED, FILE_ANY_ACCESS)
-#define IOCTL_PROTOCOL_READ         CTL_CODE(FILE_DEVICE_PROTOCOL, 4 , METHOD_BUFFERED, FILE_ANY_ACCESS)
-#define IOCTL_PROTOCOL_WRITE        CTL_CODE(FILE_DEVICE_PROTOCOL, 5 , METHOD_BUFFERED, FILE_ANY_ACCESS)
-#define IOCTL_PROTOCOL_MACNAME      CTL_CODE(FILE_DEVICE_PROTOCOL, 6 , METHOD_BUFFERED, FILE_ANY_ACCESS)
-#define IOCTL_OPEN                  CTL_CODE(FILE_DEVICE_PROTOCOL, 7 , METHOD_BUFFERED, FILE_ANY_ACCESS)
-#define IOCTL_CLOSE                 CTL_CODE(FILE_DEVICE_PROTOCOL, 8 , METHOD_BUFFERED, FILE_ANY_ACCESS)
-
-#define	 pBIOCSETBUFFERSIZE 9592		///< IOCTL code: set kernel buffer size.
-#define	 pBIOCSETF 9030					///< IOCTL code: set packet filtering program.
-#define  pBIOCGSTATS 9031				///< IOCTL code: get the capture stats.
-#define	 pBIOCSRTIMEOUT 7416			///< IOCTL code: set the read timeout.
-#define	 pBIOCSMODE 7412				///< IOCTL code: set working mode.
-#define	 pBIOCSWRITEREP 7413			///< IOCTL code: set number of physical repetions of every packet written by the app.
-#define	 pBIOCSMINTOCOPY 7414			///< IOCTL code: set minimum amount of data in the kernel buffer that unlocks a read call.
-#define	 pBIOCSETOID 2147483648U		///< IOCTL code: set an OID value.
-#define	 pBIOCQUERYOID 2147483652U		///< IOCTL code: get an OID value.
-#define	 pATTACHPROCESS 7117			///< IOCTL code: attach a process to the driver. Used in Win9x only.
-#define	 pDETACHPROCESS 7118			///< IOCTL code: detach a process from the driver. Used in Win9x only.
-#define  pBIOCSETDUMPFILENAME 9029		///< IOCTL code: set the name of a the file used by kernel dump mode.
-#define  pBIOCEVNAME 7415				///< IOCTL code: get the name of the event that the driver signals when some data is present in the buffer.
-#define  pBIOCSENDPACKETSNOSYNC 9032	///< IOCTL code: Send a buffer containing multiple packets to the network, ignoring the timestamps associated with the packets.
-#define  pBIOCSENDPACKETSSYNC 9033		///< IOCTL code: Send a buffer containing multiple packets to the network, respecting the timestamps associated with the packets.
-#define  pBIOCSETDUMPLIMITS 9034		///< IOCTL code: Set the dump file limits. See the PacketSetDumpLimits() function.
-#define  pBIOCISDUMPENDED 7411			///< IOCTL code: Get the status of the kernel dump process. See the PacketIsDumpEnded() function.
-#define  pBIOCISETLOBBEH 7410			///< IOCTL code: Set the loopback behavior of the driver with packets sent by itself: capture or drop.
-#define  pBIOCSETEVENTHANDLE 7920		///< IOCTL code: Passes the read event HANDLE allocated by the user (packet.dll) to the kernel level driver.
-
-#define  pBIOCSTIMEZONE 7471			///< IOCTL code: set time zone. Used in Win9x only.
-
 
 /// Alignment macro. Defines the alignment size.
 #define Packet_ALIGNMENT sizeof(int)
@@ -113,6 +78,7 @@ typedef struct _AirpcapHandle *PAirpcapHandle;
 #define NdisMediumPPPSerial	-3	///< Custom linktype: NDIS doesn't provide an equivalent
 #define NdisMediumBare80211	-4	///< Custom linktype: NDIS doesn't provide an equivalent
 #define NdisMediumRadio80211	-5	///< Custom linktype: NDIS doesn't provide an equivalent
+#define NdisMediumPpi		-6	///< Custom linktype: NDIS doesn't provide an equivalent
 
 // Loopback behaviour definitions
 #define NPF_DISABLE_LOOPBACK	1	///< Drop the packets sent by the NPF driver
@@ -248,25 +214,6 @@ typedef WAN_ADAPTER *PWAN_ADAPTER; ///< Describes an opened wan (dialup, VPN...)
 #define INFO_FLAG_DONT_EXPORT		8	///< Flag for ADAPTER_INFO: when this flag is set, the adapter will not be listed or openend by winpcap. This allows to prevent exporting broken network adapters, like for example FireWire ones.
 #define INFO_FLAG_AIRPCAP_CARD		16	///< Flag for ADAPTER_INFO: this is an airpcap card
 #define INFO_FLAG_NPFIM_DEVICE		32
-/*!
-  \brief Contains comprehensive information about a network adapter.
-
-  This structure is filled with all the accessory information that the user can need about an adapter installed
-  on his system.
-*/
-typedef struct _ADAPTER_INFO  
-{
-	struct _ADAPTER_INFO *Next;				///< Pointer to the next adapter in the list.
-	CHAR Name[ADAPTER_NAME_LENGTH + 1];		///< Name of the device representing the adapter.
-	CHAR Description[ADAPTER_DESC_LENGTH + 1];	///< Human understandable description of the adapter
-	UINT MacAddressLen;						///< Length of the link layer address.
-	UCHAR MacAddress[MAX_MAC_ADDR_LENGTH];	///< Link layer address.
-	NetType LinkLayer;						///< Physical characteristics of this adapter. This NetType structure contains the link type and the speed of the adapter.
-	INT NNetworkAddresses;					///< Number of network layer addresses of this adapter.
-	npf_if_addr *NetworkAddresses;			///< Pointer to an array of npf_if_addr, each of which specifies a network address of this adapter.
-	UINT Flags;								///< Adapter's flags. Tell if this adapter must be treated in a different way, using the Netmon API or the dagc API.
-}
-ADAPTER_INFO, *PADAPTER_INFO;
 
 /*!
   \brief Describes an opened network adapter.
@@ -397,7 +344,14 @@ BOOLEAN PacketIsDumpEnded(LPADAPTER AdapterObject, BOOLEAN sync);
 BOOL PacketStopDriver();
 VOID PacketCloseAdapter(LPADAPTER lpAdapter);
 BOOLEAN PacketStartOem(PCHAR errorString, UINT errorStringLength);
+BOOLEAN PacketStartOemEx(PCHAR errorString, UINT errorStringLength, ULONG flags);
 PAirpcapHandle PacketGetAirPcapHandle(LPADAPTER AdapterObject);
+
+//
+// Used by PacketStartOemEx
+//
+#define PACKET_START_OEM_NO_NETMON	0x00000001
+
 #ifdef __cplusplus
 }
 #endif 

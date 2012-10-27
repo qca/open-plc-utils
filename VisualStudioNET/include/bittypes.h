@@ -29,14 +29,15 @@
 #ifndef _BITTYPES_H
 #define _BITTYPES_H
 
+#define HAVE_U_INT8_T
 #ifndef HAVE_U_INT8_T
 
 #if SIZEOF_CHAR == 1
 typedef unsigned char u_int8_t;
-// typedef signed char int8_t;
+typedef signed char int8_t;
 #elif SIZEOF_INT == 1
 typedef unsigned int u_int8_t;
-// typedef signed int int8_t;
+typedef signed int int8_t;
 #else  /* XXX */
 #error "there's no appropriate type for u_int8_t"
 #endif
@@ -86,8 +87,10 @@ typedef signed short int32_t;
 #ifndef HAVE_U_INT64_T
 #if SIZEOF_LONG_LONG == 8
 typedef unsigned long long u_int64_t;
+typedef long long int64_t;
 #elif defined(_MSC_EXTENSIONS)
 typedef unsigned _int64 u_int64_t;
+typedef _int64 int64_t;
 #elif SIZEOF_INT == 8
 typedef unsigned int u_int64_t;
 #elif SIZEOF_LONG == 8
