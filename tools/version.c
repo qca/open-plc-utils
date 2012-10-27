@@ -26,7 +26,7 @@ void version ()
 	extern char const * program_name;
 	printf ("%s ", program_name);
 	printf (PROJECT "-");
-	printf (VERSION ".");
+	printf (VERSION " ");
 	printf (RELEASE " ");
 	printf ("ISO C ");
 	printf (COMPANY " ");
