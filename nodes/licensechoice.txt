@@ -1,2 +1,0 @@
-Qualcom Atheros has chosen to take files xmlattribute.c, xmldata.c, xmledit.c, xmlelement.c, xmlfree.c, xmlnode.c, xmlopen.c, xmlread.c, xmlscan.c, xmlschema.c, xmlselect.c, xmltree.c and xmlvalue.c subject to GPLv2 and distributes them only under GPLv2.
-
