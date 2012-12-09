@@ -91,7 +91,7 @@ int StartDevice1 (struct plc * plc)
 	{
 		error (1, errno, FILE_CANTHOME, plc->PIB.name);
 	}
-	if (read (plc->PIB.file, &pib_header, sizeof (pib_header)) != sizeof (pib_header)) 
+	if (read (plc->PIB.file, &pib_header, sizeof (pib_header)) != (signed)(sizeof (pib_header))) 
 	{
 		error (1, errno, FILE_CANTREAD, plc->PIB.name);
 	}
