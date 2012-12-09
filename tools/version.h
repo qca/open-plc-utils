@@ -19,10 +19,10 @@
 #define PACKAGE "Qualcomm Atheros Powerline Toolkit"
 #define PROJECT "open-plc"
 #define VERSION "0.0.1-dev"
-#define RELEASE "OSR-6010"
+#define RELEASE "OSR-6010-1"
 #define COMPILE __TIME__ " " __DATE__ 
 #define CONTACT "cmaier@qca.qualcomm.com"
-#define LICENSE "Internet Software Concortium"
+#define LICENSE "Internet Software Concortium (ISC)"
 
 /*====================================================================*
  *   functions;
