@@ -31,8 +31,8 @@ but the impatient may do the following and survive ...
 TO INSTALL
 ----------
 
-1. Unpack tarball using "tar -vzxf plc-utils-x.x.x.tar.gz".
-2. Enter package folder using "cd plc-utils-x.x.x".
+1. Unpack tarball using "tar -vzxf open-plc-utils-x.x.x.tar.gz".
+2. Enter package folder using "cd open-plc-utils-x.x.x".
 3. Compile and install all tools in /usr/local/bin using "make install". 
 4. Compile and install man pages in  /usr/share/man/man7 using "make manuals".
 5  Change to the documentation folder using "cd docbook".
@@ -42,12 +42,10 @@ TO INSTALL
 TO UNINSTALL
 ------------
 
-1. Enter package folder using "cd plc-utils-x.x.x".
+1. Enter package folder using "cd open-plc-utils-x.x.x".
 2. Remove installed programs using "make uninstall".
 3. Remove all package files using "rm -r *".
 
-Charles Maier
-218A5 East Wing
 Ocala Design Center
 Qualcomm Atheros, Inc.
 203 East Silver Springs Blvd #200
