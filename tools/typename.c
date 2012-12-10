@@ -11,7 +11,7 @@
  *   typedef type_t and struct _type_ are defined in types.h; 
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Copyright 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/

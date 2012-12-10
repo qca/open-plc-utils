@@ -18,7 +18,18 @@
  *   
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
+/*====================================================================*"
+ *
+ *   plcset.c - 
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Charles Maier <cmaier@qualcomm.com>
+ *
+ *--------------------------------------------------------------------*/
 
 /*====================================================================*"
  *   system header files;
@@ -125,9 +136,9 @@
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
  *   
- *.  Atheros Powerline Toolkit for HomePlug AV; 
- *:  Published 2007 by Intellon Corp. ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -156,7 +167,7 @@ int main (int argc, char const * argv [])
 		"o n\tproperty option is (n) [" LITERAL (PLCSET_PROP_OPTION) "]",
 		"q\tquiet mode",
 		"s x\tsession identifier is (x) [" LITERAL (PLCSESSION) "]",
-		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
 		"v\tverbose mode",
 		(char const *) (0)
 	};
@@ -224,7 +235,7 @@ int main (int argc, char const * argv [])
 			plc.cookie = (uint32_t)(basespec (optarg, 16, sizeof (plc.cookie)));
 			break;
 		case 't':
-			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

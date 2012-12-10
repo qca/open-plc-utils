@@ -42,7 +42,6 @@
  *
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
 
 /*====================================================================*
  *   system header files;
@@ -124,7 +123,7 @@ int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	struct ether_frame frame;
+	struct ethernet_frame frame;
 	signed length;
 	static char const * optv [] = 
 	{
@@ -150,7 +149,7 @@ int main (int argc, char const * argv [])
 	};
 	signed c;
 	channel.type = EFEU_ETHERTYPE;
-	channel.timeout = CHANNEL_FOREVER;
+	channel.timer = CHANNEL_FOREVER;
 	if (getenv (EFEU_INTERFACE)) 
 	{
 
@@ -190,7 +189,7 @@ int main (int argc, char const * argv [])
 			_setbits (channel.flags, CHANNEL_SILENCE);
 			break;
 		case 't':
-			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

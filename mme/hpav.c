@@ -35,7 +35,6 @@
  *
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
 
 /*====================================================================*
  *   system header files;
@@ -51,7 +50,7 @@
 #include <string.h>
 #include <errno.h>
 
-#ifdef __linux__
+#if defined (__linux__)
 #include <net/if.h>
 #include <net/if_arp.h>
 #include <netpacket/packet.h>

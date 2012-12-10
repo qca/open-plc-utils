@@ -170,13 +170,7 @@ signed manifest (void const * memory, size_t extent)
 	char string [1024];
 	while (length > 0) 
 	{
-		struct TLVNode 
-		{
-			uint32_t type;
-			uint32_t size;
-			uint32_t data;
-		}
-		* node = (struct TLVNode *)(offset);
+		struct TLVNode * node = (struct TLVNode *)(offset);
 		uint32_t type = LE32TOH (node->type);
 		uint32_t size = LE32TOH (node->size);
 		uint32_t data = LE32TOH (node->data);

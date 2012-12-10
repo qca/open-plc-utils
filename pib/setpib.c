@@ -18,7 +18,18 @@
  *   
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
+/*====================================================================*"
+ *
+ *   setpib.c -
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Charles Maier <cmaier@qualcomm.com>
+ *
+ *--------------------------------------------------------------------*/
 
 /*====================================================================*"
  *   system header files;
@@ -95,9 +106,9 @@ static flag_t flags = (flag_t)(0);
  *   function memencode(); this function merely walks the vector and
  *   deals with error and display options;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -107,8 +118,8 @@ static flag_t flags = (flag_t)(0);
 static signed modify (void * memory, size_t extent, int argc, char const * argv [], unsigned window) 
 
 {
-	size_t origin;
-	size_t offset;
+	uint32_t origin;
+	uint32_t offset;
 	if (!argc) 
 	{
 		error (1, ENOTSUP, "Need an offset");
@@ -150,9 +161,9 @@ static signed modify (void * memory, size_t extent, int argc, char const * argv 
  *   read an entire flat parameter file into memory, edit it, save 
  *   it and display it;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -184,7 +195,7 @@ static signed pibimage1 (signed fd, char const * filename, int argc, char const 
 	{
 		error (1, errno, FILE_CANTHOME, filename);
 	}
-	if (modify (memory, extent, argc, argv,window)) 
+	if (modify (memory, extent, argc, argv, window)) 
 	{
 		error (1, errno, FILE_CANTEDIT, filename);
 	}
@@ -214,9 +225,9 @@ static signed pibimage1 (signed fd, char const * filename, int argc, char const 
  *   read an entire flat parameter file into memory, edit it, save 
  *   it and display it;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -227,12 +238,12 @@ static signed pibimage2 (signed fd, char const * filename, struct nvm_header2 * 
 
 {
 	void * memory;
-	unsigned extent = LE32TOH (nvm_header->ImageLength);
+	off_t extent = LE32TOH (nvm_header->ImageLength);
 	if (!(memory = malloc (extent))) 
 	{
 		error (1, errno, FILE_CANTLOAD, filename);
 	}
-	if (read (fd, memory, extent) != (signed)(extent)) 
+	if (read (fd, memory, extent) != extent) 
 	{
 		error (1, errno, FILE_CANTREAD, filename);
 	}
@@ -247,7 +258,7 @@ static signed pibimage2 (signed fd, char const * filename, struct nvm_header2 * 
 	if (_anyset (flags, SETPIB_CHANGED)) 
 	{
 		nvm_header->ImageChecksum = checksum32 (memory, extent, 0);
-		if (write (fd, memory, extent) != (signed)(extent)) 
+		if (write (fd, memory, extent) != extent) 
 		{
 			error (1, errno, FILE_CANTSAVE, filename);
 		}
@@ -273,6 +284,7 @@ static signed pibimage2 (signed fd, char const * filename, struct nvm_header2 * 
 	return (0);
 }
 
+
 /*====================================================================*
  *
  *   signed function (int argc, char const * argv [], unsigned window);
@@ -283,9 +295,9 @@ static signed pibimage2 (signed fd, char const * filename, struct nvm_header2 * 
  *   older parameter files are flat with their own header; newer ones
  *   are image chains where one of image contains the parameter block;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -316,7 +328,7 @@ static signed function (int argc, char const * argv [], unsigned window)
 	if (LE32TOH (version) == 0x00010001) 
 	{
 		struct nvm_header2 nvm_header;
-		if (!nvmseek2 (fd, filename, &nvm_header, NVM_IMAGE_PIB))
+		if (!nvmseek2 (fd, filename, &nvm_header, NVM_IMAGE_PIB)) 
 		{
 			status = pibimage2 (fd, filename, &nvm_header, argc, argv, window);
 		}
@@ -334,9 +346,9 @@ static signed function (int argc, char const * argv [], unsigned window)
  *
  *   int main (int argc, char const * argv []);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 

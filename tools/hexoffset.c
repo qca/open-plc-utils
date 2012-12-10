@@ -9,7 +9,7 @@
  *   be padded with leading zeros;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Copyright 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/

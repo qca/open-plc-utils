@@ -311,16 +311,7 @@ signed LinkStatistics (struct plc * plc)
 	request->MCONTROL = plc->pushbutton;
 	request->DIRECTION = plc->module;
 	request->LID = plc->action;
-	switch (request->LID) 
-	{
-	case 0x00:
-	case 0x01:
-	case 0x02:
-	case 0x03:
-	case 0xF8:
-		memcpy (request->MACADDRESS, plc->RDA, ETHER_ADDR_LEN);
-		break;
-	}
+	memcpy (request->MACADDRESS, plc->RDA, sizeof (request->MACADDRESS));
 	if (SendMME (plc) <= 0) 
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);

@@ -87,9 +87,6 @@ size_t ipv4spec (char const * string, void * memory)
 #if 0
 
 #include <stdio.h>
-#include "../tools/hexdecode.c"
-#include "../tools/todigit.c"
-#include "../tools/error.c"
 
 char const * program_name = "ipv4spec";
 int main (int argc, char * argv []) 

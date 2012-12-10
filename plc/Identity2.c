@@ -92,7 +92,10 @@ static signed pibchain2 (void const * memory, char const * filename, flag_t flag
 		offset += sizeof (* nvm_header);
 		if (LE32TOH (nvm_header->ImageType) == NVM_IMAGE_PIB) 
 		{
+			struct pib_header * pib_header = (struct pib_header *)((char *)(memory) + offset);
+			pib_header->PIBLENGTH = HTOLE16((uint16_t)(LE32TOH(nvm_header->ImageLength)));
 			pibpeek2 ((char *)(memory) + offset);
+			pib_header->PIBLENGTH = 0;
 			break;
 		}
 		if (checksum32 ((char *)(memory) + offset, LE32TOH (nvm_header->ImageLength), nvm_header->ImageChecksum)) 

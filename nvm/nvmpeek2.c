@@ -59,7 +59,8 @@ void nvmpeek2 (void const * memory)
 	printf ("\tEntry Address = 0x%08X\n", LE32TOH (nvm_header->EntryPoint));
 	printf ("\tEntry Version = 0x%04X\n", LE16TOH (nvm_header->AppletEntryVersion));
 	printf ("\tImage Checksum = 0x%08X\n", LE32TOH (nvm_header->ImageChecksum));
-	printf ("\tImage Identity = 0x%04X-0x%04X\n", LE32TOH (nvm_header->Identifier.Id), LE32TOH (nvm_header->Identifier.SubId));
+	printf ("\tImage ModuleID = 0x%04X\n", LE32TOH (nvm_header->ModuleID));
+	printf ("\tImage ModuleSubID = 0x%04X\n", LE32TOH (nvm_header->ModuleSubID));
 	printf ("\tImage Size = 0x%08X (%d)\n", LE32TOH (nvm_header->ImageLength), LE32TOH (nvm_header->ImageLength));
 	if (LE32TOH (nvm_header->ImageType) < NVM_IMAGETYPES) 
 	{

@@ -8,7 +8,7 @@
  *   that do not have it;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Copyright 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
@@ -39,7 +39,7 @@ void error (signed status, errno_t number, char const * format, ...)
 		fprintf (stderr, "%s: ", program_name);
 	}
 
-#if 0
+#if 1
 
 	if ((format) && (*format)) 
 	{

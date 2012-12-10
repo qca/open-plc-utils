@@ -45,6 +45,7 @@
 
 #include "../plc/plc.h"
 #include "../tools/error.h"
+#include "../tools/files.h"
 #include "../key/HPAVKey.h"
 #include "../pib/pib.h"
 
@@ -55,11 +56,11 @@ signed ChangeIdent (struct plc * plc)
 	memset (&simple_pib, 0, sizeof (simple_pib));
 	if (lseek (plc->PIB.file, 0, SEEK_SET)) 
 	{
-		error (1, errno, "Can't rewind %s", plc->PIB.name);
+		error (1, errno, FILE_CANTHOME, plc->PIB.name);
 	}
 	if (read (plc->PIB.file, &simple_pib, sizeof (simple_pib)) != sizeof (simple_pib)) 
 	{
-		error (1, errno, "Can't read header: %s", plc->PIB.name);
+		error (1, errno, FILE_CANTREAD, plc->PIB.name);
 	}
 	memcpy (simple_pib.MAC, plc->MAC, sizeof (simple_pib.MAC));
 	memcpy (simple_pib.DAK, plc->DAK, sizeof (simple_pib.DAK));
@@ -71,24 +72,24 @@ signed ChangeIdent (struct plc * plc)
 	simple_pib.CHECKSUM = 0;
 	if (lseek (plc->PIB.file, 0, SEEK_SET)) 
 	{
-		error (1, errno, "Can't rewind %s", plc->PIB.name);
+		error (1, errno, FILE_CANTHOME, plc->PIB.name);
 	}
 	if (write (plc->PIB.file, &simple_pib, sizeof (simple_pib)) != sizeof (simple_pib)) 
 	{
-		error (1, errno, "Can't write %s", plc->PIB.name);
+		error (1, errno, FILE_CANTSAVE, plc->PIB.name);
 	}
 	if (lseek (plc->PIB.file, 0, SEEK_SET)) 
 	{
-		error (1, errno, "Can't rewind %s", plc->PIB.name);
+		error (1, errno, FILE_CANTHOME, plc->PIB.name);
 	}
 	simple_pib.CHECKSUM = fdchecksum32 (plc->PIB.file, LE16TOH (simple_pib.PIBLENGTH), 0);
 	if (lseek (plc->PIB.file, 0, SEEK_SET)) 
 	{
-		error (1, errno, "Can't rewind %s", plc->PIB.name);
+		error (1, errno, FILE_CANTHOME, plc->PIB.name);
 	}
 	if (write (plc->PIB.file, &simple_pib, sizeof (simple_pib)) != sizeof (simple_pib)) 
 	{
-		error (1, errno, "Can't write %s", plc->PIB.name);
+		error (1, errno, FILE_CANTSAVE, plc->PIB.name);
 	}
 	return (0);
 }

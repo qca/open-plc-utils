@@ -73,7 +73,7 @@ signed Antiphon (struct plc * plc, byte source [], byte target [])
 #pragma pack (pop)
 #endif
 
-	unsigned timeout = channel->timeout;
+	unsigned timer = channel->timer;
 	if (_allclr (plc->flags, PLC_SILENCE)) 
 	{
 		char sourcename [ETHER_ADDR_LEN * 3];
@@ -94,12 +94,12 @@ signed Antiphon (struct plc * plc, byte source [], byte target [])
 	{
 		error (1, errno, CHANNEL_CANTSEND);
 	}
-	channel->timeout = 5000;
+	channel->timer = 5000;
 	if (ReadMME (plc, 0, (VS_FR_LBK | MMTYPE_CNF)) <= 0) 
 	{
 		error (1, errno, CHANNEL_CANTREAD);
 	}
-	channel->timeout = timeout;
+	channel->timer = timer;
 	sleep (plc->timer);
 	return (0);
 }

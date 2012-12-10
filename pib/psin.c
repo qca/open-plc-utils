@@ -34,17 +34,15 @@
  *   is optional, users shall bear sole responsibility and 
  *   liability for any consequences of it's use. 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
- *	Nate Houghton <
+ *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
  *
  *--------------------------------------------------------------------*/
-
-#define _GETOPT_H
 
 /*====================================================================*
  *   system header files;
@@ -141,9 +139,9 @@ signed ar7x00_psin (struct _file_ * pib, uint32_t value, uint32_t index)
  *
  *   signed psin (struct _file_ * pib);
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -240,9 +238,9 @@ static signed psin (struct _file_ * pib)
  *   
  *   int main (int argc, char const * argv []) 
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 

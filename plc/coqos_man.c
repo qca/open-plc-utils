@@ -33,7 +33,6 @@
  *
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
 
 /*====================================================================*"
  *   system header files;
@@ -186,7 +185,7 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 		Request (plc, "COQOS connection information (requesting bandwidth notification)");
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
-		QualcommHeader (&request->qualcomm, 0, (VS_CON_INFO | MMTYPE_REQ));
+		QualcommHeader (&request->qualcomm, 0, (VS_CONN_INFO | MMTYPE_REQ));
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		request->REQ_TYPE = 0x04;
 		request->CID = 0x00;
@@ -197,7 +196,7 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		while (ReadMME (plc, 0, (VS_CON_INFO | MMTYPE_CNF)) <= 0);
+		while (ReadMME (plc, 0, (VS_CONN_INFO | MMTYPE_CNF)) <= 0);
 		if (confirm->MSTATUS) 
 		{
 			Failure (plc, "Could not set up bandwidth notification.");
@@ -217,7 +216,7 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
  * in use.
  */
 
-		while (ReadMME (plc, 0, (VS_CON_INFO | MMTYPE_IND)) <= 0) 
+		while (ReadMME (plc, 0, (VS_CONN_INFO | MMTYPE_IND)) <= 0) 
 		{
 			continue;
 		}
@@ -250,7 +249,7 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 		Request (plc, "COQOS Modify Connection (suspend)");
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
-		QualcommHeader (&request->qualcomm, 0, (VS_MOD_CONN | MMTYPE_REQ));
+		QualcommHeader (&request->qualcomm, 0, (VS_CONN_MOD | MMTYPE_REQ));
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		mc_request->MOD_CTRL = 0x00;
 		mc_request->CID = lowcid;
@@ -259,7 +258,7 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		while (ReadMME (plc, 0, (VS_MOD_CONN | MMTYPE_CNF)) <= 0);
+		while (ReadMME (plc, 0, (VS_CONN_MOD | MMTYPE_CNF)) <= 0);
 		if (mc_confirm->MSTATUS) 
 		{
 			Failure (plc, "Could not suspend stream.");
@@ -270,7 +269,7 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 
 /* flush out old data */
 
-		while (ReadMME (plc, 0, (VS_CON_INFO | MMTYPE_IND)) > 0);
+		while (ReadMME (plc, 0, (VS_CONN_INFO | MMTYPE_IND)) > 0);
 	}
 	return (0);
 }

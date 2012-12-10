@@ -21,11 +21,13 @@ gcc -Wall -Wextra -Wno-unused-parameter -c error.c
 gcc -Wall -Wextra -Wno-unused-parameter -c extra.c
 gcc -Wall -Wextra -Wno-unused-parameter -c fdchecksum32.c
 gcc -Wall -Wextra -Wno-unused-parameter -c getoptv.c
+gcc -Wall -Wextra -Wno-unused-parameter -c getargv.c
 gcc -Wall -Wextra -Wno-unused-parameter -c hexencode.c
 gcc -Wall -Wextra -Wno-unused-parameter -c hexdecode.c
 gcc -Wall -Wextra -Wno-unused-parameter -c hexdump.c
 gcc -Wall -Wextra -Wno-unused-parameter -c hexload.c
 gcc -Wall -Wextra -Wno-unused-parameter -c hexpeek.c
+gcc -Wall -Wextra -Wno-unused-parameter -c hexcopy.c
 gcc -Wall -Wextra -Wno-unused-parameter -c hexstring.c
 gcc -Wall -Wextra -Wno-unused-parameter -c hexview.c
 gcc -Wall -Wextra -Wno-unused-parameter -c hexwrite.c

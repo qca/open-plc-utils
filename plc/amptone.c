@@ -18,7 +18,19 @@
  *   
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
+/*====================================================================*"
+ *
+ *   amptone.c - 
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Charles Maier <cmaier@qualcomm.com>
+ *
+ *--------------------------------------------------------------------*/
+
 
 /*====================================================================*"
  *   system header files;
@@ -166,7 +178,7 @@ int main (int argc, char const * argv [])
 		"p n\tcoupling [" LITERAL (AMPTONE_COUPLING) "]",
 		"q\tquiet mode",
 		"s\tcompute signal-to-noise and bits-per-carrier ratios",
-		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
 		"v\tverbose mode",
 		"x\texit on error",
 		(char const *) (0)
@@ -227,7 +239,7 @@ int main (int argc, char const * argv [])
 			function = SignalToNoise2;
 			break;
 		case 't':
-			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

@@ -29,7 +29,6 @@
  *   Contributor(s):
  *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
  *      Charles Maier <cmaier@qualcomm.com>
- *      Matthieu Poullet <m.poullet@avm.de>
  *
  *--------------------------------------------------------------------*/
 

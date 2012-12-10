@@ -8,7 +8,7 @@ amptone - Qualcomm Atheros Thunderbolt/Lightning Tone Map Dump Utility
 .IR peer 
 .RI [> stdout ]
 .SH DESCRIPTION
-Collect and print device transmit tone map information between a device to a peer device on stdout. The transmit direction is from device to peer.
+Collect and print device TX tone map information between a device to a peer device on stdout. The transmit direction is from device to peer.
 .PP
 Powerline devices cannot compute tone map values unless until some data has passed through them, either to or from the powerline. In most cases, the \fBping\fR utility will generate enough traffic to create a usable tone map. To get a responsive tonemap, one must send more traffic at higher data rates, possibly using \fBttcp\fR or \fBiperf\fR or similar utility.
 .PP

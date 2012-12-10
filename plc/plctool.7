@@ -22,9 +22,6 @@ Read device attributes using VS_OP_ATTRIBUTES. Attributes are short strings and 
 -\fBB \fIaction\fR
 Press the simple connect pushbutton using VS_PB_ENC. The \fBaction\fR can be specified by number 1, 2 or 3 or by symbol "\fBjoin\fR", "\fBleave\fR" or "\fBstatus\fR", respectively. Send action \vB1\fR to both devices that are expected to join. Send action \fB2\fR to each device that is expected to leave the network.
 .TP
--\fBC \fImodule\fR
-Commit (flash) downloaded modules to NVRAM using VS_MOD_NVM. The \fBmodule\fR can be spedified by number 1, 2 or 3 or by symbol "\fBnvm\fR", "\fBpib\fR" or "\fBall\fR", repectively. Module 3 is equivalent to option -\fBF\fR which writes the NVM and PIB together. You cannot force flash NVRAM using this option. Use option -\fBFF\fR to force flash.
-.TP
 -\fBd\fR \fIfilename\fR
 Read Watchdog Report from the device and write it to the named file in binary format using VS_WD_RPT. The report file can be sent to Qualcomm Atheros for technical analysis. No assumptions are made based on filename and no filename convetions are enforced; however, you should use a \fB.log\fR file extension to indicate binary format.
 .TP
@@ -38,7 +35,7 @@ Redirects stderr messages to stdout. Normally, status and error messages are pri
 Read flash memory parameters using VS_GET_NVM. An error will be reported if no flash memory is present. 
 .TP
 .RB - F [ F ]
-Write previously downloaded MAC and PIB to NVRAM using VS_MOD_NVM. Adding a second \fBF\fR here or another -\fBF\fR anywhere on the command line will \fBforce-flash\fR a blank or corrupted NVRAM. Firmware loaded from NVRAM will treat force-flash as an error. This option can be used to create factory settings but cannot be used to change them once created. Subsequent use creates and updates operational settings that can be erased using a factory reset. This option is executed after all others on the command line, except for the -\fBR\fR option.
+Write previously downloaded MAC and PIB to NVRAM using VS_MOD_NVM. Adding a second \fBF\fR here or another -\fBF\fR anywhere on the command line WILL NOT \fBforce-flash\fR a blank or corrupted NVRAM as with programs \fBint6k\fR and \fBamptool\fR. Firmware loaded from NVRAM will treat force-flash as an error. This option can be used to create factory settings but cannot be used to change them once created. Subsequent use creates and updates operational settings that can be erased using a factory reset. This option is executed after all others on the command line, except for the -\fBR\fR option.
 .TP
 .RB - g
 Read multicast group information discovered while IGMP snooping using VS_MULTICAST_INFO.
@@ -57,6 +54,9 @@ Define the Network Membership Key (NMK) value used by options -\fBM\fR or -\fBJ\
 .TP
 -\fBl\fR \fIcount\fR
 Define the number of times that the command will be repeated for each device specified. Normally, you will repeat operations on one device only.
+.TP
+.RB -L
+Read and display powerline link status.
 .TP
 .RB - m
 Read network membership information using VS_NW_INFO. This can be used to determine network configuration. 

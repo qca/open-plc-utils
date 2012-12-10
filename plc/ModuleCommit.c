@@ -23,7 +23,7 @@
  *   signed ModuleCommit (struct plc * plc, uint32_t options);
  *
  *   commit previously downloaded modules to NVM; this action closes
- *   the current module download session; the timeout is temporarily
+ *   the current module download session; the timer is temporarily
  *   set to 10 seconds so that the operation can complete;
  *
  *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
@@ -97,7 +97,7 @@ signed ModuleCommit (struct plc * plc, uint32_t options)
 #pragma pack (pop)
 #endif
 
-	unsigned timeout = channel->timeout;
+	unsigned timer = channel->timer;
 	Request (plc, "Close Session");
 	memset (message, 0, sizeof (* message));
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
@@ -113,14 +113,14 @@ signed ModuleCommit (struct plc * plc, uint32_t options)
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	channel->timeout = PLC_MODULE_WRITE_TIMEOUT;
+	channel->timer = PLC_MODULE_WRITE_TIMEOUT;
 	if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0) 
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
-		channel->timeout = timeout;
+		channel->timer = timer;
 		return (-1);
 	}
-	channel->timeout = timeout;
+	channel->timer = timer;
 	if (confirm->MSTATUS) 
 	{
 		Failure (plc, PLC_WONTDOIT);

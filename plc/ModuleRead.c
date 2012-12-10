@@ -105,9 +105,9 @@ signed ModuleRead (struct plc * plc, struct _file_ * file, uint16_t source, uint
 #pragma pack (pop)
 #endif
 
-	uint32_t offset = 0;
+	unsigned timer = channel->timer;
 	uint16_t length = PLC_MODULE_SIZE;
-	unsigned timeout = channel->timeout;
+	uint32_t offset = 0;
 	Request (plc, "Read Module from %s", source? "Flash": "Memory");
 	if (lseek (file->file, 0, SEEK_SET) == -1) 
 	{
@@ -153,13 +153,13 @@ signed ModuleRead (struct plc * plc, struct _file_ * file, uint16_t source, uint
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		channel->timeout = PLC_MODULE_READ_TIMEOUT;
+		channel->timer = PLC_MODULE_READ_TIMEOUT;
 		if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0) 
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
-		channel->timeout = timeout;
+		channel->timer = timer;
 
 #if 0
 #if defined (__GNUC__)
@@ -188,7 +188,7 @@ signed ModuleRead (struct plc * plc, struct _file_ * file, uint16_t source, uint
 		}
 		length = LE16TOH (confirm->MODULE_SPEC.MODULE_LENGTH);
 		offset = LE32TOH (confirm->MODULE_SPEC.MODULE_OFFSET);
-		if (write (file->file, confirm->MODULE_DATA, length) != length) 
+		if (write (file->file, confirm->MODULE_DATA, length) != (signed)(length)) 
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, FILE_CANTSAVE, file->name);
 			return (-1);

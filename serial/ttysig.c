@@ -29,8 +29,6 @@
  *
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
-
 /*====================================================================*
  *   kernel header files;
  *--------------------------------------------------------------------*/
@@ -130,7 +128,7 @@ int number (char *buf, int *val)
 	if (!isdigit (*buf)) 
 	{
 		error (0, 0, "\"%s\" is not a number", buf);
-		return -1;
+		return (-1);
 	}
 	*val = atoi (buf);
 	p = buf;
@@ -138,9 +136,9 @@ int number (char *buf, int *val)
 	if (*buf != '\0') 
 	{
 		error (0, 0, "\"%s\" is not a number", p);
-		return -1;
+		return (-1);
 	}
-	return 0;
+	return (0);
 }
 
 void interactive (int fd, flag_t flags) 
@@ -275,6 +273,6 @@ int main (int argc, char const ** argv)
 	if (_anyset (flags, TTYSIG_READ_STATUS)) print_status (fd);
 	if (_anyset (flags, TTYSIG_INTERACTIVE)) interactive (fd, flags);
 	close (fd);
-	return 0;
+	return (0);
 }
 

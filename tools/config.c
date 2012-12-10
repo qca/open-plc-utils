@@ -56,6 +56,7 @@
 
 #include "../tools/config.h"
 #include "../tools/types.h"
+#include "../tools/chars.h"
 
 /*====================================================================*
  *   program variables;
@@ -133,7 +134,7 @@ static void collect (FILE * fp)
 				c = '\t';
 			}
 		}
-		if ((cp - buffer) < (sizeof (buffer) - 1)) 
+		if ((cp - buffer) < (signed)(sizeof (buffer) - 1)) 
 		{
 			*cp++ = c;
 		}
@@ -241,7 +242,7 @@ char const * configstring (char const * file, char const * part, char const * it
 				}
 				while (isblank (c));
 				collect (fp);
-				text = strcup (buffer);
+				text = strdup (buffer);
 				break;
 			}
 			break;

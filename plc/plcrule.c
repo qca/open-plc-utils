@@ -23,16 +23,14 @@
  *   int6krule.c - Qualcomm Atheros Message Classification Utility;
  *
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
  *
  *--------------------------------------------------------------------*/
-
-#define _GETOPT_H
 
 /*====================================================================*"
  *   system header files;
@@ -122,7 +120,7 @@
 
 /*====================================================================*
  *
- *   signed Classification (struct plc * plc, struct rule * rule);
+ *   signed Classification (struct plc * plc, struct MMERule * rule);
  *
  *   plc.h
  *
@@ -130,16 +128,16 @@
  *   or permanent network classification rule to a device using a
  *   VS_CLASSIFICATION message;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-signed Classification (struct plc * plc, struct rule * rule) 
+signed Classification (struct plc * plc, struct MMERule * rule) 
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -153,7 +151,7 @@ signed Classification (struct plc * plc, struct rule * rule)
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
-		struct rule rule;
+		struct MMERule rule;
 	}
 	* request = (struct vs_classification_request *)(message);
 	struct __packed vs_classification_confirm 
@@ -198,9 +196,9 @@ signed Classification (struct plc * plc, struct rule * rule)
  *   
  *   int main (int argc, char const * argv[]);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -227,7 +225,7 @@ int main (int argc, char const * argv [])
 
 		"q\tquiet mode",
 		"s\tdisplay symbol tables",
-		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
 		"T x\tinserted vlan tag is x [" LITERAL (INT6KRULE_VLAN_TAG) "]",
 		"v\tverbose mode",
 		"V n\tcspec version is n [" LITERAL (INT6KRULE_CSPEC_VERSION) "]",
@@ -237,7 +235,7 @@ int main (int argc, char const * argv [])
 #include "../plc/plc.c"
 
 	struct cspec cspec;
-	struct rule rule;
+	struct MMERule rule;
 	signed c;
 	memset (&rule, 0, sizeof (rule));
 	memset (&cspec, 0, sizeof (cspec));
@@ -308,7 +306,7 @@ int main (int argc, char const * argv [])
 			printf ("\n");
 			return (0);
 		case 't':
-			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'T':
 			cspec.VLAN_TAG = (uint32_t)(basespec (optarg, 16, sizeof (cspec.VLAN_TAG)));
@@ -320,6 +318,7 @@ int main (int argc, char const * argv [])
 			break;
 		case 'V':
 			cspec.CSPEC_VERSION = (uint16_t)(basespec (optarg, 10, sizeof (cspec.CSPEC_VERSION)));
+			cspec.CSPEC_VERSION = HTOLE16 (cspec.CSPEC_VERSION);
 			break;
 		default:
 			break;

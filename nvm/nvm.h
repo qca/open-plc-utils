@@ -156,6 +156,28 @@
 #define NVM_IMG_RUN "%s applet %d is still running"
 
 /*====================================================================*
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef __GNUC__
+#pragma pack (push,1)
+#endif
+
+struct TLVNode 
+
+{
+	uint32_t type;
+	uint32_t size;
+	uint32_t data;
+}
+
+TLVNode;
+
+#ifndef __GNUC__
+#pragma pack (pop)
+#endif
+
+/*====================================================================*
  *   old nvm image header (44 bytes); 
  *--------------------------------------------------------------------*/
 
@@ -175,8 +197,8 @@ typedef struct __packed nvm_header1
 	uint8_t HEADERMINORVERSION;
 	uint8_t IMAGETYPE;
 	uint16_t IGNOREMASK;
-	uint32_t RESERVED1;
-	uint32_t RESERVED2;
+	uint32_t MODULEID;
+	uint32_t MODULESUBID;
 	uint32_t NEXTHEADER;
 	uint32_t HEADERCHECKSUM;
 }
@@ -209,16 +231,8 @@ typedef struct __packed nvm_header2
 	uint32_t NextHeader;
 	uint32_t PrevHeader;
 	uint32_t ImageType;
-	union 
-	{
-		uint32_t Identifier_AsUint32;
-		struct Identifier 
-		{
-			uint16_t Id;
-			uint16_t SubId;
-		}
-		Identifier;
-	};
+	uint16_t ModuleID;
+	uint16_t ModuleSubID;
 	uint16_t AppletEntryVersion;
 	uint16_t Reserved0;
 	uint32_t Reserved1;
@@ -246,7 +260,7 @@ nvm_header2;
  *--------------------------------------------------------------------*/
 
 signed manifest (void const * memory, size_t extent);
-void * manifetch (void const * memory, ssize_t extent, uint32_t type);
+void * manifetch (void const * memory, size_t extent, uint32_t type);
 signed nvmfile (struct _file_ const *);
 signed nvmfile1 (struct _file_ const *);
 signed nvmfile2 (struct _file_ const *);

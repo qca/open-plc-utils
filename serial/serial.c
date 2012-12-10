@@ -76,6 +76,7 @@ struct command command;
  *
  *   serial.h
  *
+ *   erase the current command by writing 0s;
  *
  *--------------------------------------------------------------------*/
 

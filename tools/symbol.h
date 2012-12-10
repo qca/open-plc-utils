@@ -6,7 +6,7 @@
  *   the original;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Copyright 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
@@ -40,6 +40,7 @@ char const * codename (struct _code_ const list [], size_t size, code_t code, ch
 void codelist (const struct _code_ list [], size_t size, char const * comma, char const * quote, FILE *);
 void typelist (const struct _type_ list [], size_t size, char const * comma, char const * quote, FILE *);
 void termlist (const struct _term_ list [], size_t size, char const * comma, char const * quote, FILE *);
+signed getargv (signed argc, char const * argv []);
 
 /*====================================================================*
  *   

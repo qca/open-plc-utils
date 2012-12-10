@@ -22,17 +22,15 @@
  *
  *   pibruin.c - Atheros Classification Rule Insert Utility;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
  *      Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
-
-#define _GETOPT_H
 
 /*====================================================================*"
  *   system header files;
@@ -88,12 +86,16 @@
 #include "../tools/emalloc.c"
 #include "../tools/todigit.c"
 #include "../tools/codelist.c"
+#include "../tools/getargv.c"
 #include "../tools/error.c"
 #endif
 
 #ifndef MAKEFILE
 #include "../pib/pibfile1.c"
 #include "../pib/piblock.c"
+#if defined (PRINT_RULES) || defined (PRINT_CLASSIFIERS)
+#include "../pib/ruledump.c"
+#endif
 #endif
 
 #ifndef MAKEFILE
@@ -101,89 +103,34 @@
 #endif
 
 #ifndef MAKEFILE
-#include "../plc/rules.c"
 #include "../plc/ParseRule.c"
+#include "../plc/rules.c"
 #endif
 
 /*====================================================================*
  *   program constants;
  *--------------------------------------------------------------------*/
 
-#define PIB_MAX_AUTOCONN 16
-#define PIB_MAX_PRIORITY_MAPS 8
-
 #define PIB_OFFSET1 0x0228
 #define PIB_OFFSET2 0x0760
 
 /*====================================================================*
- *   program variables;
- *--------------------------------------------------------------------*/
-
-#ifndef __GNUC__
-#pragma pack (push,1)
-#endif
-
-typedef struct __packed classifier_pib 
-
-{
-	uint32_t CR_PID;
-	uint32_t CR_OPERAND;
-	uint8_t CR_VALUE [16];
-}
-
-classifier_pib;
-typedef struct __packed auto_connection 
-
-{
-	uint8_t MACTION;
-	uint8_t MOPERAND;
-	uint16_t NUM_CLASSIFIERS;
-	struct classifier_pib CLASSIFIER [3];
-	struct cspec cspec;
-	uint8_t RSVD [14];
-}
-
-auto_connection;
-typedef struct __packed classifier_priority_map 
-
-{
-	uint32_t Priority;
-	struct classifier_pib CLASSIFIER;
-}
-
-classifier_priority_map;
-typedef struct __packed classifiers 
-
-{
-	uint32_t priority_count;
-	uint32_t autoconn_count;
-	struct classifier_priority_map classifier_priority_map [PIB_MAX_PRIORITY_MAPS];
-	struct auto_connection auto_connection [PIB_MAX_AUTOCONN];
-}
-
-classifiers;
-
-#ifndef __GNUC__
-#pragma pack (pop)
-#endif
-
-/*====================================================================*
  *
- *   signed pibimage1 (signed fd, char const * filename, unsigned offset, struct classifiers * classifiers);
+ *   signed pibimage1 (signed fd, char const * filename, unsigned offset, struct PIBClassifiers * classifiers);
  * 
- *   read an entire flat parameter file into memory, edit it, save 
- *   it and display it;
+ *   read thunderbolt/lightning parameter block into memory, edit it 
+ *   and save it;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-static signed pibimage1 (signed fd, char const * filename, unsigned offset, struct classifiers * classifiers) 
+static signed pibimage1 (signed fd, char const * filename, unsigned offset, struct PIBClassifiers * classifiers) 
 
 {
 	struct pib_header * pib_header;
@@ -228,21 +175,21 @@ static signed pibimage1 (signed fd, char const * filename, unsigned offset, stru
 
 /*====================================================================*
  *
- *   signed pibimage2 (signed fd, char const * filename, struct nvm_header2 * nvm_header, unsigned offset, struct classifiers * classifiers);
+ *   signed pibimage2 (signed fd, char const * filename, struct nvm_header2 * nvm_header, unsigned offset, struct PIBClassifiers * classifiers);
  * 
- *   read an entire flat parameter file into memory, edit it, save 
- *   it and display it;
+ *   read panther/lynx parameter block into memory, edit it and save 
+ *   it;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-static signed pibimage2 (signed fd, char const * filename, struct nvm_header2 * nvm_header, unsigned offset, struct classifiers * classifiers) 
+static signed pibimage2 (signed fd, char const * filename, struct nvm_header2 * nvm_header, unsigned offset, struct PIBClassifiers * classifiers) 
 
 {
 	void * memory;
@@ -286,22 +233,23 @@ static signed pibimage2 (signed fd, char const * filename, struct nvm_header2 * 
 	return (0);
 }
 
+
 /*====================================================================*
  *
- *   void make_rule (int argc, char const * argv [], struct classifiers * classifiers);
+ *   void make_rule (int argc, char const * argv [], struct PIBClassifiers * classifiers);
  *
- *   walk argv [] and populate classifiers according to QCA PLC
- *   classifier rules; see programmers guide on VS_CLASSIFICATION
- *   more inforamtion about classification rules; module ParseRule
- *   used here is used in other programs.
+ *   read argv [] and populate struct MMEClassifiers with QCA PLC
+ *   classifier rules; function ParseRule converts each rule to an
+ *   MMERule; we then convert that into one of two formats used to
+ *   store classifier rules in the PIB;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
-static void make_rule (int argc, char const * argv [], struct classifiers * classifiers) 
+static void make_rule (int argc, char const * argv [], struct PIBClassifiers * classifiers) 
 
 {
 	static char const * optv [] = 
@@ -313,7 +261,7 @@ static void make_rule (int argc, char const * argv [], struct classifiers * clas
 		"V\tversion",
 		(char const *) (0)
 	};
-	struct rule rule;
+	struct MMERule rule;
 	struct cspec cspec;
 	signed c;
 	optind = 1;
@@ -329,6 +277,7 @@ static void make_rule (int argc, char const * argv [], struct classifiers * clas
 			break;
 		case 'V':
 			cspec.CSPEC_VERSION = (uint16_t)(basespec (optarg, 10, sizeof (cspec.CSPEC_VERSION)));
+			cspec.CSPEC_VERSION = HTOLE16 (cspec.CSPEC_VERSION);
 			break;
 		default:
 			break;
@@ -336,28 +285,56 @@ static void make_rule (int argc, char const * argv [], struct classifiers * clas
 	}
 	argc -= optind;
 	argv += optind;
+
+#if defined (DUMP_RULE_ARGS)
+
+/*
+ *   print arguments on stdout;
+ */
+
+	for (c = 0; c < argc; c++) 
+	{
+		printf ("argv [%d] = [%s]\n", c, argv [c]);
+	}
+
+#endif
+
 	if ((argc) && (*argv)) 
 	{
 		ParseRule (&argc, &argv, &rule, &cspec);
-		if ((rule.NUM_CLASSIFIERS > 1) || (rule.MACTION == ACTION_STRIPTX) || (rule.MACTION == ACTION_STRIPRX) || (rule.MACTION == ACTION_TAGTX) || (classifiers->priority_count >= PIB_MAX_PRIORITY_MAPS)) 
+
+#if defined (PRINT_RULES) 
+
+/*
+ *   print MMERule set on stdout in human readable format; these rules are populated by ParseRule but members 
+ *   are not PIB ready; they are not properly grouped, byte-aligned or endian-ized;
+ */
+
+		MMERuleDump (&rule);
+
+#endif
+
+		if ((rule.NUM_CLASSIFIERS > 1) || (rule.MACTION == ACTION_STRIPTX) || (rule.MACTION == ACTION_STRIPRX) || (rule.MACTION == ACTION_TAGTX) || (classifiers->priority_count >= RULE_MAX_PRIORITY_MAPS)) 
 		{
 			struct auto_connection * auto_connection;
-			if (classifiers->autoconn_count >= PIB_MAX_AUTOCONN) 
+			if (classifiers->autoconn_count >= RULE_MAX_AUTOCONN) 
 			{
 				error (1, ENOTSUP, "Too many auto connection rules");
 			}
 			auto_connection = &classifiers->auto_connection [classifiers->autoconn_count];
-			auto_connection->CLASSIFIER [0].CR_PID = 0xFF;
-			auto_connection->CLASSIFIER [1].CR_PID = 0xFF;
-			auto_connection->CLASSIFIER [2].CR_PID = 0xFF;
 			auto_connection->MACTION = rule.MACTION;
 			auto_connection->MOPERAND = rule.MOPERAND;
-			auto_connection->NUM_CLASSIFIERS = rule.NUM_CLASSIFIERS;
-			for (c = 0; c < rule.NUM_CLASSIFIERS; ++c) 
+			auto_connection->NUM_CLASSIFIERS = HTOLE16 ((uint16_t)(rule.NUM_CLASSIFIERS));
+			for (c = 0; c < RULE_MAX_CLASSIFIERS; c++) 
 			{
-				auto_connection->CLASSIFIER [c].CR_PID = rule.CLASSIFIER [c].CR_PID;
-				auto_connection->CLASSIFIER [c].CR_OPERAND = rule.CLASSIFIER [c].CR_OPERAND;
-				memcpy (&auto_connection->CLASSIFIER [c].CR_VALUE, &rule.CLASSIFIER [c].CR_VALUE, sizeof (auto_connection->CLASSIFIER [c].CR_VALUE));
+				auto_connection->CLASSIFIER [c].CR_PID = HTOLE32 ((uint32_t)(0xFF));
+				auto_connection->CLASSIFIER [c].CR_OPERAND = HTOLE32 ((uint32_t)(0xFF));
+			}
+			for (c = 0; c < rule.NUM_CLASSIFIERS; c++) 
+			{
+				auto_connection->CLASSIFIER [c].CR_PID = HTOLE32 ((uint32_t)(rule.CLASSIFIER [c].CR_PID));
+				auto_connection->CLASSIFIER [c].CR_OPERAND = HTOLE32 ((uint32_t)(rule.CLASSIFIER [c].CR_OPERAND));
+				memcpy (auto_connection->CLASSIFIER [c].CR_VALUE, rule.CLASSIFIER [c].CR_VALUE, sizeof (auto_connection->CLASSIFIER [c].CR_VALUE));
 			}
 			memcpy (&auto_connection->cspec, &rule.cspec, sizeof (auto_connection->cspec));
 			classifiers->autoconn_count++;
@@ -365,15 +342,15 @@ static void make_rule (int argc, char const * argv [], struct classifiers * clas
 		else 
 		{
 			struct classifier_priority_map * classifier_priority_map;
-			if (classifiers->priority_count >= PIB_MAX_PRIORITY_MAPS) 
+			if (classifiers->priority_count >= RULE_MAX_PRIORITY_MAPS) 
 			{
 				error (1, ENOTSUP, "Too many priority map rules");
 			}
 			classifier_priority_map = &classifiers->classifier_priority_map [classifiers->priority_count];
-			classifier_priority_map->Priority = rule.MACTION;
-			classifier_priority_map->CLASSIFIER.CR_PID = rule.CLASSIFIER [0].CR_PID;
-			classifier_priority_map->CLASSIFIER.CR_OPERAND = rule.CLASSIFIER [0].CR_OPERAND;
-			memcpy (&classifier_priority_map->CLASSIFIER.CR_VALUE, &rule.CLASSIFIER [0].CR_VALUE, sizeof (classifier_priority_map->CLASSIFIER.CR_VALUE));
+			classifier_priority_map->Priority = HTOLE32 ((uint32_t)(rule.MACTION));
+			classifier_priority_map->CLASSIFIER.CR_PID = HTOLE32 ((uint32_t)(rule.CLASSIFIER [0].CR_PID));
+			classifier_priority_map->CLASSIFIER.CR_OPERAND = HTOLE32 ((uint32_t)(rule.CLASSIFIER [0].CR_OPERAND));
+			memcpy (classifier_priority_map->CLASSIFIER.CR_VALUE, rule.CLASSIFIER [0].CR_VALUE, sizeof (classifier_priority_map->CLASSIFIER.CR_VALUE));
 			classifiers->priority_count++;
 		}
 	}
@@ -382,98 +359,18 @@ static void make_rule (int argc, char const * argv [], struct classifiers * clas
 
 
 /*====================================================================*
- *
- *   size_t getargs (char const * vector [], size_t length)
- *
- *   read one line from stdin; fill vector with fields from that
- *   line; return the number of fields found; ignore blank lines 
- *   and script style comment lines; this implementation inserts
- *   a program name at vector [0] to look like a true argv [];
- *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
- *
- *--------------------------------------------------------------------*/
-
-static size_t getargs (char const * vector [], size_t length) 
-
-{
-	extern char const * program_name;
-	char const ** vp = vector;
-	char string [1024];
-	char * sp = string;
-	signed c = getc (stdin);
-	memset (vector, 0, length * sizeof (char const *));
-	while (nobreak (c)) 
-	{
-		if (isspace (c)) 
-		{
-			do 
-			{
-				c = getc (stdin);
-			}
-			while (isspace (c));
-		}
-		if (c == '#') 
-		{
-			do 
-			{
-				c = getc (stdin);
-			}
-			while (nobreak (c));
-			c = getc (stdin);
-			continue;
-		}
-		*vp++ = program_name;
-		*vp++ = sp = string;
-		while (nobreak (c)) 
-		{
-			if (c == '#') 
-			{
-				do 
-				{
-					c = getc (stdin);
-				}
-				while (nobreak (c));
-				break;
-			}
-			if (isblank (c)) 
-			{
-				c = (char)(0);
-				*vp = sp + 1;
-			}
-			else if (sp == *vp) 
-			{
-				if ((size_t)(vp - vector) < length)
-				{
-					vp++;
-				}
-			}
-			*sp++ = c;
-			c = getc (stdin);
-		}
-		*vp = (char const *)(0);
-		*sp = (char)(0);
-	}
-	return ((size_t)(vp - vector));
-}
-
-
-/*====================================================================*
  *   
  *   int main (int argc, char const * argv[]);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
 int main (int argc, char const * argv []) 
 
 {
-	extern char const * program_name;
 	static char const * optv [] = 
 	{
 		"eo:qv",
@@ -485,13 +382,13 @@ int main (int argc, char const * argv [])
 		"v\tverbose mode",
 		(char const *) (0)
 	};
-	struct classifiers classifiers;
+	struct PIBClassifiers classifiers;
 	char const * vector [24];
-	uint32_t offset;
+	uint32_t offset = 0;
 	uint32_t version;
 	signed status;
 	signed fd;
-	size_t count;
+	signed count;
 	flag_t flags = (flag_t)(0);
 	signed c;
 	optind = 1;
@@ -518,10 +415,30 @@ int main (int argc, char const * argv [])
 	argc -= optind;
 	argv += optind;
 	memset (&classifiers, 0, sizeof (classifiers));
-	while ((count = getargs (vector, SIZEOF (vector)))) 
+	while ((count = getargv (SIZEOF (vector), vector))) 
 	{
 		make_rule (count, vector, &classifiers);
 	}
+	classifiers.priority_count = HTOLE32 (classifiers.priority_count);
+	classifiers.autoconn_count = HTOLE32 (classifiers.autoconn_count);
+
+#if defined (PRINT_CLASSIFIERS)
+
+/*
+ *   print PIB-ready classification rules on stdout in human readable format; these rules are written
+ *   directly into the appropriate location in the PIB as a single block; 
+ */
+
+	PIBClassifiersDump (&classifiers);
+
+#endif
+
+#if defined (WRITE_CLASSIFIERS)
+
+	write (STDOUT_FILENO, &classifiers, sizeof (classifiers));
+
+#endif
+
 	while ((argc) && (*argv)) 
 	{
 		status = 0;

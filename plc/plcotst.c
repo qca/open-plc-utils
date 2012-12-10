@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros
+ *   Copyright (c) 2011, Atheros Communications Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -30,8 +30,6 @@
  *      Charles Maier <cmaier@qualcomm.com>
  *
  *--------------------------------------------------------------------*/
-
-#define _GETOPT_H
 
 /*====================================================================*"
  *   system header files;
@@ -139,9 +137,9 @@ selftest;
  *   
  *   signed configure (struct plc * plc, struct selftest * selftest);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -212,9 +210,9 @@ static signed configure (struct plc * plc, struct selftest * selftest)
  *   
  *   signed retrieve (struct plc * plc, struct selftest * selftest);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -289,9 +287,9 @@ static signed retrieve (struct plc * plc, struct selftest * selftest)
  *
  *   signed manager (struct plc * plc, struct selftest * selftest);
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -314,9 +312,9 @@ static signed manager (struct plc * plc, struct selftest * selftest)
  *   
  *   int main (int argc, char const * argv[]);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -349,7 +347,7 @@ int main (int argc, char const * argv [])
 		"q\tquiet mode",
 		"r n\trun selftest after reset [" LITERAL (PLCOTST_RUNAFTERRESET) "]",
 		"R n\treset after selftest completes [" LITERAL (PLCOTST_RESETONDONE) "]",
-		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
 		"v\tverbose mode",
 		"x\texit on error",
 		(char const *) (0)
@@ -424,7 +422,7 @@ int main (int argc, char const * argv [])
 			selftest.RESETONDONE = (uint8_t)(uintspec (optarg, false, true));
 			break;
 		case 't':
-			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

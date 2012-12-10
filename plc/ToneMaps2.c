@@ -153,7 +153,7 @@ signed ToneMaps2 (struct plc * plc)
 	{
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
-		FragmentHeader (&request->qualcomm, 1, (VS_TONEMAP_CHAR | MMTYPE_REQ));
+		FragmentHeader (&request->qualcomm, 1, (VS_TONE_MAP_CHAR | MMTYPE_REQ));
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		memcpy (request->MACADDRESS, plc->RDA, sizeof (request->MACADDRESS));
 		request->TMSLOT = slot;
@@ -163,14 +163,14 @@ signed ToneMaps2 (struct plc * plc)
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		if (ReadMME (plc, 1, (VS_TONEMAP_CHAR | MMTYPE_CNF)) <= 0) 
+		if (ReadMME (plc, 1, (VS_TONE_MAP_CHAR | MMTYPE_CNF)) <= 0) 
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
 		if (confirm->MSTATUS) 
 		{
-			error (1, 0, "Device refused request for slot %d: %s", slot, MMECode (VS_TONEMAP_CHAR | MMTYPE_CNF, confirm->MSTATUS));
+			error (1, 0, "Device refused request for slot %d: %s", slot, MMECode (VS_TONE_MAP_CHAR | MMTYPE_CNF, confirm->MSTATUS));
 		}
 		carriers = LE16TOH (confirm->header.TMNUMACTCARRIERS);
 		slots = confirm->header.NUMTMS;
@@ -190,7 +190,7 @@ signed ToneMaps2 (struct plc * plc)
 		extent -= plc->packetsize;
 		while (extent) 
 		{
-			if (ReadMME (plc, 1, (VS_TONEMAP_CHAR | MMTYPE_CNF)) <= 0) 
+			if (ReadMME (plc, 1, (VS_TONE_MAP_CHAR | MMTYPE_CNF)) <= 0) 
 			{
 				error (1, errno, CHANNEL_CANTREAD);
 			}

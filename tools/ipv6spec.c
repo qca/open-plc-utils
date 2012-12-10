@@ -10,7 +10,7 @@
  *   one or more 0000 fields;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Copyright 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
@@ -102,9 +102,6 @@ size_t ipv6spec (char const * string, void * memory)
 
 #if 0
 #include <stdio.h>
-#include "../tools/hexdecode.c"
-#include "../tools/todigit.c"
-#include "../tools/error.c"
 
 char const * program_name = "ipv6spec";
 int main (int argc, char * argv []) 

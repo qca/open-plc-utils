@@ -111,7 +111,7 @@ signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, stru
 #pragma pack (pop)
 #endif
 
-	unsigned timeout = channel->timeout;
+	unsigned timer = channel->timer;
 	uint16_t length = PLC_MODULE_SIZE;
 	uint32_t extent = vs_module_spec->MODULE_LENGTH;
 	uint32_t offset = 0;
@@ -140,7 +140,7 @@ signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, stru
 		request->MODULE_SPEC.MODULE_LENGTH = HTOLE16 (length);
 		request->MODULE_SPEC.MODULE_OFFSET = HTOLE32 (offset);
 
-#if 0
+#if 1
 
 		fprintf (stderr, "RESERVED 0x%08X\n", LE32TOH (request->RESERVED));
 		fprintf (stderr, "NUM_OP_DATA %d\n", request->NUM_OP_DATA);
@@ -159,16 +159,16 @@ signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, stru
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		channel->timeout = PLC_MODULE_WRITE_TIMEOUT;
+		channel->timer = PLC_MODULE_WRITE_TIMEOUT;
 		if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0) 
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
-			channel->timeout = timeout;
+			channel->timer = timer;
 			return (-1);
 		}
-		channel->timeout = timeout;
+		channel->timer = timer;
 
-#if 0
+#if 1
 
 		fprintf (stderr, "MSTATUS 0x%04X\n", LE16TOH (confirm->MSTATUS));
 		fprintf (stderr, "ERROR_REC_CODE %d\n", LE16TOH (confirm->ERR_REC_CODE));
@@ -204,7 +204,6 @@ signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, stru
 	}
 	return (0);
 }
-
 
 #endif
 

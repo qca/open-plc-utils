@@ -48,7 +48,7 @@ Select the host Ethernet interface. All requests are sent via this host interfac
 Read the device PIB header using VS_RD_MOD and print the firmware major revision number, PIB minor revision number, Device Access Key (DAK), Network Membership Key (NMK), MAC address and other information on stdout.
 .TP
 -\fBJ \fIxx:xx:xx:xx:xx:xx\fR
-Set the Network Membership Key (NMK) on a remote device using VS_SET_KEY. This option is similar to option -\fBK\fR but requires the remote device MAC and DAK in addition to the NMK and local device MAC address. The NMK value is defined using option -\fBK\fR unless you want to use the default value. The remote DAK is defined using option -\fBD\fR unless you want to use the default value. Programming remote device keys is complicated. It is often easier to connect the device directly to the host and use the -\fBK\fR option.
+Set the Network Membership Key (NMK) on the remote device, specified by MAC, using VS_SET_KEY. This option is similar to option -\fBK\fR but requires the remote device MAC and DAK in addition to the NMK and local device MAC address. The NMK value is defined using option -\fBK\fR unless you want to use the default value. The remote DAK is defined using option -\fBD\fR unless you want to use the default value. Programming remote device keys is complicated. It is often easier to connect the device directly to the host and use the -\fBK\fR option.
 .TP
 -\fBK\fR \fIxx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx\fR
 Define the Network Membership Key (NMK) value used by options -\fBM\fR or -\fBJ\fR. The symbolic names "\fBkey1\fR" and "\fBkey2\fR" are recognized as described in the \fBKEY\fR section.

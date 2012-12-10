@@ -28,7 +28,7 @@
  *
  *   boot a powerline device by writing parameters and firmware into
  *   memory and starting execution; this function may be called when
- *   a VS_HST_ACTION.IND is received with HOST_ACTION_REQ set to 0;
+ *   a VS_HOST_ACTION.IND is received with HOST_ACTION_REQ set to 0;
  *
  *   this implementation handles both old and new image file formats;
  *   call BootDevice1 or BootDevice2 directly if you know which file

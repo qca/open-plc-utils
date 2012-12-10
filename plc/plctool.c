@@ -18,7 +18,19 @@
  *   
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
+/*====================================================================*"
+ *
+ *   plctool.c -
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Charles Maier <cmaier@qualcomm.com>
+ *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
+ *
+ *--------------------------------------------------------------------*/
 
 /*====================================================================*"
  *   system header files;
@@ -70,6 +82,7 @@
 #include "../plc/Identity.c"
 #include "../plc/Identity1.c"
 #include "../plc/Identity2.c"
+#include "../plc/LinkStatus.c"
 #include "../plc/ModuleCommit.c"
 #include "../plc/ModuleRead.c"
 #include "../plc/ModuleSession.c"
@@ -202,9 +215,9 @@ static const struct _term_ buttons [] =
  *   shown here; the entire operation sequence can be repeated with
  *   an optional pause between each iteration;
  * 
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -213,6 +226,10 @@ static void manager (struct plc * plc, signed count, signed pause)
 {
 	while (count--) 
 	{
+		if (_anyset (plc->flags, PLC_LINK_STATUS)) 
+		{
+			LinkStatus (plc);
+		}
 		if (_anyset (plc->flags, PLC_VERSION)) 
 		{
 			VersionInfo2 (plc);
@@ -304,9 +321,9 @@ static void manager (struct plc * plc, signed count, signed pause)
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -314,10 +331,10 @@ int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	extern const struct key keys [];
+	extern struct key const keys [];
 	static char const * optv [] = 
 	{
-		"abB:d:D:efFHi:IJ:K:l:mMn:N:p:P:QqrRS:t:Tvw:x",
+		"abB:d:D:efFHi:IJ:K:l:LmMn:N:p:P:QqrRS:t:Tvw:x",
 		"device [device] [...]",
 		"Qualcomm Atheros Panther/Lynx Powerline Device Manager",
 		"a\tread Device Attributes using VS_OP_ATTRIBUTES",
@@ -327,7 +344,7 @@ int main (int argc, char const * argv [])
 		"e\tredirect stderr to stdout",
 		"f\tread NVRAM Configuration using VS_GET_NVM",
 		"F[F]\tflash [force] parameters and/or firmware using VS_MODULE_OPERATION",
-		"H\tstop host action requests using VS_HST_ACTION.IND",
+		"H\tstop host action requests using VS_HOST_ACTION.IND",
 
 #if defined (WINPCAP) || defined (LIBPCAP)
 
@@ -343,6 +360,7 @@ int main (int argc, char const * argv [])
 		"J x\tset NMK on remote device (x) via local device using VS_SET_KEY (see -K)",
 		"K x\tNetwork Membership Key (NMK) is (x) [" NMK1 "]",
 		"l n\tloop (n) times [" LITERAL (PLCTOOL_LOOP) "]",
+		"L\tdisplay link status",
 		"m\tread network membership information using VS_NW_INFO",
 		"M\tset NMK on local device using VS_SET_KEY (see -K)",
 		"n f\tread NVM from SDRAM to file (f) using VS_MODULE_OPERATION",
@@ -354,7 +372,7 @@ int main (int argc, char const * argv [])
 		"r\tread hardware and firmware revision using VS_SW_VER",
 		"R\treset device using VS_RS_DEV",
 		"S f\twrite softloader file (f) to flash memory using VS_MODULE_OPERATION",
-		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
 		"T\trestore factory defaults using VS_FAC_DEFAULTS",
 		"v\tverbose mode",
 		"w n\tpause (n) seconds [" LITERAL (PLCTOOL_WAIT) "]",
@@ -503,6 +521,9 @@ int main (int argc, char const * argv [])
 		case 'l':
 			loop = (unsigned)(uintspec (optarg, 0, UINT_MAX));
 			break;
+		case 'L':
+			_setbits (plc.flags, PLC_LINK_STATUS);
+			break;
 		case 'm':
 			_setbits (plc.flags, PLC_NETWORK);
 			break;
@@ -601,7 +622,7 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_FLASH_DEVICE);
 			break;
 		case 't':
-			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'T':
 			_setbits (plc.flags, PLC_FACTORY_DEFAULTS);

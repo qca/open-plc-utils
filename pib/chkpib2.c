@@ -18,7 +18,18 @@
  *   
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
+/*====================================================================*"
+ *
+ *   chkpib2.c
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Charles Maier <cmaier@qualcomm.com>
+ *
+ *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *   system header files;
@@ -81,15 +92,14 @@
  *
  *   signed pibimage1 (void const * memory, size_t extent, char const * filename, flag_t flags);
  *
- *   check memory resident PIB image; set the found flag to indicate 
- *   that a PIB was found in the chain; return 0 for a good PIB and
- *   -1 for an bad PIB; 
+ *   check memory-resident thunderbolt/lightning PIB image; return 0 
+ *   for a good image and -1 for a bad image; 
  *
  *   the check performed here is not exhaustive but it is adequate;   
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -146,14 +156,14 @@ static signed pibimage1 (void const * memory, size_t extent, char const * filena
  *
  *   signed pibimage2 (void const * memory, size_t extent, char const * filename, flag_t flags);
  *
- *   check memory resident PIB image; return 0 for a good image and
- *   -1 for an bad image; 
+ *   check memory-resident panther/lynx PIB image; return 0 for a 
+ *   good image and -1 for an bad image; 
  *
  *   the check performed here is not exhaustive but it is adequate;   
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -164,9 +174,11 @@ static signed pibimage2 (void const * memory, size_t extent, char const * filena
 
 {
 	struct simple_pib * simple_pib = (struct simple_pib *)(memory);
+	struct pib_header * pib_header = (struct pib_header *)(memory);
 	uint8_t NID [HPAVKEY_NID_LEN];
 	if (_anyset (flags, PIB_VERBOSE)) 
 	{
+		pib_header->PIBLENGTH = HTOLE16(extent);
 		printf ("------- %s -------\n", filename);
 		if (pibpeek2 (memory)) 
 		{
@@ -176,6 +188,7 @@ static signed pibimage2 (void const * memory, size_t extent, char const * filena
 			}
 			return (-1);
 		}
+		memset (pib_header, 0, sizeof (* pib_header));
 	}
 	HPAVKeyNID (NID, simple_pib->NMK, simple_pib->PreferredNID [HPAVKEY_NID_LEN-1] >> 4);
 	if (memcmp (NID, simple_pib->PreferredNID, sizeof (NID))) 
@@ -201,9 +214,9 @@ static signed pibimage2 (void const * memory, size_t extent, char const * filena
  *   this implementation reads the parameter block from file into
  *   into memory and checks it there;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -214,9 +227,9 @@ static signed pibchain2 (void const * memory, size_t extent, char const * filena
 
 {
 	struct nvm_header2 * nvm_header;
-	size_t origin = ~0;
-	size_t offset = 0;
-	signed module = 0;
+	uint32_t origin = ~0;
+	uint32_t offset = 0;
+	unsigned module = 0;
 	do 
 	{
 		nvm_header = (struct nvm_header2 *)((char *)(memory) + offset);
@@ -281,7 +294,7 @@ static signed pibchain2 (void const * memory, size_t extent, char const * filena
 		module++;
 	}
 	while (~nvm_header->NextHeader);
-	if (extent)
+	if (extent) 
 	{
 		if (_allclr (flags, NVM_SILENCE)) 
 		{
@@ -298,9 +311,9 @@ static signed pibchain2 (void const * memory, size_t extent, char const * filena
  *
  *   signed chkpib (char const * filename, flag_t flags);
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -381,9 +394,9 @@ static signed chkpib (char const * filename, flag_t flags)
  *   int main (int argc, char const * argv []);
  *
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>

@@ -50,6 +50,7 @@
 #include "../plc/plc.h"
 #include "../tools/error.h"
 #include "../tools/flags.h"
+#include "../tools/files.h"
 #include "../tools/memory.h"
 #include "../tools/format.h"
 
@@ -115,7 +116,7 @@ signed WatchdogReport (struct plc * plc)
 		}
 		if (write (plc->rpt.file, indicate->RDATA + indicate->RDATAOFFSET, LE16TOH (indicate->RDATALENGTH)) != LE16TOH (indicate->RDATALENGTH)) 
 		{
-			Failure (plc, "Can't write %s", plc->rpt.name);
+			Failure (plc, FILE_CANTSAVE, plc->rpt.name);
 			return (-1);
 		}
 	}

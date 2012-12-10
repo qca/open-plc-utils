@@ -139,7 +139,7 @@ ssize_t read_serial (struct serial *s, void *buf, size_t nbytes)
 
 #else
 
-	return read (s->fd, buf, nbytes);
+	return (read (s->fd, buf, nbytes));
 
 #endif
 
@@ -159,7 +159,7 @@ ssize_t write_serial (struct serial *s, void *buf, size_t nbytes)
 
 #else
 
-	return write (s->fd, buf, nbytes);
+	return (write (s->fd, buf, nbytes));
 
 #endif
 
@@ -174,19 +174,19 @@ int open_serial (char const *file, struct serial *s)
 	s->h = CreateFile (file, GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 	if (s->h == INVALID_HANDLE_VALUE) 
 	{
-		return -1;
+		return (-1);
 	}
 
 #else
 
 	if ((s->fd = open (file, O_RDWR)) == -1) 
 	{
-		return -1;
+		return (-1);
 	}
 
 #endif
 
-	return 0;
+	return (0);
 }
 
 int close_serial (struct serial *s) 
@@ -200,7 +200,7 @@ int close_serial (struct serial *s)
 
 #else
 
-	return close (s->fd);
+	return (close (s->fd));
 
 #endif
 
@@ -218,7 +218,7 @@ int set_serial (struct serial *s, struct serial_mode *serial_mode)
 	dcbSerial.DCBlength = sizeof (dcbSerial);
 	if (!GetCommState (s->h, &dcbSerial)) 
 	{
-		return -1;
+		return (-1);
 	}
 	dcbSerial.BaudRate = serial_mode->baud_rate;
 	dcbSerial.ByteSize = serial_mode->data_bits;
@@ -253,7 +253,7 @@ int set_serial (struct serial *s, struct serial_mode *serial_mode)
 	if (!SetCommState (s->h, &dcbSerial)) 
 	{
 		error (0, 0, "could not set serial port settings");
-		return -1;
+		return (-1);
 	}
 	timeouts.ReadIntervalTimeout = 0;
 	timeouts.ReadTotalTimeoutConstant = 10;
@@ -262,7 +262,7 @@ int set_serial (struct serial *s, struct serial_mode *serial_mode)
 	timeouts.WriteTotalTimeoutMultiplier = 10;
 	if (!SetCommTimeouts (s->h, &timeouts)) 
 	{
-		return -1;
+		return (-1);
 	}
 
 #else
@@ -319,7 +319,7 @@ int set_serial (struct serial *s, struct serial_mode *serial_mode)
 	if (baudrate (serial_mode->baud_rate, &speed) == -1) 
 	{
 		error (0, 0, "warning: unsupported baud rate: %d", serial_mode->baud_rate);
-		return -1;
+		return (-1);
 	}
 	if (cfsetspeed (&termios, speed) == -1) error (1, 0, "could not set serial baud rate");
 	termios.c_cc [VTIME] = 1;
@@ -328,7 +328,7 @@ int set_serial (struct serial *s, struct serial_mode *serial_mode)
 
 #endif
 
-	return 0;
+	return (0);
 }
 
 int at_cmd (struct serial *s) 
@@ -342,7 +342,7 @@ int at_cmd (struct serial *s)
 	if (r < 0) return -1;
 	else if (r == 0) return -1;
 	if (!strcmp (buf, "OK\r")) return 0;
-	return -1;
+	return (-1);
 }
 
 void wakeup (struct serial *s) 
@@ -368,11 +368,11 @@ int try_serial_mode (struct serial *s, struct serial_mode *serial_mode, flag_t f
 	if (set_serial (s, serial_mode) == -1) 
 	{
 		error (0, 0, "could not set serial_mode");
-		return -1;
+		return (-1);
 	}
 	if (!_anyset (flags, INT6KDETECT_CMD_MODE)) wakeup (s);
 	at_cmd (s);
-	return at_cmd (s);
+	return (at_cmd (s));
 }
 
 int detect (struct serial *s, struct serial_mode *serial_mode, flag_t flags) 
@@ -424,14 +424,14 @@ int detect (struct serial *s, struct serial_mode *serial_mode, flag_t flags)
 					if (!try_serial_mode (s, serial_mode, flags)) 
 					{
 						if (!_anyset (flags, INT6KDETECT_QUIET)) printf ("\n");
-						return 0;
+						return (0);
 					}
 				}
 			}
 		}
 	}
 	if (!_anyset (flags, INT6KDETECT_QUIET)) printf ("\n");
-	return -1;
+	return (-1);
 }
 
 int main (int argc, char const * argv []) 
@@ -478,6 +478,6 @@ int main (int argc, char const * argv [])
 	printf ("Detected the following serial mode:\n");
 	dump_serial_mode (&serial_mode);
 	close_serial (&serial);
-	return 0;
+	return (0);
 }
 

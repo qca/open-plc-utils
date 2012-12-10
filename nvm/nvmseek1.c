@@ -52,7 +52,7 @@
 signed nvmseek1 (signed fd, char const * filename, struct nvm_header1 * nvm_header, uint32_t imagetype)
 
 {
-	signed module = 0;
+	unsigned module = 0;
 	do 
 	{
 		if (read (fd, nvm_header, sizeof (* nvm_header)) != sizeof (* nvm_header)) 

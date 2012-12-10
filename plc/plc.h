@@ -159,6 +159,7 @@
 #define PLC_WATCHDOG_REPORT   (1 << 28)
 #define PLC_RESULTS           PLC_WATCHDOG_REPORT /* plcotst */
 #define PLC_HOST_ACTION       (1 << 29)
+#define PLC_LINK_STATUS       PLC_HOST_ACTION
 #define PLC_MULTICAST_INFO    (1 << 30)
 #define PLC_RX_TONEMAPS       PLC_HOST_ACTION /* plcstat */
 
@@ -356,7 +357,7 @@ signed InitDevice (struct plc *);
 signed InitDevice1 (struct plc *);
 signed InitDevice2 (struct plc *);
 signed LinkStatistics (struct plc *);
-signed LinkStats (struct plc *);
+signed LinkStatus (struct plc *);
 signed ListLocalDevices (struct plc * plc, char const * space, char const * comma);
 signed LocalTrafficSend (struct plc * plc);
 signed Antiphon (struct plc * plc, uint8_t osa [], uint8_t oda []);
@@ -390,7 +391,6 @@ signed PushButton (struct plc *);
 signed ReadFMI (struct plc *, uint8_t MMV, uint16_t MMTYPE);
 signed ReadMFG (struct plc *, uint8_t MMV, uint16_t MMTYPE);
 signed ReadMME (struct plc *, uint8_t MMV, uint16_t MMTYPE);
-signed ReadMessage (struct plc *, uint8_t MMV, uint16_t MMTYPE, signed func (void const *, uint8_t, uint16_t));
 signed ReadFirmware (struct plc *);
 signed ReadFirmware1 (struct plc *);
 signed ReadFirmware2 (struct plc *);
@@ -539,7 +539,8 @@ typedef struct __packed plctopology
 pcltopology;
 
 /*====================================================================*
- *   functions that use struct channel instead of struct plc; 
+ *   functions that use struct channel and struct message directly
+ *   instead of struct plc; 
  *--------------------------------------------------------------------*/
 
 signed FlashMOD (struct channel *, uint8_t module);
@@ -551,6 +552,13 @@ signed PLCReadParameterBlock (struct channel *, struct message *, void * memory,
 signed PLCReadFirmwareImage (struct channel *, struct message *, void * memory, size_t extent);
 signed PLCTopology (struct channel *, struct message *, struct plctopology *);
 signed PLCTopologyPrint (struct plctopology *);
+
+/*====================================================================*
+ *   
+ *--------------------------------------------------------------------*/
+
+ssize_t sendmessage (struct channel *, struct message *, ssize_t length);
+ssize_t readmessage (struct channel *, struct message *, uint8_t MMV, uint16_t MMTYPE);
 
 /*====================================================================*
  *   vs_module_spec message;

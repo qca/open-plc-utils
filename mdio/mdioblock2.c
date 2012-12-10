@@ -18,6 +18,19 @@
  *   
  *--------------------------------------------------------------------*/
 
+/*====================================================================*"
+ *
+ *   mdioblock2.c
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Charles Maier <cmaier@qualcomm.com>
+ *
+ *--------------------------------------------------------------------*/
+
 /*====================================================================*
  *   system header files;
  *--------------------------------------------------------------------*/
@@ -260,6 +273,13 @@ int main (int argc, const char * argv [])
 	{
 		error (1, ECANCELED, "stdout must be a file or pipe");
 	}
+
+#if defined (WIN32)
+
+	setmode (STDOUT_FILENO, O_BINARY);
+
+#endif
+
 	instr = MDIO16_START (1, 0, count);
 	write (STDOUT_FILENO, &instr, sizeof (instr));
 	if (!argc) 

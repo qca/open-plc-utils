@@ -99,7 +99,8 @@ struct channel channel =
 #endif
 
 	CHANNEL_TIMEOUT,
-	CHANNEL_OPTIONS
+	CHANNEL_TIMER,
+	CHANNEL_FLAGS
 };
 
 

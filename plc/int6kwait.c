@@ -33,7 +33,6 @@
  *
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
 
 /*====================================================================*"
  *   system header files;
@@ -196,7 +195,7 @@ signed ResetAndWait (struct plc * plc)
  *   plc.h
  *
  *   send and receive VS_SW_VER messages until a confirmation is not
- *   received within channel->timeout milliseconds to indicate that 
+ *   received within channel->timer milliseconds to indicate that 
  *   the device is inactive; return 0 if the device resets within 
  *   plc->timer seconds; otherwise, return -1; 
  *
@@ -294,7 +293,7 @@ signed WaitForReset (struct plc * plc, char string [], size_t length)
  *   plc.h
  *
  *   send VS_SW_VER messages until confirmation is received within
- *   channel->timeout milliseconds to indicate that the device is 
+ *   channel->timer milliseconds to indicate that the device is 
  *   active; return 0 if the device responds within plc->timer 
  *   seconds; otherwise, return -1;
  *

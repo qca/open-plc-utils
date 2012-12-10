@@ -1,10 +1,10 @@
-/*====================================================================*:wq
+/*====================================================================*
  *
  *   chars.h - character selection and matcing macros; 
  *
- *.  published 2003 by charles maier associates limited for internal use;
- *:  modified sun 07 sep 03 by user root on host zeus;
- *;  compiled for debian gnu/linux using gcc compiler;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 

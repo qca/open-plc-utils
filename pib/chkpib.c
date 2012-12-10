@@ -18,7 +18,18 @@
  *   
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
+/*====================================================================*"
+ *
+ *   chkpib.c -
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Charles Maier <cmaier@qualcomm.com>
+ *
+ *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *   system header files;
@@ -82,18 +93,15 @@
  *
  *   signed pibimage1 (signed fd, char const * filename, flag_t flags);
  *
- *   validate a disk-resident PIB image; read the header the verify
- *   the checksum and preferred Network Identifuier (NID); return 0
- *   on success or -1 on error; 
+ *   validate a disk-resident lightning/thunderbolt PIB image; read 
+ *   the header then verify the checksum and preferred Network 
+ *   Identifier (NID); return 0 on success or -1 on error; 
  *
  *   this is not a thorough check but it detects non-PIB images;
  *
- *   another function will be required to handle panther/lynx PIBs
- *   once their structure has been defined;
- *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -158,18 +166,15 @@ static signed pibimage1 (signed fd, char const * filename, flag_t flags)
  *
  *   signed pibimage2 (signed fd, char const * filename, uint32_t length, uint32_t checksum, flag_t flags);
  *
- *   validate a disk-resident PIB image; read the header the verify
- *   the checksum and preferred Network Identifuier (NID); return 0
- *   on success or -1 on error; 
+ *   validate a disk-resident panther/lynxPIB image; read the header 
+ *   then verify the checksum and preferred Network Identifuier (NID); 
+ *   return 0 on success or -1 on error; 
  *
  *   this is not a thorough check but it detects non-PIB images;
  *
- *   another function will be required to handle panther/lynx PIBs
- *   once their structure has been defined;
- *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -180,7 +185,9 @@ static signed pibimage2 (signed fd, char const * filename, uint32_t length, uint
 
 {
 	struct simple_pib simple_pib;
+	struct pib_header pib_header;
 	uint8_t NID [HPAVKEY_NID_LEN];
+	memset (&pib_header, 0, sizeof (pib_header));
 	if (read (fd, &simple_pib, sizeof (simple_pib)) != sizeof (simple_pib)) 
 	{
 		if (_allclr (flags, PIB_SILENCE)) 
@@ -191,6 +198,8 @@ static signed pibimage2 (signed fd, char const * filename, uint32_t length, uint
 	}
 	if (_anyset (flags, PIB_VERBOSE)) 
 	{
+		struct pib_header * pib_header = (struct pib_header *)(&simple_pib);
+		pib_header->PIBLENGTH = HTOLE16((uint16_t)(length));
 		printf ("------- %s -------\n", filename);
 		if (pibpeek2 (&simple_pib)) 
 		{
@@ -200,6 +209,7 @@ static signed pibimage2 (signed fd, char const * filename, uint32_t length, uint
 			}
 			return (-1);
 		}
+		memset (pib_header, 0, sizeof (* pib_header));
 	}
 	if (lseek (fd, (off_t)(0)-sizeof (simple_pib), SEEK_CUR) == -1) 
 	{
@@ -243,9 +253,9 @@ static signed pibimage2 (signed fd, char const * filename, uint32_t length, uint
  *   this implementation checks the parameter block without reading
  *   the entire block into memory; 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -256,9 +266,9 @@ static signed pibchain2 (signed fd, char const * filename, flag_t flags)
 
 {
 	struct nvm_header2 nvm_header;
-	size_t origin = ~0;
-	size_t offset = 0;
-	signed module = 0;
+	uint32_t origin = ~0;
+	uint32_t offset = 0;
+	unsigned module = 0;
 	do 
 	{
 		if (read (fd, &nvm_header, sizeof (nvm_header)) != sizeof (nvm_header)) 
@@ -345,9 +355,9 @@ static signed pibchain2 (signed fd, char const * filename, flag_t flags)
  *   open a named file and determine if it is a valid thunderbolt, 
  *   lightning, panther or lynx PIB; 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -410,9 +420,9 @@ static signed chkpib (char const * filename, flag_t flags)
  *   int main (int argc, char const * argv []);
  *
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>

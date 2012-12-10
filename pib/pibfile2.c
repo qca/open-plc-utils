@@ -29,9 +29,9 @@
  *   return a file descriptor on success; terminate the program on 
  *   error;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -57,9 +57,9 @@ signed pibfile2 (struct _file_ const * file)
 
 {
 	struct nvm_header2 nvm_header;
-	size_t origin = ~0;
-	size_t offset = 0;
-	signed module = 0;
+	uint32_t origin = ~0;
+	uint32_t offset = 0;
+	unsigned module = 0;
 	if (lseek (file->file, 0, SEEK_SET)) 
 	{
 		error (1, errno, FILE_CANTHOME, file->name);

@@ -37,16 +37,14 @@
  *   is optional, users shall bear sole responsibility and 
  *   liability for any consequences of it's use. 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
  *
  *--------------------------------------------------------------------*/
-
-#define _GETOPT_H
 
 /*====================================================================*"
  *   system header files;
@@ -112,50 +110,8 @@
 #define PIB_PRIORITY_MAPS_OFFSET 0x230
 
 /*====================================================================*
- *   program variables;
- *--------------------------------------------------------------------*/
-
-#ifndef __GNUC__
-#pragma pack (push,1)
-#endif
-
-typedef struct __packed classifier_pib 
-
-{
-	uint32_t CR_ID;
-	uint32_t CR_OPERAND;
-	uint8_t CR_VALUE [16];
-}
-
-classifier_pib;
-struct __packed auto_connection 
-
-{
-	uint8_t MACTION;
-	uint8_t MOPERAND;
-	uint16_t NUM_CLASSIFIERS;
-	struct classifier_pib CLASSIFIER [3];
-	struct cspec cspec;
-	uint8_t RSVD [14];
-}
-
-auto_connection;
-struct __packed classifier_priority_map 
-
-{
-	uint32_t Priority;
-	struct classifier_pib CLASSIFIER;
-}
-
-classifier_priority_map;
-
-#ifndef __GNUC__
-#pragma pack (pop)
-#endif
-
-/*====================================================================*
  *
- *   signed Classifier (struct classifier_pib * classifier);
+ *   signed Classifier (struct PIBClassifier * classifier);
  *
  *   plc.h
  *
@@ -176,24 +132,24 @@ classifier_priority_map;
  *   is optional, users shall bear sole responsibility and 
  *   liability for any consequences of it's use. 
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-signed Classifier (struct classifier_pib * classifier) 
+signed Classifier (struct PIBClassifier * classifier) 
 
 {
 	char buffer [sizeof (classifier->CR_VALUE) * 3 + 1];
 	uint32_t val32;
 	uint16_t val16;
 	uint8_t val8;
-	printf ("%s %s", reword (classifier->CR_ID, fields, FIELDS), reword (classifier->CR_OPERAND, operators, OPERATORS));
-	switch (classifier->CR_ID) 
+	printf ("%s %s", reword (classifier->CR_PID, fields, FIELDS), reword (classifier->CR_OPERAND, operators, OPERATORS));
+	switch (classifier->CR_PID) 
 	{
 	case FIELD_ETH_SA:
 	case FIELD_ETH_DA:
@@ -287,9 +243,9 @@ signed Classifier (struct classifier_pib * classifier)
  *   is optional, users shall bear sole responsibility and 
  *   liability for any consequences of it's use. 
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
@@ -302,11 +258,11 @@ signed AutoConnection (struct auto_connection * auto_connection)
 	int i;
 	if (auto_connection->MACTION == ACTION_TAGTX) 
 	{
-		printf ("-T 0x%08X -V %d ", ntohl (auto_connection->cspec.VLAN_TAG), auto_connection->cspec.CSPEC_VERSION);
+		printf ("-T 0x%08X -V %d ", ntohl (auto_connection->cspec.VLAN_TAG), LE16TOH (auto_connection->cspec.CSPEC_VERSION));
 	}
 	printf ("%s", reword (auto_connection->MACTION, actions, ACTIONS));
 	printf (" %s ", reword (auto_connection->MOPERAND, operands, OPERANDS));
-	for (i = 0; i < auto_connection->NUM_CLASSIFIERS; ++i) 
+	for (i = 0; i < LE16TOH (auto_connection->NUM_CLASSIFIERS); ++i) 
 	{
 		Classifier (&auto_connection->CLASSIFIER [i]);
 		putchar (' ');
@@ -340,9 +296,9 @@ signed AutoConnection (struct auto_connection * auto_connection)
  *   is optional, users shall bear sole responsibility and 
  *   liability for any consequences of it's use. 
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
@@ -352,7 +308,7 @@ signed AutoConnection (struct auto_connection * auto_connection)
 signed ClassifierPriorityMap (struct classifier_priority_map * map) 
 
 {
-	printf ("%s Any ", reword (map->Priority, actions, ACTIONS));
+	printf ("%s Any ", reword (LE32TOH (map->Priority), actions, ACTIONS));
 	Classifier (&map->CLASSIFIER);
 	printf (" add perm\n");
 	return (0);
@@ -363,9 +319,9 @@ signed ClassifierPriorityMap (struct classifier_priority_map * map)
  *   
  *   int main (int argc, char const * argv[]);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 

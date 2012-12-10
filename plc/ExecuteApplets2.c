@@ -98,7 +98,7 @@ signed ExecuteApplets2 (struct plc * plc)
 		{
 			break;
 		}
-		while (!ReadMME (plc, 0, (VS_HST_ACTION | MMTYPE_IND)));
+		while (!ReadMME (plc, 0, (VS_HOST_ACTION | MMTYPE_IND)));
 		module++;
 	}
 	while (~nvm_header.NextHeader);

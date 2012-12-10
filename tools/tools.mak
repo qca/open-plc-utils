@@ -26,6 +26,7 @@ error.o: error.c error.h types.h
 extra.o: extra.c error.h types.h
 fdchecksum32.o: fdchecksum32.c memory.h
 getoptv.o: getoptv.c error.h getoptv.h putoptv.h version.h
+getargv.o: getargv.c chars.h  symbol.h
 gettimeofday.o: gettimeofday.c
 hexdecode.o: hexdecode.c memory.h number.h
 hexdump.o: hexdump.c memory.h number.h
@@ -34,6 +35,7 @@ hexload.o: hexload.c chars.h error.h memory.h
 hexoffset.o: hexoffset.c memory.h number.h
 hexout.o: hexout.c memory.h number.h
 hexpeek.o: hexpeek.c memory.h
+hexcopy.o: hexcopy.c memory.h
 hexstring.o: hexstring.c memory.h
 hexview.o: hexview.c memory.h number.h
 hexwrite.o: hexwrite.c number.h types.h

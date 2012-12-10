@@ -4,11 +4,20 @@
  *
  *   memory.h
  *
- *   compute the 32 bit checksum of a memory segment; the checksum
- *   is the one's complement of the XOR of all 32 bit words;
+ *   compute the 32 bit checksum of a memory segment; the calculated
+ *   checksum is the one's complement of the XOR of all 32-bit words;
+ *   this means that extent should be an even multiple of 4-bytes or
+ *   trailing bytes will be excluded from the calculation; 
+ *
+ *   set checksum argument to 0 when the memory region does not 
+ *   include the previous checksum value;
+ *
+ *   set checksum argument to the previous checksum value when the 
+ *   memory region includes the previous checksum value; this will
+ *   effectively cancel-out the previous checksum value;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Copyright 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/

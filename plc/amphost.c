@@ -18,7 +18,20 @@
  *   
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
+/*====================================================================*"
+ *
+ *   amphost.c - 
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Charles Maier <cmaier@qualcomm.com>
+ *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
+ *
+ *--------------------------------------------------------------------*/
+
 
 /*====================================================================*"
  *   system header files;
@@ -146,7 +159,7 @@
  *  
  *   plc.h
  *
- *   wait indefinitely for VS_HST_ACTION messages; service the device 
+ *   wait indefinitely for VS_HOST_ACTION messages; service the device 
  *   as directed; this function is for demonstration and experimentation
  *   only; it will stop dead - like a bug! - on error;
  *   
@@ -195,15 +208,12 @@ signed function (struct plc * plc)
 
 	char const * FactoryNVM = plc->NVM.name;
 	char const * FactoryPIB = plc->PIB.name;
-	signed timeout = channel->timeout;
 	signed status;
 	signed action;
 	Request (plc, "Waiting for Host Action");
 	while (1) 
 	{
-		channel->timeout = plc->timer;
-		status = ReadMME (plc, 0, (VS_HST_ACTION | MMTYPE_IND));
-		channel->timeout = timeout;
+		status = ReadMME (plc, 0, (VS_HOST_ACTION | MMTYPE_IND));
 		if (status < 0) 
 		{
 			break;
@@ -222,7 +232,6 @@ signed function (struct plc * plc)
 			}
 			action = indicate->MACTION;
 			memcpy (channel->peer, indicate->ethernet.OSA, sizeof (channel->peer));
-			channel->timeout = timeout;
 			if (HostActionResponse (plc)) 
 			{
 				return (-1);
@@ -378,7 +387,7 @@ int main (int argc, char const * argv [])
 		"p f\tread PIB from device into file using VS_RD_MOD",
 		"P f\twrite PIB file to device using VS_WR_MEM",
 		"q\tquiet mode",
-		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
 		"v\tverbose mode",
 		"x\texit on error",
 		(char const *) (0)
@@ -482,7 +491,7 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_SILENCE);
 			break;
 		case 't':
-			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

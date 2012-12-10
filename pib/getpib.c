@@ -34,16 +34,14 @@
  *   is optional, users shall bear sole responsibility and 
  *   liability for any consequences of it's use. 
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
  *
  *--------------------------------------------------------------------*/
-
-#define _GETOPT_H
 
 /*====================================================================*"
  *   system header files;
@@ -156,7 +154,7 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			uint8_t * number = (uint8_t *)(memory);
 			if (sizeof (* number) > extent) 
 			{
-				error (1, ECANCELED, "%s exceeds PIB extent %X", object, extent);
+				error (1, ECANCELED, "%s exceeds PIB extent " SIZE_T_SPEC, object, extent);
 			}
 			printf ("%u", * number);
 			memory += sizeof (* number);
@@ -167,7 +165,7 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			uint16_t * number = (uint16_t *)(memory);
 			if (sizeof (* number) > extent) 
 			{
-				error (1, ECANCELED, "%s exceeds PIB extent %X", object, extent);
+				error (1, ECANCELED, "%s exceeds PIB extent " SIZE_T_SPEC, object, extent);
 			}
 			printf ("%u", LE16TOH (* number));
 			memory += sizeof (* number);
@@ -178,7 +176,7 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			uint32_t * number = (uint32_t *)(memory);
 			if (sizeof (* number) > extent) 
 			{
-				error (1, ECANCELED, "%s exceeds PIB extent %X", object, extent);
+				error (1, ECANCELED, "%s exceeds PIB extent " SIZE_T_SPEC, object, extent);
 			}
 			printf ("%u", LE32TOH (* number));
 			memory += sizeof (* number);
@@ -189,7 +187,7 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			uint64_t * number = (uint64_t *)(memory);
 			if (sizeof (* number) > extent) 
 			{
-				error (1, ECANCELED, "%s exceeds PIB extent %X", object, extent);
+				error (1, ECANCELED, "%s exceeds PIB extent " SIZE_T_SPEC, object, extent);
 			}
 			printf ("%llu", LE64TOH (* number));
 			memory += sizeof (* number);
@@ -203,7 +201,7 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			uint8_t * number = (uint8_t *)(memory);
 			if (sizeof (* number) > extent) 
 			{
-				error (1, ECANCELED, "%s exceeds PIB extent %X", object, extent);
+				error (1, ECANCELED, "%s exceeds PIB extent " SIZE_T_SPEC, object, extent);
 			}
 			printf ("0x%02X", * number);
 			memory += sizeof (* number);
@@ -214,7 +212,7 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			uint16_t * number = (uint16_t *)(memory);
 			if (sizeof (* number) > extent) 
 			{
-				error (1, ECANCELED, "%s exceeds PIB extent %X", object, extent);
+				error (1, ECANCELED, "%s exceeds PIB extent " SIZE_T_SPEC, object, extent);
 			}
 			printf ("0x%04X", LE16TOH (* number));
 			memory += sizeof (* number);
@@ -225,7 +223,7 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			uint32_t * number = (uint32_t *)(memory);
 			if (sizeof (* number) > extent) 
 			{
-				error (1, ECANCELED, "%s exceeds PIB extent %X", object, extent);
+				error (1, ECANCELED, "%s exceeds PIB extent " SIZE_T_SPEC, object, extent);
 			}
 			printf ("0x%08X", LE32TOH (* number));
 			memory += sizeof (* number);
@@ -236,9 +234,9 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			uint64_t * number = (uint64_t *)(memory);
 			if (sizeof (* number) > extent) 
 			{
-				error (1, ECANCELED, "%s exceeds PIB extent %X", object, extent);
+				error (1, ECANCELED, "%s exceeds PIB extent " SIZE_T_SPEC, object, extent);
 			}
-			printf ("0x%016X", LE64TOH (* number));
+			printf ("0x%016LX", LE64TOH (* number));
 			memory += sizeof (* number);
 			extent -= sizeof (* number);
 		}
@@ -250,7 +248,7 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			length = ETHER_ADDR_LEN;
 			if (length > extent) 
 			{
-				error (1, ECANCELED, "%s exceeds PIB extent %X", object, extent);
+				error (1, ECANCELED, "%s exceeds PIB extent " SIZE_T_SPEC, object, extent);
 			}
 			getmemory (memory, extent, object, length);
 			memory += length;
@@ -261,7 +259,7 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			length = PIB_KEY_LEN;
 			if (length > extent) 
 			{
-				error (1, ECANCELED, "%s exceeds PIB extent %X", object, extent);
+				error (1, ECANCELED, "%s exceeds PIB extent " SIZE_T_SPEC, object, extent);
 			}
 			getmemory (memory, extent, object, length);
 			memory += length;
@@ -272,7 +270,7 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			length = PIB_HFID_LEN;
 			if (length > extent) 
 			{
-				error (1, ECANCELED, "%s exceeds PIB extent %X", object, extent);
+				error (1, ECANCELED, "%s exceeds PIB extent " SIZE_T_SPEC, object, extent);
 			}
 			getstring (memory, extent, object, length);
 			memory += length;
@@ -286,7 +284,7 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			length = PIB_NAME_LEN + 1;
 			if (length > extent) 
 			{
-				error (1, ECANCELED, "%s exceeds PIB extent %X", object, extent);
+				error (1, ECANCELED, "%s exceeds PIB extent " SIZE_T_SPEC, object, extent);
 			}
 			getstring (memory, extent, object, length);
 			memory += length;
@@ -297,7 +295,7 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			length = PIB_HFID_LEN + 1;
 			if (length > extent) 
 			{
-				error (1, ECANCELED, "%s exceeds PIB extent %X", object, extent);
+				error (1, ECANCELED, "%s exceeds PIB extent " SIZE_T_SPEC, object, extent);
 			}
 			getstring (memory, extent, object, length);
 			memory += length;
@@ -368,9 +366,9 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
  *
  *   int main (int argc, char const * argv []);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -455,7 +453,7 @@ int main (int argc, char const * argv [])
 	offset = (uint32_t)(basespec (* argv, 16, sizeof (uint32_t)));
 	if (offset > extent) 
 	{
-		error (1, ECANCELED, "PIB offset %X exceeds PIB extent %X", offset, extent);
+		error (1, ECANCELED, "PIB offset " SIZE_T_SPEC " exceeds PIB extent " SIZE_T_SPEC, offset, extent);
 	}
 	argc--;
 	argv++;

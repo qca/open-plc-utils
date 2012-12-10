@@ -10,7 +10,7 @@ We recommend that you login as root before installing this package; otherwise, y
 .PP
 Although this package has been compiled on several platforms, there is no guarantee that it will compile without errors or warnings on non-GNU/Linux platforms. We continuously update the package but do not attempt to compile or test it on systems other than GNU/Linux and Microsoft VisualStudio .NET. Some programs have been excluded from the Windows installation for technical reasons.
 .SH BACKGROUND
-\fBHomePlug 1.0\fR and \fBHomePlug AV\fR are industry standard protocols for powerline communications. Qualcomm Atheros manufactures a family of chipsets that conform to these standards and have various USB, PCI, MII, SPI and Ethernet interfaces. The INT5100 and INT5200 are the cornerstones of the Atheros chipset family. The INT6000, INT6300 and INT6400 chipsets are the flagship members of the Atheros chipset family. The AR7400 and AR7420 are the newest members.
+\fBHomePlug 1.0\fR and \fBHomePlug AV\fR are industry standard protocols for powerline communications. Qualcomm Atheros manufactures a family of chipsets that conform to these standards and have various USB, PCI, Ethernet, MII, SPI and UART host interfaces. 
 .PP
 The \fBHomePlug 1.0\fR protocol is based on IEEE-802.3, has ethertype 0x887B and uses special message formats.
 .PP
@@ -23,7 +23,7 @@ The source code is designed to demonstrate and educate and may be modified witho
 There are many independent programs in this package. Significant ones are listed below. See \fBhtml/overview.html\fR for more information about the Atheros Powerline Toolkit.
 .TP
 .BR ampboot
-A command line utility to start, and optionally flash, newer Atheros Powerline Devices. It is an alternative to program \fBint6kboot\fR that may have additional options specific to the AR7400.
+A command line utility to start, and optionally flash, newer Atheros Powerline Devices. It is an alternative to program \fBint6kboot\fR that may have additional options specific to the \fBAR7400\fR.
 .TP
 .BR amphost
 A example embedded host emulator that responds to VS_HST_ACTION messages sent from a flash-less device to a local host processor. It can be used to investigate and verify device-to-host interaction. The Atheros embedded API can perform similar functionality in a production environment.
@@ -35,7 +35,7 @@ A command line utility to enable or disable sniffer mode on an Atheros Powerline
 A command line utility to download and execute a sequence of test applets to the local powerline device. It is not for general use because there are no interlocks to prevent loading images designed for other platforms or loading images in illogical order. It is an laternative to, and replacement for, program \fBint6ktest\fR.
 .TP
 .BR amptool
-A basic device manager used to inspect and control Atheros powerline devices connected to the local host. It is similar to \fBint6k\fR but is specific to the AR7400 chipsets.
+A basic device manager used to inspect and control Atheros powerline devices connected to the local host. It is similar to \fBint6k\fR but is specific to the \fBAR7400\fR chipsets.
 .TP
 .BR ampwait
 A command line utility used to pause shell scripts at critical points where a device must be in a known state before proceeding. Typical cases involve waiting for device power off or reset, power on or restart and network device association.
@@ -89,10 +89,7 @@ A HomePlug AV key generator. HomePlug AV devices use has keys for various purpos
 A HomePlug AV key generator. This program is similar to \fBhpavkey\fR but converts large number of pass phrases, read from stdin, and converts them to either DAKs, NMKs or NIDs.
 .TP
 .BR int6k
-A basic device manager used to inspect and control Atheros INT6x00 devices connected to the local host. It is similar to \fBint6k2\fR but is more modular in construction.
-.TP
-.BR int6k2
-A basic device manager used to inspect and control Atheros INT6x00 devices connected to the local host. It is similar to \fBint6k\fR but is implemented using the Atheros Embedded API.
+A basic device manager used to inspect and control Atheros INT6x00 devices connected to the local host. It is similar to \fBamptool\fR and \fBplctool\fR but is implemented for \fBINT6000\fR, \fBINT6300\fR and \fBINT6400\fR devices only. Some options work on newer chipsets but otherd do not.
 .TP
 .BR int6kbaud
 A command line utility to configurate UART settings on a UART-enabled Atheros powerline device using the \fBATBR\fR serial line command.
@@ -259,7 +256,6 @@ There may be other programs added, from time to time, that are not listed here.
 .BR hpavkey ( 7 ),
 .BR hpavkeys ( 7 ),
 .BR int6k ( 7 ),
-.BR int6k2 ( 7 ),
 .BR int6kbaud ( 7 ),
 .BR int6kboot ( 7 ),
 .BR int6keth ( 7 ),

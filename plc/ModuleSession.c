@@ -100,7 +100,7 @@ signed ModuleSession (struct plc * plc, unsigned modules, struct vs_module_spec 
 #pragma pack (pop)
 #endif
 
-	unsigned timeout = channel->timeout;
+	unsigned timer = channel->timer;
 	struct vs_module_spec * request_spec = (struct vs_module_spec *)(&request->MOD_OP_SPEC);
 	Request (plc, "Start Module Write Session");
 	memset (message, 0, sizeof (* message));
@@ -126,14 +126,14 @@ signed ModuleSession (struct plc * plc, unsigned modules, struct vs_module_spec 
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	channel->timeout = PLC_MODULE_REQUEST_TIMEOUT;
+	channel->timer = PLC_MODULE_REQUEST_TIMEOUT;
 	if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0) 
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
-		channel->timeout = timeout;
+		channel->timer = timer;
 		return (-1);
 	}
-	channel->timeout = timeout;
+	channel->timer = timer;
 	if (confirm->MSTATUS) 
 	{
 		Failure (plc, PLC_WONTDOIT);

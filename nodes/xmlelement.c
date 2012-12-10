@@ -7,7 +7,7 @@
  *   search node for the named element node; return the node address;
  *   
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Copyright 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *   
  *--------------------------------------------------------------------*/

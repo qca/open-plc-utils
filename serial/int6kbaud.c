@@ -20,7 +20,7 @@
 
 /*====================================================================*
  *
- *   int6kuart.c - Atheros Serial Line Device Manager;
+ *   int6kbaud.c - Atheros Serial Line Device Manager;
  *
  *   This software and documentation is the property of Atheros 
  *   Corporation, Ocala, Florida. It is provided 'as is' without 
@@ -39,12 +39,9 @@
  *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
- *	Mathieu Olivari <mathieu@qca.qualcomm.com>
+ *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
  *
  *--------------------------------------------------------------------*/
-
-#define _GETOPT_H
 
 /*====================================================================*
  *   system header files;

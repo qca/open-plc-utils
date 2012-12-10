@@ -24,14 +24,14 @@
  *
  *   plc.h
  *
- *   write parameters to SDRAM using VS_WRITE_AND_EXECUTE; the memory
+ *   write parameters to SDRAM using VS_WRITE_AND_EXECUTE_APPLET; the memory
  *   offset depends on the firmware release;
  *
  *   plc->PIB must be positioned to the start of the PIB file or this
  *   function will not work;
  *
  *   pass in the PIB header since it contains the PIB file length and
- *   checksum needed by the VS_WRITE_AND_EXECUTE request;
+ *   checksum needed by the VS_WRITE_AND_EXECUTE_APPLET request;
  *
  *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
  *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
@@ -107,7 +107,7 @@ signed WriteExecutePIB (struct plc * plc, uint32_t offset, struct pib_header * h
 	{
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
-		QualcommHeader (&request->qualcomm, 0, (VS_WRITE_EXECUTE | MMTYPE_REQ));
+		QualcommHeader (&request->qualcomm, 0, (VS_WRITE_AND_EXECUTE_APPLET | MMTYPE_REQ));
 		if (length > extent) 
 		{
 			length = extent;
@@ -131,7 +131,7 @@ signed WriteExecutePIB (struct plc * plc, uint32_t offset, struct pib_header * h
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		if (ReadMME (plc, 0, (VS_WRITE_EXECUTE | MMTYPE_CNF)) <= 0) 
+		if (ReadMME (plc, 0, (VS_WRITE_AND_EXECUTE_APPLET | MMTYPE_CNF)) <= 0) 
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);

@@ -132,7 +132,7 @@ signed SignalToNoise1 (struct plc * plc)
 
 	memset (message, 0, sizeof (* message));
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
-	QualcommHeader (&request->qualcomm, 0, (VS_RX_TONEMAP_CHAR | MMTYPE_REQ));
+	QualcommHeader (&request->qualcomm, 0, (VS_RX_TONE_MAP_CHAR | MMTYPE_REQ));
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	memcpy (request->MACADDRESS, plc->RDA, sizeof (request->MACADDRESS));
 	request->TMSLOT = 0;
@@ -141,7 +141,7 @@ signed SignalToNoise1 (struct plc * plc)
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	if (ReadMME (plc, 0, (VS_RX_TONEMAP_CHAR | MMTYPE_CNF)) <= 0) 
+	if (ReadMME (plc, 0, (VS_RX_TONE_MAP_CHAR | MMTYPE_CNF)) <= 0) 
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 		return (-1);
@@ -157,7 +157,7 @@ signed SignalToNoise1 (struct plc * plc)
 	for (slot = 0; slot < slots; slot++) 
 	{
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
-		QualcommHeader (&request->qualcomm, 0, (VS_RX_TONEMAP_CHAR | MMTYPE_REQ));
+		QualcommHeader (&request->qualcomm, 0, (VS_RX_TONE_MAP_CHAR | MMTYPE_REQ));
 		memcpy (request->MACADDRESS, plc->RDA, sizeof (request->MACADDRESS));
 		request->TMSLOT = slot;
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
@@ -166,7 +166,7 @@ signed SignalToNoise1 (struct plc * plc)
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		if (ReadMME (plc, 0, (VS_RX_TONEMAP_CHAR | MMTYPE_CNF)) <= 0) 
+		if (ReadMME (plc, 0, (VS_RX_TONE_MAP_CHAR | MMTYPE_CNF)) <= 0) 
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);

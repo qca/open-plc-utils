@@ -20,7 +20,7 @@
 
 /*====================================================================*
  *
- *   char * pcap_indextoname (unsigned ifindex, char *ifname);
+ *   char * pcap_indextoname (unsigned ifindex, char * ifname);
  *
  *   ether.h
  *

@@ -176,7 +176,7 @@ static double ttyrecv (int ifd, int ofd, size_t time, size_t chunk_size, flag_t 
 	while (tv_result.tv_sec < (signed)(time));
 	bytes_sec = bytes_read / (tv_result.tv_sec + tv_result.tv_usec / 1000000.0);
 	free (buf);
-	return bytes_sec * 8 / 1000.0;
+	return (bytes_sec * 8 / 1000.0);
 }
 
 
@@ -278,6 +278,6 @@ int main (int argc, char const * argv [])
 		fprintf (stderr, "%.02f Kbps\n", rate);
 	}
 	close (fd);
-	return 0;
+	return (0);
 }
 

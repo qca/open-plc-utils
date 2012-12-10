@@ -18,7 +18,20 @@
  *   
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
+/*====================================================================*"
+ *
+ *   chknvm2.c -
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Charles Maier <cmaier@qualcomm.com>
+ *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
+ *
+ *--------------------------------------------------------------------*/
+
 
 /*====================================================================*
  *   system header files;
@@ -184,8 +197,8 @@ static signed nvmimage2 (void const * memory, size_t extent, char const * filena
 
 {
 	struct nvm_header1 * nvm_header;
-	signed module = 0;
-	size_t offset = 0;
+	unsigned module = 0;
+	uint32_t offset = 0;
 	do 
 	{
 		nvm_header = (struct nvm_header1 *)((char *)(memory) + offset);
@@ -260,10 +273,10 @@ static signed nvmchain2 (void const * memory, size_t extent, char const * filena
 
 {
 	struct nvm_header2 * nvm_header;
-	size_t origin = ~0;
-	size_t offset = 0;
-	size_t length = 0;
-	signed module = 0;
+	unsigned module = 0;
+	uint32_t origin = ~0;
+	uint32_t offset = 0;
+	uint32_t length = 0;
 	do 
 	{
 		nvm_header = (struct nvm_header2 *)((char *)(memory) + offset);

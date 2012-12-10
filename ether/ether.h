@@ -80,7 +80,7 @@ NIC;
 #pragma pack (push, 1)
 #endif
 
-typedef struct ether_frame 
+typedef struct ethernet_frame 
 
 {
 	byte frame_dhost [ETHER_ADDR_LEN];

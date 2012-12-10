@@ -34,9 +34,11 @@ pibfile1.o: pibfile1.c error.h files.h pib.h
 pibfile2.o: pibfile2.c error.h files.h memory.h nvm.h pib.h
 piblock.o: piblock.c error.h files.h pib.h
 pibscalers.o: pibscalers.c error.h pib.h plc.h
+pibseek.o: pibseek.c endian.h error.h flags.h memory.h nvm.h pib.h
 pibpeek1.o: pibpeek1.c HPAVKey.h keys.h memory.h number.h pib.h
 pibpeek2.o: pibpeek2.c HPAVKey.h keys.h memory.h number.h pib.h
 pibtype.o: pibtype.c endian.h error.h files.h flags.h pib.h
+ruledump.o: ruledump.c memory.h rules.h
 
 # ====================================================================
 # pib header files;

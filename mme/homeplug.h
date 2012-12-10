@@ -39,8 +39,8 @@
  *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s): 
- *      Charles Maier <cmaier@qualcomm.com>
- *      Alex Vasquez <alex.vasquez@qualcomm.com>
+ *	Charles Maier <cmaier@qualcomm.com>
+ *	Alex Vasquez <alex.vasquez@qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -120,7 +120,7 @@
 #define CC_SET_TEI_MAP 0x0038
 #define CC_RELAY 0x003C
 #define CC_BEACON_RELIABILITY 0x0040
-#define CC_CC_ALLOC_MOVE 0x0044
+#define CC_ALLOC_MOVE 0x0044
 #define CC_ACCESS_NEW 0x0048
 #define CC_ACCESS_REL 0x004C
 #define CC_DCPPC 0x0050

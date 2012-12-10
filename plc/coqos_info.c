@@ -33,7 +33,6 @@
  *
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
 
 /*====================================================================*"
  *   system header files;
@@ -214,7 +213,7 @@ static signed con_info (struct plc * plc, uint8_t TYPE, uint16_t CID, uint16_t T
 	Request (plc, "COQOS connection information");
 	memset (message, 0, sizeof (* message));
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
-	QualcommHeader (&request->qualcomm, 0, (VS_CON_INFO | MMTYPE_REQ));
+	QualcommHeader (&request->qualcomm, 0, (VS_CONN_INFO | MMTYPE_REQ));
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	request->REQ_TYPE = TYPE;
 	request->CID = CID;
@@ -225,7 +224,7 @@ static signed con_info (struct plc * plc, uint8_t TYPE, uint16_t CID, uint16_t T
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	while (ReadMME (plc, 0, (VS_CON_INFO | MMTYPE_CNF)) <= 0);
+	while (ReadMME (plc, 0, (VS_CONN_INFO | MMTYPE_CNF)) <= 0);
 	if (confirm->MSTATUS) 
 	{
 		Failure (plc, "Error requesting information.");
@@ -240,7 +239,7 @@ static signed con_info (struct plc * plc, uint8_t TYPE, uint16_t CID, uint16_t T
 		return (0);
 	}
 	Confirm (plc, "Received confirm, waiting for indicate...");
-	while (ReadMME (plc, 0, (VS_CON_INFO | MMTYPE_IND)) <= 0);
+	while (ReadMME (plc, 0, (VS_CONN_INFO | MMTYPE_IND)) <= 0);
 	if (indicate->MSTATUS) 
 	{
 		Failure (plc, "Error requesting information.");

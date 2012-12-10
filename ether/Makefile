@@ -16,7 +16,7 @@ LDFLAGS+=
 TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9]
 FILES=Makefile *.mak *.sh *.c *.h 
 TOOLS=efbu efeu efru efsu edru edsu nics 
-PAGES=efbu.7 efru.7 efsu.7 edru.7 edsu.7 pcapdevs.7 nics.7
+PAGES=efbu.7 efeu.7 efru.7 efsu.7 edru.7 edsu.7 pcapdevs.7 nics.7
 
 # ====================================================================
 # pseudo targets;
@@ -63,6 +63,8 @@ efsu: efsu.o getoptv.o putoptv.o version.o error.o todigit.o hexencode.o uintspe
 edru: edru.o getoptv.o putoptv.o version.o error.o hexdump.o hexdecode.o hexstring.o channel.o openchannel.o closechannel.o sendpacket.o readpacket.o uintspec.o todigit.o basespec.o
 edsu: edsu.o getoptv.o putoptv.o version.o efreopen.o uintspec.o todigit.o hexdump.o hexencode.o error.o channel.o openchannel.o closechannel.o readpacket.o sendpacket.o basespec.o
 nics: nics.o getoptv.o putoptv.o version.o error.o hexdecode.o decdecode.o hexstring.o decstring.o hostnics.o 
+client: client.o getoptv.o putoptv.o version.o error.o 
+server: server.o getoptv.o putoptv.o version.o error.o 
 
 # ====================================================================
 # includes;

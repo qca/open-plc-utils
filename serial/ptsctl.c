@@ -33,8 +33,6 @@
  *
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
-
 /*====================================================================*
  *   system header files;
  *--------------------------------------------------------------------*/
@@ -330,6 +328,7 @@ static void function4 (struct _file_ * port, char const * units, unsigned wait)
 	return;
 }
 
+
 /*====================================================================*
  *
  *   int main (int argc, char const * argv []);
@@ -477,7 +476,7 @@ int main (int argc, char const * argv [])
 #endif
 
 	function1 (&port, units, wait, echo);
-	if (_anyset (flags, PTSCTL_CHANGE))
+	if (_anyset (flags, PTSCTL_CHANGE)) 
 	{
 		data = line << 8 | grnd << 1 | mode;
 		function2 (&port, units, wait, data);

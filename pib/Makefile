@@ -14,7 +14,7 @@ include ../make.def
 CFLAGS+=
 LDFLAGS+=-lm
 TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9] *.test 
-FILES=Makefile *.mak *.sh *.c *.h *.xml *.css
+FILES=Makefile *.mak *.sh *.txt *.c *.h *.xml *.css
 TOOLS=chkpib chkpib2 setpib getpib modpib pib2xml pibcomp pibdump pibruin xml2pib psin psout pskey
 # TOOLS+=psgraph psnotch pibrump fetchpib 
 OTHER=psgraph psnotch pibrump pibruin fetchpib 
@@ -73,7 +73,7 @@ psout: psout.o getoptv.o putoptv.o version.o error.o pibfile1.o pibscalers.o fdc
 psnotch: psnotch.o getoptv.o putoptv.o version.o error.o todigit.o uintspec.o
 psgraph: psgraph.o getoptv.o putoptv.o version.o error.o todigit.o uintspec.o pibscalers.o
 pibrump: pibrump.o getoptv.o putoptv.o version.o error.o pibfile1.o fdchecksum32.o reword.o hexstring.o hexdecode.o memout.o rules.o
-pibruin: pibruin.o getoptv.o putoptv.o version.o error.o pibfile1.o nvmseek2.o checksum32.o fdchecksum32.o reword.o hexstring.o hexdecode.o memout.o lookup.o assist.o bytespec.o basespec.o ipv4spec.o ipv6spec.o todigit.o codelist.o endian.o emalloc.o rules.o ParseRule.o piblock.o
+pibruin: pibruin.o getoptv.o putoptv.o version.o error.o pibfile1.o nvmseek2.o checksum32.o fdchecksum32.o reword.o getargv.o hexstring.o hexdecode.o memout.o lookup.o assist.o bytespec.o basespec.o ipv4spec.o ipv6spec.o todigit.o codelist.o endian.o emalloc.o rules.o ParseRule.o piblock.o ruledump.o 
 pib2xml: pib2xml.o checksum32.o error.o fdchecksum32.o getoptv.o hexview.o output.o nvmseek2.o putoptv.o version.o xmlschema.o
 pibdump: pibdump.o getoptv.o putoptv.o version.o hexoffset.o hexview.o emalloc.o error.o checksum32.o fdchecksum32.o nvmseek2.o 
 pibcomp: pibcomp.o getoptv.o putoptv.o version.o hexoffset.o hexview.o emalloc.o error.o checksum32.o fdchecksum32.o nvmseek2.o

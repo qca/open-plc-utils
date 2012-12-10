@@ -33,7 +33,6 @@
  *
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
 
 /*====================================================================*"
  *   system header files;
@@ -169,7 +168,7 @@ static signed add_conn (struct plc * plc, struct connection * connection)
 	Request (plc, "Add COQOS connection");
 	memset (message, 0, sizeof (* message));
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
-	QualcommHeader (&request->qualcomm, 0, (VS_ADD_CONN | MMTYPE_REQ));
+	QualcommHeader (&request->qualcomm, 0, (VS_CONN_ADD | MMTYPE_REQ));
 	memcpy (&request->connection, connection, sizeof (struct connection));
 	memcpy (&request->connection.rule.CLASSIFIERS [request->connection.rule.NUM_CLASSIFIERS], &request->connection.cspec, sizeof (request->connection.cspec));
 	plc->packetsize = sizeof (struct vs_add_conn_req);
@@ -178,7 +177,7 @@ static signed add_conn (struct plc * plc, struct connection * connection)
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	while (ReadMME (plc, 0, (VS_ADD_CONN | MMTYPE_CNF)) <= 0) 
+	while (ReadMME (plc, 0, (VS_CONN_ADD | MMTYPE_CNF)) <= 0) 
 	{
 		if (confirm->MSTATUS) 
 		{
@@ -230,7 +229,7 @@ int main (int argc, char const * argv [])
 #include "../plc/plc.c"
 
 	struct connection connection;
-	struct classifier * rule = (struct classifier *)(&connection.rule.CLASSIFIERS);
+	struct MMEClassifier * rule = (struct MMEClassifier *)(&connection.rule.CLASSIFIERS);
 	uint16_t * word;
 	uint8_t * byte;
 	signed code;
@@ -391,9 +390,9 @@ int main (int argc, char const * argv [])
 			break;
 		}
 		connection.rule.NUM_CLASSIFIERS++;
-		if (connection.rule.NUM_CLASSIFIERS > 3) 
+		if (connection.rule.NUM_CLASSIFIERS > RULE_MAX_CLASSIFIERS) 
 		{
-			error (1, ENOTSUP, "Too many classification rule (3 max)");
+			error (1, ENOTSUP, "More than %d classifiers in rule", RULE_MAX_CLASSIFIERS);
 		}
 		rule++;
 		argc--;

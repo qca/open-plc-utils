@@ -18,7 +18,20 @@
  *   
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
+/*====================================================================*"
+ *
+ *   int6k.c -
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Charles Maier <cmaier@qualcomm.com>
+ *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
+ *
+ *--------------------------------------------------------------------*/
+
 
 /*====================================================================*"
  *   system header files;
@@ -324,7 +337,7 @@ int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	extern const struct key keys [];
+	extern struct key const keys [];
 	static char const * optv [] = 
 	{
 		"aB:C:d:D:efFHi:IJ:K:l:mMn:N:p:P:QqrRS:st:Tvw:x",
@@ -338,7 +351,7 @@ int main (int argc, char const * argv [])
 		"e\tredirect stderr to stdout",
 		"f\tread NVRAM Configuration using VS_GET_NVM",
 		"F[F]\tflash [force] NVRAM with PIB and firmware using VS_MOD_NVM",
-		"H\tstop host action requests using VS_HST_ACTION.IND",
+		"H\tstop host action requests using VS_HOST_ACTION.IND",
 
 #if defined (WINPCAP) || defined (LIBPCAP)
 
@@ -366,7 +379,7 @@ int main (int argc, char const * argv [])
 		"R\treset device using VS_RS_DEV",
 		"s\tread SDRAM Configuration using VS_RD_CBLOCK",
 		"S f\twrite an SDRAM Configuration file (f) using VS_SET_SDRAM",
-		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
 		"T\trestore factory defaults using VS_FAC_DEFAULTS",
 		"v\tverbose mode",
 		"w n\tpause (n) seconds [" LITERAL (INT6K_WAIT) "]",
@@ -617,7 +630,7 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_SDRAM_INFO);
 			break;
 		case 't':
-			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'T':
 			_setbits (plc.flags, PLC_FACTORY_DEFAULTS);

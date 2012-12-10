@@ -25,7 +25,7 @@
  *   plc.h
  * 
  *   This test plugin requests come action from a local host using a 
- *   VS_HST_ACTION indication message; the message must be sent to a 
+ *   VS_HOST_ACTION indication message; the message must be sent to a 
  *   host, not a device; it can be used to verify that your host 
  *   application correctly responds to device requests;
  *
@@ -86,7 +86,7 @@ signed HostActionIndicate (struct plc * plc)
 	Request (plc, "Start Host Action");
 	memset (message, 0, sizeof (* message));
 	EthernetHeader (&indicate->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
-	QualcommHeader (&indicate->qualcomm, 0, (VS_HST_ACTION | MMTYPE_IND));
+	QualcommHeader (&indicate->qualcomm, 0, (VS_HOST_ACTION | MMTYPE_IND));
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	indicate->MACTION = plc->action;
 	if (SendMME (plc) <= 0) 
@@ -94,7 +94,7 @@ signed HostActionIndicate (struct plc * plc)
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	while (ReadMME (plc, 0, (VS_HST_ACTION | MMTYPE_RSP)) > 0) 
+	while (ReadMME (plc, 0, (VS_HOST_ACTION | MMTYPE_RSP)) > 0) 
 	{
 		if (response->MSTATUS) 
 		{

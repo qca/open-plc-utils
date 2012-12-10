@@ -18,6 +18,19 @@
  *   
  *--------------------------------------------------------------------*/
 
+/*====================================================================*"
+ *
+ *   chipset.c -
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Charles Maier <cmaier@qualcomm.com>
+ *
+ *--------------------------------------------------------------------*/
+
 #ifndef CHIPSET_SOURCE
 #define CHIPSET_SOURCE
 
@@ -118,7 +131,7 @@ char const * chipsetname (uint8_t MDEVICEID)
  *   firmware; do not ask for an explanation; just do it;
  *
  *   the basic assumption is that the firmware always tells the truth  
- *   but the bootloader does not; bacause of engineering changes, the
+ *   but the bootloader does not; because of engineering changes, the
  *   firmware uses a different device identification scheme than that
  *   used by the bootloader and that information appears in different
  *   places depending on the source of the VS_SW_VER confirmation;

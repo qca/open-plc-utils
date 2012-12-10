@@ -1,6 +1,6 @@
 /*====================================================================*
  *
- *   size_t strfbits (char  buffer [], size_t length, char const *operands [], char const * operator, unsigned flagword);
+ *   size_t strfbits (char  buffer [], size_t length, char const * operands [], char const * operator, unsigned flagword);
  *
  *   format.h
  *
@@ -42,7 +42,7 @@
  *   calculations within the loop; 
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Copyright 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/

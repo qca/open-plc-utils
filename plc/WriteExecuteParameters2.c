@@ -24,7 +24,7 @@
  *
  *   plc.h
  *
- *   write parameters to SDRAM using VS_WRITE_AND_EXECUTE;
+ *   write parameters to SDRAM using VS_WRITE_AND_EXECUTE_APPLET;
  *
  *   we pass in the PIB image header because that is how the caller
  *   located the PIB image in the file but we must write the entire 
@@ -135,7 +135,7 @@ signed WriteExecuteParameters2 (struct plc * plc, unsigned module, const struct 
 	{
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
-		QualcommHeader (&request->qualcomm, 0, (VS_WRITE_EXECUTE | MMTYPE_REQ));
+		QualcommHeader (&request->qualcomm, 0, (VS_WRITE_AND_EXECUTE_APPLET | MMTYPE_REQ));
 		if (length > extent) 
 		{
 			length = extent;
@@ -159,7 +159,7 @@ signed WriteExecuteParameters2 (struct plc * plc, unsigned module, const struct 
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		if (ReadMME (plc, 0, (VS_WRITE_EXECUTE | MMTYPE_CNF)) <= 0) 
+		if (ReadMME (plc, 0, (VS_WRITE_AND_EXECUTE_APPLET | MMTYPE_CNF)) <= 0) 
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);

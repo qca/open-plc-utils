@@ -112,6 +112,7 @@ InitDevice.o: InitDevice.c error.h files.h plc.h
 InitDevice1.o: InitDevice1.c error.h files.h flags.h memory.h nvm.h plc.h
 InitDevice2.o: InitDevice2.c error.h files.h flags.h memory.h nvm.h plc.h
 LinkStatistics.o: LinkStatistics.c error.h memory.h number.h plc.h
+LinkStatus.o: LinkStatus.c error.h memory.h symbol.h plc.h
 ListLocalDevices.o: ListLocalDevices.c number.h plc.h
 ListRemoteDevices.o: ListRemoteDevices.c plc.h
 ListRemoteDevices1.o: ListRemoteDevices1.c flags.h number.h plc.h
@@ -158,6 +159,7 @@ ReadFMI.o: ReadFMI.c error.h memory.h number.h plc.h
 ReadFirmware.o: ReadFirmware.c plc.h
 ReadFirmware1.o: ReadFirmware1.c endian.h error.h files.h memory.h nvm.h plc.h
 ReadFirmware2.o: ReadFirmware2.c plc.h
+readmessage.o: readmessage.c error.h mme.h plc.h
 ReadMFG.o: ReadMFG.c channel.h flags.h memory.h plc.h
 ReadMME.o: ReadMME.c error.h mme.h plc.h
 ReadNVM.o: ReadNVM.c endian.h error.h files.h memory.h nvm.h plc.h
@@ -229,4 +231,5 @@ WriteParameters2.o: WriteParameters2.c error.h files.h memory.h plc.h
 
 plc.h: HPAVKey.h channel.h mme.h nvm.h pib.h types.h
 rules.h: symbol.h
+
 

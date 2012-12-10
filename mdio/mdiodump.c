@@ -22,10 +22,6 @@
  *
  *   mdiodump.c - Atheros MDIO Custom Module Analyser
  *
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2010 by Atheros Communications; ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
- *
  *   Contributor(s):
  *	Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
  *	Charles Maier <charles.maier@qualcomm.com>

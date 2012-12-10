@@ -34,7 +34,6 @@
  *
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
 
 /*====================================================================*"
  *   system header files;
@@ -157,7 +156,7 @@ signed rel_conn (struct plc * plc, uint16_t CID)
 	Request (plc, "Release COQOS connection");
 	memset (message, 0, sizeof (* message));
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
-	QualcommHeader (&request->qualcomm, 0, (VS_REL_CONN | MMTYPE_REQ));
+	QualcommHeader (&request->qualcomm, 0, (VS_CONN_REL | MMTYPE_REQ));
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	request->CID = CID;
 	if (SendMME (plc) <= 0) 
@@ -165,7 +164,7 @@ signed rel_conn (struct plc * plc, uint16_t CID)
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	while (ReadMME (plc, 0, (VS_REL_CONN | MMTYPE_CNF)) > 0) 
+	while (ReadMME (plc, 0, (VS_CONN_REL | MMTYPE_CNF)) > 0) 
 	{
 		if (confirm->MSTATUS) 
 		{

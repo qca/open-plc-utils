@@ -25,11 +25,11 @@
  *   plc.h
  *
  *   write firmware image into SDRAM and start execution using the
- *   VS_WRITE_AND_EXECUTE message when the image is in legacy file
+ *   VS_WRITE_AND_EXECUTE_APPLET message when the image is in legacy
  *   file format; 
  *
  *   the boot loader must be running for this to work since runtime 
- *   firmware ignores VS_WRITE_AND_EXECUTE messages;
+ *   firmware ignores VS_WRITE_AND_EXECUTE_APPLET messages;
  *
  *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
  *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
@@ -107,7 +107,7 @@ signed WriteExecuteFirmware1 (struct plc * plc, unsigned module, const struct nv
 	{
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
-		QualcommHeader (&request->qualcomm, 0, (VS_WRITE_EXECUTE | MMTYPE_REQ));
+		QualcommHeader (&request->qualcomm, 0, (VS_WRITE_AND_EXECUTE_APPLET | MMTYPE_REQ));
 		if (length > extent) 
 		{
 			Request (plc, "Start %s (%d) (%08X)", plc->NVM.name, module, LE32TOH (nvm_header->ENTRYPOINT));
@@ -133,7 +133,7 @@ signed WriteExecuteFirmware1 (struct plc * plc, unsigned module, const struct nv
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		if (ReadMME (plc, 0, (VS_WRITE_EXECUTE | MMTYPE_CNF)) <= 0) 
+		if (ReadMME (plc, 0, (VS_WRITE_AND_EXECUTE_APPLET | MMTYPE_CNF)) <= 0) 
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);

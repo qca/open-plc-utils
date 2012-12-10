@@ -55,272 +55,274 @@ static const struct mme_name
 mme_names [] = 
 
 {
+
+
 	{
-		0x0000,
+		CC_CCO_APPOINT,
 		"CC_CCO_APPOINT"
 	},
 	{
-		0x0004,
+		CC_BACKUP_APPOINT,
 		"CC_BACKUP_APPOINT"
 	},
 	{
-		0x0008,
+		CC_LINK_INFO,
 		"CC_LINK_INFO"
 	},
 	{
-		0x000C,
+		CC_HANDOVER,
 		"CC_HANDOVER"
 	},
 	{
-		0x0010,
+		CC_HANDOVER_INFO,
 		"CC_HANDOVER_INFO"
 	},
 	{
-		0x0014,
+		CC_DISCOVER_LIST,
 		"CC_DISCOVER_LIST"
 	},
 	{
-		0x0018,
+		CC_LINK_NEW,
 		"CC_LINK_NEW"
 	},
 	{
-		0x001C,
+		CC_LINK_MOD,
 		"CC_LINK_MOD"
 	},
 	{
-		0x0020,
+		CC_LINK_SQZ,
 		"CC_LINK_SQZ"
 	},
 	{
-		0x0024,
+		CC_LINK_REL,
 		"CC_LINK_REL"
 	},
 	{
-		0x0028,
+		CC_DETECT_REPORT,
 		"CC_DETECT_REPORT"
 	},
 	{
-		0x002C,
+		CC_WHO_RU,
 		"CC_WHO_RU"
 	},
 	{
-		0x0030,
+		CC_ASSOC,
 		"CC_ASSOC"
 	},
 	{
-		0x0034,
+		CC_LEAVE,
 		"CC_LEAVE"
 	},
 	{
-		0x0038,
+		CC_SET_TEI_MAP,
 		"CC_SET_TEI_MAP"
 	},
 	{
-		0x003C,
+		CC_RELAY,
 		"CC_RELAY"
 	},
 	{
-		0x0040,
+		CC_BEACON_RELIABILITY,
 		"CC_BEACON_RELIABILITY"
 	},
 	{
-		0x0044,
+		CC_ALLOC_MOVE,
 		"CC_ALLOC_MOVE"
 	},
 	{
-		0x0048,
+		CC_ACCESS_NEW,
 		"CC_ACCESS_NEW"
 	},
 	{
-		0x004C,
+		CC_ACCESS_REL,
 		"CC_ACCESS_REL"
 	},
 	{
-		0x0050,
+		CC_DCPPC,
 		"CC_DCPPC"
 	},
 	{
-		0x0054,
+		CC_HP1_DET,
 		"CC_HP1_DET"
 	},
 	{
-		0x0058,
+		CC_BLE_UPDATE,
 		"CC_BLE_UPDATE"
 	},
 	{
-		0x2000,
+		CP_PROXY_APPOINT,
 		"CP_PROXY_APPOINT"
 	},
 	{
-		0x2004,
+		PH_PROXY_APPOINT,
 		"PH_PROXY_APPOINT"
 	},
 	{
-		0x2008,
+		CP_PROXY_WAKE,
 		"CP_PROXY_WAKE"
 	},
 	{
-		0x4000,
+		NN_INL,
 		"NN_INL"
 	},
 	{
-		0x4004,
+		NN_NEW_NET,
 		"NN_NEW_NET"
 	},
 	{
-		0x4008,
+		NN_ADD_ALLOC,
 		"NN_ADD_ALLOC"
 	},
 	{
-		0x400C,
+		NN_REL_ALLOC,
 		"NN_REL_ALLOC"
 	},
 	{
-		0x4010,
+		NN_REL_NET,
 		"NN_REL_NET"
 	},
 	{
-		0x6000,
+		CM_ASSOCIATED_STA,
 		"CM_ASSOCIATED_STA"
 	},
 	{
-		0x6004,
+		CM_ENCRYPTED_PAYLOAD,
 		"CM_ENCRYPTED_PAYLOAD"
 	},
 	{
-		0x6008,
+		CM_SET_KEY,
 		"CM_SET_KEY"
 	},
 	{
-		0x600C,
+		CM_GET_KEY,
 		"CM_GET_KEY"
 	},
 	{
-		0x6010,
+		CM_SC_JOIN,
 		"CM_SC_JOIN"
 	},
 	{
-		0x6014,
+		CM_CHAN_EST,
 		"CM_CHAN_EST"
 	},
 	{
-		0x6018,
+		CM_TM_UPDATE,
 		"CM_TM_UPDATE"
 	},
 	{
-		0x601C,
+		CM_AMP_MAP,
 		"CM_AMP_MAP"
 	},
 	{
-		0x6020,
+		CM_BRG_INFO,
 		"CM_BRG_INFO"
 	},
 	{
-		0x6024,
+		CM_CONN_NEW,
 		"CM_CONN_NEW"
 	},
 	{
-		0x6028,
+		CM_CONN_REL,
 		"CM_CONN_REL"
 	},
 	{
-		0x602C,
+		CM_CONN_MOD,
 		"CM_CONN_MOD"
 	},
 	{
-		0x6030,
+		CM_CONN_INFO,
 		"CM_CONN_INFO"
 	},
 	{
-		0x6034,
+		CM_STA_CAP,
 		"CM_STA_CAP"
 	},
 	{
-		0x6038,
+		CM_NW_INFO,
 		"CM_NW_INFO"
 	},
 	{
-		0x603C,
+		CM_GET_BEACON,
 		"CM_GET_BEACON"
 	},
 	{
-		0x6040,
+		CM_HFID,
 		"CM_HFID"
 	},
 	{
-		0x6044,
-		"CM_ERROR"
+		CM_MME_ERROR,
+		"CM_MME_ERROR"
 	},
 	{
-		0x6048,
+		CM_NW_STATS,
 		"CM_NW_STATS"
 	},
 	{
-		0x8000,
+		MS_PB_ENC,
 		"MS_PB_ENC"
 	},
 	{
-		0x8004,
-		"MS_AGC_CAP"
+		MS_DISCOVER,
+		"MS_DISCOVER"
 	},
 	{
-		0xA000,
+		VS_SW_VER,
 		"VS_SW_VER"
 	},
 	{
-		0xA004,
+		VS_WR_MEM,
 		"VS_WR_MEM"
 	},
 	{
-		0xA008,
+		VS_RD_MEM,
 		"VS_RD_MEM"
 	},
 	{
-		0xA00C,
+		VS_ST_MAC,
 		"VS_ST_MAC"
 	},
 	{
-		0xA010,
+		VS_GET_NVM,
 		"VS_GET_NVM"
 	},
 	{
-		0xA014,
-		"RESERVED"
-	},
-	{
-		0xA018,
-		"RESERVED"
-	},
-	{
-		0xA01C,
-		"VS_RS_DEV"
-	},
-	{
-		0xA020,
-		"VS_WR_MOD"
-	},
-	{
-		0xA024,
-		"VS_RD_MOD"
-	},
-	{
 		0xA028,
-		"VS_MOD_NVM"
+		"RESERVED"
 	},
 	{
 		0xA02C,
+		"RESERVED"
+	},
+	{
+		VS_RS_DEV,
+		"VS_RS_DEV"
+	},
+	{
+		VS_WR_MOD,
+		"VS_WR_MOD"
+	},
+	{
+		VS_RD_MOD,
+		"VS_RD_MOD"
+	},
+	{
+		VS_MOD_NVM,
+		"VS_MOD_NVM"
+	},
+	{
+		VS_WD_RPT,
 		"VS_WD_RPT"
 	},
 	{
-		0xA030,
+		VS_LNK_STATS,
 		"VS_LNK_STATS"
 	},
 	{
-		0xA034,
+		VS_SNIFFER,
 		"VS_SNIFFER"
 	},
 	{
-		0xA038,
+		VS_NW_INFO,
 		"VS_NW_INFO"
 	},
 	{
@@ -328,191 +330,191 @@ mme_names [] =
 		"RESERVED"
 	},
 	{
-		0xA040,
+		VS_CP_RPT,
 		"VS_CP_RPT"
 	},
 	{
-		0xA044,
+		VS_ARPC,
 		"VS_ARPC"
 	},
 	{
-		0xA048,
+		VS_FR_LBK,
 		"VS_FR_LBK"
 	},
 	{
-		0xA04C,
+		VS_LBK_STAT,
 		"VS_LBK_STAT"
 	},
 	{
-		0xA050,
+		VS_SET_KEY,
 		"VS_SET_KEY"
 	},
 	{
-		0xA054,
+		VS_MFG_STRING,
 		"VS_MFG_STRING"
 	},
 	{
-		0xA058,
+		VS_RD_CBLOCK,
 		"VS_RD_CBLOCK"
 	},
 	{
-		0xA05C,
+		VS_SET_SDRAM,
 		"VS_SET_SDRAM"
 	},
 	{
-		0xA060,
+		VS_HOST_ACTION,
 		"VS_HOST_ACTION"
 	},
 	{
-		0xA064,
+		VS_RD_BLK_NVM,
 		"VS_RD_BLK_NVM"
 	},
 	{
-		0xA068,
+		VS_OP_ATTRIBUTES,
 		"VS_OP_ATTRIBUTES"
 	},
 	{
-		0xA06C,
+		VS_ENET_SETTINGS,
 		"VS_ENET_SETTINGS"
 	},
 	{
-		0xA070,
+		VS_TONE_MAP_CHAR,
 		"VS_TONE_MAP_CHAR"
 	},
 	{
-		0xA074,
+		VS_NW_INFO_STATS,
 		"VS_NW_INFO_STATS"
 	},
 	{
-		0xA078,
+		VS_SLAVE_MEM,
 		"VS_SLAVE_MEM"
 	},
 	{
-		0xA07C,
+		VS_FAC_DEFAULTS,
 		"VS_FAC_DEFAULTS"
 	},
 	{
-		0xA080,
+		VS_PTS_NVM,
 		"VS_PTS_NVM"
 	},
 	{
-		0xA084,
-		"VS_MCAST_INFO"
+		VS_MULTICAST_INFO,
+		"VS_MULTICAST_INFO"
 	},
 	{
-		0xA088,
+		VS_CLASSIFICATION,
 		"VS_CLASSIFICATION"
 	},
 	{
-		0xA08C,
+		VS_DIAG_STAGE,
 		"VS_DIAG_STAGE"
 	},
 	{
-		0xA090,
+		VS_RX_TONE_MAP_CHAR,
 		"VS_RX_TONE_MAP_CHAR"
 	},
 	{
-		0xA094,
+		VS_SET_LED_BEHAVIOR,
 		"VS_SET_LED_BEHAVIOR"
 	},
 	{
-		0xA098,
-		"VS_WRITE_AND_EXECUTE"
+		VS_WRITE_AND_EXECUTE_APPLET,
+		"VS_WRITE_AND_EXECUTE_APPLET"
 	},
 	{
-		0xA09C,
-		"VS_MDIO_CMD"
+		VS_MDIO_COMMAND,
+		"VS_MDIO_COMMAND"
 	},
 	{
-		0xA0A0,
+		VS_SLAVE_REG,
 		"VS_SLAVE_REG"
 	},
 	{
-		0xA0A4,
+		VS_BANDWIDTH_LIMITING,
 		"VS_BANDWIDTH_LIMITING"
 	},
 	{
-		0xA0A8,
+		VS_SNID_OPERATION,
 		"VS_SNID_OPERATION"
 	},
 	{
-		0xA0AC,
+		VS_NN_MITIGATE,
 		"VS_NN_MITIGATE"
 	},
 	{
-		0xA0B0,
+		VS_MODULE_OPERATION,
 		"VS_MODULE_OPERATION"
 	},
 	{
-		0xA0B4,
+		VS_DIAG_NETWORK_PROBE,
 		"VS_DIAG_NETWORK_PROBE"
 	},
 	{
-		0xA0B8,
+		VS_PL_LINK_STATUS,
 		"VS_PL_LINK_STATUS"
 	},
 	{
-		0xA0BC,
-		"VS_GPIO_STATE_CHANGE",
+		VS_GPIO_STATE_CHANGE,
+		"VS_GPIO_STATE_CHANGE"
 	},
 	{
-		0xA0C0,
+		VS_CONN_ADD,
 		"VS_CONN_ADD"
 	},
 	{
-		0xA0C4,
+		VS_CONN_MOD,
 		"VS_CONN_MOD"
 	},
 	{
-		0xA0C8,
+		VS_CONN_REL,
 		"VS_CONN_REL"
 	},
 	{
-		0xA0CC,
+		VS_CONN_INFO,
 		"VS_CONN_INFO"
 	},
 	{
-		0xA0D0,
+		VS_MULTIPORT_LNK_STA,
 		"VS_MULTIPORT_LNK_STA"
 	},
 	{
-		0xA0D4,
+		VS_RAND_MAC_ADDR,
 		"VS_RAND_MAC_ADDR"
 	},
 	{
-		0xA0D8,
-		"VS_CUST_INFO"
+		VS_CUSTOM_INFO,
+		"VS_CUSTOM_INFO"
 	},
 	{
-		0xA0DC,
-		"VS_ENUM_ID_TABLE"
+		VS_EM_ID_TABLE,
+		"VS_EM_ID_TABLE"
 	},
 	{
-		0xA0E0,
+		VS_STANDBY,
 		"VS_STANDBY"
 	},
 	{
-		0xA0E4,
-		"VS_SLEEP_SCHED"
+		VS_SLEEPSCHEDULE,
+		"VS_SLEEPSCHEDULE"
 	},
 	{
-		0xA0E8,
-		"RESERVED"
+		VS_SLEEPSCHEDULE_NOTIFICATION,
+		"VS_SLEEPSCHEDULE_NOTIFICATION"
 	},
 	{
 		0xA0EC,
 		"RESERVED"
 	},
 	{
-		0xA0F0,
+		VS_MICROCONTROLLER_DIAG,
 		"VS_MICROCONTROLLER_DIAG"
 	},
 	{
-		0xA0F4,
+		VS_DEBUG_INFO,
 		"VS_DEBUG_INFO"
 	},
 	{
-		0xA0F8,
+		VS_GET_PROPERTY,
 		"VS_GET_PROPERTY"
 	},
 	{
@@ -520,41 +522,46 @@ mme_names [] =
 		"RESERVED"
 	},
 	{
-		0xA100,
+		VS_SET_PROPERTY,
 		"VS_SET_PROPERTY"
 	},
 	{
-		0xA104,
+		VS_PHYSWITCH_MDIO,
 		"VS_PHYSWITCH_MDIO"
 	},
 	{
-		0xA108,
+		VS_FLASH_ERASE,
 		"VS_FLASH_ERASE"
 	},
 	{
-		0xA10C,
-		"VS_SELFTESTONETIME_CONFIG"
+		VS_SELFTEST_ONETIME_CONFIG,
+		"VS_SELFTEST_ONETIME_CONFIG"
 	},
 	{
-		0xA110,
+		VS_SELFTEST_RESULTS,
 		"VS_SELFTEST_RESULTS"
 	},
 	{
-		0xA114,
+		VS_MDU_TRAFFIC_STATS,
 		"VS_MDU_TRAFFIC_STATS"
 	},
 	{
-		0xA118,
+		VS_FORWARD_CONFIG,
 		"VS_FORWARD_CONFIG"
 	},
 	{
-		0xA148,
+		0xA11C,
+		"RESERVED"
+	},
+	{
+		VS_ACCESS_LEVEL_CONTROL,
 		"VS_ACCESS_LEVEL_CONTROL"
 	},
 	{
-		0xA200,
+		VS_HYBRID_INFO,
 		"VS_HYBRID_INFO"
 	}
+
 };
 
 char const * MMEName (uint16_t MMTYPE) 
@@ -627,7 +634,8 @@ int main (int argc, char const * argv [])
 	unsigned mme = 0;
 	for (mme = 0; mme < SIZEOF (mme_names); mme++) 
 	{
-		printf ("0x%04X;%s;yes;yes;yes\n", mme_names [mme].type, mme_names [mme].name);
+		printf ("{ %s, \"%s\" },",  mme_names [mme].name, mme_names [mme].name);
+//		printf ("0x%04X;%s;yes;yes;yes\n", mme_names [mme].type, mme_names [mme].name);
 	}
 	return (0);
 }

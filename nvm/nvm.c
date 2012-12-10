@@ -18,6 +18,19 @@
  *   
  *--------------------------------------------------------------------*/
 
+/*====================================================================*"
+ *
+ *   nvm.c -
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Charles Maier <cmaier@qualcomm.com>
+ *
+ *--------------------------------------------------------------------*/
+
 #ifndef NVM_SOURCE
 #define NVM_SOURCE
 

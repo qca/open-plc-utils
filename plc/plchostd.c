@@ -18,7 +18,19 @@
  *   
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
+/*====================================================================*"
+ *
+ *   plchostd.c -
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Charles Maier <cmaier@qualcomm.com>
+ *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
+ *
+ *--------------------------------------------------------------------*/
 
 /*====================================================================*"
  *   system header files;
@@ -192,9 +204,9 @@ static bool done = false;
  *   void terminate (signo_t signal);
  *
  *
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2010 by Atheros Communications; ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -214,9 +226,9 @@ static void terminate (signo_t signal)
  *   signed opensocket (char const * socketname);
  *
  *
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2010 by Atheros Communications; ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -274,13 +286,13 @@ static signed opensocket (char const * socketname)
  *  
  *   signed function (struct plc * plc, char const * socket);
  *  
- *   wait indefinitely for VS_HST_ACTION messages; service the device 
+ *   wait indefinitely for VS_HOST_ACTION messages; service the device 
  *   as directed; this function is for demonstration and experimentation
  *   only; it will stop dead - like a bug! - on error;
  *   
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2010 by Atheros Communications; ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -316,16 +328,13 @@ signed function (struct plc * plc, char const * socket)
 	signed fd = opensocket (socket);
 	char const * FactoryNVM = plc->NVM.name;
 	char const * FactoryPIB = plc->PIB.name;
-	signed timeout = channel->timeout;
 	signed action;
 	signed status;
 	memset (buffer, 0, sizeof (buffer));
 	write (fd, MESSAGE, strlen (MESSAGE));
 	while (!done) 
 	{
-		channel->timeout = plc->timer;
-		status = ReadMME (plc, 0, (VS_HST_ACTION | MMTYPE_IND));
-		channel->timeout = timeout;
+		status = ReadMME (plc, 0, (VS_HOST_ACTION | MMTYPE_IND));
 		if (status < 0) 
 		{
 			break;
@@ -456,9 +465,9 @@ signed function (struct plc * plc, char const * socket)
  *   to understand command line parsing and help summary display; see
  *   plc.h for the definition of struct plc; 
  *
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2010 by Atheros Communications; ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -491,7 +500,7 @@ int main (int argc, char const * argv [])
 		"q\tquiet mode",
 		"s f\tbroadcast event status on socket (f) [" SOCKETNAME "]",
 		"S f\tsoftloader file is (f)",
-		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
 		"v\tverbose mode",
 		"w n\twakeup every (n) seconds [" LITERAL (PLC_LONGTIME) "]",
 		"x\texit on error",
@@ -611,7 +620,7 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_FLASH_DEVICE);
 			break;
 		case 't':
-			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

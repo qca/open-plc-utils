@@ -26,6 +26,7 @@ pcap_indextoname.o: pcap_indextoname.c ether.h
 pcap_nameindex.o: pcap_nameindex.c ether.h
 pcap_nametoindex.o: pcap_nametoindex.c ether.h
 pcapdevs.o: pcapdevs.c error.c error.h ether.h flags.h gethwaddr.c getoptv.c getoptv.h hexdecode.c memory.h putoptv.c putoptv.h types.h version.c version.h
+readchannel.o: readchannel.c channel.h error.h 
 readpacket.o: readpacket.c channel.h error.h flags.h hexload.c memory.h
 sendpacket.o: sendpacket.c channel.h flags.h memory.h
 setchanneltimeout.o: setchanneltimeout.c channel.h error.h

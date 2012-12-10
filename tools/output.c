@@ -6,9 +6,9 @@
  *
  *   print an indented and formatted string on stdout;
  *
- *.  released 2005 by charles maier associates ltd. for public use;
- *:  compiled on debian gnu/linux with gcc 2.95 compiler;
- *;  licensed under the gnu public license version two;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 

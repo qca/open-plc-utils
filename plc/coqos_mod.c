@@ -33,7 +33,6 @@
  *
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
 
 /*====================================================================*"
  *   system header files;
@@ -188,7 +187,7 @@ static signed mod_conn (struct plc * plc, uint8_t TYPE, uint16_t CID)
 	Request (plc, "COQOS modify connection");
 	memset (message, 0, sizeof (* message));
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
-	QualcommHeader (&request->qualcomm, 0, (VS_MOD_CONN | MMTYPE_REQ));
+	QualcommHeader (&request->qualcomm, 0, (VS_CONN_MOD | MMTYPE_REQ));
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	request->MOD_CTRL = TYPE;
 	request->CID = CID;
@@ -197,7 +196,7 @@ static signed mod_conn (struct plc * plc, uint8_t TYPE, uint16_t CID)
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	while (ReadMME (plc, 0, (VS_MOD_CONN | MMTYPE_CNF)) > 0) 
+	while (ReadMME (plc, 0, (VS_CONN_MOD | MMTYPE_CNF)) > 0) 
 	{
 		if (confirm->MSTATUS) 
 		{

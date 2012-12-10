@@ -54,6 +54,7 @@
 #include <errno.h>
 
 #include "../tools/error.h"
+#include "../tools/timer.h"
 #include "../plc/plc.h"
 #include "../mme/mme.h"
 
@@ -70,21 +71,25 @@ signed ReadMME (struct plc * plc, uint8_t MMV, uint16_t MMTYPE)
 	}
 	while ((plc->packetsize = readpacket (channel, message, sizeof (* message))) >= 0) 
 	{
-		if (!UnwantedMessage (message, plc->packetsize, MMV, MMTYPE)) 
+		if (UnwantedMessage (message, plc->packetsize, MMV, MMTYPE)) 
 		{
-			return (plc->packetsize);
+			if (gettimeofday (&tc, NULL) == -1) 
+			{
+				error (1, errno, CANT_RESET_TIMER);
+			}
+			if (channel->timer < 0) 
+			{
+				continue;
+			}
+			if (channel->timer > MILLISECONDS (ts, tc))
+			{
+				continue;
+			}
+			plc->packetsize = 0;
 		}
-		if (gettimeofday (&tc, NULL) == -1) 
-		{
-			error (1, errno, CANT_RESET_TIMER);
-		}
-		if ((channel->timeout < 0) || (channel->timeout > ((tc.tv_sec - ts.tv_sec) * 1000 + (tc.tv_usec - ts.tv_usec) / 1000)))
-		{
-			continue;
-		}
-		return (0);
+		break;
 	}
-	return (-1);
+	return (plc->packetsize);
 }
 
 

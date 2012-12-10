@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2010 by Qualcomm Atheros
+ *   Copyright (c) 2010, Atheros Communications Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -16,6 +16,20 @@
  *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*"
+ *
+ *   PLCHostBoot.c - 
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Charles Maier <cmaier@qualcomm.com>
+ *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
+ *
  *--------------------------------------------------------------------*/
 
 #ifndef PLCHOSTBOOT_SOURCE
@@ -95,7 +109,7 @@ static signed opensocket (char const * socketname)
  *  
  *   int6k.h
  *
- *   wait indefinitely for VS_HST_ACTION messages; service the device 
+ *   wait indefinitely for VS_HOST_ACTION messages; service the device 
  *   as directed; this function is for demonstration and experimentation
  *   only; it will stop dead - like a bug! - on error;
  *   
@@ -152,16 +166,13 @@ signed PLCHostBoot (struct plc * plc, char const * socket, unsigned timer)
 	signed fd = opensocket (socket);
 	char const * NVM = plc->NVM.name;
 	char const * PIB = plc->PIB.name;
-	unsigned timeout = channel->timeout;
 	unsigned action;
 	signed status;
 	memset (buffer, 0, sizeof (buffer));
 	write (fd, MESSAGE, strlen (MESSAGE));
 	while (!done) 
 	{
-		channel->timeout = timer;
-		status = ReadMME (plc, 0, (VS_HST_ACTION | MMTYPE_IND));
-		channel->timeout = timeout;
+		status = ReadMME (plc, 0, (VS_HOST_ACTION | MMTYPE_IND));
 		if (status < 0) 
 		{
 			break;

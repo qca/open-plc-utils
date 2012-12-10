@@ -25,7 +25,7 @@
  *   plc.h
  *
  *   This plug-in for program plc restores factory defaults using 
- *   a VS_FAC_DEFAULT message;
+ *   a VS_FAC_DEFAULTS message;
  *
  *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
  *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
@@ -77,14 +77,14 @@ signed FactoryDefaults (struct plc * plc)
 	Request (plc, "Restore Factory Defaults");
 	memset (message, 0, sizeof (* message));
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
-	QualcommHeader (&request->qualcomm, 0, (VS_FAC_DEFAULT | MMTYPE_REQ));
+	QualcommHeader (&request->qualcomm, 0, (VS_FAC_DEFAULTS | MMTYPE_REQ));
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	if (SendMME (plc) <= 0) 
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	while (ReadMME (plc, 0, (VS_FAC_DEFAULT | MMTYPE_CNF)) > 0) 
+	while (ReadMME (plc, 0, (VS_FAC_DEFAULTS | MMTYPE_CNF)) > 0) 
 	{
 		if (confirm->MSTATUS) 
 		{

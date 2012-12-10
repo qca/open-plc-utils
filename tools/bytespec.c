@@ -13,7 +13,7 @@
  *   octets are illegal;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Copyright 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
@@ -51,12 +51,12 @@ size_t bytespec (char const * string, void * memory, size_t extent)
 		}
 		if ((digit = todigit (*number++)) >= RADIX_HEX) 
 		{
-			error (1, EINVAL, "Have %s but need valid hex digit", string);
+			error (1, EINVAL, "You said '%s' but I want a hex digit", string);
 		}
 		*offset = digit << 4;
 		if ((digit = todigit (*number++)) >= RADIX_HEX) 
 		{
-			error (1, EINVAL, "Have %s but need valid hex digit", string);
+			error (1, EINVAL, "You said '%s' but I want a hex digit", string);
 		}
 		*offset |= digit;
 		offset++;

@@ -22,17 +22,15 @@
  *
  *   plclog.c - Atheros INT6x00 Log Retrieval Utility;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
  *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
  *
  *--------------------------------------------------------------------*/
-
-#define _GETOPT_H
 
 /*====================================================================*"
  *   system header files;
@@ -117,6 +115,7 @@
 #define WD_ACTION_READ   (0 << 1)
 #define WD_ACTION_CLEAR  (1 << 1)
 #define WD_ACTION_CUSTOM (2 << 1)
+#define WD_SESSION_ID 0xFEFE
 
 /*====================================================================*
  *   
@@ -135,9 +134,9 @@
  *   This VW_WD_RPT message protocol returns an indication message, 
  *   not a confirm message;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -184,7 +183,7 @@ static signed PrintRawWatchdogReport (struct plc * plc)
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
 	QualcommHeader (&request->qualcomm, 0, (VS_WD_RPT | MMTYPE_REQ));
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
-	request->SESSIONID = HTOLE16 (0xFEFE);
+	request->SESSIONID = HTOLE16 (WD_SESSION_ID);
 	request->CLR = plc->readaction;
 	if (SendMME (plc) <= 0) 
 	{
@@ -226,9 +225,9 @@ static signed PrintRawWatchdogReport (struct plc * plc)
  *   This VW_WD_RPT message protocol returns an indication message, 
  *   not a confirm message;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -275,7 +274,7 @@ static signed PrintWatchdogReport (struct plc * plc, char const * version)
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
 	QualcommHeader (&request->qualcomm, 0, (VS_WD_RPT | MMTYPE_REQ));
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
-	request->SESSIONID = HTOLE16 (0xFEFE);
+	request->SESSIONID = HTOLE16 (WD_SESSION_ID);
 	request->CLR = plc->readaction;
 	if (SendMME (plc) <= 0) 
 	{
@@ -299,7 +298,7 @@ static signed PrintWatchdogReport (struct plc * plc, char const * version)
 		}
 		printf ("<Packet>");
 		printf ("<Version>%s</Version>", version);
-		printf ("<OUI>%s</OUI>", "00B05200");
+		printf ("<OUI>%s</OUI>", "00B052");
 		printf ("<Status>0</Status>");
 		printf ("<SessionId>0</SessionId>");
 		printf ("<NumParts>%d</NumParts>", indicate->NUMPARTS);
@@ -334,9 +333,9 @@ static signed PrintWatchdogReport (struct plc * plc, char const * version)
  *   This VW_WD_RPT message protocol returns an indication message, 
  *   not a confirm message;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -390,7 +389,7 @@ static signed PrintCheckpointReport (struct plc * plc, char const * version)
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
 	QualcommHeader (&request->qualcomm, 0, (VS_CP_RPT | MMTYPE_REQ));
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
-	request->SESSIONID = HTOLE16 (0xEFEF);
+	request->SESSIONID = HTOLE16 (WD_SESSION_ID);
 	request->CLR = plc->readaction;
 	if (SendMME (plc) <= 0) 
 	{
@@ -452,9 +451,9 @@ static signed PrintCheckpointReport (struct plc * plc, char const * version)
  *   read the firmware version string from a device before reading
  *   and writing the watchdog and checkpoint reports in XML format;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -553,9 +552,9 @@ static signed Diagnostics (struct plc * plc)
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 

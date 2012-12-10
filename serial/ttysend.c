@@ -206,6 +206,6 @@ int main (int argc, char const * argv [])
 	if (tcsetattr (fd, TCSANOW, &termios) == -1) error (1, errno, "could not set tty attributes");
 	ttysend (file.file, fd, time, chunk_size);
 	close (fd);
-	return 0;
+	return (0);
 }
 

@@ -129,6 +129,10 @@
 #define FIELD_TCP_ACK 0xE4
 #define FIELD_VLAN_TAG 0xE5
 
+#define RULE_MAX_AUTOCONN 16
+#define RULE_MAX_PRIORITY_MAPS 8
+#define RULE_MAX_CLASSIFIERS 3
+
 /*====================================================================*
  *   variables;
  *--------------------------------------------------------------------*/
@@ -145,15 +149,12 @@ extern struct _code_ const states [STATES];
 #pragma pack (push,1)
 #endif
 
-typedef struct __packed classifier 
+/*
+ *	MME and PIB Classifier Rules are similar but differ in size 
+ *      and so we declare structures for each use; observe that 
+ *	function ParseRule uses the compact MMERule structure;
+ */
 
-{
-	uint8_t CR_PID;
-	uint8_t CR_OPERAND;
-	uint8_t CR_VALUE [16];
-}
-
-classifier;
 typedef struct __packed cspec 
 
 {
@@ -163,7 +164,25 @@ typedef struct __packed cspec
 }
 
 cspec;
-typedef struct __packed rule 
+typedef struct __packed MMEClassifier 
+
+{
+	uint8_t CR_PID;
+	uint8_t CR_OPERAND;
+	uint8_t CR_VALUE [16];
+}
+
+MMEClassifier;
+typedef struct __packed PIBClassifier 
+
+{
+	uint32_t CR_PID;
+	uint32_t CR_OPERAND;
+	uint8_t CR_VALUE [16];
+}
+
+PIBClassifier;
+typedef struct __packed MMERule 
 
 {
 	uint8_t MCONTROL;
@@ -171,11 +190,54 @@ typedef struct __packed rule
 	uint8_t MACTION;
 	uint8_t MOPERAND;
 	uint8_t NUM_CLASSIFIERS;
-	struct classifier CLASSIFIER [3];
+	struct MMEClassifier CLASSIFIER [RULE_MAX_CLASSIFIERS];
 	struct cspec cspec;
 }
 
-rule;
+MMERule;
+typedef struct __packed PIBRule
+
+{
+	uint8_t MCONTROL;
+	uint8_t MVOLATILITY;
+	uint8_t MACTION;
+	uint8_t MOPERAND;
+	uint32_t NUM_CLASSIFIERS;
+	struct PIBClassifier CLASSIFIER [RULE_MAX_CLASSIFIERS];
+	struct cspec cspec;
+}
+
+PIBRule;
+typedef struct __packed classifier_priority_map 
+
+{
+	uint32_t Priority;
+	struct PIBClassifier CLASSIFIER;
+}
+
+classifier_priority_map;
+typedef struct __packed auto_connection 
+
+{
+	uint8_t MACTION;
+	uint8_t MOPERAND;
+	uint16_t NUM_CLASSIFIERS;
+	struct PIBClassifier CLASSIFIER [RULE_MAX_CLASSIFIERS];
+	struct cspec cspec;
+	uint8_t RSVD [14];
+}
+
+auto_connection;
+typedef struct __packed PIBClassifiers 
+
+{
+	uint32_t priority_count;
+	uint32_t autoconn_count;
+	struct classifier_priority_map classifier_priority_map [RULE_MAX_PRIORITY_MAPS];
+	struct auto_connection auto_connection [RULE_MAX_AUTOCONN];
+}
+
+PIBClassifiers;
 
 #ifndef __GNUC__
 #pragma pack (pop)
@@ -185,7 +247,15 @@ rule;
  *   functions;
  *--------------------------------------------------------------------*/
 
-signed ParseRule (int * argcp, char const ** argvp [], struct rule * rule, struct cspec * cspec);
+signed ParseRule (int * argcp, char const ** argvp [], struct MMERule *, struct cspec *);
+void cspec_dump (struct cspec *);
+void classifier_priority_map_dump (struct classifier_priority_map *);
+void auto_connection_dump (struct auto_connection *);
+void PIBClassifiersDump (struct PIBClassifiers *);
+void PIBClassifierDump (struct PIBClassifier *);
+void MMEClassifierDump (struct MMEClassifier *);
+void PIBRuleDump (struct PIBRule *);
+void MMERuleDump (struct MMERule *);
 
 /*====================================================================*
  *   

@@ -36,6 +36,7 @@ gcc -Wall -Wextra -Wno-unused-parameter -c piblock.c
 gcc -Wall -Wextra -Wno-unused-parameter -c pibscalers.c
 gcc -Wall -Wextra -Wno-unused-parameter -c psread.c
 gcc -Wall -Wextra -Wno-unused-parameter -c qosinfo.c
+gcc -Wall -Wextra -Wno-unused-parameter -c ruledump.c 
 
 # ====================================================================
 # cleanse;

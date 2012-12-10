@@ -24,9 +24,9 @@
  *  
  *   plc.h
  *
- *   respond to a VS_HST_ACTION.IND message sent from a device to 
- *   the local host using a VS_HST_ACTION.RSP message; this tells
- *   the bootloader to stop sending VS_HST_ACTION.IND messages;
+ *   respond to a VS_HOST_ACTION.IND message sent from a device to 
+ *   the local host using a VS_HOST_ACTION.RSP message; this tells
+ *   the bootloader to stop sending VS_HOST_ACTION.IND messages;
  *   
  *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
  *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
@@ -71,7 +71,7 @@ signed HostActionResponse (struct plc * plc)
 
 	memset (message, 0, sizeof (* message));
 	EthernetHeader (&response->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
-	QualcommHeader (&response->qualcomm, 0, (VS_HST_ACTION | MMTYPE_RSP));
+	QualcommHeader (&response->qualcomm, 0, (VS_HOST_ACTION | MMTYPE_RSP));
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	if (SendMME (plc) <= 0) 
 	{

@@ -24,7 +24,7 @@
  *  
  *   plc.h
  *
- *   wait indefinitely for VS_HST_ACTION messages; service requests
+ *   wait indefinitely for VS_HOST_ACTION messages; service requests
  *   as they arrive; this function is for demonstration and testing
  *   only; it stops dead - like a bug! - on error;
  *   
@@ -103,14 +103,14 @@ signed EmulateHost (struct plc * plc)
 	uint32_t offset;
 	char const * PIB = plc->PIB.name;
 	char const * NVM = plc->NVM.name;
-	signed timeout = channel->timeout;
+	signed timer = channel->timer;
 	signed status = 0;
 	Request (plc, "Waiting for Host Action");
 	while (1) 
 	{
-		channel->timeout = plc->timer;
-		status = ReadMME (plc, 0, (VS_HST_ACTION | MMTYPE_IND));
-		channel->timeout = timeout;
+		channel->timer = plc->timer;
+		status = ReadMME (plc, 0, (VS_HOST_ACTION | MMTYPE_IND));
+		channel->timer = timer;
 		if (status < 0) 
 		{
 			break;
@@ -128,7 +128,7 @@ signed EmulateHost (struct plc * plc)
 				continue;
 			}
 			memcpy (channel->peer, indicate->ethernet.OSA, sizeof (channel->peer));
-			channel->timeout = timeout;
+			channel->timer = timer;
 			if (indicate->MACTION == 0x00) 
 			{
 				unsigned module = 0;
@@ -289,8 +289,8 @@ signed EmulateHost (struct plc * plc)
 #if 0
 
 /*
- *	Due to an omission in the INT6300 BootLoader, responding to this VS_HST_ACTION 
- *      indication will suppress subsequent VS_HST_ACTION messages and the device will 
+ *	Due to an omission in the INT6300 BootLoader, responding to this VS_HOST_ACTION 
+ *      indication will suppress subsequent VS_HOST_ACTION messages and the device will 
  *     	not request firmware and parameters; this may be corrected on the INT6400; 
  */
 

@@ -20,7 +20,7 @@
 
 /*====================================================================*
  *
- *   void * manifetch (void const * memory, ssize_t extent);
+ *   void * manifetch (void const * memory, size_t extent);
  *
  *   nvm.h
  *   
@@ -47,19 +47,13 @@
 #include "../tools/endian.h"
 #include "../nvm/nvm.h"
 
-void * manifetch (void const * memory, ssize_t extent, uint32_t type) 
+void * manifetch (void const * memory, size_t extent, uint32_t type) 
 
 {
 	uint8_t * offset = (uint8_t *)(memory);
 	while (extent) 
 	{
-		struct TLVNode 
-		{
-			uint32_t type;
-			uint32_t size;
-			uint32_t data;
-		}
-		* node = (struct TLVNode *)(offset);
+		struct TLVNode * node = (struct TLVNode *)(offset);
 		if (LE32TOH (node->type) == type) 
 		{
 			return ((void *)(&node->data));

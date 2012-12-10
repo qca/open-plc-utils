@@ -24,12 +24,12 @@
  *
  *   plc.h
  *
- *   use VS_WRITE_AND_EXECUTE write a firmware image into SDRAM and 
+ *   use VS_WRITE_AND_EXECUTE_APPLET write a firmware image into SDRAM and 
  *   start execution when the image is stored in the new image file 
  *   format;
  *
  *   the boot loader must be running for this to work since runtime 
- *   firmware ignores VS_WRITE_AND_EXECUTE messages;
+ *   firmware ignores VS_WRITE_AND_EXECUTE_APPLET messages;
  *
  *   beware that this function is identical to WriteExecuteFirmware2
  *   except that the ALLOWDED_MEM_TYPE is set to 1;
@@ -110,7 +110,7 @@ signed WriteExecuteApplet2 (struct plc * plc, unsigned module, const struct nvm_
 	{
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
-		QualcommHeader (&request->qualcomm, 0, (VS_WRITE_EXECUTE | MMTYPE_REQ));
+		QualcommHeader (&request->qualcomm, 0, (VS_WRITE_AND_EXECUTE_APPLET | MMTYPE_REQ));
 		if (length > extent) 
 		{
 			Request (plc, "Start %s (%d) (%08X)", plc->NVM.name, module, LE32TOH (nvm_header->EntryPoint));
@@ -136,7 +136,7 @@ signed WriteExecuteApplet2 (struct plc * plc, unsigned module, const struct nvm_
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		if (ReadMME (plc, 0, (VS_WRITE_EXECUTE | MMTYPE_CNF)) <= 0) 
+		if (ReadMME (plc, 0, (VS_WRITE_AND_EXECUTE_APPLET | MMTYPE_CNF)) <= 0) 
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);

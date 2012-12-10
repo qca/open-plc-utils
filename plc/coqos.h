@@ -52,7 +52,7 @@ struct __packed connection
 	{
 		uint8_t MOPERAND;
 		uint8_t NUM_CLASSIFIERS;
-		struct classifier CLASSIFIERS [3];
+		struct MMEClassifier CLASSIFIERS [RULE_MAX_CLASSIFIERS];
 	}
 	rule;
 	struct __packed 

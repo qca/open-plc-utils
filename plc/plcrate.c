@@ -18,7 +18,19 @@
  *   
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
+/*====================================================================*"
+ *
+ *    plcrate.c -
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
+ *      Charles Maier <cmaier@qualcomm.com>
+ *
+ *--------------------------------------------------------------------*/
 
 /*====================================================================*"
  *   system header files;
@@ -121,9 +133,9 @@
  *   shown here; the entire sequence can be repeated with optional 
  *   pause between each iteration;
  * 
- *.  Atheros Powerline Toolkit for HomePlug AV; 
- *:  Published 2007 by Intellon Corp. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use;
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -183,9 +195,9 @@ void manager (struct plc * plc, signed count, signed pause)
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
  *   
- *.  Atheros Powerline Toolkit for HomePlug AV; 
- *:  Published 2007 by Intellon Corp. ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -214,7 +226,7 @@ int main (int argc, char const * argv [])
 
 		"l n\tloop (n) times [" LITERAL (PLCRATE_LOOP) "]",
 		"n\tnetwork TX/RX information",
-		"o n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
+		"o n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
 		"q\tquiet mode",
 		"r\trequest device information",
 		"R\treset device with VS_RS_DEV",
@@ -280,7 +292,7 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_NETWORK);
 			break;
 		case 'o':
-			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'q':
 			_setbits (plc.flags, PLC_SILENCE);

@@ -38,7 +38,6 @@
  *
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
 
 /*====================================================================*
  *   system header files;
@@ -114,7 +113,7 @@
 signed function (struct channel * channel, unsigned pause, signed fd) 
 
 {
-	struct ether_frame frame;
+	struct ethernet_frame frame;
 	signed length = sizeof (frame.frame_data);
 	memcpy (frame.frame_dhost, channel->peer, sizeof (frame.frame_dhost));
 	memcpy (frame.frame_shost, channel->host, sizeof (frame.frame_shost));

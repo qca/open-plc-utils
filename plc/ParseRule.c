@@ -49,10 +49,10 @@
 #include "../plc/rules.h"
 
 #ifndef ETHER_ADDR_LEN
-#define ETHER_ADDR_LEN 6 /* normally defined in ethernet.h or if_ether.h */
+#define ETHER_ADDR_LEN 6 
 #endif
 
-signed ParseRule (int * argcp, char const ** argvp [], struct rule * rule, struct cspec * cspec) 
+signed ParseRule (int * argcp, char const ** argvp [], struct MMERule * rule, struct cspec * cspec) 
 
 {
 	int argc = * argcp;
@@ -64,11 +64,8 @@ signed ParseRule (int * argcp, char const ** argvp [], struct rule * rule, struc
 		uint8_t byte [4];
 	}
 	temp;
-	uint16_t * word;
-	uint8_t * byte;
-	uint8_t x;
 	signed code;
-	struct classifier * classifier = (struct classifier *)(&rule->CLASSIFIER);
+	struct MMEClassifier * classifier = (struct MMEClassifier *)(&rule->CLASSIFIER);
 	if ((code = lookup (* argv++, actions, ACTIONS)) == -1) 
 	{
 		assist (*--argv, ACTION, actions, ACTIONS);
@@ -97,7 +94,7 @@ signed ParseRule (int * argcp, char const ** argvp [], struct rule * rule, struc
 		argc--;
 		if (!argc || !* argv) 
 		{
-			error (1, ENOTSUP, "Have %s '%s' without any value", OPERATOR, *--argv);
+			error (1, ENOTSUP, "I have %s '%s' but no value", OPERATOR, *--argv);
 		}
 		switch (classifier->CR_PID) 
 		{
@@ -117,8 +114,7 @@ signed ParseRule (int * argcp, char const ** argvp [], struct rule * rule, struc
 		case FIELD_IPV6_TC:
 		case FIELD_IPV4_TOS:
 		case FIELD_IPV4_PROT:
-			byte = (uint8_t *)(classifier->CR_VALUE);
-			*byte = (uint8_t)(basespec (* argv++, 0, sizeof (* byte)));
+			classifier->CR_VALUE [0] = (uint8_t)(basespec (* argv++, 0, sizeof (classifier->CR_VALUE [0])));
 			break;
 		case FIELD_VLAN_ID:
 		case FIELD_TCP_SP:
@@ -127,28 +123,25 @@ signed ParseRule (int * argcp, char const ** argvp [], struct rule * rule, struc
 		case FIELD_UDP_DP:
 		case FIELD_IP_SP:
 		case FIELD_IP_DP:
-			word = (uint16_t *)(classifier->CR_VALUE);
-			*word = (uint16_t)(basespec (* argv++, 0, sizeof (* word)));
-			*word = htons (*word);
+			temp.word = (uint16_t)(basespec (* argv++, 0, sizeof (temp.word)));
+			temp.word = htons (temp.word);
+			memcpy (classifier->CR_VALUE, &temp, sizeof (temp.word));
 			break;
 		case FIELD_ETH_TYPE:
-			word = (uint16_t *)(classifier->CR_VALUE);
-			*word = (uint16_t)(basespec (* argv++, 0, sizeof (* word)));
-			*word = htons (*word);
+			temp.word = (uint16_t)(basespec (* argv++, 0, sizeof (temp.word)));
+			temp.word = htons (temp.word);
+			memcpy (classifier->CR_VALUE, &temp, sizeof (temp.word));
 			break;
 		case FIELD_IPV6_FL:
-			temp.wide = (uint32_t)(basespec (* argv++, 0, sizeof (temp.wide)));
+			temp.wide = (uint32_t)(basespec (* argv++, 0, sizeof (temp.wide))) & 0x000FFFFF;
 			temp.wide = htonl (temp.wide);
-			memcpy (&classifier->CR_VALUE, &temp.byte [1], 3);
+			memcpy (classifier->CR_VALUE, &temp.byte [1], 3);
 			break;
 		case FIELD_HPAV_MME:
 			bytespec (* argv++, classifier->CR_VALUE, sizeof (uint16_t) + sizeof (uint8_t));
-
-// endian (&classifier->CR_VALUE [1], sizeof (uint16_t));
-
-			x = classifier->CR_VALUE [1];
+			temp.byte [0] = classifier->CR_VALUE [1];
 			classifier->CR_VALUE [1] = classifier->CR_VALUE [2];
-			classifier->CR_VALUE [2] = x;
+			classifier->CR_VALUE [2] = temp.byte [0];
 			break;
 		case FIELD_TCP_ACK:
 			if ((code = lookup (* argv++, states, STATES)) == -1) 
@@ -173,7 +166,7 @@ signed ParseRule (int * argcp, char const ** argvp [], struct rule * rule, struc
 		classifier++;
 		argc--;
 	}
-	memcpy (classifier, cspec, sizeof (struct cspec));
+	memcpy (classifier, cspec, sizeof (* cspec));
 	if ((code = lookup (* argv++, controls, CONTROLS)) == -1) 
 	{
 		assist (*--argv, CONTROL, controls, CONTROLS);

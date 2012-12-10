@@ -101,9 +101,10 @@
 #       define CHANNEL_ETHDEVICE "nic1"
 #endif
 #define CHANNEL_FOREVER (unsigned)(-1)
-#define CHANNEL_TIMEOUT 50
+#define CHANNEL_TIMEOUT 15 
 #define CHANNEL_BAILOUT 0
-#define CHANNEL_OPTIONS 0
+#define CHANNEL_TIMER 50 
+#define CHANNEL_FLAGS 0
 
 /*====================================================================*
  *   common channel error messages;
@@ -158,6 +159,7 @@ typedef struct channel
 #endif
 
 	signed timeout;
+	signed timer;
 	flag_t flags;
 }
 
@@ -171,6 +173,7 @@ signed openchannel (struct channel *);
 signed closechannel (struct channel const *);
 ssize_t sendpacket (struct channel const *, void * memory, ssize_t extent);
 ssize_t readpacket (struct channel const *, void * memory, ssize_t extent);
+ssize_t readchannel (struct channel const *, void * memory, ssize_t extent, byte type);
 signed setchanneltimeout (struct channel * channel, unsigned timeout);
 
 /*====================================================================*

@@ -38,7 +38,6 @@
  *
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
 
 /*====================================================================*"
  *   system header files;
@@ -285,19 +284,19 @@ int main (int argc, char const * argv [])
 	}
 	if ((extent = lseek (file.file, 0, SEEK_END)) == -1) 
 	{
-		error (1, errno, "Can't size %s", file.name);
+		error (1, errno, FILE_CANTSIZE, file.name);
 	}
 	if (!(buffer = malloc (extent))) 
 	{
-		error (1, errno, "Can't hold %s", file.name);
+		error (1, errno, FILE_CANTLOAD, file.name);
 	}
 	if (lseek (file.file, 0, SEEK_SET)) 
 	{
 		error (1, errno, FILE_CANTHOME, file.name);
 	}
-	if (read (file.file, buffer, extent) < extent) 
+	if (read (file.file, buffer, extent) != extent) 
 	{
-		error (1, errno, "Can't load %s", file.name);
+		error (1, errno, FILE_CANTREAD, file.name);
 	}
 	close (file.file);
 	SHA256Reset (&sha256);
@@ -353,7 +352,7 @@ int main (int argc, char const * argv [])
 			}
 			if (sendpacket (&channel, packet, extent) < extent) 
 			{
-				error (1, errno, "Can't send packet");
+				error (1, errno, CHANNEL_CANTSEND);
 			}
 			offset += length;
 			remain -= length;

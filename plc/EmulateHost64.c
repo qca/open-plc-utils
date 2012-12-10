@@ -24,7 +24,7 @@
  *  
  *   plc.h
  *
- *   wait indefinitely for VS_HST_ACTION messages; service the device 
+ *   wait indefinitely for VS_HOST_ACTION messages; service the device 
  *   as directed; this function is for demonstration and experimentation
  *   only; it will stop dead - like a bug! - on error;
  *   
@@ -100,15 +100,12 @@ signed EmulateHost64 (struct plc * plc)
 
 	char const * NVM = plc->NVM.name;
 	char const * PIB = plc->PIB.name;
-	signed timeout = channel->timeout;
 	signed status;
 	signed action;
 	Request (plc, "Waiting for Host Action");
 	while (1) 
 	{
-		channel->timeout = plc->timer;
-		status = ReadMME (plc, 0, (VS_HST_ACTION | MMTYPE_IND));
-		channel->timeout = timeout;
+		status = ReadMME (plc, 0, (VS_HOST_ACTION | MMTYPE_IND));
 		if (status < 0) 
 		{
 			break;
@@ -127,7 +124,6 @@ signed EmulateHost64 (struct plc * plc)
 			}
 			action = indicate->MACTION;
 			memcpy (channel->peer, indicate->ethernet.OSA, sizeof (channel->peer));
-			channel->timeout = timeout;
 			if (HostActionResponse (plc)) 
 			{
 				return (-1);

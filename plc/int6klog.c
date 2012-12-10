@@ -32,7 +32,6 @@
  *
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
 
 /*====================================================================*"
  *   system header files;
@@ -318,7 +317,7 @@ static signed PrintWatchdogReport (struct plc * plc, char const * version)
 		}
 		printf ("<Packet>");
 		printf ("<Version>%s</Version>", version);
-		printf ("<OUI>%s</OUI>", "00B05200");
+		printf ("<OUI>%s</OUI>", "00B052");
 		printf ("<Status>0</Status>");
 		printf ("<SessionId>0</SessionId>");
 		printf ("<NumParts>%d</NumParts>", indicate->NUMPARTS);

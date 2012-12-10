@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros
+ *   Copyright (c) 2011, Atheros Communications Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -31,7 +31,6 @@
  *
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
 
 /*====================================================================*"
  *   system header files;
@@ -165,7 +164,7 @@ int main (int argc, char const * argv [])
 		"e\tredirect stderr to stdout",
 		"q\tquiet mode",
 		"s n\tsession identifier [" LITERAL (MDUSTATS_SESSION) "]",
-		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
 		"u n\tslave unit number [" LITERAL (MDUSTATS_SLAVE) "]",
 		"v\tverbose mode",
 		(char const *) (0)
@@ -223,7 +222,7 @@ int main (int argc, char const * argv [])
 			session = (uint8_t)(uintspec (optarg, 0, 255));
 			break;
 		case 't':
-			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'u':
 			slave = (uint8_t)(uintspec (optarg, 0, 255));

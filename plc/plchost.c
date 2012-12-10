@@ -1,4 +1,4 @@
-/*====================================================================*
+/*====================================================================*"
  *   
  *   Copyright (c) 2011 by Qualcomm Atheros.
  *   
@@ -18,7 +18,18 @@
  *   
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
+/*====================================================================*"
+ *
+ *   plchost.c -
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Charles Maier <cmaier@qualcomm.com>
+ *
+ *--------------------------------------------------------------------*/
 
 /*====================================================================*"
  *   system header files;
@@ -157,13 +168,13 @@
  *  
  *   signed function (struct plc * plc);
  *  
- *   wait indefinitely for VS_HST_ACTION messages; service the device 
+ *   wait indefinitely for VS_HOST_ACTION messages; service the device 
  *   as directed; this function is for demonstration and experimentation
  *   only; it will stop dead - like a bug! - on error;
  *   
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2010 by Atheros Communications; ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -197,127 +208,122 @@ signed function (struct plc * plc)
 	char firmware [PLC_VERSION_STRING];
 	char const * FactoryNVM = plc->NVM.name;
 	char const * FactoryPIB = plc->PIB.name;
-	signed timeout = channel->timeout;
-	signed action;
 	signed status;
 	while (true) 
 	{
-		channel->timeout = plc->timer;
-		status = ReadMME (plc, 0, (VS_HST_ACTION | MMTYPE_IND));
-		channel->timeout = timeout;
+		status = ReadMME (plc, 0, (VS_HOST_ACTION | MMTYPE_IND));
 		if (status < 0) 
 		{
 			break;
 		}
-		if (status < 1) 
+		if (status > 0) 
 		{
-			continue;
+			signed action = indicate->MACTION;
+			memcpy (channel->peer, indicate->ethernet.OSA, sizeof (channel->peer));
+			if (HostActionResponse (plc)) 
+			{
+				return (-1);
+			}
+			if (action == 0x00) 
+			{
+				if (BootDevice2 (plc)) 
+				{
+					return (-1);
+				}
+				if (WaitForStart (plc, firmware, sizeof (firmware))) 
+				{
+					return (-1);
+				}
+				if (_anyset (plc->flags, PLC_FLASH_DEVICE)) 
+				{
+					FlashDevice2 (plc);
+				}
+				continue;
+			}
+			if (action == 0x01) 
+			{
+				close (plc->NVM.file);
+				if (ReadFirmware2 (plc)) 
+				{
+					return (-1);
+				}
+				if ((plc->NVM.file = open (plc->NVM.name = plc->nvm.name, O_BINARY|O_RDONLY)) == -1) 
+				{
+					error (1, errno, "%s", plc->NVM.name);
+				}
+				continue;
+			}
+			if (action == 0x02) 
+			{
+				close (plc->PIB.file);
+				if (ReadParameters2 (plc)) 
+				{
+					return (-1);
+				}
+				if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1) 
+				{
+					error (1, errno, "%s", plc->PIB.name);
+				}
+				if (ResetDevice (plc)) 
+				{
+					return (-1);
+				}
+				continue;
+			}
+			if (action == 0x03) 
+			{
+				close (plc->PIB.file);
+				if (ReadParameters2 (plc)) 
+				{
+					return (-1);
+				}
+				if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1) 
+				{
+					error (1, errno, "%s", plc->PIB.name);
+				}
+				close (plc->NVM.file);
+				if (ReadFirmware2 (plc)) 
+				{
+					return (-1);
+				}
+				if ((plc->NVM.file = open (plc->NVM.name = plc->nvm.name, O_BINARY|O_RDONLY)) == -1) 
+				{
+					error (1, errno, "%s", plc->NVM.name);
+				}
+				if (ResetDevice (plc)) 
+				{
+					return (-1);
+				}
+				continue;
+			}
+			if (action == 0x04) 
+			{
+				if (InitDevice2 (plc)) 
+				{
+					return (-1);
+				}
+				continue;
+			}
+			if (action == 0x05) 
+			{
+				close (plc->NVM.file);
+				if ((plc->NVM.file = open (plc->NVM.name = FactoryNVM, O_BINARY|O_RDONLY)) == -1) 
+				{
+					error (1, errno, "%s", plc->NVM.name);
+				}
+				close (plc->PIB.file);
+				if ((plc->PIB.file = open (plc->PIB.name = FactoryPIB, O_BINARY|O_RDONLY)) == -1) 
+				{
+					error (1, errno, "%s", plc->PIB.name);
+				}
+				if (ResetDevice (plc)) 
+				{
+					return (-1);
+				}
+				continue;
+			}
+			error (0, ENOSYS, "Host Action 0x%02X", action);
 		}
-		action = indicate->MACTION;
-		memcpy (channel->peer, indicate->ethernet.OSA, sizeof (channel->peer));
-		if (HostActionResponse (plc)) 
-		{
-			return (-1);
-		}
-		if (action == 0x00) 
-		{
-			if (BootDevice2 (plc)) 
-			{
-				return (-1);
-			}
-			if (WaitForStart (plc, firmware, sizeof (firmware))) 
-			{
-				return (-1);
-			}
-			if (_anyset (plc->flags, PLC_FLASH_DEVICE)) 
-			{
-				FlashDevice2 (plc);
-			}
-			continue;
-		}
-		if (action == 0x01) 
-		{
-			close (plc->NVM.file);
-			if (ReadFirmware2 (plc)) 
-			{
-				return (-1);
-			}
-			if ((plc->NVM.file = open (plc->NVM.name = plc->nvm.name, O_BINARY|O_RDONLY)) == -1) 
-			{
-				error (1, errno, "%s", plc->NVM.name);
-			}
-			continue;
-		}
-		if (action == 0x02) 
-		{
-			close (plc->PIB.file);
-			if (ReadParameters2 (plc)) 
-			{
-				return (-1);
-			}
-			if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1) 
-			{
-				error (1, errno, "%s", plc->PIB.name);
-			}
-			if (ResetDevice (plc)) 
-			{
-				return (-1);
-			}
-			continue;
-		}
-		if (action == 0x03) 
-		{
-			close (plc->PIB.file);
-			if (ReadParameters2 (plc)) 
-			{
-				return (-1);
-			}
-			if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1) 
-			{
-				error (1, errno, "%s", plc->PIB.name);
-			}
-			close (plc->NVM.file);
-			if (ReadFirmware2 (plc)) 
-			{
-				return (-1);
-			}
-			if ((plc->NVM.file = open (plc->NVM.name = plc->nvm.name, O_BINARY|O_RDONLY)) == -1) 
-			{
-				error (1, errno, "%s", plc->NVM.name);
-			}
-			if (ResetDevice (plc)) 
-			{
-				return (-1);
-			}
-			continue;
-		}
-		if (action == 0x04) 
-		{
-			if (InitDevice2 (plc)) 
-			{
-				return (-1);
-			}
-			continue;
-		}
-		if (action == 0x05) 
-		{
-			close (plc->NVM.file);
-			if ((plc->NVM.file = open (plc->NVM.name = FactoryNVM, O_BINARY|O_RDONLY)) == -1) 
-			{
-				error (1, errno, "%s", plc->NVM.name);
-			}
-			close (plc->PIB.file);
-			if ((plc->PIB.file = open (plc->PIB.name = FactoryPIB, O_BINARY|O_RDONLY)) == -1) 
-			{
-				error (1, errno, "%s", plc->PIB.name);
-			}
-			if (ResetDevice (plc)) 
-			{
-				return (-1);
-			}
-			continue;
-		}
-		error (0, ENOSYS, "Host Action 0x%02X", action);
 	}
 	return (0);
 }
@@ -332,9 +338,9 @@ signed function (struct plc * plc)
  *   to understand command line parsing and help summary display; see
  *   plc.h for the definition of struct plc; 
  *
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2010 by Atheros Communications; ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -366,7 +372,7 @@ int main (int argc, char const * argv [])
 		"P f\tparameter file is (f)",
 		"q\tquiet mode",
 		"S f\tsoftloader file is (f)",
-		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
 		"v\tverbose mode",
 		"w n\twakeup every (n) seconds [" LITERAL (PLC_LONGTIME) "]",
 		"x\texit on error",
@@ -489,7 +495,7 @@ int main (int argc, char const * argv [])
 			}
 			break;
 		case 't':
-			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

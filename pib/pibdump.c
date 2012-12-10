@@ -22,16 +22,14 @@
  *
  *   pibdump.c - Qualcomm Atheros Parameter Information Block Dump Utility
  *
- *.  Atheros Powerline Toolkit for HomePlug AV
- *:  Published 2012 by Qualcomm Atheros
- *;  For demonstration and evaluation only
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
-
-#define _GETOPT_H
 
 /*====================================================================*
  *   system header files;
@@ -90,9 +88,9 @@
  *   read object definitions from stdin and print an object driven 
  *   dump on stdout;
  *   
- *.  Atheros Powerline Toolkit for HomePlug AV
- *:  Published 2012 by Qualcomm Atheros
- *;  For demonstration and evaluation only
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *   
  *--------------------------------------------------------------------*/
 
@@ -130,13 +128,13 @@ static void pibdump (char const * filename, flag_t flags)
 	else if (LE32TOH (version) == 0x00010001) 
 	{
 		struct nvm_header2 nvm_header;
-		if (nvmseek2 (fd, filename, &nvm_header, NVM_IMAGE_PIB))
+		if (nvmseek2 (fd, filename, &nvm_header, NVM_IMAGE_PIB)) 
 		{
 			error (1, 0, "%s is not a PIB file", filename);
 		}
-		extent = LE16TOH (nvm_header.ImageLength);
+		extent = LE32TOH (nvm_header.ImageLength);
 	}
-	else
+	else 
 	{
 		struct simple_pib pib_header;
 		if (read (fd, &pib_header, sizeof (pib_header)) != sizeof (pib_header)) 
@@ -289,9 +287,9 @@ static void pibdump (char const * filename, flag_t flags)
  *   
  *   int main (int argc, char const * argv []);
  *   
- *.  Atheros Powerline Toolkit for HomePlug AV
- *:  Published 2012 by Qualcomm Atheros
- *;  For demonstration and evaluation only
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *   
  *--------------------------------------------------------------------*/
 

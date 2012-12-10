@@ -84,10 +84,10 @@ void Failure (struct plc * plc, char const *format, ...)
 		fprintf (stderr, "%s %s ", channel->ifname, address);
 		switch (LE16TOH (header->qualcomm.MMTYPE)) 
 		{
-		case VS_ADD_CONN | MMTYPE_CNF:
-		case VS_MOD_CONN | MMTYPE_CNF:
-		case VS_REL_CONN | MMTYPE_CNF:
-		case VS_CON_INFO | MMTYPE_CNF:
+		case VS_CONN_ADD | MMTYPE_CNF:
+		case VS_CONN_MOD | MMTYPE_CNF:
+		case VS_CONN_REL | MMTYPE_CNF:
+		case VS_CONN_INFO | MMTYPE_CNF:
 			{
 				struct __packed header_confirm 
 				{

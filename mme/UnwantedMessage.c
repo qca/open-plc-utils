@@ -65,7 +65,7 @@
 signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_t MMTYPE) 
 
 {
-	extern const uint8_t localcast [ETHER_ADDR_LEN];
+	extern const byte localcast [ETHER_ADDR_LEN];
 	struct message * message = (struct message *)(memory);
 	if (!extent) 
 	{

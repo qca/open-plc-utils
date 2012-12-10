@@ -18,7 +18,18 @@
  *   
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
+/*====================================================================*"
+ *
+ *   plcwait.c - 
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Charles Maier <cmaier@qualcomm.com>
+ *
+ *--------------------------------------------------------------------*/
 
 /*====================================================================*"
  *   system header files;
@@ -96,9 +107,10 @@
  * 
  *   plc.h
  *
- *   reset the device using a VS_RS_DEV Request message; continue to
- *   request resets each second until the device accepts the request
- *   or the wait period expires;
+ *   send VS_RS_DEV.REQ messages every channel->timer milliseconds
+ *   until the device responds to indicate that it is ready to reset;
+ *   return 0 if the device eventually responds within plc->timer 
+ *   seconds or -1 if not;
  *
  *--------------------------------------------------------------------*/
 
@@ -177,10 +189,10 @@ signed ResetAndWait (struct plc * plc)
  *
  *   plc.h
  *
- *   send and receive VS_SW_VER messages until a confirmation is not
- *   received within channel->timeout milliseconds to indicate that 
- *   the device is inactive; return 0 if the device resets within 
- *   plc->timer seconds; otherwise, return -1; 
+ *   send VS_SW_VER.REQ  messages every channel->timer milliseconds
+ *   until the device stops responding to indicate that it is inactive;
+ *   return 0 if the device eventually stops responding within 
+ *   plc->timer seconds or -1 if not;
  *
  *   this function cannot distinguish between a software reset and 
  *   hardware reset;
@@ -275,15 +287,10 @@ signed WaitForReset (struct plc * plc, char string [], size_t length)
  *
  *   plc.h
  *
- *   send VS_SW_VER messages until confirmation is received within
- *   channel->timeout milliseconds to indicate that the device is 
- *   active; return 0 if the device responds within plc->timer 
- *   seconds; otherwise, return -1;
- *
- *   poll the device using VS_SW_VER messages until it responds or 
- *   the allotted time expires; return 0 if the device responds within
- *   the allotted time or -1 if it does not or if a transmission error
- *   occurs;
+ *   send VS_SW_VER.REQ messages every channel->timer milliseconds
+ *   until the device responds to indicate that it is active; return
+ *   0 if the device eventually responds within plc->timer seconds 
+ *   or -1 if not; 
  *
  *--------------------------------------------------------------------*/
 
@@ -379,10 +386,9 @@ signed WaitForStart (struct plc * plc, char string [], size_t length)
  *
  *   plc.h
  *
- *   send and receive VS_NW_INFO messages until the device reports 
- *   that a network exists and has at least one station; return 0 if 
- *   a network forms within plc->timer seconds; otherwise, return
- *   -1;
+ *   send VS_NW_INFO.REQ messages every channel->timer milliseconds
+ *   until the device reports that a network has formed; return 0 if a
+ *   network forms within plc->timer seconds or -1 if not;
  *
  *--------------------------------------------------------------------*/
 
@@ -518,9 +524,9 @@ signed WaitForAssoc (struct plc * plc)
  *
  *   perform operations in a logical order;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -594,9 +600,9 @@ static void function (struct plc * plc, char const * firmware)
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -628,7 +634,7 @@ int main (int argc, char const * argv [])
 		"r\twait for device reset",
 		"R\treset device and wait",
 		"s\twait for device start",
-		"t n\tchannel timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
+		"t n\tchannel timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
 		"v\tverbose mode",
 		"w n\twait up to (n) seconds for action [" LITERAL (PLC_TIMER) "]",
 		"x\texit on error",
@@ -698,7 +704,7 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_WAITFORSTART);
 			break;
 		case 't':
-			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

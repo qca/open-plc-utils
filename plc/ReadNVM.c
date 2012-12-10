@@ -102,7 +102,7 @@ signed ReadNVM (struct plc * plc)
 	uint32_t header = 0;
 	uint32_t extent = 0;
 	uint32_t offset = 0;
-	signed length = PLC_RECORD_SIZE;
+	uint16_t length = PLC_RECORD_SIZE;
 	Request (plc, "Read Firmware from Device");
 	if (lseek (plc->nvm.file, 0, SEEK_SET)) 
 	{
@@ -171,14 +171,14 @@ signed ReadNVM (struct plc * plc)
 		{
 			length = extent - offset;
 		}
-		if (lseek (plc->nvm.file, offset, SEEK_SET) != offset) 
+		if (lseek (plc->nvm.file, offset, SEEK_SET) != (off_t)(offset)) 
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, "Can't seek %s", plc->nvm.name);
+			error ((plc->flags & PLC_BAILOUT), errno, FILE_CANTSEEK, plc->nvm.name);
 			return (-1);
 		}
-		if (write (plc->nvm.file, confirm->BUFFER, length) < length) 
+		if (write (plc->nvm.file, confirm->BUFFER, length) != (signed)(length)) 
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, "Can't save %s", plc->nvm.name);
+			error ((plc->flags & PLC_BAILOUT), errno, FILE_CANTSAVE, plc->nvm.name);
 			return (-1);
 		}
 		offset += length;

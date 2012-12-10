@@ -57,38 +57,42 @@ The implied length and encoding of the data. Valid types are \fBbyte\fR, \fBword
 .TP
 .IB data
 The information written to the current PIB offset. 
-Integer data may be expressed in binary, decimal or hexadecimal but must not exceed the specified \fBtype\fR. 
+Integer data may be expressed in binary, decimal or hexadecimal but must not exceed the \fBtype\fR minimum or maximum. 
 String data may contain any ASCII characters that can be entered via keyboard but must be enclosed in quotes when spaces are included. 
 Binary values start with \fB0b\fR or \fB0B\fR and hexadecimal values start with \fB0x\fR or \fB0X\fR. 
 .SH FORMATS
 .TP
 \fBbyte \fIinteger\fR
-An unsigned integer stored as 8 bits or 1 byte. 
+A signed or unsigned integer stored as 8 bits or 1 byte. 
 The value is expressed in decimal by default.
 A binary value may be expressed with a \fB0b\fR prefix.
 A hexadecimal value may be expressed using a \fB0x\fR prefix. 
+Negative type/data values must appear at the end of the command line, after option "\fB--\fR", to avoid parsing errors. 
 The offset increments by 1 prior to the next insertion.
 .TP
 \fBword \fIinteger\fR
-An unsigned integer stored as 16 bits or 2 bytes. 
+A signed or unsigned integer stored as 16 bits or 2 bytes. 
 The value is expressed in decimal by default.
 A binary value may be expressed with a \fB0b\fR prefix.
 A hexadecimal value may be expressed using a \fB0x\fR prefix. 
+Negative type/data values must appear at the end of the command line, after option "\fB--\fR", to avoid parsing errors. 
 The offset increments by 2 prior to the next insertion. 
 .TP
 \fBlong \fIinteger\fR
-An unsigned integer stored as 32 bits or 4 bytes. 
+A signed or unsigned integer stored as 32 bits or 4 bytes. 
 The value is expressed in decimal by default.
 A binary value may be expressed with a \fB0b\fR prefix.
 A hexadecimal value may be expressed using a \fB0x\fR prefix. 
+Negative type/data values must appear at the end of the command line, after option "\fB--\fR", to avoid parsing errors. 
 The offset increments by 4 prior to the next insertions. 
 .TP
 \fBhuge \fIinteger\fR
-An unsigned integer stored as 64 bits or 8 bytes. 
+A signed or unsigned integer stored as 64 bits or 8 bytes. 
 The value is expressed in decimal by default.
 A binary value may be expressed with a \fB0b\fR prefix.
 A hexadecimal value may be expressed using a \fB0x\fR prefix. 
 The offset increments by 8 prior to the next insertion. 
+Negative type/data values must appear at the end of the command line, after option "\fB--\fR", to avoid parsing errors. 
 This format is only available on hosts that support 64 bit data values. 
 .TP
 \fBdata \fIhex\fR
@@ -228,6 +232,15 @@ The following example displays the contents of PIB file \fBabc.pib\fR without ch
    00000060  00 00 00 00 50 D3 E4 93 3F 85 5B 70 40 78 4D F8  ....P...?.[p@xM.
    00000070  15 AA 8D B7 49 6E 74 65 6C 6C 6F 6E 20 45 6E 61  ....Atheros Ena
    00000080  62 6C 65 64                                      bled
+.PP
+The next example does the same thing for a negative value. This is tricky because the minus sign will be interpreted as the start of another option. We must use "\fB--\fR" to end normal option parsing. This is a POSIX standard feature. See \fIIEEE Std 1002.1-2001, Section 12.2, Utility Syntax Guidelines\fR for more an explanation.
+.PP
+   # setpib -v abc.pib 1471 -- long -50
+   00001450    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ...............
+   00001460 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+   00001470 00 CE FF FF FF 00 00 00 00 00 00 00 00 00 00 00 ................
+   00001480 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
+   00001490 00 00 00 00 00                                  .....
 .PP
 The following example computes a new checksum without changing any data. The filename and an offset are required but no other values are needed. This technique can be used to compute a new checksum after modifying the file using software that does not update the checksum.
 .PP

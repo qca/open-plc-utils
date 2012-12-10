@@ -9,9 +9,6 @@
  *:  Published 2007 by Intellon Corp. ALL RIGHTS RESERVED;
  *;  For demonstration and evaluation only; Not for production use;
  *
- *   Contributor (s):
- *      Charles Maier <cmaier@qualcomm.com>
- *      Alex Vasquez <alex.vasquez@qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -113,6 +110,7 @@ uint32_t fdchecksum32 (int fd, size_t extent, uint32_t checksum);
 
 size_t memencode (void * memory, size_t extent, char const * format, char const * string);
 size_t hexencode (void * memory, size_t extent, char const * string);
+size_t hexcopy (void * memory, size_t extent, char const * string);
 size_t decencode (void * memory, size_t extent, char const * string);
 size_t memdecode (void const * memory, size_t extent, char const * format, char const * string);
 size_t hexdecode (void const * memory, size_t extent, char buffer [], size_t length);

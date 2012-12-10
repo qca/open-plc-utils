@@ -33,8 +33,6 @@
  *   it will conflict with other getopt variants; getopt.h is often
  *   included with unistd.h which is a common file;
  *
- *   to avoid compile conflicts, define _GETOPT_H on debian systems,
- *   __GETOPT_H__ on cygwin systems and _GETOPT_DEFINED_ on apple
  *   systems.
  *
  *   this version calls virtually no functions and should compile 
@@ -86,8 +84,8 @@
  *    }
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *   Copyright (c) 2001-2006 by Charles Maier Associates;
- *   Licensed under the Internet Software Consortium License;
+ *   Copyright 2001-2006 by Charles Maier Associates;
+ *   licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 

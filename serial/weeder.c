@@ -1,5 +1,5 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 by Qualcomm Atheros.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
@@ -32,8 +32,6 @@
  *	Mathieu Olivari <mathieu@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
-
-#define _GETOPT_H
 
 /*====================================================================*
  *   system header files;
@@ -243,7 +241,7 @@ static void function3 (struct _file_ * port, char const * units, unsigned wait)
 	extern signed offset;
 	unsigned number = 0;
 	memset (string, 0, sizeof (string));
-	for (offset = 0;  *units; offset += WEEDER_LEDS) 
+	for (offset = 0; *units; offset += WEEDER_LEDS) 
 	{
 		length = 0;
 		buffer [length++] = *units++;
@@ -418,7 +416,7 @@ int main (int argc, char const * argv [])
 	{
 		function2 (&port, units, wait, mode, data);
 	}
-	if (_anyset (flags, WEEDER_DISPLAY))
+	if (_anyset (flags, WEEDER_DISPLAY)) 
 	{
 		function3 (&port, units, wait);
 	}

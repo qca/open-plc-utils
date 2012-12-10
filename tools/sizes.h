@@ -1,10 +1,10 @@
 /*====================================================================*
  *
- *   sizes.h -
+ *   sizes.h - common data size definitions and declarations;
  *
- *.
- *:
- *;
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 

@@ -18,7 +18,19 @@
  *   
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
+/*====================================================================*"
+ *
+ *   amprate.c - 
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Charles Maier <cmaier@qualcomm.com>
+ *
+ *--------------------------------------------------------------------*/
+
 
 /*====================================================================*"
  *   system header files;
@@ -221,7 +233,7 @@ int main (int argc, char const * argv [])
 		"l n\tloop (n) times [" LITERAL (AMPRATE_LOOP) "]",
 		"n\tnetwork TX/RX information",
 		"N\tnetwork RX only information",
-		"o n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
+		"o n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
 		"q\tquiet mode",
 		"r\trequest device information",
 		"R\treset device with VS_RS_DEV",
@@ -290,7 +302,7 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_RXONLY);
 			break;
 		case 'o':
-			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'q':
 			_setbits (plc.flags, PLC_SILENCE);

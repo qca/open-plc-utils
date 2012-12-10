@@ -18,7 +18,19 @@
  *   
  *--------------------------------------------------------------------*/
 
-#define _GETOPT_H
+/*====================================================================*"
+ *
+ *   ampstat.c - 
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Charles Maier <cmaier@qualcomm.com>
+ *
+ *--------------------------------------------------------------------*/
+
 
 /*====================================================================*"
  *   system header files;
@@ -254,7 +266,7 @@ int main (int argc, char const * argv [])
 		"d n\tdirection (0=tx, 1=rx, 2=both) for VS_LNK_STATS",
 		"e\tredirect stderr to stdout",
 		"l n\tloop n times [" LITERAL (AMPSTAT_LOOP) "]",
-		"s n\tLink ID for VS_LNK_STATS",
+		"s n\tLink ID for VS_LNK_STATS (see Programmer's Guide)",
 		"m\tprint network membership information using VS_NW_INFO",
 		"p x\tpeer node address for options -s",
 		"q\tquiet mode",

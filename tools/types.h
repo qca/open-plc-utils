@@ -6,7 +6,7 @@
  *   definitions and declaration needed for toolkit programs;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Copyright 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
@@ -36,8 +36,7 @@
 
 #define _OPTSTR(x) #x
 #define LITERAL(x) _OPTSTR(x)
-
-#define SIZEOF(list) (sizeof(list)/sizeof(list[0]))
+#define SIZEOF(array) (sizeof(array)/sizeof(array[0]))
 
 /*====================================================================*
  *   new POSIX types; 

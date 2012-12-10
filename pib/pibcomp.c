@@ -22,17 +22,15 @@
  *
  *   pibcomp.c - Qualcomm Atheros Parameter Information Block Compare Utility
  *
- *.  Atheros Powerline Toolkit for HomePlug AV
- *:  Published 2012 by Qualcomm Atheros
- *;  For demonstration and evaluation only
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Nathan Houghton <nathan.houghton@qca.qualcomm.com>
  *	Charles Maier <charles.maier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
-
-#define _GETOPT_H
 
 /*====================================================================*
  *   system header files;
@@ -86,13 +84,13 @@
  *   read object definitions from stdin and use them to compare two 
  *   files; dump only those objects that differ on stdout;
  *
- *.  Atheros Powerline Toolkit for HomePlug AV
- *:  Published 2012 by Qualcomm Atheros
- *;  For demonstration and evaluation only
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
-static void function (char const * filename [], flag_t flags)
+static void function (char const * filename [], flag_t flags) 
 
 {
 	unsigned file;
@@ -129,7 +127,7 @@ static void function (char const * filename [], flag_t flags)
 		if (LE32TOH (version) == 0x00010001) 
 		{
 			struct nvm_header2 nvm_header;
-			if (nvmseek2 (fd [file], filename [file], &nvm_header, NVM_IMAGE_PIB))
+			if (nvmseek2 (fd [file], filename [file], &nvm_header, NVM_IMAGE_PIB)) 
 			{
 				error (1, ENOTSUP, "%s is not a PIB file", filename [file]);
 			}
@@ -315,9 +313,9 @@ static void function (char const * filename [], flag_t flags)
  *   int main (int argc, char const * argv []);
  *   
  *   
- *.  Atheros Powerline Toolkit for HomePlug AV
- *:  Published 2012 by Qualcomm Atheros
- *;  For demonstration and evaluation only
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 

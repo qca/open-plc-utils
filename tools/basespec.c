@@ -11,11 +11,14 @@
  *   base 0 permits the number base to be determined by the string 
  *   string prefix; 0b, 0d or 0x for binary, decimal or hex;
  *
+ *   this implementation accepts a minus sign in order to negate any
+ *   number in any base;
+ *
  *   the size argument is the maximum number of bytes permitted in the
  *   result;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *   Copyright (c) 2001-2006 by Charles Maier Associates;
+ *   Copyright 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
@@ -34,6 +37,7 @@ uint64_t basespec (char const * string, unsigned base, unsigned size)
 {
 	char const * number = string;
 	unsigned radix = RADIX_DEC;
+	signed scale = 1;
 	uint64_t limit = 0;
 	uint64_t value = 0;
 	unsigned digit = 0;
@@ -46,6 +50,19 @@ uint64_t basespec (char const * string, unsigned base, unsigned size)
 	if (base) 
 	{
 		radix = base;
+	}
+	if (* number == '=') 
+	{
+		number++;
+	}
+	else if (* number == '+') 
+	{
+		number++;
+	}
+	else if (* number == '-') 
+	{
+		number++;
+		scale = -1;
 	}
 	if (*number == '0') 
 	{
@@ -94,7 +111,7 @@ uint64_t basespec (char const * string, unsigned base, unsigned size)
 	{
 		error (1, EINVAL, "%s is not base %d notation", string, radix);
 	}
-	return (value);
+	return (scale * value);
 }
 
 

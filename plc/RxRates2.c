@@ -140,7 +140,7 @@ signed RxRates2 (struct plc * plc)
 						station->AVGTX = ((station->AVGTX * 21) >> 4);
 						station->AVGRX = ((station->AVGRX * 21) >> 4);
 					}
-					printf ("%d", _anyset (plc->flags, PLC_TXONLY)? station->AVGRX: station->AVGRX);
+					printf ("%d", _anyset (plc->flags, PLC_TXONLY)? station->AVGTX: station->AVGRX);
 					if (network->NUMSTAS)
 					{
 						printf (", ");
