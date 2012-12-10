@@ -112,7 +112,6 @@
 #include "../ether/closechannel.c"
 #include "../ether/readpacket.c"
 #include "../ether/sendpacket.c"
-#include "../ether/setchanneltimeout.c"
 #include "../ether/channel.c"
 #endif
 

@@ -29,7 +29,6 @@ pcapdevs.o: pcapdevs.c error.c error.h ether.h flags.h gethwaddr.c getoptv.c get
 readchannel.o: readchannel.c channel.h error.h 
 readpacket.o: readpacket.c channel.h error.h flags.h hexload.c memory.h
 sendpacket.o: sendpacket.c channel.h flags.h memory.h
-setchanneltimeout.o: setchanneltimeout.c channel.h error.h
 
 # ====================================================================
 # header files;

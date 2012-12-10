@@ -173,8 +173,6 @@ signed openchannel (struct channel *);
 signed closechannel (struct channel const *);
 ssize_t sendpacket (struct channel const *, void * memory, ssize_t extent);
 ssize_t readpacket (struct channel const *, void * memory, ssize_t extent);
-ssize_t readchannel (struct channel const *, void * memory, ssize_t extent, byte type);
-signed setchanneltimeout (struct channel * channel, unsigned timeout);
 
 /*====================================================================*
  *   
