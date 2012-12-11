@@ -16,10 +16,10 @@
  *--------------------------------------------------------------------*/
 
 #define COMPANY "Qualcomm Atheros, Ocala FL USA"
-#define PACKAGE "Qualcomm Atheros Powerline Toolkit"
-#define PROJECT "open-plc"
-#define VERSION "0.0.1-dev"
-#define RELEASE "OSR-6010-1"
+#define PACKAGE "Qualcomm Atheros Open Powerline Toolkit"
+#define PROJECT "open-plc-utils"
+#define VERSION "0.0.2"
+#define RELEASE "OSR-6599"
 #define COMPILE __TIME__ " " __DATE__ 
 #define CONTACT "cmaier@qca.qualcomm.com"
 #define LICENSE "Internet Software Concortium (ISC)"
