@@ -40,7 +40,7 @@
 				Installing the Toolkit
 				</title>
 				<para>
-					 Older toolkit programs were installed in folder <filename>C:\Program Files\Atheros\Toolkit</filename> by default but now they are installed in <filename>C:\Program Files (x86)\Qualcomm Atheros\Powerline Toolkit</filename> instead. If you slect a different folder during installation then remember it for the next step.
+					 Older toolkit programs were installed in folder <filename>C:\Program Files\Atheros\Toolkit</filename> by default but now they are installed in <filename>C:\Program Files (x86)\Qualcomm Atheros\Open Powerline Toolkit</filename> instead. If you slect a different folder during installation then remember it for the next step.
 					</para>
 			<figure>
 				<title>
@@ -119,7 +119,7 @@
 				Removing the Toolkit
 				</title>
 			<para>
-				To remove an existing version of the Qualcomm Atheros <application>Powerline Toolkit</application> from your system, follow the steps listed below. If the toolkit is not installed on your system then omit these steps. If you are unsure, you can follow them to determine if you have the toolkit installed or you can attempt to install, anyway, and return here if installation is prevented.
+				To remove an existing version of the Qualcomm Atheros <application>Open Powerline Toolkit</application> from your system, follow the steps listed below. If the toolkit is not installed on your system then omit these steps. If you are unsure, you can follow them to determine if you have the toolkit installed or you can attempt to install, anyway, and return here if installation is prevented.
 				</para>
 			<figure>
 				<title>
@@ -144,7 +144,7 @@
 					</listitem>
 				<listitem>
 					<para>
-						On the <command>Uninstall or change a program</command> page, scroll down and select the appropriate QCA <option>Powerline Toolkit</option> entry then press the <option>Remove</option> pushbutton. There may be several different QCA Powerline Toolkit entries so be sure to select the correct one.
+						On the <command>Uninstall or change a program</command> page, scroll down and select the appropriate QCA <option>Open Powerline Toolkit</option> entry then press the <option>Remove</option> pushbutton. There may be several different QCA Open Powerline Toolkit entries so be sure to select the correct one.
 						</para>
 					</listitem>
 				</orderedlist>

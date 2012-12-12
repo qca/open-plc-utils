@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			ttycat.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='todigit.c.html' title=' todigit.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='ttyrecv.c.html' title=' ttyrecv.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   ttycat.c - serial port test program;
+ *
+ *   write one or more files to a serial device;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *   system header files;
+ *--------------------------------------------------------------------*/
+
+#include &lt;stdlib.h&gt;
+#include &lt;limits.h&gt;
+#include &lt;memory.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;termios.h&gt;
+#include &lt;unistd.h&gt;
+
+/*====================================================================*
+ *   custom header files;
+ *--------------------------------------------------------------------*/
+
+#include &quot;../tools/getoptv.h&quot;
+#include &quot;../tools/putoptv.h&quot;
+#include &quot;../tools/number.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../tools/files.h&quot;
+#include &quot;../serial/serial.h&quot;
+
+/*====================================================================*
+ *   custom source files;
+ *--------------------------------------------------------------------*/
+
+#ifndef MAKEFILE
+#include &quot;../tools/getoptv.c&quot;
+#include &quot;../tools/putoptv.c&quot;
+#include &quot;../tools/version.c&quot;
+#include &quot;../tools/efreopen.c&quot;
+#include &quot;../tools/uintspec.c&quot;
+#include &quot;../tools/todigit.c&quot;
+#include &quot;../tools/error.c&quot;
+#endif
+
+/*====================================================================*
+ *   program warnings;
+ *--------------------------------------------------------------------*/
+
+#if defined (WIN32)
+#error &quot;This program does not support Windows platforms&quot;
+#endif
+
+/*====================================================================*
+ *
+ *   signed copy (signed ifd, signed ofd, void * memory, signed extent) 
+ *
+ *   copy ifd to ofd using a buffer of specified size;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *--------------------------------------------------------------------*/
+
+static signed copy (signed ifd, signed ofd, void * memory, signed extent) 
+
+{
+	while ((extent = read (ifd, memory, extent)) &gt; 0) 
+	{
+		if (write (ofd, memory, extent) &lt; extent) 
+		{
+			return (-1);
+		}
+	}
+	return (0);
+}
+
+/*====================================================================*
+ *
+ *   int main (int argc, char const * argv []);
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *--------------------------------------------------------------------*/
+
+int main (int argc, char const * argv []) 
+
+{
+	static char const * optv [] = 
+	{
+		&quot;s:&quot;,
+		PUTOPTV_S_FUNNEL,
+		&quot;copy one or more files to a  serial device&quot;,
+		&quot;s n\tline speed is (n) [115200]&quot;,
+		(char const *)(0)
+	};
+	struct termios restore;
+	struct termios current;
+	speed_t speed = B115200;
+	byte buffer [512];
+	signed c;
+	while ((c = getoptv (argc, argv, optv)) != -1) 
+	{
+		switch (c) 
+		{
+		case 's':
+			if (baudrate (uintspec (optarg, 0, UINT_MAX), &amp;speed)) 
+			{
+				error (1, 0, &quot;could not set baud rate&quot;);
+			}
+			break;
+		default:
+			break;
+		}
+	}
+	argc -= optind;
+	argv += optind;
+	if (!isatty (STDOUT_FILENO)) 
+	{
+		error (1, ENOTSUP, &quot;stdout must be a serial line device&quot;);
+	}
+	tcflush (STDOUT_FILENO, TCIFLUSH);
+	tcgetattr (STDOUT_FILENO, &amp;restore);
+	memset (&amp;current, 0, sizeof (current));
+	current.c_cflag = speed | CS8 | CLOCAL | CREAD;
+	current.c_iflag = IGNPAR;
+	current.c_oflag = 0;
+	current.c_lflag = 0;
+	current.c_cc [VTIME] = 0;
+	current.c_cc [VMIN] = 5;
+	tcsetattr (STDOUT_FILENO, TCSANOW, &amp;current);
+	if (!argc) 
+	{
+		copy (STDIN_FILENO, STDOUT_FILENO, buffer, sizeof (buffer));
+	}
+	while ((argc) &amp;&amp; (* argv)) 
+	{
+		if (efreopen (* argv, &quot;rb&quot;, stdin)) 
+		{
+			copy (STDIN_FILENO, STDOUT_FILENO, buffer, sizeof (buffer));
+		}
+		argc--;
+		argv++;
+	}
+	tcsetattr (STDOUT_FILENO, TCSANOW, &amp;restore);
+	exit (0);
+}
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='todigit.c.html' title=' todigit.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='ttyrecv.c.html' title=' ttyrecv.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

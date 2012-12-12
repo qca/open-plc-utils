@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			NetworkInfoStats.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='NetworkDevices2.c.html' title=' NetworkDevices2.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='NetworkInformation.c.html' title=' NetworkInformation.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *   
+ *   signed NetworkInfoStats (struct plc * plc);
+ *
+ *   plc.h
+ *
+ *   Request network membership information from the peer device using
+ *   the VS_NW_INFO_STATS message; 
+ *
+ *   This function is similar to function NetworkInformation() but the
+ *   output format is different;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef NETWORKINFOSTATS_SOURCE
+#define NETWORKINFOSTATS_SOURCE
+
+#include &lt;stdint.h&gt;
+#include &lt;memory.h&gt;
+
+#include &quot;../plc/plc.h&quot;
+#include &quot;../tools/memory.h&quot;
+#include &quot;../tools/number.h&quot;
+#include &quot;../tools/error.h&quot;
+
+signed NetworkInfoStats (struct plc * plc) 
+
+{
+	extern char const * StationRole [STATIONROLES];
+	struct channel * channel = (struct channel *)(plc-&gt;channel);
+	struct message * message = (struct message *)(plc-&gt;message);
+
+#ifndef __GNUC__
+#pragma pack (push,1)
+#endif
+
+#if defined(INT6x00)
+
+	struct __packed vs_ns_info_stats_request 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+		uint8_t FIRST_TEI;
+	}
+	* request = (struct vs_ns_info_stats_request *)(message);
+	struct __packed station 
+	{
+		uint8_t MAC [ETHER_ADDR_LEN];
+		uint8_t TEI;
+		uint8_t BDA [ETHER_ADDR_LEN];
+		uint8_t AVGTX;
+		uint8_t AVGRX;
+	}
+	* station;
+	struct __packed network 
+	{
+		uint8_t NID [7];
+		uint8_t SNID;
+		uint8_t TEI;
+		uint8_t ROLE;
+		uint8_t CCO_MAC [ETHER_ADDR_LEN];
+		uint8_t ACCESS uint8_t NEIGHBOR_NETWORKS;
+		uint8_t CCO_TEI;
+		uint8_t NUMSTAS;
+		struct station stations [1];
+	}
+	* network;
+	struct __packed vs_ns_info_stats_confirm 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+		uint8_t FIRST_TEI;
+		uint8_t IN_AVLN;
+		struct network network;
+	}
+	* confirm = (struct vs_ns_info_stats_confirm *)(message);
+
+#elif defined (AR7x00)
+
+	struct __packed vs_ns_info_stats_request 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_fmi qualcomm;
+		uint8_t MME_SUBVER;
+		uint8_t RESERVED [3];
+		uint8_t FIRST_TEI;
+		UINT8_6 NUM_STAS;
+	}
+	* request = (struct vs_ns_info_stats_request *)(message);
+	struct __packed station 
+	{
+		uint8_t MAC [ETHER_ADDR_LEN];
+		uint8_t TEI;
+		uint8_t Reserved [3];
+		uint8_t BDA [ETHER_ADDR_LEN];
+		uint16_t AVGTX;
+		uint8_t COUPLING;
+		uint8_t Reserved3;
+		uint16_t AVGRX;
+		uint16_t Reserved4;
+	}
+	* station;
+	struct __packed network 
+	{
+		uint8_t NID [7];
+		uint8_t Reserved1;
+		uint8_t SNID;
+		uint8_t TEI;
+		uint8_t Reserved2 [2];
+		uint8_t ROLE;
+		uint8_t CCO_MAC [ETHER_ADDR_LEN];
+		uint8_t ACCESS;
+		uint8_t NEIGHBOR_NETWORKS;
+		uint8_t CCO_TEI;
+		uint8_t Reserved3 [7];
+		uint8_t NUMSTAS;
+		uint8_t Reserved4 [5];
+		struct station stations [1];
+	}
+	* network;
+	struct __packed vs_ns_info_stats_confirm 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_fmi qualcomm;
+		uint8_t SUB_VERSION;
+		uint8_t Reserved;
+		uint16_t DATA_LEN;
+		uint8_t FIRST_TEI;
+		uint8_t NUM_STAS;
+		uin16_t Reserved;
+		uint8_t IN_AVLN;
+		struct network network;
+	}
+	* confirm = (struct vs_ns_info_stats_confirm *)(message);
+
+#else
+#error &quot;Unspecified Atheros chipset&quot;
+#endif
+
+#ifndef __GNUC__
+#pragma pack (pop)
+#endif
+
+	Request (plc, &quot;Fetch Network Information&quot;);
+	memset (message, 0, sizeof (* message));
+
+#if defined (INT6x00)
+
+	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+	QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_NW_INFO_STATS | MMTYPE_REQ));
+
+#elif defined (AR7x00)
+
+	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+	FragmentHeader (&amp;request-&gt;qualcomm, 1, (VS_NW_INFO_STATS | MMTYPE_REQ));
+
+#else
+#error &quot;Unspecified Atheros chipset&quot;
+#endif
+
+	plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
+	if (SendMME (plc) &lt;= 0) 
+	{
+		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		return (-1);
+	}
+
+#if defined (INT6x00)
+
+	while (ReadMME (plc, 0, (VS_NW_INFO_STATS | MMTYPE_CNF)) &gt; 0) 
+
+#elif defined (AR7x00)
+
+	while (ReadMME (plc, 1, (VS_NW_INFO_STATS | MMTYPE_CNF)) &gt; 0) 
+
+#else
+#error &quot;Unspecified Atheros chipset&quot;
+#endif
+
+	{
+		char string [24];
+		Confirm (plc, &quot;Found %d Network(s)\n&quot;, networks-&gt;NUMAVLNS);
+		network = (struct network *)(&amp;networks-&gt;networks);
+		while (networks-&gt;NUMAVLNS--) 
+		{
+			printf (&quot;\tnetwork-&gt;NID = %s\n&quot;, hexstring (string, sizeof (string), network-&gt;NID, sizeof (network-&gt;NID)));
+			printf (&quot;\tnetwork-&gt;SNID = %d\n&quot;, network-&gt;SNID);
+			printf (&quot;\tnetwork-&gt;TEI = %d\n&quot;, network-&gt;TEI);
+			printf (&quot;\tnetwork-&gt;ROLE = 0x%02X (%s)\n&quot;, network-&gt;ROLE, StationRole [network-&gt;ROLE]);
+			printf (&quot;\tnetwork-&gt;CCO_DA = %s\n&quot;, hexstring (string, sizeof (string), network-&gt;CCO_MAC, sizeof (network-&gt;CCO_MAC)));
+			printf (&quot;\tnetwork-&gt;CCO_TEI = %d\n&quot;, network-&gt;CCO_TEI);
+			printf (&quot;\tnetwork-&gt;STATIONS = %d\n&quot;, network-&gt;NUMSTAS);
+			printf (&quot;\n&quot;);
+			station = (struct station *)(&amp;network-&gt;stations);
+			while (network-&gt;NUMSTAS--) 
+			{
+				char * TX = &quot;&quot;;
+				char * RX = &quot;&quot;;
+				printf (&quot;\t\tstation-&gt;MAC = %s\n&quot;, hexstring (string, sizeof (string), station-&gt;MAC, sizeof (station-&gt;MAC)));
+				printf (&quot;\t\tstation-&gt;TEI = %d\n&quot;, station-&gt;TEI);
+				printf (&quot;\t\tstation-&gt;BDA = %s\n&quot;, hexstring (string, sizeof (string), station-&gt;BDA, sizeof (station-&gt;BDA)));
+
+#if defined (AR7x00)
+
+				station-&gt;AVGTX = LE16TOH (station-&gt;AVGTX);
+				station-&gt;AVGRX = LE16TOH (station-&gt;AVGRX);
+				TX = ((station-&gt;COUPLING &gt;&gt; 4) &amp; 0x0F)? &quot;Alternate&quot;: &quot;Primary&quot;;
+				RX = ((station-&gt;COUPLING &gt;&gt; 0) &amp; 0x0F)? &quot;Alternate&quot;: &quot;Primary&quot;;
+
+#endif
+
+				printf (&quot;\t\tstation-&gt;AvgPHYDR_TX = %03d mbps %s\n&quot;, station-&gt;AVGTX, TX);
+				printf (&quot;\t\tstation-&gt;AvgPHYDR_RX = %03d mbps %s\n&quot;, station-&gt;AVGRX, RX);
+				printf (&quot;\n&quot;);
+				station++;
+			}
+			network = (struct network *)(station);
+		}
+	}
+	return (0);
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='NetworkDevices2.c.html' title=' NetworkDevices2.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='NetworkInformation.c.html' title=' NetworkInformation.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

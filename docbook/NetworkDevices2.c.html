@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			NetworkDevices2.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='NetworkDevices1.c.html' title=' NetworkDevices1.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='NetworkInfoStats.c.html' title=' NetworkInfoStats.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *   
+ *   signed NetworkDevices2 (struct plc * plc, void * memory, size_t extent);
+ *
+ *   plc.h
+ *
+ *   return a list powerline network device addresses on a powerline
+ *   network; the list consists of a known device plus all others on
+ *   the same powerline network; the device is defined by the channel
+ *   peer address and appears first in the list;
+ *
+ *   the device address must be explicit; it cannot be the broadcast
+ *   or localcast address;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *      Matthieu Poullet &lt;m.poullet@avm.de&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef NETWORKDEVICES2_SOURCE
+#define NETWORKDEVICES2_SOURCE
+
+#include &lt;stdint.h&gt;
+#include &lt;memory.h&gt;
+
+#include &quot;../tools/memory.h&quot;
+#include &quot;../tools/number.h&quot;
+#include &quot;../tools/types.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../plc/plc.h&quot;
+
+signed NetworkDevices2 (struct plc * plc, void * memory, size_t extent) 
+
+{
+	extern const byte broadcast [ETHER_ADDR_LEN];
+	extern const byte localcast [ETHER_ADDR_LEN];
+	struct channel * channel = (struct channel *)(plc-&gt;channel);
+	struct message * message = (struct message *)(plc-&gt;message);
+	uint8_t * origin = (byte *)(memory);
+	uint8_t * offset = (byte *)(memory);
+
+#ifndef __GNUC__
+#pragma pack (push,1)
+#endif
+
+	struct __packed vs_nw_info_request 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_fmi qualcomm;
+	}
+	* request = (struct vs_nw_info_request *)(message);
+	struct __packed vs_nw_info_confirm 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_fmi qualcomm;
+		uint8_t SUB_VERSION;
+		uint8_t Reserved;
+		uint16_t DATA_LEN;
+		uint8_t DATA [1];
+	}
+	* confirm = (struct vs_nw_info_confirm *)(message);
+	struct __packed station 
+	{
+		uint8_t MAC [ETHER_ADDR_LEN];
+		uint8_t TEI;
+		uint8_t Reserved [3];
+		uint8_t BDA [ETHER_ADDR_LEN];
+		uint16_t AVGTX;
+		uint8_t COUPLING;
+		uint8_t Reserved3;
+		uint16_t AVGRX;
+		uint16_t Reserved4;
+	}
+	* station;
+	struct __packed network 
+	{
+		uint8_t NID [7];
+		uint8_t Reserved1 [2];
+		uint8_t SNID;
+		uint8_t TEI;
+		uint8_t Reserved2 [4];
+		uint8_t ROLE;
+		uint8_t CCO_MAC [ETHER_ADDR_LEN];
+		uint8_t CCO_TEI;
+		uint8_t Reserved3 [3];
+		uint8_t NUMSTAS;
+		uint8_t Reserved4 [5];
+		struct station stations [1];
+	}
+	* network;
+	struct __packed networks 
+	{
+		uint8_t Reserved;
+		uint8_t NUMAVLNS;
+		struct network networks [1];
+	}
+	* networks = (struct networks *) (confirm-&gt;DATA);
+
+#ifndef __GNUC__
+#pragma pack (pop)
+#endif
+
+	ssize_t packetsize;
+	if (!memcmp (channel-&gt;peer, broadcast, sizeof (channel-&gt;peer))) 
+	{
+		error (1, EINVAL, &quot;Can't use broadcast address&quot;);
+	}
+	if (!memcmp (channel-&gt;peer, localcast, sizeof (channel-&gt;peer))) 
+	{
+		error (1, EINVAL, &quot;Can't use localcast address&quot;);
+	}
+	memset (memory, 0, extent);
+	memset (message, 0, sizeof (* message));
+	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+	FragmentHeader (&amp;request-&gt;qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
+	if (sendpacket (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) &lt;= 0) 
+	{
+		error (1, errno, CHANNEL_CANTSEND);
+	}
+	while ((packetsize = readpacket (channel, message, sizeof (* message))) &gt; 0) 
+	{
+		if (UnwantedMessage (message, packetsize, 0, (VS_NW_INFO | MMTYPE_CNF))) 
+		{
+			continue;
+		}
+		network = (struct network *)(&amp;networks-&gt;networks);
+		while (networks-&gt;NUMAVLNS--) 
+		{
+			if (extent &lt; sizeof (request-&gt;ethernet.OSA)) 
+			{
+				break;
+			}
+			memcpy (offset, request-&gt;ethernet.OSA, sizeof (request-&gt;ethernet.OSA));
+			offset += sizeof (request-&gt;ethernet.OSA);
+			extent -= sizeof (request-&gt;ethernet.OSA);
+			station = (struct station *)(&amp;network-&gt;stations);
+			while (network-&gt;NUMSTAS--) 
+			{
+				if (extent &lt; sizeof (station-&gt;MAC)) 
+				{
+					break;
+				}
+				memcpy (offset, station-&gt;MAC, sizeof (station-&gt;MAC));
+				offset += sizeof (station-&gt;MAC);
+				extent -= sizeof (station-&gt;MAC);
+				station++;
+			}
+			network = (struct network *)(station);
+		}
+	}
+	return ((offset - origin) / ETHER_ADDR_LEN);
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='NetworkDevices1.c.html' title=' NetworkDevices1.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='NetworkInfoStats.c.html' title=' NetworkInfoStats.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

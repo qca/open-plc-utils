@@ -1,0 +1,317 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			rules.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='ruledump.c.html' title=' ruledump.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='sada.c.html' title=' sada.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   rules.c - Classification Rules Lookup Tables;
+ *
+ *   rules.h
+ *
+ *   QoS related symbol tables used by function ParseRule;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s): 
+ *	Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *	Nathaniel Houghton &lt;nathaniel.houghton@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef RULES_SOURCE
+#define RULES_SOURCE
+
+#include &quot;../plc/rules.h&quot;
+
+struct _code_ const controls [CONTROLS] = 
+
+{
+	{
+		CONTROL_ADD,
+		&quot;Add&quot;
+	},
+	{
+		CONTROL_REM,
+		&quot;Rem&quot;
+	},
+	{
+		CONTROL_REMOVE,
+		&quot;Remove&quot;
+	}
+};
+
+struct _code_ const volatilities [VOLATILITIES] = 
+
+{
+	{
+		VOLATILITY_TEMP,
+		&quot;Temp&quot;
+	},
+	{
+		VOLATILITY_PERM,
+		&quot;Perm&quot;
+	}
+};
+
+struct _code_ const actions [ACTIONS] = 
+
+{
+	{
+		ACTION_CAP0,
+		&quot;CAP0&quot;
+	},
+	{
+		ACTION_CAP1,
+		&quot;CAP1&quot;
+	},
+	{
+		ACTION_CAP2,
+		&quot;CAP2&quot;
+	},
+	{
+		ACTION_CAP3,
+		&quot;CAP3&quot;
+	},
+	{
+		ACTION_BOOST,
+		&quot;Boost&quot;
+	},
+	{
+		ACTION_DROP,
+		&quot;Drop&quot;
+	},
+	{
+		ACTION_DROPTX,
+		&quot;DropTX&quot;
+	},
+	{
+		ACTION_DROPRX,
+		&quot;DropRX&quot;
+	},
+	{
+		ACTION_STRIPTX,
+		&quot;StripTX&quot;
+	},
+	{
+		ACTION_STRIPRX,
+		&quot;StripRX&quot;
+	},
+	{
+		ACTION_TAGTX,
+		&quot;TagTX&quot;
+	},
+	{
+		ACTION_TAGRX,
+		&quot;TagRX&quot;
+	}
+};
+
+struct _code_ const operands [OPERANDS] = 
+
+{
+	{
+		OPERAND_ALL,
+		&quot;All&quot;
+	},
+	{
+		OPERAND_ANY,
+		&quot;Any&quot;
+	},
+	{
+		OPERAND_ALWAYS,
+		&quot;Always&quot;
+	}
+};
+
+struct _code_ const fields [FIELDS] = 
+
+{
+	{
+		FIELD_ETH_DA,
+		&quot;EthDA&quot;
+	},
+	{
+		FIELD_ETH_SA,
+		&quot;EthSA&quot;
+	},
+	{
+		FIELD_VLAN_UP,
+		&quot;VLANUP&quot;
+	},
+	{
+		FIELD_VLAN_ID,
+		&quot;VLANID&quot;
+	},
+	{
+		FIELD_IPV4_TOS,
+		&quot;IPv4TOS&quot;
+	},
+	{
+		FIELD_IPV4_PROT,
+		&quot;IPv4PROT&quot;
+	},
+	{
+		FIELD_IPV4_SA,
+		&quot;IPv4SA&quot;
+	},
+	{
+		FIELD_IPV4_DA,
+		&quot;IPv4DA&quot;
+	},
+	{
+		FIELD_IPV6_TC,
+		&quot;IPv6TC&quot;
+	},
+	{
+		FIELD_IPV6_FL,
+		&quot;IPv6FL&quot;
+	},
+	{
+		FIELD_IPV6_SA,
+		&quot;IPv6SA&quot;
+	},
+	{
+		FIELD_IPV6_DA,
+		&quot;IPv6DA&quot;
+	},
+	{
+		FIELD_TCP_SP,
+		&quot;TCPSP&quot;
+	},
+	{
+		FIELD_TCP_DP,
+		&quot;TCPDP&quot;
+	},
+	{
+		FIELD_UDP_SP,
+		&quot;UDPSP&quot;
+	},
+	{
+		FIELD_UDP_DP,
+		&quot;UDPDP&quot;
+	},
+	{
+		FIELD_IP_SP,
+		&quot;IPSP&quot;
+	},
+	{
+		FIELD_IP_DP,
+		&quot;IPDP&quot;
+	},
+	{
+		FIELD_HPAV_MME,
+		&quot;MME&quot;
+	},
+	{
+		FIELD_ETH_TYPE,
+		&quot;ET&quot;
+	},
+	{
+		FIELD_TCP_ACK,
+		&quot;TCPAck&quot;
+	},
+	{
+		FIELD_VLAN_TAG,
+		&quot;VLANTag&quot;
+	}
+};
+
+struct _code_ const operators [OPERATORS] = 
+
+{
+	{
+		OPERATOR_IS,
+		&quot;Is&quot;
+	},
+	{
+		OPERATOR_NOT,
+		&quot;Not&quot;
+	}
+};
+
+struct _code_ const states [STATES] = 
+
+{
+	{
+		OPERATOR_IS,
+		&quot;True&quot;
+	},
+	{
+		OPERATOR_NOT,
+		&quot;False&quot;
+	},
+	{
+		OPERATOR_IS,
+		&quot;On&quot;
+	},
+	{
+		OPERATOR_NOT,
+		&quot;Off&quot;
+	},
+	{
+		OPERATOR_IS,
+		&quot;Yes&quot;
+	},
+	{
+		OPERATOR_NOT,
+		&quot;No&quot;
+	},
+	{
+		OPERATOR_IS,
+		&quot;Present&quot;
+	},
+	{
+		OPERATOR_NOT,
+		&quot;Missing&quot;
+	}
+};
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='ruledump.c.html' title=' ruledump.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='sada.c.html' title=' sada.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

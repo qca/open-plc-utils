@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			sdram.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='sada.c.html' title=' sada.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='sdramfile.c.html' title=' sdramfile.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   sdram.c - create INT6300 sdram configuration files;
+ *
+ *   sdram.h
+ *
+ *   this program writes two sdram configuration files in the current
+ *   working directory; both files are for Linux toolkit programs and
+ *   not the Windows Device Manager;
+ *
+ *   one of these sdram configuration blocks must be sent to the 
+ *   INT6300 bootloader with VS_SET_SDRAM before downloading NVM 
+ *   and PIB files;
+ *
+ *   This software and documentation is the property of Atheros 
+ *   Corporation, Ocala, Florida. It is provided 'as is' without 
+ *   expressed or implied warranty of any kind to anyone for any 
+ *   reason. Atheros assumes no responsibility or liability for 
+ *   errors or omissions in the software or documentation and 
+ *   reserves the right to make changes without notification. 
+ *   
+ *   Atheros customers may modify and distribute the software 
+ *   without obligation to Atheros. Since use of this software 
+ *   is optional, users shall bear sole responsibility and 
+ *   liability for any consequences of it's use. 
+ *
+ *.  Atheros Powerline Toolkit for HomePlug AV; 
+ *:  Published 2007 by Intellon Corp. ALL RIGHTS RESERVED;
+ *;  For demonstration; Not for production use;
+ *
+ *   Contributor(s):
+ *	Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;fcntl.h&gt;
+
+#include &quot;../tools/memory.h&quot;
+#include &quot;../ram/sdram.h&quot;
+
+#ifndef MAKEFILE
+#include &quot;../tools/checksum32.c&quot;
+#endif
+
+#define FILE1 &quot;sdram16mb.cfg&quot;
+#define FILE2 &quot;sdram64mb.cfg&quot;
+
+int main (int argc, char const * argv []) 
+
+{
+	const uint8_t sdram16mb [32] = 
+	{
+		0x00,
+		0x00,
+		0x00,
+		0x01,
+		0x68,
+		0x2f,
+		0x14,
+		0x00,
+		0x92,
+		0xd4,
+		0xe1,
+		0x01,
+		0xd6,
+		0x83,
+		0x08,
+		0x00,
+		0x88,
+		0x32,
+		0x00,
+		0x00,
+		0xdb,
+		0x06,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00
+	};
+	const uint8_t sdram64mb [32] = 
+	{
+		0x00,
+		0x00,
+		0x00,
+		0x04,
+		0x88,
+		0x31,
+		0x14,
+		0x00,
+		0x91,
+		0xd4,
+		0xe1,
+		0x01,
+		0xe3,
+		0x2b,
+		0x01,
+		0x00,
+		0x89,
+		0x30,
+		0x00,
+		0x00,
+		0x66,
+		0x03,
+		0x00,
+		0x00,
+		0x00,
+		0x01,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00,
+		0x00
+	};
+	int fd;
+	uint32_t checksum;
+	if ((fd = open (FILE1, O_CREAT|O_WRONLY|O_TRUNC, 0444)) != -1) 
+	{
+		printf (&quot;writing %s\n&quot;, FILE1);
+		checksum = checksum32 (sdram16mb, sizeof (sdram16mb), 0);
+		write (fd, sdram16mb, sizeof (sdram16mb));
+		write (fd, &amp;checksum, sizeof (checksum));
+		close (fd);
+	}
+	if ((fd = open (FILE2, O_CREAT|O_WRONLY|O_TRUNC, 0444)) != -1) 
+	{
+		printf (&quot;writing %s\n&quot;, FILE2);
+		checksum = checksum32 (sdram64mb, sizeof (sdram64mb), 0);
+		write (fd, sdram64mb, sizeof (sdram64mb));
+		write (fd, &amp;checksum, sizeof (checksum));
+		close (fd);
+	}
+	return (0);
+}
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='sada.c.html' title=' sada.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='sdramfile.c.html' title=' sdramfile.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

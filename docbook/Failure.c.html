@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			Failure.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='FactoryReset.c.html' title=' FactoryReset.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='FirmwareMessage.c.html' title=' FirmwareMessage.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   void Failure (struct plc * plc, char const *format, ...) 
+ *
+ *   error.h
+ *
+ *   Inform the user that an operation failed; print the channel name, 
+ *   source device, error message and user defined message on stderr
+ *   unless the PLC_SILENCE flags is set;
+ *
+ *   This function is similar to Confirm () except that the message
+ *   status or result code and description is output when the code
+ *   is non-zero; overtime, result codes have replaced status codes
+ *   and so we look in different places for codes in some MMEs;
+ *
+ *   the status and result code fields appear at different offsets
+ *   in different messages; consequently, check the MMTYPE to find
+ *   field;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s);
+ *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef FAILURE_SOURCE
+#define FAILURE_SOURCE
+
+#include &lt;stdio.h&gt;
+#include &lt;stdarg.h&gt;
+#include &lt;stdlib.h&gt;
+
+#include &quot;../plc/plc.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../tools/flags.h&quot;
+#include &quot;../tools/memory.h&quot;
+#include &quot;../mme/mme.h&quot;
+
+#ifdef __GNUC__
+
+__attribute__ ((format (printf, 2, 3))) 
+
+#endif
+
+void Failure (struct plc * plc, char const *format, ...) 
+
+{
+	if (_allclr (plc-&gt;flags, PLC_SILENCE)) 
+	{
+		char address [ETHER_ADDR_LEN * 3];
+		struct channel * channel = (struct channel *)(plc-&gt;channel);
+		struct message * message = (struct message *)(plc-&gt;message);
+		struct __packed header_confirm 
+		{
+			ethernet_std ethernet;
+			qualcomm_std qualcomm;
+			uint8_t MSTATUS;
+		}
+		* header = (struct header_confirm *)(message);
+		hexdecode (header-&gt;ethernet.OSA, sizeof (header-&gt;ethernet.OSA), address, sizeof (address));
+		fprintf (stderr, &quot;%s %s &quot;, channel-&gt;ifname, address);
+		switch (LE16TOH (header-&gt;qualcomm.MMTYPE)) 
+		{
+		case VS_CONN_ADD | MMTYPE_CNF:
+		case VS_CONN_MOD | MMTYPE_CNF:
+		case VS_CONN_REL | MMTYPE_CNF:
+		case VS_CONN_INFO | MMTYPE_CNF:
+			{
+				struct __packed header_confirm 
+				{
+					struct ethernet_std ethernet;
+					struct qualcomm_std qualcomm;
+					uint32_t REQUEST;
+					uint8_t MSTATUS;
+				}
+				* header = (struct header_confirm *)(message);
+				if (header-&gt;MSTATUS) 
+				{
+					fprintf (stderr, &quot;%s (0x%02X): &quot;, MMECode (header-&gt;qualcomm.MMTYPE, header-&gt;MSTATUS), header-&gt;MSTATUS);
+				}
+			}
+			break;
+		case VS_SELFTEST_RESULTS | MMTYPE_CNF:
+		case VS_FORWARD_CONFIG | MMTYPE_CNF:
+			{
+				struct __packed header_confirm 
+				{
+					struct ethernet_std ethernet;
+					struct qualcomm_std qualcomm;
+					uint8_t MVERSION;
+					uint8_t RESULTCODE;
+				}
+				* header = (struct header_confirm *)(message);
+				if (header-&gt;RESULTCODE) 
+				{
+					fprintf (stderr, &quot;%s (0x%02X): &quot;, MMECode (header-&gt;qualcomm.MMTYPE, header-&gt;RESULTCODE), header-&gt;RESULTCODE);
+				}
+			}
+			break;
+		case VS_DEBUG_INFO | MMTYPE_CNF:
+			{
+				struct __packed header_confirm 
+				{
+					struct ethernet_std ethernet;
+					struct homeplug_fmi homeplug;
+					uint8_t OUI [3];
+					uint8_t MSTATUS;
+				}
+				* header = (struct header_confirm *)(message);
+				if (header-&gt;MSTATUS) 
+				{
+					fprintf (stderr, &quot;%s (0x%02X): &quot;, MMECode (header-&gt;homeplug.MMTYPE, header-&gt;MSTATUS), header-&gt;MSTATUS);
+				}
+			}
+			break;
+		case VS_ACCESS_LEVEL_CONTROL | MMTYPE_CNF:
+			{
+				struct __packed header_confirm 
+				{
+					struct ethernet_std ethernet;
+					struct qualcomm_std qualcomm;
+					uint16_t RESERVED;
+					uint16_t MRESPONSE;
+				}
+				* header = (struct header_confirm *)(message);
+				if (header-&gt;MRESPONSE) 
+				{
+					fprintf (stderr, &quot;%s (0x%02X): &quot;, MMECode (header-&gt;qualcomm.MMTYPE, (uint8_t)(header-&gt;MRESPONSE)), header-&gt;MRESPONSE);
+				}
+			}
+			break;
+		default:
+			if (header-&gt;MSTATUS) 
+			{
+				fprintf (stderr, &quot;%s (0x%02X): &quot;, MMECode (header-&gt;qualcomm.MMTYPE, header-&gt;MSTATUS), header-&gt;MSTATUS);
+			}
+			break;
+		}
+		if ((format) &amp;&amp; (*format)) 
+		{
+			va_list arglist;
+			va_start (arglist, format);
+			vfprintf (stderr, format, arglist);
+			va_end (arglist);
+		}
+		fprintf (stderr, &quot;\n&quot;);
+	}
+	if (_anyset (plc-&gt;flags, PLC_BAILOUT)) 
+	{
+		if (_allclr (plc-&gt;flags, PLC_SILENCE)) 
+		{
+			error (1, 0, &quot;Bailing Out!&quot;);
+		}
+		exit (1);
+	}
+	return;
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='FactoryReset.c.html' title=' FactoryReset.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='FirmwareMessage.c.html' title=' FirmwareMessage.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

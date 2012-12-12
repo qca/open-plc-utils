@@ -7,7 +7,7 @@
 			Introduction
 			</title>
 		<para>
-			The Powerline Toolkit comes with a variety of example scripts in the <filename>scripts</filename> folder. They have proven useful to Atheros engineers but may not satisfy your specific needs. This chapter explains how some of these scripts work so that you can modify them to do what you need to do. Most scripts covered in this chapter are intended for a <link linkend='hardware-workstation'>Powerline Workstation</link>.
+			The Open Powerline Toolkit comes with a variety of example scripts in the <filename>scripts</filename> folder. They have proven useful to Atheros engineers but may not satisfy your specific needs. This chapter explains how some of these scripts work so that you can modify them to do what you need to do. Most scripts covered in this chapter are intended for a <link linkend='hardware-workstation'>Powerline Workstation</link>.
 			</para>
 		<para>
 			Atheros provides GNU <application>bash</application> scripts as examples and does not guarantee that they are suitable in any or all situations. Futhermore,  Atheros may not always update them to reflect changes to toolkit programs. Toolkit command line syntax may change from one release to the next and so Atheros cannot guarantee that older scripts will work with newer programs. The scrips are small,  simple and well organized. Do not run them until you have read them and understand what they do and how they work.

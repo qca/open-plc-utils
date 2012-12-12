@@ -65,10 +65,10 @@
 			<para>
 				The Windows Device Manager form consists of 64 hexadecimal ASCII characters. Files are at least 64 bytes but only the first 64 bytes are used. Files can be modified using a text editor. ASCII hex to binary conversion and checksum computation is needed on input. The <ulink url="config2cfg.7.html">
 					<application>config2cfg</application>
-				</ulink> program can be used to convert this format to Powerline Toolkit format. 
+				</ulink> program can be used to convert this format to Open Powerline Toolkit format. 
 				</para>
 			<para>
-				The Powerline Toolkit format consists of 32 binary bytes plus a 4 byte checksum. The file size is exactly 36 bytes. No conversion or checksum computation is needed on input. The <ulink url="chkcfg.7.html">
+				The Open Powerline Toolkit format consists of 32 binary bytes plus a 4 byte checksum. The file size is exactly 36 bytes. No conversion or checksum computation is needed on input. The <ulink url="chkcfg.7.html">
 					<application>chkcfg</application>
 				</ulink> program can be used the validate this file format because it contains a checksum. 
 				</para>

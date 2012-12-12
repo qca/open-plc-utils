@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			sdramfileA.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='sdramfile.c.html' title=' sdramfile.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='sdrampeek.c.html' title=' sdrampeek.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   int sdramfileA (int fd, char const * filename, flag_t flags);
+ *
+ *   sdram.h
+ *
+ *   open an SDRAM configuration file and validate it by checking the
+ *   file length; unfortunately there are not many things to check;
+ *
+ *   This software and documentation is the property of Atheros 
+ *   Corporation, Ocala, Florida. It is provided 'as is' without 
+ *   expressed or implied warranty of any kind to anyone for any 
+ *   reason. Atheros assumes no responsibility or liability for 
+ *   errors or omissions in the software or documentation and 
+ *   reserves the right to make changes without notification. 
+ *   
+ *   Atheros customers may modify and distribute the software 
+ *   without obligation to Atheros. Since use of this software 
+ *   is optional, users shall bear sole responsibility and 
+ *   liability for any consequences of it's use. 
+ *
+ *.  Atheros Powerline Toolkit for HomePlug AV; 
+ *:  Published 2007 by Intellon Corp. ALL RIGHTS RESERVED;
+ *;  For demonstration; Not for production use;
+ *
+ *   Contributor(s):
+ *	Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef SDRAMFILEA_SOURCE
+#define SDRAMFILEA_SOURCE
+
+#include &lt;unistd.h&gt;
+#include &lt;memory.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;errno.h&gt;
+
+#include &quot;../ram/sdram.h&quot;
+#include &quot;../tools/memory.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../tools/flags.h&quot;
+
+int sdramfileA (int fd, char const * filename, flag_t flags) 
+
+{
+	uint32_t checksum;
+	struct config_ram config_ram; 
+	memset (&amp;config_ram, 0, sizeof (config_ram));
+	if (lseek (fd, 0, SEEK_SET) == -1) 
+	{
+		if (_allclr (flags, SDRAM_SILENCE)) 
+		{
+			error (0, errno, &quot;Can't rewind file: %s&quot;, filename);
+		}
+		return (-1);
+	}
+	if (read (fd, &amp;config_ram, sizeof (config_ram)) != sizeof (config_ram)) 
+	{
+		if (_allclr (flags, SDRAM_SILENCE)) 
+		{
+			error (0, errno, &quot;Wrong file size: %s&quot;, filename);
+		}
+		return (-1);
+	}
+	if (read (fd, &amp;checksum, sizeof (checksum)) != sizeof (checksum)) 
+	{
+		if (_allclr (flags, SDRAM_SILENCE)) 
+		{
+			error (0, errno, &quot;Can't read checksum: %s&quot;, filename);
+		}
+		return (-1);
+	}
+	if (checksum32 ((uint32_t *)(&amp;config_ram), sizeof (config_ram) &gt;&gt; 2, checksum)) 
+	{
+		if (_allclr (flags, SDRAM_SILENCE)) 
+		{
+			error (0, 0, &quot;Bad checksum: %s&quot;, filename);
+		}
+		return (-1);
+	}
+	if (_anyset (flags, SDRAM_VERBOSE)) 
+	{
+		if ((filename) &amp;&amp; (*filename)) 
+		{
+			printf (&quot;------- %s -------\n&quot;, filename);
+		}
+		sdrampeek (&amp;config_ram);
+	}
+	if (lseek (fd, 0, SEEK_SET) == -1) 
+	{
+		if (_allclr (flags, SDRAM_SILENCE)) 
+		{
+			error (0, errno, &quot;Can't rewind file: %s&quot;, filename);
+		}
+		return (-1);
+	}
+	return (0);
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='sdramfile.c.html' title=' sdramfile.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='sdrampeek.c.html' title=' sdrampeek.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

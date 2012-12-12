@@ -7,7 +7,7 @@
 			Introduction 
 			</title>
 		<para>
-			The <application>Powerline Toolkit</application> is designed to support hardware engineers and embedded software developers working on GNU/Linux and Linux-like systems. Debian GNU/Linux is the platform of choice because it is open source and has extensive cross-platform support. The toolkit has been compiled and executed on several platforms but Qualcomm Atheros does not necessarily support the toolkit on those platforms. Qualcomm Atheros has made every effort to enable cross-platform compatibility by conforming to POSIX standards and following good programming practice but there are limitations on any such effort. 
+			The <application>Open Powerline Toolkit</application> is designed to support hardware engineers and embedded software developers working on GNU/Linux and Linux-like systems. Debian GNU/Linux is the platform of choice because it is open source and has extensive cross-platform support. The toolkit has been compiled and executed on several platforms but Qualcomm Atheros does not necessarily support the toolkit on those platforms. Qualcomm Atheros has made every effort to enable cross-platform compatibility by conforming to POSIX standards and following good programming practice but there are limitations on any such effort. 
 			</para>
 		</section>
 	<section id='software-security'>
@@ -29,7 +29,7 @@
 			Platform Options 
 			</title>
 		<para>
-			Qualcomm Atheros makes no claim that the <application>Powerline Toolkit</application> will compile  and link in all environments without generating warnings or errors. Different compilers, and compiler versions, treat certain conditions differently and different distributions include different header files or define standard constants and macros differently. Developers should expect to make some source code and makefile modifications to match their environment. 
+			Qualcomm Atheros makes no claim that the <application>Open Powerline Toolkit</application> will compile  and link in all environments without generating warnings or errors. Different compilers, and compiler versions, treat certain conditions differently and different distributions include different header files or define standard constants and macros differently. Developers should expect to make some source code and makefile modifications to match their environment. 
 			</para>
 		<para>
 			The principle consideration is support for raw Ethernet frames. Other considerations include POSIX compliance,  system header file locations,  compiler version and library support. This section discusses some of these considertations.
@@ -293,10 +293,10 @@ GROUP=0
 				Compilation with Visual Studio .NET 2003
 				</title>
 			<para>
-				To build the <application>Powerline Toolkit</application> on Windows XP, you must have access to a Windows computer with  <application>Visual Studio .NET 2003</application> and <application>WinPcap</application> runtime libraries installed. <application>WinPcap</application> is an open source version of the packet capture library, <application>libpcap</application>, widely used on <application>Linux</application> and <application>OpenBSD</application> systems. It is readily available on the Internet. Installation of these components is beyond the scope of this document. 
+				To build the <application>Open Powerline Toolkit</application> on Windows XP, you must have access to a Windows computer with  <application>Visual Studio .NET 2003</application> and <application>WinPcap</application> runtime libraries installed. <application>WinPcap</application> is an open source version of the packet capture library, <application>libpcap</application>, widely used on <application>Linux</application> and <application>OpenBSD</application> systems. It is readily available on the Internet. Installation of these components is beyond the scope of this document. 
 				</para>
 			<para>
-				The Windows and Linux versions of the <application>Powerline Toolkit</application> use the same code base but the Windows version requires a Microsoft solution file that includes special compiler settings and specific POSIX header files. The solution file and header files are included in the same archive as Linux version.
+				The Windows and Linux versions of the <application>Open Powerline Toolkit</application> use the same code base but the Windows version requires a Microsoft solution file that includes special compiler settings and specific POSIX header files. The solution file and header files are included in the same archive as Linux version.
 				</para>
 			<example>
 				<title>
@@ -330,7 +330,7 @@ GROUP=0
 					Microsoft Solution Files
 					</title>
 			<para>
-				The Atheros <application>Powerline Toolkit</application> includes a <productname>Visual Studio .NET</productname> solution file, <filename>./VisualStudioNET/plc-utils.sln</filename>,  that will build the toolkit on <application>Windows XP SP2</application> from the Linux code base. The following information may be helpful to developers wanting to modify or extend the solution or port it to another version of Microsoft <application>Visual Studio</application>:
+				The Atheros <application>Open Powerline Toolkit</application> includes a <productname>Visual Studio .NET</productname> solution file, <filename>./VisualStudioNET/plc-utils.sln</filename>,  that will build the toolkit on <application>Windows XP SP2</application> from the Linux code base. The following information may be helpful to developers wanting to modify or extend the solution or port it to another version of Microsoft <application>Visual Studio</application>:
 				</para>
 			<itemizedlist>
 				<listitem>
@@ -379,7 +379,7 @@ GROUP=0
 				Header Files 
 				</title>
 			<para>
-				Atheros <application>Powerline Toolkit</application> programs reference POSIX functions and constants where possible. Specifically, they make wide use of the data types <constant>uint8_t</constant>, <constant>uint16_t</constant> and <constant>uint32_t</constant> which are defined in file <filename>stdint.h</filename>. Microsoft <productname>Visual C</productname> and <productname>.NET</productname> environments do not include this file. Consequently, Atheros provides an <ulink url='stdint.h.html'>alternative</ulink> in folder <filename>../Windows/include</filename>. This file is open source and was designed to be compatible with the Microsoft development environments; however, you may occassionally experience warnings about the "benign redefinition" for some of these data types.
+				Atheros <application>Open Powerline Toolkit</application> programs reference POSIX functions and constants where possible. Specifically, they make wide use of the data types <constant>uint8_t</constant>, <constant>uint16_t</constant> and <constant>uint32_t</constant> which are defined in file <filename>stdint.h</filename>. Microsoft <productname>Visual C</productname> and <productname>.NET</productname> environments do not include this file. Consequently, Atheros provides an <ulink url='stdint.h.html'>alternative</ulink> in folder <filename>../Windows/include</filename>. This file is open source and was designed to be compatible with the Microsoft development environments; however, you may occassionally experience warnings about the "benign redefinition" for some of these data types.
 				</para>
 			<para>
 				Where possible, this toolkit includes <productname>OpenBSD</productname> network constants because the OpenBSD project pioneered many of the common network protocols and applications used today. Some systems do not include all <productname>OpenBSD</productname> network header files or do not define all <productname>OpenBSD</productname> network constants. Specifically, Microsoft systems do not provide file <filename>netinet/if_ether.h</filename> and so an <ulink url='if_ether.h.html'>alternative</ulink> is included in folder <filename>../Windows/include/netinet</filename> and <productname>Windows</productname> applications should include it.
@@ -707,7 +707,7 @@ header_eth;
 			Atheros vendor-specific messages contain information in mixed endian format. The Ethernet header portion is sent <emphasis>big endian </emphasis> but the Atheros header and payload are sent in <emphasis>little endian </emphasis>. The traditional endian converstion functions <function>htons()</function>, <function>htonl()</function>, <function>ntohs()</function> and <function>ntohl()</function> can be used to perform platform independent conversions on the Ethernet header but not the Atheros header payload.
 			</para>
 		<para>
-			The Powerline Toolkit includes similar macros <function>HTOLE16</function>, <function>HTOLE32</function>, <function>LE16TOH</function> and <function>LE32TOH</function> in <ulink url="endian.h.html">endian.h</ulink> which serve the same function but conform to recommendations for standarized byte order function on Linux, OpenBSD and FreeBSD. Observe that the names are independent of any network implications.
+			The Open Powerline Toolkit includes similar macros <function>HTOLE16</function>, <function>HTOLE32</function>, <function>LE16TOH</function> and <function>LE32TOH</function> in <ulink url="endian.h.html">endian.h</ulink> which serve the same function but conform to recommendations for standarized byte order function on Linux, OpenBSD and FreeBSD. Observe that the names are independent of any network implications.
 			</para>
 <programlisting><![CDATA[
 #if BYTE_ORDER == BIG_ENDIAN
@@ -729,7 +729,7 @@ header_eth;
 #endif
 ]]></programlisting>
 		<para> 
-			In addition, the Powerline Toolkit includes function <link linkend='support-endian'>endian</link> that reverses byte order over a variable-length memory region.
+			In addition, the Open Powerline Toolkit includes function <link linkend='support-endian'>endian</link> that reverses byte order over a variable-length memory region.
 			</para>
 		</section>
 	<section id='packet-basics'>

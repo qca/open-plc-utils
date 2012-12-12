@@ -3,7 +3,7 @@
 			Toolkit Folders 
 			</title>
 		<para>
-			The  Atheros  Powerline Toolkit package folder has many subfolders. Some contain source code, some contain documentation and others contain shell scripts. Some source folders contain programs that require components in neighboring folders. Consequently, you will see references to relative pathnames like ../folder, throughout source code, makefiles and shell scripts. This notation simplifies development and maintenance and is helpful when locating specific files. 
+			The  Atheros  Open Powerline Toolkit package folder has many subfolders. Some contain source code, some contain documentation and others contain shell scripts. Some source folders contain programs that require components in neighboring folders. Consequently, you will see references to relative pathnames like ../folder, throughout source code, makefiles and shell scripts. This notation simplifies development and maintenance and is helpful when locating specific files. 
 			</para>
 		<para>
 			Folder descriptions appear below in alphabetical order: 

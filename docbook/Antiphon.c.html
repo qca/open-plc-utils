@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			Antiphon.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='ARPCWrite.c.html' title=' ARPCWrite.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='Attributes.c.html' title=' Attributes.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   signed Antiphon (struct plc * plc);
+ *
+ *   plc.h
+ *
+ *   instruct one powerline device to send trash frames to another 
+ *   for a given period (in seconds) to establish source device RX 
+ *   PHY rate and target device TX PHY rate; this does not work if
+ *   the source device is also the local device, for some reason; 
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef ANTIPHON_SOURCE
+#define ANTIPHON_SOURCE
+
+#include &lt;memory.h&gt;
+#include &lt;errno.h&gt;
+
+#include &quot;../tools/error.h&quot;
+#include &quot;../tools/flags.h&quot;
+#include &quot;../plc/plc.h&quot;
+
+signed Antiphon (struct plc * plc, byte source [], byte target []) 
+
+{
+	struct channel * channel = (struct channel *)(plc-&gt;channel);
+	struct message * message = (struct message *)(plc-&gt;message);
+
+#ifndef __GNUC__
+#pragma pack (push,1)
+#endif
+
+	struct __packed vs_fr_lbk_request 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+		uint8_t DURATION;
+		uint8_t RESERVED;
+		uint16_t LENGTH;
+		uint8_t PACKET [1038];
+	}
+	* request = (struct vs_fr_lbk_request *) (message);
+
+#ifndef __GNUC__
+#pragma pack (pop)
+#endif
+
+	unsigned timer = channel-&gt;timer;
+	if (_allclr (plc-&gt;flags, PLC_SILENCE)) 
+	{
+		char sourcename [ETHER_ADDR_LEN * 3];
+		char targetname [ETHER_ADDR_LEN * 3];
+		hexdecode (source, ETHER_ADDR_LEN, sourcename, sizeof (sourcename));
+		hexdecode (target, ETHER_ADDR_LEN, targetname, sizeof (targetname));
+		fprintf (stderr, &quot;%s %s %s\n&quot;, channel-&gt;ifname, sourcename, targetname);
+	}
+	memset (message, 0, sizeof (* message));
+	EthernetHeader (&amp;message-&gt;ethernet, source, channel-&gt;host, HOMEPLUG_MTYPE);
+	QualcommHeader (&amp;message-&gt;qualcomm, 0, (VS_FR_LBK | MMTYPE_REQ));
+	request-&gt;DURATION = plc-&gt;timer;
+	request-&gt;LENGTH = HTOLE16 (sizeof (request-&gt;PACKET));
+	memset (request-&gt;PACKET, 0xA5, sizeof (request-&gt;PACKET));
+	EthernetHeader (request-&gt;PACKET, target, source, ETHERTYPE_IP);
+	plc-&gt;packetsize = sizeof (* request);
+	if (SendMME (plc) &lt;= 0) 
+	{
+		error (1, errno, CHANNEL_CANTSEND);
+	}
+	channel-&gt;timer = 5000;
+	if (ReadMME (plc, 0, (VS_FR_LBK | MMTYPE_CNF)) &lt;= 0) 
+	{
+		error (1, errno, CHANNEL_CANTREAD);
+	}
+	channel-&gt;timer = timer;
+	sleep (plc-&gt;timer);
+	return (0);
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='ARPCWrite.c.html' title=' ARPCWrite.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='Attributes.c.html' title=' Attributes.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			VersionInfo2.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='VersionInfo1.c.html' title=' VersionInfo1.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='WaitForAssoc.c.html' title=' WaitForAssoc.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *   
+ *   signed VersionInfo2 (struct plc * plc);
+ *   
+ *   plc.h
+ * 
+ *   read hardware and software version information from an INT6000
+ *   using a VS_SW_VER Request Message;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef VERSIONINFO2_SOURCE
+#define VERSIONINFO2_SOURCE
+
+#include &lt;stdint.h&gt;
+#include &lt;memory.h&gt;
+
+#include &quot;../tools/error.h&quot;
+#include &quot;../tools/memory.h&quot;
+#include &quot;../tools/symbol.h&quot;
+#include &quot;../plc/plc.h&quot;
+
+signed VersionInfo2 (struct plc * plc) 
+
+{
+	struct channel * channel = (struct channel *)(plc-&gt;channel);
+	struct message * message = (struct message *)(plc-&gt;message);
+
+#ifndef __GNUC__
+#pragma pack (push,1)
+#endif
+
+	struct __packed vs_sw_ver_request 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+		uint32_t COOKIE;
+	}
+	* request = (struct vs_sw_ver_request *) (message);
+	struct __packed vs_sw_ver_confirm 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+		uint8_t MSTATUS;
+		uint8_t MDEVICE_CLASS;
+		uint8_t MVERLENGTH;
+		char MVERSION [254];
+		uint32_t IDENT;
+		uint32_t STEPPING_NUM;
+		uint32_t COOKIE;
+		uint32_t RSVD [6];
+	}
+	* confirm = (struct vs_sw_ver_confirm *) (message);
+
+#ifndef __GNUC__
+#pragma pack (pop)
+#endif
+
+	Request (plc, &quot;Request Version Information&quot;);
+	memset (message, 0, sizeof (* message));
+	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+	QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_SW_VER | MMTYPE_REQ));
+	request-&gt;COOKIE = HTOLE32 (plc-&gt;cookie);
+	plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
+	if (SendMME (plc) &lt;= 0) 
+	{
+		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		return (-1);
+	}
+	while (ReadMME (plc, 0, (VS_SW_VER | MMTYPE_CNF)) &gt; 0) 
+	{
+
+#if 0
+
+		fprintf (stderr, &quot;DEVICE CLASS (%d)\n&quot;, LE32TOH (confirm-&gt;MDEVICE_CLASS));
+		fprintf (stderr, &quot;VERSION LENGTH (%d)\n&quot;, LE32TOH (confirm-&gt;MVERLENGTH));
+		fprintf (stderr, &quot;VERSION STRING [%s]\n&quot;, LE32TOH (confirm-&gt;MVERSION));
+		fprintf (stderr, &quot;IDENT [0x%08X]\n&quot;, LE32TOH (confirm-&gt;IDENT));
+		fprintf (stderr, &quot;STEPPING NUMBER [0x%08X]\n&quot;, LE32TOH (confirm-&gt;STEPPING_NUM));
+		fprintf (stderr, &quot;COOKIE [0x%08X]\n&quot;, LE32TOH (confirm-&gt;COOKIE));
+
+#endif
+
+		if (confirm-&gt;MSTATUS) 
+		{
+			Failure (plc, PLC_WONTDOIT);
+			continue;
+		}
+		chipset (confirm);
+		Display (plc, &quot;%s %s&quot;, chipsetname (confirm-&gt;MDEVICE_CLASS), confirm-&gt;MVERSION);
+	}
+	return (0);
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='VersionInfo1.c.html' title=' VersionInfo1.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='WaitForAssoc.c.html' title=' WaitForAssoc.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

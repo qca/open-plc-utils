@@ -7,7 +7,7 @@
 			Introduction 
 			</title>
 		<para>
-			The Powerline Toolkit has been developed with embedded applications in mind but it is not an embedded turn-key system. The Atheros Toolkit will cross-compile and run on several embedded controllers but Atheros does not claim to support cross-compilation for any particular environment or guarantee proper program execution on all hardware platforms. Customers should have (or obtain) embedded system expertise or allow time to develop the expertise before attempting any embedded project.
+			The Open Powerline Toolkit has been developed with embedded applications in mind but it is not an embedded turn-key system. The Atheros Toolkit will cross-compile and run on several embedded controllers but Atheros does not claim to support cross-compilation for any particular environment or guarantee proper program execution on all hardware platforms. Customers should have (or obtain) embedded system expertise or allow time to develop the expertise before attempting any embedded project.
 			</para>
 		<para>
 			Many embedded systems use <acronym>NVRAM</acronym> for persistent storage. When power is applied, an image is read from <acronym>NVRAM</acronym> into <acronym>SDRAM</acronym> and executed. The image contains an operating system kernel and filesystem image. The kernel mounts the filesystem image and starts applications found there. This filesystem stores application programs, support libraries and configuration files and should have enough free space for temporary files that might be needed. A common system uses <productname>Linux</productname> as the operating system kernel, <productname>Busybox</productname> as the principle application and <productname>uClib</productname> as the support library. All executable components must be compiled for the target host processor instruction set. 					</para>
@@ -178,7 +178,7 @@ Please enter your key :
 			<productname>AMiLDA</productname>
 			</title>
 		<para>
-			Atheros has been experimenting with the <productname>AMiLDA</productname> distribution for the <productname>AMD5120</productname>. The <productname>AMiLDA</productname> distribution includes a <productname>Linux</productname> kernel, the <productname>Busybox</productname> application and the <productname>uClib</productname> library. Atheros has integrated the Powerline Toolkit into a copy of this distribution for our own use.
+			Atheros has been experimenting with the <productname>AMiLDA</productname> distribution for the <productname>AMD5120</productname>. The <productname>AMiLDA</productname> distribution includes a <productname>Linux</productname> kernel, the <productname>Busybox</productname> application and the <productname>uClib</productname> library. Atheros has integrated the Open Powerline Toolkit into a copy of this distribution for our own use.
 			</para>
 		<para>
 			This section documents the steps needed to compile <productname>AMiLDA</productname>. The information is taken from public information available on the internet and our own experiences with <productname>AMiLDA</productname>. Atheros does not endorse, recommend or support this hardwaer or software in any way. We merely provide some information as a courtesy to customers who may be interested.
@@ -354,7 +354,7 @@ Xmodem sectors/kbytes sent: 3965/495k
 Essentially,  this <filename>Makefile</filename> creates a temporary folder, mounts it as an <application>ext2</application> filesystem, populates it with required folders and files, unmounts it and compresses it. The compressed image is ultimately included in the image file <filename>AMiLDA/linux/vmlinuz</filename>. 			
 			</para>
 		<para>
-			This section covers the folders and files needed for proper operation of the Powerline Toolkit. It does not cover any other folders and files that may be needed by components of the <productname>AMiLDA</productname> environment. 
+			This section covers the folders and files needed for proper operation of the Open Powerline Toolkit. It does not cover any other folders and files that may be needed by components of the <productname>AMiLDA</productname> environment. 
 			</para>
 		<section id="AMiLDA-bin">
 				<title>
@@ -422,19 +422,19 @@ Essentially,  this <filename>Makefile</filename> creates a temporary folder, mou
 			Atheros Toolkit
 			</title>
 		<para>
-			The Powerline Toolkit may be installed as part of the <productname>AMiLDA</productname> environment when space permits. The toolkit needs the <productname>Linux</productname> kernel and <productname>uClib</productname> library to function;  however, the toolkit web interface also needs an <acronym>HTTP</acronym> server with <acronym>CGI</acronym> enabled. The web interfaces is an independent application that does not rely on any other toolkit programs for proper operation.
+			The Open Powerline Toolkit may be installed as part of the <productname>AMiLDA</productname> environment when space permits. The toolkit needs the <productname>Linux</productname> kernel and <productname>uClib</productname> library to function;  however, the toolkit web interface also needs an <acronym>HTTP</acronym> server with <acronym>CGI</acronym> enabled. The web interfaces is an independent application that does not rely on any other toolkit programs for proper operation.
 			</para>
 		<section id="AMiLDA-integration">
 			<title>
 				Integration
 				</title>
 			<para>
-				This section explains how to integrate and cross-compile the Powerline Toolkit for the <productname>ADM5120</productname>. It assumes that you have installed the <productname>Edimax</productname> toolchain and <productname>AMiLDA</productname> distribution as described in the <link linkend="AMiLDA-compiling">Compiling</link> section.
+				This section explains how to integrate and cross-compile the Open Powerline Toolkit for the <productname>ADM5120</productname>. It assumes that you have installed the <productname>Edimax</productname> toolchain and <productname>AMiLDA</productname> distribution as described in the <link linkend="AMiLDA-compiling">Compiling</link> section.
 				</para>
 			<orderedlist>
 				<listitem>
 					<para>
-						Obtain the latest version of the Powerline Toolkit archive and save it anwhere that your prefer. The archive filename will reflect the toolkit version and so <filename>plc-utils-x.x.x</filename>,  used here, refers to whatever version you have. 
+						Obtain the latest version of the Open Powerline Toolkit archive and save it anwhere that your prefer. The archive filename will reflect the toolkit version and so <filename>plc-utils-x.x.x</filename>,  used here, refers to whatever version you have. 
 						</para>
 					</listitem>
 				<listitem>

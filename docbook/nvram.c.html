@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			nvram.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='nvmsplit.c.html' title=' nvmsplit.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='nvrampeek.c.html' title=' nvrampeek.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *   
+ *   nvram.c - NVRAM type information;
+ * 
+ *   nvram.h
+ *
+ *   nvram codes for display purposes;
+ *
+ *   Contributor(s):
+ *	Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef NVRAM_SOURCE
+#define NVRAM_SOURCE
+
+#include &quot;../tools/types.h&quot;
+#include &quot;../tools/symbol.h&quot;
+#include &quot;../ram/nvram.h&quot;
+
+#define NVRAM_TYPES (sizeof (nvram_types) / sizeof (struct _type_))
+
+static const struct _type_ nvram_types [] = 
+
+{
+	{
+		0x00000005,
+		&quot;500KB&quot;
+	},
+	{
+		0x00000010,
+		&quot;1MB&quot;
+	},
+	{
+		0x00000011,
+		&quot;M25P20&quot;
+	},
+	{
+		0x00000012,
+		&quot;M25P40&quot;
+	},
+	{
+		0x00000013,
+		&quot;M25P80&quot;
+	},
+	{
+		0x00000014,
+		&quot;M25P16_ES&quot;
+	},
+	{
+		0x00000015,
+		&quot;M25P32_ES&quot;
+	},
+	{
+		0x00000016,
+		&quot;M25P64_ES&quot;
+	},
+	{
+		0x00000046,
+		&quot;AT26DF161&quot;
+	},
+	{
+		0x00000146,
+		&quot;AT26DF161A&quot;
+	},
+	{
+		0x00001020,
+		&quot;M25P05A&quot;
+	},
+	{
+		0x00001120,
+		&quot;M25P10A&quot;
+	},
+	{
+		0x00001402,
+		&quot;S25FL016AOLMFI01&quot;
+	},
+	{
+		0x00001420,
+		&quot;M25P80&quot;
+	},
+	{
+		0x00001520,
+		&quot;M25P16&quot;
+	},
+	{
+		0x00001532,
+		&quot;FM25S16/FM25Q16&quot;
+	},
+	{
+		0x00001571,
+		&quot;M25PX16&quot;
+	},
+	{
+		0x00001620,
+		&quot;M25P32&quot;
+	},
+	{
+		0x00001632,
+		&quot;FM25Q32&quot;
+	},
+	{
+		0x00001720,
+		&quot;M25P64&quot;
+	},
+	{
+		0x00004125,
+		&quot;SST25VF016B&quot;
+	}
+};
+
+char const * NVRAMName (uint16_t NVRAMTYPE) 
+
+{
+	return (typename (nvram_types, NVRAM_TYPES, NVRAMTYPE, &quot;Unknown NVRAM Type&quot;));
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='nvmsplit.c.html' title=' nvmsplit.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='nvrampeek.c.html' title=' nvrampeek.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

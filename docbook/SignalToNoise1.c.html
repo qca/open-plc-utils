@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			SignalToNoise1.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='SetProperty.c.html' title=' SetProperty.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='SignalToNoise2.c.html' title=' SignalToNoise2.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   signed SignalToNoise1 (struct plc * plc);
+ *
+ *   plc.h
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef SIGNALTONOISE1_SOURCE
+#define SIGNALTONOISE1_SOURCE
+
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+#include &quot;../tools/flags.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../tools/endian.h&quot;
+#include &quot;../plc/plc.h&quot;
+
+#ifndef TONEMAPS1_SOURCE
+
+static uint8_t const mod2bits [AMP_BITS] = 
+
+{
+	0,
+	1,
+	2,
+	3,
+	4,
+	6,
+	8,
+	10,
+	12
+};
+
+static uint8_t const mod2db [AMP_BITS] = 
+
+{
+	0,
+	2,
+	4,
+	7,
+	10,
+	16,
+	22,
+	28,
+	36
+};
+
+#endif
+
+signed SignalToNoise1 (struct plc * plc) 
+
+{
+	struct channel * channel = (struct channel *)(plc-&gt;channel);
+	struct message * message = (struct message *)(plc-&gt;message);
+	byte tonemap [PLC_SLOTS + 1][AMP_CARRIERS &gt;&gt; 1];
+	byte GIL [PLC_SLOTS];
+	byte AGC [PLC_SLOTS];
+	double SNR [PLC_SLOTS] = 
+	{
+		0.0
+	};
+	double BPC [PLC_SLOTS] = 
+	{
+		0.0
+	};
+	double AvgSNR = 0;
+	double AvgBPC = 0;
+	unsigned carriers = 0;
+	unsigned carrier = 0;
+	unsigned slots = 0;
+	unsigned slot = 0;
+
+#ifndef __GNUC__
+#pragma pack (push,1)
+#endif
+
+	struct __packed vs_tone_slot_char_request 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+		uint8_t MACADDRESS [ETHER_ADDR_LEN];
+		uint8_t TMSLOT;
+	}
+	* request = (struct vs_tone_slot_char_request *) (message);
+	struct __packed vs_tone_slot_char_confirm 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+		uint8_t MSTATUS;
+		uint8_t TMSLOT;
+		uint8_t NUMTMS;
+		uint16_t TMNUMACTCARRIERS;
+		uint8_t MOD_CARRIER [(INT_CARRIERS + 1) &gt;&gt; 1];
+		uint8_t GIL;
+		uint8_t AGC;
+	}
+	* confirm = (struct vs_tone_slot_char_confirm *) (message);
+
+#ifndef __GNUC__
+#pragma pack (pop)
+#endif
+
+	memset (message, 0, sizeof (* message));
+	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+	QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_RX_TONE_MAP_CHAR | MMTYPE_REQ));
+	plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
+	memcpy (request-&gt;MACADDRESS, plc-&gt;RDA, sizeof (request-&gt;MACADDRESS));
+	request-&gt;TMSLOT = 0;
+	if (SendMME (plc) &lt;= 0) 
+	{
+		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		return (-1);
+	}
+	if (ReadMME (plc, 0, (VS_RX_TONE_MAP_CHAR | MMTYPE_CNF)) &lt;= 0) 
+	{
+		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+		return (-1);
+	}
+	carriers = LE16TOH (confirm-&gt;TMNUMACTCARRIERS);
+	slots = confirm-&gt;NUMTMS;
+	if (!slots) 
+	{
+		error ((plc-&gt;flags &amp; PLC_BAILOUT), ECANCELED, &quot;No Tone Maps Available&quot;);
+		return (-1);
+	}
+	memset (tonemap, 0, sizeof (tonemap));
+	for (slot = 0; slot &lt; slots; slot++) 
+	{
+		EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+		QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_RX_TONE_MAP_CHAR | MMTYPE_REQ));
+		memcpy (request-&gt;MACADDRESS, plc-&gt;RDA, sizeof (request-&gt;MACADDRESS));
+		request-&gt;TMSLOT = slot;
+		plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
+		if (SendMME (plc) &lt;= 0) 
+		{
+			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+			return (-1);
+		}
+		if (ReadMME (plc, 0, (VS_RX_TONE_MAP_CHAR | MMTYPE_CNF)) &lt;= 0) 
+		{
+			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+			return (-1);
+		}
+		if (confirm-&gt;MSTATUS) 
+		{
+			Failure (plc, PLC_WONTDOIT);
+			return (-1);
+		}
+		memcpy (&amp;tonemap [slot][0], confirm-&gt;MOD_CARRIER, sizeof (confirm-&gt;MOD_CARRIER));
+		GIL [slot] = confirm-&gt;GIL;
+		AGC [slot] = confirm-&gt;AGC;
+	}
+	while (carrier &lt; carriers) 
+	{
+		unsigned value = 0;
+		unsigned index = carrier &gt;&gt; 1;
+		for (slot = 0; slot &lt; PLC_SLOTS; slot++) 
+		{
+			value = tonemap [slot][index];
+			if ((carrier &amp; 1)) 
+			{
+				value &gt;&gt;= 4;
+			}
+			value &amp;= 0x0F;
+			BPC [slot] += mod2bits [value];
+			SNR [slot] += mod2db [value];
+			AvgBPC += mod2bits [value];
+			AvgSNR += mod2db [value];
+		}
+		carrier++;
+	}
+	AvgBPC /= carriers;
+	AvgBPC /= slots;
+	AvgSNR /= carriers;
+	AvgSNR /= slots;
+	printf (&quot; SNR&quot;);
+	for (slot = 0; slot &lt; slots; slot++) 
+	{
+		printf (&quot; %8.3f&quot;, SNR [slot] / carriers);
+	}
+	printf (&quot; %8.3f&quot;, AvgSNR);
+	printf (&quot; \n&quot;);
+	printf (&quot; ATN&quot;);
+	for (slot = 0; slot &lt; slots; slot++) 
+	{
+		printf (&quot; %8.3f&quot;, SNR [slot] / carriers - 60);
+	}
+	printf (&quot; %8.3f&quot;, AvgSNR - 60);
+	printf (&quot; \n&quot;);
+	printf (&quot; BPC&quot;);
+	for (slot = 0; slot &lt; slots; slot++) 
+	{
+		printf (&quot; %8.3f&quot;, BPC [slot] / carriers);
+	}
+	printf (&quot; %8.3f&quot;, AvgBPC);
+	printf (&quot; \n&quot;);
+	printf (&quot; AGC&quot;);
+	for (slot = 0; slot &lt; slots; slot++) 
+	{
+		printf (&quot; %02d&quot;, AGC [slot]);
+	}
+	printf (&quot; \n&quot;);
+	printf (&quot; GIL&quot;);
+	for (slot = 0; slot &lt; slots; slot++) 
+	{
+		printf (&quot; %02d&quot;, GIL [slot]);
+	}
+	printf (&quot; \n&quot;);
+	return (0);
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='SetProperty.c.html' title=' SetProperty.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='SignalToNoise2.c.html' title=' SignalToNoise2.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

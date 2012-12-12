@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			HPAVKeyNID.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='HPAVKeyDAK.c.html' title=' HPAVKeyDAK.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='HPAVKeyNMK.c.html' title=' HPAVKeyNMK.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   void HPAVKeyNID (uint8_t NID [], const uint8_t NMK [], signed level);
+ *
+ *   HPAVKey.h
+ *   
+ *   compute the HomePlugAV compliant Network Identification Key (NID)
+ *   for a given Network Membership Key (NMK); return the key in buffer
+ *   NID []; the key will be HPAVKEY_NID_LEN bytes as defined in 
+ *   HPAVKey.h;
+ *
+ *   unlike the NMK, the NID is 54-bits and includes a 2-bit security 
+ *   level; See the HomePlug AV Specification for more info;
+ *
+ *   hash the NMK then rehash the digest 4 times per HomePlug AV
+ *   Specification; no salt is used;
+ *   
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s);
+ *	Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef HPAVKEYNID_SOURCE
+#define HPAVKEYNID_SOURCE
+
+#include &lt;memory.h&gt;
+
+#include &quot;../key/HPAVKey.h&quot;
+#include &quot;../key/SHA256.h&quot;
+
+void HPAVKeyNID (uint8_t NID [], const uint8_t NMK [], uint8_t level) 
+
+{
+	struct sha256 sha256;
+	uint8_t digest [SHA256_DIGEST_LENGTH];
+	unsigned rehash = 4;
+	SHA256Reset (&amp;sha256);
+	SHA256Write (&amp;sha256, NMK, HPAVKEY_NMK_LEN);
+	SHA256Fetch (&amp;sha256, digest);
+	while (rehash--) 
+	{
+		SHA256Reset (&amp;sha256);
+		SHA256Write (&amp;sha256, digest, sizeof (digest));
+		SHA256Fetch (&amp;sha256, digest);
+	}
+
+#if 1
+
+	level &lt;&lt;= 4;
+	digest [HPAVKEY_NID_LEN - 1] &gt;&gt;= 4;
+	digest [HPAVKEY_NID_LEN - 1] |= level;
+
+#else
+
+	digest [HPAVKEY_NID_LEN - 1] &amp;= ~0xC0;
+	digest [HPAVKEY_NID_LEN - 1] |= level &lt;&lt; 6;
+
+#endif
+
+	memcpy (NID, digest, HPAVKEY_NID_LEN);
+	return;
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='HPAVKeyDAK.c.html' title=' HPAVKeyDAK.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='HPAVKeyNMK.c.html' title=' HPAVKeyNMK.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

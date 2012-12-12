@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			WatchdogReport.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='WaitForStart.c.html' title=' WaitForStart.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='WriteCFG.c.html' title=' WriteCFG.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *   
+ *   signed WatchdogReport (struct plc * plc);
+ *   
+ *   plc.h
+ * 
+ *   Read the watchdog report using VS_WD_RPT and write it to a file
+ *   in binary format; this file can be sent to Atheros Support for
+ *   analysis;
+ *   
+ *   The VS_WD_RPT message returns an indication, not a confirmation
+ *    message;
+ *   
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef WATCHDOGREPORT_SOURCE
+#define WATCHDOGREPORT_SOURCE
+
+#include &lt;stdint.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;memory.h&gt;
+
+#include &quot;../plc/plc.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../tools/flags.h&quot;
+#include &quot;../tools/files.h&quot;
+#include &quot;../tools/memory.h&quot;
+#include &quot;../tools/format.h&quot;
+
+signed WatchdogReport (struct plc * plc) 
+
+{
+	struct channel * channel = (struct channel *)(plc-&gt;channel);
+	struct message * message = (struct message *)(plc-&gt;message);
+
+#ifndef __GNUC__
+#pragma pack (push,1)
+#endif
+
+	struct __packed vs_wd_rpt_request 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+		uint16_t SESSIONID;
+		uint8_t CLR;
+	}
+	* request = (struct vs_wd_rpt_request *) (message);
+	struct __packed vs_wd_rpt_ind 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+		uint8_t MSTATUS;
+		uint16_t SESSIONID;
+		uint8_t NUMPARTS;
+		uint8_t CURPART;
+		uint16_t RDATALENGTH;
+		uint8_t RDATAOFFSET;
+		uint8_t RDATA [1];
+	}
+	* indicate = (struct vs_wd_rpt_ind *) (message);
+
+#ifndef __GNUC__
+#pragma pack (pop)
+#endif
+
+	Request (plc, &quot;Read Watchdog Report&quot;);
+	memset (message, 0, sizeof (* message));
+	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+	QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_WD_RPT | MMTYPE_REQ));
+	request-&gt;SESSIONID = HTOLE32 (plc-&gt;cookie);
+	request-&gt;CLR = plc-&gt;readaction;
+	plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
+	if (SendMME (plc) &lt;= 0) 
+	{
+		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		return (-1);
+	}
+	do 
+	{
+		if (ReadMME (plc, 0, (VS_WD_RPT | MMTYPE_IND)) &lt;= 0) 
+		{
+			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+			return (-1);
+		}
+		if (indicate-&gt;MSTATUS) 
+		{
+			Failure (plc, PLC_WONTDOIT);
+			return (-1);
+		}
+		if (write (plc-&gt;rpt.file, indicate-&gt;RDATA + indicate-&gt;RDATAOFFSET, LE16TOH (indicate-&gt;RDATALENGTH)) != LE16TOH (indicate-&gt;RDATALENGTH)) 
+		{
+			Failure (plc, FILE_CANTSAVE, plc-&gt;rpt.name);
+			return (-1);
+		}
+	}
+	while (indicate-&gt;CURPART &lt; indicate-&gt;NUMPARTS);
+	Confirm (plc, &quot;Read %s&quot;, plc-&gt;rpt.name);
+	return (0);
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='WaitForStart.c.html' title=' WaitForStart.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='WriteCFG.c.html' title=' WriteCFG.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

@@ -1,0 +1,384 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			plcrule.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='plcrate.c.html' title=' plcrate.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='plcset.c.html' title=' plcset.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   int6krule.c - Qualcomm Atheros Message Classification Utility;
+ *
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*&quot;
+ *   system header files;
+ *--------------------------------------------------------------------*/
+
+#include &lt;unistd.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;limits.h&gt;
+
+/*====================================================================*
+ *   custom header files;
+ *--------------------------------------------------------------------*/
+
+#include &quot;../tools/getoptv.h&quot;
+#include &quot;../tools/putoptv.h&quot;
+#include &quot;../tools/memory.h&quot;
+#include &quot;../tools/number.h&quot;
+#include &quot;../tools/symbol.h&quot;
+#include &quot;../tools/types.h&quot;
+#include &quot;../tools/flags.h&quot;
+#include &quot;../tools/files.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../plc/plc.h&quot;
+#include &quot;../plc/rules.h&quot;
+
+/*====================================================================*
+ *   custom source files;
+ *--------------------------------------------------------------------*/
+
+#ifndef MAKEFILE
+#include &quot;../tools/getoptv.c&quot;
+#include &quot;../tools/putoptv.c&quot;
+#include &quot;../tools/version.c&quot;
+#include &quot;../tools/basespec.c&quot;
+#include &quot;../tools/hexdump.c&quot;
+#include &quot;../tools/hexencode.c&quot;
+#include &quot;../tools/bytespec.c&quot;
+#include &quot;../tools/ipv4spec.c&quot;
+#include &quot;../tools/ipv6spec.c&quot;
+#include &quot;../tools/uintspec.c&quot;
+#include &quot;../tools/hexdecode.c&quot;
+#include &quot;../tools/todigit.c&quot;
+#include &quot;../tools/endian.c&quot;
+#include &quot;../tools/error.c&quot;
+#include &quot;../tools/synonym.c&quot;
+#include &quot;../tools/assist.c&quot;
+#include &quot;../tools/lookup.c&quot;
+#include &quot;../tools/codelist.c&quot;
+#endif
+
+#ifndef MAKEFILE
+#include &quot;../plc/Confirm.c&quot;
+#include &quot;../plc/Display.c&quot;
+#include &quot;../plc/Failure.c&quot;
+#include &quot;../plc/ReadMME.c&quot;
+#include &quot;../plc/Request.c&quot;
+#include &quot;../plc/SendMME.c&quot;
+#include &quot;../plc/Devices.c&quot;
+#include &quot;../mme/EthernetHeader.c&quot;
+#include &quot;../mme/QualcommHeader.c&quot;
+#include &quot;../mme/UnwantedMessage.c&quot;
+#include &quot;../plc/rules.c&quot;
+#include &quot;../plc/ParseRule.c&quot;
+#endif
+
+#ifndef MAKEFILE
+#include &quot;../ether/channel.c&quot;
+#include &quot;../ether/openchannel.c&quot;
+#include &quot;../ether/closechannel.c&quot;
+#include &quot;../ether/readpacket.c&quot;
+#include &quot;../ether/sendpacket.c&quot;
+#endif
+
+#ifndef MAKEFILE
+#include &quot;../mme/MMECode.c&quot;
+#endif
+
+/*====================================================================*
+ *   program constants;
+ *--------------------------------------------------------------------*/
+
+#define INT6KRULE_CSPEC_VERSION 0
+#define INT6KRULE_VLAN_TAG 0x00000000
+#define COMMA &quot;,&quot;
+#define QUOTE &quot;''&quot;
+
+/*====================================================================*
+ *
+ *   signed Classification (struct plc * plc, struct MMERule * rule);
+ *
+ *   plc.h
+ *
+ *   This plugin for program plcrule adds or removes a temporary
+ *   or permanent network classification rule to a device using a
+ *   VS_CLASSIFICATION message;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+signed Classification (struct plc * plc, struct MMERule * rule) 
+
+{
+	struct channel * channel = (struct channel *)(plc-&gt;channel);
+	struct message * message = (struct message *)(plc-&gt;message);
+
+#ifndef __GNUC__
+#pragma pack (push,1)
+#endif
+
+	struct __packed vs_classification_request 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+		struct MMERule rule;
+	}
+	* request = (struct vs_classification_request *)(message);
+	struct __packed vs_classification_confirm 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+		uint8_t MSTATUS;
+	}
+	* confirm = (struct vs_classification_confirm *)(message);
+
+#ifndef __GNUC__
+#pragma pack (pop)
+#endif
+
+	Request (plc, &quot;Set Classification Rules&quot;);
+	memset (message, 0, sizeof (* message));
+	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+	QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_CLASSIFICATION | MMTYPE_REQ));
+	plc-&gt;packetsize = sizeof (struct vs_classification_request);
+	memcpy (&amp;request-&gt;rule, rule, sizeof (request-&gt;rule));
+	if (SendMME (plc) &lt;= 0) 
+	{
+		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		return (-1);
+	}
+	if (ReadMME (plc, 0, (VS_CLASSIFICATION | MMTYPE_CNF)) &lt;= 0) 
+	{
+		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+		return (-1);
+	}
+	if (confirm-&gt;MSTATUS) 
+	{
+		Failure (plc, PLC_WONTDOIT);
+		return (-1);
+	}
+	Confirm (plc, &quot;Setting ...&quot;);
+	return (0);
+}
+
+/*====================================================================*
+ *   
+ *   int main (int argc, char const * argv[]);
+ *   
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *--------------------------------------------------------------------*/
+
+int main (int argc, char const * argv []) 
+
+{
+	extern struct channel channel;
+	static char const * optv [] = 
+	{
+		&quot;ei:qst:T:vV:&quot;,
+		&quot;action operand condition [...] control volatility [device] [...]\n\n          where a condition is: field operator value&quot;,
+		&quot;Qualcomm Atheros Stream Classification Utility&quot;,
+		&quot;e\tredirect stderr to stdout&quot;,
+
+#if defined (WINPCAP) || defined (LIBPCAP)
+
+		&quot;i n\thost interface is (n) [&quot; LITERAL (CHANNEL_ETHNUMBER) &quot;]&quot;,
+
+#else
+
+		&quot;i s\thost interface is (s) [&quot; LITERAL (CHANNEL_ETHDEVICE) &quot;]&quot;,
+
+#endif
+
+		&quot;q\tquiet mode&quot;,
+		&quot;s\tdisplay symbol tables&quot;,
+		&quot;t n\tread timeout is (n) milliseconds [&quot; LITERAL (CHANNEL_TIMER) &quot;]&quot;,
+		&quot;T x\tinserted vlan tag is x [&quot; LITERAL (INT6KRULE_VLAN_TAG) &quot;]&quot;,
+		&quot;v\tverbose mode&quot;,
+		&quot;V n\tcspec version is n [&quot; LITERAL (INT6KRULE_CSPEC_VERSION) &quot;]&quot;,
+		(char const *) (0)
+	};
+
+#include &quot;../plc/plc.c&quot;
+
+	struct cspec cspec;
+	struct MMERule rule;
+	signed c;
+	memset (&amp;rule, 0, sizeof (rule));
+	memset (&amp;cspec, 0, sizeof (cspec));
+	cspec.VLAN_TAG = INT6KRULE_VLAN_TAG;
+	cspec.CSPEC_VERSION = INT6KRULE_CSPEC_VERSION;
+	if (getenv (PLCDEVICE)) 
+	{
+
+#if defined (WINPCAP) || defined (LIBPCAP)
+
+		channel.ifindex = atoi (getenv (PLCDEVICE));
+
+#else
+
+		channel.ifname = strdup (getenv (PLCDEVICE));
+
+#endif
+
+	}
+	optind = 1;
+	while ((c = getoptv (argc, argv, optv)) != -1) 
+	{
+		switch (c) 
+		{
+		case 'e':
+			dup2 (STDOUT_FILENO, STDERR_FILENO);
+			break;
+		case 'i':
+
+#if defined (WINPCAP) || defined (LIBPCAP)
+
+			channel.ifindex = atoi (optarg);
+
+#else
+
+			channel.ifname = optarg;
+
+#endif
+
+			break;
+		case 'q':
+			_setbits (channel.flags, CHANNEL_SILENCE);
+			_setbits (plc.flags, PLC_SILENCE);
+			break;
+		case 's':
+			printf (&quot;\n&quot;);
+			printf (&quot; Controls are &quot;);
+			codelist (controls, CONTROLS, COMMA, QUOTE, stdout);
+			printf (&quot;.\n&quot;);
+			printf (&quot; Volatilities are &quot;);
+			codelist (volatilities, VOLATILITIES, COMMA, QUOTE, stdout);
+			printf (&quot;.\n&quot;);
+			printf (&quot; Actions are &quot;);
+			codelist (actions, ACTIONS, COMMA, QUOTE, stdout);
+			printf (&quot;.\n&quot;);
+			printf (&quot; Operands are &quot;);
+			codelist (operands, OPERANDS, COMMA, QUOTE, stdout);
+			printf (&quot;.\n&quot;);
+			printf (&quot; Fields are &quot;);
+			codelist (fields, FIELDS, COMMA, QUOTE, stdout);
+			printf (&quot;.\n&quot;);
+			printf (&quot; Operators are &quot;);
+			codelist (operators, OPERATORS, COMMA, QUOTE, stdout);
+			printf (&quot;.\n&quot;);
+			printf (&quot; States  are &quot;);
+			codelist (states, STATES, COMMA, QUOTE, stdout);
+			printf (&quot;.\n&quot;);
+			printf (&quot;\n&quot;);
+			return (0);
+		case 't':
+			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			break;
+		case 'T':
+			cspec.VLAN_TAG = (uint32_t)(basespec (optarg, 16, sizeof (cspec.VLAN_TAG)));
+			cspec.VLAN_TAG = htonl (cspec.VLAN_TAG);
+			break;
+		case 'v':
+			_setbits (channel.flags, CHANNEL_VERBOSE);
+			_setbits (plc.flags, PLC_VERBOSE);
+			break;
+		case 'V':
+			cspec.CSPEC_VERSION = (uint16_t)(basespec (optarg, 10, sizeof (cspec.CSPEC_VERSION)));
+			cspec.CSPEC_VERSION = HTOLE16 (cspec.CSPEC_VERSION);
+			break;
+		default:
+			break;
+		}
+	}
+	argc -= optind;
+	argv += optind;
+	if (ParseRule (&amp;argc, &amp;argv, &amp;rule, &amp;cspec) == -1) 
+	{
+		error (1, 0, &quot;invalid rule&quot;);
+	}
+	openchannel (&amp;channel);
+	if (!(plc.message = malloc (sizeof (* plc.message)))) 
+	{
+		error (1, errno, PLC_NOMEMORY);
+	}
+	if (!argc) 
+	{
+		Classification (&amp;plc, &amp;rule);
+	}
+	while ((argc) &amp;&amp; (* argv)) 
+	{
+		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices)))) 
+		{
+			error (1, errno, PLC_BAD_MAC, * argv);
+		}
+		Classification (&amp;plc, &amp;rule);
+		argc--;
+		argv++;
+	}
+	free (plc.message);
+	closechannel (&amp;channel);
+	exit (0);
+}
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='plcrate.c.html' title=' plcrate.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='plcset.c.html' title=' plcset.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

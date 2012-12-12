@@ -1,0 +1,324 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			psin.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='psgraph.c.html' title=' psgraph.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='pskey.c.html' title=' pskey.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   psin.c - load prescalers into int6000 parameter file;
+ *
+ *   This software and documentation is the property of Atheros 
+ *   Corporation, Ocala, Florida. It is provided 'as is' without 
+ *   expressed or implied warranty of any kind to anyone for any 
+ *   reason. Atheros assumes no responsibility or liability for 
+ *   errors or omissions in the software or documentation and 
+ *   reserves the right to make changes without notification. 
+ *   
+ *   Atheros customers may modify and distribute the software 
+ *   without obligation to Atheros. Since use of this software 
+ *   is optional, users shall bear sole responsibility and 
+ *   liability for any consequences of it's use. 
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *	Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *      Nathaniel Houghton &lt;nathaniel.houghton@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *   system header files;
+ *--------------------------------------------------------------------*/
+
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;ctype.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;errno.h&gt;
+
+/*====================================================================*
+ *   custom header files;
+ *--------------------------------------------------------------------*/
+
+#include &quot;../tools/endian.h&quot;
+#include &quot;../tools/getoptv.h&quot;
+#include &quot;../tools/number.h&quot;
+#include &quot;../tools/chars.h&quot;
+#include &quot;../tools/types.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../tools/files.h&quot;
+#include &quot;../key/HPAVKey.h&quot;
+#include &quot;../pib/pib.h&quot;
+#include &quot;../plc/plc.h&quot;
+
+/*====================================================================*
+ *   custom source files;
+ *--------------------------------------------------------------------*/
+
+#ifndef MAKEFILE
+#include &quot;../tools/getoptv.c&quot;
+#include &quot;../tools/putoptv.c&quot;
+#include &quot;../tools/version.c&quot;
+#include &quot;../tools/fdchecksum32.c&quot;
+#include &quot;../tools/hexdecode.c&quot;
+#include &quot;../tools/hexstring.c&quot;
+#include &quot;../tools/todigit.c&quot;
+#include &quot;../tools/error.c&quot;
+#endif
+
+#ifndef MAKEFILE
+#include &quot;../pib/pibfile1.c&quot;
+#include &quot;../pib/piblock.c&quot;
+#include &quot;../pib/pibscalers.c&quot;
+#endif
+
+#ifndef MAKEFILE
+#include &quot;../key/keys.c&quot;
+#endif
+
+/*====================================================================*
+ *   
+ *
+ *   signed ar7x00_psin (struct _file_ * pib, uint32_t value, uint32_t index);
+ *
+ *   Places a single 10 bit prescaler into the pib file at index;
+ *
+ *--------------------------------------------------------------------*/
+
+signed ar7x00_psin (struct _file_ * pib, uint32_t value, uint32_t index) 
+
+{
+	off_t offset = AMP_PRESCALER_OFFSET + (index * 10 / 8);
+	uint8_t bit_offset = (index * 10) % 8;
+	uint16_t tmp;
+	if (lseek (pib-&gt;file, offset, SEEK_SET) != offset) 
+	{
+		return (-1);
+	}
+	if (read (pib-&gt;file, &amp;tmp, sizeof (tmp)) != sizeof (tmp)) 
+	{
+		return (-1);
+	}
+	if (lseek (pib-&gt;file, offset, SEEK_SET) != offset) 
+	{
+		return (-1);
+	}
+	value &amp;= 0x03FF;
+	tmp = LE16TOH (tmp);
+	tmp &amp;= ~(0x03FF &lt;&lt; bit_offset);
+	tmp |= value &lt;&lt; bit_offset;
+	tmp = HTOLE16 (tmp);
+	if (write (pib-&gt;file, &amp;tmp, sizeof (tmp)) != sizeof (tmp)) 
+	{
+		return (-1);
+	}
+	return (0);
+}
+
+/*====================================================================*
+ *
+ *   signed psin (struct _file_ * pib);
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *--------------------------------------------------------------------*/
+
+static signed psin (struct _file_ * pib) 
+
+{
+	unsigned index = 0;
+	unsigned count = 0;
+	unsigned limit = pibscalers (pib);
+	uint32_t value = 0;
+	signed c;
+	if ((limit != INT_CARRIERS) &amp;&amp; (limit != AMP_CARRIERS)) 
+	{
+		error (1, 0, &quot;Don't understand this PIB's prescaler format&quot;);
+	}
+	if (limit == INT_CARRIERS) 
+	{
+		if (lseek (pib-&gt;file, INT_PRESCALER_OFFSET, SEEK_SET) != INT_PRESCALER_OFFSET) 
+		{
+			error (1, errno, FILE_CANTSEEK, pib-&gt;name);
+		}
+	}
+	while ((c = getc (stdin)) != EOF) 
+	{
+		if (isspace (c)) 
+		{
+			continue;
+		}
+		if ((c == '#') || (c == ';')) 
+		{
+			do 
+			{
+				c = getc (stdin);
+			}
+			while (nobreak (c));
+			continue;
+		}
+		index = 0;
+		while (isdigit (c)) 
+		{
+			index *= 10;
+			index += c - '0';
+			c = getc (stdin);
+		}
+		if (index != count) 
+		{
+			error (1, ECANCELED, &quot;Carrier %d out of order&quot;, index);
+		}
+		if (index &gt;= limit) 
+		{
+			error (1, EOVERFLOW, &quot;Too many prescalers&quot;);
+		}
+		while (isblank (c)) 
+		{
+			c = getc (stdin);
+		}
+		value = 0;
+		while (isxdigit (c)) 
+		{
+			value *= 16;
+			value += todigit (c);
+			c = getc (stdin);
+		}
+		if (limit == INT_CARRIERS) 
+		{
+			value = HTOLE32 (value);
+			if (write (pib-&gt;file, &amp;value, sizeof (value)) != sizeof (value)) 
+			{
+				error (1, errno, &quot;Can't save %s&quot;, pib-&gt;name);
+			}
+		}
+		else if (limit == AMP_CARRIERS) 
+		{
+			if (value &amp; ~0x03FF) 
+			{
+				error (1, errno, &quot;Position %d has invalid prescaler value&quot;, index);
+			}
+			if (ar7x00_psin (pib, value, index)) 
+			{
+				error (1, errno, &quot;Can't update %s&quot;, pib-&gt;name);
+			}
+		}
+		while (nobreak (c)) 
+		{
+			c = getc (stdin);
+		};
+		count++;
+	}
+	return (0);
+}
+
+/*====================================================================*
+ *   
+ *   int main (int argc, char const * argv []) 
+ *   
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *--------------------------------------------------------------------*/
+
+int main (int argc, char const * argv []) 
+
+{
+	static char const * optv [] = 
+	{
+		&quot;&quot;,
+		&quot;pibfile [&lt; scalers]&quot;,
+		&quot;load prescalers into int6000 parameter file&quot;,
+		(char const *) (0)
+	};
+	struct _file_ pib;
+	signed c;
+	optind = 1;
+	while ((c = getoptv (argc, argv, optv)) != -1) 
+	{
+		switch ((char) (c)) 
+		{
+		default:
+			break;
+		}
+	}
+	argc -= optind;
+	argv += optind;
+	if (argc &gt; 1) 
+	{
+		error (1, ECANCELED, &quot;Only one target file allowed&quot;);
+	}
+	if ((argc) &amp;&amp; (* argv)) 
+	{
+		pib.name = * argv;
+		if ((pib.file = open (pib.name, O_BINARY|O_RDWR)) == -1) 
+		{
+			error (1, errno, &quot;Can't open %s&quot;, pib.name);
+		}
+		else if (pibfile1 (&amp;pib)) 
+		{
+			error (1, errno, &quot;Bad PIB file: %s&quot;, pib.name);
+		}
+		else if (psin (&amp;pib)) 
+		{
+			error (1, ECANCELED, &quot;%s&quot;, pib.name);
+		}
+		else if (piblock (&amp;pib)) 
+		{
+			error (1, ECANCELED, &quot;%s&quot;, pib.name);
+		}
+		close (pib.file);
+	}
+	return (0);
+}
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='psgraph.c.html' title=' psgraph.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='pskey.c.html' title=' pskey.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

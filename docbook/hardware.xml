@@ -140,13 +140,13 @@
 			Device Configurations 
 			</title>
 		<para>
-			There are several test configurations that can be used to experiment with Atheros powerline communication devices. Configurations vary based on the powerline communications devices you have available to work with. All configurations described here require at least one computer with an Ethernet card and the Powerline Toolkit installed. Most configurations require two Atheros powerline devices. 
+			There are several test configurations that can be used to experiment with Atheros powerline communication devices. Configurations vary based on the powerline communications devices you have available to work with. All configurations described here require at least one computer with an Ethernet card and the Open Powerline Toolkit installed. Most configurations require two Atheros powerline devices. 
 			</para>
 		<para>
-			Powerline Toolkit programs let the user specify which Ethernet interface card to use when sending and receiving Ethernet frames. This means that a computer with two interface cards installed can emulate two computers provided there are not internal routing conflicts. To avoid routing conflicts, Atheros recommends that you start with two computers until your are ready for more sophisticated experimentation. 
+			Open Powerline Toolkit programs let the user specify which Ethernet interface card to use when sending and receiving Ethernet frames. This means that a computer with two interface cards installed can emulate two computers provided there are not internal routing conflicts. To avoid routing conflicts, Atheros recommends that you start with two computers until your are ready for more sophisticated experimentation. 
 			</para>
 		<para>
-			Powerline Toolkit programs default to <constant>eth0</constant>	. This allows the computer to be connected to the normal network on <constant>eth0</constant> and connected to the powerline network on <constant>eth1</constant>. To over-ride the default powerline interfaces, set environment variable <constant>PLC</constant> to the desired interface name. All configurations assume that the Ethernet card is installed, the Ethernet driver for that card is loaded and the correct interface is enabled. 
+			Open Powerline Toolkit programs default to <constant>eth0</constant>	. This allows the computer to be connected to the normal network on <constant>eth0</constant> and connected to the powerline network on <constant>eth1</constant>. To over-ride the default powerline interfaces, set environment variable <constant>PLC</constant> to the desired interface name. All configurations assume that the Ethernet card is installed, the Ethernet driver for that card is loaded and the correct interface is enabled. 
 			</para>
 		<para>
 			Atheros powerline communication devices radiate across powerline or coax at radio frequencies. If two devices are connected, in any way, without intermmediate filters or isolation, they will attempt to commicate. Additionally, they will attempt to circumvent certain types of powerline noise or competing frequencies which can cause reduce data rates. Atheros recomends that devices under test (<acronym>DUT</acronym>) take their power from a shared but isolated power source like an isolation power strip or an uninterruptable power supply. 
@@ -311,10 +311,10 @@
 			Powerline Workstations
 			</title>
 		<para>
-			The Powerline Toolkit is a collection of independent programs. Individually, they perform basic but useful operations on powerline communication devices and associated support files such as <acronym>PIB</acronym> and <acronym>NVM</acronym> files. Collectively, they can perform many types of engineering experiments, functional tests and production tasks. Their simplicity and high degree of flexibility lets customers adapt an off-the-shelf linux host to meet a wide range of production requirements. We call this configuration a <quote>powerline workstation</quote>.
+			The Open Powerline Toolkit is a collection of independent programs. Individually, they perform basic but useful operations on powerline communication devices and associated support files such as <acronym>PIB</acronym> and <acronym>NVM</acronym> files. Collectively, they can perform many types of engineering experiments, functional tests and production tasks. Their simplicity and high degree of flexibility lets customers adapt an off-the-shelf linux host to meet a wide range of production requirements. We call this configuration a <quote>powerline workstation</quote>.
 			</para>
 		<para>
-			This section explains how to configure a powerline workstation and setup the Powerline Toolkit on that workstation. It covers some necessary aspects of Linux and the Toolkit but it is not a Linux tutorial or a Powerline Toolkit tutorial. Linux essentials are covered on the Internet and Powerline Toolkit essentials are covered in other sections of this documentation and on-line man pages. Although some typical configurations are illustrated, many variations are possible and are left to the customer to develop based on our examples. There is no single correct way to do anything.
+			This section explains how to configure a powerline workstation and setup the Open Powerline Toolkit on that workstation. It covers some necessary aspects of Linux and the Toolkit but it is not a Linux tutorial or a Open Powerline Toolkit tutorial. Linux essentials are covered on the Internet and Open Powerline Toolkit essentials are covered in other sections of this documentation and on-line man pages. Although some typical configurations are illustrated, many variations are possible and are left to the customer to develop based on our examples. There is no single correct way to do anything.
 				</para>
 		<section id="hardware-host-hardware">
 			<title>
@@ -332,10 +332,10 @@
 				Host Software
 				</title>
 			<para>
-				Atheros recommends installiing a Debian-based or Ubuntu-based Linux distribution due to the simplicity of network configuration. <trademark>Redhat</trademark>-based or <trademark>SuSE</trademark>-based distributions are also acceptable. A complete GNU toolchain is required to compile and install the Powerline Toolkit. Atheros uses GNU <application>make</application> 3.8.0, GNU <application>gcc</application> 3.3.5 and GNU <application>ld</application> 2.15. If these components are not installed then you must install them. Linux system installation and configuration is beyond the scope of this documentation but there is a wealth of information available on the Internet.
+				Atheros recommends installiing a Debian-based or Ubuntu-based Linux distribution due to the simplicity of network configuration. <trademark>Redhat</trademark>-based or <trademark>SuSE</trademark>-based distributions are also acceptable. A complete GNU toolchain is required to compile and install the Open Powerline Toolkit. Atheros uses GNU <application>make</application> 3.8.0, GNU <application>gcc</application> 3.3.5 and GNU <application>ld</application> 2.15. If these components are not installed then you must install them. Linux system installation and configuration is beyond the scope of this documentation but there is a wealth of information available on the Internet.
 				</para>
 			<para>
-				Of course, the Powerline Toolkit needs to be installed and successful installation proves that all required Linux components are installed correctly. See <link linkend="install-linux">Installation on Linux</link> for more information on how to install the Powerline Toolkit.
+				Of course, the Open Powerline Toolkit needs to be installed and successful installation proves that all required Linux components are installed correctly. See <link linkend="install-linux">Installation on Linux</link> for more information on how to install the Open Powerline Toolkit.
 				</para>
 			</section>
 		<section id="hardware-network">

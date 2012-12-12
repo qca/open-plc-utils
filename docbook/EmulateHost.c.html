@@ -1,0 +1,375 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			EmulateHost.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='Display.c.html' title=' Display.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='EmulateHost64.c.html' title=' EmulateHost64.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *  
+ *   signed EmulateHost (struct plc * plc);
+ *  
+ *   plc.h
+ *
+ *   wait indefinitely for VS_HOST_ACTION messages; service requests
+ *   as they arrive; this function is for demonstration and testing
+ *   only; it stops dead - like a bug! - on error;
+ *   
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef EMULATEHOST_SOURCE
+#define EMULATEHOST_SOURCE
+
+#include &lt;unistd.h&gt;
+#include &lt;memory.h&gt;
+
+#include &quot;../plc/plc.h&quot;
+#include &quot;../ether/channel.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../tools/flags.h&quot;
+#include &quot;../tools/files.h&quot;
+
+#include &quot;../nvm/nvm.h&quot;
+#include &quot;../pib/pib.h&quot;
+
+signed EmulateHost (struct plc * plc) 
+
+{
+	struct channel * channel = (struct channel *)(plc-&gt;channel);
+	struct message * message = (struct message *)(plc-&gt;message);
+	static char const * actions [] = 
+	{
+		&quot;start device&quot;,
+		&quot;store firmware&quot;,
+		&quot;store parameters&quot;,
+		&quot;update host&quot;,
+		&quot;config memory&quot;,
+		&quot;restore defaults&quot;,
+		&quot;unknown&quot;
+	};
+
+#ifndef __GNUC__
+#pragma pack (push,1)
+#endif
+
+	struct __packed vs_host_action_ind 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+		uint8_t MACTION;
+		uint8_t MAJOR_VERSION;
+		uint8_t MINOR_VERSION;
+	}
+	* indicate = (struct vs_host_action_ind *) (message);
+
+#if 0
+
+	struct __packed vs_host_action_rsp 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+		uint8_t MSTATUS;
+	}
+	* response = (struct vs_host_action_rsp *) (message);
+
+#endif
+
+#ifndef __GNUC__
+#pragma pack (pop)
+#endif
+
+	struct nvm_header1 nvm_header;
+	struct pib_header pib_header;
+	uint32_t offset;
+	char const * PIB = plc-&gt;PIB.name;
+	char const * NVM = plc-&gt;NVM.name;
+	signed timer = channel-&gt;timer;
+	signed status = 0;
+	Request (plc, &quot;Waiting for Host Action&quot;);
+	while (1) 
+	{
+		channel-&gt;timer = plc-&gt;timer;
+		status = ReadMME (plc, 0, (VS_HOST_ACTION | MMTYPE_IND));
+		channel-&gt;timer = timer;
+		if (status &lt; 0) 
+		{
+			break;
+		}
+		if (status &gt; 0) 
+		{
+			printf (&quot;\n&quot;);
+			if (indicate-&gt;MACTION &lt; (sizeof (actions) / sizeof (char const *))) 
+			{
+				Confirm (plc, &quot;Host Action Request is (%d) %s.&quot;, indicate-&gt;MACTION, actions [indicate-&gt;MACTION]);
+			}
+			else 
+			{
+				error (0, ENOTSUP, &quot;Host Action 0x%0X&quot;, indicate-&gt;MACTION);
+				continue;
+			}
+			memcpy (channel-&gt;peer, indicate-&gt;ethernet.OSA, sizeof (channel-&gt;peer));
+			channel-&gt;timer = timer;
+			if (indicate-&gt;MACTION == 0x00) 
+			{
+				unsigned module = 0;
+				char firmware [PLC_VERSION_STRING];
+				if (HostActionResponse (plc)) 
+				{
+					return (-1);
+				}
+				if (lseek (plc-&gt;PIB.file, 0, SEEK_SET)) 
+				{
+					error (1, errno, FILE_CANTHOME, plc-&gt;PIB.name);
+				}
+				if (read (plc-&gt;PIB.file, &amp;pib_header, sizeof (pib_header)) != sizeof (pib_header)) 
+				{
+					error (1, errno, FILE_CANTREAD, plc-&gt;PIB.name);
+				}
+				if (lseek (plc-&gt;PIB.file, 0, SEEK_SET)) 
+				{
+					error (1, errno, FILE_CANTHOME, plc-&gt;PIB.name);
+				}
+				if (BE16TOH (*(uint16_t *)(&amp;pib_header)) &lt; 0x0305) 
+				{
+					offset = LEGACY_PIBOFFSET;
+				}
+				else if (BE16TOH (*(uint16_t *)(&amp;pib_header)) &lt; 0x0500) 
+				{
+					offset = INT6x00_PIBOFFSET;
+				}
+				else 
+				{
+					offset = AR7x00_PIBOFFSET;
+				}
+				if (WriteMEM (plc, &amp;plc-&gt;PIB, 0, offset, LE16TOH (pib_header.PIBLENGTH))) 
+				{
+					return (-1);
+				}
+				if (lseek (plc-&gt;NVM.file, 0, SEEK_SET)) 
+				{
+					error (1, errno, FILE_CANTHOME, plc-&gt;NVM.name);
+				}
+				if (read (plc-&gt;NVM.file, &amp;nvm_header, sizeof (nvm_header)) != sizeof (nvm_header)) 
+				{
+					error (1, errno, FILE_CANTREAD, plc-&gt;NVM.name);
+				}
+				while (nvm_header.NEXTHEADER) 
+				{
+					lseek (plc-&gt;NVM.file, LE32TOH (nvm_header.NEXTHEADER), SEEK_SET);
+					if (read (plc-&gt;NVM.file, &amp;nvm_header, sizeof (nvm_header)) != sizeof (nvm_header)) 
+					{
+						error (1, errno, FILE_CANTREAD, plc-&gt;NVM.name);
+					}
+					module++;
+				}
+				if (WriteFirmware1 (plc, module, &amp;nvm_header)) 
+				{
+					return (-1);
+				}
+				if (StartFirmware1 (plc, module, &amp;nvm_header)) 
+				{
+					return (-1);
+				}
+				if (WaitForStart (plc, firmware, sizeof (firmware))) 
+				{
+					return (-1);
+				}
+				if (_anyset (plc-&gt;flags, PLC_FLASH_DEVICE)) 
+				{
+					if (WriteNVM (plc)) 
+					{
+						return (-1);
+					}
+					if (WritePIB (plc)) 
+					{
+						return (-1);
+					}
+					if (FlashNVM (plc)) 
+					{
+						return (-1);
+					}
+				}
+				continue;
+			}
+			if (indicate-&gt;MACTION == 0x01) 
+			{
+				if (HostActionResponse (plc)) 
+				{
+					return (-1);
+				}
+				close (plc-&gt;NVM.file);
+				if (ReadFirmware1 (plc)) 
+				{
+					return (-1);
+				}
+				if ((plc-&gt;NVM.file = open (plc-&gt;NVM.name = plc-&gt;nvm.name, O_BINARY|O_RDONLY)) == -1) 
+				{
+					error (1, errno, &quot;%s&quot;, plc-&gt;NVM.name);
+				}
+				if (ResetDevice (plc)) 
+				{
+					return (-1);
+				}
+				continue;
+			}
+			if (indicate-&gt;MACTION == 0x02) 
+			{
+				if (HostActionResponse (plc)) 
+				{
+					return (-1);
+				}
+				close (plc-&gt;PIB.file);
+				if (ReadParameters1 (plc)) 
+				{
+					return (-1);
+				}
+				if ((plc-&gt;PIB.file = open (plc-&gt;PIB.name = plc-&gt;pib.name, O_BINARY|O_RDONLY)) == -1) 
+				{
+					error (1, errno, &quot;%s&quot;, plc-&gt;PIB.name);
+				}
+				if (ResetDevice (plc)) 
+				{
+					return (-1);
+				}
+				continue;
+			}
+			if (indicate-&gt;MACTION == 0x03) 
+			{
+				if (HostActionResponse (plc)) 
+				{
+					return (-1);
+				}
+				close (plc-&gt;NVM.file);
+				if (ReadFirmware1 (plc)) 
+				{
+					return (-1);
+				}
+				if ((plc-&gt;NVM.file = open (plc-&gt;NVM.name = plc-&gt;nvm.name, O_BINARY|O_RDONLY)) == -1) 
+				{
+					error (1, errno, &quot;%s&quot;, plc-&gt;NVM.name);
+				}
+				close (plc-&gt;PIB.file);
+				if (ReadParameters1 (plc)) 
+				{
+					return (-1);
+				}
+				if ((plc-&gt;PIB.file = open (plc-&gt;PIB.name = plc-&gt;pib.name, O_BINARY|O_RDONLY)) == -1) 
+				{
+					error (1, errno, &quot;%s&quot;, plc-&gt;PIB.name);
+				}
+				if (ResetDevice (plc)) 
+				{
+					return (-1);
+				}
+				continue;
+			}
+			if (indicate-&gt;MACTION == 0x04) 
+			{
+
+#if 0
+
+/*
+ *	Due to an omission in the INT6300 BootLoader, responding to this VS_HOST_ACTION 
+ *      indication will suppress subsequent VS_HOST_ACTION messages and the device will 
+ *     	not request firmware and parameters; this may be corrected on the INT6400; 
+ */
+
+				if (HostActionResponse (plc)) 
+				{
+					return (-1);
+				}
+
+#endif
+
+				if (WriteCFG (plc)) 
+				{
+					return (-1);
+				}
+
+/*
+ *	At this point, one could download firmware and parameters without waiting for 
+ *	further  requests from the device; however, we elect to wait for them since it 
+ *	is 'good form'; a device should send code 0x00 within 10 seconds of this one; 
+ */
+
+				continue;
+			}
+			if (indicate-&gt;MACTION == 0x05) 
+			{
+				if (HostActionResponse (plc)) 
+				{
+					return (-1);
+				}
+				close (plc-&gt;NVM.file);
+				if ((plc-&gt;NVM.file = open (plc-&gt;NVM.name = NVM, O_BINARY|O_RDONLY)) == -1) 
+				{
+					error (1, errno, &quot;%s&quot;, plc-&gt;NVM.name);
+				}
+				close (plc-&gt;PIB.file);
+				if ((plc-&gt;PIB.file = open (plc-&gt;PIB.name = PIB, O_BINARY|O_RDONLY)) == -1) 
+				{
+					error (1, errno, &quot;%s&quot;, plc-&gt;PIB.name);
+				}
+				if (ResetDevice (plc)) 
+				{
+					return (-1);
+				}
+				continue;
+			}
+			error (0, ENOSYS, &quot;Host Action 0x%0X&quot;, indicate-&gt;MACTION);
+		}
+	}
+	return (0);
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='Display.c.html' title=' Display.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='EmulateHost64.c.html' title=' EmulateHost64.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

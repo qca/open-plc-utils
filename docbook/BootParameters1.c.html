@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			BootParameters1.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='BootFirmware2.c.html' title=' BootFirmware2.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='BootParameters2.c.html' title=' BootParameters2.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   signed BootParameters1 (struct plc * plc) 
+ *
+ *   pib.h
+ *
+ *   write the parameter information block to SDRAM on a thunderbolt/
+ *   lightning powerline device;
+ *
+ *   The PIB is written to different SDRAM locations depending on the 
+ *   chipset used; we use PIB major/minor version to determine where 
+ *   to write the PIB but may switch to using the hardware platform
+ *   code derived from the VS_SW_VER message;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef BOOTPARAMETERS1_SOURCE
+#define BOOTPARAMETERS1_SOURCE
+
+#include &lt;stdint.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;memory.h&gt;
+#include &lt;errno.h&gt;
+
+#include &quot;../tools/files.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../tools/flags.h&quot;
+#include &quot;../plc/plc.h&quot;
+#include &quot;../pib/pib.h&quot;
+
+signed BootParameters1 (struct plc * plc) 
+
+{
+	struct pib_header pib_header;
+	uint32_t offset;
+	if (lseek (plc-&gt;PIB.file, 0, SEEK_SET)) 
+	{
+		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, FILE_CANTHOME, plc-&gt;PIB.name);
+	}
+	if (read (plc-&gt;PIB.file, &amp;pib_header, sizeof (pib_header)) != sizeof (pib_header)) 
+	{
+		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, FILE_CANTREAD, plc-&gt;PIB.name);
+	}
+	if (lseek (plc-&gt;PIB.file, 0, SEEK_SET)) 
+	{
+		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, FILE_CANTHOME, plc-&gt;PIB.name);
+	}
+
+#if 1
+
+/*
+ *   this code is a fix to accommodate PIB relocation in memory; it is not needed when 
+ *   the PIB is stored in an NVM file since the memory address is recorded in the image 
+ *   header;
+ */
+
+	if (BE16TOH (*(uint16_t *)(&amp;pib_header)) &lt; 0x0305) 
+	{
+		offset = LEGACY_PIBOFFSET;
+	}
+	else if (BE16TOH (*(uint16_t *)(&amp;pib_header)) &lt; 0x0500) 
+	{
+		offset = INT6x00_PIBOFFSET;
+	}
+	else 
+	{
+		offset = AR7x00_PIBOFFSET;
+	}
+
+#endif
+
+	if (plc-&gt;hardwareID &lt; CHIPSET_AR7400) 
+	{
+		if (WriteMEM (plc, &amp;plc-&gt;PIB, 0, offset, LE16TOH (pib_header.PIBLENGTH))) 
+		{
+			return (-1);
+		}
+		return (0);
+	}
+	if (WriteExecutePIB (plc, offset, &amp;pib_header)) 
+	{
+		return (-1);
+	}
+	return (0);
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='BootFirmware2.c.html' title=' BootFirmware2.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='BootParameters2.c.html' title=' BootParameters2.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

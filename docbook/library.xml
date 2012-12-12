@@ -7,7 +7,7 @@
 			Introduction
 			</title>
 		<para>
-			The Atheros <application>Powerline Toolkit</application> includes many functions that have application outside the <application>Powerline Toolkit</application>. They are distributed with the toolkit but may also appear in other Atheros applications or third party packages. Consequently, we describe them separately and store them in separate folders.
+			The Atheros <application>Open Powerline Toolkit</application> includes many functions that have application outside the <application>Open Powerline Toolkit</application>. They are distributed with the toolkit but may also appear in other Atheros applications or third party packages. Consequently, we describe them separately and store them in separate folders.
 			</para>
 		</section>
 
@@ -16,7 +16,7 @@
 			tools/error.h
 			</title>
 		<para>
-			The functions in this group have general application beyond the Powerline Toolkit. In some cases, these functions may appear in other Atheros or Open Source software packages. In a few cases, the Toolkit may include complementary or supplementary support functions but only use one or two of them. For example, functions <function>memincr</function> and <function>memdecr</function> are both included but <function>memdecr</function> is not used.
+			The functions in this group have general application beyond the Open Powerline Toolkit. In some cases, these functions may appear in other Atheros or Open Source software packages. In a few cases, the Toolkit may include complementary or supplementary support functions but only use one or two of them. For example, functions <function>memincr</function> and <function>memdecr</function> are both included but <function>memdecr</function> is not used.
 			</para>
 	<section id="function-alert">
 		<title>

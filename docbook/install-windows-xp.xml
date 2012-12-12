@@ -53,7 +53,7 @@
 					</mediaobject>
 				</figure>
 			<para>
-				 Older toolkit programs were installed in folder <filename>C:\Program Files\Atheros\Toolkit</filename> but they are now installed in folder <filename>C:\Program Files\Qualcomm Atheros\Powerline Toolkit</filename> instead. If you select a different folder, remember it for the next step. 
+				 Older toolkit programs were installed in folder <filename>C:\Program Files\Atheros\Toolkit</filename> but they are now installed in folder <filename>C:\Program Files\Qualcomm Atheros\Open Powerline Toolkit</filename> instead. If you select a different folder, remember it for the next step. 
 				</para>
 			</section>
 		<section>
@@ -116,7 +116,7 @@
 				Removing the Toolkit
 				</title>
 			<para>
-				To remove an existing version of the Qualcomm Atheros <application>Powerline Toolkit</application> from your system, follow the steps listed below. If the toolkit is not installed on your system then omit these steps. If you are unsure, you can follow them to determine if you have the toolkit installed or you can attempt to install, anyway, and return here if installation is prevented.
+				To remove an existing version of the Qualcomm Atheros <application>Open Powerline Toolkit</application> from your system, follow the steps listed below. If the toolkit is not installed on your system then omit these steps. If you are unsure, you can follow them to determine if you have the toolkit installed or you can attempt to install, anyway, and return here if installation is prevented.
 				</para>
 			<figure>
 				<title>
@@ -141,7 +141,7 @@
 					</listitem>
 				<listitem>
 					<para>
-						On the <command>Add or Remove Programs</command> dialog box, scroll down and select the Qualcomm Atheros <option>Powerline Toolkit</option> entry then press the <option>Remove</option> pushbutton.
+						On the <command>Add or Remove Programs</command> dialog box, scroll down and select the Qualcomm Atheros <option>Open Powerline Toolkit</option> entry then press the <option>Remove</option> pushbutton.
 						</para>
 					</listitem>
 				</orderedlist>

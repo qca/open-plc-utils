@@ -3,7 +3,7 @@
 		Ethernet Functions
 		</title>
 	<para>
-		The Powerline Toolkit supports raw Ethernet I/O on several popular operating systems, including <productname>Linux</productname>,  <productname>Mac OS X</productname> and Microsoft <productname>Windows</productname>. Other operating systems will probably be added over time. These functions are found in the <filename>ether</filename> folder.
+		The Open Powerline Toolkit supports raw Ethernet I/O on several popular operating systems, including <productname>Linux</productname>,  <productname>Mac OS X</productname> and Microsoft <productname>Windows</productname>. Other operating systems will probably be added over time. These functions are found in the <filename>ether</filename> folder.
 		</para>
 	<para>
 		Each operating system has a different raw Ethernet interface and so some abstraction was needed to support the toolkit for all environments. Our solution was the <structname>channel</structname> which is implemented like a <varname>FILE</varname> pointer but is used like a file descriptor. All toolkit programs, with a few exceptions, perform raw Ethernet I/O by opening a <structname>channel</structname>, reading and writing to it and then closing it.

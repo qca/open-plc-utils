@@ -3,7 +3,7 @@
 			Toolkit Programs 
 			</title>
 		<para>
-			The Qualcomm Atheros <application>Powerline Toolkit</application> is a collection of small, command line programs. Each program deals with some aspect of powerline device management. Programs can be combined, in various ways, using shell scripts, to perform sophisticated and complex tasks. With these program, one can identify chipset and firmware version, reset devices, flash devices, identify other powerline network devices, validate <filename>*.pib</filename> and <filename>*.nvm</filename> files, sniff <trademark class='registered'>HomePlug</trademark> AV Ethernet frames, send generic Ethernet frames and so on. 
+			The Qualcomm Atheros <application>Open Powerline Toolkit</application> is a collection of small, command line programs. Each program deals with some aspect of powerline device management. Programs can be combined, in various ways, using shell scripts, to perform sophisticated and complex tasks. With these program, one can identify chipset and firmware version, reset devices, flash devices, identify other powerline network devices, validate <filename>*.pib</filename> and <filename>*.nvm</filename> files, sniff <trademark class='registered'>HomePlug</trademark> AV Ethernet frames, send generic Ethernet frames and so on. 
 			</para>
 		<para>
 			Program source code is designed to demonstrate device hardware and firmware features and to illustrate techniques for software developers and hardware engineers. The source code may be modified and distributed without obligation to Qualcomm Atheros; hwoever Qualcomm Atheros would appreciate feedback concerning improvements to program useability, reliability or efficiency. Keep in mind that these tools, unlike some other tools, are intended to be simple and compact. 
@@ -680,7 +680,7 @@
 						</term>
 					<listitem>
 						<para>
-							A command line utility to convert an SDRAM configruation file used by the  Atheros  <application>Windows Device Manager</application> to the configuration file format used by the Powerline Toolkit applications. This program is installed in folder <filename>/usr/local/bin</filename> with 0555 file permissions. The main source code is located in folder <filename>./sdram</filename>. See the <ulink url='config2cfg.7.html'>config2cfg</ulink> man page for more information. 
+							A command line utility to convert an SDRAM configruation file used by the  Atheros  <application>Windows Device Manager</application> to the configuration file format used by the Open Powerline Toolkit applications. This program is installed in folder <filename>/usr/local/bin</filename> with 0555 file permissions. The main source code is located in folder <filename>./sdram</filename>. See the <ulink url='config2cfg.7.html'>config2cfg</ulink> man page for more information. 
 							</para>
 						</listitem>
 					</varlistentry>

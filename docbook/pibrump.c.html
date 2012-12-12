@@ -1,0 +1,460 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			pibrump.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='pibruin1.c.html' title=' pibruin1.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='pibscalers.c.html' title=' pibscalers.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   pibrump.c - Atheros Classification Rule Dump Utility;
+ *
+ *   This program read classification rules stored in a PIB file and
+ *   prints them on stdout in a format similar to int6krule commands;
+ *   
+ *   This software and documentation is the property of Atheros 
+ *   Corporation, Ocala, Florida. It is provided 'as is' without 
+ *   expressed or implied warranty of any kind to anyone for any 
+ *   reason. Atheros assumes no responsibility or liability for 
+ *   errors or omissions in the software or documentation and 
+ *   reserves the right to make changes without notification. 
+ *   
+ *   Atheros customers may modify and distribute the software 
+ *   without obligation to Atheros. Since use of this software 
+ *   is optional, users shall bear sole responsibility and 
+ *   liability for any consequences of it's use. 
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Nathaniel Houghton &lt;nathaniel.houghton@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*&quot;
+ *   system header files;
+ *--------------------------------------------------------------------*/
+
+#include &lt;unistd.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;string.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;arpa/inet.h&gt;
+
+/*====================================================================*
+ *   custom header files;
+ *--------------------------------------------------------------------*/
+
+#include &quot;../tools/getoptv.h&quot;
+#include &quot;../tools/memory.h&quot;
+#include &quot;../tools/symbol.h&quot;
+#include &quot;../tools/types.h&quot;
+#include &quot;../tools/flags.h&quot;
+#include &quot;../tools/files.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../pib/pib.h&quot;
+#include &quot;../plc/rules.h&quot;
+
+/*====================================================================*
+ *   custom source files;
+ *--------------------------------------------------------------------*/
+
+#ifndef MAKEFILE
+#include &quot;../tools/getoptv.c&quot;
+#include &quot;../tools/putoptv.c&quot;
+#include &quot;../tools/version.c&quot;
+#include &quot;../tools/lookup.c&quot;
+#include &quot;../tools/reword.c&quot;
+#include &quot;../tools/hexstring.c&quot;
+#include &quot;../tools/hexdecode.c&quot;
+#include &quot;../tools/fdchecksum32.c&quot;
+#include &quot;../tools/memout.c&quot;
+#include &quot;../tools/error.c&quot;
+#endif
+
+#ifndef MAKEFILE
+#include &quot;../pib/pibfile1.c&quot;
+#endif
+
+#ifndef MAKEFILE
+#include &quot;../plc/rules.c&quot;
+#endif
+
+/*====================================================================*
+ *   program constants;
+ *--------------------------------------------------------------------*/
+
+#define PIB_MAX_AUTOCONN 16
+#define PIB_MAX_PRIORITY_MAPS 8
+
+#define PIB_AUTOCONN_COUNT_OFFSET 0x22C
+#define PIB_PRIORITY_COUNT_OFFSET 0x228
+
+#define PIB_AUTOCONN_OFFSET 0x310
+#define PIB_PRIORITY_MAPS_OFFSET 0x230
+
+/*====================================================================*
+ *
+ *   signed Classifier (struct PIBClassifier * classifier);
+ *
+ *   plc.h
+ *
+ *   This function for program pibrump displays a single classifier;
+ *
+ *   See the Atheros HomePlug AV Firmware Technical Reference Manual 
+ *   for more information;
+ *   
+ *   This software and documentation is the property of Atheros 
+ *   Corporation, Ocala, Florida. It is provided 'as is' without 
+ *   expressed or implied warranty of any kind to anyone for any 
+ *   reason. Atheros assumes no responsibility or liability for 
+ *   errors or omissions in the software or documentation and 
+ *   reserves the right to make changes without notification. 
+ *   
+ *   Atheros customers may modify and distribute the software 
+ *   without obligation to Atheros. Since use of this software 
+ *   is optional, users shall bear sole responsibility and 
+ *   liability for any consequences of it's use. 
+ *   
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Nathaniel Houghton &lt;nathaniel.houghton@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+signed Classifier (struct PIBClassifier * classifier) 
+
+{
+	char buffer [sizeof (classifier-&gt;CR_VALUE) * 3 + 1];
+	uint32_t val32;
+	uint16_t val16;
+	uint8_t val8;
+	printf (&quot;%s %s&quot;, reword (classifier-&gt;CR_PID, fields, FIELDS), reword (classifier-&gt;CR_OPERAND, operators, OPERATORS));
+	switch (classifier-&gt;CR_PID) 
+	{
+	case FIELD_ETH_SA:
+	case FIELD_ETH_DA:
+		printf (&quot; %s&quot;, hexstring (buffer, sizeof (buffer), classifier-&gt;CR_VALUE, ETHER_ADDR_LEN));
+		break;
+	case FIELD_IPV4_SA:
+	case FIELD_IPV4_DA:
+		putchar (' ');
+		memout (classifier-&gt;CR_VALUE, IPv4_LEN, &quot;%d&quot;, 1, '.', 0, stdout);
+		break;
+	case FIELD_IPV6_SA:
+	case FIELD_IPV6_DA:
+		putchar (' ');
+		memout (classifier-&gt;CR_VALUE, IPv6_LEN, &quot;%02x&quot;, 2, ':', 0, stdout);
+		break;
+	case FIELD_VLAN_UP:
+	case FIELD_IPV6_TC:
+	case FIELD_IPV4_TOS:
+	case FIELD_IPV4_PROT:
+		memcpy (&amp;val8, classifier-&gt;CR_VALUE, sizeof (val8));
+		printf (&quot; 0x%02X&quot;, val8);
+		break;
+	case FIELD_VLAN_ID:
+	case FIELD_TCP_SP:
+	case FIELD_TCP_DP:
+	case FIELD_UDP_SP:
+	case FIELD_UDP_DP:
+	case FIELD_IP_SP:
+	case FIELD_IP_DP:
+		memcpy (&amp;val16, classifier-&gt;CR_VALUE, sizeof (val16));
+		val16 = ntohs (val16);
+		printf (&quot; %d&quot;, val16);
+		break;
+	case FIELD_ETH_TYPE:
+		memcpy (&amp;val16, classifier-&gt;CR_VALUE, sizeof (val16));
+		printf (&quot; 0x%04X&quot;, val16);
+		break;
+	case FIELD_IPV6_FL:
+		memcpy (&amp;val32, &amp;classifier-&gt;CR_VALUE [0], sizeof (val32));
+		val32 = ntohl (val32);
+		printf (&quot; 0x%08X&quot;, val32);
+		break;
+	case FIELD_HPAV_MME:
+		memcpy (&amp;val8, &amp;classifier-&gt;CR_VALUE [0], sizeof (val8));
+		memcpy (&amp;val16, &amp;classifier-&gt;CR_VALUE [1], sizeof (val16));
+		printf (&quot; %02x:%04x&quot;, val8, val16);
+		break;
+	case FIELD_TCP_ACK:
+		{
+			code_t val;
+			memcpy (&amp;val, classifier-&gt;CR_VALUE, sizeof (val));
+			printf (&quot; %s&quot;, reword (val, states, STATES));
+		}
+		break;
+	case FIELD_VLAN_TAG:
+		{
+			code_t val;
+			memcpy (&amp;val, classifier-&gt;CR_VALUE, sizeof (val));
+			printf (&quot; %s&quot;, reword (val, states, STATES));
+		}
+		break;
+	default:
+		printf (&quot; *****UNSUPPORTED CODE*****&quot;);
+		break;
+	}
+	return (0);
+}
+
+/*====================================================================*
+ *
+ *   signed AutoConnection (struct auto_connection * auto_connection, flag_t flags) 
+ *
+ *   plc.h
+ *
+ *   This function for program pibrump displays a single AutoConnection
+ *   structure;
+ *
+ *   See the Atheros HomePlug AV Firmware Technical Reference Manual 
+ *   for more information;
+ *   
+ *   This software and documentation is the property of Atheros 
+ *   Corporation, Ocala, Florida. It is provided 'as is' without 
+ *   expressed or implied warranty of any kind to anyone for any 
+ *   reason. Atheros assumes no responsibility or liability for 
+ *   errors or omissions in the software or documentation and 
+ *   reserves the right to make changes without notification.
+ *
+ *   Atheros customers may modify and distribute the software 
+ *   without obligation to Atheros. Since use of this software 
+ *   is optional, users shall bear sole responsibility and 
+ *   liability for any consequences of it's use. 
+ *   
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Nathaniel Houghton &lt;nathaniel.houghton@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+signed AutoConnection (struct auto_connection * auto_connection) 
+
+{
+	int i;
+	if (auto_connection-&gt;MACTION == ACTION_TAGTX) 
+	{
+		printf (&quot;-T 0x%08X -V %d &quot;, ntohl (auto_connection-&gt;cspec.VLAN_TAG), LE16TOH (auto_connection-&gt;cspec.CSPEC_VERSION));
+	}
+	printf (&quot;%s&quot;, reword (auto_connection-&gt;MACTION, actions, ACTIONS));
+	printf (&quot; %s &quot;, reword (auto_connection-&gt;MOPERAND, operands, OPERANDS));
+	for (i = 0; i &lt; LE16TOH (auto_connection-&gt;NUM_CLASSIFIERS); ++i) 
+	{
+		Classifier (&amp;auto_connection-&gt;CLASSIFIER [i]);
+		putchar (' ');
+	}
+	printf (&quot;add perm\n&quot;);
+	return (0);
+}
+
+/*====================================================================*
+ *
+ *   signed ClassifierPriorityMap (struct classifier_priority_map * map) 
+ *
+ *   plc.h
+ *
+ *   This function for program pibrump displays a single
+ *   ClassifierPriorityMap structure;
+ *
+ *   See the Atheros HomePlug AV Firmware Technical Reference Manual 
+ *   for more information;
+ *   
+ *   This software and documentation is the property of Atheros 
+ *   Corporation, Ocala, Florida. It is provided 'as is' without 
+ *   expressed or implied warranty of any kind to anyone for any 
+ *   reason. Atheros assumes no responsibility or liability for 
+ *   errors or omissions in the software or documentation and 
+ *   reserves the right to make changes without notification. 
+ *   
+ *   Atheros customers may modify and distribute the software 
+ *   without obligation to Atheros. Since use of this software 
+ *   is optional, users shall bear sole responsibility and 
+ *   liability for any consequences of it's use. 
+ *   
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *   Contributor(s):
+ *      Nathaniel Houghton &lt;nathaniel.houghton@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+signed ClassifierPriorityMap (struct classifier_priority_map * map) 
+
+{
+	printf (&quot;%s Any &quot;, reword (LE32TOH (map-&gt;Priority), actions, ACTIONS));
+	Classifier (&amp;map-&gt;CLASSIFIER);
+	printf (&quot; add perm\n&quot;);
+	return (0);
+}
+
+/*====================================================================*
+ *   
+ *   int main (int argc, char const * argv[]);
+ *   
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
+ *;  For demonstration and evaluation only. Not for production use.
+ *
+ *--------------------------------------------------------------------*/
+
+int main (int argc, char const * argv []) 
+
+{
+	static char const * optv [] = 
+	{
+		&quot;eqv&quot;,
+		&quot;pibfile&quot;,
+		&quot;Atheros Classification Rule Dump Utility&quot;,
+		&quot;e\tredirect stderr messages to stdout&quot;,
+		&quot;q\tquiet mode&quot;,
+		&quot;v\tverbose mode&quot;,
+		(char const *) (0)
+	};
+	struct auto_connection auto_connection [PIB_MAX_AUTOCONN];
+	struct classifier_priority_map classifier_priority_map [PIB_MAX_PRIORITY_MAPS];
+	uint32_t AutoConnection_count;
+	uint32_t PriorityMaps_count;
+	unsigned i;
+	flag_t flags = (flag_t)(0);
+	struct _file_ pib;
+	signed c;
+	optind = 1;
+	while ((c = getoptv (argc, argv, optv)) != -1) 
+	{
+		switch ((char) (c)) 
+		{
+		case 'e':
+			dup2 (STDOUT_FILENO, STDERR_FILENO);
+			break;
+		case 'q':
+			_setbits (flags, PIB_SILENCE);
+			break;
+		case 'v':
+			_setbits (flags, PIB_VERBOSE);
+			break;
+		default:
+			break;
+		}
+	}
+	argc -= optind;
+	argv += optind;
+	while ((argc) &amp;&amp; (* argv)) 
+	{
+		pib.name = * argv;
+		if ((pib.file = open (pib.name, O_BINARY|O_RDONLY)) == -1) 
+		{
+			error (1, errno, &quot;%s&quot;, pib.name);
+		}
+		if (pibfile1 (&amp;pib)) 
+		{
+			error (1, errno, &quot;Bad PIB file: %s&quot;, pib.name);
+		}
+		if (lseek (pib.file, PIB_AUTOCONN_COUNT_OFFSET, SEEK_SET) != PIB_AUTOCONN_COUNT_OFFSET) 
+		{
+			error (1, errno, &quot;could not seek to AutoConnection count&quot;);
+		}
+		if (read (pib.file, &amp;AutoConnection_count, sizeof (AutoConnection_count)) != sizeof (AutoConnection_count)) 
+		{
+			error (1, errno, &quot;could not read AutoConnection count&quot;);
+		}
+		if (lseek (pib.file, PIB_AUTOCONN_OFFSET, SEEK_SET) != PIB_AUTOCONN_OFFSET) 
+		{
+			error (1, errno, &quot;could not seek to AutoConnections&quot;);
+		}
+		if (read (pib.file, &amp;auto_connection, sizeof (auto_connection)) != sizeof (auto_connection)) 
+		{
+			error (1, errno, &quot;could not read AutoConnections&quot;);
+		}
+		if (lseek (pib.file, PIB_PRIORITY_COUNT_OFFSET, SEEK_SET) != PIB_PRIORITY_COUNT_OFFSET) 
+		{
+			error (1, errno, &quot;could not seek to PriorityMaps count&quot;);
+		}
+		if (read (pib.file, &amp;PriorityMaps_count, sizeof (PriorityMaps_count)) != sizeof (PriorityMaps_count)) 
+		{
+			error (1, errno, &quot;could not read PriorityMaps count&quot;);
+		}
+		if (lseek (pib.file, PIB_PRIORITY_MAPS_OFFSET, SEEK_SET) != PIB_PRIORITY_MAPS_OFFSET) 
+		{
+			error (1, errno, &quot;could not seek to Priority Map&quot;);
+		}
+		if (read (pib.file, &amp;classifier_priority_map, sizeof (classifier_priority_map)) != sizeof (classifier_priority_map)) 
+		{
+			error (1, errno, &quot;could not read Priority Map&quot;);
+		}
+		close (pib.file);
+		if (_allclr (flags, PIB_SILENCE)) 
+		{
+			printf (&quot;# auto connection rules:\n&quot;);
+		}
+		for (i = 0; i &lt; AutoConnection_count; ++i) 
+		{
+			AutoConnection (&amp;auto_connection [i]);
+		}
+		if (_allclr (flags, PIB_SILENCE)) 
+		{
+			printf (&quot;# priority mapping rules:\n&quot;);
+		}
+		for (i = 0; i &lt; PriorityMaps_count; ++i) 
+		{
+			ClassifierPriorityMap (&amp;classifier_priority_map [i]);
+		}
+		argv++;
+		argc--;
+	}
+	exit (0);
+}
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='pibruin1.c.html' title=' pibruin1.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='pibscalers.c.html' title=' pibscalers.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

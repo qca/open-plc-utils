@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			UnwantedMessage.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='Transmit.c.html' title=' Transmit.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='UpgradeDevice1.c.html' title=' UpgradeDevice1.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   bool UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_t MMTYPE);
+ *
+ *   mme.h
+ *
+ *   return true if memory does not contains a Qualcomm Atheros message 
+ *   of the specified version and type; the message version determines
+ *   the location of the OUI field; messages with MMV = 1 have an FMI
+ *   used to track multi-part confirmation counts; out of order counts
+ *   are treated as an error;
+ *
+ *   constant __WHYNOT__ displays reason for message rejection;
+ *
+ *   batch is the fragment group identifier taken from the fragment
+ *   frame;
+ *
+ *   total is the number of fragements in the group taken from the
+ *   fragment frame;
+ *
+ *   index is the fragment identifier from the fragment frame;
+ *
+ *   count is the number of fragments received so far;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *      Matthieu Poullet &lt;m.poullet@avm.de&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef UNWANTEDMESSAGE_SOURCE
+#define UNWANTEDMESSAGE_SOURCE
+
+#include &lt;stdint.h&gt;
+#include &lt;memory.h&gt;
+
+#include &quot;../tools/endian.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../mme/mme.h&quot;
+
+signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_t MMTYPE) 
+
+{
+	extern const byte localcast [ETHER_ADDR_LEN];
+	struct message * message = (struct message *)(memory);
+	if (!extent) 
+	{
+		return (-1);
+	}
+	if (extent &lt; (ETHER_MIN_LEN - ETHER_CRC_LEN)) 
+	{
+
+#if defined (__WHYNOT__)
+
+		error (0, 0, &quot;Wrong Ethernet Frame Size: Received &quot; SIZE_T_SPEC &quot; bytes but need at least %d&quot;, extent, ETHER_MIN_LEN - ETHER_CRC_LEN);
+
+#endif
+
+		return (-1);
+	}
+	if (extent &gt; (ETHER_MAX_LEN)) 
+	{
+
+#if defined (__WHYNOT__)
+
+		error (0, 0, &quot;Wrong Ethernet Frame Size: Received &quot; SIZE_T_SPEC &quot; bytes but need at most %d&quot;, extent, ETHER_MAX_LEN);
+
+#endif
+
+		return (-1);
+	}
+	if (message-&gt;ethernet.MTYPE != htons (HOMEPLUG_MTYPE)) 
+	{
+
+#if defined (__WHYNOT__)
+
+		error (0, 0, &quot;Wrong Ethernet Frame Type: Received %04X while waiting for %04X&quot;, ntohs (message-&gt;ethernet.MTYPE), HOMEPLUG_MTYPE);
+
+#endif
+
+		return (-1);
+	}
+	if (message-&gt;qualcomm.MMV != MMV) 
+	{
+
+#if defined (__WHYNOT__)
+
+		error (0, 0, &quot;Wrong Message Version: Received %02X but expected %02X&quot;, message-&gt;qualcomm.MMV, MMV);
+
+#endif
+
+		return (-1);
+	}
+	if (MMV == 0) 
+	{
+		struct qualcomm_std * qualcomm = (struct qualcomm_std *)(&amp;message-&gt;qualcomm);
+		if (LE16TOH (qualcomm-&gt;MMTYPE) != MMTYPE) 
+		{
+
+#if defined (__WHYNOT__)
+
+			error (0, 0, &quot;Wrong Message Type: Received %04X while waiting for %04X&quot;, LE16TOH (qualcomm-&gt;MMTYPE), MMTYPE);
+
+#endif
+
+			return (-1);
+		}
+		if (memcmp (localcast, qualcomm-&gt;OUI, sizeof (qualcomm-&gt;OUI))) 
+		{
+
+#if defined (__WHYNOT__)
+
+			error (0, 0, &quot;Wrong Message Vendor&quot;);
+
+#endif
+
+			return (-1);
+		}
+	}
+	if (MMV == 1) 
+	{
+		struct qualcomm_fmi * qualcomm = (struct qualcomm_fmi *)(&amp;message-&gt;qualcomm);
+
+#if FMI
+
+		static unsigned total = 0;
+		static unsigned index = 0;
+		static unsigned count = 0;
+
+#endif
+
+		if (LE16TOH (qualcomm-&gt;MMTYPE) != MMTYPE) 
+		{
+
+#if defined (__WHYNOT__)
+
+			error (0, 0, &quot;Wrong Message Type: Received %04X while waiting for %04X&quot;, LE16TOH (qualcomm-&gt;MMTYPE), MMTYPE);
+
+#endif
+
+			return (-1);
+		}
+
+#if FMI
+
+		index = qualcomm-&gt;FMID &gt;&gt; 0 &amp; 0x0F;
+		if (!index) 
+		{
+			total = qualcomm-&gt;FMID &gt;&gt; 4 &amp; 0x0F;
+			count = qualcomm-&gt;FMID &gt;&gt; 0 &amp; 0x0F;
+			if (memcmp (localcast, qualcomm-&gt;OUI, sizeof (qualcomm-&gt;OUI))) 
+			{
+
+#if defined (__WHYNOT__)
+
+				error (0, 0, &quot;Wrong Message Vendor&quot;);
+
+#endif
+
+				return (-1);
+			}
+		}
+		if (index != count) 
+		{
+
+#if defined (__WHYNOT__)
+
+			error (0, 0, &quot;Message Fragment Out-of-order&quot;);
+
+#endif
+
+			return (-1);
+		}
+		if (count &gt; total) 
+		{
+
+#if defined (__WHYNOT__)
+
+			error (0, 0, &quot;Fragment Count Exceeds Total&quot;);
+
+#endif
+
+			return (-1);
+		}
+		count++;
+
+#endif
+
+	}
+	return (0);
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='Transmit.c.html' title=' Transmit.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='UpgradeDevice1.c.html' title=' UpgradeDevice1.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

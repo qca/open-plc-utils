@@ -7,7 +7,7 @@
 			Introduction 
 			</title>
 		<para>
-			The Atheros <application>Powerline Toolkit</application> includes several example applications that perform basic powerline device management from a remote host. Each example implements a different network protocol,  such as HTTP,  SNMP or TR-069. These applications merely demonstrate the underlying concepts but none perfrom full network device management. That is left to our customers because their needs vary. 
+			The Atheros <application>Open Powerline Toolkit</application> includes several example applications that perform basic powerline device management from a remote host. Each example implements a different network protocol,  such as HTTP,  SNMP or TR-069. These applications merely demonstrate the underlying concepts but none perfrom full network device management. That is left to our customers because their needs vary. 
 			</para>
 		<para>
 			All examples are proxy implementations where a local host communicates with one powerline device over Ethernet. That device then communicates with other devices over powerline or coax. All management functionality is programmed into the local host but other hosts are able to request information or services from it over Ethernet. The local host could be either part of the local powerline device or an external workstation.

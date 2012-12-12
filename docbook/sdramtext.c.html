@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			sdramtext.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='sdrampeek.c.html' title=' sdrampeek.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='sendpacket.c.html' title=' sendpacket.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   void sdramtext(const struct config_ram * config_ram);
+ *
+ *   sdram.h
+ *   
+ *   print SDRAM configuration on stdout as an ASCII string; this
+ *   format is suitable input for Atheros Windows Device Manager;
+ *
+ *   This software and documentation is the property of Atheros 
+ *   Corporation, Ocala, Florida. It is provided 'as is' without 
+ *   expressed or implied warranty of any kind to anyone for any 
+ *   reason. Atheros assumes no responsibility or liability for 
+ *   errors or omissions in the software or documentation and 
+ *   reserves the right to make changes without notification. 
+ *   
+ *   Atheros customers may modify and distribute the software 
+ *   without obligation to Atheros. Since use of this software 
+ *   is optional, users shall bear sole responsibility and 
+ *   liability for any consequences of it's use. 
+ *
+ *.  Atheros Powerline Toolkit for HomePlug AV; 
+ *:  Published 2007 by Intellon Corp. ALL RIGHTS RESERVED;
+ *;  For demonstration; Not for production use;
+ *
+ *   Contributor(s):
+ *	Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef SDRAMTEXT_SOURCE
+#define SDRAMTEXT_SOURCE
+
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+
+#include &quot;../ram/sdram.h&quot;
+#include &quot;../tools/memory.h&quot;
+
+void sdramtext (struct config_ram * config_ram) 
+
+{
+	printf (&quot;%08X&quot;, htonl (config_ram-&gt;SDRAMSIZE));
+	printf (&quot;%08X&quot;, htonl (config_ram-&gt;SDRAMCONF));
+	printf (&quot;%08X&quot;, htonl (config_ram-&gt;SDRAMTIM0));
+	printf (&quot;%08X&quot;, htonl (config_ram-&gt;SDRAMTIM1));
+	printf (&quot;%08X&quot;, htonl (config_ram-&gt;SDRAMCNTRL));
+	printf (&quot;%08X&quot;, htonl (config_ram-&gt;SDRAMREF));
+	printf (&quot;%08X&quot;, htonl (config_ram-&gt;MACCLOCK));
+	printf (&quot;%08X&quot;, htonl (config_ram-&gt;SDRAMRSVD));
+	return;
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='sdrampeek.c.html' title=' sdrampeek.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='sendpacket.c.html' title=' sendpacket.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

@@ -7,7 +7,7 @@
 			Introduction
 			</title>
 		<para>
-			The Powerline Toolkit can perform all sorts of operations on Atheros powerline devices. Many operations are simple and can be accomplished using one command. Others are more complex and may require several commands. This section demonstrates common console commands that you might want to use when experimenting or working with Atheros powerline devices. Multi-command procedures can be generalized and automated using any programming or scripting language that can execute console commands.
+			The Open Powerline Toolkit can perform all sorts of operations on Atheros powerline devices. Many operations are simple and can be accomplished using one command. Others are more complex and may require several commands. This section demonstrates common console commands that you might want to use when experimenting or working with Atheros powerline devices. Multi-command procedures can be generalized and automated using any programming or scripting language that can execute console commands.
 			</para>
 		</section>
 	<section id='procedure-select-interface-linux'>
@@ -585,7 +585,7 @@ OK
 			Trouble-shooting Problems 
 			</title>
 		<para>
-			The following steps may help determine why two devices cannot communicate via ethernet over the powerline.  They assume that you have successfully installed the Powerline Toolkit but are having trouble forming a powerline network.
+			The following steps may help determine why two devices cannot communicate via ethernet over the powerline.  They assume that you have successfully installed the Open Powerline Toolkit but are having trouble forming a powerline network.
 			</para>
 		<orderedlist>
 			<listitem id="trouble-shoot-1">

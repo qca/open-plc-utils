@@ -1,0 +1,254 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			mac2pw.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='lookup.c.html' title=' lookup.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='mac2pwd.c.html' title=' mac2pwd.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+#define _GETOPT_H
+
+/*====================================================================*
+ *   system header files;
+ *--------------------------------------------------------------------*/
+
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;limits.h&gt;
+#include &lt;errno.h&gt;
+
+/*====================================================================*
+ *   custom header files;
+ *--------------------------------------------------------------------*/
+
+#include &quot;../tools/getoptv.h&quot;
+#include &quot;../tools/putoptv.h&quot;
+#include &quot;../tools/memory.h&quot;
+#include &quot;../tools/number.h&quot;
+#include &quot;../tools/types.h&quot;
+#include &quot;../tools/flags.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../key/keys.h&quot;
+
+/*====================================================================*
+ *   custom source files;
+ *--------------------------------------------------------------------*/
+
+#ifndef MAKEFILE
+#include &quot;../tools/getoptv.c&quot;
+#include &quot;../tools/putoptv.c&quot;
+#include &quot;../tools/version.c&quot;
+#include &quot;../tools/todigit.c&quot;
+#include &quot;../tools/uintspec.c&quot;
+#include &quot;../tools/error.c&quot;
+#endif
+
+#ifndef MAKEFILE
+#include &quot;../key/MACPasswords.c&quot;
+#endif
+
+/*====================================================================*
+ *   program constants; 
+ *--------------------------------------------------------------------*/
+
+#ifndef ETHER_ADDR_LEN
+#define ETHER_ADDR_LEN 6 /* normally defined in ethernet.h or if_ether.h */
+#endif
+
+/*====================================================================*
+ *
+ *   void function (const char * string, uint32_t range, unsigned count, unsigned group, unsigned space, flag_t flags) 
+ * 
+ *   parse an Ethernet hardware address string into vendor and device
+ *   ID substrings; print a specified number of consecutive addresses
+ *   and password strings having a defined letter count and grouping;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *	Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+static void function (const char * string, uint32_t range, unsigned count, unsigned group, unsigned space, flag_t flags) 
+
+{
+	const char * offset = string;
+	uint32_t vendor = 0;
+	uint32_t device = 0;
+	unsigned radix = 0x10;
+	unsigned width;
+	unsigned digit;
+	for (width = 0; width &lt; ETHER_ADDR_LEN; width++) 
+	{
+		if ((digit = todigit (*offset)) &lt; radix) 
+		{
+			vendor *= radix;
+			vendor += digit;
+			offset++;
+			continue;
+		}
+		error (1, EINVAL, &quot;Bad MAC Address: %s&quot;, string);
+	}
+	if (!vendor) 
+	{
+		error (1, EPERM, &quot;Vendor ID can't be zero&quot;);
+	}
+	for (width = 0; width &lt; ETHER_ADDR_LEN; width++) 
+	{
+		if ((digit = todigit (*offset)) &lt; radix) 
+		{
+			device *= radix;
+			device += digit;
+			offset++;
+			continue;
+		}
+		error (1, EINVAL, &quot;Bad MAC Address: %s&quot;, string);
+	}
+	if (!device) 
+	{
+		error (1, EPERM, &quot;Device ID can't be zero&quot;);
+	}
+	if (*offset) 
+	{
+		error (1, EINVAL, &quot;Bad MAC address: %s&quot;, string);
+	}
+	if (range &gt; (0x00FFFFFF - device)) 
+	{
+		error (1, ERANGE, &quot;Want %d passwords but only %d left in range&quot;, range, (0x00FFFFFF - device));
+	}
+	MACPasswords (vendor, device, range, count, group, space, flags);
+	return;
+}
+
+/*====================================================================*
+ *   
+ *   int main (int argc, const char * argv []);
+ *
+ *   generate unique password strings for a range of device hardware
+ *   addresses; print paired addresses and passwords to stdout;
+ *
+ *   Many Atheros programs expect the user to enter a password to
+ *   access a device; the password is encoded to product the 16-bit
+ *   Device Access Key (DAK) stored in the PIB; 
+ *
+ *   Vendors must publish the device password so that end users can 
+ *   reproduce the same 16-byte hexadecimal value later; a password
+ *   is more user-friendly than a 16-byte hexadecimal value;
+ *
+ *   given a range of MAC address, this program will produce unique
+ *   passwords so vendors can program devices and print labels that 
+ *   ship devices;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *	Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#define DEFAULT_RANGE 1
+#define DEFAULT_COUNT 16
+#define DEFAULT_GROUP 4
+
+int main (int argc, const char * argv []) 
+
+{
+	static const char * optv [] = 
+	{
+		&quot;b:l:n:quv&quot;,
+		&quot;address [address] [...]&quot;,
+		&quot;Atheros device password generator&quot;,
+		&quot;b n\tbunching factor [&quot; LITERAL (DEFAULT_GROUP) &quot;]&quot;,
+		&quot;l n\tpassword letters [&quot; LITERAL (DEFAULT_COUNT) &quot;]&quot;,
+		&quot;n n\tgenerate n consecutive passwords [&quot; LITERAL (DEFAULT_RANGE) &quot;]&quot;,
+		&quot;q\tomit device address on output&quot;,
+		&quot;v\tprepend PTS flag on output&quot;,
+		(const char *)(0)
+	};
+	uint32_t range = DEFAULT_RANGE;
+	unsigned count = DEFAULT_COUNT;
+	unsigned group = DEFAULT_GROUP;
+	unsigned space = '-';
+	flag_t flags = (flag_t)(0);
+	signed c;
+	optind = 1;
+	while ((c = getoptv (argc, argv, optv)) != -1) 
+	{
+		switch ((char)(c)) 
+		{
+		case 'b':
+			group = (unsigned)(uintspec (optarg, 0, UCHAR_MAX));
+			break;
+		case 'l':
+			count = (unsigned)(uintspec (optarg, 12, 64));
+			break;
+		case 'n':
+			range = (uint32_t)(uintspec (optarg, 0, 0x00FFFFFF));
+			break;
+		case 'q':
+			_setbits (flags, PASSWORD_SILENCE);
+			break;
+		case 'v':
+			_setbits (flags, PASSWORD_VERBOSE);
+			break;
+		default:
+			break;
+		}
+	}
+	argc -= optind;
+	argv += optind;
+	while ((argv) &amp;&amp; (* argv)) 
+	{
+		function (* argv, range, count, group, space, flags);
+		argc--;
+		argv++;
+	}
+	return (0);
+}
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='lookup.c.html' title=' lookup.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='mac2pwd.c.html' title=' mac2pwd.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

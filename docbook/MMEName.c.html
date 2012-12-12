@@ -1,0 +1,676 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			MMEName.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='MMEMode.c.html' title=' MMEMode.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='MMEPeek.c.html' title=' MMEPeek.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   char const * MMEName (uint16_t MMTYPE);
+ *
+ *   mme.h
+ *
+ *   Return HomePlug or Atheros Management Message name for a given 
+ *   MMTYPE; this function is not needed but it could be useful when
+ *   developing and debugging applications;
+ *
+ *   If you add or remove items in this list then update constant
+ *   MMTYPES to reflect the number of list members;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *	Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef MMENAME_SOURCE
+#define MMENAME_SOURCE
+
+#include &quot;../mme/mme.h&quot;
+
+static const struct mme_name 
+
+{
+	uint16_t type;
+	char const * name;
+}
+
+mme_names [] = 
+
+{
+
+	{
+		CC_CCO_APPOINT,
+		&quot;CC_CCO_APPOINT&quot;
+	},
+	{
+		CC_BACKUP_APPOINT,
+		&quot;CC_BACKUP_APPOINT&quot;
+	},
+	{
+		CC_LINK_INFO,
+		&quot;CC_LINK_INFO&quot;
+	},
+	{
+		CC_HANDOVER,
+		&quot;CC_HANDOVER&quot;
+	},
+	{
+		CC_HANDOVER_INFO,
+		&quot;CC_HANDOVER_INFO&quot;
+	},
+	{
+		CC_DISCOVER_LIST,
+		&quot;CC_DISCOVER_LIST&quot;
+	},
+	{
+		CC_LINK_NEW,
+		&quot;CC_LINK_NEW&quot;
+	},
+	{
+		CC_LINK_MOD,
+		&quot;CC_LINK_MOD&quot;
+	},
+	{
+		CC_LINK_SQZ,
+		&quot;CC_LINK_SQZ&quot;
+	},
+	{
+		CC_LINK_REL,
+		&quot;CC_LINK_REL&quot;
+	},
+	{
+		CC_DETECT_REPORT,
+		&quot;CC_DETECT_REPORT&quot;
+	},
+	{
+		CC_WHO_RU,
+		&quot;CC_WHO_RU&quot;
+	},
+	{
+		CC_ASSOC,
+		&quot;CC_ASSOC&quot;
+	},
+	{
+		CC_LEAVE,
+		&quot;CC_LEAVE&quot;
+	},
+	{
+		CC_SET_TEI_MAP,
+		&quot;CC_SET_TEI_MAP&quot;
+	},
+	{
+		CC_RELAY,
+		&quot;CC_RELAY&quot;
+	},
+	{
+		CC_BEACON_RELIABILITY,
+		&quot;CC_BEACON_RELIABILITY&quot;
+	},
+	{
+		CC_ALLOC_MOVE,
+		&quot;CC_ALLOC_MOVE&quot;
+	},
+	{
+		CC_ACCESS_NEW,
+		&quot;CC_ACCESS_NEW&quot;
+	},
+	{
+		CC_ACCESS_REL,
+		&quot;CC_ACCESS_REL&quot;
+	},
+	{
+		CC_DCPPC,
+		&quot;CC_DCPPC&quot;
+	},
+	{
+		CC_HP1_DET,
+		&quot;CC_HP1_DET&quot;
+	},
+	{
+		CC_BLE_UPDATE,
+		&quot;CC_BLE_UPDATE&quot;
+	},
+	{
+		CP_PROXY_APPOINT,
+		&quot;CP_PROXY_APPOINT&quot;
+	},
+	{
+		PH_PROXY_APPOINT,
+		&quot;PH_PROXY_APPOINT&quot;
+	},
+	{
+		CP_PROXY_WAKE,
+		&quot;CP_PROXY_WAKE&quot;
+	},
+	{
+		NN_INL,
+		&quot;NN_INL&quot;
+	},
+	{
+		NN_NEW_NET,
+		&quot;NN_NEW_NET&quot;
+	},
+	{
+		NN_ADD_ALLOC,
+		&quot;NN_ADD_ALLOC&quot;
+	},
+	{
+		NN_REL_ALLOC,
+		&quot;NN_REL_ALLOC&quot;
+	},
+	{
+		NN_REL_NET,
+		&quot;NN_REL_NET&quot;
+	},
+	{
+		CM_ASSOCIATED_STA,
+		&quot;CM_ASSOCIATED_STA&quot;
+	},
+	{
+		CM_ENCRYPTED_PAYLOAD,
+		&quot;CM_ENCRYPTED_PAYLOAD&quot;
+	},
+	{
+		CM_SET_KEY,
+		&quot;CM_SET_KEY&quot;
+	},
+	{
+		CM_GET_KEY,
+		&quot;CM_GET_KEY&quot;
+	},
+	{
+		CM_SC_JOIN,
+		&quot;CM_SC_JOIN&quot;
+	},
+	{
+		CM_CHAN_EST,
+		&quot;CM_CHAN_EST&quot;
+	},
+	{
+		CM_TM_UPDATE,
+		&quot;CM_TM_UPDATE&quot;
+	},
+	{
+		CM_AMP_MAP,
+		&quot;CM_AMP_MAP&quot;
+	},
+	{
+		CM_BRG_INFO,
+		&quot;CM_BRG_INFO&quot;
+	},
+	{
+		CM_CONN_NEW,
+		&quot;CM_CONN_NEW&quot;
+	},
+	{
+		CM_CONN_REL,
+		&quot;CM_CONN_REL&quot;
+	},
+	{
+		CM_CONN_MOD,
+		&quot;CM_CONN_MOD&quot;
+	},
+	{
+		CM_CONN_INFO,
+		&quot;CM_CONN_INFO&quot;
+	},
+	{
+		CM_STA_CAP,
+		&quot;CM_STA_CAP&quot;
+	},
+	{
+		CM_NW_INFO,
+		&quot;CM_NW_INFO&quot;
+	},
+	{
+		CM_GET_BEACON,
+		&quot;CM_GET_BEACON&quot;
+	},
+	{
+		CM_HFID,
+		&quot;CM_HFID&quot;
+	},
+	{
+		CM_MME_ERROR,
+		&quot;CM_MME_ERROR&quot;
+	},
+	{
+		CM_NW_STATS,
+		&quot;CM_NW_STATS&quot;
+	},
+	{
+		MS_PB_ENC,
+		&quot;MS_PB_ENC&quot;
+	},
+	{
+		MS_DISCOVER,
+		&quot;MS_DISCOVER&quot;
+	},
+	{
+		VS_SW_VER,
+		&quot;VS_SW_VER&quot;
+	},
+	{
+		VS_WR_MEM,
+		&quot;VS_WR_MEM&quot;
+	},
+	{
+		VS_RD_MEM,
+		&quot;VS_RD_MEM&quot;
+	},
+	{
+		VS_ST_MAC,
+		&quot;VS_ST_MAC&quot;
+	},
+	{
+		VS_GET_NVM,
+		&quot;VS_GET_NVM&quot;
+	},
+	{
+		0xA028,
+		&quot;RESERVED&quot;
+	},
+	{
+		0xA02C,
+		&quot;RESERVED&quot;
+	},
+	{
+		VS_RS_DEV,
+		&quot;VS_RS_DEV&quot;
+	},
+	{
+		VS_WR_MOD,
+		&quot;VS_WR_MOD&quot;
+	},
+	{
+		VS_RD_MOD,
+		&quot;VS_RD_MOD&quot;
+	},
+	{
+		VS_MOD_NVM,
+		&quot;VS_MOD_NVM&quot;
+	},
+	{
+		VS_WD_RPT,
+		&quot;VS_WD_RPT&quot;
+	},
+	{
+		VS_LNK_STATS,
+		&quot;VS_LNK_STATS&quot;
+	},
+	{
+		VS_SNIFFER,
+		&quot;VS_SNIFFER&quot;
+	},
+	{
+		VS_NW_INFO,
+		&quot;VS_NW_INFO&quot;
+	},
+	{
+		0xA03C,
+		&quot;RESERVED&quot;
+	},
+	{
+		VS_CP_RPT,
+		&quot;VS_CP_RPT&quot;
+	},
+	{
+		VS_ARPC,
+		&quot;VS_ARPC&quot;
+	},
+	{
+		VS_FR_LBK,
+		&quot;VS_FR_LBK&quot;
+	},
+	{
+		VS_LBK_STAT,
+		&quot;VS_LBK_STAT&quot;
+	},
+	{
+		VS_SET_KEY,
+		&quot;VS_SET_KEY&quot;
+	},
+	{
+		VS_MFG_STRING,
+		&quot;VS_MFG_STRING&quot;
+	},
+	{
+		VS_RD_CBLOCK,
+		&quot;VS_RD_CBLOCK&quot;
+	},
+	{
+		VS_SET_SDRAM,
+		&quot;VS_SET_SDRAM&quot;
+	},
+	{
+		VS_HOST_ACTION,
+		&quot;VS_HOST_ACTION&quot;
+	},
+	{
+		VS_RD_BLK_NVM,
+		&quot;VS_RD_BLK_NVM&quot;
+	},
+	{
+		VS_OP_ATTRIBUTES,
+		&quot;VS_OP_ATTRIBUTES&quot;
+	},
+	{
+		VS_ENET_SETTINGS,
+		&quot;VS_ENET_SETTINGS&quot;
+	},
+	{
+		VS_TONE_MAP_CHAR,
+		&quot;VS_TONE_MAP_CHAR&quot;
+	},
+	{
+		VS_NW_INFO_STATS,
+		&quot;VS_NW_INFO_STATS&quot;
+	},
+	{
+		VS_SLAVE_MEM,
+		&quot;VS_SLAVE_MEM&quot;
+	},
+	{
+		VS_FAC_DEFAULTS,
+		&quot;VS_FAC_DEFAULTS&quot;
+	},
+	{
+		VS_PTS_NVM,
+		&quot;VS_PTS_NVM&quot;
+	},
+	{
+		VS_MULTICAST_INFO,
+		&quot;VS_MULTICAST_INFO&quot;
+	},
+	{
+		VS_CLASSIFICATION,
+		&quot;VS_CLASSIFICATION&quot;
+	},
+	{
+		VS_DIAG_STAGE,
+		&quot;VS_DIAG_STAGE&quot;
+	},
+	{
+		VS_RX_TONE_MAP_CHAR,
+		&quot;VS_RX_TONE_MAP_CHAR&quot;
+	},
+	{
+		VS_SET_LED_BEHAVIOR,
+		&quot;VS_SET_LED_BEHAVIOR&quot;
+	},
+	{
+		VS_WRITE_AND_EXECUTE_APPLET,
+		&quot;VS_WRITE_AND_EXECUTE_APPLET&quot;
+	},
+	{
+		VS_MDIO_COMMAND,
+		&quot;VS_MDIO_COMMAND&quot;
+	},
+	{
+		VS_SLAVE_REG,
+		&quot;VS_SLAVE_REG&quot;
+	},
+	{
+		VS_BANDWIDTH_LIMITING,
+		&quot;VS_BANDWIDTH_LIMITING&quot;
+	},
+	{
+		VS_SNID_OPERATION,
+		&quot;VS_SNID_OPERATION&quot;
+	},
+	{
+		VS_NN_MITIGATE,
+		&quot;VS_NN_MITIGATE&quot;
+	},
+	{
+		VS_MODULE_OPERATION,
+		&quot;VS_MODULE_OPERATION&quot;
+	},
+	{
+		VS_DIAG_NETWORK_PROBE,
+		&quot;VS_DIAG_NETWORK_PROBE&quot;
+	},
+	{
+		VS_PL_LINK_STATUS,
+		&quot;VS_PL_LINK_STATUS&quot;
+	},
+	{
+		VS_GPIO_STATE_CHANGE,
+		&quot;VS_GPIO_STATE_CHANGE&quot;
+	},
+	{
+		VS_CONN_ADD,
+		&quot;VS_CONN_ADD&quot;
+	},
+	{
+		VS_CONN_MOD,
+		&quot;VS_CONN_MOD&quot;
+	},
+	{
+		VS_CONN_REL,
+		&quot;VS_CONN_REL&quot;
+	},
+	{
+		VS_CONN_INFO,
+		&quot;VS_CONN_INFO&quot;
+	},
+	{
+		VS_MULTIPORT_LNK_STA,
+		&quot;VS_MULTIPORT_LNK_STA&quot;
+	},
+	{
+		VS_RAND_MAC_ADDR,
+		&quot;VS_RAND_MAC_ADDR&quot;
+	},
+	{
+		VS_CUSTOM_INFO,
+		&quot;VS_CUSTOM_INFO&quot;
+	},
+	{
+		VS_EM_ID_TABLE,
+		&quot;VS_EM_ID_TABLE&quot;
+	},
+	{
+		VS_STANDBY,
+		&quot;VS_STANDBY&quot;
+	},
+	{
+		VS_SLEEPSCHEDULE,
+		&quot;VS_SLEEPSCHEDULE&quot;
+	},
+	{
+		VS_SLEEPSCHEDULE_NOTIFICATION,
+		&quot;VS_SLEEPSCHEDULE_NOTIFICATION&quot;
+	},
+	{
+		0xA0EC,
+		&quot;RESERVED&quot;
+	},
+	{
+		VS_MICROCONTROLLER_DIAG,
+		&quot;VS_MICROCONTROLLER_DIAG&quot;
+	},
+	{
+		VS_DEBUG_INFO,
+		&quot;VS_DEBUG_INFO&quot;
+	},
+	{
+		VS_GET_PROPERTY,
+		&quot;VS_GET_PROPERTY&quot;
+	},
+	{
+		0xA0FC,
+		&quot;RESERVED&quot;
+	},
+	{
+		VS_SET_PROPERTY,
+		&quot;VS_SET_PROPERTY&quot;
+	},
+	{
+		VS_PHYSWITCH_MDIO,
+		&quot;VS_PHYSWITCH_MDIO&quot;
+	},
+	{
+		VS_FLASH_ERASE,
+		&quot;VS_FLASH_ERASE&quot;
+	},
+	{
+		VS_SELFTEST_ONETIME_CONFIG,
+		&quot;VS_SELFTEST_ONETIME_CONFIG&quot;
+	},
+	{
+		VS_SELFTEST_RESULTS,
+		&quot;VS_SELFTEST_RESULTS&quot;
+	},
+	{
+		VS_MDU_TRAFFIC_STATS,
+		&quot;VS_MDU_TRAFFIC_STATS&quot;
+	},
+	{
+		VS_FORWARD_CONFIG,
+		&quot;VS_FORWARD_CONFIG&quot;
+	},
+	{
+		0xA11C,
+		&quot;RESERVED&quot;
+	},
+	{
+		VS_ACCESS_LEVEL_CONTROL,
+		&quot;VS_ACCESS_LEVEL_CONTROL&quot;
+	},
+	{
+		VS_HYBRID_INFO,
+		&quot;VS_HYBRID_INFO&quot;
+	}
+
+};
+
+char const * MMEName (uint16_t MMTYPE) 
+
+{
+	size_t lower = 0;
+	size_t upper = SIZEOF (mme_names);
+	MMTYPE &amp;= MMTYPE_MASK;
+	while (lower &lt; upper) 
+	{
+		size_t index = (lower + upper) &gt;&gt; 1;
+		signed order = MMTYPE - mme_names [index].type;
+		if (order &lt; 0) 
+		{
+			upper = index - 0;
+			continue;
+		}
+		if (order &gt; 0) 
+		{
+			lower = index + 1;
+			continue;
+		}
+		return (mme_names [index].name);
+	}
+	return (&quot;UNKNOWN_MESSAGE_TYPE&quot;);
+}
+
+/*====================================================================*
+ *   print a multi-column list of MME codes and names on stdout;
+ *--------------------------------------------------------------------*/
+
+#if 0
+#include &lt;stdio.h&gt;
+
+#define COLS 4
+#define WIDTH 20
+
+int main (int argc, char const * argv []) 
+
+{
+	unsigned cols = COLS;
+	unsigned rows = ((SIZEOF (mme_names) + (COLS - 1)) / cols);
+	unsigned row = 0;
+	unsigned mme = 0;
+	for (row = 0; row &lt; rows; row++) 
+	{
+		for (mme = row; mme &lt; SIZEOF (mme_names); mme += rows) 
+		{
+			printf (&quot;%04X %-*.*s &quot;, mme_names [mme].type, WIDTH, WIDTH, mme_names [mme].name);
+		}
+		printf (&quot;\n&quot;);
+	}
+	return (0);
+}
+
+#endif
+
+/*====================================================================*
+ *   print a multi-column list of MME codes and names on stdout;
+ *--------------------------------------------------------------------*/
+
+#if 0
+#include &lt;stdio.h&gt;
+
+int main (int argc, char const * argv []) 
+
+{
+	unsigned mme = 0;
+	for (mme = 0; mme &lt; SIZEOF (mme_names); mme++) 
+	{
+		printf (&quot;{ %s, \&quot;%s\&quot; },&quot;,  mme_names [mme].name, mme_names [mme].name);
+//		printf (&quot;0x%04X;%s;yes;yes;yes\n&quot;, mme_names [mme].type, mme_names [mme].name);
+	}
+	return (0);
+}
+
+#endif
+
+/*====================================================================*
+ * 
+ *--------------------------------------------------------------------*/
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='MMEMode.c.html' title=' MMEMode.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='MMEPeek.c.html' title=' MMEPeek.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

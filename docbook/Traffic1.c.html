@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			Traffic1.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='Traffic.c.html' title=' Traffic.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='Traffic2.c.html' title=' Traffic2.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   signed Traffic1 (struct plc * plc);
+ *   
+ *   generate bi-directional traffic between a local device and all
+ *   remote devices on a powerline network; remote devices need not
+ *   be connected; no traffic is generated between remote devices;
+ *
+ *   this function is similar to NetworkTraffic but takes less time
+ *   since not all powerline paths are exercised and those that are
+ *   can be exercised in parallel; 
+ *
+ *   this function is for INT6x00 chipsets only due to changes in chip
+ *   design; use Traffic2 for AR7x00 chipsets;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *      Matthieu Poullet &lt;m.poullet@avm.de&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef TRAFFIC1_SOURCE
+#define TRAFFIC1_SOURCE
+
+#include &lt;memory.h&gt;
+#include &lt;errno.h&gt;
+
+#include &quot;../tools/memory.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../tools/flags.h&quot;
+#include &quot;../mme/mme.h&quot;
+#include &quot;../plc/plc.h&quot;
+
+signed Traffic1 (struct plc * plc) 
+
+{
+	struct channel * channel = (struct channel *)(plc-&gt;channel);
+	struct message * message = (struct message *)(plc-&gt;message);
+
+#ifndef __GNUC__
+#pragma pack (push,1)
+#endif
+
+	struct __packed vs_nw_info_request 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+	}
+	* request = (struct vs_nw_info_request *)(message);
+	struct __packed vs_nw_info_confirm 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+		uint8_t DATA [1];
+	}
+	* confirm = (struct vs_nw_info_confirm *)(message);
+	struct __packed station 
+	{
+		uint8_t MAC [ETHER_ADDR_LEN];
+		uint8_t TEI;
+		uint8_t BDA [ETHER_ADDR_LEN];
+		uint8_t AVGTX;
+		uint8_t AVGRX;
+	}
+	* station;
+	struct __packed network 
+	{
+		uint8_t NID [7];
+		uint8_t SNID;
+		uint8_t TEI;
+		uint8_t ROLE;
+		uint8_t CCO_MAC [ETHER_ADDR_LEN];
+		uint8_t CCO_TEI;
+		uint8_t NUMSTAS;
+		struct station stations [1];
+	}
+	* network;
+	struct __packed networks 
+	{
+		uint8_t NUMAVLNS;
+		struct network networks [1];
+	}
+	* networks = (struct networks *) (confirm-&gt;DATA);
+
+#ifndef __GNUC__
+#pragma pack (pop)
+#endif
+
+	byte bridgelist [255] [ETHER_ADDR_LEN];
+	unsigned bridges = LocalDevices (channel, message, bridgelist, sizeof (bridgelist));
+	while (bridges--) 
+	{
+		byte devicelist [255] [ETHER_ADDR_LEN];
+		unsigned devices = 0;
+		memset (message, 0, sizeof (* message));
+		EthernetHeader (&amp;request-&gt;ethernet, bridgelist [bridges], channel-&gt;host, HOMEPLUG_MTYPE);
+		QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_NW_INFO | MMTYPE_REQ));
+		plc-&gt;packetsize = ETHER_MIN_LEN - ETHER_CRC_LEN;
+		if (SendMME (plc) &lt;= 0) 
+		{
+			error (0, errno, CHANNEL_CANTSEND);
+			continue;
+		}
+		if (ReadMME (plc, 0, (VS_NW_INFO | MMTYPE_CNF)) &lt;= 0) 
+		{
+			error (0, errno, CHANNEL_CANTREAD);
+			continue;
+		}
+		memcpy (devicelist [devices++], request-&gt;ethernet.OSA, sizeof (devicelist [0]));
+		network = (struct network *)(&amp;networks-&gt;networks);
+		while (networks-&gt;NUMAVLNS--) 
+		{
+			station = (struct station *)(&amp;network-&gt;stations);
+			while (network-&gt;NUMSTAS--) 
+			{
+				memcpy (devicelist [devices++], station-&gt;MAC, sizeof (devicelist [0]));
+				station++;
+			}
+			network = (struct network *)(station);
+		}
+		while (devices-- &gt; 1) 
+		{
+			Transmit (plc, devicelist [0], devicelist [devices]);
+			Antiphon (plc, devicelist [devices], devicelist [0]);
+		}
+	}
+	return (0);
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='Traffic.c.html' title=' Traffic.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='Traffic2.c.html' title=' Traffic2.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

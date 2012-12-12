@@ -1,0 +1,276 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			EmulateHost64.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='EmulateHost.c.html' title=' EmulateHost.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='EthernetHeader.c.html' title=' EthernetHeader.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *  
+ *   int EmulateHost64 (struct plc * plc);
+ *  
+ *   plc.h
+ *
+ *   wait indefinitely for VS_HOST_ACTION messages; service the device 
+ *   as directed; this function is for demonstration and experimentation
+ *   only; it will stop dead - like a bug! - on error;
+ *   
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *;  For demonstration and evaluation only. Not for production use
+ *
+ *   Contributor(s):
+ *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef EMULATEHOST64_SOURCE
+#define EMULATEHOST64_SOURCE
+
+#include &lt;unistd.h&gt;
+#include &lt;memory.h&gt;
+
+#include &quot;../plc/plc.h&quot;
+#include &quot;../ether/channel.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../tools/flags.h&quot;
+#include &quot;../tools/files.h&quot;
+
+#include &quot;../nvm/nvm.h&quot;
+#include &quot;../pib/pib.h&quot;
+
+signed EmulateHost64 (struct plc * plc) 
+
+{
+	struct channel * channel = (struct channel *)(plc-&gt;channel);
+	struct message * message = (struct message *)(plc-&gt;message);
+	static char const * actions [] = 
+	{
+		&quot;start device&quot;,
+		&quot;store firmware&quot;,
+		&quot;store parameters&quot;,
+		&quot;update host&quot;,
+		&quot;config memory&quot;,
+		&quot;restore defaults&quot;,
+		&quot;unknown&quot;
+	};
+
+#ifndef __GNUC__
+#pragma pack (push,1)
+#endif
+
+	struct __packed vs_host_action_ind 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+		uint8_t MACTION;
+		uint8_t MAJOR_VERSION;
+		uint8_t MINOR_VERSION;
+	}
+	* indicate = (struct vs_host_action_ind *) (message);
+
+#if 0
+
+	struct __packed vs_host_action_rsp 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+		uint8_t MSTATUS;
+	}
+	* response = (struct vs_host_action_rsp *) (message);
+
+#endif
+
+#ifndef __GNUC__
+#pragma pack (pop)
+#endif
+
+	char const * NVM = plc-&gt;NVM.name;
+	char const * PIB = plc-&gt;PIB.name;
+	signed status;
+	signed action;
+	Request (plc, &quot;Waiting for Host Action&quot;);
+	while (1) 
+	{
+		status = ReadMME (plc, 0, (VS_HOST_ACTION | MMTYPE_IND));
+		if (status &lt; 0) 
+		{
+			break;
+		}
+		if (status &gt; 0) 
+		{
+			printf (&quot;\n&quot;);
+			if (indicate-&gt;MACTION &lt; (sizeof (actions) / sizeof (char const *))) 
+			{
+				Confirm (plc, &quot;Host Action Request is (%d) %s.&quot;, indicate-&gt;MACTION, actions [indicate-&gt;MACTION]);
+			}
+			else 
+			{
+				error (0, ENOTSUP, &quot;Host Action 0x%0X&quot;, indicate-&gt;MACTION);
+				continue;
+			}
+			action = indicate-&gt;MACTION;
+			memcpy (channel-&gt;peer, indicate-&gt;ethernet.OSA, sizeof (channel-&gt;peer));
+			if (HostActionResponse (plc)) 
+			{
+				return (-1);
+			}
+			if (action == 0x00) 
+			{
+				if (BootDevice1 (plc)) 
+				{
+					return (-1);
+				}
+				if (_anyset (plc-&gt;flags, PLC_FLASH_DEVICE)) 
+				{
+					if (WriteNVM (plc)) 
+					{
+						return (-1);
+					}
+					if (WritePIB (plc)) 
+					{
+						return (-1);
+					}
+					if (FlashNVM (plc)) 
+					{
+						return (-1);
+					}
+				}
+				continue;
+			}
+			if (action == 0x01) 
+			{
+				close (plc-&gt;NVM.file);
+				if (ReadFirmware1 (plc)) 
+				{
+					return (-1);
+				}
+				if ((plc-&gt;NVM.file = open (plc-&gt;NVM.name = plc-&gt;nvm.name, O_BINARY|O_RDONLY)) == -1) 
+				{
+					error (1, errno, &quot;%s&quot;, plc-&gt;NVM.name);
+				}
+				if (ResetDevice (plc)) 
+				{
+					return (-1);
+				}
+				continue;
+			}
+			if (action == 0x02) 
+			{
+				close (plc-&gt;PIB.file);
+				if (ReadParameters1 (plc)) 
+				{
+					return (-1);
+				}
+				if ((plc-&gt;PIB.file = open (plc-&gt;PIB.name = plc-&gt;pib.name, O_BINARY|O_RDONLY)) == -1) 
+				{
+					error (1, errno, &quot;%s&quot;, plc-&gt;PIB.name);
+				}
+				if (ResetDevice (plc)) 
+				{
+					return (-1);
+				}
+				continue;
+			}
+			if (action == 0x03) 
+			{
+				close (plc-&gt;PIB.file);
+				if (ReadParameters1 (plc)) 
+				{
+					return (-1);
+				}
+				if ((plc-&gt;PIB.file = open (plc-&gt;PIB.name = plc-&gt;pib.name, O_BINARY|O_RDONLY)) == -1) 
+				{
+					error (1, errno, &quot;%s&quot;, plc-&gt;PIB.name);
+				}
+				close (plc-&gt;NVM.file);
+				if (ReadFirmware1 (plc)) 
+				{
+					return (-1);
+				}
+				if ((plc-&gt;NVM.file = open (plc-&gt;NVM.name = plc-&gt;nvm.name, O_BINARY|O_RDONLY)) == -1) 
+				{
+					error (1, errno, &quot;%s&quot;, plc-&gt;NVM.name);
+				}
+				if (ResetDevice (plc)) 
+				{
+					return (-1);
+				}
+				continue;
+			}
+			if (action == 0x04) 
+			{
+				if (InitDevice1 (plc)) 
+				{
+					return (-1);
+				}
+				continue;
+			}
+			if (action == 0x05) 
+			{
+				close (plc-&gt;NVM.file);
+				if ((plc-&gt;NVM.file = open (plc-&gt;NVM.name = NVM, O_BINARY|O_RDONLY)) == -1) 
+				{
+					error (1, errno, &quot;%s&quot;, plc-&gt;NVM.name);
+				}
+				close (plc-&gt;PIB.file);
+				if ((plc-&gt;PIB.file = open (plc-&gt;PIB.name = PIB, O_BINARY|O_RDONLY)) == -1) 
+				{
+					error (1, errno, &quot;%s&quot;, plc-&gt;PIB.name);
+				}
+				if (ResetDevice (plc)) 
+				{
+					return (-1);
+				}
+				continue;
+			}
+			error (0, ENOSYS, &quot;Host Action 0x%02X&quot;, action);
+		}
+	}
+	return (0);
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='EmulateHost.c.html' title=' EmulateHost.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='EthernetHeader.c.html' title=' EthernetHeader.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>
