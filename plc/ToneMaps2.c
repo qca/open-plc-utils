@@ -152,7 +152,7 @@ signed ToneMaps2 (struct plc * plc)
 	for (carrier = slot = 0; slot < slots; carrier = 0, slot++) 
 	{
 		memset (message, 0, sizeof (* message));
-		EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 		FragmentHeader (&request->qualcomm, 1, (VS_TONE_MAP_CHAR | MMTYPE_REQ));
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		memcpy (request->MACADDRESS, plc->RDA, sizeof (request->MACADDRESS));

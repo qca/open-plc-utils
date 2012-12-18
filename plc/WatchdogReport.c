@@ -92,7 +92,7 @@ signed WatchdogReport (struct plc * plc)
 
 	Request (plc, "Read Watchdog Report");
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_WD_RPT | MMTYPE_REQ));
 	request->SESSIONID = HTOLE32 (plc->cookie);
 	request->CLR = plc->readaction;

@@ -89,7 +89,7 @@ signed PushButton (struct plc * plc)
 		Request (plc, "Fetch Network Status");
 	}
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	request->homeplug.MMV = 0;
 	request->homeplug.MMTYPE = HTOLE16 (MS_PB_ENC | MMTYPE_REQ);
 	request->PBACTION = plc->pushbutton;

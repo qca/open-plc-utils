@@ -123,7 +123,7 @@ signed ToneMaps1 (struct plc * plc)
 #endif
 
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_RX_TONE_MAP_CHAR | MMTYPE_REQ));
 	memcpy (request->MACADDRESS, plc->RDA, sizeof (request->MACADDRESS));
 	request->TMSLOT = 0;
@@ -148,7 +148,7 @@ signed ToneMaps1 (struct plc * plc)
 	memset (tonemap, 0, sizeof (tonemap));
 	for (slot = 0; slot < slots; slot++) 
 	{
-		EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 		QualcommHeader (&request->qualcomm, 0, (VS_RX_TONE_MAP_CHAR | MMTYPE_REQ));
 		memcpy (request->MACADDRESS, plc->RDA, sizeof (request->MACADDRESS));
 		request->TMSLOT = slot;

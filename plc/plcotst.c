@@ -179,7 +179,7 @@ static signed configure (struct plc * plc, struct selftest * selftest)
 
 	Request (plc, "Configure One-Time Self-Test");
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_SELFTEST_ONETIME_CONFIG | MMTYPE_REQ));
 	request->MVERSION = selftest->MVERSION;
 	request->RUNAFTERRESET = selftest->RUNAFTERRESET;
@@ -250,7 +250,7 @@ static signed retrieve (struct plc * plc, struct selftest * selftest)
 
 	Request (plc, "Retrieve Self-Test Results");
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_SELFTEST_RESULTS | MMTYPE_REQ));
 	request->MVERSION = selftest->MVERSION;
 	request->MACTION = plc->action;

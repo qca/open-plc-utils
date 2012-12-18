@@ -82,7 +82,7 @@ signed SDRAMInfo (struct plc * plc)
 	struct config_ram * config_ram = (struct config_ram *)(&confirm->config_ram);
 	Request (plc, "Fetch SDRAM Parameters");
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_RD_CBLOCK | MMTYPE_REQ));
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	if (SendMME (plc) <= 0) 

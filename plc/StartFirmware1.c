@@ -87,7 +87,7 @@ signed StartFirmware1 (struct plc * plc, unsigned module, const struct nvm_heade
 
 	memset (message, 0, sizeof (* message));
 	Request (plc, "Start %s (%d) (%08X)", plc->NVM.name, module, LE32TOH (nvm_header->ENTRYPOINT));
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_ST_MAC | MMTYPE_REQ));
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	request->IMAGEBOOT = nvm_header->IMAGEADDRESS;

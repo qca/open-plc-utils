@@ -81,7 +81,7 @@ signed FlashNVM (struct plc * plc)
 
 	Request (plc, "Flash device");
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_MOD_NVM | MMTYPE_REQ));
 	request->MODULEID = plc->module;
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);

@@ -102,7 +102,7 @@ signed PLCReadParameterBlock (struct channel * channel, struct message * message
 	do 
 	{
 		memset (message, 0, sizeof (* message));
-		EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 		QualcommHeader (&request->qualcomm, 0, (VS_RD_MOD | MMTYPE_REQ));
 		request->MODULEID = VS_MODULE_PIB;
 		request->MLENGTH = HTOLE16 (actual);

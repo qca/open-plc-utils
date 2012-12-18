@@ -173,12 +173,12 @@ signed NetworkInfoStats (struct plc * plc)
 
 #if defined (INT6x00)
 
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_NW_INFO_STATS | MMTYPE_REQ));
 
 #elif defined (AR7x00)
 
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	FragmentHeader (&request->qualcomm, 1, (VS_NW_INFO_STATS | MMTYPE_REQ));
 
 #else

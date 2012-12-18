@@ -167,7 +167,7 @@ static signed add_conn (struct plc * plc, struct connection * connection)
 
 	Request (plc, "Add COQOS connection");
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_CONN_ADD | MMTYPE_REQ));
 	memcpy (&request->connection, connection, sizeof (struct connection));
 	memcpy (&request->connection.rule.CLASSIFIERS [request->connection.rule.NUM_CLASSIFIERS], &request->connection.cspec, sizeof (request->connection.cspec));

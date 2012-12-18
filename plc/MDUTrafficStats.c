@@ -393,7 +393,7 @@ signed MDUTrafficStats (struct plc * plc, uint8_t command, uint8_t session, uint
 
 	Request (plc, "Request MDU Traffic Statistics (1)");
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_MDU_TRAFFIC_STATS | MMTYPE_REQ));
 	request->COMMAND = command;
 	request->SESSION = session;

@@ -83,7 +83,7 @@ signed Antiphon (struct plc * plc, byte source [], byte target [])
 		fprintf (stderr, "%s %s %s\n", channel->ifname, sourcename, targetname);
 	}
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&message->ethernet, source, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&message->ethernet, source, channel->host, channel->type);
 	QualcommHeader (&message->qualcomm, 0, (VS_FR_LBK | MMTYPE_REQ));
 	request->DURATION = plc->timer;
 	request->LENGTH = HTOLE16 (sizeof (request->PACKET));

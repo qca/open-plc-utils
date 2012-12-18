@@ -85,7 +85,7 @@ signed SetNMK (struct plc * plc)
 #endif
 
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&request->ethernet, localcast, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, localcast, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_SET_KEY | MMTYPE_REQ));
 	plc->packetsize = sizeof (struct vs_set_key_request);
 	request->EKS = 0x01;

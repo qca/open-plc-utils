@@ -98,7 +98,7 @@ signed WritePIB (struct plc * plc)
 	while (extent) 
 	{
 		memset (message, 0, sizeof (* message));
-		EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 		QualcommHeader (&request->qualcomm, 0, (VS_WR_MOD | MMTYPE_REQ));
 		if (length > extent) 
 		{

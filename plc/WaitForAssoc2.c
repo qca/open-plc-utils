@@ -134,7 +134,7 @@ signed WaitForAssoc2 (struct plc * plc)
 	for (timer = 0; timer < plc->timer; timer = SECONDS (ts, tc)) 
 	{
 		memset (message, 0, sizeof (* message));
-		EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 		FragmentHeader (&request->qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		if (SendMME (plc) <= 0) 

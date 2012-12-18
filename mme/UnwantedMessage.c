@@ -98,7 +98,7 @@ signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_
 
 #if defined (__WHYNOT__)
 
-		error (0, 0, "Wrong Ethernet Frame Type: Received %04X while waiting for %04X", ntohs (message->ethernet.MTYPE), HOMEPLUG_MTYPE);
+		error (0, 0, "Wrong Ethernet Frame Type: Received %04X while waiting for %04X", ntohs (message->ethernet.MTYPE), channel->type);
 
 #endif
 

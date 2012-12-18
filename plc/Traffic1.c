@@ -117,7 +117,7 @@ signed Traffic1 (struct plc * plc)
 		byte devicelist [255] [ETHER_ADDR_LEN];
 		unsigned devices = 0;
 		memset (message, 0, sizeof (* message));
-		EthernetHeader (&request->ethernet, bridgelist [bridges], channel->host, HOMEPLUG_MTYPE);
+		EthernetHeader (&request->ethernet, bridgelist [bridges], channel->host, channel->type);
 		QualcommHeader (&request->qualcomm, 0, (VS_NW_INFO | MMTYPE_REQ));
 		plc->packetsize = ETHER_MIN_LEN - ETHER_CRC_LEN;
 		if (SendMME (plc) <= 0) 

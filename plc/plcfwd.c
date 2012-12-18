@@ -418,7 +418,7 @@ static signed ReadVLANIDs (struct plc * plc, uint32_t offset, uint32_t length)
 #endif
 
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_FORWARD_CONFIG | MMTYPE_REQ));
 	request->MREQUEST = PLCFWD_GET;
 	request->MVERSION = PLCFWD_VER;
@@ -493,7 +493,7 @@ static signed AddVLANIDs (struct plc * plc, struct item list [], unsigned items)
 
 	struct item * item = request->LIST;
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_FORWARD_CONFIG | MMTYPE_REQ));
 	request->MREQUEST = PLCFWD_ADD;
 	request->MVERSION = PLCFWD_VER;
@@ -581,7 +581,7 @@ static signed RemoveVLANIDs (struct plc * plc, struct item list [], unsigned ite
 
 	struct item * item = request->LIST;
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_FORWARD_CONFIG | MMTYPE_REQ));
 	request->MREQUEST = PLCFWD_REM;
 	request->MVERSION = PLCFWD_VER;
@@ -666,7 +666,7 @@ static signed CommitVLANIDs (struct plc * plc)
 #endif
 
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_FORWARD_CONFIG | MMTYPE_REQ));
 	request->MREQUEST = PLCFWD_STO;
 	request->MVERSION = PLCFWD_VER;
@@ -738,7 +738,7 @@ static signed ControlVLANIDs (struct plc * plc)
 #endif
 
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_FORWARD_CONFIG | MMTYPE_REQ));
 	request->MREQUEST = PLCFWD_CTL;
 	request->MVERSION = PLCFWD_VER;
@@ -811,7 +811,7 @@ static signed DefaultVLANIDs (struct plc * plc, struct item list [], unsigned it
 #endif
 
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_FORWARD_CONFIG | MMTYPE_REQ));
 	request->MREQUEST = PLCFWD_SET;
 	request->MVERSION = PLCFWD_VER;
@@ -885,7 +885,7 @@ static signed ForwardVLANIDs (struct plc * plc)
 #endif
 
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_FORWARD_CONFIG | MMTYPE_REQ));
 	request->MREQUEST = PLCFWD_FWD;
 	request->MVERSION = PLCFWD_VER;

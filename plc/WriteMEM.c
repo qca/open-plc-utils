@@ -91,7 +91,7 @@ signed WriteMEM (struct plc * plc, struct _file_ * file, unsigned module, uint32
 	while (extent) 
 	{
 		memset (message, 0, sizeof (* message));
-		EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 		QualcommHeader (&request->qualcomm, 0, (VS_WR_MEM | MMTYPE_REQ));
 		if (length > extent) 
 		{

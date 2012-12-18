@@ -82,7 +82,7 @@ signed NVRAMInfo (struct plc * plc)
 	struct config_nvram * config_nvram = (struct config_nvram *)(&confirm->config_nvram);
 	Request (plc, "Fetch NVRAM Configuration");
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_GET_NVM | MMTYPE_REQ));
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	if (SendMME (plc) <= 0) 

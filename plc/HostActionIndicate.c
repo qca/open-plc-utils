@@ -85,7 +85,7 @@ signed HostActionIndicate (struct plc * plc)
 
 	Request (plc, "Start Host Action");
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&indicate->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&indicate->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&indicate->qualcomm, 0, (VS_HOST_ACTION | MMTYPE_IND));
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	indicate->MACTION = plc->action;

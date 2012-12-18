@@ -171,7 +171,7 @@ static void ReadKey1 (struct channel * channel, unsigned c, int key)
 #endif
 
 	memset (&message, 0, sizeof (message));
-	EthernetHeader (&message.ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&message.ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&message.qualcomm, 0, (VS_RD_MOD | MMTYPE_REQ));
 	request->MODULEID = VS_MODULE_PIB;
 	request->MLENGTH = HTOLE16 (PLC_RECORD_SIZE);

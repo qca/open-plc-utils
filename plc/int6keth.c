@@ -340,7 +340,7 @@ signed PHYSettings (struct channel * channel, struct phy_settings * settings, fl
 
 	char address [ETHER_ADDR_LEN * 3];
 	memset (&message, 0, sizeof (message));
-	EthernetHeader (&message.ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&message.ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&message.qualcomm, 0, (VS_ENET_SETTINGS | MMTYPE_REQ));
 	request->MCONTROL = settings->MCONTROL;
 	request->AUTONEGOTIATE = settings->AUTONEGOTIATE;

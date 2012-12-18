@@ -117,7 +117,7 @@ signed ModuleRead (struct plc * plc, struct _file_ * file, uint16_t source, uint
 	while (length == PLC_MODULE_SIZE) 
 	{
 		memset (message, 0, sizeof (* message));
-		EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 		QualcommHeader (&request->qualcomm, 0, (VS_MODULE_OPERATION | MMTYPE_REQ));
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		request->NUM_OP_DATA = 1;

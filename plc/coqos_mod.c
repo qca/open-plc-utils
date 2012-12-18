@@ -186,7 +186,7 @@ static signed mod_conn (struct plc * plc, uint8_t TYPE, uint16_t CID)
 
 	Request (plc, "COQOS modify connection");
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_CONN_MOD | MMTYPE_REQ));
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	request->MOD_CTRL = TYPE;

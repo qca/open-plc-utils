@@ -184,7 +184,7 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 	{
 		Request (plc, "COQOS connection information (requesting bandwidth notification)");
 		memset (message, 0, sizeof (* message));
-		EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 		QualcommHeader (&request->qualcomm, 0, (VS_CONN_INFO | MMTYPE_REQ));
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		request->REQ_TYPE = 0x04;
@@ -248,7 +248,7 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 		printf ("Bandwidth limit exceeded dropping: %04X\n", lowcid);
 		Request (plc, "COQOS Modify Connection (suspend)");
 		memset (message, 0, sizeof (* message));
-		EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 		QualcommHeader (&request->qualcomm, 0, (VS_CONN_MOD | MMTYPE_REQ));
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		mc_request->MOD_CTRL = 0x00;

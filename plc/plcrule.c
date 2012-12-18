@@ -168,7 +168,7 @@ signed Classification (struct plc * plc, struct MMERule * rule)
 
 	Request (plc, "Set Classification Rules");
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_CLASSIFICATION | MMTYPE_REQ));
 	plc->packetsize = sizeof (struct vs_classification_request);
 	memcpy (&request->rule, rule, sizeof (request->rule));

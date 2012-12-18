@@ -70,7 +70,7 @@ signed HostActionResponse (struct plc * plc)
 #endif
 
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&response->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&response->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&response->qualcomm, 0, (VS_HOST_ACTION | MMTYPE_RSP));
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	if (SendMME (plc) <= 0) 

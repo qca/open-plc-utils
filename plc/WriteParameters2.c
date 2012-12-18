@@ -97,7 +97,7 @@ signed WriteParameters2 (struct plc * plc, unsigned module, const struct nvm_hea
 	while (extent) 
 	{
 		memset (message, 0, sizeof (* message));
-		EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 		QualcommHeader (&request->qualcomm, 0, (VS_WR_MEM | MMTYPE_REQ));
 		if (length > extent) 
 		{

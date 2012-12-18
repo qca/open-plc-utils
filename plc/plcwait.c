@@ -153,7 +153,7 @@ signed ResetAndWait (struct plc * plc)
 	for (timer = 0; timer < plc->timer; timer = SECONDS (ts, tc)) 
 	{
 		memset (message, 0, sizeof (* message));
-		EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 		QualcommHeader (&request->qualcomm, 0, (VS_RS_DEV | MMTYPE_REQ));
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		if (SendMME (plc) <= 0) 
@@ -246,7 +246,7 @@ signed WaitForReset (struct plc * plc, char string [], size_t length)
 	for (timer = 0; timer < plc->timer; timer = SECONDS (ts, tc)) 
 	{
 		memset (message, 0, sizeof (* message));
-		EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 		QualcommHeader (&request->qualcomm, 0, (VS_SW_VER | MMTYPE_REQ));
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		if (SendMME (plc) <= 0) 
@@ -340,7 +340,7 @@ signed WaitForStart (struct plc * plc, char string [], size_t length)
 	for (timer = 0; timer < plc->timer; timer = SECONDS (ts, tc)) 
 	{
 		memset (message, 0, sizeof (* message));
-		EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 		QualcommHeader (&request->qualcomm, 0, (VS_SW_VER | MMTYPE_REQ));
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		if (SendMME (plc) <= 0) 
@@ -471,7 +471,7 @@ signed WaitForAssoc (struct plc * plc)
 	for (timer = 0; timer < plc->timer; timer = SECONDS (ts, tc)) 
 	{
 		memset (message, 0, sizeof (* message));
-		EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 		FragmentHeader (&request->qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		if (SendMME (plc) <= 0) 

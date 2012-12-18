@@ -78,7 +78,7 @@ signed SetProperty (struct plc * plc, struct plcproperty * plcproperty)
 
 	Request (plc, "Set Property");
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_SET_PROPERTY | MMTYPE_REQ));
 	request->COOKIE = HTOLE32 (plc->cookie);
 	request->OPTION = plcproperty->PROP_OPTION;

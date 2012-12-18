@@ -212,7 +212,7 @@ static signed con_info (struct plc * plc, uint8_t TYPE, uint16_t CID, uint16_t T
 	int i;
 	Request (plc, "COQOS connection information");
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_CONN_INFO | MMTYPE_REQ));
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	request->REQ_TYPE = TYPE;

@@ -121,7 +121,7 @@ signed Attributes2 (struct plc * plc)
 
 	Request (plc, "Fetch Device Attributes");
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, HOMEPLUG_MTYPE);
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_OP_ATTRIBUTES | MMTYPE_REQ));
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	request->COOKIE = HTOLE32 (plc->cookie);
