@@ -23,7 +23,6 @@ gcc -Wall -Wextra -Wno-unused-parameter -c gethwaddr.c
 gcc -Wall -Wextra -Wno-unused-parameter -c getifname.c
 gcc -Wall -Wextra -Wno-unused-parameter -c hostnics.c
 gcc -Wall -Wextra -Wno-unused-parameter -c openchannel.c
-gcc -Wall -Wextra -Wno-unused-parameter -c readchannel.c
 gcc -Wall -Wextra -Wno-unused-parameter -c readpacket.c
 gcc -Wall -Wextra -Wno-unused-parameter -c sendpacket.c
 

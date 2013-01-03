@@ -338,14 +338,6 @@ mme_names [] =
 		"VS_ARPC"
 	},
 	{
-		VS_FR_LBK,
-		"VS_FR_LBK"
-	},
-	{
-		VS_LBK_STAT,
-		"VS_LBK_STAT"
-	},
-	{
 		VS_SET_KEY,
 		"VS_SET_KEY"
 	},
@@ -364,10 +356,6 @@ mme_names [] =
 	{
 		VS_HOST_ACTION,
 		"VS_HOST_ACTION"
-	},
-	{
-		VS_RD_BLK_NVM,
-		"VS_RD_BLK_NVM"
 	},
 	{
 		VS_OP_ATTRIBUTES,
@@ -394,20 +382,8 @@ mme_names [] =
 		"VS_FAC_DEFAULTS"
 	},
 	{
-		VS_PTS_NVM,
-		"VS_PTS_NVM"
-	},
-	{
-		VS_MULTICAST_INFO,
-		"VS_MULTICAST_INFO"
-	},
-	{
 		VS_CLASSIFICATION,
 		"VS_CLASSIFICATION"
-	},
-	{
-		VS_DIAG_STAGE,
-		"VS_DIAG_STAGE"
 	},
 	{
 		VS_RX_TONE_MAP_CHAR,
@@ -478,14 +454,6 @@ mme_names [] =
 		"VS_MULTIPORT_LNK_STA"
 	},
 	{
-		VS_RAND_MAC_ADDR,
-		"VS_RAND_MAC_ADDR"
-	},
-	{
-		VS_CUSTOM_INFO,
-		"VS_CUSTOM_INFO"
-	},
-	{
 		VS_EM_ID_TABLE,
 		"VS_EM_ID_TABLE"
 	},
@@ -510,10 +478,6 @@ mme_names [] =
 		"VS_MICROCONTROLLER_DIAG"
 	},
 	{
-		VS_DEBUG_INFO,
-		"VS_DEBUG_INFO"
-	},
-	{
 		VS_GET_PROPERTY,
 		"VS_GET_PROPERTY"
 	},
@@ -528,10 +492,6 @@ mme_names [] =
 	{
 		VS_PHYSWITCH_MDIO,
 		"VS_PHYSWITCH_MDIO"
-	},
-	{
-		VS_FLASH_ERASE,
-		"VS_FLASH_ERASE"
 	},
 	{
 		VS_SELFTEST_ONETIME_CONFIG,
@@ -552,10 +512,6 @@ mme_names [] =
 	{
 		0xA11C,
 		"RESERVED"
-	},
-	{
-		VS_ACCESS_LEVEL_CONTROL,
-		"VS_ACCESS_LEVEL_CONTROL"
 	},
 	{
 		VS_HYBRID_INFO,

@@ -120,38 +120,6 @@ void Failure (struct plc * plc, char const *format, ...)
 				}
 			}
 			break;
-		case VS_DEBUG_INFO | MMTYPE_CNF:
-			{
-				struct __packed header_confirm 
-				{
-					struct ethernet_std ethernet;
-					struct homeplug_fmi homeplug;
-					uint8_t OUI [3];
-					uint8_t MSTATUS;
-				}
-				* header = (struct header_confirm *)(message);
-				if (header->MSTATUS) 
-				{
-					fprintf (stderr, "%s (0x%02X): ", MMECode (header->homeplug.MMTYPE, header->MSTATUS), header->MSTATUS);
-				}
-			}
-			break;
-		case VS_ACCESS_LEVEL_CONTROL | MMTYPE_CNF:
-			{
-				struct __packed header_confirm 
-				{
-					struct ethernet_std ethernet;
-					struct qualcomm_std qualcomm;
-					uint16_t RESERVED;
-					uint16_t MRESPONSE;
-				}
-				* header = (struct header_confirm *)(message);
-				if (header->MRESPONSE) 
-				{
-					fprintf (stderr, "%s (0x%02X): ", MMECode (header->qualcomm.MMTYPE, (uint8_t)(header->MRESPONSE)), header->MRESPONSE);
-				}
-			}
-			break;
 		default:
 			if (header->MSTATUS) 
 			{

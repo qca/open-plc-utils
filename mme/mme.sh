@@ -6,7 +6,6 @@
 # --------------------------------------------------------------------
 
 gcc -Wall -Wextra -Wno-unused-parameter -o hpav hpav.c
-gcc -Wall -Wextra -Wno-unused-parameter -o hpavd hpavd.c
 gcc -Wall -Wextra -Wno-unused-parameter -o mme mme.c
 
 # ====================================================================

@@ -110,7 +110,6 @@ gcc -Wall -Wextra -Wno-unused-parameter -c PhyRates1.c
 gcc -Wall -Wextra -Wno-unused-parameter -c PhyRates2.c 
 gcc -Wall -Wextra -Wno-unused-parameter -c PushButton.c 
 gcc -Wall -Wextra -Wno-unused-parameter -c ReadFMI.c
-gcc -Wall -Wextra -Wno-unused-parameter -c readmessage.c
 gcc -Wall -Wextra -Wno-unused-parameter -c ReadMFG.c
 gcc -Wall -Wextra -Wno-unused-parameter -c ReadMME.c
 gcc -Wall -Wextra -Wno-unused-parameter -c ReadFirmware1.c
@@ -125,7 +124,6 @@ gcc -Wall -Wextra -Wno-unused-parameter -c RxRates1.c
 gcc -Wall -Wextra -Wno-unused-parameter -c RxRates2.c
 gcc -Wall -Wextra -Wno-unused-parameter -c rules.c
 gcc -Wall -Wextra -Wno-unused-parameter -c SDRAMInfo.c
-gcc -Wall -Wextra -Wno-unused-parameter -c sendmessage.c
 gcc -Wall -Wextra -Wno-unused-parameter -c SendMME.c
 gcc -Wall -Wextra -Wno-unused-parameter -c SetNMK.c
 gcc -Wall -Wextra -Wno-unused-parameter -c SetProperty.c
