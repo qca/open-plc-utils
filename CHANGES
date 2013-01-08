@@ -3,3 +3,5 @@ open-plc-utils-0.0.2
 
 1. Removed references to private vendor-specific MMEs
 
+2. Removed unused archive targets in primary Makefile.
+
