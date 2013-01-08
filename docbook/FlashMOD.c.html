@@ -101,7 +101,7 @@ signed FlashMOD (struct channel * channel, uint8_t module)
 
 	ssize_t packetsize;
 	memset (&amp;message, 0, sizeof (message));
-	EthernetHeader (&amp;message.ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+	EthernetHeader (&amp;message.ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
 	QualcommHeader (&amp;message.qualcomm, 0, (VS_MOD_NVM | MMTYPE_REQ));
 	request-&gt;MODULEID = module;
 	if (sendpacket (channel, &amp;message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) &lt;= 0) 

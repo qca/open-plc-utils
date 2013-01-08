@@ -139,7 +139,7 @@ signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, stru
 	while (extent) 
 	{
 		memset (message, 0, sizeof (* message));
-		EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+		EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
 		QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_MODULE_OPERATION | MMTYPE_REQ));
 		plc-&gt;packetsize = sizeof (struct vs_module_operation_write_request);
 		if (length &gt; extent) 

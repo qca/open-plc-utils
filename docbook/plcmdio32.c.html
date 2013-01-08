@@ -189,7 +189,7 @@ static signed mdio (struct channel * channel, uint8_t mode, uint8_t phy, uint8_t
 #endif
 
 	memset (&amp;message, 0, sizeof (message));
-	EthernetHeader (&amp;message.ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+	EthernetHeader (&amp;message.ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
 	QualcommHeader (&amp;message.qualcomm, 0, (VS_MDIO_COMMAND | MMTYPE_REQ));
 	request-&gt;OPERATION = mode;
 	request-&gt;PHY = phy;

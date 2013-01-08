@@ -12,7 +12,7 @@ include make.def
 # package symbols;
 # --------------------------------------------------------------------
 
-PROJECT=plc-utils
+PROJECT=open-plc-utils
 RELEASE=$(shell basename "${CURDIR}")
 LIBRARY=${FTP}/toolkit/${RELEASE}
 CDROM=${FTP}/cdrom/${RELEASE}

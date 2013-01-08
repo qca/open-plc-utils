@@ -20,7 +20,7 @@
 <pre>
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2012 by Qualcomm Atheros.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -54,12 +54,13 @@
  *   transmitting device is not available; 
  *   
  *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *:  Published 2009-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED
  *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *	Charles Maier &lt;cmaier@qualcomm.com&gt;
  *	Nathaniel Houghton &lt;nathaniel.houghton@qualcomm.com&gt;
+ *      Werner Henze &lt;w.henze@avm.de&gt;
  *
  *--------------------------------------------------------------------*/
 
@@ -106,7 +107,7 @@ ssize_t readpacket (struct channel const * channel, void * memory, ssize_t exten
 	};
 	signed status = poll (&amp;pollfd, 1, channel-&gt;timeout);
 	memset (memory, 0, extent);
-	if (status &lt; 0) 
+	if ((status &lt; 0) &amp;&amp; (errno != EINTR))
 	{
 		error (0, errno, &quot;%s can't poll %s&quot;, __func__, channel-&gt;ifname);
 		return (-1);

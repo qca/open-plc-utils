@@ -120,7 +120,7 @@ signed ModuleCommit (struct plc * plc, uint32_t options)
 	unsigned timer = channel-&gt;timer;
 	Request (plc, &quot;Close Session&quot;);
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
 	QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_MODULE_OPERATION | MMTYPE_REQ));
 	plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	request-&gt;NUM_OP_DATA = 1;

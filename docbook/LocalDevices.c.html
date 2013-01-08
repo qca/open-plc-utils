@@ -92,7 +92,7 @@ unsigned LocalDevices (struct channel const * channel, struct message * message,
 	ssize_t packetsize;
 	memset (memory, 0, extent);
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&amp;message-&gt;ethernet, localcast, channel-&gt;host, HOMEPLUG_MTYPE);
+	EthernetHeader (&amp;message-&gt;ethernet, localcast, channel-&gt;host, channel-&gt;type);
 	QualcommHeader (&amp;message-&gt;qualcomm, 0, (VS_SW_VER | MMTYPE_REQ));
 	if (sendpacket (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) &lt;= 0) 
 	{

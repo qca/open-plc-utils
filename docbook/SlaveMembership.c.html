@@ -104,7 +104,7 @@ signed SlaveMembership (struct plc * plc)
 
 	Request (plc, &quot;Request Slave Membership Change&quot;);
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
 	QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_SLAVE_MEM | MMTYPE_REQ));
 	plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	memcpy (request-&gt;SLAVE_ADDR, plc-&gt;RDA, sizeof (request-&gt;SLAVE_ADDR));

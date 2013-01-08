@@ -113,7 +113,7 @@ static signed PLCPlatform (struct channel * channel, struct plcstation * plcstat
 #endif
 
 	memset (&amp;message, 0, sizeof (message));
-	EthernetHeader (&amp;request-&gt;ethernet, plcstation-&gt;MAC, channel-&gt;host, HOMEPLUG_MTYPE);
+	EthernetHeader (&amp;request-&gt;ethernet, plcstation-&gt;MAC, channel-&gt;host, channel-&gt;type);
 	QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_SW_VER | MMTYPE_REQ));
 	if (sendpacket (channel, &amp;message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) &gt; 0) 
 	{
@@ -171,7 +171,7 @@ static signed PLCIdentity (struct channel * channel, struct plcstation * plcstat
 #endif
 
 	memset (&amp;message, 0, sizeof (message));
-	EthernetHeader (&amp;request-&gt;ethernet, plcstation-&gt;MAC, channel-&gt;host, HOMEPLUG_MTYPE);
+	EthernetHeader (&amp;request-&gt;ethernet, plcstation-&gt;MAC, channel-&gt;host, channel-&gt;type);
 	QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_MFG_STRING | MMTYPE_REQ));
 	if (sendpacket (channel, &amp;message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) &gt; 0) 
 	{
@@ -325,12 +325,12 @@ signed PLCTopology (struct channel * channel, struct message * message, struct p
 
 #if defined (INT6x00)
 
-		EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+		EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
 		QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_NW_INFO | MMTYPE_REQ));
 
 #elif defined (AR7x00)
 
-		EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+		EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
 		FragmentHeader (&amp;request-&gt;qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
 
 #else

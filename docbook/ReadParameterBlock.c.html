@@ -128,7 +128,7 @@ signed ReadParameterBlock (struct plc * plc, void * memory, size_t extent)
 	do 
 	{
 		memset (message, 0, sizeof (* message));
-		EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+		EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
 		QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_RD_MOD | MMTYPE_REQ));
 		request-&gt;MODULEID = VS_MODULE_PIB;
 		request-&gt;MLENGTH = HTOLE16 (actual);

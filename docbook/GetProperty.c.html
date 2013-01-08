@@ -107,7 +107,7 @@ signed GetProperty (struct plc * plc, struct plcproperty * plcproperty)
 
 	Request (plc, &quot;Get Property&quot;);
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
 	QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_GET_PROPERTY | MMTYPE_REQ));
 	request-&gt;COOKIE = HTOLE32 (plc-&gt;cookie);
 	request-&gt;DATA_FORMAT = plcproperty-&gt;DATA_FORMAT;

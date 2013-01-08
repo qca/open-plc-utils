@@ -357,7 +357,7 @@ signed PHYSettings (struct channel * channel, struct phy_settings * settings, fl
 
 	char address [ETHER_ADDR_LEN * 3];
 	memset (&amp;message, 0, sizeof (message));
-	EthernetHeader (&amp;message.ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+	EthernetHeader (&amp;message.ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
 	QualcommHeader (&amp;message.qualcomm, 0, (VS_ENET_SETTINGS | MMTYPE_REQ));
 	request-&gt;MCONTROL = settings-&gt;MCONTROL;
 	request-&gt;AUTONEGOTIATE = settings-&gt;AUTONEGOTIATE;

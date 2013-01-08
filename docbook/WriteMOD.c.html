@@ -117,7 +117,7 @@ signed WriteMOD (struct plc * plc, uint8_t module, void const * memory, size_t e
 	while (extent) 
 	{
 		memset (message, 0, sizeof (* message));
-		EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+		EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
 		QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_WR_MOD | MMTYPE_REQ));
 		if (length &gt; extent) 
 		{

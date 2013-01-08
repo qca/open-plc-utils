@@ -177,7 +177,7 @@ signed ResetAndWait (struct plc * plc)
 	for (timer = 0; timer &lt; plc-&gt;timer; timer = SECONDS (ts, tc)) 
 	{
 		memset (message, 0, sizeof (* message));
-		EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+		EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
 		QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_RS_DEV | MMTYPE_REQ));
 		plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		if (SendMME (plc) &lt;= 0) 
@@ -269,7 +269,7 @@ signed WaitForReset (struct plc * plc, char string [], size_t length)
 	for (timer = 0; timer &lt; plc-&gt;timer; timer = SECONDS (ts, tc)) 
 	{
 		memset (message, 0, sizeof (* message));
-		EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+		EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
 		QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_SW_VER | MMTYPE_REQ));
 		plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		if (SendMME (plc) &lt;= 0) 
@@ -367,7 +367,7 @@ signed WaitForStart (struct plc * plc, char string [], size_t length)
 	for (timer = 0; timer &lt; plc-&gt;timer; timer = SECONDS (ts, tc)) 
 	{
 		memset (message, 0, sizeof (* message));
-		EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+		EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
 		QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_SW_VER | MMTYPE_REQ));
 		plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		if (SendMME (plc) &lt;= 0) 
@@ -498,7 +498,7 @@ signed WaitForAssoc (struct plc * plc)
 	for (timer = 0; timer &lt; plc-&gt;timer; timer = SECONDS (ts, tc)) 
 	{
 		memset (message, 0, sizeof (* message));
-		EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+		EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
 		FragmentHeader (&amp;request-&gt;qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
 		plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		if (SendMME (plc) &lt;= 0) 

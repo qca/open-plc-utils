@@ -124,7 +124,7 @@ signed ModuleSession (struct plc * plc, unsigned modules, struct vs_module_spec 
 	struct vs_module_spec * request_spec = (struct vs_module_spec *)(&amp;request-&gt;MOD_OP_SPEC);
 	Request (plc, &quot;Start Module Write Session&quot;);
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, HOMEPLUG_MTYPE);
+	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
 	QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_MODULE_OPERATION | MMTYPE_REQ));
 	plc-&gt;packetsize = sizeof (* request);
 	request-&gt;NUM_OP_DATA = 1;
