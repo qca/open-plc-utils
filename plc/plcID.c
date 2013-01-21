@@ -142,8 +142,8 @@ static signed function (struct plc * plc, signed newline, signed key)
 	struct channel * channel = (struct channel *)(plc->channel);
 	struct message * message = (struct message *)(plc->message);
 	struct nvm_header2 * nvm_header;
-	size_t origin = ~0;
-	size_t offset = 0;
+	uint32_t origin = ~0;
+	uint32_t offset = 0;
 	signed module = 0;
 	char * filename = "device";
 

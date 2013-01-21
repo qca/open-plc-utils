@@ -53,8 +53,8 @@ static signed pibchain2 (void const * memory, char const * filename, flag_t flag
 
 {
 	struct nvm_header2 * nvm_header;
-	size_t origin = ~0;
-	size_t offset = 0;
+	uint32_t origin = ~0;
+	uint32_t offset = 0;
 	signed module = 0;
 	do 
 	{
