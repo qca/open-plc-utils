@@ -1,0 +1,9 @@
+int6kbaud
+int6kdetect
+int6kuart
+ptsctl
+ttycat
+ttyrecv
+ttysend
+ttysig
+weeder

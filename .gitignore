@@ -12,3 +12,5 @@ t.*
 temp.*
 test.*
 main
+*.a
+*.exe
