@@ -67,6 +67,7 @@
 #define ARPCPRINT_SOURCE
 
 #include &lt;stdio.h&gt;
+#include &lt;stddef.h&gt;
 
 #include &quot;../tools/types.h&quot;
 #include &quot;../tools/endian.h&quot;
@@ -108,7 +109,7 @@ void ARPCPrint (FILE * fp, void const * memory, size_t extent)
 		argp++;
 	}
 
-#if defined (__FREESCALE__)
+#if defined (__FREESCALE__) || defined (__UCLIBC__)
 
 /*
  *	This is a temporary fix so that we can compile program plctest for the PL16; A better solution is needed;

@@ -10,7 +10,7 @@
 			The <code class="constant">VS_MODULE_OPERATION</code> message type has many formats and the structure differs with each format. Readers should consult the <em class="citetitle">QCA Firmware Technical Reference Manual</em> for a complete description.
 				</p></div><p>
 				A blank flash memory must first be programmed with a softloader module. The module consists of a manifest, the executable softloader program image and a flash memory map. The map is used to manage flash memory during initializations and upgrades. The softloader module must be written into flash memory as a separate module before parameter and firmware modules are written. After that, parameter and firmware modules may be written and re-written without re-writing the softloader module. Of course, the softloader module must be re-written if flash memory is erased. 
-				</p><div class="figure"><a name="id2598559"></a><p class="title"><b>Figure 4.9. 
+				</p><div class="figure"><a name="id2598115"></a><p class="title"><b>Figure 4.9. 
 				Flashing the Softloader (AR7420)
 				</b></p><div class="figure-contents"><pre class="programlisting">
 
@@ -52,7 +52,7 @@
 				Once the softloader module is written, the parameter and firmware modules may be written in much the same way except that they must be written as a pair. The parameter module must be downloaded first. The firmware module cannot be committed to without a compatible parameter module. 
 				</p><p>
 		When parameters and firmware are written together the User <acronym class="acronym">PIB</acronym>, Factory <acronym class="acronym">PIB</acronym> and firmware are modified modified. The new User <acronym class="acronym">PIB</acronym> is created by copying the old User <acronym class="acronym">PIB</acronym> over the new one. Consequently the only change comes from extra fields found at the end of the new User <acronym class="acronym">PIB</acronym>. The new Factory <acronym class="acronym">PIB</acronym> becomes the new User <acronym class="acronym">PIB</acronym> with certain fields from the old User <acronym class="acronym">PIB</acronym> preserved, such as the <acronym class="acronym">MAC</acronym>, <acronym class="acronym">DAK</acronym> and so on.
-			</p><div class="figure"><a name="id2598819"></a><p class="title"><b>Figure 4.10. 
+			</p><div class="figure"><a name="id2598374"></a><p class="title"><b>Figure 4.10. 
 				Flash Parameters and Firmware (AR7420)
 				</b></p><div class="figure-contents"><pre class="programlisting">
 

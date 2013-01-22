@@ -6,7 +6,7 @@
 			Forming a Network                     
 			</h2></div></div></div><p>
 			A powerline network is formed when two or more devices share a common Network Membership Key (<acronym class="acronym">NMK</acronym>). An <acronym class="acronym">NMK</acronym> is always 16 bytes (32 hexadecimal digits) in length and can have any value,  including all zeros. Devices programmed with the same <acronym class="acronym">NMK</acronym> value can communicate while those programmed with different <acronym class="acronym">NMK</acronym> values cannot. Program <a class="ulink" href="int6k.7.html" target="_top">int6k</a> can be used to program a local or remote device with a specific <acronym class="acronym">NMK</acronym> value.
-			</p><div class="example"><a name="id2606992"></a><p class="title"><b>Example 5.9. 
+			</p><div class="example"><a name="id2606548"></a><p class="title"><b>Example 5.9. 
 				Setting the Network Membership Key
 				</b></p><div class="example-contents"><pre class="screen">
 # int6k -M 
@@ -18,7 +18,7 @@ eth1 00:B0:52:BA:BA:56 Setting ...
 			One can quickly and easily create a default network by connecting each device,  in turn, to the local host and executing this command shown above. The devices will then form a network when connected via the powerline. Although fast and simple, this method is not very secure because the default <acronym class="acronym">NMK</acronym> is used by many Atheros tools and is well known.
 				</p><p>
 			There are cases where one wants to create separate, independent networks on the powerline. This is accomplished by programming some devices with one <acronym class="acronym">NMK</acronym> and other devices with another <acronym class="acronym">NMK</acronym>. In such cases we need to specify an <acronym class="acronym">NMK</acronym> value.
-			</p><div class="example"><a name="id2607063"></a><p class="title"><b>Example 5.10. 
+			</p><div class="example"><a name="id2606618"></a><p class="title"><b>Example 5.10. 
 				Forming a Custom Network
 				</b></p><div class="example-contents"><pre class="screen">
 # int6k -M -K 00:11:22:33:44:55:66:77:88:99:AA:BB:CC:DD:EE:FF 
@@ -30,7 +30,7 @@ eth1 00:B0:52:BA:BA:56 Setting ...
 # int6k -M -K 00:11:22:33:44:55:66:77:88:99:AA:BB:CC:DD:EE:FF 
 # int6k -M -K 00:11:22:33:44:55:66:77:88:99:AA:BB:CC:DD:EE:FF 00:B0:52:BA:BE:56
 # int6k -M -K 00:11:22:33:44:55:66:77:88:99:AA:BB:CC:DD:EE:FF local
-</pre></div></div><br class="example-break"><div class="example"><a name="id2607132"></a><p class="title"><b>Example 5.11. 
+</pre></div></div><br class="example-break"><div class="example"><a name="id2606687"></a><p class="title"><b>Example 5.11. 
 				Remote Network Configuration
 				</b></p><div class="example-contents"><p>
 				Once a network has been established, one can change the <acronym class="acronym">NMK</acronym> of remote devices over the powerline but once the <acronym class="acronym">NMK</acronym> on the remote device has changed, it is no longer part of original network and can no longer be returned to the network in the same way. Additionally, one cannot change the <acronym class="acronym">NMK</acronym> on a remote device without specifying the <acronym class="acronym">DAK</acronym> of the device to be changed. 

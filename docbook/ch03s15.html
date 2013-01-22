@@ -6,7 +6,7 @@
 			Frame Encoding 
 			</h2></div></div></div><p>
 			The following technique illustrates one way to encode a frame buffer with an Ethernet header followed by an Atheros message header. We first declare the frame buffer then a length variable to keep track of how many bytes have actually been encoded. At any time, the value 'buffer + length' is the address of the next buffer position to encode and the expression 'sizeof (buffer) - length' is the number of un-encoded bytes remaining in the buffer. Each call to an encoding function will increment the length for the next operation. This technique minimizes the number of intermmediate application variables and makes maximum use of compiler generated constants.
-			</p><div class="example"><a name="id2585032"></a><p class="title"><b>Example 3.9. 
+			</p><div class="example"><a name="id2584585"></a><p class="title"><b>Example 3.9. 
 				Frame Encoding by Offset
 				</b></p><div class="example-contents"><pre class="programlisting">
 uint8_t buffer [ETHER_MAX_LEN];
@@ -25,7 +25,7 @@ if (length &lt; sizeof (MME))
 }
 </pre></div></div><br class="example-break"><p>
 			For those who prefer to use pointers, the following technique accomplishes the same thing because. At any given time, the value bp - buffer is the encoded length. 
-			</p><div class="example"><a name="id2585050"></a><p class="title"><b>Example 3.10. 
+			</p><div class="example"><a name="id2584602"></a><p class="title"><b>Example 3.10. 
 			Frame Encoding by Address
 			</b></p><div class="example-contents"><pre class="programlisting">
 uint8_t buffer [ETHER_MAX_LEN];
