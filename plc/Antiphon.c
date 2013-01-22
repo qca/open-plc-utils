@@ -84,7 +84,7 @@ signed Antiphon (struct plc * plc, byte source [], byte target [])
 	}
 	memset (message, 0, sizeof (* message));
 	EthernetHeader (&message->ethernet, source, target, channel->type);
-	QualcommHeader (&message->qualcomm, 0, (VS_FR_LBK | MMTYPE_REQ));
+	QualcommHeader (&message->qualcomm, 0, 41036);
 	request->DURATION = plc->timer;
 	request->LENGTH = HTOLE16 (sizeof (request->PACKET));
 	memset (request->PACKET, 0xA5, sizeof (request->PACKET));
@@ -104,7 +104,7 @@ signed Antiphon (struct plc * plc, byte source [], byte target [])
  *	traffic;
  */
 
-	if (ReadMME (plc, 0, (VS_FR_LBK | MMTYPE_CNF)) <= 0) 
+	if (ReadMME (plc, 0, 41037) <= 0) 
 	{
 		error (1, errno, CHANNEL_CANTREAD);
 	}
