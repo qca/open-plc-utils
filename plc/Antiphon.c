@@ -30,7 +30,7 @@
  *   the source device is also the local device, for some reason; 
  *
  *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *:  Published 2009-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED
  *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
@@ -51,6 +51,7 @@
 signed Antiphon (struct plc * plc, byte source [], byte target []) 
 
 {
+	extern byte const broadcast [ETHER_ADDR_LEN];
 	struct channel * channel = (struct channel *)(plc->channel);
 	struct message * message = (struct message *)(plc->message);
 
@@ -73,7 +74,6 @@ signed Antiphon (struct plc * plc, byte source [], byte target [])
 #pragma pack (pop)
 #endif
 
-	unsigned timer = channel->timer;
 	if (_allclr (plc->flags, PLC_SILENCE)) 
 	{
 		char sourcename [ETHER_ADDR_LEN * 3];
@@ -83,8 +83,8 @@ signed Antiphon (struct plc * plc, byte source [], byte target [])
 		fprintf (stderr, "%s %s %s\n", channel->ifname, sourcename, targetname);
 	}
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&message->ethernet, source, channel->host, channel->type);
-	QualcommHeader (&message->qualcomm, 0, 41036);
+	EthernetHeader (&message->ethernet, source, target, channel->type);
+	QualcommHeader (&message->qualcomm, 0, (VS_FR_LBK | MMTYPE_REQ));
 	request->DURATION = plc->timer;
 	request->LENGTH = HTOLE16 (sizeof (request->PACKET));
 	memset (request->PACKET, 0xA5, sizeof (request->PACKET));
@@ -94,12 +94,23 @@ signed Antiphon (struct plc * plc, byte source [], byte target [])
 	{
 		error (1, errno, CHANNEL_CANTSEND);
 	}
-	channel->timer = 5000;
-	if (ReadMME (plc, 0, 41037) <= 0) 
+
+#if 0
+
+/*
+ *	This causes a multi-device session to terminate of the device has recently
+ *	been removed or powered-off; The device appears to be present but will not
+ *	respond; Also, this terminate a session of the network is overloaded with
+ *	traffic;
+ */
+
+	if (ReadMME (plc, 0, (VS_FR_LBK | MMTYPE_CNF)) <= 0) 
 	{
 		error (1, errno, CHANNEL_CANTREAD);
 	}
-	channel->timer = timer;
+
+#endif
+
 	sleep (plc->timer);
 	return (0);
 }
