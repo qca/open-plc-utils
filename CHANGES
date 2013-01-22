@@ -5,3 +5,7 @@ open-plc-utils-0.0.2
 
 2. Removed unused archive targets in primary Makefile.
 
+3. Added .gitignore to subdirectories where programs and other objects are compiled.
+
+4. Added conditional __UCLIBC__ compile statement to ARCPPrint.c to account for variable argument definition error during compile; 
+
