@@ -51,7 +51,6 @@
 signed Antiphon (struct plc * plc, byte source [], byte target []) 
 
 {
-	extern byte const broadcast [ETHER_ADDR_LEN];
 	struct channel * channel = (struct channel *)(plc->channel);
 	struct message * message = (struct message *)(plc->message);
 
