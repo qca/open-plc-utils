@@ -36,4 +36,7 @@ clean:
 	rm -fr */[Dd]ebug */[Rr]elease */*.[0-9][0-9][0-9] 
 	rm -fr Objects/*/*.?db */*.log */*.tlog */*/*.manifest
 	rm -f ${TOOLS} ${TRASH} 
+ignore:
+#	echo ${TOOLS} | sed "s/ /\n/g" > .gitignore
+
 
