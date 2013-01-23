@@ -1,9 +1,9 @@
-int6kbaud
-int6kdetect
 int6kuart
-ptsctl
-ttycat
-ttyrecv
-ttysend
+int6kbaud
 ttysig
+ptsctl
 weeder
+ttysend
+ttyrecv
+ttycat
+int6kdetect

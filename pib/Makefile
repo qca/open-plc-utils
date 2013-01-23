@@ -43,6 +43,8 @@ check:
 fresh: clean compile
 clean:
 	rm -f ${TRASH} ${TOOLS} ${OTHER}
+ignore:
+	echo ${TOOLS} | sed "s/ /\n/g" > .gitignore
 
 # ====================================================================
 # rules;

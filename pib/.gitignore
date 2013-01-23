@@ -1,13 +1,13 @@
 chkpib
 chkpib2
+setpib
 getpib
 modpib
 pib2xml
 pibcomp
 pibdump
 pibruin
-psin
-pskey
-psout
-setpib
 xml2pib
+psin
+psout
+pskey
