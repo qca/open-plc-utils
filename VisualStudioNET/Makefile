@@ -37,6 +37,10 @@ clean:
 	rm -fr Objects/*/*.?db */*.log */*.tlog */*/*.manifest
 	rm -f ${TOOLS} ${TRASH} 
 ignore:
+#
+#	Please do not over-write the local .gitignore file;
+#
 #	echo ${TOOLS} | sed "s/ /\n/g" > .gitignore
+#
 
 
