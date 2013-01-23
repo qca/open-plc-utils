@@ -16,8 +16,7 @@ LDFLAGS+=-lm
 TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9] *.test 
 FILES=Makefile *.mak *.sh *.txt *.c *.h *.xml *.css
 TOOLS=chkpib chkpib2 setpib getpib modpib pib2xml pibcomp pibdump pibruin xml2pib psin psout pskey
-# TOOLS+=psgraph psnotch pibrump fetchpib 
-OTHER=psgraph psnotch pibrump pibruin fetchpib 
+TOOLS+=psgraph psnotch pibrump 
 PAGES=chkpib.7 chkpib2.7 setpib.7 getpib.7 modpib.7 pib2xml.7 pibcomp.7 pibdump.7 xml2pib.7 psin.7 psout.7 pskey.7
 # PAGES+=pibrump.7 pibruin.7 psgraph.7 psnotch.7  
 
@@ -42,7 +41,7 @@ check:
 	${SHELL} pib.sh
 fresh: clean compile
 clean:
-	rm -f ${TRASH} ${TOOLS} ${OTHER}
+	rm -f ${TRASH} ${TOOLS} 
 ignore:
 	echo ${TOOLS} | sed "s/ /\n/g" > .gitignore
 
