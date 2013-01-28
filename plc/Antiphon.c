@@ -97,9 +97,9 @@ signed Antiphon (struct plc * plc, byte source [], byte target [])
 #if 0
 
 /*
- *	This causes a multi-device session to terminate of the device has recently
+ *	This causes a multi-device session to terminate if the device has recently
  *	been removed or powered-off; The device appears to be present but will not
- *	respond; Also, this terminate a session of the network is overloaded with
+ *	respond; Also, this terminates a session if the network is overloaded with
  *	traffic;
  */
 
