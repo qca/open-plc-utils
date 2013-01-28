@@ -9,3 +9,5 @@ open-plc-utils-0.0.2
 
 4. Added conditional __UCLIBC__ compile statement to ARCPPrint.c to account for variable argument definition error during compile; 
 
+5. Added 'ignore' target to cascading Makefiles to re-write local .gitignore files.
+

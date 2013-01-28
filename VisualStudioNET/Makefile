@@ -38,7 +38,8 @@ clean:
 	rm -f ${TOOLS} ${TRASH} 
 ignore:
 #
-#	Please do not over-write the local .gitignore file;
+#	Do not over-write the local .gitignore file; we maintain it
+#	by hand for now;
 #
 #	echo ${TOOLS} | sed "s/ /\n/g" > .gitignore
 #
