@@ -40,6 +40,7 @@
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
  *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
+ *	Florian Fainelli <ffainelli@gmain.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -89,7 +90,7 @@ void ARPCPrint (FILE * fp, void const * memory, size_t extent)
 		argp++;
 	}
 
-#if defined (__FREESCALE__) || defined (__UCLIBC__)
+#if defined (__UCLIBC__) || defined (__FREESCALE__) 
 
 /*
  *	This is a temporary fix so that we can compile program plctest for the PL16; A better solution is needed;
