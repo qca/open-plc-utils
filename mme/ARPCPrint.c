@@ -40,7 +40,7 @@
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
  *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
- *	Florian Fainelli <ffainelli@gmain.com>
+ *	Florian Fainelli <f.fainelli@gmail.com>
  *
  *--------------------------------------------------------------------*/
 
