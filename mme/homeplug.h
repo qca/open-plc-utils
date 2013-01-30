@@ -153,6 +153,14 @@
 #define CM_HFID 0x6040
 #define CM_MME_ERROR 0x6044
 #define CM_NW_STATS 0x6048
+#define CM_SLAC_PARAM 0x6064
+#define CM_START_ATTEN_CHAR 0x6068
+#define CM_ATTEN_CHAR 0x606C
+#define CM_PKCS_CERT 0x6070
+#define CM_MNBC_SOUND 0x6074
+#define CM_VALIDATE 0x6078
+#define CM_SLAC_MATCH 0x607C
+#define CM_SLAC_USER_DATA 0x6080
 
 /*====================================================================*
  *
