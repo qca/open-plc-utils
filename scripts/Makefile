@@ -36,6 +36,8 @@ uninstall:
 clean:
 	rm -f ${TOOLS} ${TRASH}
 fresh: clean compile
+ignore:
+#	echo ${TOOLS} | tr ' ' '\n' > .gitignore
 
 # ====================================================================
 #
