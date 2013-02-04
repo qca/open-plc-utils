@@ -161,6 +161,7 @@
 #define CM_VALIDATE 0x6078
 #define CM_SLAC_MATCH 0x607C
 #define CM_SLAC_USER_DATA 0x6080
+#define CM_ATTEN_PROFILE 0x6084
 
 /*====================================================================*
  *

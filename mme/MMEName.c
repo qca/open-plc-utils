@@ -258,6 +258,42 @@ mme_names [] =
 		"CM_NW_STATS"
 	},
 	{
+		CM_SLAC_PARAM,
+		"CM_SLAC_PARAM"
+	},
+	{
+		CM_START_ATTEN_CHAR,
+		"CM_START_ATTEN_CHAR"
+	},
+	{
+		CM_ATTEN_CHAR,
+		"CM_ATTEN_CHAR"
+	},
+	{
+		CM_PKCS_CERT,
+		"CM_PKCS_CERT"
+	},
+	{
+		CM_MNBC_SOUND,
+		"CM_MNBC_SOUND"
+	},
+	{
+		CM_VALIDATE,
+		"CM_VALIDATE"
+	},
+	{
+		CM_SLAC_MATCH,
+		"CM_SLAC_MATCH"
+	},
+	{
+		CM_SLAC_USER_DATA,
+		"CM_SLAC_USER_DATA"
+	},
+	{
+		CM_ATTEN_PROFILE,
+		"CM_ATTEN_PROFILE"
+	},
+	{
 		MS_PB_ENC,
 		"MS_PB_ENC"
 	},
