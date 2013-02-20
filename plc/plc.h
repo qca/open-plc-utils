@@ -58,7 +58,6 @@
 #define CHIPSET_QCA6411 0x21
 #define CHIPSET_QCA7000 0x22
 #define CHIPSET_QCA7000I 0x22
-#define CHIPSETS 12
 
 #define PLC_MODULE_SOFTLOADER           0x00
 #define PLC_MODULE_FIRMWARE             (1 << 0)
