@@ -298,10 +298,6 @@ mme_names [] =
 		"MS_PB_ENC"
 	},
 	{
-		MS_DISCOVER,
-		"MS_DISCOVER"
-	},
-	{
 		VS_SW_VER,
 		"VS_SW_VER"
 	},
