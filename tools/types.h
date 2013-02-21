@@ -25,17 +25,27 @@
  *--------------------------------------------------------------------*/
 
 #if defined (WIN32)
-#define SIZE_T_SPEC "%u"
+	#define SIZE_T_SPEC "%u"
+	#define ADDR_T_SPEC "%04X"
+	#define OFF_T_SPEC "%d"
+#elif defined (__APPLE__) || defined (__OpenBSD__)
+	#define SIZE_T_SPEC "%zu"
+	#define ADDR_T_SPEC "%08llX"
+	#define OFF_T_SPEC "%lld"
+#elif defined (__linux__)
+	#define SIZE_T_SPEC "%zu"
+	#define ADDR_T_SPEC "%04X"
+	#define OFF_T_SPEC "%ld"
 #else
-#define SIZE_T_SPEC "%zu"
+error "Unknown environment."
 #endif
 
 /*====================================================================*
  *   macros;
  *--------------------------------------------------------------------*/
 
-#define _OPTSTR(x) #x
-#define LITERAL(x) _OPTSTR(x)
+#define MONIKER(x) #x
+#define LITERAL(x) MONIKER(x)
 #define SIZEOF(array) (sizeof(array)/sizeof(array[0]))
 
 /*====================================================================*
