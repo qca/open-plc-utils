@@ -1,6 +1,6 @@
 /*====================================================================*
  *
- *   void endian (void * memory, size_t extent);
+ *   void reverse (void * memory, size_t extent);
  *
  *   reverse the order of bytes in a multi-byte memory region; 
  *
@@ -10,12 +10,12 @@
  *
  *--------------------------------------------------------------------*/
 
-#ifndef ENDIAN_SOURCE
-#define ENDIAN_SOURCE
+#ifndef REVERSE_SOURCE
+#define REVERSE_SOURCE
 
 #include "../tools/memory.h"
 
-void endian (void * memory, size_t extent) 
+void reverse (void * memory, size_t extent) 
 
 {
 	register byte * first = (byte *)(memory);
