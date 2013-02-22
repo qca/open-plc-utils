@@ -64,7 +64,7 @@ grab: grab.o getoptv.o putoptv.o version.o basespec.o todigit.o error.o efreopen
 # libraries;
 # --------------------------------------------------------------------
 
-libmtools.a: binout.o bytespec.o confirmfilename.o checksum32.o dataspec.o decdecode.o decout.o emalloc.o endian.o error.o fdchecksum32.o filepart.o getoptv.o hexdecode.o hexdump.o hexencode.o hexin.o hexout.o hexstring.o hexview.o regview.o ipv4spec.o ipv6spec.o memdecr.o memincr.o memswap.o output.o putoptv.o strdecr.o strfbits.o strincr.o synonym.o todigit.o typename.o basespec.o uintspec.o version.o
+libmtools.a: binout.o bytespec.o confirmfilename.o checksum32.o dataspec.o decdecode.o decout.o emalloc.o reverse.o error.o fdchecksum32.o filepart.o getoptv.o hexdecode.o hexdump.o hexencode.o hexin.o hexout.o hexstring.o hexview.o regview.o ipv4spec.o ipv6spec.o memdecr.o memincr.o memswap.o output.o putoptv.o strdecr.o strfbits.o strincr.o synonym.o todigit.o typename.o basespec.o uintspec.o version.o
 	rm -f ${@}
 	$(AR) rc ${@} ${^}
 	$(RANLIB) ${@}

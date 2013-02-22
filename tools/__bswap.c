@@ -23,21 +23,21 @@
 uint16_t __bswap_16 (uint16_t x) 
 
 {
-	endian (&x, sizeof (x));
+	reverse (&x, sizeof (x));
 	return (x);
 }
 
 uint32_t __bswap_32 (uint32_t x) 
 
 {
-	endian (&x, sizeof (x));
+	reverse (&x, sizeof (x));
 	return (x);
 }
 
 uint64_t __bswap_64 (uint64_t x) 
 
 {
-	endian (&x, sizeof (x));
+	reverse (&x, sizeof (x));
 	return (x);
 }
 
