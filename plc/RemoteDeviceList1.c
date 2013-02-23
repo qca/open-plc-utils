@@ -60,6 +60,12 @@ signed RemoteDeviceList1 (struct plc * plc, char const * space, char const * com
 		struct qualcomm_std qualcomm;
 	}
 	* request = (struct vs_nw_info_request *)(message);
+	struct __packed vs_nw_info_confirm 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+	}
+	* confirm = (struct vs_nw_info_confirm *)(message);
 	struct __packed station 
 	{
 		uint8_t MAC [ETHER_ADDR_LEN];
@@ -86,7 +92,7 @@ signed RemoteDeviceList1 (struct plc * plc, char const * space, char const * com
 		uint8_t NUMAVLNS;
 		struct network networks [1];
 	}
-	* networks = (struct networks *) (message->content);
+	* networks = (struct networks *) (confirm->content);
 
 #ifndef __GNUC__
 #pragma pack (pop)

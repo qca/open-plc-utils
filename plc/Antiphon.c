@@ -82,8 +82,8 @@ signed Antiphon (struct plc * plc, byte source [], byte target [])
 		fprintf (stderr, "%s %s %s\n", channel->ifname, sourcename, targetname);
 	}
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&message->ethernet, source, target, channel->type);
-	QualcommHeader (&message->qualcomm, 0, 41036);
+	EthernetHeader (&request->ethernet, source, target, channel->type);
+	QualcommHeader (&request->qualcomm, 0, 41036);
 	request->DURATION = plc->timer;
 	request->LENGTH = HTOLE16 (sizeof (request->PACKET));
 	memset (request->PACKET, 0xA5, sizeof (request->PACKET));

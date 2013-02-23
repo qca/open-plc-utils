@@ -148,7 +148,7 @@ qualcomm_fmi;
 #endif
 
 /*====================================================================*
- *   Qualcomm vendor-specific  message;
+ *   Composite message formats;
  *--------------------------------------------------------------------*/
 
 #ifndef __GNUC__
@@ -159,11 +159,28 @@ typedef struct __packed message
 
 {
 	struct ethernet_std ethernet;
-	struct qualcomm_std qualcomm;
-	uint8_t content [ETHERMTU - sizeof (struct qualcomm_std)];
+	uint8_t content [ETHERMTU];
 }
 
 MESSAGE;
+typedef struct __packed homeplug 
+
+{
+	struct ethernet_std ethernet;
+	struct homeplug_fmi homeplug;
+	uint8_t content [ETHERMTU - sizeof (struct homeplug_fmi)];
+}
+
+HOMEPLUG;
+typedef struct __packed qualcomm 
+
+{
+	struct ethernet_std ethernet;
+	struct qualcomm_fmi qualcomm;
+	uint8_t content [ETHERMTU - sizeof (struct qualcomm_fmi)];
+}
+
+QUALCOMM;
 
 #ifndef __GNUC__
 #pragma pack (pop)

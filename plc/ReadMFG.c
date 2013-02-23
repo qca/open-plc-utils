@@ -62,13 +62,14 @@ signed ReadMFG (struct plc * plc, uint8_t MMV, uint16_t MMTYPE)
 {
 	struct channel * channel = (struct channel *)(plc->channel);
 	struct message * message = (struct message *)(plc->message);
+	struct homeplug * homeplug = (struct homeplug *)(message);
 	while ((plc->packetsize = readpacket (channel, message, sizeof (* message))) > 0) 
 	{
-		if (message->qualcomm.MMV != MMV) 
+		if (homeplug->homeplug.MMV != MMV) 
 		{
 			continue;
 		}
-		if (message->qualcomm.MMTYPE != HTOLE16 (MMTYPE)) 
+		if (homeplug->homeplug.MMTYPE != HTOLE16 (MMTYPE)) 
 		{
 			continue;
 		}
