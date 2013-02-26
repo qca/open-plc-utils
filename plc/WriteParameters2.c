@@ -20,7 +20,7 @@
 
 /*====================================================================*
  *
- *   signed WriteParamters2 (struct plc * plc, unsigned module, const struct nvm_header2 * nvm_header);
+ *   signed WriteParameters2 (struct plc * plc, unsigned module, const struct nvm_header2 * nvm_header);
  *
  *   plc.h
  *

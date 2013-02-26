@@ -313,7 +313,7 @@ signed PLCTopology (struct channel * channel, struct message * message, struct p
 #elif defined (AR7x00)
 
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
-		FragmentHeader (&request->qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
+		QualcommHeader1 (&request->qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
 
 #else
 #error "Unspecified Atheros chipset"

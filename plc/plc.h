@@ -439,7 +439,6 @@ signed WaitForReset (struct plc *, char buffer [], size_t length);
 signed WaitForStart (struct plc *, char buffer [], size_t length);
 signed WatchdogReport (struct plc *);
 signed WriteCFG (struct plc *);
-signed WriteExecuteApplet1 (struct plc *, unsigned module, const struct nvm_header1 *);
 signed WriteExecuteApplet2 (struct plc *, unsigned module, const struct nvm_header2 *);
 signed WriteExecuteFirmware (struct plc *, unsigned module, void const * nvm_header);
 signed WriteExecuteFirmware1 (struct plc *, unsigned module, const struct nvm_header1 *);

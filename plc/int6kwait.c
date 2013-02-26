@@ -100,7 +100,7 @@
 #include "../mme/MMECode.c"
 #include "../mme/EthernetHeader.c"
 #include "../mme/QualcommHeader.c"
-#include "../mme/FragmentHeader.c"
+#include "../mme/QualcommHeader1.c"
 #include "../mme/UnwantedMessage.c"
 #endif
 
@@ -483,7 +483,7 @@ signed WaitForAssoc (struct plc * plc)
 	{
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
-		FragmentHeader (&request->qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
+		QualcommHeader1 (&request->qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		if (SendMME (plc) <= 0) 
 		{

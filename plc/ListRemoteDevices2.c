@@ -113,7 +113,7 @@ signed ListRemoteDevices2 (struct plc * plc, char const * space, char const * co
 
 	memset (message, 0, sizeof (* message));
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
-	FragmentHeader (&request->qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
+	QualcommHeader1 (&request->qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
 	if (sendpacket (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) <= 0) 
 	{
 		return (-1);

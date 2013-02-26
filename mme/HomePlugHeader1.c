@@ -19,57 +19,40 @@
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *  
- *   signed FlashSoftloader (struct plc * plc, uint32_t options);
  *
- *   plc.h
- *  
- *   This plugin upgrades a device having NVRAM; runtime firmware must
- *   be running for this to work; NVM and PIB files in struct plc must
- *   be opened before calling this plugin; this plugin is used by many
- *   programs; 
+ *   signed HomePlugHeader1 (struct homeplug_fmi * header, uint8_t MMV, uint16_t MMTYPE);
  *
- *   This function is for panther/lynx devices although is should also
- *   work for AR7400 devices, too.
- *   
+ *   mme.h
+ *
+ *   encode memory with a standard HomePlug AV header having HomePlug 
+ *   protocol version (HOMEPLUG_MMV) and HomePlug message type (MMTYPE); 
+ *   return the number of bytes actually encoded;
+ *
  *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *:  Published 2009-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED
  *;  For demonstration and evaluation only. Not for production use
  *
- *   Contributor(s):
- *      Charles Maier <cmaier@qualcomm.com>
+ *   Contributor(s): 
+ *	Charles Maier <cmaier@qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-#ifndef FLASHSOFTLOADER_SOURCE
-#define FLASHSOFTLOADER_SOURCE
+#ifndef HOMEPLUGHEADER1_SOURCE
+#define HOMEPLUGHEADER1_SOURCE
 
-#include "../plc/plc.h"
+#include <stdint.h>
 
-signed FlashSoftloader (struct plc * plc, uint32_t options) 
+#include "../mme/mme.h"
+#include "../tools/endian.h"
+
+signed HomePlugHeader1 (struct homeplug_fmi * header, uint8_t MMV, uint16_t MMTYPE) 
 
 {
-	struct vs_module_spec vs_module_spec = 
-	{
-		PLC_MODULEID_SOFTLOADER,
-		0,
-		0,
-		0
-	};
-	ModuleSpec (&plc->CFG, &vs_module_spec);
-	if (ModuleSession (plc, 1, &vs_module_spec)) 
-	{
-		return (-1);
-	}
-	if (ModuleWrite (plc, &plc->CFG, 0, &vs_module_spec)) 
-	{
-		return (-1);
-	}
-	if (ModuleCommit (plc, options)) 
-	{
-		return (-1);
-	}
-	return (0);
+	header->MMV = MMV;
+	header->MMTYPE = HTOLE16 (MMTYPE);
+	header->FMSN = 0;
+	header->FMID = 0;
+	return (sizeof (* header));
 }
 
 

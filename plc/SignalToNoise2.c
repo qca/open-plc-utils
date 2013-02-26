@@ -158,7 +158,7 @@ signed SignalToNoise2 (struct plc * plc)
 	{
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
-		FragmentHeader (&request->qualcomm, 1, (VS_RX_TONE_MAP_CHAR | MMTYPE_REQ));
+		QualcommHeader1 (&request->qualcomm, 1, (VS_RX_TONE_MAP_CHAR | MMTYPE_REQ));
 		memcpy (request->MACADDRESS, plc->RDA, sizeof (request->MACADDRESS));
 		request->TMSLOT = slot;
 		request->COUPLING = plc->action;

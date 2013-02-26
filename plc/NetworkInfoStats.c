@@ -179,7 +179,7 @@ signed NetworkInfoStats (struct plc * plc)
 #elif defined (AR7x00)
 
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
-	FragmentHeader (&request->qualcomm, 1, (VS_NW_INFO_STATS | MMTYPE_REQ));
+	QualcommHeader1 (&request->qualcomm, 1, (VS_NW_INFO_STATS | MMTYPE_REQ));
 
 #else
 #error "Unspecified Atheros chipset"

@@ -164,7 +164,7 @@
 #include "../mme/UnwantedMessage.c"
 #include "../mme/MMECode.c"
 #ifdef AR7x00
-#include "../mme/FragmentHeader.c"
+#include "../mme/QualcommHeader1.c"
 #endif
 #endif
 

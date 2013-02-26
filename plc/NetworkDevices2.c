@@ -138,7 +138,7 @@ signed NetworkDevices2 (struct plc * plc, void * memory, size_t extent)
 	memset (message, 0, sizeof (* message));
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
-	FragmentHeader (&request->qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
+	QualcommHeader1 (&request->qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
 	if (sendpacket (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) <= 0) 
 	{
 		error (1, errno, CHANNEL_CANTSEND);

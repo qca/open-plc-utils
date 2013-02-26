@@ -210,7 +210,8 @@ char const * MMECode (uint16_t MMTYPE, uint8_t MSTATUS);
 signed EthernetHeader (void * memory, const uint8_t peer [], const uint8_t host [], uint16_t protocol);
 signed HomePlugHeader (struct homeplug_std *, uint8_t MMV, uint16_t MMTYPE);
 signed QualcommHeader (struct qualcomm_std *, uint8_t MMV, uint16_t MMTYPE);
-signed FragmentHeader (struct qualcomm_fmi *, uint8_t MMV, uint16_t MMTYPE);
+signed HomePlugHeader1 (struct homeplug_fmi *, uint8_t MMV, uint16_t MMTYPE);
+signed QualcommHeader1 (struct qualcomm_fmi *, uint8_t MMV, uint16_t MMTYPE);
 
 /*====================================================================*
  *   header decode functions;
@@ -218,6 +219,13 @@ signed FragmentHeader (struct qualcomm_fmi *, uint8_t MMV, uint16_t MMTYPE);
 
 signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_t MMTYPE);
 signed FirmwareMessage (void const * memory);
+
+/*====================================================================*
+ *   intermmediate level Ethernet send/receive functions; 
+ *--------------------------------------------------------------------*/
+
+ssize_t sendmessage (struct channel const *, struct message *, ssize_t length);
+ssize_t readmessage (struct channel const *, struct message *, uint8_t MMV, uint16_t MMTYPE);
 
 /*====================================================================*
  *

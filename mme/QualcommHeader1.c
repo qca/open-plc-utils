@@ -62,7 +62,7 @@
  *   liability for any consequences of it's use. 
  *
  *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
+ *:  Published 2009-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED
  *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s): 
@@ -70,8 +70,8 @@
  *
  *--------------------------------------------------------------------*/
 
-#ifndef FRAGMENTHEADER_SOURCE
-#define FRAGMENTHEADER_SOURCE
+#ifndef QUALCOMMHEADER1_SOURCE
+#define QUALCOMMHEADER1_SOURCE
 
 #include <stdint.h>
 #include <memory.h>
