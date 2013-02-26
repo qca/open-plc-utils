@@ -50,6 +50,7 @@
  *--------------------------------------------------------------------*/
 
 #include "../ether/ether.h"
+#include "../ether/channel.h"
 #include "../mme/homeplug.h"
 #include "../mme/qualcomm.h"
 

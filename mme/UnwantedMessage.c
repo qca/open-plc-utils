@@ -66,7 +66,7 @@ signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_
 
 {
 	extern const byte localcast [ETHER_ADDR_LEN];
-	struct message * message = (struct message *)(memory);
+//	struct message * message = (struct message *)(memory);
 	struct homeplug * homeplug = (struct homeplug *)(memory);
 	if (!extent) 
 	{
@@ -99,7 +99,7 @@ signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_
 
 #if defined (__WHYNOT__)
 
-		error (0, 0, "Wrong Ethernet Frame Type: Received %04X while waiting for %04X", ntohs homeplug->MTYPE), HOMEPLUG_MTYPE);
+		error (0, 0, "Wrong Ethernet Frame Type: Received %04X while waiting for %04X", ntohs (homeplug->ethernet.MTYPE), HOMEPLUG_MTYPE);
 
 #endif
 
@@ -118,7 +118,7 @@ signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_
 	}
 	if (homeplug->homeplug.MMV == 0) 
 	{
-		struct qualcomm_std * qualcomm = (struct qualcomm_std *)(&message->content);
+		struct qualcomm_std * qualcomm = (struct qualcomm_std *)(&homeplug->homeplug);
 		if (LE16TOH (qualcomm->MMTYPE) != MMTYPE) 
 		{
 
@@ -130,7 +130,10 @@ signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_
 
 			return (-1);
 		}
-		if (memcmp (localcast, qualcomm->OUI, sizeof (qualcomm->OUI))) 
+		if ((MMTYPE < VS_MMTYPE_MIN) || (MMTYPE > VS_MMTYPE_MAX))
+		{
+		}
+		else if (memcmp (localcast, qualcomm->OUI, sizeof (qualcomm->OUI))) 
 		{
 
 #if defined (__WHYNOT__)
@@ -144,7 +147,7 @@ signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_
 	}
 	if (homeplug->homeplug.MMV == 1) 
 	{
-		struct qualcomm_fmi * qualcomm = (struct qualcomm_fmi *)(&message->content);
+		struct qualcomm_fmi * qualcomm = (struct qualcomm_fmi *)(&homeplug->homeplug);
 
 #if FMI
 

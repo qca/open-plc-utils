@@ -59,7 +59,6 @@
  * HomePlug Management Message Ranges for Information Only;
  *--------------------------------------------------------------------*/
 
-#if 0
 #define CC_MMTYPE_MIN 0x0000
 #define CC_MMTYPE_MAX 0x1FFC
 #define CP_MMTYPE_MIN 0x2000
@@ -72,11 +71,8 @@
 #define MS_MMTYPE_MAX 0x9FFC
 #define VS_MMTYPE_MIN 0xA000 
 #define VS_MMTYPE_MAX 0xBFFC
-#define XX_MMTYPE_MIN 0xC000
-#define XX_MMTYPE_MAX 0xFFFC
-#endif
-
-#define XX_MMTYPE_BAD 0xFFFF
+#define HA_MMTYPE_MIN 0xC000 
+#define HA_MMTYPE_MAX 0xFFFC
 
 /*====================================================================*
  * HomePlug AV MMEs have 4 variants indicated by the 2 MMTYPE LSBs;

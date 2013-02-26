@@ -552,13 +552,6 @@ signed PLCTopology (struct channel *, struct message *, struct plctopology *);
 signed PLCTopologyPrint (struct plctopology *);
 
 /*====================================================================*
- *   
- *--------------------------------------------------------------------*/
-
-ssize_t sendmessage (struct channel *, struct message *, ssize_t length);
-ssize_t readmessage (struct channel *, struct message *, uint8_t MMV, uint16_t MMTYPE);
-
-/*====================================================================*
  *   vs_module_spec message;
  *--------------------------------------------------------------------*/
 
