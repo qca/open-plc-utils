@@ -60,19 +60,19 @@
  *--------------------------------------------------------------------*/
 
 #define CC_MMTYPE_MIN 0x0000
-#define CC_MMTYPE_MAX 0x1FFC
+#define CC_MMTYPE_MAX 0x1FFF
 #define CP_MMTYPE_MIN 0x2000
-#define CP_MMTYPE_MAX 0x3FFC
+#define CP_MMTYPE_MAX 0x3FFF
 #define NN_MMTYPE_MIN 0x4000
-#define NN_MMTYPE_MAX 0x5FFC
+#define NN_MMTYPE_MAX 0x5FFF
 #define CM_MMTYPE_MIN 0x6000
-#define CM_MMTYPE_MAX 0x7FFC
+#define CM_MMTYPE_MAX 0x7FFF
 #define MS_MMTYPE_MIN 0x8000
-#define MS_MMTYPE_MAX 0x9FFC
+#define MS_MMTYPE_MAX 0x9FFF
 #define VS_MMTYPE_MIN 0xA000 
-#define VS_MMTYPE_MAX 0xBFFC
+#define VS_MMTYPE_MAX 0xBFFF
 #define HA_MMTYPE_MIN 0xC000 
-#define HA_MMTYPE_MAX 0xFFFC
+#define HA_MMTYPE_MAX 0xFFFF
 
 /*====================================================================*
  * HomePlug AV MMEs have 4 variants indicated by the 2 MMTYPE LSBs;
