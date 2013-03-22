@@ -271,11 +271,20 @@ static void pibdump (char const * filename, flag_t flags)
 		offset += length;
 		lineno++;
 	}
+	offset += origin;
 	if (_allclr (flags, PIB_SILENCE)) 
 	{
+		if (offset < extent) 
+		{
+			error (0, 0, "file %s exceeds definition by " OFF_T_SPEC " bytes", filename, extent - offset);
+		}
+		if (offset > extent) 
+		{
+			error (0, 0, "definition exceeds file %s by " OFF_T_SPEC " bytes", filename, offset - extent);
+		}
 		if (offset != extent) 
 		{
-			error (0, 0, "file %s is %d not %u bytes", filename, extent, offset);
+			error (0, 0, "file %s is " OFF_T_SPEC " bytes not " OFF_T_SPEC " bytes", filename, extent, offset);
 		}
 	}
 	close (fd);
