@@ -1,6 +1,6 @@
 /*====================================================================*
  *
- *   void extra (signed status, errno_t number, int argc, char const * arg []);
+ *   signed extra (signed status, errno_t number, int argc, char const * arg []);
  *
  *   error.h
  *
@@ -23,7 +23,7 @@
 #include "../tools/types.h"
 #include "../tools/error.h"
 
-void extra (signed status, errno_t number, int argc, char const * argv []) 
+signed extra (signed status, errno_t number, int argc, char const * argv []) 
 
 {
 	extern char const *program_name;
@@ -48,7 +48,7 @@ void extra (signed status, errno_t number, int argc, char const * argv [])
 	{
 		exit (status);
 	}
-	return;
+	return (-1);
 }
 
 

@@ -15,6 +15,7 @@ gcc -Wall -Wextra -Wno-unused-parameter -c checksum32.c
 gcc -Wall -Wextra -Wno-unused-parameter -c clr32bitmap.c
 gcc -Wall -Wextra -Wno-unused-parameter -c codelist.c
 gcc -Wall -Wextra -Wno-unused-parameter -c codename.c
+gcc -Wall -Wextra -Wno-unused-parameter -c debug.c
 gcc -Wall -Wextra -Wno-unused-parameter -c decout.c
 gcc -Wall -Wextra -Wno-unused-parameter -c emalloc.c
 gcc -Wall -Wextra -Wno-unused-parameter -c error.c
