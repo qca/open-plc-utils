@@ -271,7 +271,7 @@ static void pibdump (char const * filename, flag_t flags)
 		offset += length;
 		lineno++;
 	}
-	if (_allclr (flags, PIB_SILENCE)) 
+	if (_allclr (flags, PIB_SILENCE))
 	{
 		if (offset != extent) 
 		{

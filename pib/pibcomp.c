@@ -98,6 +98,7 @@ static void function (char const * filename [], flag_t flags)
 	unsigned lineno = 1;
 	signed fd [2];
 	signed length = 0;
+	off_t origin [2];
 	off_t offset [2];
 	off_t extent [2];
 	char memory [_ADDRSIZE+1];
@@ -105,6 +106,8 @@ static void function (char const * filename [], flag_t flags)
 	char string [_LINESIZE];
 	char * sp;
 	signed c;
+	offset [0] = 0;
+	offset [1] = 0;
 	for (file = 0; file < SIZEOF (fd); file++) 
 	{
 		uint32_t version;
@@ -120,7 +123,7 @@ static void function (char const * filename [], flag_t flags)
 		{
 			error (1, 0, FILE_CANTSIZE, filename [file]);
 		}
-		if ((offset [file] = lseek (fd [file], 0, SEEK_SET))) 
+		if ((origin [file] = lseek (fd [file], 0, SEEK_SET))) 
 		{
 			error (1, errno, FILE_CANTHOME, filename [file]);
 		}
@@ -135,8 +138,12 @@ static void function (char const * filename [], flag_t flags)
 			{
 				error (1, ENOTSUP, "%s is not a PIB file", filename [file]);
 			}
-			offset [file] = lseek (fd [file], 0, SEEK_CUR);
+			origin [file] = lseek (fd [file], 0, SEEK_CUR);
 		}
+	}
+	if (origin [0] != origin [1])
+	{
+		error (1, EINVAL, "PIBs have different offsets");
 	}
 	while ((c = getc (stdin)) != EOF) 
 	{
@@ -280,32 +287,32 @@ static void function (char const * filename [], flag_t flags)
 		offset [1] += length;
 		lineno++;
 	}
-	if (_allclr (flags, PIB_SILENCE)) 
+	if (_allclr (flags, PIB_SILENCE))
 	{
-		for (file = 0; file < SIZEOF (extent); file++) 
+	offset [0] += origin [0];
+	offset [1] += origin [1];
+	for (file = 0; file < SIZEOF (extent); file++) 
+	{
+		if (offset [file] < extent [file]) 
 		{
-			if (offset [file] < extent [file]) 
-			{
-				error (0, 0, "%s exceeds definition by " OFF_T_SPEC " bytes", filename [file], extent [file] - offset [file]);
-			}
-			if (offset [file] > extent [file]) 
-			{
-				error (0, 0, "definition exceeds %s by " OFF_T_SPEC " bytes", filename [file], offset [file] - extent [file]);
-			}
+			error (0, 0, "%s exceeds definition by " OFF_T_SPEC " bytes", filename [file], extent [file] - offset [file]);
 		}
-		if (extent [0] > extent [1]) 
+		if (offset [file] > extent [file]) 
 		{
-			error (0, 0, "%s exceeds %s by " OFF_T_SPEC " bytes", filename [0], filename [1], extent [0] - extent [1]);
-		}
-		if (extent [1] > extent [0]) 
-		{
-			error (0, 0, "%s exceeds %s by " OFF_T_SPEC " bytes", filename [1], filename [0], extent [1] - extent [0]);
+			error (0, 0, "definition exceeds %s by " OFF_T_SPEC " bytes", filename [file], offset [file] - extent [file]);
 		}
 	}
-	for (file = 0; file < SIZEOF (fd); file++) 
+	if (extent [0] > extent [1]) 
 	{
-		close (fd [file]);
+		error (0, 0, "%s exceeds %s by " OFF_T_SPEC " bytes", filename [0], filename [1], extent [0] - extent [1]);
 	}
+	if (extent [1] > extent [0]) 
+	{
+		error (0, 0, "%s exceeds %s by " OFF_T_SPEC " bytes", filename [1], filename [0], extent [1] - extent [0]);
+	}
+	}
+	close (fd [0]);
+	close (fd [1]);
 	return;
 }
 
