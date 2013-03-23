@@ -100,8 +100,9 @@ static void pibdump (char const * filename, flag_t flags)
 	uint32_t version;
 	unsigned object = 0;
 	unsigned lineno = 0;
-	unsigned offset = 0;
-	unsigned extent = 0;
+	off_t origin = 0;
+	off_t offset = 0;
+	off_t extent = 0;
 	unsigned length = 0;
 	char memory [_ADDRSIZE + 1];
 	char symbol [_NAMESIZE];
