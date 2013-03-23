@@ -12,21 +12,15 @@ plcget - Qualcomm Atheros PLC Get Propery
 
 .SH DESCRIPTION
 Read a specific property value from a Qualcomm Atheros powerline device using the VS_GET_PROPERTY message.
-
 Properties are selected using their numeric property identifier.
-
 Property names are not supported.
 Property values are printed on stdout in hexadecimal format by default.
-
 Alternate formats are ASCII, binary and decimal.
-
 .PP
 Only selected properties can be read using this message type.
-
 See the Qualcomm Atheros \fIFirmware Technical Reference Manual\fR for supported properties and versions.
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
-
 See the \fBplc\fR man page for an overview and installation instructions.
 
 .SH OPTIONS
@@ -46,7 +40,6 @@ This option is useful for interpreting bit-mapped property values.
 .RB - d
 Display output in decimal format where each byte appears as three decimal digits.
 This option is useful for properties with small integer values.
-
 
 .TP
 .RB - e
@@ -70,7 +63,6 @@ The first occurance specifies the property identifier.
 The second occurances specifies the property version.
 See the \fIFirmware Technical Reference Manual\fR for an list of valid property identifiers and versions.
 
-
 .TP
 -\fBi \fIinterface\fR
 Select the host Ethernet interface.
@@ -81,7 +73,6 @@ This option then takes precedence over either default.
 .TP
 .RB - q
 Suppresses status messages on stderr.
-
 
 .TP
 .RB - v
@@ -137,7 +128,6 @@ A foreign device is any device not manufactured by Atheros.
 
 .SH REFERENCES
 See the Qualcomm Atheros HomePlug AV Firmware Technical Reference Manual for technical information.
-
 
 .SH DISCLAIMER
 Atheros HomePlug AV Vendor Specific Management Message structure and content is proprietary to Qualcomm Atheros, Ocala FL USA.

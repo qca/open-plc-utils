@@ -23,12 +23,10 @@ The first method sends one VS_SW_VER message to the Qualcomm Atheros Local Manag
 The method is used when no device addresses appear on the command line.
 The result is a list of all local devices, being this connected directly to the local host.
 Each local device device may bridge to an independent powerline network having remote devices as members.
-
 .PP
 The second method sends one VS_NW_INFO message to each specified device and prints the Ethernet source address found in each received message plus the Ethernet addresses of each network station identified in that message body.
 This method is used whenever one, or more, device addresses appear on the command line.
 It is possible to query remote powerline devices directly and so duplicate devices addresses are printed when devices share powerline neighbors.
-
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 See the \fBplc\fR man page for an overview and installation instructions.

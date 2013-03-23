@@ -15,7 +15,6 @@ Read or write Atheros custom powerline modules using VS_MODULE_OPERATION message
 Modules may be read from a device and written to a file or read from a file and written to a device.
 Modules may have any of several formats and purposes.
 Where the firmware permits, this program can now read modules in excess of 1400 bytes and can write multiple modules that exceed 1400 bytes in one operation.
-
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 See the \fBplc\fR man page for an overview and installation instructions.
@@ -60,11 +59,9 @@ The module is assigned to a module and sub-module identifier using options \fB-t
 Runtime firmware will reject modules having invalid module and sub-mocule idetnifiers.
 As implemented, int6kmod will reject files exceeding 1400 bytes but this restriction will be removed in later versions.
 
-
 .TP
 .RB - q
 Suppresses status messages on stderr.
-
 
 .TP
 -\fBs \fIsub-module-id\fR
@@ -103,7 +100,6 @@ If present, the user should specify all settings to avoid writing default values
 .RB - ? ,-- help
 Print program help summary on stdout.
 This option takes precedence over other options on the command line.
-
 
 .TP
 .RB - ? ,-- version
@@ -175,7 +171,6 @@ The next example does the same thing but writes module file \fBdef.bin\fR to rem
 The module identifier \fB0x4000\fR indicates that it is an \fBAdvanced Power Management uC\fR module.
 The session identifier used is \fB0xA5A5A5A5\fR.
 The sub-module identifer defaults to \fB0x0000\fR because option \fB-s\fR is omitted.
-
 .PP
    # int6kmod -M def.bin -t 0x4000 -S A5A5A5A5 00:B0:52:BA:BE:02
    eth1 00:B0:52:00:00:01 Request Session

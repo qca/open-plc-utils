@@ -22,13 +22,9 @@ All payloads are sent unencrypted at this time.
 The AVLN Status.
 This indicates the current association status and capabilities of the sending station.
 Permitted values are \fB0\fR through \fB255\fR but only value 0 through 5 and 8 are recognized by the firmware.
-
 Values may be entered in decimal, hexadecimal or binary format.
-
 Hexadecimal value are prefixed with "\fB0x\fR" or "\fB0X\fR".
-
 Binary values are prefixed with "\fB0b\fR" or "\fB0B\fR".
-
 The default is \fB0\fR.
 
 .TP
@@ -37,21 +33,15 @@ The name of the payload file.
 File content may be text or binary and forms the payload of one or more messages.
 Payloads are transmitted unencrypted when PID is 4 and PEKS is 15 which is default.
 
-
 .TP
 -\fBK \fIPEKS\fR
 The Payload Encryption Key Select.
 This value indicates the key used to encrypt the payload.
 Permitted values are \fB0\fR through \fB15\fR.
-
 Values may be entered in decimal, hexadecimal or binary format.
-
 Hexadecimal value are prefixed with "\fB0x\fR" or "\fB0X\fR".
-
 Binary values are prefixed with "\fB0b\fR" or "\fB0B\fR"..
-
 The default is \fB15\fR for "No Encryption".
-
 
 .TP
 -\fBP \fIPID\fR
@@ -59,7 +49,6 @@ The Protocol Identifier.
 This value detemines how the payload is interpreted by powerline devices.
 Permitted values are \fB0\fR through \fB4\fR.
 The default is \fB4\fR for "HLE Protocol".
-
 
 .TP
 -\fBv\fR
@@ -69,7 +58,6 @@ Print incoming and outgoing Ethernet frames in hex dump format on stdout.
 .RB - ? ,-- help
 Print program help summary on stdout.
 This option takes precedence over other options on the command line.
-
 
 .TP
 .RB - ? ,-- version
@@ -85,7 +73,6 @@ The Media Access Control (MAC) address of a remote host, not a powerline device.
 Addresses are 6 hexadecimal octets optionally separated by colon.
 For example, the addresses "00b052000001", "00:b0:52:00:00:01" and "00b052:000001" are all valid and equivalent.
 For convenience, the symbolic address "\fBlocal\fR" resolves to "00:b0:52:00:00:01" and the symbolic addresses "\fBall\fR" and "\fBbroadcast\fR" both resolve to "ff:ff:ff:ff:ff:ff".
-
 
 .SH INTERNALS
 This program lets the user specify some CM_ENCRYPTED_PAYLOAD fields but not others.

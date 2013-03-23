@@ -10,7 +10,6 @@ int6kbaud - Qualcomm Atheros Serial Line Device Configuration
 
 .SH DESCRIPTION
 Set serial line parameters on a UART-enabled Atheros powerline device using the ATBR serial line command.
-
 .PP
 Serial line commands are 7-bit ASCII character strings sent to the local powerline device over the host serial port.
 They can be sent using any terminal emulator but this program will, in many cases, reduce typing and simplify scripting.
@@ -21,12 +20,10 @@ See the \fBCOMMANDS\fR section below for a list of supported serial line command
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 See the \fBAMP\fR man page for an overview and installation instructions.
 
-
 .SH COMMENTS
 This program does not configure or reconfigure host serial port settings since most systems provide a utility to do that.
 Be sure to configure them before using this program since other programs may change them before or after use.
 Atheros factory default settings for UART-enabled powerline devices are \fB1115200\fR baud, \fB8\fR data bits, \fB1\fR stop bit, \fBno\fR parity and \fBno\fR flow control.
-
 .PP
 On Linux, use the \fBstty\fR utility to inspect and set serial port parameters.
 The following Linux command will configure serial device \fB/dev/ttyS0\fR speed to \fB115200\fR baud with \fB8\fR data bits, \fB1\fR stop bit, \fBno\fR parity bit and \fBno\fR flow control.
@@ -36,7 +33,6 @@ Consult the \fBstty\fR man page for an explanation of these and other options.
 .PP
 On Windows, use the the \fBDevice Manager\fR dialog to set serial \fBPort\fR properties.
 To open this dialog, select \fBStart Menu\fR, \fBControl Panel\fR, \fBSystem\fR, \fBHardware\fR, \fBDevice Manager\fR, \fBPorts\fR, \fBAdvanced\fR.
-
 
 .SH OPTIONS
 
@@ -196,7 +192,6 @@ Qualcomm Atheros reserves the right to modify command line syntax or command fun
 .SH EXAMPLES
 The following example sets the baud speed to \fB115200\fR baud with \fB8\fR data bits, \fB1\fR stop bits, \fBno\fR flow control and \fBno\fR parity.
 The outgoing serial line command and incoming response are displayed on stderr because option \fB-f\fR is present.
-
 .PP
    #int6kbaud -B 115200 -D 8 -F 0 -P 0 -S 1 -v 
    ATBR00,000000000001C200,08,00,01,00
@@ -205,11 +200,9 @@ The outgoing serial line command and incoming response are displayed on stderr b
 Observe that decimal command line arguments are converted to hexadecimal on output.
 Although this program outputs fixed-length fields, including leaing zeros, device firmware ignores them.
 Leading zeros may be omitted when entering serial line commands manually.
-
 .PP 
 The next example set the speed to \fB38400\fR.
 Observe that program default values appear in the outgoing serial line command when the corresponding command line options are omitted.
-
 .PP
    #int6kbaud -B 38400 -v 
    ATBR00,0000000000009600,08,00,01,00
@@ -217,7 +210,6 @@ Observe that program default values appear in the outgoing serial line command w
 .PP
 The next command does the same thing as the first example except that keywords replace numeric values for some of the options.
 Since option \fB-v\fR is omitted the outgoing command and incoming response are not displayed.
-
    #int6kbaud -B 115200 -D 8 -F off -P none -S 1 
 
 .SH SEE ALSO

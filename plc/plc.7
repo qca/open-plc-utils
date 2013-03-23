@@ -21,7 +21,6 @@ To uninstall programs and man pages, type "\fBmake uninstall\fR".
 To read about the Toolkit, browse file \fBdocbook/index.html\fR and \fBdocbook/toolkit.html\fR.
 This package does not automatically install scripts or html pages.
 They must be manually copied to the preferred locations.
-
 .PP
 We recommend that you login as root before installing this package; otherwise, you will be prompted for the root password as each component is installed.
 On some systems, "\fBsudo make install\fR" will work.
@@ -30,7 +29,6 @@ Man pages are installed in \fB/usr/share/man/man[1-9]\fR.
 If these folders are not correct for your system, or if you want to install in other folders, then edit folder names defined in the \fBMakefile\fR in each package folder.
 The package has been compiled in a variety of Linux distributions (debian, ubuntu, redhat, monta vista, amilda) and on MacOSX (10.5, 10.6).
 It has also been cross-compiled for MIPS and Freescale iMX35 but QCA does not support general cross compilation efforts.
-
 .PP
 Although this package has been compiled on several platforms, there is no guarantee that it will compile without errors or warnings on non-GNU/Linux platforms.
 We continuously update the package but do not attempt to compile or test it on systems other than GNU/Linux and Microsoft VisualStudio .NET.
@@ -39,7 +37,6 @@ Some programs have been excluded from the Windows installation for technical rea
 .SH BACKGROUND
 \fBHomePlug 1.0\fR and \fBHomePlug AV\fR are industry standard protocols for powerline communications.
 Qualcomm Atheros manufactures a family of chipsets that conform to these standards and have various USB, PCI, Ethernet, MII, SPI and UART host interfaces.
-
 .PP
 The \fBHomePlug 1.0\fR protocol is based on IEEE-802.3, has ethertype 0x887B and uses special message formats.
 .PP
@@ -51,7 +48,6 @@ Customers may use the toolkit to send these messages, explore device behavior an
 .PP
 Each program in the toolkit deals with a narrow aspect of QCA powerline device management but they can be called from shell scripts to perform complex tasks.
 With them, one can identify chipset hardware and firmware version, reset devices, flash devices, identify other QCA network devices, validate *.pib and *.nvm files, sniff HomePlug AV Ethernet frames, send generic Ethernet frames and so on.
-
 .PP
 The source code is designed to demonstrate and educate and may be modified without obligation to Qualcomm Atheros.
 The QCA Application Engineering Team would appreciate feedback concerning changes that improve the useability, reliability or efficiency.
@@ -172,7 +168,6 @@ HomePlug AV devices use has keys for various purposes.
 This program converts one or more pass phrases, entered on the command line, to either DAKs, NMKs or NIDs.
 It is similar to \fBhpavkeys\fR  but converts a limited number of pass phrases at one time.
 
-
 .TP
 .BR hpavkeys
 A HomePlug AV key generator.
@@ -193,7 +188,6 @@ A command line utility to configurate UART settings on a UART-enabled Atheros po
 A command line utility used to bootstrap powerline devices having no flash memory, blank flash memory or corrupted memory.
 It interacts with the Atheros BootLoader to configure SDRAM then download runtime firmware and PIB and start firmware execution.
 It can also be used to \fBforce flash\fR blank or corrupted flash memory.
-
 
 .TP
 .BR int6keth
@@ -287,7 +281,6 @@ The output is suitable for downloading to INT6x00 and AR7x00 powerline devices.
 .BR mdiodump
 Display a binary MDIO program file in human readable form.
 
-
 .TP
 .BR mdiogen
 Generate a binary MDIO program file from a series of instruction macros.
@@ -310,7 +303,6 @@ A command line utility to copy PIB settings from one PIB file to another where t
 .TP
 .BR nvmmerge
 A command line utility to merge multiple applets or NVM files into a single NVM file.
-
 
 .TP
 .BR nvmsplit
@@ -410,7 +402,6 @@ This program can be used to translate legacy NVM files to contemporary NVM file 
 .BR setpib
 A command line utility to insert arbitrary values into a PIB file based on data offset, length and format then compute a new PIB checksum.
 This program is a general purpose program intended for use in shell scripts but it requires detailed knowledge of PIB structure.
-
 
 .TP
 .BR ttycat

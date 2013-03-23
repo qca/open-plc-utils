@@ -12,21 +12,16 @@ mdustats
 
 .SH DESCRIPTION
 Collect and display MDU traffic statisitcs using the Qualcomm Atheros vendor specific VS_MDU_TRAFFIC_STATS message.
-
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
-
 See the \fBplc\fR man page for an overview and installation instructions.
-
 
 .SH OPTIONS
 
 .TP
 -\fBc\fI command\fR
 An integer indicating the type of statistics to be collected and reported.
-
 Permitted values are \fB0\fR through \fB255\fR decimal but only \fB4\fR through \fB15\fR are valid at this time.
-
 This option is mandatory because the default value of \fB0\fR is invalid.
  4 - retrieve traffic statistics on the slave side
  5 - retrieve traffic statistics (master TX/RX) collected on the master side
@@ -44,9 +39,7 @@ This option is mandatory because the default value of \fB0\fR is invalid.
 .TP
 -\fBs\fI session\fR
 The session identifier used to associate request/confirm message pairs.
-
 Valid identifiers are \fB0\fR through \fB255\fR.
-
 The default is \fB0\fR.
 
 .TP
@@ -59,29 +52,24 @@ The default is 50 milliseconds.
 .TP
 -\fBu\fI unit\fR
 The slave unit number.
-
 This is the same as the slave Terminal Equipment Identifier or \fBTEI\fR.
 Valid unit numbers are \fB0\fR through \fB255\fR.
 Unit \fB0\fR is the default.
 This option is ignored when option \fB-c\fR specified any of the "slave side" commands \fB4\fR, \fB8\fR or \fB12\fR.
 
-
 .TP
 .RB - v
 Print additional information on stdout.
 
-
 .TP
 .RB - x
 Cause the program to exit on the first error instead of continuing with remaining iterations, operations or devices.
-
 Normally, the program reports errors and moves on to the next operation, iteration or device depending on the command line.
 
 .TP
 .RB - ? ,-- help
 Print program help summary on stdout.
 This option takes precedence over other options on the command line.
-
 
 .TP
 .RB - ? ,-- version
@@ -106,7 +94,6 @@ Individual octets may be separated by colons, for clarity, but not all octets ne
 For example, "00b052000001", "00:b0:52:00:00:01" and "00b052:000001" are valid and equivalent.
 .PP
 These symbolic addresses are recognized by this program and may be used instead of the actual address value.
-
 
 .TP
 .BR all

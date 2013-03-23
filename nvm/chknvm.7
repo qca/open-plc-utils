@@ -14,7 +14,6 @@ chknvm - Qualcomm Atheros PLC Image File Validator
 Validate the image chain found inside a Qualcomm Atheros PLC firmware or parameter file by checking file structure, file size, image header sizes and checksums and image sizes and checksums.
 Optionally, display internal image header information or information extracted from selected image types, when present.
 Use this program to detect corrupted firmware or parameter files or inspect image files to determine content.
-
 .PP
 This program handles both the older \fBThunderbolt\fR and \fBLightning\fR and the newer \fBPanther\fR and \fBLynx\fR firmware file formats.
 It validates files directly from disk and so it is slower than program \fBchknvm2\fR but needs less memory at runtime.
@@ -29,19 +28,16 @@ See the \fBAMP\fR man page for an overview and installation instructions.
 Print revision string identity fields in fixed-width columns.
 This option is useful when searching .nvm folders for a specific build.
 
-
 .TP
 .RB - m
 Display manifest content, if present.
 The manifest is a special module, included in some image chains, that contains useful information about the chain.
 This option suppresses the summary 'looks good' message.
 
-
 .TP
 .RB - r
 Print firmware revision string on stdout.
 This option suppresses the summary 'looks good' message.
-
 
 .TP
 .RB - s
@@ -58,12 +54,10 @@ Specifically, it suppresses the summary 'looks good' message.
 Print additional information such as the image header for each image processed.
 This information can be used to distinguish one firmware file from another, if you know what to look for.
 
-
 .TP
 .RB - ? ,-- help
 Print program help summary on stdout.
 This option takes precedence over other options on the command line.
-
 
 .TP
 .BR - ! ,-- version
@@ -78,7 +72,6 @@ Use this option when sending screen dumps to Atheros Technical Support so that t
 The name of an Atheros image file.
 By convention, Atheros Image files have a \fB.nvm\fR file extension but this program does not enforce this convention.
 
-
 .SH DISCLAIMER
 Qualcomm Atheros firmware file structure and content is proprietary to Qualcomm Atheros, Ocala FL USA.
 Consequently, public information is not available.
@@ -88,7 +81,6 @@ Qualcomm Atheros reserves the right to change firmware file structure or content
 This example reads file abc.nvm and validates it.
 The message shown indicates that the file is the correct length, image headers and images have the correct length and checksum and there are no read errors.
 The file can be have either the newer or older format.
-
 .PP
     # chknvm abc.nvm
     abc.nvm looks good
@@ -121,7 +113,6 @@ This next example prints the firmware revision string found inside older image f
 The option can be used to identify the actual firmware image present when the filename has been changed.
 Newer image files have a manifest, instead.
 Observe that file \fBAR7420.nvm\fR shows no firmware revision string because it has the newer image file format.
-
 .PP
    # chknvm -r INT6400.nvm AR7400.nvm AR7420.nvm
    INT6400.nvm (3) INT6000-MAC-4-1-4122-01-4020-20100219-FINAL

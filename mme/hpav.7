@@ -14,7 +14,6 @@ Do not display HomePlug AV frames sent from the host to powerline devices or for
 The program is an example of a simple packet listener and daemon.
 Engineers and software developers can extend it to build custom sniffers or servers.
 The framework is present but additional features must be added.
-
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 See the \fBplc\fR man page for an overview and installation instructions.
@@ -43,7 +42,6 @@ This option is independent of option \fB-a\fR which prints VS_ARPC message text 
 Print program help summary on stdout.
 This option takes precedence over other options on the command line.
 
-
 .TP
 -\fB!\fR, --\fBversion\fR
 Print program version information on stdout.
@@ -56,14 +54,12 @@ See the Qualcomm Atheros INT6000 Firmware Reference Manual for a description of 
 The following command monitors the default host interface \fBeth1\fR for HomePlug AV traffic and dumps detected frames on the console as they arrive.
 To terminate the process, type \fB^C\fR or \fB^Z\fR at the console.
 This program is usually run in a separate console window while performing powerline operations.
-
 .PP
    # hpav
 .PP
 The following command monitors host interface \fBeth4\fR for incoming HomePlug AV frames and dumps writes them to file \fBhpav.log\fR.
 Frames are printed in hexadecimal dump format because option \fB-v\fR is present.
 Terminate the foreground process by typing ^C or ^Z at the console.
-
 .PP
    # hpav -v -i eth4 > hpav.log
 

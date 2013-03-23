@@ -106,7 +106,6 @@ The destination MAC address.
 The average expected data rate for this stream.
 Valid values are \fB1\fR to \fB9000\fR where units are in 10kbps so the minimum rate is 10kbps and the maximum rate is 90mbps.
 
-
 .TP
 .IR ttl
 The time to live for this stream.
@@ -135,13 +134,11 @@ A condition consists of a \fIfield\fR, an \fIoperator\fR and a \fIvalue\fR.
 One condition is required but three are permitted.
 Condition order is not important but all conditions must appear after the \fIoperand\fR and before the \fIcontrol\fR.
 
-
 .TP
 .IR field
 The field is the part of the Ethernet frame to be examined.
 Some fields are not valid for some actions but this program does not enforce such rules since validation is performed by runtime firmware on each device.
 Recognized fields are listed and described under \fBFIELDS\fR.
-
 
 .TP
 .IR operator
@@ -159,7 +156,6 @@ Hexadecimal values start with \fB0x\fR.
 States are expressed using keywords.
 Users are responsible for knowing how many bits are significant for each type of value.
 Valid values are described along with fields under \fBFIELDS\fR.
-
 
 .SH OPERANDS
 The \fIoperand\fR indicates the logical relationship that must exist between conditions in the rule set before the action is applied to a frame.
@@ -187,7 +183,6 @@ Fields indicate the portion of the frame that is inspected during selection and 
 They are expressed as discrete alphanumeric strings entered in upper, lower or mixed character case.
 Failure to enter a known field will result in an error message that lists all possible fields.
 
-
 .TP
 .BR ET
 A 16-bit Ethertype expressed in decimal, hexadecimal or binary.
@@ -198,35 +193,29 @@ The format is described in IEEE Standard 802-2001 [4].
 A 48-bit Ethernet destination address expressed in hexadecimal.
 The format is described in IEEE Standard 802-2001 [4].
 
-
 .TP 
 .BR EthSA  
 A 48-bit Ethernet source address expressed in hexadecimal.
 The format is described in IEEE Standard 802-2001 [4].
-
 
 .TP 
 .BR VLANUP 
 An 8-bit Ethernet VLAN tag where the lower 3 bits are the User Priority sub-field of a VLAN Tag defined in IEEE Std 802.1Q-1998 (Virtual Bridged Local Area Networks) [11].
 The upper 5 bits should be zero.
 
-
 .TP
 .BR VLANID 
 A 16-bit VLAN identifier where the lower 12 bits are the VLAN Identifier (VID) defined in IEEE Std 802.1Q-1998 (Virtual Bridged Local Area Networks) [11].
 The upper 4 bits should be zero.
 
-
 .TP
 .BR IPV4TOS 
 An 8-bit Type-of-Service code where the format is defined in the RFC 791 (Internet Protocol) [14].
-
 
 .TP
 .BR IPV4PROT 
 An 8-bit Ethernet Protocol identifier.
 The format is defined in the RFC 791 (Internet Protocol) [14].
-
 
 .TP
 .BR IPV4SA
@@ -237,7 +226,6 @@ For example, "..." is equivalent to "0.0.0.0 and "127..000.001" is equivalent to
 .TP
 .BR IPV4DA 
 A 32-bit Internet Protocol destination address expressed in dotted-decimal notation. The official format is defined in RFC 791 (internet Protocol) [14]. Our implementation permits empty octets and leading zeros within fields. For example, "..." is equivalent to "0.0.0.0 and "127..000.001" is equivalent to "127.0.0.1".
-
 
 .TP
 .BR IPV6TC
@@ -257,7 +245,6 @@ Our implementation permits multiple empty fields, abreviated fields and leading 
 When multiple empty fields appear, only the right-most occurance expands to zeros.
 For example, "FFFF::DDDD::BBBB::AAAA" is equivalent to "FFFF:0000:DDDD:0000:BBBB:0000:0000:AAAA".
 
-
 .TP
 .BR IPV6DA
 A 128-bit IPV6 destination address expressed as colon-separated hexadecimal quartets (octet pairs).
@@ -266,42 +253,35 @@ Our implementation permits multiple empty fields, abbreviated fields and leading
 When multiple empty fields appear, only the right-most occurance expands to zeros.
 For example, "AAAA::BBBB::CCCC::DDDD" is equivalent to "AAAA:0000:BBBB:0000:CCCC:0000:0000:DDDD".
 
-
 .TP
 .BR TCPSP
 A 16-bit TCP source port as a decimal integer.
 The format is defined in RFC 793 (Transmission Control Protocol [15]).
-
 
 .TP
 .BR TCPDP 
 A 16-bit TCP destination port expressed as a decimal integer.
 The format is defined in RFC 793 (Transmission Control Protocol [15]).
 
-
 .TP
 .BR UDPSP 
 A 16-bit UDP source port expressed as a decimal integer.
 The format is defined in RFC 768 (User Datagram Protocol [13]).
-
 
 .TP
 .BR UDPDP
 A 16-bit UDP destination port expressed as a decimal integer.
 The format is defined in RFC 768 (User Datagram Protocol [13]).
 
-
 .TP
 .BR IPSP
 A 16-bit IP source port expressed as a decimal integer.
 This condition applies to either TCP or UDP packets, depending on the protocol used, and is valid only for actions "\fBCAP0\fR", "\fBCAP1\fR", "\fBCAP2\fR", "\fBCAP3\fR" and "\fBDrop\fR".
 
-
 .TP
 .BR IPDP 
 A 16-bit IP destination port expressed as a decimal integer.
 This condition applies to either TCP or UDP packets, depending on the protocol used, and is valid only for actions "\fBCAP0\fR", "\fBCAP1\fR", "\fBCAP2\fR", "\fBCAP3\fR" and "\fBDrop\fR".
-
 
 .TP
 .BR MME
@@ -309,7 +289,6 @@ A 24-bit Atheros HomePlugAV Management Message type expressed in hexadecimal.
 The first byte is the MMV and the next two bytes are the MMTYPE for a HomePlug AV frame as defined in the HomePlug AV Specification.
 The MMTYPE will match any MME sub-type (Request; Confirm; Indicate; Response).
 This field is only valid for action "\fBBoost\fR".
-
 
 .SH OPERATORS
 An operator indicates an equality between a \fIfield\fR and a \fIvalue\fR.

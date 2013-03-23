@@ -16,7 +16,6 @@ int6kf - INT6300 Flash Utility for Linux
 .SH DESCRIPTION
 This program is deprecated.
 Use \fBint6kboot\fR when downloading firmware 3.3.4 or later on INT6300 devices or later.
-
 .PP
 Download and start runtime firmware on a local Atheros powerline device that is in bootloader mode.
 A device stays in bootloader mode when it cannot load firmware from NVRAM.
@@ -24,7 +23,6 @@ That can happen because there is no NVRAM or because the NVRAM is blank or corru
 The bootloader only understands a subset of Atheros message types and cannot flash NVRAM.
 This program uses that subset to download runtime firmware and start execution.
 Optionally, it will proceed to flash NVRAM after the firmware has started.
-
 .PP
 Booting a device is a two part operation.
 The first part downloads SDRAM configuration parameters then download runtime firmware and parameters into SDRAM and starts the firmware.
@@ -88,7 +86,6 @@ No assumptions are made based on filename and no filename conventions are enforc
 .RB - q
 Suppresses status messages on stderr.
 
-
 .TP
 -\fBt \fItimer\fR
 Read timeout or capture period in milliseconds.
@@ -107,7 +104,6 @@ In particular, this option dumps outgoing Ethernet packets on stdout.
 .RB - ? ,-- help
 Print program help summary on stdout.
 This option takes precedence over other options on the command line.
-
 
 .TP
 .RB - ! ,-- version

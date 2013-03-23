@@ -31,7 +31,6 @@ Read device attributes using VS_OP_ATTRIBUTES.
 Attributes are short strings and integers that describe device hardware and firmware.
 They are concatenated to form the output that is similar to option -\fBr\fR but derived differently.
 
-
 .TP
 -\fBB \fIaction\fR
 Press the simple connect pushbutton using VS_PB_ENC.
@@ -69,7 +68,6 @@ This option prints all output on stdout in cases where this is desired.
 .RB - f
 Read flash memory parameters using VS_GET_NVM.
 An error will be reported if no flash memory is present.
-
 
 .TP
 .RB - F [ F ]
@@ -120,12 +118,10 @@ Normally, you will repeat operations on one device only.
 Read network membership information using VS_NW_INFO.
 This can be used to determine network configuration.
 
-
 .TP
 .RB - M
 Set the Network Membership Key (NMK) on the local device using VS_SET_KEY.
 The NMK value is specified using the -\fBK\fR option unless you want to use the default value.
-
 
 .TP 
 -\fBn\fR \fIfilename\fR
@@ -155,7 +151,6 @@ This option is executed after -\fBp\fR when both are specified.
 .RB - q
 Suppresses status messages on stderr.
 
-
 .TP
 .RB - Q
 Quick flash.
@@ -167,7 +162,6 @@ It has no effect unless used with option -\fBF\fR or -\fBC\fR.
 .RB - r
 Read device firmware and hardware revision using VS_SW_VER.
 Output is similar to option -\fBa\fR but is derived differently.
-
 
 .TP 
 .RB - R
@@ -211,7 +205,6 @@ Normally, the program reports errors and moves on to the next operation, iterati
 Print program help summary on stdout.
 This option takes precedence over other options on the command line.
 
-
 .TP
 .RB - ? ,-- version
 Print program version information on stdout.
@@ -240,7 +233,6 @@ The passwords that generated the keys are irrelevant here.
 Encryption keys are tedious to type and prone to error.
 For convenience, symbolic names have been assigned to common encryption keys and are recognized by options -\fBD\fR and -\fBK\fR.
 
-
 .TP
 .BR key1
 Key for encrypted password "\fBHomePlugAV\fR".
@@ -262,7 +254,6 @@ Individual octets may be separated by colons, for clarity, but not all octets ne
 For example, "00b052000001", "00:b0:52:00:00:01" and "00b052:000001" are valid and equivalent.
 .PP
 These symbolic addresses are recognized by this program and may be used instead of the actual address value.
-
 
 .TP
 .BR all

@@ -15,7 +15,6 @@ coqos_man - Set and monitor bandwidth
 .PP
 Monitors the bandwidth being used and sets a bandwidth limit.
 If the bandwidth limit is exceeded it will suspend the lower priority streams in priority order until the bandwidth being used is less than the limit.
-
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 See the \fBplc\fR man page for an overview and installation instructions.
@@ -38,7 +37,6 @@ This option then takes precedence over either default.
 .TP
 .RB - q
 Suppresses status messages on stderr.
-
 
 .TP
 .RB - r
@@ -108,7 +106,6 @@ Qualcomm Atheros reserves the right to modify message structure and content in f
 
 .SH EXAMPLES
 The following example suspends streams if the bandwidth used exceeds 20mbps.
-
 .PP
    # coqos_man 20000 00:B0:52:BA:BE:01 
 

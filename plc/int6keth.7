@@ -21,87 +21,60 @@ See the \fBplc\fR man page for an overview and installation instructions.
 .TP
 -\fBa \fImode\fR
 Advertise auto-negotiate capabilities.
-
 This option takes effect when option \fB-w\fR is present.
-
 It is ignored when option \fB-r\fR is present.
-
 Valid values are "\fB100Full\fR", "\fB100Half\fR", "\fB10Full\fR" and "\fB10Half\fR".
-
 The default value is no advertisement of capabilities.
 
 .TP
 -\fBd \fImode\fR
 Device duplex transmission mode.
-
 This option takes effect when option \fB-w\fR is present.
-
 It is ignored when option \fB-r\fR is present.
-
 Valid values are "\fBHalf\fR" and "\fBFull\fR".
-
 The default value is "\fBHalf\fR".
 
 .TP
 .RB - e
 Redirects stderr messages to stdout.
-
 By convention status and error messages are printed on stderr while primary program output is printed on stdout.
-
 This option prints all output on stdout in cases where this is desired.
 
 .TP
 -\fBf \fIcontrol\fR
 Flow control enable.
-
 This option takes effect when option \fB-w\fR is present.
-
 It is ignored when option \fB-r\fR is present.
-
 Valid values are "\fBOn\fR", "\fBOff\fR", "\fBTx\fR" and "\fBRx\fR".
-
 The default value is "\fBOff\fR".
 
 .TP
 -\fBn \fImode\fR
 Auto-negotiate mode.
-
 This option takes effect when option \fB-w\fR is present.
-
 It is ignored when option \fB-r\fR is present.
-
 Valid values are "\fBOn\fR" and "\fBOff\fR".
-
 The default value is "\fBOn\fR".
 
 .TP
 -\fBp\fI number\fR
 The ethernet port number.
-
 Available port numbers differ with chipset and firmware version so consult the appropriate technical documentation.
-
 Permitted values are \fB0\fR through \fB7\fR.
-
 The default port is \fB0\fR.
 
 .TP
 -\fBs \fIspeed\fR
 Network transmission speed in mbps.
-
 This option takes effect when option \fB-w\fR is present.
-
 It is ignored when option \fB-r\fR is present.
-
 Valid values are "\fB10\fR", "\fB100\fR" and "\fB1000\fR".
-
 The default value is "\fB10\fR".
 
 .TP
 -\fBi \fIinterface\fR
 Select the host Ethernet interface.
-
 All requests are sent via this host interface and only reponses received via this host interface are recognized.
-
 The default interface is \fBeth1\fR because most people use \fBeth0\fR as their principle network connection; however, if environment string "PLC" is defined then it takes precedence over the default interface.
 This option then takes precedence over either default.
 
@@ -109,43 +82,32 @@ This option then takes precedence over either default.
 -\fBq\fR
 Suppresses status messages on stderr.
 
-
 .TP
 .RB - r
 Read settings from the Ethernet interface on the designated port.
-
 If present, or implied by default, then options \fB-a\fR, \fB-d\fR, \fB-f\fR, \fB-n\fR and \fB-s\fR have no effect.
-
 This option and option \fB-w\fR are mutually exclusive.
-
 
 .TP
 -\fBv\fR
 Print additional information on stdout.
-
 In particular, this option dumps incoming and outgoing packets which can be saved as text files for reference.
 
 .TP
 .RB - w
 Write settings to the Ethernet interface on the specified port.
-
 Be sure to specify all settings to avoid writing default values.
 This option and option \fB-r\fR are mutually exclusive.
-
 
 .TP
 .RB - ? ,-- help
 Print program help summary on stdout.
-
 This option takes precedence over other options on the command line.
-
 
 .TP
 .RB - ? ,-- version
 Print program version information on stdout.
-
 This option takes precedence over other options on the command line.
-
 Use this option when sending screen dumps to Atheros Technical Support so that they know exactly which version of the Linux Toolkit you are using.
 
 .SH ARGUMENTS

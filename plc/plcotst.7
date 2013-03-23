@@ -27,7 +27,6 @@ Permitted values are \fB0\fR through \fB255\fR.
 The default is \fB0\fR.
 This option applies to both selftest configuration and selftest results.
 
-
 .TP
 .RB - C
 Clear stored selftest results.
@@ -50,25 +49,20 @@ This option prints all output on stdout in cases where this is desired.
 .TP
 -\fBf\fI count\fR
 Run the flash memory selftest \fIcount\fR times.
-
 Valid values are \fB0\fR through \fBUINT_MAX\fR.
-
 The default is \fB0\fR which effectively suppresses the test.
 This option implies selftest configuration and supercedes option \fB-C\fR, if present on the command line.
 
 .TP
 -\fBm\fI count\fR
 Run the memory selftest \fIcount\fR times.
-
 Valid values are \fB0\fR through \fBUINT_MAX\fR.
-
 The default is \fB0\fR which suppresses effectively the test.
 This option implies selftest configuration and supercedes option \fB-C\fR, if present on the command line.
 
 .TP
 .RB - q
 Suppresses status messages on stderr.
-
 
 .TP
 -\fBr\fI flag\fR
@@ -77,7 +71,6 @@ Permitted values are \fB0\fR through \fB255\fR.
 Expected values are \fB0\fR for \fBfalse\fR and \fB1\fR for \fBtrue\fR.
 The default is \fB1\fR.
 If the memory test \fIcount\fR and flash test \fIcount\fR are both \fB0\fR no testing will occur when the time comes.
-
 This option implies selftest configuration and supercedes option \fB-C\fR, if present on the command line.
 
 .TP
@@ -86,7 +79,6 @@ Reset device after selftest.
 Permitted values are \fB0\fR through \fB255\fR.
 Expected values are \fB0\fR for \fBfalse\fR and \fB1\fR for \fBtrue\fR.
 The default is \fB0\fR.
-
 This option applies to selftest configuration only and supercedes option \fB-C\fR, if present on the command line.
 
 .TP
@@ -105,7 +97,6 @@ In particular, this option dumps incoming and outgoing packets which can be save
 .RB - ? ,-- help
 Print program help summary on stdout.
 This option takes precedence over other options on the command line.
-
 
 .TP
 .RB - ! ,-- version

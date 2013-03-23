@@ -25,40 +25,27 @@ This program uses that subset to write runtime firmware and parameters into SDRA
 Optionally, this program can then proceed to download the same firmware and parameters, again, and instruct the runtime firmware to write them to flash memory.
 .PP
 Starting a device is a three phase operation that can only be performed when the bootloader is running.
-
 The first phase writes an SDRAM configuration program into TCM and executes it.
-
 The second phase writes runtime firmware and parameters as images into SDRAM.
-
 The third phase starts firmware execution.
 Once the runtime firmware starts, the device will be operational.
-
 .PP
 Flashing a device is a two phase operation that can only be performed when the firmware is running.
-
 The first phase downloads runtime firmare and parameters into scratch buffers under firmware control.
-
 The second phase instructs the firmware to write the scratch buffers to flash memory and restart the device.
-
 After flashing, the device will be self-sustaining.
-
 .PP
 Since the device address is \fB00:B0:52:00:00:01\fR on boot, the host must send all messages to that address.
-
 This can cause problems if multiple devices are connected to the host and in Bootloader mode.
 The devices will have the same firmware and MAC address because their PIBs will be identical.
-
 One should avoid this situation.
-
 .PP
 Is probably alright to have other device connected to the host that are running firmware because they will still see but not recognize the messages used in this operation.
 If only one device is connected to the host, then is save to flash the device using address \fB00:B0:52:00:00:01\fR.
-
 Otherwise, the host should address messages to the actual device address so that other devices do not attempt to write to their own flash memory at the same time.
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 See the \fBplc\fR man page for an overview and installation instructions.
-
 
 .SH OPTIONS
 
@@ -101,7 +88,6 @@ No assumptions are made based on filename and no filename conventions are enforc
 .RB - q
 Suppresses status messages on stderr.
 
-
 .TP
 -\fBt \fImilliseconds\fR
 Read timeout in milliseconds.
@@ -118,7 +104,6 @@ In particular, this option dumps outgoing Ethernet packets on stdout.
 .RB - ? ,-- help
 Print program help summary on stdout.
 This option takes precedence over other options on the command line.
-
 
 .TP
 .RB - ! ,-- version
@@ -148,7 +133,6 @@ A \fBforeign\fR device is any powerline device not manufactured by Atheros.
 Common device addresses have symbolic names that can be used in place of the actual address value.
 The following symbolic addresses are recognized by this program and most other toolkit programs.
 
-
 .TP
 .BR all
 Equivalent to "broadcast", described next.
@@ -162,7 +146,6 @@ All devices, whether local, remote or foreign will respond to this address.
 .BR local
 A synonym for the Qualcomm Atheros Local Management Address (LMA), \fB00:B0:52:00:00:01\fR.
 All local Atheros devices will respond to this address but remote and foreign devices will not.
-
 
 .SH REFERENCES
 See the Qualcomm Atheros HomePlug AV Firmware Technical Reference Manual for technical information.
@@ -189,7 +172,6 @@ If we reset the device at this point then the device will return to bootloader m
 The next example does the same thing but performs the extra steps needed to program NVRAM.
 It first downloads the firmware image from file \fBtest.nvm\fR and the parameter block image from file \fBtest.pib\fR using VS_WR_MEM then starts firmware execution using VS_ST_MAC.
 Once runtime firmware has started, it downloads the same firmware image and parameter block image (again) using VS_WR_MOD and commits them to NVRAM using VS_MOD_NVM.
-
 .PP
    int6kboot -N test.nvm -P test.pib -F
    # eth0 00:B0:52:00:00:01 Write SDRAM Configuration

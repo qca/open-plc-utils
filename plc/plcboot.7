@@ -27,7 +27,6 @@ See programs \fBint6kboot\fR or \fBampboot\fR to initialize earlier chipsets.
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 See the \fBplc\fR man page for an overview and installation instructions.
 
-
 .SH OPTIONS
 
 .TP
@@ -41,7 +40,6 @@ This option prints all output on stdout in cases where this is desired.
 Flash or Force Flash NVRAM using either VS_MOD_NVM or VS_MODULE_OPERATION.
 Adding a second \fBF\fR here or another -\fBF\fR anywhere on the command line will \fBforce-flash\fR a blank or corrupted NVRAM.
 Firmware loaded from NVRAM may treat force-flash as an error, depending of the firmware version.
-
 
 .TP
 -\fB\i \fIinterface\fR
@@ -68,7 +66,6 @@ No assumptions are made about this file based on filename and no filename conven
 .RB - q
 Suppresses status messages on stderr.
 
-
 .TP 
 -\fBS \fIfilename\fR
 The file containing the softloader chain used to flash the device.
@@ -94,7 +91,6 @@ In particular, this option dumps outgoing Ethernet packets on stdout.
 .RB - ? ,-- help
 Print program help summary on stdout.
 This option takes precedence over other options on the command line.
-
 
 .TP
 .RB - ! ,-- version
@@ -124,7 +120,6 @@ A \fBforeign\fR device is any powerline device not manufactured by Atheros.
 Common device addresses have symbolic names that can be used in place of the actual address value.
 The following symbolic addresses are recognized by this program and most other toolkit programs.
 
-
 .TP
 .BR all
 Equivalent to "broadcast", described next.
@@ -138,7 +133,6 @@ All devices, whether local, remote or foreign will respond to this address.
 .BR local
 A synonym for the Qualcomm Atheros Local Management Address (LMA), \fB00:B0:52:00:00:01\fR.
 All local Atheros devices will respond to this address but remote and foreign devices will not.
-
 
 .SH REFERENCES
 See the Qualcomm Atheros HomePlug AV Firmware Technical Reference Manual for technical information.
@@ -167,7 +161,6 @@ The next example boots a device, as before, then flashes the same parameters and
 Observe that a softloader is required and will be written to flash memory before runtime parameters and firmware.
 The softloader need only be written once when first programming a blank flash memory.
 Option \fB-FF\fR is optional but permitted for backward compatibility with programs \fBampboot\fR and \fBint6kboot\fR.
-
 .PP
    # plcboot -P AR7420.pib -N AR7400.nvm -S AR7420-softloader.nvm -FF
    eth1 00:B0:52:00:00:01 Write AR7420.nvm (1) (00000040:6212)

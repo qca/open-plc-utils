@@ -10,7 +10,6 @@ int6kuart - Qualcomm Atheros Serial Line Device Manager
 
 .SH DESCRIPTION
 Perform powerline device management operations over serial line interface.
-
 .PP
 Serial line commands are 7-bit ASCII character strings sent to the local powerline device over the host serial port.
 They can be sent using any terminal emulator but this program will, in many cases, reduce typing and simplify scripting.
@@ -59,14 +58,12 @@ The original host serial port settings are not restored when the program termina
 You must restore them manually or by other means.
 Changing host serial port settings will break serial communications with the local powerline device if the device is not using the same settings.
 
-
 .TP
 -\fBc \fIcommand\fR
 Send a custom serial line command to the local powerline device over the host serial interface.
 Argument \fIcommand\fR is sent as specified but will be terminated with a carriage return.
 The command must be enclosed in quotes if it contains spaces or special characters.
 This option can be used to send serial line commands that are not supported by this program.
-
 
 .TP
 -\fBC \fImodule\fR
@@ -90,24 +87,20 @@ This address will supercede the default destination device address, stored in th
 Multicast address values are not permitted by the device.
 Argument \fIaddress\fR is six hexadecimal octets optionally separated by colons.
 
-
 .TP
 -\fBF \fIfilename\fR
 Read the named frame description file and send it over powerline as an Atheros vendor-specific management message using the \fBATM\fR serial line command.
 Unlike program \fBefsu\fR, only the first file frame is sent.
 Any subsequent frames defined in the file are ignored.
 
-
 .TP
 .RB - H
 Exit \fBCommand Mode\fR and enter \fBHigh Speed Command Mode\fR using the \fBATHSC\fR serial line command.
-
 
 .TP
 .RB - i
 Get and display network information using the \fBATNI\fR serial line command.
 The information includes the TEI, MAC address, receive rate and transmit rate for each remote device on the network.
-
 
 .TP
 .RB - I
@@ -118,19 +111,16 @@ Get and display the PIB version and device MAC address using the \fBATRPM\fR ser
 Read and display the \fBNetwork Membership Key\fR of the local powerline device using the \fBATSK\fR serial line command.
 This option is similar to option \fB-M\fR but substitutes \fB?\fR for the membership key.
 
-
 .TP
 -\fBM \fIkey\fR
 Set the \fBNetwork Membership Key\fR of the local powerline device using the \fBATSK\fR serial line command.
 The \fIkey\fR consists of 16 hexadecimal octets optionally separated by colons.
-
 
 .TP
 -\fBN \fIfilename\fR
 Open the named firmware file on the local host and write it to the local device using multiple \fBATWPF\fR serial line commands.
 There is no default filename or extension.
 The file is assumed to contain a valid firmware image.
-
 
 .TP
 .RB - O
@@ -151,7 +141,6 @@ Required \fIlength\fR and \fIoffset\fR values are automatically computed for eac
 There is no default filename or extention.
 The named file is assumed to contain a valid parameter block.
 
-
 .TP
 .RB - q
 Suppress progress and error information on stderr.
@@ -159,7 +148,6 @@ Suppress progress and error information on stderr.
 .TP
 .RB - r
 Read and display the local powerline device hardware identifier and firmware version string using the \fBATRV\fR serial line command.
-
 
 .TP
 .RB - R
@@ -181,13 +169,11 @@ Place the local power line device in \fBPower Save Mode\fR using the \fBATPS\fR 
 Test device using the \fBAT\fR serial line command.
 The device will respond with "OK" when in \fBCommand Mode\fR.
 
-
 .TP
 .RB - T
 Restore factory defaults on the local power line device using the \fBATFD\fR serial line command.
 Among other things, this will restore the destination device address stored in the factory PIB.
 Any destination device address previously set using option \fN-d\fR will be lost.
-
 
 .TP
 .RB - u
@@ -318,12 +304,10 @@ The destination device can be any remote powerline device on the same logical ne
    # int6kuart -D 00:B0:52:BA:BE:12
 .PP
 The next example places the device in \fBTransparent Mode\fR where serial line output is sent over powerline to the destination powerline device and forwarded the remote host connected to it.
-
 .PP
    # int6kuart -O
 .PP
 The next example sends the serial line command "ATSK?" to the local powerline device.
-
 .PP
    # int6kuart -c "ATSK?"
 

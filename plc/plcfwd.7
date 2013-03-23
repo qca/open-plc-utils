@@ -42,9 +42,7 @@ This option prints all output on stdout in cases where this is desired.
 -\fBf\fI filename\fR
 Read additional device addresses and VLAN IDs from the named file.
 This option may appear multiple times and may appear in addition option \fb-z\fR.
-
 Each occurance of this option adds one or more entries to the VLANID table used by options \fB-A\fR or \fB-R\fR.
-
 The format used on each line of this file is identical to that used by option \fB-z\fR.
 
 .TP
@@ -71,7 +69,6 @@ Keywords "\fBoff\fR" and "\fBdisable\fR" are the same as \fB0\fR.
 .TP
 -\fBo\fI offset\fR
 The read data offset in bytes.
-
 This option is ignored during other operations.
 The offset is expressed in hexadecimal.
 The default is \fB0\fR bytes;
@@ -79,7 +76,6 @@ The default is \fB0\fR bytes;
 .TP
 .RB - q
 Suppresses status messages on stderr.
-
 
 .TP
 .RB - R
@@ -103,11 +99,8 @@ In particular, this option dumps outgoing Ethernet packets on stdout.
 .TP
 -\fBz\fI address\fR,\fIid\fR[,\fIid\fR[,...]]
 A device address and associated VLAN IDs separated by commas.
-
 This option may appear multiple times and may appear in addition option \fb-f\fR.
-
 Each occurance of this option adds one entry to the VLANID table used by options \fB-A\fR or \fB-R\fR.
-
 The string format used here is identical to that used on each line of input files named by option \fB-f\fR.
 
 .TP
@@ -159,7 +152,6 @@ A foreign device is any device not manufactured by Atheros.
 
 .SH REFERENCES
 See the Qualcomm Atheros HomePlug AV Firmware Technical Reference Manual for technical information.
-
 
 .SH DISCLAIMER
 Atheros HomePlug AV Vendor Specific Management Message structure and content is proprietary to Qualcomm Atheros, Ocala FL USA.

@@ -13,11 +13,9 @@ int6k - Qualcomm Atheros INT6x00 Powerline Device Manager
 .SH DESCRIPTION
 This version of the Qualcomm Atheros Device Manager for Linux performs basic operations on Atheros INT6x00 devices using the raw Ethernet protocol described in the Qualcomm Atheros HomePlug AV Firmware Technical Reference Manual.
 It can be used to interrogate and control devices or upgrade firmware if on-board NVRAM is present.
-
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 See the \fBplc\fR man page for an overview and installation instructions.
-
 Is supports legacy chipsets INT6000, INT6300 and INT6400.
 
 .SH OPTIONS
@@ -27,7 +25,6 @@ Is supports legacy chipsets INT6000, INT6300 and INT6400.
 Read device attributes using VS_OP_ATTRIBUTES.
 Attributes are short strings and integers that describe device hardware and firmware.
 They are concatenated to form the output that is similar to option -\fBr\fR but derived differently.
-
 
 .TP
 -\fBB \fIaction\fR
@@ -116,12 +113,10 @@ Normally, you will repeat operations on one device only.
 Read network membership information using VS_NW_INFO.
 This can be used to determine network configuration.
 
-
 .TP
 .RB - M
 Set the Network Membership Key (NMK) on the local device using VS_SET_KEY.
 The NMK value is specified using the -\fBK\fR option unless you want to use the default value.
-
 
 .TP 
 -\fBn\fR \fIfilename\fR
@@ -151,7 +146,6 @@ This option is executed after -\fBp\fR when both are specified.
 .RB - q
 Suppresses status messages on stderr.
 
-
 .TP
 .RB - Q
 Quick flash.
@@ -163,7 +157,6 @@ It has no effect unless used with option \fB-F\fR or \fB-C\fR.
 .RB - r
 Read device firmware and hardware revision using VS_SW_VER.
 Output is similar to option -\fBa\fR but is derived differently.
-
 
 .TP 
 .RB - R
@@ -180,7 +173,6 @@ Read the named \fB.cfg\fR file and write it to the device using VS_SET_SDRAM.
 No assumptions are made based on filename and no filename conventions are enforced; however, files having an invalid .cfg file format will be rejected.
 Do not confuse .cfg files with .config files.
 See \fBchkcfg\fR and \fBconfig2cfg\fR for more information on SDRAM configuration file formats.
-
 
 .TP
 -\fBt \fImilliseconds\fR
@@ -215,7 +207,6 @@ Normally, the program reports errors and moves on to the next operation, iterati
 Print program help summary on stdout.
 This option takes precedence over other options on the command line.
 
-
 .TP
 .RB - ? ,-- version
 Print program version information on stdout.
@@ -244,7 +235,6 @@ The passwords that generated the keys are irrelevant here.
 Encryption keys are tedious to type and prone to error.
 For convenience, symbolic names have been assigned to common encryption keys and are recognized by options -\fBD\fR and -\fBK\fR.
 
-
 .TP
 .BR key1
 Key for encrypted password "\fBHomePlugAV\fR".
@@ -266,7 +256,6 @@ Individual octets may be separated by colons, for clarity, but not all octets ne
 For example, "00b052000001", "00:b0:52:00:00:01" and "00b052:000001" are valid and equivalent.
 .PP
 These symbolic addresses are recognized by this program and may be used instead of the actual address value.
-
 
 .TP
 .BR all

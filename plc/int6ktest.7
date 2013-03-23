@@ -24,7 +24,6 @@ Most applets return to the Bootloader on successful completion so that another a
 This allows applet chains to be executed using one command.
 A chain may consist of one image file containing many applets or several image files containing one applet each or any combination.
 The chain will break, after a timeout, if any applet in the chain fails to return to the Bootloader.
-
 .PP
 The toolkit contains a set of useful applets in folder \fBapplets\fR.
 Most, if not all, are as single applet image files.
@@ -36,7 +35,6 @@ Users should take the time to understand the applets they attempt to execute or 
 Each applet should have an associated man page to explain what it does and how it works.
 Most applets execute and return to the bootloader within seconds but some loop indefinitely or stop on failure.
 Newer applets print test progress and outcomes on the console but older applets merely flash device LEDs to indicate test progress and outcomes.
-
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 See the \fBplc\fR man page for an overview and installation instructions.
@@ -84,7 +82,6 @@ The default frequency is \fB5\fR.
 .RB - q
 Suppresses normal progress and status messages.
 
-
 .TP
 -\fBt \fImilliseconds\fR
 Read timeout in milliseconds.
@@ -107,7 +104,6 @@ Error exits return a non-zero value to the shell.
 -\fB?\fR, --\fBhelp\fR
 Print program help summary on stdout.
 This option takes precedence over other options on the command line.
-
 
 .TP
 -\fB!\fR, --\fBversion\fR

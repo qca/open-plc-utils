@@ -31,7 +31,6 @@ If a new rule set is identical to an old rule set then an error will occur unles
 In that case the old rule will be replaced.
 Identical classification rule sets are permitted if one of the sets is associated with a VLAN tag action.
 Classification is based on the original frame before is is altered by VLAN Tag insertion or removal.
-
 .PP
 Classification is multi-dimensional and the terminology used here may seem strange at first.
 Refer to the Qualcomm Atheros Firmware Techncial Reference Manual description of the VS_CLASSIFICATION management message for a full explanation.
@@ -58,7 +57,6 @@ This option then takes precedence over either default.
 .RB - q
 Suppresses status messages on stderr.
 
-
 .TP
 .RB - s
 Print a list of program keywords on stdout.
@@ -77,7 +75,6 @@ The VLAN tag to be inserted into frames before they are transmitted.
 The tag is a 32-bit hexadecimal integer with optional "\fB0x\fR" prefix.
 This option is required for action \fBTagTX\fR and must be omitted for all other actions.
 
-
 .TP
 .RB - v
 Print additional information on stdout.
@@ -88,12 +85,10 @@ In particular, this option dumps incoming and outgoing packets which can be save
 The CSPEC version number expressed as a small decimal integer.
 This option is required (and should be \fB2\fR) for action \fBTagTX\fR and must be omitted for all other actions.
 
-
 .TP
 .RB - ? ,-- help
 Print program help summary on stdout.
 This option takes precedence over other options on the command line.
-
 
 .TP
 .RB - ! ,-- version
@@ -153,7 +148,6 @@ Assign a specific Channel Access Priority to frames.
 .BR Drop , DropTX
 Do not forward frames over powerline.
 
-
 .TP
 .BR DropRX
 Do not forward frames to host.
@@ -162,7 +156,6 @@ Do not forward frames to host.
 .BR Boost
 Boost frame priority to CAP3 for MMEs only.
 At least one condition must be "\fBMME\fR".
-
 
 .TP
 .BR StripTX
@@ -178,7 +171,6 @@ This option checks for a VLAN Tag even when there are no VLAN related conditions
 .BR TagTX
 Insert a given VLAN Tag into frames before transmission over powerline.
 This action requires option \fB-T\fR to specify the tag and option \fB-V\fR to specify the CSPEC version.
-
 
 .SH OPERANDS
 The \fIoperand\fR indicates the logical relationship that must exist between conditions in the rule set before the action is applied to a frame.
@@ -207,13 +199,11 @@ A condition consists of a \fIfield\fR, an \fIoperator\fR and a \fIvalue\fR.
 One condition is required but three are permitted.
 Condition order is not important but all conditions must appear after the \fIoperand\fR and before the \fIcontrol\fR.
 
-
 .TP
 .IR field
 The field is the part of the Ethernet frame to be examined.
 Some fields are not valid for some actions but this program does not enforce such rules since validation is performed by runtime firmware on each device.
 Recognized fields are listed and described under \fBFIELDS\fR.
-
 
 .TP
 .IR operator
@@ -232,12 +222,10 @@ States are expressed using keywords.
 Users are responsible for knowing how many bits are significant for each type of value.
 Valid values are described along with fields under \fBFIELDS\fR.
 
-
 .SH FIELDS
 Fields indicate the portion of the frame that is inspected during selection and the size and format of the value permited in the condition statement.
 They are expressed as discrete alphanumeric strings entered in upper, lower or mixed character case.
 Failure to enter a known field will result in an error message that lists permitted fields.
-
 
 .TP
 .BR ET
@@ -250,36 +238,30 @@ A 48-bit Ethernet destination address expressed in hexadecimal.
 Octets may be separated with optional colons for clarity.
 The format is described in IEEE Standard 802-2001 [4].
 
-
 .TP 
 .BR EthSA  
 A 48-bit Ethernet source address expressed in hexadecimal.
 Octets may be separated with optional colons for clarity.
 The format is described in IEEE Standard 802-2001 [4].
 
-
 .TP
 .BR IPSP
 A 16-bit IP source port expressed as a decimal integer.
 This condition applies to either TCP or UDP packets, depending on the protocol used, and is valid only for actions "\fBCAP0\fR", "\fBCAP1\fR", "\fBCAP2\fR", "\fBCAP3\fR" and "\fBDrop\fR".
-
 
 .TP
 .BR IPDP 
 A 16-bit IP destination port expressed as a decimal integer.
 This condition applies to either TCP or UDP packets, depending on the protocol used, and is valid only for actions "\fBCAP0\fR", "\fBCAP1\fR", "\fBCAP2\fR", "\fBCAP3\fR" and "\fBDrop\fR".
 
-
 .TP
 .BR IPV4TOS 
 An 8-bit Type-of-Service code where the format is defined in the RFC 791 (Internet Protocol) [14].
-
 
 .TP
 .BR IPV4PROT 
 An 8-bit Ethernet protocol code.
 The format is defined in the RFC 791 (Internet Protocol) [14].
-
 
 .TP
 .BR IPV4SA
@@ -290,7 +272,6 @@ For example, "..." is equivalent to "0.0.0.0 and "127..000.001" is equivalent to
 .TP
 .BR IPV4DA 
 A 32-bit Internet Protocol destination address expressed in dotted-decimal notation. The official format is defined in RFC 791 (internet Protocol) [14]. Our implementation permits empty octets and leading zeros within fields. For example, "..." is equivalent to "0.0.0.0 and "127..000.001" is equivalent to "127.0.0.1".
-
 
 .TP
 .BR IPV6TC
@@ -310,7 +291,6 @@ Our implementation permits multiple empty fields, abreviated fields and leading 
 When multiple empty fields appear, the right-most occurance expands to multiple zeros.
 For example, "AAAA::BBBB::CCCC" is equivalent to "AAAA:0000:BBBB:0000:0000:0000:0000:CCCC".
 
-
 .TP
 .BR IPV6DA
 A 128-bit IPV6 destination address expressed as colon-separated hexadecimal quartets (octet pairs).
@@ -318,7 +298,6 @@ The official format is defined in RFC 2460 (Internet Protocol Version 6) [17].
 Our implementation permits multiple empty fields, abbreviated fields and leading zeros within fields.
 When multiple empty fields appear, the right-most occurance expands to zeros.
 For example, ":1::2" is equivalent to "0000:0001:0000:0000:0000:0000:0000:0002".
-
 
 .TP
 .BR MME
@@ -330,7 +309,6 @@ Both are defined in the HomePlug AV Specification.
 The MMTYPE will match all MME variants, such as Request, Confirm, Indicate and Response because the lower two bits are ignored.
 This field is only valid for action "\fBBoost\fR".
 
-
 .TP
 .BR TCPAck
 The string "\fBTrue\fR" or "\fBFalse\fR" to indicate that the frame is (or is not) a TCP Acknowledgement.
@@ -341,36 +319,30 @@ Double negatives are allowed so "Is True" is equvalent to "Not False" and "Is Fa
 A 16-bit TCP source port as a decimal integer.
 The format is defined in RFC 793 (Transmission Control Protocol [15]).
 
-
 .TP
 .BR TCPDP 
 A 16-bit TCP destination port expressed as a decimal integer.
 The format is defined in RFC 793 (Transmission Control Protocol [15]).
-
 
 .TP
 .BR UDPSP 
 A 16-bit UDP source port expressed as a decimal integer.
 The format is defined in RFC 768 (User Datagram Protocol [13]).
 
-
 .TP
 .BR UDPDP
 A 16-bit UDP destination port expressed as a decimal integer.
 The format is defined in RFC 768 (User Datagram Protocol [13]).
-
 
 .TP
 .BR VLANID 
 A 16-bit VLAN identifier where the lower 12 bits are the VLAN Identifier (VID) defined in IEEE Std 802.1Q-1998 (Virtual Bridged Local Area Networks) [11].
 The upper 4 bits should be zero.
 
-
 .TP 
 .BR VLANUP 
 An 8-bit Ethernet VLAN tag where the lower 3 bits are the User Priority sub-field of a VLAN Tag defined in IEEE Std 802.1Q-1998 (Virtual Bridged Local Area Networks) [11].
 The upper 5 bits should be zero.
-
 
 .TP
 .BR VLANTag
@@ -395,7 +367,6 @@ Indicates that the frame field must not equal the associated value for the condi
 .SH STATES
 A state is a special case of \fIvalue\fR.
 
-
 .TP
 .BR True , On , Yes , Present
 Indicates a positive state or presence of some entity.
@@ -414,7 +385,6 @@ It is expressed as a discrete alphanumeric string entered in upper, lower or mix
 Failure to enter a known control will result in an error message that lists permitted controls.
 The control is position sensitive and must occur after \fIcondition\fR and before \fIvolatility\fR.
 
-
 .TP
 .BR Add
 Adds the rule to the current list of rules unless a violation occurs.
@@ -430,12 +400,10 @@ It is expressed as a discrete alphanumeric string entered in upper, lower or mix
 Failure to enter a known volatility will result in an error message that lists permitted volatilities.
 The volatility is position sensitive and must occur after \fIcontrol\fR.
 
-
 .TP
 .BR Temp
 The temporary rule set will be modified.
 The temporary rule set resides in the working PIB stored in SDRAM.
-
 
 .TP
 .BR Perm
@@ -481,7 +449,6 @@ This command adds a temporary classification rule to the classification table on
 The rule instructs the device to drop frames that match either (any) of two conditions.
 The first condition states that the IPv4 source address is 192.168.99.2.
 The second conditon states that the IPv4 destination address is 192.168.99.100.
-
 .PP
    # plcrule drop any IPv4SA is 192.168.99.2 IPv4DA is 192.168.99.100 add temp 00:B0:52:BA:BE:01
 .PP
@@ -489,7 +456,6 @@ Observe that the \fIaction\fR, \fIoperand\fR and \fIconditions\fR come first the
 Up to three conditions may be specified.
 Keyword order is important.
 Character case is not important.
-
 .PP
 The following example prints a list of programmed keywords on stdout for reference.
 The example shown here has been abbreviate due to formatting limitations.

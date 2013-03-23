@@ -28,40 +28,30 @@ See the \fBplc\fR man page for an overview and installation instructions.
 .TP
 -\fBd \fIdata\fR
 A 16-bit data value to be inserted into the specified register.
-
 The specified data value is written when this option is present; otherwise the specified register is read and the content is displayed.
 Data values may be expressed in decimal, hexadecimal or binary notation.
-
 Hexadecimal values are prefixed with "0x" or "0X".
 Binary values are prefixed with "0b" or "0B".
 
 .TP
 .RB - e
 Redirects stderr messages to stdout.
-
 By convention status and error messages are printed on stderr while primary program output is printed on stdout.
-
 This option prints all output on stdout in cases where this is desired.
 
 .TP
 -\fBi \fIinterface\fR
 Select the host Ethernet interface.
-
 All requests are sent via this host interface and only reponses received via this host interface are recognized.
-
 The default interface is \fBeth1\fR because most people use \fBeth0\fR as their principle network connection; 
 however, if environment string "PLC" is defined then it takes precedence over the default interface.
-
 This option then takes precedence over either default.
 
 .TP
 -\fBp \fIaddress\fR
 The 5-bit PHY address.
-
 Some devices may not support all possible addresses.
-
 Addresses may be expressed in decimal, hexadecimal or binary notation.
-
 Hexadecimal values must be prefixed with "0x" or "0X".
 Binary values must be prefixed with "0b" or "0B".
 
@@ -69,17 +59,13 @@ Binary values must be prefixed with "0b" or "0B".
 .RB - q
 Suppresses status messages on stderr.
 
-
 .TP
 -\fBr \fIregister\fR
 The 5-bit register address.
-
 Addresses may be expressed in decimal, hexadecimal or binary notation.
-
 Hexadecimal values must be prefixed with "0x" or "0X".
 Binary values must be prefixed with "0b" or "0B".
 Some devices may not support all possible addresses.
-
 
 .TP
 .RB - v
@@ -135,7 +121,6 @@ A foreign device is any device not manufactured by Atheros.
 
 .SH REFERENCES
 See the Qualcomm Atheros HomePlug AV Firmware Technical Reference Manual for technical information.
-
 
 .SH DISCLAIMER
 Atheros HomePlug AV Vendor Specific Management Message structure and content is proprietary to Qualcomm Atheros, Ocala FL USA.

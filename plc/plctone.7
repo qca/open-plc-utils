@@ -64,7 +64,6 @@ Average SNR is computed for each slot then an overall average SNR is computed.
 ACG and GIL values for each slot are also displayed.
 This option suppresses tone map output and causes option \fB-h\fR to be ignored.
 
-
 .TP
 .RB - v 
 Enter verbose mode.
@@ -74,7 +73,6 @@ All Etherenet frames sent or received by the program are displayed on stdout.
 -\fB?\fR, --\fBhelp\fR
 Print program help summary on stdout.
 This option takes precedence over other options on the command line.
-
 
 .TP
 -\fB!\fR, --\fBversion\fR
@@ -100,7 +98,6 @@ The following example prints tone map information computed by device \fB00B05200
 The information relates to channel estimation with peer device \fB00B05200CA0C\fR.
 We requested a histogram with option \fB-h\fR and suppressed the progress messages with option \fB-q\fr.
 Output consists of 917 lines of tone map modulation data.
-
 .PP
 Each line of tone map data consists of 8 columns.
 The first column is the offset.
@@ -108,7 +105,6 @@ The next 6 columns are time slot modulation data.
 The last column is the computed mean-square of the time slot modulation data.
 Devices operating on a 50hz powerline have modulation data in all 6 time slot columns.
 Devices operating on a 60hz powerline have modulation data in only 5 of the 6 columns.
-
 .PP
    # plctone -qh 00B05200CA0D 00B05200CA0C
    0000,05,04,04,05,04,00,19 ###################
@@ -1039,12 +1035,10 @@ See the man page for program \fBpsnotch\fR for more information.
 .PP
 This program can be used to detect the presence of powerline interference when electronic test equipment is not available.
 Although the frequency cannot be determined, the presence or absence of severe interferrence can be detected.
-
 .PP
 The following example computes average signal-to-noise ratios (SNR) for each time slot and the entire tone map because option \fB-s\fR is selected.
 The AGC and GIL values for each slot are also displayed.
 Option \fB-s\fR also suppresses tone map output.
-
 .PP
    # plctone -qs 000B3B00AAFA 00B05200CA0C
     SNR   24.398   24.398   24.398   24.398   24.398   24.398 

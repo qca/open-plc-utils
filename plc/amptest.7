@@ -20,7 +20,6 @@ Each applet is preceded by a header that specifies the image size, load address 
 Program \fBamptest\fR sequentially downloads and executes each applet found in each image file specified on the command line.
 It waits for each applet to complete before downloading and executing the next one.
 The program terminates once all applets in all files have been executed or some applet fails to complete within 60 seconds.
-
 .PP
 Most applets return to the Bootloader on successful completion so that another applet can be downloaded and executed.
 This allows applet chains to be executed using one command.
@@ -63,7 +62,6 @@ Sequentially execute and re-execute all applets in all files on the command line
 .RB - q
 Suppresses normal progress and status messages.
 
-
 .TP
 -\fBt \fImilliseconds\fR
 Read timeout in milliseconds.
@@ -82,7 +80,6 @@ Output can be directed to a text file for analysis.
 Application timeout in seconds.
 This application will wait this long for an applet to terminate and return to the bootloader before reporting an error and proceeding to the next applet.
 
-
 .TP
 .RB - x
 Cause the program to exit on the first error instead of moving on to the next applet.
@@ -92,7 +89,6 @@ Error exits return a non-zero value to the shell.
 -\fB?\fR, --\fBhelp\fR
 Print program help summary on stdout.
 This option takes precedence over other options on the command line.
-
 
 .TP
 -\fB!\fR, --\fBversion\fR

@@ -14,7 +14,6 @@ int6kid - Echo Device Key
 This program prints a single powerline device key or HFID on stdout.
 It can be used to dynamically define environment variables or insert command line arguments in scripts at runtime.
 It is intended to echo a specific key read from a single device but it can be used to echo a specific key type read from several devices by specifying either the Qualcomm Atheros Local Management Address or a broadcast address.
-
 .PP
 This program is, in some sense, the inverse of \fBmodpib\fR but it reads the key and HFID directly from the powerline device instead of reading from a PIB file.
 .PP
@@ -66,7 +65,6 @@ This option and options -\fBA\fR, -\fBD\fR, -\fBM\fR, -\fBS\fR and -\fBU\fR are 
 .RB - q
 Suppresses status messages on stderr.
 
-
 .TP
 .RB - S
 Prints the manufacturer HFID string for each specified device.
@@ -86,7 +84,6 @@ Normally, the program reports errors and moves on to the next operation, iterati
 .RB - ? ,-- help
 Print program help summary on stdout.
 This option takes precedence over other options on the command line.
-
 
 .TP
 .RB - ? ,-- version
@@ -144,7 +141,6 @@ The local device is interrogated because no MAC address was specified.
 The default interface, \fBeth1\fR on Linux and \fB2\fR on Windows, is used unless environment variable \fBPLC\fR is defined.
 The DAK is always printed by default.
 Depending on your system, you may want to use option -\fBn\fR when using this program interactively.
-
 .PP
    # int6kid
    00:11:22:33:44:55:66:77:88:99:AA:DD:CC:DD:EE:FF
