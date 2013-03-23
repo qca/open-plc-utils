@@ -1,61 +1,115 @@
-.TH amptone 7 "December 2012" "plc-utils" "Qualcomm Atheros Powerline Toolkit"
+.TH amptone 7 "December 2012" "plc-utils-2.1.3" "Qualcomm Atheros Powerline Toolkit"
+
 .SH NAME
 amptone - Qualcomm Atheros Thunderbolt/Lightning Tone Map Dump Utility
+
 .SH SYNOPSIS
 .BR amptone
 .RI [ options ] 
 .IR device 
 .IR peer 
 .RI [> stdout ]
+
 .SH DESCRIPTION
-Collect and print device TX tone map information between a device to a peer device on stdout. The transmit direction is from device to peer.
+Collect and print device TX tone map information between a device to a peer device on stdout.
+The transmit direction is from device to peer.
 .PP
-Powerline devices cannot compute tone map values unless until some data has passed through them, either to or from the powerline. In most cases, the \fBping\fR utility will generate enough traffic to create a usable tone map. To get a responsive tonemap, one must send more traffic at higher data rates, possibly using \fBttcp\fR or \fBiperf\fR or similar utility.
+Powerline devices cannot compute tone map values unless until some data has passed through them, either to or from the powerline.
+In most cases, the \fBping\fR utility will generate enough traffic to create a usable tone map.
+To get a responsive tonemap, one must send more traffic at higher data rates, possibly using \fBttcp\fR or \fBiperf\fR or similar utility.
 .PP
-This program is part of the Qualcomm Atheros Powerline Toolkit. See the \fBplc\fR man page for an overview and installation instructions.
+This program is part of the Qualcomm Atheros Powerline Toolkit.
+See the \fBplc\fR man page for an overview and installation instructions.
+
 .SH COMMENTS
-This program is identical to legacy program \fBint6ktone\fR but uses version \fB1\fR of the Qualcomm Atheros \fBVS_RX_TONE_MAP_CHAR\fR vendor-specific message. Older firmware versions may not recognize this message version.
+This program is identical to legacy program \fBint6ktone\fR but uses version \fB1\fR of the Qualcomm Atheros \fBVS_RX_TONE_MAP_CHAR\fR vendor-specific message.
+Older firmware versions may not recognize this message version.
+
 .SH OPTIONS
+
 .TP
 .RB - e
-Redirects stderr messages to stdout. By convention status and error messages are printed on stderr while primary program output is printed on stdout. This option prints all output on stdout in cases where this is desired.
+Redirects stderr messages to stdout.
+By convention status and error messages are printed on stderr while primary program output is printed on stdout.
+This option prints all output on stdout in cases where this is desired.
+
 .TP
 .RB - h
-Display a histogram of the Root Mean Square (RMS) of the time slot values for each carrier. This value has no meaning by itself. It merely accentuates minor differences from one carrier to the next.
+Display a histogram of the Root Mean Square (RMS) of the time slot values for each carrier.
+This value has no meaning by itself.
+It merely accentuates minor differences from one carrier to the next.
+
 .TP
 .RB - i
-Select the host Ethernet interface. All requests are sent via this host interface and only reponses received via this host interface are recognized. The default interface is \fBeth1\fR because most people use \fBeth0\fR as their principle network connection; however, if environment string "PLC" is defined then it takes precedence over the default interface. This option then takes precedence over either default.
+Select the host Ethernet interface.
+All requests are sent via this host interface and only reponses received via this host interface are recognized.
+The default interface is \fBeth1\fR because most people use \fBeth0\fR as their principle network connection; however, if environment string "PLC" is defined then it takes precedence over the default interface.
+This option then takes precedence over either default.
+
 .TP
 -\fBp\fI coupling\fR
-Tonemap coupling. Valid values are the number \fB0\fR, or the string "\fBpri\fR", for primary coupling and the number \fB1\fR, or the string "\fBalt\fR", for alternate coupling. This program will accept any numeric value from \fB0\fR through \fB255\fR but runtime firmware will reject invalid values. The default value is \fB0\fR.
+Tonemap coupling.
+Valid values are the number \fB0\fR, or the string "\fBpri\fR", for primary coupling and the number \fB1\fR, or the string "\fBalt\fR", for alternate coupling.
+This program will accept any numeric value from \fB0\fR through \fB255\fR but runtime firmware will reject invalid values.
+The default value is \fB0\fR.
+
 .TP
 .RB - q
-Enter quiet mode. Progress messages are suppressed.
+Enter quiet mode.
+Progress messages are suppressed.
+
 .TP
 .RB - s
-Compute and display signal-to-noise ratios based on the bits-per-carrier reported. Average SNR is computed for each slot then an overall average SNR is computed. ACG and GIL values for each slot are also displayed. This option suppresses tone map output and causes option \fB-h\fR to be ignored. 
+Compute and display signal-to-noise ratios based on the bits-per-carrier reported.
+Average SNR is computed for each slot then an overall average SNR is computed.
+ACG and GIL values for each slot are also displayed.
+This option suppresses tone map output and causes option \fB-h\fR to be ignored.
+
+
 .TP
 .RB - v 
-Enter verbose mode. All Etherenet frames sent or received by the program are displayed on stdout.
+Enter verbose mode.
+All Etherenet frames sent or received by the program are displayed on stdout.
+
 .TP
 -\fB?\fR, --\fBhelp\fR
-Print program help summary on stdout. This option takes precedence over other options on the command line. 
+Print program help summary on stdout.
+This option takes precedence over other options on the command line.
+
+
 .TP
 -\fB!\fR, --\fBversion\fR
-Print program version information on stdout. This option takes precedence over other options on the command line. Use this option when sending screen dumps to Atheros Technical Support so that they know exactly which version of the Linux Toolkit you are using.
+Print program version information on stdout.
+This option takes precedence over other options on the command line.
+Use this option when sending screen dumps to Atheros Technical Support so that they know exactly which version of the Linux Toolkit you are using.
+
 .SH ARGUMENTS
+
 .TP
 .BR device
 The MAC address of the primary device.
+
 .TP
 .BR peer
 THe MAC address of the peer device.
+
 .SH REFERENCES
 See the Qualcomm Atheros HomePlug AV Firmware Technical Reference Manual for more information.
+
 .SH EXAMPLES
-The following example prints transmit tone map information from device \fB00B05200CA0D\fR to device \fB00B05200CA0C\fR. The information relates to channel adaptation. We requested a histogram with option \fB-h\fR and suppressed the progress messages with option \fB-q\fR. Output consists of 917 lines of tone map modulation data. 
+The following example prints transmit tone map information from device \fB00B05200CA0D\fR to device \fB00B05200CA0C\fR.
+The information relates to channel adaptation.
+We requested a histogram with option \fB-h\fR and suppressed the progress messages with option \fB-q\fR.
+Output consists of 917 lines of tone map modulation data.
+
 .PP
-Each line of tone map data consists of 8 columns. The first column is the offset. The next 6 columns are time slot modulation data. The last column is the computed mean-square of the time slot modulation data. Devices operating on a 50hz powerline have modulation data in all 6 time slot columns. Devices operating on a 60hz powerline have modulation data in only 5 of the 6 columns. 
+Each line of tone map data consists of 8 columns.
+The first column is the offset.
+The next 6 columns are time slot modulation data.
+The last column is the computed mean-square of the time slot modulation data.
+Devices operating on a 50hz powerline have modulation data in all 6 time slot columns.
+Devices operating on a 60hz powerline have modulation data in only 5 of the 6 columns.
+
 .PP
    # amptone -qh 00B05200CA0D 00B05200CA0C
    0000,05,04,04,05,04,00,19 ###################
@@ -976,11 +1030,22 @@ Each line of tone map data consists of 8 columns. The first column is the offset
    0915,06,06,06,06,06,00,36 ####################################
    0916,06,06,06,06,06,00,36 ####################################
 .PP
-The mean-square value in column 8 determines the length of the hash line that follows when option \fB-h\fR is selected. Lower mean-square values indicate lower data handling capacity for that carrier frequency while higher values indicate higher data handling capacity. Mean-square values can range from 0 through 49. For example, the distinct parabolic \fBdip\fR near offset \fB41\fR indicates reduced data capacity at that frequency. There is another near offset \fB673\fR. The actual carrier frequencies cannot be determined without the corresponding amplitude map. See the man page for program \fBpsnotch\fR for more information.
+The mean-square value in column 8 determines the length of the hash line that follows when option \fB-h\fR is selected.
+Lower mean-square values indicate lower data handling capacity for that carrier frequency while higher values indicate higher data handling capacity.
+Mean-square values can range from 0 through 49.
+For example, the distinct parabolic \fBdip\fR near offset \fB41\fR indicates reduced data capacity at that frequency.
+There is another near offset \fB673\fR.
+The actual carrier frequencies cannot be determined without the corresponding amplitude map.
+See the man page for program \fBpsnotch\fR for more information.
 .PP
-This program can be used to detect the presence of powerline interference when electronic test equipment is not available. Although the frequency cannot be determined, the presence or absence of severe interferrence can be detected. 
+This program can be used to detect the presence of powerline interference when electronic test equipment is not available.
+Although the frequency cannot be determined, the presence or absence of severe interferrence can be detected.
+
 .PP
-The following example computes average signal-to-noise ratios (SNR) for each time slot and the entire tone map because option \fB-s\fR is selected. The AGC and GIL values for each slot are also displayed. Option \fB-s\fR also suppresses tone map output. 
+The following example computes average signal-to-noise ratios (SNR) for each time slot and the entire tone map because option \fB-s\fR is selected.
+The AGC and GIL values for each slot are also displayed.
+Option \fB-s\fR also suppresses tone map output.
+
 .PP
    # amptone -qs 000B3B00AAFA 00B05200CA0C
     SNR   24.398   24.398   24.398   24.398   24.398   24.398 
@@ -989,9 +1054,15 @@ The following example computes average signal-to-noise ratios (SNR) for each tim
     AGC 04 04 04 04 04 
     GIL 00 00 00 00 00 
 .PP
-The SNR values shown above are for a very clean and stable connection. Once a tone map is computed it remains stable unless the attenuation changes or noise is introduced while data is being transfered. With no data transfer, the map will automatically update after some (long) period, perhaps a minute, based on a number of interrelated factors.
+The SNR values shown above are for a very clean and stable connection.
+Once a tone map is computed it remains stable unless the attenuation changes or noise is introduced while data is being transfered.
+With no data transfer, the map will automatically update after some (long) period, perhaps a minute, based on a number of interrelated factors.
+
 .SH DISCLAIMER
-Atheros HomePlug AV Vendor Specific Management Message Entry structure and content is proprietary to Qualcomm Atheros, Ocala FL USA. Consequently, public information may not be available. Qualcomm Atheros reserves the right to modify message structure and content in future firmware releases without any obligation to notify or compensate users of this program.
+Atheros HomePlug AV Vendor Specific Management Message Entry structure and content is proprietary to Qualcomm Atheros, Ocala FL USA.
+Consequently, public information may not be available.
+Qualcomm Atheros reserves the right to modify message structure and content in future firmware releases without any obligation to notify or compensate users of this program.
+
 .SH SEE ALSO
 .BR plc ( 7 ),
 .BR amplist ( 7 ),
@@ -999,5 +1070,6 @@ Atheros HomePlug AV Vendor Specific Management Message Entry structure and conte
 .BR ampstat ( 7 ),
 .BR amprule ( 7 ),
 .BR amptool ( 7 )
+
 .SH CREDITS
  Charles Maier <charles.maier@qca.qualcomm.com>

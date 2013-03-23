@@ -1,65 +1,121 @@
-.TH rkey 7 "December 2012" "plc-utils" "Qualcomm Atheros Powerline Toolkit"
+.TH rkey 7 "December 2012" "plc-utils-2.1.3" "Qualcomm Atheros Powerline Toolkit"
+
 .SH NAME
 rkey - HomePlug AV Random Key Generator
+
 .SH SYNOPSIS
 .BR rkey 
 .RI [ options ] 
 .IR file
+
 .SH DESCRIPTION
-Dynamically generate distinct HomePlug AV compliant keys. A new key is printed on stdout with each program invocation or iteration, unless this is suppressed. Key computation is seeded using a 64 ASCII character string stored in a user created seedfile. The program automatically increments the seedfile string to preserve continuity and uniqueness across program invocations, program iterations, console sessions, host reboots and production sites.
+Dynamically generate distinct HomePlug AV compliant keys.
+A new key is printed on stdout with each program invocation or iteration, unless this is suppressed.
+Key computation is seeded using a 64 ASCII character string stored in a user created seedfile.
+The program automatically increments the seedfile string to preserve continuity and uniqueness across program invocations, program iterations, console sessions, host reboots and production sites.
 .PP
-This program is part of the Qualcomm Atheros Powerline Toolkit. See the \fBAMP\fR man page for an overview and installation instructions.
+This program is part of the Qualcomm Atheros Powerline Toolkit.
+See the \fBAMP\fR man page for an overview and installation instructions.
+
 .SH OPTIONS
+
 .TP
 .RB - D
-Uses HomePlug AV rules for computing a Device Access Key (DAK) from a pass phrase. A DAK is 16 bytes expressed as 32 hexadecimal digits. This option over-rides any \fB-M\fR and \fB-N\fR options previously specified on the command line.
+Uses HomePlug AV rules for computing a Device Access Key (DAK) from a pass phrase.
+A DAK is 16 bytes expressed as 32 hexadecimal digits.
+This option over-rides any \fB-M\fR and \fB-N\fR options previously specified on the command line.
+
 .TP
 -\fBL \fIlevel\fR
-Set security level. The security level is encoded into the NID. Level \fB0\fR enables pusbutton pairing. Level \fB1\fR disables it. This option has no effect unless a NID is computed.
+Set security level.
+The security level is encoded into the NID.
+Level \fB0\fR enables pusbutton pairing.
+Level \fB1\fR disables it.
+This option has no effect unless a NID is computed.
+
 .TP
 .RB - M
-Uses HomePlug AV rules for computing a Network Membership Key (NMK) from a pass phrase. An NMK is 16 bytes expressed as 32 hexadecimal digits. This option over-rides any \fB-D\fR or \fB-N\fR options previsously specified on the command line.
+Uses HomePlug AV rules for computing a Network Membership Key (NMK) from a pass phrase.
+An NMK is 16 bytes expressed as 32 hexadecimal digits.
+This option over-rides any \fB-D\fR or \fB-N\fR options previsously specified on the command line.
+
 .TP
 .RB - N
-Uses HomePlug AV rules for computing a Network Identification Key (NID) from a pass phrase. An NID is 7 bytes expressed as 14 hexadecimal digits. This option over-rides any \fB-D\fR or \fB-M\fR options previously specified on the command line.
+Uses HomePlug AV rules for computing a Network Identification Key (NID) from a pass phrase.
+An NID is 7 bytes expressed as 14 hexadecimal digits.
+This option over-rides any \fB-D\fR or \fB-M\fR options previously specified on the command line.
+
 .TP
 -\fBn \fIcount\fR
-The number of keys to generate and print. This program prints the specified number of distinct keys of the specified type, one key per line. Normally, program output is directed to a file or a pipe when this option is used. It is useful for creating a file of random keys.
+The number of keys to generate and print.
+This program prints the specified number of distinct keys of the specified type, one key per line.
+Normally, program output is directed to a file or a pipe when this option is used.
+It is useful for creating a file of random keys.
+
 .TP
 .RB - o
-Use the \fBold\fR seedfile string. This option prevents the seedfile string from being incremented before a \fBnew\fR key is computed. This feature allows additional key types to be computed from the same seedfile string.
+Use the \fBold\fR seedfile string.
+This option prevents the seedfile string from being incremented before a \fBnew\fR key is computed.
+This feature allows additional key types to be computed from the same seedfile string.
+
 .TP
 .RB - q
 Enable quiet mode which, for this application, has no effect.
+
 .TP
 .RB - v
 Enable verbose mode which, for this application, prints the pass phrase for each key.
+
 .TP
 --\fB?\fR, --\fBhelp\fR
-Print program help summary on stdout. This option takes precedence over other options on the command line. 
+Print program help summary on stdout.
+This option takes precedence over other options on the command line.
+
+
 .TP
 \fB-!\fR, \fB--version\fR
-Print program version information on stdout. This option takes precedence over other options on the command line. Use this option when sending screen dumps to Atheros Technical Support so that they know exactly which version of the Linux Toolkit you are using.
+Print program version information on stdout.
+This option takes precedence over other options on the command line.
+Use this option when sending screen dumps to Atheros Technical Support so that they know exactly which version of the Linux Toolkit you are using.
+
 .SH ARGUMENTS
+
 .TP
 .BR seedfile
-The text file containing the seed string. This file may be any length but only the first 64 characters are significant. If it is less than 64 characters then it will be extended to 64 characters after the first use. The full 64 character string is incremented, character by character, right to left each time this program is run. The seedfile string is salted differently for each type of key requested and used to seed the SHA256 key engine. One property of the SHA256 algorithm is that small changes in the seed will produce radically different output having an extremely small chance of collision. 
+The text file containing the seed string.
+This file may be any length but only the first 64 characters are significant.
+If it is less than 64 characters then it will be extended to 64 characters after the first use.
+The full 64 character string is incremented, character by character, right to left each time this program is run.
+The seedfile string is salted differently for each type of key requested and used to seed the SHA256 key engine.
+One property of the SHA256 algorithm is that small changes in the seed will produce radically different output having an extremely small chance of collision.
+
+
 .SH EXAMPLES
-The following example shows how to create a seedfile. The seedfile acts as the seed for the SHA256 algorithm. The seed is then salted (modified) differently for each type of key generated by this program. The seedfile string is then incremented and re-written each time the program is executed, unless behaviors is suppressed. Initially, the seedfile must contain at least one character or an error will occur.
+The following example shows how to create a seedfile.
+The seedfile acts as the seed for the SHA256 algorithm.
+The seed is then salted (modified) differently for each type of key generated by this program.
+The seedfile string is then incremented and re-written each time the program is executed, unless behaviors is suppressed.
+Initially, the seedfile must contain at least one character or an error will occur.
 .PP
    # echo "My Company Name, Inc." > secret.key
 .PP
-The following example prints an SHA256 key on stdout. An SHA256 key is 256 bits or 32 bytes expressed as 64 hexadecimal digits. An SHA256 key is the default output when no key type is specified. SHA256 is a public domain standard, not a HomePlug AV standard. 
+The following example prints an SHA256 key on stdout.
+An SHA256 key is 256 bits or 32 bytes expressed as 64 hexadecimal digits.
+An SHA256 key is the default output when no key type is specified.
+SHA256 is a public domain standard, not a HomePlug AV standard.
+
 .PP
    # rkey secret.key
    BFF0F6E3C83CE13829EA7F1F6D25042F4B05052E44C0B801EEA7CD6317F3622E
 .PP
-The following command prints a new Device Access Key (DAK) on stdout using the seedfile \fBsecret.key\fR as the seed. The key will be different each time this program is executed because the seedfile string is incremented each time.
+The following command prints a new Device Access Key (DAK) on stdout using the seedfile \fBsecret.key\fR as the seed.
+The key will be different each time this program is executed because the seedfile string is incremented each time.
 .PP
    # rkey -D secret.key
    F084B4E8F6069FF1300C9BDB812367FF
 .PP
-To observe the seedfile string, use option \fB-v\fR. Notice that the seedfile string is 64 characters long and that spaces are significant.
+To observe the seedfile string, use option \fB-v\fR.
+Notice that the seedfile string is 64 characters long and that spaces are significant.
 .PP
    # rkey -D secret.key -v
    89F96BC11480B0E1A37441397695E676 Qualcomm Atheros, Ocala FL                              [8@Z
