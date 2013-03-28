@@ -199,7 +199,7 @@ static const struct _term_ buttons [] =
 	},
 	{
 		"status",
-		"2"
+		"3"
 	}
 };
 
