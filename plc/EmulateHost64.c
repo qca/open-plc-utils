@@ -237,6 +237,19 @@ signed EmulateHost64 (struct plc * plc)
 				}
 				continue;
 			}
+			if (action == 0x06)
+			{
+				close (plc->PIB.file);
+				if (ReadParameters1 (plc)) 
+				{
+					return (-1);
+				}
+				if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1) 
+				{
+					error (1, errno, "%s", plc->PIB.name);
+				}
+				continue;
+			}
 			error (0, ENOSYS, "Host Action 0x%02X", action);
 		}
 	}
