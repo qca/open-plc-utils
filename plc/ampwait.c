@@ -22,9 +22,9 @@
  *
  *   ampwait.c - 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -528,8 +528,8 @@ signed WaitForAssoc (struct plc * plc)
  *   perform operations in a logical order;
  *   
  *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -604,8 +604,8 @@ static void function (struct plc * plc, char const * firmware)
  *   that the default interface and save typing;
  *   
  *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 

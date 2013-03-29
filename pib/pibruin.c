@@ -22,9 +22,9 @@
  *
  *   pibruin.c - Atheros Classification Rule Insert Utility;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
@@ -121,9 +121,9 @@
  *   read thunderbolt/lightning parameter block into memory, edit it 
  *   and save it;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -180,9 +180,9 @@ static signed pibimage1 (signed fd, char const * filename, unsigned offset, stru
  *   read panther/lynx parameter block into memory, edit it and save 
  *   it;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -243,9 +243,9 @@ static signed pibimage2 (signed fd, char const * filename, struct nvm_header2 * 
  *   MMERule; we then convert that into one of two formats used to
  *   store classifier rules in the PIB;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -362,9 +362,9 @@ static void make_rule (int argc, char const * argv [], struct PIBClassifiers * c
  *   
  *   int main (int argc, char const * argv[]);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 

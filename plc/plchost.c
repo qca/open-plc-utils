@@ -22,9 +22,9 @@
  *
  *   plchost.c -
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -171,9 +171,9 @@
  *   as directed; this function is for demonstration and experimentation
  *   only; it will stop dead - like a bug! - on error;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -337,9 +337,9 @@ signed function (struct plc * plc)
  *   to understand command line parsing and help summary display; see
  *   plc.h for the definition of struct plc; 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 

@@ -43,21 +43,9 @@
  *        13 m 21,450 - 21,850 kHz   
  *        11 m 25,600 - 26,100 kHz may be used for local DRM broadcasting
  *
- *   This software and documentation is the property of Atheros 
- *   Corporation, Ocala, Florida. It is provided 'as is' without 
- *   expressed or implied warranty of any kind to anyone for any 
- *   reason. Atheros assumes no responsibility or liability for 
- *   errors or omissions in the software or documentation and 
- *   reserves the right to make changes without notification. 
- *   
- *   Atheros customers may modify and distribute the software 
- *   without obligation to Atheros. Since use of this software 
- *   is optional, users shall bear sole responsibility and 
- *   liability for any consequences of it's use. 
- *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
@@ -1392,9 +1380,9 @@ void read_scalers (struct map * map)
  *   print amplitude map on stdout in a format suitabl for input to
  *   program psin or the Windows Device Manager; 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -1428,9 +1416,9 @@ void write_scalers (struct map * map)
  *   the tone map may be read either before or after the amplitude
  *   map is read;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -1510,9 +1498,9 @@ void read_tonemaps (struct map * map, FILE *fp)
  *   alignment cannot be performed until both the amplitude map and
  *   tone map have been read;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -1553,9 +1541,9 @@ void align_tones (struct map * map)
  *   signal dips over a given range of map values; generally, it is
  *   best to display a wider range of tones than those being notched;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -1598,9 +1586,9 @@ unsigned notch_tones (struct map * map, unsigned lower, unsigned upper, unsigned
  *   the range used here should exceed the notching range to provide 
  *   context information;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -1645,9 +1633,9 @@ void watch_tones (struct map * map, unsigned lower, unsigned upper)
  *   the range used here should exceed the notching range to provide 
  *   context information;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -1689,9 +1677,9 @@ void watch_tone2 (struct map * map, unsigned lower, unsigned upper)
  *   present where notching chould occur; notching ranges are input
  *   as map offsets, not carrier frequencies;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 

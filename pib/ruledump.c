@@ -22,9 +22,9 @@
  *   
  *   void ruledump (struct rule * rule, FILE * fp);
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 

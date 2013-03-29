@@ -23,8 +23,8 @@
  *   mdio.h - mdio related definitions and declarations;
  *
  *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2010 by Atheros Communications ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use;
+ *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 

@@ -235,7 +235,7 @@ extern struct _term_ const devices [PLCDEVICES];
  *   character array address[] holds a decoded ethernet address for 
  *   display purposes because humans cannot read; 
  *
- *   byte array LMA[] holds the Intellon Local Broadcast Address 
+ *   byte array LMA[] holds the Qualcomm Local Broadcast Address 
  *   because it is used in so many places;
  *
  *   byte arrays NMK[] and DAK[] hold encryption keys used by some

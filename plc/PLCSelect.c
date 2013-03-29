@@ -28,9 +28,9 @@
  *   the approproate function based on chipset; unfortunately, chipset
  *   detection and selection may not be this simple in the future;
  *
- *.  Atheros Powerline Toolkit for HomePlug AV; 
- *:  Published 2007 by Intellon Corp. ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit 
+ *:  Copyright (c) 2006-2010 by Intellon Corporation; ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>

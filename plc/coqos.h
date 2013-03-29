@@ -20,7 +20,7 @@
 
 /*====================================================================*
  *
- *   coqos.h - Intellon Definitions and Declarations;
+ *   coqos.h - Qualcomm Atheros Definitions and Declarations;
  *
  *--------------------------------------------------------------------*/
 

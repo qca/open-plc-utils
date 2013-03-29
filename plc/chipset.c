@@ -22,9 +22,9 @@
  *
  *   chipset.c -
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -53,8 +53,8 @@
  *   class of device; 
  *
  *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -135,9 +135,7 @@ char const * chipsetname (uint8_t MDEVICEID)
  *   firmware uses a different device identification scheme than that
  *   used by the bootloader and that information appears in different
  *   places depending on the source of the VS_SW_VER confirmation;
- *   see the Programmer's Guide for more information.
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
  *   INT6000   0x01 / 0x01  0x00000042 / NA
  *   INT6300   0x01 / 0x02  0x00006300 / NA
  *   INT6400   0x03 / 0x03  0x00006400 / NA
@@ -153,8 +151,8 @@ char const * chipsetname (uint8_t MDEVICEID)
  *   not an error;
  *
  *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>

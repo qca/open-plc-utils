@@ -27,9 +27,9 @@
  *   search a _code_ list by code and return the associated name; return the
  *   corresponding name on success or NULL on failure;
  *
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2006-2009 by Intellon Corp. ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Copyright (c) 2006-2010 by Intellon Corporation; ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *	Nathaniel Houghton <nathaniel.houghton@qualcomm.com>

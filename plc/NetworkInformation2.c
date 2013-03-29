@@ -30,12 +30,9 @@
  *   This function is similar to function NetworkInfo() but the output 
  *   format is different;
  *
- *   See the Atheros HomePlug AV Firmware Technical Reference Manual
- *   for more information;
- *   
  *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
