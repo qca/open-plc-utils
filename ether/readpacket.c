@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2012 by Qualcomm Atheros.
+ *   Copyright (c) 2012 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 

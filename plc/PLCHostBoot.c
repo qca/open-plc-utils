@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2010, Atheros Communications Inc.
+ *   Copyright (c) 2011 Atheros Communications Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 

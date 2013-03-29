@@ -8,7 +8,7 @@
  *   table arranged in ascending order by code; return the table name 
  *   if the code is found or argument name if not;
  *
- *   codedef code_t and struct _code_ are defined in codes.h; 
+ *   typedefs code_t and struct _code_ are defined in codes.h; 
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
  *   Copyright 2001-2006 by Charles Maier Associates;
