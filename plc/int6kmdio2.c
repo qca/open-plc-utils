@@ -22,9 +22,6 @@
  *
  *   int6kmdio2 - Qualcomm Atheros 32-bit MDIO Register Editor
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
@@ -126,9 +123,6 @@
  *   signed mdio (struct channel * channel, uint8_t mode, uint8_t phy, uint16_t * data);
  *   
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -211,9 +205,6 @@ static signed mdio (struct channel * channel, uint8_t mode, uint8_t phy, uint8_t
  *   void function (struct channel * channel, uint8_t mode, uint32_t address, uint32_t content, flag_t flags);
  *
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -322,9 +313,6 @@ static void function (struct channel * channel, uint8_t mode, uint32_t address, 
  *   int main (int argc, char const * argv []);
  *   
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 

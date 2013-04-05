@@ -22,9 +22,6 @@
  *
  *   plcmdio.c - Qualcomm Atheros 16-bit MDIO Register Editor 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -114,9 +111,6 @@
  *   void function (struct channel * channel, uint32_t offset, uint32_t length, flag_t flags);
  *   
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -191,9 +185,6 @@ static void function (struct channel * channel, uint8_t mode, uint8_t phy, uint8
  *   int main (int argc, char const * argv []);
  *   
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 

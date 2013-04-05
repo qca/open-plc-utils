@@ -49,9 +49,6 @@
  *   to all locations unless there is an error; the caller may elect
  *   to flush the buffer before calling this function;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s): 
  *	Charles Maier <cmaier@qualcomm.com>

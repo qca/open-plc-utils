@@ -22,9 +22,6 @@
  *
  *   pibcomp.c - Qualcomm Atheros Parameter Information Block Compare Utility
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Nathan Houghton <nathan.houghton@qca.qualcomm.com>
@@ -84,9 +81,6 @@
  *   read object definitions from stdin and use them to compare two 
  *   files; dump only those objects that differ on stdout;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -322,9 +316,6 @@ static void function (char const * filename [], flag_t flags)
  *   int main (int argc, char const * argv []);
  *   
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 

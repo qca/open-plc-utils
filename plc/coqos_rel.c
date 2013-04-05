@@ -23,9 +23,6 @@
  *   coqos_rel.c - Release MCSMA stream
  *
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *	Bill Wike <bill.wike@qualcomm.com>
@@ -110,9 +107,6 @@
  *   signed rel_conn (struct plc * plc, uint16_t CID);
  *
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *	Bill Wike <bill.wike@qualcomm.com>
@@ -181,9 +175,6 @@ signed rel_conn (struct plc * plc, uint16_t CID)
  *   
  *   int main (int argc, char const * argv[]);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 

@@ -27,9 +27,6 @@
  *   call appropriate ExecuteApplets function based on detected NVM 
  *   file format;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>

@@ -22,9 +22,6 @@
  *
  *   nvmsplit.c - 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -71,9 +68,6 @@
  *   open an Atheros Qualcomm PLC firmware image file and write each 
  *   component as an independent image file;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -189,9 +183,6 @@ static void function1 (char const * filename, flag_t flags)
  *   open an Atheros Qualcomm PLC firmware image file and write each 
  *   component as an independent image file;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -312,9 +303,6 @@ static void function2 (char const * filename, flag_t flags)
  *   open an Atheros Qualcomm PLC firmware image file and write each 
  *   component as an independent, single-image firmware file;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -351,9 +339,6 @@ static void function (char const * filename, flag_t flags)
  *   
  *   int main (int argc, char const * argv []);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>

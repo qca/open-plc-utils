@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 Atheros Communications Inc.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -22,9 +22,6 @@
  *
  *   PLCHostBoot.c - 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -110,12 +107,8 @@ static signed opensocket (char const * socketname)
  *   int6k.h
  *
  *   wait indefinitely for VS_HOST_ACTION messages; service the device 
- *   as directed; this function is for demonstration and experimentation
  *   only; it will stop dead - like a bug! - on error;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc.; ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@atheros.com>

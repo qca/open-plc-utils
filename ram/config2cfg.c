@@ -22,10 +22,6 @@
  *
  *   config2cfg.c - convert a .config file to a .cfg file;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit 
- *:  Copyright (c) 2006-2010 by Intellon Corporation; ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
- *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
  *

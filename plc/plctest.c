@@ -22,9 +22,6 @@
  *
  *   plctest.c -
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -133,9 +130,6 @@
  *   this version of ReadMME() calls FirmwareMessage() to intercept 
  *   VS_ARPC messages and print them on stdout in readable format;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -171,9 +165,6 @@ signed ReadMME (struct plc * plc, uint8_t MMV, uint16_t MMTYPE)
  *   open each file on the command line and execute all applets in 
  *   each file; move on if errors occur;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -219,9 +210,6 @@ static void sequence (struct plc * plc, int argc, char const * argv [])
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>

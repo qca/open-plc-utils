@@ -152,9 +152,6 @@ struct memmap
  *   signed write_phy_reg (struct memmap * memmap, uint8_t phy, uint8_t reg, uint16_t data, uint16_t mask);
  * 
  * 
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc.; ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -199,9 +196,6 @@ static signed write_phy_reg (struct memmap * memmap, uint8_t phy, uint8_t reg, u
  *   signed write_gbl_reg (struct memmap *memmap, uint32_t address, uint8_t upper, uint16_t data, uint16_t mask);
  * 
  * 
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc.; ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -255,9 +249,6 @@ static signed write_gbl_reg (struct memmap * memmap, uint32_t address, uint8_t u
  *   signed read_phy_reg (struct memmap * memmap, uint8_t phy, uint8_t reg, uint32_t * data);
  * 
  * 
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc.; ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -291,9 +282,6 @@ static signed read_phy_reg (struct memmap * memmap, uint8_t phy, uint8_t reg, ui
  *   signed read_gbl_reg (struct memmap * memmap, uint32_t address, uint32_t * content);
  * 
  * 
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc.; ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -325,9 +313,6 @@ static signed read_gbl_reg (struct memmap * memmap, uint32_t address, uint32_t *
  *   void print_memmap (struct memmap *memmap);
  *
  * 
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc.; ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -355,9 +340,6 @@ static void print_memmap (struct memmap * memmap)
  *   void print_mdioblock (struct command *command);
  *
  * 
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc.; ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -389,9 +371,6 @@ static void print_mdioblock (struct command * command)
  *   signed init_memmap (unsigned count, struct memmap * memmap);
  *
  * 
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc.; ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -414,9 +393,6 @@ static signed init_memmap (unsigned count, struct memmap * memmap)
  *   void free_memmap (struct memmap * memmap);
  *
  * 
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc.; ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -432,9 +408,6 @@ static void free_memmap (struct memmap * memmap)
  *
  *   signed phy_ar8236 (char const * filename, unsigned commands, flag_t flags);
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc.; ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -554,9 +527,6 @@ static signed phy_ar8236 (char const * filename, unsigned commands, flag_t flags
  *   assume instructions are 16-bit and display them in human readable 
  *   format on stdout;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc.; ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -625,9 +595,6 @@ static signed phy_generic (char const * filename, unsigned commands, flag_t flag
  *   to interpret instructions and display them in human readable
  *   format;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc.; ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -666,9 +633,6 @@ static signed function (char const * filename, unsigned phy_code, flag_t flags)
  *   int main (int argc, const char * argv []);
  *
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc.; ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 

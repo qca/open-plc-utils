@@ -22,9 +22,6 @@
  *
  *   psin.c - load prescalers into int6000 parameter file;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -127,9 +124,6 @@ signed ar7x00_psin (struct _file_ * pib, uint32_t value, uint32_t index)
  *
  *   signed psin (struct _file_ * pib);
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -226,9 +220,6 @@ static signed psin (struct _file_ * pib)
  *   
  *   int main (int argc, char const * argv []) 
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 

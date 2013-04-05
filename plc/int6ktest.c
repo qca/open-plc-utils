@@ -22,9 +22,6 @@
  *
  *   plctest.c - Atheros Test Applet Loader;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -131,9 +128,6 @@
  *   this function is maintained for legacy purposes only and will be
  *   deleted at some point in the future;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -216,9 +210,6 @@ signed ReadMME (struct plc * plc, uint8_t MMV, uint16_t MMTYPE)
  *
  *   DO NOT USE THIS FUNCTION TO DOWNBOOT AND EXECUTE RUNTIME FIRMWARE;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -283,9 +274,6 @@ static signed sequence (struct plc * plc)
  *   execute all applets in each file on the command line; return no
  *   value; this function may be called repeatedly;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -328,9 +316,6 @@ static void function (struct plc * plc, int argc, char const * argv [])
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 

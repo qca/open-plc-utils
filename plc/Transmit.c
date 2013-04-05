@@ -25,10 +25,6 @@
  *   send TCP/IP frames to a remote powerline device to establish 
  *   the source device TX PHY rate and remote device RX PHY rate;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit 
- *:  Published 2007 by Qualcomm Corp. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
- *
  *--------------------------------------------------------------------*/
 
 #ifndef TRANSMIT_SOURCE

@@ -32,10 +32,6 @@
  *   INT6300 bootloader with VS_SET_SDRAM before downloading NVM 
  *   and PIB files;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit 
- *:  Copyright (c) 2006-2010 by Intellon Corporation; ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
- *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
  *

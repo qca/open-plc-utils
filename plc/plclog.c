@@ -22,9 +22,6 @@
  *
  *   plclog.c - Atheros INT6x00 Log Retrieval Utility;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -131,9 +128,6 @@
  *   This VW_WD_RPT message protocol returns an indication message, 
  *   not a confirm message;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -219,9 +213,6 @@ static signed PrintRawWatchdogReport (struct plc * plc)
  *   This VW_WD_RPT message protocol returns an indication message, 
  *   not a confirm message;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -324,9 +315,6 @@ static signed PrintWatchdogReport (struct plc * plc, char const * version)
  *   This VW_WD_RPT message protocol returns an indication message, 
  *   not a confirm message;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -442,9 +430,6 @@ static signed PrintCheckpointReport (struct plc * plc, char const * version)
  *   read the firmware version string from a device before reading
  *   and writing the watchdog and checkpoint reports in XML format;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -543,9 +528,6 @@ static signed Diagnostics (struct plc * plc)
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 

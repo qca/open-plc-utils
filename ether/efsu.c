@@ -35,9 +35,6 @@
  *   the file is read; the errors that can occur are non-hex digits
  *   and odd number of hex digits;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -128,9 +125,6 @@ static const struct _term_ protocols [] =
  *   as raw ethernet frames; wait for a response if CHANNEL_LISTEN
  *   flagword bit is set;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -172,9 +166,6 @@ static void function (struct channel * channel, void * memory, ssize_t extent)
  *   void iterate (int argc, char const * argv [], void * memory, ssize_t extent, unsigned pause);
  *
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -209,9 +200,6 @@ static void iterate (int argc, char const * argv [], struct channel * channel, u
  *   int main (int argc, char const * argv []);
  *
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 

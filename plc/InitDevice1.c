@@ -31,9 +31,6 @@
  *   VS_WR_MEM/VS_ST_MAC messages instead of VS_WRITE_AND_EXECUTE
  *   messages;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>

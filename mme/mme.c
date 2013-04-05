@@ -26,9 +26,6 @@
  *   error codes and error text on stdout in various formats; options 
  *   are HTML, CSV and plain text;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -92,9 +89,6 @@
  *   error codes and text on stdout; output options are HTML, CSV 
  *   and plain text;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 

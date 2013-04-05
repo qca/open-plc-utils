@@ -33,9 +33,6 @@
  *   pass in the PIB header since it contains the PIB file length and
  *   checksum needed by the VS_WRITE_AND_EXECUTE_APPLET request;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>

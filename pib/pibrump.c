@@ -25,9 +25,6 @@
  *   This program read classification rules stored in a PIB file and
  *   prints them on stdout in a format similar to int6krule commands;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>

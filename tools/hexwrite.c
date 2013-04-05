@@ -26,10 +26,6 @@
  *
  *   write a memory region as a stream of hexadecimal characters;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
- *
  *--------------------------------------------------------------------*/
 
 #ifndef HEXWRITE_SOURCE

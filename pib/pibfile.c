@@ -28,9 +28,6 @@
  *   file is a panther/lynx image chain or flat file and call the 
  *   correct functions; 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>

@@ -25,9 +25,6 @@
  *   recompute and update the checksum on a thunderbolt or lightning 
  *   PIB file where the checksum is located inside the PIB; 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 

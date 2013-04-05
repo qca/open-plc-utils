@@ -29,10 +29,6 @@
  *   and script style comment lines; this implementation inserts
  *   a program name at argv [0] to emulate a true argv [];
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
- *
  *--------------------------------------------------------------------*/
 
 #ifndef GETARGV_SOURCE

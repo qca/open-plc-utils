@@ -9,7 +9,7 @@
  *   return NULL on failure;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *   Copyright 2001-2006 by Charles Maier Associates;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/

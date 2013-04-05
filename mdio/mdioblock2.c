@@ -22,10 +22,6 @@
  *
  *   mdioblock2.c
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
- *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
  *
@@ -84,10 +80,6 @@ static uint32_t mask;
  *   
  *   return next input character after updating the cursor position;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2006-2010 by Intellon Corporation; ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
- *
  *--------------------------------------------------------------------*/
 
 static signed mygetc () 
@@ -113,10 +105,6 @@ static signed mygetc ()
  *
  *   uint32_t integer (unsigned radix);
  *
- *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2006-2010 by Intellon Corporation; ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -155,10 +143,6 @@ static uint32_t integer (unsigned radix)
  *   the output file will consist of one 16-bit program header plus 
  *   nine 16-bit MDIO instructions for each input instruction; the
  *   output is padded to the nearest multiple of 32-bits;
- *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2006-2010 by Intellon Corporation; ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -233,9 +217,6 @@ static void assemble (flag_t flags)
  *   int main (int argc, const char * argv []);
  *   
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit 
- *:  Published 2010 by Atheros Communication; ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 

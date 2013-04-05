@@ -29,9 +29,6 @@
  *   then save the seed when done; exit the loop in an orderly way 
  *   on keyboard interrupt;          
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s);
  *	Charles Maier <cmaier@qualcomm.com>
@@ -111,9 +108,6 @@ static unsigned count = DEFAULT_COUNT;
  *   terminate the program; we want to ensure an organized program 
  *   exit such that the current pass phrase is saved;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 

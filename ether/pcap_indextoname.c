@@ -30,9 +30,6 @@
  *   see The Open Group Base Specifications Issue 6 IEEE Std 1003.1, 
  *   2004 Edition for a description of this function;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 

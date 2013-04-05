@@ -27,10 +27,6 @@
  *   open an SDRAM configuration file and validate it by checking the
  *   file length; unfortunately there are not many things to check;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit 
- *:  Copyright (c) 2006-2010 by Intellon Corporation; ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
- *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
  *

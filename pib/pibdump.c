@@ -22,9 +22,6 @@
  *
  *   pibdump.c - Qualcomm Atheros Parameter Information Block Dump Utility
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
@@ -88,9 +85,6 @@
  *   read object definitions from stdin and print an object driven 
  *   dump on stdout;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *   
  *--------------------------------------------------------------------*/
 
@@ -297,9 +291,6 @@ static void pibdump (char const * filename, flag_t flags)
  *   
  *   int main (int argc, char const * argv []);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *   
  *--------------------------------------------------------------------*/
 

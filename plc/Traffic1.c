@@ -33,9 +33,6 @@
  *   this function is for INT6x00 chipsets only due to changes in chip
  *   design; use Traffic2 for AR7x00 chipsets;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>

@@ -25,9 +25,6 @@
  *   This inserts classification rules into pib files from a rule
  *   description file;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
@@ -335,9 +332,6 @@ static void read_rules (struct auto_connection auto_connection [], unsigned * au
  *   
  *   int main (int argc, char const * argv[]);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 

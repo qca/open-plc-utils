@@ -27,9 +27,6 @@
  *   compute file length and checksum for module operation functions;
  *   struct vs_module_spec is defined in plc.h;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 

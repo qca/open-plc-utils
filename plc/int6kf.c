@@ -29,10 +29,6 @@
  *   anyone can run it; the program will refuse to run until you get
  *   things right;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit 
- *:  Copyright (c) 2006-2010 by Intellon Corporation; ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
- *
  *   Contributor(s):
  *      Charles Maier <charles.maier@atheros.com>
  *
@@ -161,10 +157,6 @@
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit 
- *:  Copyright (c) 2006-2010 by Intellon Corporation; ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
- *
  *--------------------------------------------------------------------*/
 
 int main (int argc, const char * argv []) 

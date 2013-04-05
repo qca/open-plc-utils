@@ -33,9 +33,6 @@
  *   instead of the network; you may use it whenever a network or
  *   transmitting device is not available; 
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>

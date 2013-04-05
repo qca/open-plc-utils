@@ -29,9 +29,6 @@
  *   PHY rate and target device TX PHY rate; this does not work if
  *   the source device is also the local device, for some reason; 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>

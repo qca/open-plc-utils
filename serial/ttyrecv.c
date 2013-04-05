@@ -22,10 +22,6 @@
  *
  *   ttyrecv.c 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
- *
  *   Contributor(s):
  *	Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
  *

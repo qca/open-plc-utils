@@ -22,10 +22,6 @@
  *
  *   ptsctl.c - PTS Module Controller;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
- *
  *   Contributor(s):
  *	Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
  *	Charles Maier <cmaier@qualcomm.com>
@@ -144,10 +140,6 @@ static signed offset = 0;
  *   that represents the power on/off bit, out of the way during
  *   data conversions from binary to ASCII and ASCII to binary;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
- *
  *--------------------------------------------------------------------*/
 
 static void cycle (char * string, unsigned offset, unsigned length) 
@@ -166,10 +158,6 @@ static void cycle (char * string, unsigned offset, unsigned length)
  *
  *   send echo command to Weeder Solid State Relay modules in an order
  *   specified by units;
- *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -201,10 +189,6 @@ static void function1 (struct _file_ * port, char const * units, unsigned wait, 
  *
  *   send write command to Weeder Solid State Relay modules in an
  *   order specified by units;
- *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -247,10 +231,6 @@ static void function2 (struct _file_ * port, char const * units, unsigned wait, 
  *
  *   read weeder solid state modules and display settings on the
  *   console as attenuation;
- *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -309,10 +289,6 @@ static void function3 (struct _file_ * port, char const * units, unsigned wait)
  *   sequence through all attenuator settings at one second intervals;
  *   this function can be used to debug program additions and changes;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
- *
  *--------------------------------------------------------------------*/
 
 static void function4 (struct _file_ * port, char const * units, unsigned wait) 
@@ -332,10 +308,6 @@ static void function4 (struct _file_ * port, char const * units, unsigned wait)
 /*====================================================================*
  *
  *   int main (int argc, char const * argv []);
- *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *--------------------------------------------------------------------*/
 
