@@ -1,4 +1,4 @@
-.TH psgraph 7 "December 2012" "plc-utils-2.1.3" "Qualcomm Atheros Powerline Toolkit"
+.TH psgraph 7 "March 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
 
 .SH NAME
 psgraph - Display PIB File Prescalers
@@ -14,6 +14,7 @@ psgraph - Display PIB File Prescalers
 .SH SYNOPSIS
 Read one or more PIB files and plot prescaler values on stdout.
 This program can be used to quickly verify that correct carriers have been notched and, by using a difference program, determine where two prescaler sets differ.
+
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 See the \fBAMP\fR man page for an overview and installation instructions.
@@ -32,7 +33,6 @@ The default is \fB5\fR.
 -\fB?\fR, --\fBhelp\fR
 Print program help summary on stdout.
 This option takes precedence over other options on the command line.
-
 
 .TP
 -\fB!\fR, --\fBversion\fR
@@ -54,6 +54,7 @@ The next column is the decimal equivalent of the amplitude scaler.
 The next column is the carrier frequency in megahertz.
 The last column is a hash line that represents the amplitude scaler value.
 Sinc option \fB-s\fR was omitted, the hash line consists of hash character for every 5 units of amplitude.
+
 .PP
    # psgraph test.pib
     0000      0  1.807 
@@ -1211,6 +1212,7 @@ Sinc option \fB-s\fR was omitted, the hash line consists of hash character for e
     1152      0 29.932 
     1153      0 29.956 
     1154      0 29.980 
+
 .PP
 This display graphically illustrates which carrier frequencies are enabled and which are suppressed.
 Atheros takes greeat care in designing amplitude maps that conform to regional and national regulations where their powerline devices are expected to operate.

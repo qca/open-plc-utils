@@ -99,7 +99,7 @@ signed ModuleDump (struct plc * plc, uint16_t source, uint16_t module, uint16_t 
 
 	unsigned offset = 0;
 	unsigned length = PLC_MODULE_SIZE;
-	unsigned timer = channel->timer;
+	unsigned timer = channel->timeout;
 	Request (plc, "Read Module from Flash");
 	while (length == PLC_MODULE_SIZE) 
 	{
@@ -120,14 +120,14 @@ signed ModuleDump (struct plc * plc, uint16_t source, uint16_t module, uint16_t 
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		channel->timer = PLC_MODULE_READ_TIMEOUT;
+		channel->timeout = PLC_MODULE_READ_TIMEOUT;
 		if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0) 
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
-			channel->timer = timer;
+			channel->timeout = timer;
 			return (-1);
 		}
-		channel->timer = timer;
+		channel->timeout = timer;
 		if (confirm->MSTATUS) 
 		{
 			Failure (plc, PLC_WONTDOIT);

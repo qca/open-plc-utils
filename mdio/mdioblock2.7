@@ -1,4 +1,4 @@
-.TH mdioblock2 7 "December 2012" "plc-utils-2.1.3" "Qualcomm Atheros Powerline Toolkit"
+.TH mdioblock2 7 "March 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
 
 .SH NAME
 mdioblock2 - Qualcomm Atheros Clause 45 MDIO Instruction Block Assembler
@@ -10,6 +10,7 @@ mdioblock2 - Qualcomm Atheros Clause 45 MDIO Instruction Block Assembler
 .RI [ file ]
 .RI [ ... ]
 .RI [> stdout ]
+
 .PP
 .BR mdioblock2
 .RI [ options ]
@@ -18,14 +19,14 @@ mdioblock2 - Qualcomm Atheros Clause 45 MDIO Instruction Block Assembler
 
 .SH DESCRIPTION
 Assemble an Atheros MDIO instruction block from hexadecimal register instructions.
-
 MDIO instruction blocks are written to Atheros powerline devices as modules using the \fBVS_MOD_OP\fR message type.
-
 Alternately, program \fBint6kmod\fR can be used.
+
 .PP
 Atheros MDIO modules consists of a 16-bit header followed by one or more MDIO communication frames with register masks and padded to the nearest multiple of 32-bits for download purposes.
 MDIO instructions are entered here using \fB802.3ae Clause 45\fR (or \fIaddr\fR, \fIdata\fR and \fImask\fR) format.
 See program \fBmdioblock\fR for a similar program that accepts instructions in \fB802.3 Clause 22\fR (or \fIphy\fR, \fIreg\fR, \fIdata\fR and \fImask\fR) format.
+
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 See the \fBAMP\fR man page for an overview and installation instructions.
@@ -58,13 +59,9 @@ Use this option when sending screen dumps to Atheros technical staff.
 .TP
 .IR file
 A text files contining one or more generic MDIO register intructions consisting of a \fBaddress\fR, \fBdata\fR and \fBmask\fR fields.
-
 Fields are separated by whitespace.
-
 Instructions are terminated with semicolon.
-
 Multiple instructions may appear on one line and one instruction may span multiple lines.
-
 Script-style comments are permitted between instructions but not between instruction fields.
 
 .SH REFERENCES
@@ -79,22 +76,22 @@ Qualcomm Atheros reserves the right to modify message structure and content in f
 The following command reads register instructions from text file \fBmdio.txt\fR and writes binary file \fBmdio.bin\fR.
 In this example, the program acts as a filter, reading from \fBstdin\fR and writing to \fBstdout\fR.
 Progress and error messages, if any, are written to \fBstderr\fR.
+
 .PP
    # mdioblock2 < mdio.txt > mdio.bin
+
 .PP
 The following command reads register instructions from files \fBphysetup.dat\fR then \fBflowctl.dat\fR then \fBmisc.ins\fR and writes one binary MDIO block to file \fBmdio.bin\fR.
 The previous contents of file \fBmdio.bin\fR are overwritten.
+
 .PP
    # mdioblock2 physetup.dat flowctl.dat misc.ins > mdio.bin
+
 .PP
 An example register instruction file might look like this.
-
 Instructions have \fIaddr\fR, \fIdata\fR and \fImask\fR fields.
-
 Instruction fields are separated by whitespace and instructions are terminate by a semicolon.
-
 Multiple instructions can appear on one line or one instruction can span multiple lines.
-
 Script-style comments are permitted between instructions but not between instruction fields.
 
 .PP

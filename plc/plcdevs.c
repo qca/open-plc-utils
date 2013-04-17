@@ -179,7 +179,7 @@ int main (int argc, char const * argv [])
 			_setbits (channel.flags, CHANNEL_SILENCE);
 			break;
 		case 't':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

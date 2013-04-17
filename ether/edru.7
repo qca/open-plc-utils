@@ -1,4 +1,4 @@
-.TH edru 7 "December 2012" "plc-utils-2.1.3" "Qualcomm Atheros Powerline Toolkit"
+.TH edru 7 "March 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
 
 .SH NAME
 edru - Qualcomm Atheros Ethernet II Data Read Utility
@@ -9,10 +9,12 @@ edru - Qualcomm Atheros Ethernet II Data Read Utility
 .RI [> stdout ]
 
 .SH DESCRIPTION
+
 .PP
 Listen for incoming Ethernet II frames and write frame data, less header information, to stdout as a binary data stream.
 Since frame data can contain anything, users should direct output to a file or pipe it through some type of filter to prevent corruption of the terminal session.
 If all incoming data is known to be ASCII then directing stdout to the console should not cause any problems.
+
 .PP
 This program can be used to test remote Atheros UART-enabled powerline devices.
 Remote device package serial data from their local host as Ethernet II frames and forwared them over the powerline to a specific destination.
@@ -26,7 +28,6 @@ Data should appear exactly as sent by the remote hos.
 -\fBe \fIethertype\fR
 The protocol (or ethertype) of interest expressed as a 16-bit hexadecimal integer.
 Prefix "\fB0x\fR" is optional.
-
 This filters out frames having any other ethertype.
 The default is \fBETH_P_802_2\fR as defined in \fBif_ether.h\fR.
 
@@ -61,18 +62,23 @@ The following example monitors host interface \fBeth1\fR for incoming 802.2 Ethe
 In this case, \fBstdout\fR is the console.
 Frame data is written, as it arrives, and forms a single output stream.
 Directing output to  the console may corrupt your terminal session, forcing you to close the console window and open another one.
+
 .PP
    # edru -ieth1
+
 .PP
 The next example does the same thing but directs output to file \fBtest.log\fR.
 The output file may be inspected using a binary hex editor.
 The programs continues to read and write until interrupted using \fBctrl-c\fR or \fBctrl-z\fR.
+
 .PP
    # edru -ieth1 > test.log
+
 .PP
 The next example does the same thing but pipes output into program \fBhexdmp\fR which displays data in hexadecimal format.
 This prevents terminal session corruptions caused by binary data.
 Program\fBhexdmp\fR may not be provided with the toolkit.
+
 .PP
    # edru -ieth1 | hexdmp
 

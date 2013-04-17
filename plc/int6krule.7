@@ -1,4 +1,4 @@
-.TH int6krule 7 "December 2012" "plc-utils-2.1.3" "Qualcomm Atheros Powerline Toolkit"
+.TH int6krule 7 "March 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
 
 .SH NAME
 int6krule - INT6x00 Stream Classification Utility
@@ -16,6 +16,7 @@ int6krule - INT6x00 Stream Classification Utility
 .RI [ device ]
 .RI [ device ]
 [...]
+
 .PP
 where \fIcondition\fR is a \fIfield\fR \fIoperator\fR \fIvalue\fR sequence.
 
@@ -25,15 +26,18 @@ Rules specify an action to be taken when a frame satisfies selection criteria.
 Selection criteria consists of one, two or three conditions where any or all conditions must be satisfied.
 Each condition consists of a field type, a relational operator and a value.
 Rules may be added to a device, or removed from a device, so that they have permanent or temporary effect.
+
 .PP
 Classification rules are cumulative.
 If a new rule set is identical to an old rule set then an error will occur unless it contains a different Transmission Action.
 In that case the old rule will be replaced.
 Identical classification rule sets are permitted if one of the sets is associated with a VLAN tag action.
 Classification is based on the original frame before is is altered by VLAN Tag insertion or removal.
+
 .PP
 Classification is multi-dimensional and the terminology used here may seem strange at first.
 Refer to the Qualcomm Atheros Firmware Techncial Reference Manual description of the VS_CLASSIFICATION management message for a full explanation.
+
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 See the \fBplc\fR man page for an overview and installation instructions.
@@ -415,6 +419,7 @@ Powerline devices use Ethernet Media Access Control (MAC) addresses.
 A MAC address is a 48-bit value entered as 12 hexadecimal digits in upper, lower or mixed character case.
 Octets may be separated with colons for clarity.
 For example, "00b052000001", "00:b0:52:00:00:01" and "00b052:000001" are valid and equivalent.
+
 .PP
 The following MAC addresses are special and may be entered by name instead of number.
 
@@ -449,16 +454,20 @@ This command adds a temporary classification rule to the classification table on
 The rule instructs the device to drop frames that match either (any) of two conditions.
 The first condition states that the IPv4 source address is 192.168.99.2.
 The second conditon states that the IPv4 destination address is 192.168.99.100.
+
 .PP
    # int6krule drop any IPv4SA is 192.168.99.2 IPv4DA is 192.168.99.100 add temp 00:B0:52:BA:BE:01
+
 .PP
 Observe that the \fIaction\fR, \fIoperand\fR and \fIconditions\fR come first then the \fIcontrol\fR and \fIvolatility\fR then the affected \fIdevices\fR.
 Up to three conditions may be specified.
 Keyword order is important.
 Character case is not important.
+
 .PP
 The following example prints a list of programmed keywords on stdout for reference.
 The example shown here has been abbreviate due to formatting limitations.
+
 .PP
    # int6krule -t
     
@@ -468,27 +477,36 @@ The example shown here has been abbreviate due to formatting limitations.
      Operands are 'All'|'Any'|'Always'
      Fields are 'EthDA'|'EthSA'|'VLANUP'|'VLANID'|'IPv4TOS'|...|'TCPAck'|'VLANTag'
      Operators are 'Is'|'Not'
+
 .PP
 More example follow:
+
 .PP    
 .B  Ethernet Address Rules
+
 .PP
 Ethernet address rules have the following general format:
+
 .PP 
    | CAP0 | ANY | EthSA | IS  | xx:xx:xx:xx:xx:xx | ADD    | TEMP | xx:xx:xx:xx:xx:xx
    | CAP1 | ALL | EthDA | NOT |                   | REMOVE | PERM |
    | CAP2 |
    | CAP3 |
    | DROP |
+
 .PP 
 For example, instruct device 00:B0:52:BA:BE:FF to temporarily add a rule to forward frames from 00:2B:FE:CA:FE:BA at CAP3.
 Observe Ethernet hardware addresses are used both in the condition and for the affected powerline devices.
+
 .PP 
    # int6krule cap3 any ethsa is 00:2b:fe:ca:fe:ba add temp 00:b0;52:ba:be:ff
+
 .PP
 .B IP Address Rules
+
 .PP
 IP address rules have the following general format:
+
 .PP 
    | CAP0 | ANY | IPv4SA | IS  | ddd.ddd.ddd.ddd | ADD    | TEMP | xx:xx:xx:xx:xx:xx
    | CAP1 | ALL | IPv4DA | NOT |                 | REMOVE | PERM |
@@ -496,26 +514,33 @@ IP address rules have the following general format:
    | CAP3 |
    | DROP |
  
+
 .PP
 For example, instruct device 00:B0:52:BA:BE:FF to permanently remove the rule that drops packets from 192.168.99.1.
 Notice that the IP address is specified in dotted decimal format but the device address is specified in hexadecimal octet format.
 Dotted decimal format permits empty and variable length octets but octet delimitors are mandatory.
 Hexadecimal octet format requires fixed length octets but octet delimiters are optional.
+
 .PP 
    # int6krule drop any ipv4sa is 192.168.99.1 remove perm 00:b0:52:ba:be:ff
+
 .PP
 .B IP Protocol Rules
+
 .PP
 IP protocol rules have the following general format:
+
 .PP 
    | CAP0 | ANY | IPv4PROT | IS  | xxxx | ADD    | TEMP | xx:xx:xx:xx:xx:xx
    | CAP1 | ALL |          | NOT |      | REMOVE | PERM |
    | CAP2 |
    | CAP3 |
    | DROP |
+
 .PP 
 For example, to instruct device 00:B0:52:BA:BE:FF to permanently add a rule to forward non-IP packets at CAP2.
 In this example, delmiters have been omitted from the device Ethernet address.
+
 .PP 
    # int6krule CAP2 all ipv4prot not 0x0800 add perm 00b052babeff
 

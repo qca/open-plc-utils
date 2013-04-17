@@ -154,7 +154,7 @@ int main (int argc, char const * argv [])
 		"n n\tproperty identifier or version is (n) [0]",
 		"q\tquiet mode",
 		"s x\tsession identifier is (x) [" LITERAL (PLCSESSION) "]",
-		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
 		"v\tverbose mode",
 		(char const *) (0)
 	};
@@ -231,7 +231,7 @@ int main (int argc, char const * argv [])
 			plc.cookie = (uint32_t)(basespec (optarg, 16, sizeof (plc.cookie)));
 			break;
 		case 't':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

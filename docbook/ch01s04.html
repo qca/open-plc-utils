@@ -6,9 +6,9 @@
 			Toolkit Installation on Linux
 			</h2></div></div></div><p>
 			The Linux version of the toolkit must be compiled from source code. The only requirement is the standard <span class="application">GNU/Linux</span> toolchain consisting of <span class="application">make</span>, <span class="application">gcc</span> and <span class="application">ld</span>. These are included with most <span class="application">Linux</span> distributions but may require installation. On <span class="productname">Debian</span>™ based distributions, such as <span class="productname">Ubuntu</span>™, they may be installed using <span class="application">apt-get</span>. On <span class="productname">RedHat</span>™ distributions, such as <span class="productname">Fedora</span>™, they may be installed using <span class="application">rpm</span>. On <span class="productname">SuSE</span>™ based distributions, they may be installed using <span class="application">YaST2</span>.
-			</p><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2543608"></a>
+			</p><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2544070"></a>
 				Toolkit Installation on GNU/<span class="productname">Linux</span>™
-				</h3></div></div></div><div class="example"><a name="id2543620"></a><p class="title"><b>Example 1.1. 
+				</h3></div></div></div><div class="example"><a name="id2544081"></a><p class="title"><b>Example 1.1. 
 					Toolkit Installation on GNU/<span class="productname">Linux</span>™
 					</b></p><div class="example-contents"><pre class="screen">
 # cp plc-utils-1.2.1.tar.gz /home/mydir
@@ -26,18 +26,18 @@
 				We recommend that you <span class="command"><strong>login</strong></span> as <code class="constant">root</code> user before installing the toolkit; otherwise, you will be prompted for the <code class="constant">root</code> password as each program or component is installed. 
 				</p><p>
 				Programs are installed in folder <code class="filename">/usr/local/bin</code> and man pages are installed in folders <code class="filename">/usr/share/man/man7</code>. If these folders are not correct for your system, or if you want to install in other folders, then edit the folder names defined in the <a class="link" href="ch03s06.html" title="Cross-Compiling on GNU/Linux">make.def</a> file found in main toolkit folder or over-ride these definitions in subordinate makefiles.
-				</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2543841"></a>
+				</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2544303"></a>
 				Toolkit Documentation on GNU/Linux
 				</h3></div></div></div><p>
 				Toolkit web pages are not automatically installed. To access toolkit documentation, point your browser to <a class="ulink" href="index.html" target="_top">docbook/index.html</a> and add the page to the browser bookmark or favorites list. If you are interested in how the toolkit has been implemented then do the same for page <a class="ulink" href="toolkit.html" target="_top">docbook/toolkit.html</a>. 				</p><p>
 				The method described above is only recommended if you do not plan to move or remove toolkit folders. Otherwise, you can merely copy the entire contents of the toolkit <code class="filename">docbook</code> folder to another folder of your choice and point your browser to the new file locations.
 				</p><pre class="screen">
 cp -rv docbook/* /home/mydir/toolkit
-</pre></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2543886"></a>
+</pre></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="id2544347"></a>
 				Toolkit Removal on GNU/<span class="productname">Linux</span>™
 				</h3></div></div></div><p>
 				To uninstall installed programs and man pages on Linux, change to the main toolkit folder and type <strong class="userinput"><code>make uninstall</code></strong>.
-				</p><div class="example"><a name="id2543907"></a><p class="title"><b>Example 1.2. 
+				</p><div class="example"><a name="id2544369"></a><p class="title"><b>Example 1.2. 
 					Toolkit Removal on GNU/<span class="productname">Linux</span>™
 					</b></p><div class="example-contents"><pre class="screen">
 # cd /home/mydir/plc-utils-1.2.1

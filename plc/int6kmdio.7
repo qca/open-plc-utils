@@ -1,4 +1,4 @@
-.TH int6kmdio 7 "December 2012" "plc-utils-2.1.3" "Qualcomm Atheros Powerline Toolkit"
+.TH int6kmdio 7 "March 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
 
 .SH NAME
 int6kmdio - Qualcomm Atheros 16-bit MDIO Register Editor
@@ -14,9 +14,11 @@ int6kmdio - Qualcomm Atheros 16-bit MDIO Register Editor
 Read or write the generic MDIO registers on an Atheros powerline device using the Qualcomm Atheros VS_MDIO_COMMAND vendor-specific management message.
 The default operation is to read a register.
 Registers are written only if data is specified on the command line.
+
 .PP
 This program writes MDIO instructions using \fB802.3 Clause 22\fR (\fIphy\fR, \fIreg\fR, \fIdata\fR and \fImask\fR) format.
 See program \fBint6kmdio2\fR for a similar program to write instructions using \fB802.3ae Clause 45\fR (\fIaddress\fR, \fIdata\fR and \fImask\fR) format.
+
 .PP
 This program is deprecated and may be removed in later toolkit releases.
 Use program \fBplcmdio16\fR instead.
@@ -96,6 +98,7 @@ Powerline devices use Ethernet Media Access Control (MAC) addresses.
 A MAC address is a 48-bit value entered as 12 hexadecimal digits in upper, lower or mixed character case.
 Octets may be separated with colons for clarity.
 For example, "00b052000001", "00:b0:52:00:00:01" and "00b052:000001" are valid and equivalent.
+
 .PP
 The following MAC addresses are special and may be entered by name instead of number.
 

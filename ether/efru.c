@@ -161,7 +161,7 @@ int main (int argc, char const * argv [])
 	}
 	optind = 1;
 	channel.type = EFRU_ETHERTYPE;
-	channel.timer = CHANNEL_FOREVER;
+	channel.timeout = CHANNEL_FOREVER;
 	while ((c = getoptv (argc, argv, optv)) != -1) 
 	{
 		switch (c) 
@@ -186,7 +186,7 @@ int main (int argc, char const * argv [])
 			_setbits (flags, EFRU_SILENCE);
 			break;
 		case 't':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (flags, EFRU_VERBOSE);

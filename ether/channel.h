@@ -101,9 +101,9 @@
 #       define CHANNEL_ETHDEVICE "nic1"
 #endif
 #define CHANNEL_FOREVER (unsigned)(-1)
-#define CHANNEL_TIMEOUT 15 
 #define CHANNEL_BAILOUT 0
-#define CHANNEL_TIMER 50 
+#define CHANNEL_CAPTURE 15 
+#define CHANNEL_TIMEOUT 50 
 #define CHANNEL_FLAGS 0
 
 /*====================================================================*
@@ -158,8 +158,8 @@ typedef struct channel
 #error "Unknown Environment"
 #endif
 
+	signed capture;
 	signed timeout;
-	signed timer;
 	flag_t flags;
 }
 

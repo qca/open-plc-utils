@@ -374,7 +374,7 @@ int main (int argc, char const * argv [])
 		"P f\tparameter file is (f)",
 		"q\tquiet mode",
 		"S f\tsoftloader file is (f)",
-		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
 		"v\tverbose mode",
 		"w n\twakeup every (n) seconds [" LITERAL (PLC_LONGTIME) "]",
 		"x\texit on error",
@@ -497,7 +497,7 @@ int main (int argc, char const * argv [])
 			}
 			break;
 		case 't':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

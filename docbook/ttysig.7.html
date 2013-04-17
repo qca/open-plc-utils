@@ -6,7 +6,7 @@
 			ttysig.7
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -31,12 +31,12 @@ DESCRIPTION
        all control signals (Request To Send, Clear To Send, Data Set Ready, Data Terminal Ready, Data Carrier Detect, Ring Indi‐
        cator).
 
-       This  program  is  part  of the Qualcomm Atheros Powerline Toolkit. See the AMP man page for an overview and installation
+       This  program  is  part of the Qualcomm Atheros Powerline Toolkit.  See the AMP man page for an overview and installation
        instructions.
 
 OPTIONS
        -s device
-              Specify the serial device used. The default is serial console device &quot;/dev/ttyS0&quot;.
+              Specify the serial device used.  The default is serial console device &quot;/dev/ttyS0&quot;.
 
        -D value
               Set the serial control line DTR high if value is non-zero, low otherwise.
@@ -46,19 +46,19 @@ OPTIONS
        -R value
               Set the serial control line RTS high if value is non-zero, low otherwise.
 
-       -r     Print serial control line status on stdout. This is performed after -R and -D.
+       -r     Print serial control line status on stdout.  This is performed after -R and -D.
 
        -?,--help
-              Print program help summary on stdout. This option takes precedence over other options on the command line.
+              Print program help summary on stdout.  This option takes precedence over other options on the command line.
 
        -?,--version
-              Print program version information on stdout. This option takes precedence over other options on the command  line.
+              Print program version information on stdout.  This option takes precedence over other options on the command line.
               Use  this option when sending screen dumps to Atheros Technical Support so that they know exactly which version of
               the Linux Toolkit you are using.
 
 EXAMPLES
-       The following example sets DTR high and RTS low at program start. The user then interactively prints the current  control
-       signal values, and then sets DTR low. Since no serial devices are specified, program defaults are used.
+       The following example sets DTR high and RTS low at program start.  The user then interactively prints the current control
+       signal values, and then sets DTR low.  Since no serial devices are specified, program defaults are used.
 
          $ ./ttysig -I -D 1 -R 0
          command (D #, R #, r, q): r
@@ -77,7 +77,7 @@ SEE ALSO
 CREDITS
         Nathaniel Houghton &lt;nathaniel.houghton@qca.qualcomm.com&gt;
 
-plc-utils                                                 December 2012                                                ttysig(7)
+plc-utils-2.1.5                                            March 2013                                                  ttysig(7)
 </pre>
 		<div class='footerlink'>
 			[<a href='ttysend.7.html' title=' ttysend.7 '>PREV</a>]

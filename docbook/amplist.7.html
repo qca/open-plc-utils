@@ -6,7 +6,7 @@
 			amplist.7
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -27,27 +27,27 @@ SYNOPSIS
        amplist [options] [device] [device] [...]
 
 DESCRIPTION
-       print the local device address or all network device addresses for a specific device. This program is ideal for that spe‐
-       cial script jokey in your life. It only prints device addresses. Nothing else.
+       print  the  local  device  address or all network device addresses for a specific device.  This program is ideal for that
+       special script jokey in your life.  It only prints device addresses.  Nothing else.
 
-       Devices are detected using one of two methods. The two methods can be used in combination to determine network  topology.
+       Devices are detected using one of two methods.  The two methods can be used in combination to determine network topology.
 
        The  first  method  sends  one VS_SW_VER message to the Qualcomm Atheros Local Management Address and prints the Ethernet
-       source address found in each received confirmation message. The method is used when no device  addresses  appear  on  the
-       command  line.   The  result  is a list of all local devices, being this connected directly to the local host. Each local
+       source address found in each received confirmation message.  The method is used when no device addresses  appear  on  the
+       command  line.   The  result is a list of all local devices, being this connected directly to the local host.  Each local
        device device may bridge to an independent powerline network having remote devices as members.
 
        The second method sends one VS_NW_INFO message to each specified device and prints the Ethernet source address  found  in
-       each received message plus the Ethernet addresses of each network station identified in that message body. This method is
-       used whenever one, or more, device addresses appear on the command line. It is possible to query remote powerline devices
-       directly and so duplicate devices addresses are printed when devices share powerline neighbors.
+       each  received  message plus the Ethernet addresses of each network station identified in that message body.  This method
+       is used whenever one, or more, device addresses appear on the command line.  It is possible  to  query  remote  powerline
+       devices directly and so duplicate devices addresses are printed when devices share powerline neighbors.
 
-       This  program  is  part  of the Qualcomm Atheros Powerline Toolkit. See the plc man page for an overview and installation
+       This  program  is  part of the Qualcomm Atheros Powerline Toolkit.  See the plc man page for an overview and installation
        instructions.
 
 COMMENTS
        This program is identical to legacy program int6klist but uses version 1 of the Qualcomm Atheros  VS_NW_INFO  vendor-spe‐
-       cific message. Older firmware versions may not recognize this message version.
+       cific message.  Older firmware versions may not recognize this message version.
 
 OPTIONS
        -b     Print  bridge  device  addresses.  Each specified device reports it’s own address. This option has no effect if no
@@ -174,7 +174,7 @@ SEE ALSO
 CREDITS
         Charles Maier &lt;charles.maier@qca.qualcomm.com&gt;
 
-plc-utils                                                 December 2012                                               amplist(7)
+plc-utils-2.1.5                                            March 2013                                                 amplist(7)
 </pre>
 		<div class='footerlink'>
 			[<a href='amphost.7.html' title=' amphost.7 '>PREV</a>]

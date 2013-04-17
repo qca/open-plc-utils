@@ -1,4 +1,4 @@
-.TH plc 7 "December 2012" "plc-utils-2.1.3" "Qualcomm Atheros Powerline Toolkit"
+.TH plc 7 "March 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
 
 .SH NAME
 Qualcomm Atheros Powerline Toolkit 
@@ -21,6 +21,7 @@ To uninstall programs and man pages, type "\fBmake uninstall\fR".
 To read about the Toolkit, browse file \fBdocbook/index.html\fR and \fBdocbook/toolkit.html\fR.
 This package does not automatically install scripts or html pages.
 They must be manually copied to the preferred locations.
+
 .PP
 We recommend that you login as root before installing this package; otherwise, you will be prompted for the root password as each component is installed.
 On some systems, "\fBsudo make install\fR" will work.
@@ -29,6 +30,7 @@ Man pages are installed in \fB/usr/share/man/man[1-9]\fR.
 If these folders are not correct for your system, or if you want to install in other folders, then edit folder names defined in the \fBMakefile\fR in each package folder.
 The package has been compiled in a variety of Linux distributions (debian, ubuntu, redhat, monta vista, amilda) and on MacOSX (10.5, 10.6).
 It has also been cross-compiled for MIPS and Freescale iMX35 but QCA does not support general cross compilation efforts.
+
 .PP
 Although this package has been compiled on several platforms, there is no guarantee that it will compile without errors or warnings on non-GNU/Linux platforms.
 We continuously update the package but do not attempt to compile or test it on systems other than GNU/Linux and Microsoft VisualStudio .NET.
@@ -37,17 +39,21 @@ Some programs have been excluded from the Windows installation for technical rea
 .SH BACKGROUND
 \fBHomePlug 1.0\fR and \fBHomePlug AV\fR are industry standard protocols for powerline communications.
 Qualcomm Atheros manufactures a family of chipsets that conform to these standards and have various USB, PCI, Ethernet, MII, SPI and UART host interfaces.
+
 .PP
 The \fBHomePlug 1.0\fR protocol is based on IEEE-802.3, has ethertype 0x887B and uses special message formats.
+
 .PP
 The \fBHomePlug AV\fR protocol is based on IEEE-802.3, has ethertype 0x88E1 and special message formats.
 A subset of those message formats are left unspecified so that chipset vendors can define message formats for their own products.
 QCA vendor specific management message formats are described in the QCA HomePlugAV Firmware Technical Reference Manual.
 This toolkit uses these messages to communicate with QCA powerline devices.
 Customers may use the toolkit to send these messages, explore device behavior and develope their own applications.
+
 .PP
 Each program in the toolkit deals with a narrow aspect of QCA powerline device management but they can be called from shell scripts to perform complex tasks.
 With them, one can identify chipset hardware and firmware version, reset devices, flash devices, identify other QCA network devices, validate *.pib and *.nvm files, sniff HomePlug AV Ethernet frames, send generic Ethernet frames and so on.
+
 .PP
 The source code is designed to demonstrate and educate and may be modified without obligation to Qualcomm Atheros.
 The QCA Application Engineering Team would appreciate feedback concerning changes that improve the useability, reliability or efficiency.
@@ -411,6 +417,7 @@ This program is a convenient tool for testing Atheros UART-enabled powerline dev
 .TP
 .BR weeder
 A command line utility to set the programmable attenuators build into the Atheros Production Test System (PTS).
+
 .PP
 There may be other programs added, from time to time, that are not listed here.
 

@@ -1,4 +1,4 @@
-.TH plcset 7 "December 2012" "plc-utils-2.1.3" "Qualcomm Atheros Powerline Toolkit"
+.TH plcset 7 "March 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
 
 .SH NAME
 plcset - Qualcomm Atheros PLC Set Property
@@ -20,9 +20,11 @@ Properties are specified using their numeric property identifier.
 Property names are not supported.
 Property values are entered using \fBtype\fR and \fBdata\fR pairs.
 Users familiar with program \fBsetpib\fR should already understand this method of entering data values.
+
 .PP
 Only selected properties can be set using this message type.
 See the Qualcomm Atheros \fIFirmware Technical Reference Manual\fR for supported property identifiers, versions, values and data formats.
+
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 
@@ -250,6 +252,7 @@ Powerline devices use Ethernet Media Access Control (MAC) addresses.
 A MAC address is a 48-bit value entered as 12 hexadecimal digits in upper, lower or mixed character case.
 Octets may be separated with colons for clarity.
 For example, "00b052000001", "00:b0:52:00:00:01" and "00b052:000001" are valid and equivalent.
+
 .PP
 The following MAC addresses are special and may be entered by name instead of number.
 
@@ -284,14 +287,17 @@ The following example sets the "time-to-live" property for each channel access p
 The property identifier is \fB101\fR.
 It needs five 32-bit decimal integer values in microseconds.
 Data type \fBlong\fR specifies a 32-bit decimal value that will be converted to little endian format on output.
+
 .PP
    # plcset -n 101 long 100 long 200 long 250 long 300 long 100
+
 .PP
 The next example set the User HFID.
 The first occurance of option \fB-n\fR specifies the property by number as \fB105\fR.
 The second occurance specifies the property version as \fB1\fR.
 This is merely an example of how to specify the propery version.
 At the time of writing, property \fB105\fR is still version \fB0\fR.
+
 .PP
    # plcset -n 105 -n 1 hfid "Intergalactic Software Pirates"   
 

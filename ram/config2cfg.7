@@ -1,4 +1,4 @@
-.TH config2cfg 7 "December 2012" "plc-utils-2.1.3" "Qualcomm Atheros Powerline Toolkit"
+.TH config2cfg 7 "March 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
 
 .SH NAME
 config2cfg \- Atheros Configuration File Converter
@@ -23,6 +23,7 @@ File size is at least 64 characters.
 Excess characters are ignored in input.
 This means that files can be modified using any text editor and there is no way to detect modification.
 From a programmin standpoint, ASCII-to-binary convertion and checksum computation is required on input and binary-to-ASCII conversion iw required on output.
+
 .PP
 The Atheros Powerline Toolkit format consists of 32 binary bytes plus a 4 byte (32 bit) checksum.
 Files usually have a \fB.cfg\fR extension.
@@ -30,9 +31,9 @@ File size is always 36 characters.
 The files can be edited using any hex editor but a new checksum must be computed and inserted after any change.
 No conversion or computation is required on input or output.
 Input is ready for direct insertion into a VS_SET_SDRAM message.
+
 .PP
 Programs \fBint6k\fR and \fBint6kf\fR expect this latter format and so you can use this program determine if a given file has the proper format.
-
 
 .SH OPTIONS
 
@@ -57,7 +58,6 @@ There is no additional information printed in this version.
 Print program help summary on stdout.
 This option takes precedence over other options on the command line.
 
-
 .TP
 -\fB!\fR, --\fBversion\fR
 Print program version information on stdout.
@@ -67,21 +67,26 @@ Use this option when sending screen dumps to Atheros Technical Support so that t
 .SH EXAMPLES
 The following example reads file abc.cfg and validates it.
 The message shown indicates that the configuration file is the correct size and has a checksums and there are no read errors.
+
 .P
     > chkcfg abc.cfg
     chkcfg: abc.cfg looks good
+
 .P
 The following example reads three files in succession and reports on each one.
 You can suppress good news with the \fB-q\fR option.
+
 .P
     # chkcfg abc.cfg def.cfg ghi.cfg
     chkcfg: abc.cfg looks good
     chkcfg: def.cfg is corrupt
     chkcfg: ghi.cfg looks good
+
 .P
 The following example displays the SDRAM configuration values in all files having names that match the wildcard pattern \fBsdram*.cfg\fR.
 We can confirm that the values inside are correct for their filenames.
 Program output could have been sent to a file and saved for later reference.
+
 .P
     # chknvm -qv sdram*.cfg
     ------- sdram32.cfg -------

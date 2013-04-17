@@ -1,4 +1,4 @@
-.TH amphost 7 "December 2012" "plc-utils-2.1.3" "Qualcomm Atheros Powerline Toolkit"
+.TH amphost 7 "March 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
 
 .SH NAME
 amphost - Qualcomm Atheros Powerline Device Host Emulator
@@ -20,16 +20,19 @@ Wait for VS_HST_ACTION.IND messages from a local device and service them as desc
 This program can be used to demonstrate or verify proper powerline device/host interaction for flash-less devices.
 This implementation is not production grade and will stop dead - like a bug! - when things go wrong.
 Consider using the Qualcomm Atheros Embedded API for real-time, production-grade applications.
+
 .PP
 Host emulation applies to flash-less device designs where a local host processor provides the persistent storage.
 The local host can provide a wide range of intelligent storage functions for a device but this program offers one.
 Options -\fBN\fR and -\fBP\fR name existing files that store the factory default runtime firmware and parameters, respectively.
 Options -\fBn\fR and -\fBp\fR name scratch files that will store user firmware and parameters, respectively.
 This is similiar to the standard Atheros NVRAM scheme but is not the same.
+
 .PP
 To use the program, connect a flash-less device to the host via ethernet then start this program with the correct filenames.
 The program will automatically respond to device requests to download memory configuration, firmware and/or parameters and upload firmware or and/or parameters under device control.
 See the Qualcomm Atheros Firmware Technical Reference Manual for more information.
+
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 See the \fBplc\fR man page for an overview and installation instructions.
@@ -123,6 +126,7 @@ See the Qualcomm Atheros HomePlug AV Firmware Technical Reference Manual for mor
 The following command starts the host emulator.
 The -\fBN\fR and -\fBP\fR options are always required.
 Their order is not important.
+
 .PP
    # amphost -N test.nvm -P test.pib -n temp.nvm -p temp.pib
    eth1 00:B0:52:00:00:01 Waiting for Host Action Requests

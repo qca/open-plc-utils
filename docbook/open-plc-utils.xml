@@ -58,12 +58,12 @@
 				</editor>
 			<collab>
 				<collabname>
-					Andrew Barnes &lt;andrew.barnes@qca.qualcomm.com&gt;
+					Andrew Barnes &lt;abarnes@qca.qualcomm.com&gt;
 					</collabname>
 				</collab>
 			<collab>
 				<collabname>
-					Marc Bertola &lt;marc.bertola@qti.qualcomm.com&gt;
+					Marc Bertola &lt;mbertola@qti.qualcomm.com&gt;
 					</collabname>
 				</collab>
 			<collab>
@@ -73,7 +73,7 @@
 				</collab>
 			<collab>
 				<collabname>
-					Nate Houghton &lt;nathan.houghton@qca.qualcomm.com&gt;
+					Nate Houghton &lt;nhoughto@qca.qualcomm.com&gt;
 					</collabname>
 				</collab>
 			<collab>
@@ -83,17 +83,17 @@
 				</collab>
 			<collab>
 				<collabname>
-					Bill Wike &lt;bill.wike@qca.qualcomm.com&gt;
+					Bill Wike &lt;bwike@qca.qualcomm.com&gt;
 					</collabname>
 				</collab>
 			<collab>
 				<collabname>
-					Alejandro Vasquez &lt;alejandro.vasquez@qca.qualcomm.com&gt;
+					Alejandro Vasquez &lt;avasquez@qca.qualcomm.com&gt;
 					</collabname>
 				</collab>
 			</authorgroup>
 		<date>
-			AUG 2012
+			APR 2013
 			</date>
 		<releaseinfo>
 			open-plc-utils-0.0.2
@@ -103,7 +103,7 @@
 				This document is the manual for the Qualcomm Atheros Open Powerline Toolkit. New users should read the first chapter before starting using the toolkit because it will answer many questions about toolkit installation, structure, content and application. New users may want to add this page and <ulink url='toolkit.html'>toolkit.html</ulink> to their browser favorites for later reference. 
 				</para>
 			<para>
-				<trademark class='registered'>HomePlug</trademark> AV is a registered trademark of the HomePlug Powerline Aliance. <trademark>Linux</trademark> is a trademark of Linus Tovalds. <trademark class='registered'>Windows</trademark> is a registered trademark of Microsoft Corporation. <productname>INT6000</productname>, <productname>INT6300</productname>, <productname>INT6400</productname>, <productname>AR6410</productname>, <productname>QCA7000</productname>, <productname>AR7400</productname> and <productname>AR7420</productname> are powerline products from Qualcomm Atheros. 
+				<trademark class='registered'>HomePlug</trademark> AV is a registered trademark of the HomePlug Powerline Alliance. <trademark>Linux</trademark> is a trademark of Linus Tovalds. <trademark class='registered'>Windows</trademark> is a registered trademark of Microsoft Corporation. <productname>INT6000</productname>, <productname>INT6300</productname>, <productname>INT6400</productname>, <productname>AR6410</productname>, <productname>QCA7000</productname>, <productname>AR7400</productname> and <productname>AR7420</productname> are powerline products from Qualcomm Atheros. 
 				</para>
 			</abstract>
 		<keywordset>

@@ -1,4 +1,4 @@
-.TH hpavkeys 7 "December 2012" "plc-utils-2.1.3" "Qualcomm Atheros Powerline Toolkit"
+.TH hpavkeys 7 "March 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
 
 .SH NAME
 hpavkeys - HomePlug AV Key Generator
@@ -14,6 +14,7 @@ hpavkeys - HomePlug AV Key Generator
 Convert blocks of phrases to encrypted \fBHomePlug AV\fR keys.
 Phrases are read from one or more files, converted to either Device Access Keys, Networks Membership Keys or Network Identification Keys and printed on stdout.
 By default, only keys are printed, one per line, but both keys and phrases can be printed, one pair per line.
+
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 See the \fBAMP\fR man page for an overview and installation instructions.
@@ -22,12 +23,14 @@ See the \fBAMP\fR man page for an overview and installation instructions.
 HomePlug AV technology uses 16-byte binary values, called "keys", for various purposes such as identity and security.
 Three keys of interest to users are the Device Access Key (DAK), the Network Memership Key (NMK) and Network Identification Key (NID).
 Their purpose is described in the HomePlug AV Specification.
+
 .PP
 The HomePlug AV Specification explains how to generate 16-btye binary DAK, NMK and NID values using the SHA-256 algorithm to hash user-supplied ASCII strings, called "pass phrases" in the specification.
 HomePlug AV compliant pass phrases have from 12 to 64 7-bit ASCII character values in the range 0x20 to 0x7F.
 In some cases, a specified 8-byte salt is added to the pass phrase before computing the 32-byte hash value.
 In all cases, the computed hash is then rehashed a specified number of times to produce the final 32-byte value.
 The HomePlug AV key is the lower 16-bytes of that value.
+
 .PP
 Keys can be any 16-byte binary value but binary values are difficult to remember.
 HomePlug AV compliant applications, like the Qualcomm Atheros Device Manager, ask users for a pass phrase that is converted to a 16-byte binary value using a standard hashing algorithm.
@@ -93,7 +96,6 @@ This behavior has changed from earlier program versions.
 Print program help summary on stdout.
 This option takes precedence over other options on the command line.
 
-
 .TP
 .RB - ! ,-- version
 Print program version information on stdout.
@@ -113,6 +115,7 @@ The following command reads file \fBexample.keys\fR and prints the SHA256 key fo
 An SHA256 key is 128 bits or 32 bytes expressed as 32 hexadecimal digits.
 SHA256 keys are the default output when no key type is specified.
 SHA256 is a public domain standard, not a HomePlug AV standard.
+
 .PP
    # hpavkeys example.keys
    EA41A2383355FA7CA3B467DF0848A8EB9C41591BE53696C5F45DDAF621784F07
@@ -120,11 +123,13 @@ SHA256 is a public domain standard, not a HomePlug AV standard.
    71C480DF93D6AE2F1EFAD1447C66C9525E316218CF51FC8D9ED832F2DAF18B73
    7257DF11A035A49119FD881F20AA7FE88970F1A034E4BBBF2D50FAB0D0239F25
    FAC202F439E47EB5EACF6B9CC4151BF6B2B6E736A79BCAB0F589C63BCB78D16B
+
 .PP
 The following command reads file \fBexample.keys\fR and prints the DAK for each phrase in that file.
 Input phrases are checked for HomePlugAV compliance and illegal phrases are reported then ignored.
 A legal HomePlug pass phrase is 12 to 64 characters consisting of ASCII characters ' ' through '~'.
 Essentially, these are the only characters that one can enter on a standard English keyboard.
+
 .PP
    # hpavkeys -D example.keys
    F084B4E8F6069FF1300C9BDB812367FF
@@ -137,6 +142,7 @@ Essentially, these are the only characters that one can enter on a standard Engl
    7B7C094380A6E26F9F4618884C81DB63
    08AE750B07884E2C380BDCEDBC28D2C8
    F8EE1AC7F4234A3F724D21F8B837B547
+
 .PP
 The following example reads the same file as above but prints the NMK for each phrase, instead of the DAK.
 The keys printed here have different values because the \fBHomePlug AV Specification\fR requires different hash algorithms for the DAK and NMK.
@@ -176,6 +182,7 @@ An error occurs because option \fB-H\fR is illegal.
 .PP
    # hpavkey -vM -HomePlugAV -HomePlugAV123
    hpavkey: Operation canceled: Option 'H' has no meaning
+
 .PP
 One solution is to insert the keys verbatim in a password file, in this case \fBpassword.txt\fR, then run program \fBhpavkeys\fR on that file.
 

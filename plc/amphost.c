@@ -390,7 +390,7 @@ int main (int argc, char const * argv [])
 		"p f\tread PIB from device into file using VS_RD_MOD",
 		"P f\twrite PIB file to device using VS_WR_MEM",
 		"q\tquiet mode",
-		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
 		"v\tverbose mode",
 		"x\texit on error",
 		(char const *) (0)
@@ -494,7 +494,7 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_SILENCE);
 			break;
 		case 't':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

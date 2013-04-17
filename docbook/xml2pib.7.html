@@ -6,7 +6,7 @@
 			xml2pib.7
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -28,45 +28,45 @@ SYNOPSIS
 
 DESCRIPTION
        The  Atheros  PIB  XML  Editor  modifies an Atheros PIB file based on XML instructions defined in one or more instruction
-       files. Instruction files must be valid XML and conform to schema file piboffset.xsd or errors will occur. Always validate
-       XML  files  against  this  schema  with  a  validating parser before submitting them to this program. Firefox or Internet
+       files.  Instruction files must be valid XML and conform to schema file piboffset.xsd or errors will occur.  Always  vali‐
+       date  XML files against this schema with a validating parser before submitting them to this program.  Firefox or Internet
        Explorer are suitable for validation purposes purpose.
 
-       This program is part of the Qualcomm Atheros Powerline Toolkit. See the AMP man page for  an  overview  and  installation
+       This program is part of the Qualcomm Atheros Powerline Toolkit.  See the AMP man page for an  overview  and  installation
        instructions.
 
 OPTIONS
        -f filename
-              The XML instruction file. XML instruction files must conform to the Qualcomm Atheros scheme designed for this pur‐
-              pose. If more that one .xml file is specified then edits are applied in order of filename  such  that  later  edit
-              instructions can over-write eariler instructions. Instruction files usually have a .xml extension but this program
-              makes no assumption based on filename and does not enforce any filename conventions.
+              The  XML  instruction  file.   XML instruction files must conform to the Qualcomm Atheros scheme designed for this
+              purpose.  If more that one .xml file is specified then edits are applied in order of filename such that later edit
+              instructions  can  over-write eariler instructions.  Instruction files usually have a .xml extension but this pro‐
+              gram makes no assumption based on filename and does not enforce any filename conventions.
 
-       -o     Print the appropriate XML schema on stdout. This schema should be used to validate XML instructions using a  vali‐
+       -o     Print the appropriate XML schema on stdout.  This schema should be used to validate XML instructions using a vali‐
               dating parser such as Firefox or Microsoft Internet Explorer.
 
-       -q     Suppresses printing of progress messages. This option has no effect at this time.
+       -q     Suppresses printing of progress messages.  This option has no effect at this time.
 
-       -v     Print additional information. This option has no effect at this time.
+       -v     Print additional information.  This option has no effect at this time.
 
        -?,--help
-              Print program help summary on stdout. This option takes precedence over other options on the command line.
+              Print program help summary on stdout.  This option takes precedence over other options on the command line.
 
        -!,--version
-              Print  program version information on stdout. This option takes precedence over other options on the command line.
+              Print program version information on stdout.  This option takes precedence over other options on the command line.
               Use this option when sending screen dumps to Atheros Technical Support so that they know exactly which version  of
               the Linux Toolkit you are using.
 
 ARGUMENTS
        pib-file
-              An  Atheros parameter filename. Only one parameter file can be edited at a time and so care must be taken to avoid
-              the use of wildcard filenames. Parameter files usually have a .pib extension but this program makes no  assumption
+              An Atheros parameter filename.  Only one parameter file can be edited at a time and so care must be taken to avoid
+              the use of wildcard filenames.  Parameter files usually have a .pib extension but this program makes no assumption
               based on filename and does not enforce any filename conventions.
 
 SCHEMA
-       The  official Atheros XML PIB Edit schema follows. It defines general instruction file structure and the elements used to
-       edit PIB files. This file should be a controlled document and instruction files should always  be  validated  against  it
-       before using them to edit a PIB file. An explanation of this file appears below.
+       The official Atheros XML PIB Edit schema follows.  It defines general instruction file structure and the elements used to
+       edit PIB files.  This file should be a controlled document and instruction files should always be  validated  against  it
+       before using them to edit a PIB file.  An explanation of this file appears below.
 
           &lt;?xml version=’1.0’ encoding=’iso-8859-1’?&gt;
           &lt;xs:schema xmlns:xs=’http://www.w3.org/2001/XMLSchema’ elementFormDefault=’qualified’&gt;
@@ -115,63 +115,63 @@ SCHEMA
                &lt;/xs:schema&gt;
 
 ELEMENTS
-       &lt;pib&gt;  The Parameter Information Block subject to edit. There is exactly one pib defined in an instruction file.
+       &lt;pib&gt;  The Parameter Information Block subject to edit.  There is exactly one pib defined in an instruction file.
 
        &lt;object&gt;
-              A  data  region  withn a pib. There must be at least one object defined inside a pib. Each object has an offset, a
+              A  data region withn a pib.  There must be at least one object defined inside a pib.  Each object has an offset, a
               length and data where data is expressed as one dataString, a dataByte, a dataHex or an array as  described  below.
               The name attribute optional but may be used for clarity or for reporting purposes.
 
        &lt;offset&gt;
-              The  relative  position  of  the object in bytes expressed in hexadecimal. The offset plus the length of an object
-              cannot exceed PIB length or an error will occur. The offset and length element can appear in either order but both
-              must appear before the data element. The offset element is required.
+              The  relative  position  of the object in bytes expressed in hexadecimal.  The offset plus the length of an object
+              cannot exceed PIB length or an error will occur.  The offset and length element can appear  in  either  order  but
+              both must appear before the data element.  The offset element is required.
 
        &lt;length&gt;
-              The extent of the object expressed in decimal bytes. The offset plus length of an object cannot exceed PIB length.
-              The the offset and length elements can occur in either order but both must precede the data  element.  The  length
-              element is required for elements array and dataString but may be omitted for elements dataHuge, dataLong, dataWord
-              and dataByte.
+              The  extent  of  the  object  expressed  in  decimal bytes.  The offset plus length of an object cannot exceed PIB
+              length.  The the offset and length elements can occur in either order but both must precede the data element.  The
+              length  element  is required for elements array and dataString but may be omitted for elements dataHuge, dataLong,
+              dataWord and dataByte.
 
        &lt;array&gt;
-              A sequence of dataByte and/or dataHex elements. The implied length is determined by array members but  must  equal
-              the object length attribute or an error will occur. A dataString is illegal inside an array.
+              A sequence of dataByte and/or dataHex elements.  The implied length is determined by array members but must  equal
+              the object length attribute or an error will occur.  A dataString is illegal inside an array.
 
        &lt;dataString&gt;
-              Any  sequence  of  printable  characters.  The  implied length is 1 byte longer than the number of characters. The
-              string will be truncated or padded with NUL bytes to match the object length attribute. An object length attribute
-              of 0 stores one NUL byte. A dataString element is illegal within an array block.
+              Any  sequence  of  printable  characters.  The implied length is 1 byte longer than the number of characters.  The
+              string will be truncated or padded with NUL bytes  to  match  the  object  length  attribute.   An  object  length
+              attribute of 0 stores one NUL byte.  A dataString element is illegal within an array block.
 
        &lt;dataHuge&gt;
-              A  unsigned  decimal  integer  string  that represents any 64 bit binary value. The implied length is 8 bytes. The
+              A  unsigned  decimal  integer string that represents any 64 bit binary value.  The implied length is 8 bytes.  The
               object length attribute is ignored and may be omitted.
 
        &lt;dataLong&gt;
-              A unsigned decimal integer string that represents any 32 bit binary value. The implied  length  is  4  bytes.  The
+              A unsigned decimal integer string that represents any 32 bit binary value.  The implied length is  4  bytes.   The
               object length attribute is ignored and may be omitted.
 
        &lt;dataWord&gt;
-              A  unsigned  decimal  integer  string  that represents any 16 bit binary value. The implied length is 2 bytes. The
+              A  unsigned  decimal  integer string that represents any 16 bit binary value.  The implied length is 2 bytes.  The
               object length attribute is ignored and may be omitted.
 
        &lt;dataByte&gt;
-              An unsigned  decimal digit string that represents any 8 bit binary value. The implied length is 1 byte. The object
-              length attribute is ignored and may be omitted.
+              An unsigned  decimal digit string that represents any 8 bit binary value.  The implied  length  is  1  byte.   The
+              object length attribute is ignored and may be omitted.
 
        &lt;dataHex&gt;
-              A  hexadecimal  digit  string  that represents one byte for each digit pair (octet) present. There must be an even
-              number of digits or an error will occur. The resulting length must  equal  the  object  length  unless  the  value
-              appears inside an array. Inside an array, the resulting length must not exceed the remaining array length.
+              A  hexadecimal  digit  string that represents one byte for each digit pair (octet) present.  There must be an even
+              number of digits or an error will occur.  The resulting length must equal  the  object  length  unless  the  value
+              appears inside an array.  Inside an array, the resulting length must not exceed the remaining array length.
 
 PROCESS
        The  program  reads  one PIB file and replaces selected values with new ones, computes the new checksum and re-writes the
-       file. New values are defined by offset, length, format and value. The object name is actually irrelevant. Critical values
-       are  the  offset,  length and data type/value. Obviously, care must be taken when specifying offsets and lengths to avoid
-       editing objects incorrectly.
+       file.  New values are defined by offset, length, format and value.  The object name  is  actually  irrelevant.   Critical
+       values  are the offset, length and data type/value.  Obviously, care must be taken when specifying offsets and lengths to
+       avoid editing objects incorrectly.
 
 INSTRUCTIONS
-       An example instruction file follows. It references the Qualcomm Atheros XML PIB Edit schema file, piboffset.xsd, that  is
-       shown  above  so  that  a  validating  parser  can find the schema and perform document checks. The remainder of the file
+       An example instruction file follows.  It references the Qualcomm Atheros XML PIB Edit schema file, piboffset.xsd, that is
+       shown  above  so  that  a  validating  parser can find the schema and perform document checks.  The remainder of the file
        describes a series of object names, offsets, lengths and values that describe the edits to be performed.
 
           &lt;pib xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
@@ -230,13 +230,13 @@ INSTRUCTIONS
           &lt;/pib&gt;
 
 EXAMPLES
-       The following example reads PIB file abc.pib and edits it according to instructions found in XML file local.xml. The  PIB
+       The following example reads PIB file abc.pib and edits it according to instructions found in XML file local.xml.  The PIB
        file is always specified first, followed by one or more XML instruction files.
 
                # xml2pib abc.pib local.xml
 
        The  following  example reads PIB file abc.pib and edits it according to three XML instruction files, in the order speci‐
-       fied. Order can be critical since later edits could over-write earlier edits.
+       fied.  Order can be critical since later edits could over-write earlier edits.
 
                # xml2pib abc.pib standard.xml custom.xml errata.xml
 
@@ -250,7 +250,7 @@ SEE ALSO
 CREDITS
         Charles Maier &lt;charles.maier@qca.qualcomm.com&gt;
 
-plc-utils                                                 December 2012                                               xml2pib(7)
+plc-utils-2.1.5                                            March 2013                                                 xml2pib(7)
 </pre>
 		<div class='footerlink'>
 			[<a href='weeder.7.html' title=' weeder.7 '>PREV</a>]

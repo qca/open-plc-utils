@@ -8,7 +8,7 @@
 					_packed 
 					</span></dt><dd><p>
 					The __packed keyword is not part of any C or C++ standard but it is recognized by some compilers, such as the ARM C/C++ and OpenBSD C compiler. This keyword only affects the data structure that it prefaces and it is an ideal way to selectively pack structures. It can be easily defined and undefined using a preprocessor macro. Atheros has elected to insert this keyword wherever it might be appropriate. The ARM C compilers accept this keyword.
-						</p><div class="example"><a name="id2581247"></a><p class="title"><b>Example 3.5. 
+						</p><div class="example"><a name="id2581725"></a><p class="title"><b>Example 3.5. 
 							Packing Structures with keyword “<span class="quote">__packed</span>” 
 							</b></p><div class="example-contents"><pre class="programlisting">
 typedef struct __packed header_eth 
@@ -22,7 +22,7 @@ header_eth;
 					__attribute__ ((packed)) 
 					</span></dt><dd><p>
 					Attributes are not part of any C or C++ standard but they are recognized by the gcc and Sun Microsystems C compiler. Attributes only affect structures and functions that reference them in their declaration. This is convenient because we can use a preprocessor macro to define the keyword <code class="varname">__packed</code>, mentioned above, to be <code class="constant">__attribute__ ((packed))</code>. Atheros includes this definition in <code class="filename">tools/types.h</code> and OpenBSD does this in their system header files.
-						</p><div class="example"><a name="id2581301"></a><p class="title"><b>Example 3.6. 
+						</p><div class="example"><a name="id2581779"></a><p class="title"><b>Example 3.6. 
 							Packing Structures with Attribute “<span class="quote">packed</span>”
 							</b></p><div class="example-contents"><pre class="programlisting">
 typedef struct __attribute__ ((packed)) header_eth 
@@ -36,7 +36,7 @@ header_eth;
 					#pragrma pack 
 					</span></dt><dd><p>
 					Pragmas are part of most C and C++ language standards but some compilers do not recognize or implement the <code class="varname">pack</code> pragma. In addition, different compilers implement it in different ways. The <code class="varname">pack</code> pragma affects all data structures up the next <code class="varname">pack</code> pragma or end of compile unit. Most pragma implementations accept the push and pop option for pragma nesting. Some pragma pack implementations accept no arguments, most permit either one or two arguments while others allow three arguments. OpenBSD does not recognize this pragma and generates warnings in all cases. Aside from all that, the pack pragma is the most widely supported method for declaring packed structures.
-						</p><div class="example"><a name="id2581355"></a><p class="title"><b>Example 3.7. 
+						</p><div class="example"><a name="id2581833"></a><p class="title"><b>Example 3.7. 
 							Packing Structures with the Pragma “<span class="quote">pack</span>”
 							</b></p><div class="example-contents"><pre class="programlisting">
 #pragma pack (push, 1) 
@@ -52,7 +52,7 @@ header_eth;
 					The Atheros Way 
 					</span></dt><dd><p>
 					Toolkit programs declares packed structures using all three methods, as shown below.
-						</p><div class="example"><a name="id2584191"></a><p class="title"><b>Example 3.8. 
+						</p><div class="example"><a name="id2584669"></a><p class="title"><b>Example 3.8. 
 							Packing Structures the Atheros Way 
 							</b></p><div class="example-contents"><pre class="programlisting">
 #ifndef __packed 

@@ -1,4 +1,4 @@
-.TH mdioblock 7 "December 2012" "plc-utils-2.1.3" "Qualcomm Atheros Powerline Toolkit"
+.TH mdioblock 7 "March 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
 
 .SH NAME
 mdioblock - Qualcomm Atheros Clause 22 MDIO Instruction Block Assembler
@@ -10,6 +10,7 @@ mdioblock - Qualcomm Atheros Clause 22 MDIO Instruction Block Assembler
 .RI [ file ]
 .RI [ ... ]
 .RI [> stdout ]
+
 .PP
 .BR mdioblock
 .RI [ options ]
@@ -20,10 +21,12 @@ mdioblock - Qualcomm Atheros Clause 22 MDIO Instruction Block Assembler
 Assemble an Atheros MDIO instruction block from hexadecimal register instructions.
 MDIO instruction blocks are written to Atheros powerline devices as modules using the \fBVS_MOD_OP\fR message type.
 Alternately, program \fBint6kmod\fR can be used.
+
 .PP 
 Atheros MDIO modules consists of a 16-bit header followed by one or more MDIO communication frames with register masks and padded to the nearest multiple of 32-bits for download purposes.
 MDIO instructions are specified here using \fB802.3 Clause 22\fR (or \fIphy\fR, \fIreg\fR, \fIdata\fR and \fImask\fR) format.
 See program \fBmdioblock2\fR for a similar program that accepts instructions in \fB802.3ae Clause 45\fR (or \fIaddress\fR, \fIdata\fR and \fImask\fR) format.
+
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 See the \fBAMP\fR man page for an overview and installation instructions.
@@ -71,13 +74,17 @@ Qualcomm Atheros reserves the right to modify message structure and content in f
 .SH EXAMPLES
 The following command reads register instructions from file \fBmdio.txt\fR and writes them as an MDIO program block to file \fBmdio.bin\fR.
 In this example, the program acts as a filter.
+
 .PP
    # mdioblock < mdio.txt > mdio.bin
+
 .PP
 The following command reads register instructions from files \fBphysetup.dat\fR, \fBflowctl.dat\fR and \fBmisc.ins\fR and write them all as one MDIO block to file \fBmdio.bin\fR.
 The previous contents of file \fBmdio.bin\fR is overwritten.
+
 .PP
    # mdioblock physetup.dat flowctl.dat misc.ins > mdio.bin
+
 .PP
 An example register instruction file might look like this.
 The first two lines consist of one instruction each.
@@ -109,6 +116,7 @@ Script-style comments are permitted between instructions but not between instruc
    18 00 0000 FFFF;
    14 00 007D FFFF;
    14 01 0000 FFFF; 
+
 .PP
 A 16-bit hexdump of the MDIO block will look like this on little-endian hosts.
 The block consists of a 16-bit header followed by a variable number of 16-bit triplets.
@@ -116,12 +124,14 @@ The header indicates the number of triplets that follow.
 Each triplet specifies a 16-bit operation, a 16-bit data value and a 16-bit data mask.
 The application of these fields is beyond the scope of this man page.
 Consult the IEEE standards for more information.
+
 .PP
    # hexdump mdio.bin
    0000000 0241 8185 0000 ffff ad05 003f ffff af05
    0000010 7e3f ffff 8185 0000 ffff 8505 0700 ffff
    0000020 8705 0000 ffff 8185 0000 ffff 8145 007d
    0000030 ffff 8345 0000 ffff                    
+
 .PP
 An 8-bit dump of the MDIO block will look like this on all hosts since the MDIO block is always distributed in little-endian format.
 .pp

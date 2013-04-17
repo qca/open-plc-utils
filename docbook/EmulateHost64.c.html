@@ -6,7 +6,7 @@
 			EmulateHost64.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -20,7 +20,7 @@
 <pre>
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -45,12 +45,8 @@
  *   plc.h
  *
  *   wait indefinitely for VS_HOST_ACTION messages; service the device 
- *   as directed; this function is for demonstration and experimentation
  *   only; it will stop dead - like a bug! - on error;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier &lt;cmaier@qualcomm.com&gt;
@@ -254,6 +250,19 @@ signed EmulateHost64 (struct plc * plc)
 				if (ResetDevice (plc)) 
 				{
 					return (-1);
+				}
+				continue;
+			}
+			if (action == 0x06)
+			{
+				close (plc-&gt;PIB.file);
+				if (ReadParameters1 (plc)) 
+				{
+					return (-1);
+				}
+				if ((plc-&gt;PIB.file = open (plc-&gt;PIB.name = plc-&gt;pib.name, O_BINARY|O_RDONLY)) == -1) 
+				{
+					error (1, errno, &quot;%s&quot;, plc-&gt;PIB.name);
 				}
 				continue;
 			}

@@ -1,4 +1,4 @@
-.TH int6kid 7 "December 2012" "plc-utils-2.1.3" "Qualcomm Atheros Powerline Toolkit"
+.TH int6kid 7 "March 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
 
 .SH NAME
 int6kid - Echo Device Key
@@ -14,8 +14,10 @@ int6kid - Echo Device Key
 This program prints a single powerline device key or HFID on stdout.
 It can be used to dynamically define environment variables or insert command line arguments in scripts at runtime.
 It is intended to echo a specific key read from a single device but it can be used to echo a specific key type read from several devices by specifying either the Qualcomm Atheros Local Management Address or a broadcast address.
+
 .PP
 This program is, in some sense, the inverse of \fBmodpib\fR but it reads the key and HFID directly from the powerline device instead of reading from a PIB file.
+
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 See the \fBplc\fR man page for an overview and installation instructions.
@@ -106,6 +108,7 @@ Powerline devices use Ethernet Media Access Control (MAC) addresses.
 A MAC address is a 48-bit value entered as 12 hexadecimal digits in upper, lower or mixed character case.
 Octets may be separated with colons for clarity.
 For example, "00b052000001", "00:b0:52:00:00:01" and "00b052:000001" are valid and equivalent.
+
 .PP
 The following MAC addresses are special and may be entered by name instead of number.
 
@@ -141,26 +144,33 @@ The local device is interrogated because no MAC address was specified.
 The default interface, \fBeth1\fR on Linux and \fB2\fR on Windows, is used unless environment variable \fBPLC\fR is defined.
 The DAK is always printed by default.
 Depending on your system, you may want to use option -\fBn\fR when using this program interactively.
+
 .PP
    # int6kid
    00:11:22:33:44:55:66:77:88:99:AA:DD:CC:DD:EE:FF
+
 .PP
 The following example prints the \fBNMK\fR of device \fB00:B0:52:DA:DA:57\fR connected to interface \fBeth2\fR on a Linux system.
 Several devices could be specified but that is not a common request.
+
 .PP
    # DAK -Mi eth2 00:B0:52:DA:DA:57
    F4:23:71:4A:51:39:C2:2D:E5:EA:87:43:99:A1:37:81
+
 .PP
 The following example dynamically inserts the DAK and NMK of the previous device on the command line of another program.
 In this example, we want to insert the DAK and NMK into PIB file \fBabc.pib\fR using program \fBmodpib\fR.
 See the \fBmodpib\fR man page for an explanation of command line syntax.
 See the GNU bash manuals for an explanation of why this works.
+
 .PP
    # modpib abc.pib -D $(int6kid -Di eth2 00:B0:52:DA:DA:57) -N $(int6kid -Mi eth2 00:B0:52:DA:DA:57)
+
 .PP
 The following example is an alternate way of accomplishing the same thing using shell script variables.
 This method may be easier to read and maintain.
 Notice that we 'squished' all the options together for brevity.
+
 .PP
    # PLC=00:B0:52:DA:DA:57
    # DAK=$(int6kid -Dieth2 ${PLC})

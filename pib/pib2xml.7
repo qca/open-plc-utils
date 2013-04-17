@@ -1,4 +1,4 @@
-.TH pib2xml 7 "December 2012" "plc-utils-2.1.3" "Qualcomm Atheros Powerline Toolkit"
+.TH pib2xml 7 "March 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
 
 .SH NAME
 pib2xml - print object driven xml editior intructions 
@@ -41,7 +41,6 @@ It can be used to validate XML files used with program \fBpxe\fR.
 Print program help summary on stdout.
 This option takes precedence over other options on the command line.
 
-
 .TP
 .RB - ! ,-- version
 Print program version information on stdout.
@@ -62,6 +61,7 @@ The following is an example object definition file that defines a standard ether
 The comments and descriptions shown are optional.
 The field lengths and field names are not.
 Zero-length fields denote arbitrary field groups and are used by program \fBoffset\fR to print headings.
+
 .PP
    # ========================================
    #
@@ -88,14 +88,17 @@ Zero-length fields denote arbitrary field groups and are used by program \fBoffs
    0 trailer
    
    4 CRC Cyclical Redundancy Check
+
 .PP
 The following command uses object definition file \fBether.txt\fR to identify and display member fields within binary file \fBabc.bin\fR as a set of xml instructions that can be used by program \fBxde\fR to edit other files.
 
 .PP
    # pib2xml -f ether.txt abc.bin
+
 .PP
 The next command writes the xml schema that defines the elements and attributes used in the edit instructions to file \fBdata.xsd\fR.
 This file can be used to validate xml edit instructions.
+
 .PP
    # pib2xml -x > data.xsd
 

@@ -74,11 +74,11 @@ signed ReadMME (struct plc * plc, uint8_t MMV, uint16_t MMTYPE)
 			{
 				error (1, errno, CANT_RESET_TIMER);
 			}
-			if (channel->timer < 0) 
+			if (channel->timeout < 0) 
 			{
 				continue;
 			}
-			if (channel->timer > MILLISECONDS (ts, tc))
+			if (channel->timeout > MILLISECONDS (ts, tc))
 			{
 				continue;
 			}

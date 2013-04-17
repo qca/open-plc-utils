@@ -6,7 +6,7 @@
 			Platform.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -20,7 +20,7 @@
 <pre>
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -44,9 +44,6 @@
  *   
  *   plc.h
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier &lt;cmaier@qualcomm.com&gt;
@@ -77,6 +74,12 @@ signed Platform (struct channel * channel, const uint8_t device [])
 #pragma pack (push,1)
 #endif
 
+	struct __packed vs_sw_ver_request 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+	}
+	* request = (struct vs_sw_ver_request *) (&amp;message);
 	struct __packed vs_sw_ver_confirm 
 	{
 		struct ethernet_std ethernet;
@@ -93,8 +96,8 @@ signed Platform (struct channel * channel, const uint8_t device [])
 #endif
 
 	memset (&amp;message, 0, sizeof (message));
-	EthernetHeader (&amp;message.ethernet, device, channel-&gt;host, channel-&gt;type);
-	QualcommHeader (&amp;message.qualcomm, 0, (VS_SW_VER | MMTYPE_REQ));
+	EthernetHeader (&amp;request-&gt;ethernet, device, channel-&gt;host, channel-&gt;type);
+	QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_SW_VER | MMTYPE_REQ));
 	if (sendpacket (channel, &amp;message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) &gt; 0) 
 	{
 		while ((packetsize = readpacket (channel, &amp;message, sizeof (message))) &gt; 0) 

@@ -374,7 +374,7 @@ int main (int argc, char const * argv [])
 		"r\tread hardware and firmware revision using VS_SW_VER",
 		"R\treset device using VS_RS_DEV",
 		"s\tread SDRAM Configuration using VS_RD_CBLOCK",
-		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
 		"T\trestore factory defaults using VS_FAC_DEFAULTS",
 		"v\tverbose mode",
 		"w n\tpause (n) seconds [" LITERAL (AMPTOOL_WAIT) "]",
@@ -613,7 +613,7 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_SDRAM_INFO);
 			break;
 		case 't':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'T':
 			_setbits (plc.flags, PLC_FACTORY_DEFAULTS);

@@ -968,7 +968,7 @@ int main (int argc, char const * argv [])
 		"q\tquiet mode",
 		"R\tremove VLAN ID of multiple slaves from memory",
 		"S n\tenable VLANID forwarding on all slaves",
-		"t n\ttimeout is (n) millisecond [" LITERAL (CHANNEL_TIMER) "]",
+		"t n\ttimeout is (n) millisecond [" LITERAL (CHANNEL_TIMEOUT) "]",
 		"v\tverbose mode",
 		"x\texit on error",
 		"z s\tslavespec",
@@ -1048,7 +1048,7 @@ int main (int argc, char const * argv [])
 			plc.pushbutton = (uint8_t)(uintspec (synonym (optarg, states, STATES), 0, UCHAR_MAX));
 			break;
 		case 't':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

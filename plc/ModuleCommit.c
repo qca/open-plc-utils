@@ -94,7 +94,7 @@ signed ModuleCommit (struct plc * plc, uint32_t options)
 #pragma pack (pop)
 #endif
 
-	unsigned timer = channel->timer;
+	unsigned timer = channel->timeout;
 	Request (plc, "Close Session");
 	memset (message, 0, sizeof (* message));
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
@@ -110,14 +110,14 @@ signed ModuleCommit (struct plc * plc, uint32_t options)
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	channel->timer = PLC_MODULE_WRITE_TIMEOUT;
+	channel->timeout = PLC_MODULE_WRITE_TIMEOUT;
 	if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0) 
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
-		channel->timer = timer;
+		channel->timeout = timer;
 		return (-1);
 	}
-	channel->timer = timer;
+	channel->timeout = timer;
 	if (confirm->MSTATUS) 
 	{
 		Failure (plc, PLC_WONTDOIT);

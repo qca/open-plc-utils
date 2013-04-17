@@ -228,7 +228,7 @@ int main (int argc, char const * argv [])
 
 		"l n\trepeat file sequence (n) times [" LITERAL (EFSU_LOOP) "]",
 		"p n\twait (n) seconds between files [" LITERAL (EFSU_PAUSE) "]",
-		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
 		"v\tverbose messages",
 		"w n\twait (n) seconds between loops [" LITERAL (EFSU_DELAY) "]",
 		(char const *) (0)
@@ -294,7 +294,7 @@ int main (int argc, char const * argv [])
 			_setbits (channel.flags, CHANNEL_SILENCE);
 			break;
 		case 't':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

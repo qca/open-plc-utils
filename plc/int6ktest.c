@@ -343,7 +343,7 @@ int main (int argc, char const * argv [])
 
 		"l\tloop until program is terminated",
 		"q\tquiet mode",
-		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
 		"v\tverbose mode",
 		"x\texit on error",
 		(char const *) (0)
@@ -395,7 +395,7 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_SILENCE);
 			break;
 		case 't':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

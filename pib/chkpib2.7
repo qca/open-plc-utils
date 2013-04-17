@@ -1,4 +1,4 @@
-.TH chkpib2 7 "December 2012" "plc-utils-2.1.3" "Qualcomm Atheros Powerline Toolkit"
+.TH chkpib2 7 "March 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
 
 .SH NAME
 chkpib2 - Qualcomm Atheros PLC Parameter File Inspector
@@ -13,9 +13,11 @@ chkpib2 - Qualcomm Atheros PLC Parameter File Inspector
 .SH DESCRIPTION
 This program checks Atheros HomePlug AV parameter files for obvious errors, including obsolete format, wrong file size, bad checksums and read errors.
 It makes no attempt to check internal information other than file length and checksum.
+
 .PP
 This program handles both the older \fBThunderbolt\fR and \fBLightning\fR and the newer \fBPanther\fR and \fBLynx\fR parameter file formats.
 It validates files directly from memory and so it is faster than program \fBchkpib\fR but needs more memory at runtime.
+
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 See the \fBAMP\fR man page for an overview and installation instructions.
@@ -28,7 +30,6 @@ Display manifest content, if present.
 The manifest is a special module, included in some image chains, that contains useful information about the chain.
 This option suppresses the summary 'looks good' message.
 
-
 .TP
 .RB - q
 Suppresses printing of progress messages.
@@ -38,12 +39,10 @@ Suppresses printing of progress messages.
 Print additional information such as the PIB header for each file processed.
 This information can be used to confirm pib version and distinguish one PIB file from another.
 
-
 .TP
 .RB - ? ,-- help
 Print program help summary on stdout.
 This option takes precedence over other options on the command line.
-
 
 .TP
 .RB - ! ,-- version
@@ -58,7 +57,6 @@ Use this option when sending screen dumps to Atheros Technical Support so that t
 The name of a runtime parameter file.
 By convention, runtime parameter files have a \fB.pib\fR extention but this program does not enforce that convention.
 
-
 .SH DISCLAIMER
 Qualcomm Atheros parameter file structure and content is proprietary to Qualcomm Atheros, Ocala FL USA.
 Consequently, public information is not available.
@@ -67,20 +65,25 @@ Qualcomm Atheros reserves the right to change parameter file structure or conten
 .SH EXAMPLES
 The next example reads file \fBabc.pib\fR and validates it.
 The message shown indicates that the PIB version is recent, the file is the correct size, the checksum is valid computes and there are no read errors.
+
 .PP
    # chkpib2 abc.pib
    abc.pib looks good
+
 .PP
 The next example reads three files and reports on each one.
 You can suppress good news with the \fB-q\fR option.
 Remember that "\fBlooking good\fR" does not mean "\fBis good\fR".
+
 .PP
    # chkpib2 INT6400.pib AR7400.pib AR7420.pib
    INT6400.pib looks good
    AR7400.pib looks good
    AR7420.pib looks good
+
 .PP
 The next example reads three files and displays selected information about each one because option \fB-v\fR is present.
+
 .PP
    # chkpib2 -v INT6400.pib AR7400.pib AR7420.pib
    ------- INT6400.pib -------
@@ -116,10 +119,12 @@ The next example reads three files and displays selected information about each 
            USR Atheros Enabled Product
            CCo Auto
            MDU N/A
+
 .PP
 This example prints the manifest found inside newer parameter files.
 This can be used to distinguish parameter files from firmware files, determine exact firmware or parameter file revisions and so forth.
 Observe that we specified several files on the command line but only one file, \fBAR7420.pib\fR, contained a manifest.
+
 .PP
    # chkpib2 -m INT6400.pib AR7400.pib AR7420.pib
    ------- AR7420.pib (0) -------

@@ -1,4 +1,4 @@
-.TH mac2pwd 7 "December 2012" "plc-utils-2.1.3" "Qualcomm Atheros Powerline Toolkit"
+.TH mac2pwd 7 "March 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
 
 .SH NAME
 mac2pwd - Qualcomm Atheros Ethernet Device Password Generator
@@ -29,10 +29,10 @@ Atheros provides this program as a simple means of generating unique and apparen
 It uses a Linear Cogruential Random Number Generator to produce a single-wheel Bazerie Cylinder and to select characters from that cylinder.
 The algorithm used is adequate for purpose and nothing more.
 Vendors are encouraged to develop their own means of generating passwords for the reasons mentioned below.
+
 .PP
 MAC addresses can be determined using a variety of network management programs.
 Anyone having access to this program, or the algorithm used, could compute the device password and gain access to device features reserved for priviledged users.
-
 
 .SH OPTIONS
 
@@ -68,7 +68,6 @@ The Atheros Production Test System (PTS) uses the first column of a password dat
 Print program help information on stdout.
 This option takes precedence over other options on the command line.
 
-
 .TP
 .RB - ! ,-- version
 Print program version information on stdout.
@@ -93,6 +92,7 @@ Comment lines document the file.
 Blank lines are permitted and multiple addresses appear on one line.
 This file contains 5 MAC addresses.
 Punctuation is not permitted within a MAC address.
+
 .PP
    # =================================
    # unused MAC addresses;
@@ -101,11 +101,13 @@ Punctuation is not permitted within a MAC address.
    00b052BABE33
    00b052BABE34 00b052CAFE05
    00b052CAFE01
+
 .PP
 Another example input file, \fBmac2.txt\fR, appears below.
 A hash ('#') and a semi-colon (';') are used to hide selected addresses.
 Hidden addresses are ignored because they are comments.
 This file contains 7 addresses but only 5 will be recognized.
+
 .PP
    002b88ffff00
    002b887fff00
@@ -113,9 +115,11 @@ This file contains 7 addresses but only 5 will be recognized.
    002b88660067
    002b88660063 ; 002b8800FFFF
    002b88660066
+
 .PP
 The following example reads the two files shown above and prints 10 addresses, 5 from each file, with associated passwords.
 Output appears on the console but it could be directed to a file.
+
 .PP
    # mac2pwd mac.txt more.mac 
    00B052000004 LBPL-NZSM-VPUC-XPLM
@@ -128,9 +132,11 @@ Output appears on the console but it could be directed to a file.
    002B88660067 BTQY-NMZL-WUNM-HSHW
    002B88660063 EJRX-AATI-YSMU-JWSG
    002B88660066 FOFC-LVAB-MTHH-TVNO
+
 .PP
 The following example is the same but prints output suitable for input to the Qualcomm Atheros PTS because option \fB-v\fR is specified.
 The output format is similar to that produced by the Qualcomm Atheros DB Builder Utility for Windows.
+
 .PP
    # mac2pwd -v mac.txt more.mac 
    0 00B052000004 LBPL-NZSM-VPUC-XPLM
@@ -143,9 +149,11 @@ The output format is similar to that produced by the Qualcomm Atheros DB Builder
    0 002B88660067 BTQY-NMZL-WUNM-HSHW
    0 002B88660063 EJRX-AATI-YSMU-JWSG
    0 002B88660066 FOFC-LVAB-MTHH-TVNO
+
 .PP
 The following example omits the MAC address from the output for clandestine cases where one does not want both the MAC address and the password to appear together.
 It can also be used to generate random passwords for other purposes.
+
 .PP
    # mac2pwd -q mac.txt more.mac 
    LBPL-NZSM-VPUC-XPLM

@@ -350,9 +350,9 @@ signed openchannel (struct channel * channel)
 #error "Abandon all hope"
 #endif
 
-	if (channel->timeout > 1000) 
+	if (channel->capture > 1000) 
 	{
-		timeval.tv_sec = channel->timeout / 1000;
+		timeval.tv_sec = channel->capture / 1000;
 		timeval.tv_usec = 0;
 	}
 	else 
@@ -372,7 +372,7 @@ signed openchannel (struct channel * channel)
 #else
 
 		timeval.tv_sec = 0;
-		timeval.tv_usec = channel->timeout * 1000;
+		timeval.tv_usec = channel->capture * 1000;
 
 #endif
 
@@ -442,7 +442,7 @@ signed openchannel (struct channel * channel)
 
 	channel->ifname = getifname (channel->ifindex);
 	gethwaddr (channel->host, channel->ifname);
-	channel->socket = pcap_open_live (channel->ifname, 65536, 0, channel->timeout, channel->errbuf);
+	channel->socket = pcap_open_live (channel->ifname, 65536, 0, channel->capture, channel->errbuf);
 	snprintf ((char *)(channel->ifname), strlen (channel->ifname), "nic%d", channel->ifindex);
 	if (!channel->socket) 
 	{

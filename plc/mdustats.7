@@ -1,4 +1,4 @@
-.TH mdustats 7 "December 2012" "plc-utils-2.1.3" "Qualcomm Atheros Powerline Toolkit"
+.TH mdustats 7 "March 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
 
 .SH NAME
 mdustats
@@ -12,6 +12,7 @@ mdustats
 
 .SH DESCRIPTION
 Collect and display MDU traffic statisitcs using the Qualcomm Atheros vendor specific VS_MDU_TRAFFIC_STATS message.
+
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 See the \fBplc\fR man page for an overview and installation instructions.
@@ -92,6 +93,7 @@ Powerline devices use Ethernet hardware, or Media Access Control (MAC), addresse
 Device addresses are expressed as 12 hexadecimal digits (\fB0123456789ABCDEFabcdef\fR) in upper, lower or mixed case.
 Individual octets may be separated by colons, for clarity, but not all octets need to be seperated.
 For example, "00b052000001", "00:b0:52:00:00:01" and "00b052:000001" are valid and equivalent.
+
 .PP
 These symbolic addresses are recognized by this program and may be used instead of the actual address value.
 
@@ -122,11 +124,14 @@ Qualcomm Atheros reserves the right to modify message structure or content in fu
 .SH EXAMPLES
 The following example collects and displays MDU traffic statistics on the slave side of the local device because option \fB-c\fR is \fB4\fR.
 The local device is implicit because no device is specified on the command line.
+
 .PP
    # mdustats -c 4 
+
 .PP
 The next example collects and displays MDU traffic statistics for slave \fB2\fR on the master side of device \fB00:b0:52:9F:E0:14\fR because option \fB-c\fR is \fB5\fR and option \fB-s\fR is \fB2\fR.
 The master device is explicit in this example.
+
 .PP
    # mdustats -c 5 -u 2 00b0529FE014 
 

@@ -1,4 +1,4 @@
-.TH chknvm 7 "December 2012" "plc-utils-2.1.3" "Qualcomm Atheros Powerline Toolkit"
+.TH chknvm 7 "March 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
 
 .SH NAME
 chknvm - Qualcomm Atheros PLC Image File Validator
@@ -14,9 +14,11 @@ chknvm - Qualcomm Atheros PLC Image File Validator
 Validate the image chain found inside a Qualcomm Atheros PLC firmware or parameter file by checking file structure, file size, image header sizes and checksums and image sizes and checksums.
 Optionally, display internal image header information or information extracted from selected image types, when present.
 Use this program to detect corrupted firmware or parameter files or inspect image files to determine content.
+
 .PP
 This program handles both the older \fBThunderbolt\fR and \fBLightning\fR and the newer \fBPanther\fR and \fBLynx\fR firmware file formats.
 It validates files directly from disk and so it is slower than program \fBchknvm2\fR but needs less memory at runtime.
+
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 See the \fBAMP\fR man page for an overview and installation instructions.
@@ -81,23 +83,28 @@ Qualcomm Atheros reserves the right to change firmware file structure or content
 This example reads file abc.nvm and validates it.
 The message shown indicates that the file is the correct length, image headers and images have the correct length and checksum and there are no read errors.
 The file can be have either the newer or older format.
+
 .PP
     # chknvm abc.nvm
     abc.nvm looks good
+
 .PP
 The following example reads three files in succession and reports on each one.
 You can suppress good news with the \fB-q\fR option.
+
 .PP
    # chknvm INT6400.nvm AR7400.nvm AR7420.nvm
    INT6400.nvm looks good
    AR7400.nvm looks good
    AR7420.nvm looks good
+
 .PP
 This next example displays the SDRAM parameter block found in the named files.
 SDRAM parameter blocks are a legacy feature.
 They were to configure memory.
 Powerline device now run a configuration applet, instead.
 Observe that file \fBAR6400.nvm\fB us the only one that contains SDRAM parameters.
+
 .PP
    # chknvm -s INT6400.nvm AR7400.nvm AR7420.nvm
    ------- INT6400.nvm (0) -------
@@ -108,19 +115,23 @@ Observe that file \fBAR6400.nvm\fB us the only one that contains SDRAM parameter
            CNTRL=0x00003089
            REF=0x00000366
            CLOCK=0x00000001
+
 .PP
 This next example prints the firmware revision string found inside older image files.
 The option can be used to identify the actual firmware image present when the filename has been changed.
 Newer image files have a manifest, instead.
 Observe that file \fBAR7420.nvm\fR shows no firmware revision string because it has the newer image file format.
+
 .PP
    # chknvm -r INT6400.nvm AR7400.nvm AR7420.nvm
    INT6400.nvm (3) INT6000-MAC-4-1-4122-01-4020-20100219-FINAL
    AR7400.nvm (5) INT7400-MAC-7-0-7011-01-52-20110811-FINAL
+
 .PP
 This example prints the manifest found inside newer firmware files.
 This can be used to distinguish firmware files from parameter files, determine exact firmware or parameter file revisions and so forth.
 Observe that we specified several files on the command line but only one file, \fBAR7420.nvm\fR, contained a mainfest.
+
 .PP
    # chknvm -m INT6400.nvm AR7400.nvm AR7420.nvm
    ------- AR7420.nvm (0) -------

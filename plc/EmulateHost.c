@@ -99,14 +99,14 @@ signed EmulateHost (struct plc * plc)
 	uint32_t offset;
 	char const * PIB = plc->PIB.name;
 	char const * NVM = plc->NVM.name;
-	signed timer = channel->timer;
+	signed timer = channel->timeout;
 	signed status = 0;
 	Request (plc, "Waiting for Host Action");
 	while (1) 
 	{
-		channel->timer = plc->timer;
+		channel->timeout = plc->timer;
 		status = ReadMME (plc, 0, (VS_HOST_ACTION | MMTYPE_IND));
-		channel->timer = timer;
+		channel->timeout = timer;
 		if (status < 0) 
 		{
 			break;
@@ -124,7 +124,7 @@ signed EmulateHost (struct plc * plc)
 				continue;
 			}
 			memcpy (channel->peer, indicate->ethernet.OSA, sizeof (channel->peer));
-			channel->timer = timer;
+			channel->timeout = timer;
 			if (indicate->MACTION == 0x00) 
 			{
 				unsigned module = 0;

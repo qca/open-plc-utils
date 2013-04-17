@@ -1,4 +1,4 @@
-.TH int6kmod 7 "December 2012" "plc-utils-2.1.3" "Qualcomm Atheros Powerline Toolkit"
+.TH int6kmod 7 "March 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
 
 .SH NAME
 int6kmod - Qualcomm Atheros Powerline Device Module Manager
@@ -15,6 +15,7 @@ Read or write Atheros custom powerline modules using VS_MODULE_OPERATION message
 Modules may be read from a device and written to a file or read from a file and written to a device.
 Modules may have any of several formats and purposes.
 Where the firmware permits, this program can now read modules in excess of 1400 bytes and can write multiple modules that exceed 1400 bytes in one operation.
+
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 See the \fBplc\fR man page for an overview and installation instructions.
@@ -122,6 +123,7 @@ Powerline devices use Ethernet Media Access Control (MAC) addresses.
 A MAC address is a 48-bit value entered as 12 hexadecimal digits in upper, lower or mixed character case.
 Octets may be separated with colons for clarity.
 For example, "00b052000001", "00:b0:52:00:00:01" and "00b052:000001" are valid and equivalent.
+
 .PP
 The following MAC addresses are special and may be entered by name instead of number.
 
@@ -158,6 +160,7 @@ The sub-module identifer defaults to \fB0x0000\fR because option \fB-s\fR is omi
 The session identifier defaults to \fB0x78563412\fR because option \fB-S\fR is omitted.
 The operation takes place in three steps.
 The last step may take 2 or 3 seconds to complete.
+
 .PP
    # int6kmod -M abc.bin -t 0x1000 
    eth1 00:B0:52:00:00:01 Request Session
@@ -166,11 +169,13 @@ The last step may take 2 or 3 seconds to complete.
    eth1 00:B0:52:BE:EF:03 Written
    eth1 00:B0:52:00:00:01 Commit Modules
    eth1 00:B0:52:BE:EF:03 Committed
+
 .PP
 The next example does the same thing but writes module file \fBdef.bin\fR to remote device \fB00:B0:52:BA:BE:02\fR.
 The module identifier \fB0x4000\fR indicates that it is an \fBAdvanced Power Management uC\fR module.
 The session identifier used is \fB0xA5A5A5A5\fR.
 The sub-module identifer defaults to \fB0x0000\fR because option \fB-s\fR is omitted.
+
 .PP
    # int6kmod -M def.bin -t 0x4000 -S A5A5A5A5 00:B0:52:BA:BE:02
    eth1 00:B0:52:00:00:01 Request Session
@@ -179,8 +184,10 @@ The sub-module identifer defaults to \fB0x0000\fR because option \fB-s\fR is omi
    eth1 00:B0:52:BE:EF:03 Written
    eth1 00:B0:52:00:00:01 Commit Modules
    eth1 00:B0:52:BE:EF:03 Committed
+
 .PP
 The next example reads back the module written in the first example and saves it in file \fBzyx.bin\fR.
+
 .PP
    # int6kmod -m xyz.bin -t 0x1000
    eth1 00:B0:52:00:00:01 Read zyx.bin

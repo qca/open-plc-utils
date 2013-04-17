@@ -335,7 +335,7 @@ int main (int argc, char const * argv [])
 		"q\tquiet mode",
 		"r n\trun selftest after reset [" LITERAL (PLCOTST_RUNAFTERRESET) "]",
 		"R n\treset after selftest completes [" LITERAL (PLCOTST_RESETONDONE) "]",
-		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
 		"v\tverbose mode",
 		"x\texit on error",
 		(char const *) (0)
@@ -410,7 +410,7 @@ int main (int argc, char const * argv [])
 			selftest.RESETONDONE = (uint8_t)(uintspec (optarg, false, true));
 			break;
 		case 't':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

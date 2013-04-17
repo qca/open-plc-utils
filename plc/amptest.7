@@ -1,4 +1,4 @@
-.TH amptest 7 "December 2012" "plc-utils-2.1.3" "Qualcomm Atheros Powerline Toolkit"
+.TH amptest 7 "March 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
 
 .SH NAME
 amptest - Qualcomm Atheros PLC Test Applet Loader
@@ -14,18 +14,21 @@ amptest - Qualcomm Atheros PLC Test Applet Loader
 Download and execute one or more test applets on the local Qualcomm Atheros PLC device.
 An applet is a small firmware image that can be started by the bootloader and that returns to the bootloader when done.
 This program is an alternative to program \fBint6ktest\fR but has been replaced by program \fBplctest\fR.
+
 .PP
 A Qualcomm Atheros firmware image file may contain one or more applets.
 Each applet is preceded by a header that specifies the image size, load address and start address.
 Program \fBamptest\fR sequentially downloads and executes each applet found in each image file specified on the command line.
 It waits for each applet to complete before downloading and executing the next one.
 The program terminates once all applets in all files have been executed or some applet fails to complete within 60 seconds.
+
 .PP
 Most applets return to the Bootloader on successful completion so that another applet can be downloaded and executed.
 This allows applet chains to be executed using one command.
 A chain may consist of one file containing multiple applets or multiple files each containing one applet or any combination of single and multiple applet files.
 The chain will break, after a timeout, if any applet in the chain fails to return to the Bootloader in time.
 Failure to return in time may be either a good thing or a bad thing depending on applet design.
+
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 See the \fBAPT\fR man page for an overview and installation instructions.
@@ -34,6 +37,7 @@ See the \fBAPT\fR man page for an overview and installation instructions.
 The Qualcomm Atheros Powerline Toolkit contains a set of legacy applets in folder \fBapplets\fR.
 These were designed for use with program \fBint6ktest\fR and most will not display console messages properly using this program.
 A new series of compatible applets are under development and should be available through \fBAtheros Field Application Engineering\fR.
+
 .PP
 Assuming a good set of applets are available, this program is ideal for testing reference designs for performance and production units for defects.
 Applets may become available for testing onboard connections, memory integrity and noise immunity.
@@ -108,10 +112,13 @@ Each image will be downloaded and executed in turn until all images are executed
 The following example sequentially downloads then executes each image in file \fBabc.nvm\fR in turn.
 Each image must complete and return to the bootloader before the next one downloads.
 Observe that no device address is needed because Atheros powerline devices use address 00:b0:52:00:00:01 when in bootloader mode.
+
 .PP
    # amptest abc.nvm
+
 .PP
 The following example will sequentially download and execute the images in each file \fBabc.nvm\fR, \fBdef.nvm\fR and \fBghi.nvm\fR in turn.
+
 .PP
    # amptest abc.nvm def.nvm ghi.nvm
 

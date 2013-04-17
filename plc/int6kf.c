@@ -302,7 +302,7 @@ int main (int argc, const char * argv [])
 			_setbits (plc.flags, PLC_SILENCE);
 			break;
 		case 't':
-			channel.timer = (unsigned)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (unsigned)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

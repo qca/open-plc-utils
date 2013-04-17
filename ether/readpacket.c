@@ -82,7 +82,7 @@ ssize_t readpacket (struct channel const * channel, void * memory, ssize_t exten
 		POLLIN,
 		0
 	};
-	signed status = poll (&pollfd, 1, channel->timeout);
+	signed status = poll (&pollfd, 1, channel->capture);
 	memset (memory, 0, extent);
 	if ((status < 0) && (errno != EINTR))
 	{

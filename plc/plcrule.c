@@ -216,7 +216,7 @@ int main (int argc, char const * argv [])
 
 		"q\tquiet mode",
 		"s\tdisplay symbol tables",
-		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
 		"T x\tinserted vlan tag is x [" LITERAL (INT6KRULE_VLAN_TAG) "]",
 		"v\tverbose mode",
 		"V n\tcspec version is n [" LITERAL (INT6KRULE_CSPEC_VERSION) "]",
@@ -297,7 +297,7 @@ int main (int argc, char const * argv [])
 			printf ("\n");
 			return (0);
 		case 't':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'T':
 			cspec.VLAN_TAG = (uint32_t)(basespec (optarg, 16, sizeof (cspec.VLAN_TAG)));

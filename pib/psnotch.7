@@ -1,4 +1,4 @@
-.TH psnotch 7 "December 2012" "plc-utils-2.1.3" "Qualcomm Atheros Powerline Toolkit"
+.TH psnotch 7 "March 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
 
 .SH NAME
 psnotch - Qualcomm Atheros PIB Notch Utility
@@ -20,6 +20,7 @@ Changes are computed and appear as parabolic dips in amplitude that tend to exag
 This program notches prescalers that correspond to tonemap low points.
 The notch width, in terms of carriers, will depend on the threshold set by the user.
 See \fBint6ktone\fR for an explanation and example of how tonemaps can be used to detect powerline noise.
+
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 See the \fBAMP\fR man page for an overview and installation instructions.
@@ -39,7 +40,6 @@ The name of a tone map file created using program \fBint6ktone\fR.
 The tone map reflects dynamic, real-time carrier information read from a device and may be obsolete before it can be applied.
 If the tone map file is omitted then no amplitude map notching will occur and the histogram will not illustrate any signal activity.
 
-
 .TP
 -\fBl \fIcarrier\fR
 The lowest carrier to be notched.
@@ -49,14 +49,12 @@ The minimum is \fB0\fR and the maximum is \fB1154\fR.
 The default is \fB1154\fR to avoid accidental notching.
 Use program \fBpsgraph\fR to determine amplitude map offsets for carriers of interest.
 
-
 .TP
 -\fBL \fIcarrier\fR
 The lowest carrier displayed when option \fB-v\fR is present.
 Generally speaking, this carrier should be lower than that specified or implied by option \fB-l\fR to provide some context.
 The minimum is \fB0\fR and the maximum is \fB1154\fR.
 The default is \fB0\fR.
-
 
 .TP
 -\fBu \fIcarrier\fR
@@ -73,7 +71,6 @@ The highest carrier displayed when option \fB-v\fR is present.
 Generally speaking, this carrier should be higher than that specified using option \fB-u\fR to provide some context.
 The minimum is \fB0\fR and the maximum is \fB1154\fR.
 The default is \fB1154\fR.
-
 
 .TP
 -\fBt \fIthreshold\fR
@@ -112,8 +109,10 @@ The following example reads unotched amplitude map \fBunotched.psc\fR and create
 File \fBtone.map\fR determines if and wehre notching may be required; however, only carriers from offset \fB57\fR through \fB66\fR are notched if their mean-square values are less than \fB3\fR.
 No other carriers will be notched.
 See the man page for program \fBint6ktone\fR for an illustration of threshold values.
+
 .PP
    # psnotch < unotched.psc > notched.psc -f tone.map -l 57 -u 66 -t 3
+
 .PP
 The next example does the same thing but also displays a histogram on stderr.
 It show, in order from left to right, the carrier, prescaler amplitude mask, the five or six tonemap slot values, the carrier frequency and a bar representing the mean square of the slot values.
@@ -1275,10 +1274,12 @@ To save this output, redirect stderr to a file using "\fB2> temp.txt\fB".
    1151 0000 00 00 00 00 00 00 29.907 
    1152 0000 00 00 00 00 00 00 29.932 
    1153 0000 00 00 00 00 00 00 29.956 
+
 .PP
 ThIs next example does the same thing as the previous example but outputs information in comma-delimited format because option \fB-c\fR was used instead of option \fB-v\fR.
 This format is better suited for importing into a spreadsheet but lacks the visual effect of the histogram.
 Observe that prescaler values appear in decimal rather than hexadecimal.
+
 .PP
    # psnotch < unotched.psc > notched.psc -f tone.map -c  
    0,0,0,0,0,0,0,0,0, 1.807

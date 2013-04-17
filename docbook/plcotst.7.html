@@ -6,7 +6,7 @@
 			plcotst.7
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -27,27 +27,27 @@ SYNOPSIS
        plcotst [options] [device] [device] [...]
 
 DESCRIPTION
-       Manage  the PLC One-Time Self-Test feature on Atheros powerline devices. Normally, selftest is performed once, on startup
-       at the factory, but it can also be configured and run again using this  utility.  Selftest  results  are  stored  by  the
-       firmware and can be read using this utility, as well. The selftest is configured when configuration options are specified
-       on the command line; otherwise, selftest results are read or cleared.
+       Manage the PLC One-Time Self-Test feature on Atheros powerline devices.  Normally, selftest is performed once, on startup
+       at the factory, but it can also be configured and run again using this utility.   Selftest  results  are  stored  by  the
+       firmware  and  can be read using this utility, as well.  The selftest is configured when configuration options are speci‐
+       fied on the command line; otherwise, selftest results are read or cleared.
 
-       This program is part of the Qualcomm Atheros Powerline Toolkit. See the plc man page for  an  overview  and  installation
+       This program is part of the Qualcomm Atheros Powerline Toolkit.  See the plc man page for an  overview  and  installation
        instructions.
 
 OPTIONS
-       -c  version  Configuration  version  number. Permitted values are 0 through 255. The default is 0. This option applies to
+       -c  version Configuration version number.  Permitted values are 0 through 255.  The default is 0.  This option applies to
        both selftest configuration and selftest results.
 
-       -C     Clear stored selftest results. This option clears stored selftest results. This option  implies  selftest  results
+       -C     Clear stored selftest results.  This option clears stored selftest results.  This option implies selftest  results
               and supercedes options -d, -f, -m, -r and -R, if present on the command line.
 
        -d seconds
-              Delay selftest after reboot. Permitted delay times are 0 through UINT_MAX seconds. The default is 0 seconds.  This
-              option implies selftest configuration and supercedes option -C, if present on the command line.
+              Delay  selftest  after  reboot.   Permitted delay times are 0 through UINT_MAX seconds.  The default is 0 seconds.
+              This option implies selftest configuration and supercedes option -C, if present on the command line.
 
-       -e     Redirects stderr messages to stdout. By convention status and error messages are printed on stderr  while  primary
-              program output is printed on stdout. This option prints all output on stdout in cases where this is desired.
+       -e     Redirects stderr messages to stdout.  By convention status and error messages are printed on stderr while  primary
+              program output is printed on stdout.  This option prints all output on stdout in cases where this is desired.
 
        -f count
               Run  the  flash  memory selftest count times.  Valid values are 0 through UINT_MAX.  The default is 0 which effec‐
@@ -62,34 +62,34 @@ OPTIONS
        -q     Suppresses status messages on stderr.
 
        -r flag
-              Run selftest after reboot. Permitted values are 0 through 255. Expected values are 0 for false and 1 for true. The
-              default is 1. If the memory test count and flash test count are both 0 no testing will occur when the time  comes.
-              This option implies selftest configuration and supercedes option -C, if present on the command line.
+              Run  selftest  after reboot.  Permitted values are 0 through 255.  Expected values are 0 for false and 1 for true.
+              The default is 1.  If the memory test count and flash test count are both 0 no testing will occur  when  the  time
+              comes.  This option implies selftest configuration and supercedes option -C, if present on the command line.
 
        -R flag
-              Reset  device  after selftest. Permitted values are 0 through 255. Expected values are 0 for false and 1 for true.
+              Reset device after selftest.  Permitted values are 0 through 255.  Expected values are 0 for false and 1 for true.
               The default is 0.  This option applies to selftest configuration only and supercedes option -C, if present on  the
               command line.
 
        -t timeout
-              Read  timeout  in  milliseconds.  Values  range  from  0  through UINT_MAX. This is the maximum time allowed for a
-              response. The default is 50 milliseconds.
+              Read  timeout  in  milliseconds.   Values  range  from 0 through UINT_MAX.  This is the maximum time allowed for a
+              response.  The default is shown in brackets on the program menu.
 
-       -v     Print additional information on stdout. In particular, this option dumps incoming and outgoing packets  which  can
+       -v     Print additional information on stdout.  In particular, this option dumps incoming and outgoing packets which  can
               be saved as text files for reference.
 
        -?,--help
-              Print program help summary on stdout. This option takes precedence over other options on the command line.
+              Print program help summary on stdout.  This option takes precedence over other options on the command line.
 
        -!,--version
-              Print  program version information on stdout. This option takes precedence over other options on the command line.
+              Print program version information on stdout.  This option takes precedence over other options on the command line.
               Use this option when sending screen dumps to Atheros Technical Support so that they know exactly which version  of
               the Linux Toolkit you are using.
 
 ARGUMENTS
-       device The  Ethernet  hardware  address  of  some powerline device. More than one address may be specified on the command
-              line. If more than one address is specified then operations are performed on each  device  in  turn.  The  default
-              address is local. as explained in the DEVICES section.
+       device The  Ethernet  hardware  address  of some powerline device.  More than one address may be specified on the command
+              line.  If more than one address is specified then operations are performed on each device in  turn.   The  default
+              address is local.  as explained in the DEVICES section.
 
 EXAMPLES
        The  following  example prints stored test results for the local device on stdout because no options are specified on the
@@ -101,7 +101,7 @@ EXAMPLES
 
           # plcotst -C
 
-       The next example configures the PLC selftest to wait 5 seconds before execution because option -d  is  present.  It  also
+       The next example configures the PLC selftest to wait 5 seconds before execution because option -d is  present.   It  also
        configures the selftest to reset the device after execution because option -R is present
 
           # plcotst -d 5 -R
@@ -118,7 +118,7 @@ SEE ALSO
 CREDITS
         Charles Maier &lt;charles.maier@qca.qualcomm.com&gt;
 
-plc-utils                                                 December 2012                                               plcotst(7)
+plc-utils-2.1.5                                            March 2013                                                 plcotst(7)
 </pre>
 		<div class='footerlink'>
 			[<a href='plcmdio32.7.html' title=' plcmdio32.7 '>PREV</a>]

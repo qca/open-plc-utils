@@ -218,7 +218,7 @@ int main (int argc, char const * argv [])
 
 		"l n\tloop (n) times [" LITERAL (INT6KRATE_LOOP) "]",
 		"n\tnetwork TX/RX information",
-		"o n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
+		"o n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
 		"q\tquiet mode",
 		"r\trequest device information",
 		"R\treset device with VS_RS_DEV",
@@ -284,7 +284,7 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_NETWORK);
 			break;
 		case 'o':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'q':
 			_setbits (plc.flags, PLC_SILENCE);

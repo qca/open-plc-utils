@@ -102,7 +102,7 @@ signed ModuleRead (struct plc * plc, struct _file_ * file, uint16_t source, uint
 #pragma pack (pop)
 #endif
 
-	unsigned timer = channel->timer;
+	unsigned timer = channel->timeout;
 	uint16_t length = PLC_MODULE_SIZE;
 	uint32_t offset = 0;
 	Request (plc, "Read Module from %s", source? "Flash": "Memory");
@@ -150,13 +150,13 @@ signed ModuleRead (struct plc * plc, struct _file_ * file, uint16_t source, uint
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		channel->timer = PLC_MODULE_READ_TIMEOUT;
+		channel->timeout = PLC_MODULE_READ_TIMEOUT;
 		if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0) 
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
-		channel->timer = timer;
+		channel->timeout = timer;
 
 #if 0
 #if defined (__GNUC__)

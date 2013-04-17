@@ -104,7 +104,7 @@
  * 
  *   plc.h
  *
- *   send VS_RS_DEV.REQ messages every channel->timer milliseconds
+ *   send VS_RS_DEV.REQ messages every channel->timeout milliseconds
  *   until the device responds to indicate that it is ready to reset;
  *   return 0 if the device eventually responds within plc->timer 
  *   seconds or -1 if not;
@@ -186,7 +186,7 @@ signed ResetAndWait (struct plc * plc)
  *
  *   plc.h
  *
- *   send VS_SW_VER.REQ  messages every channel->timer milliseconds
+ *   send VS_SW_VER.REQ  messages every channel->timeout milliseconds
  *   until the device stops responding to indicate that it is inactive;
  *   return 0 if the device eventually stops responding within 
  *   plc->timer seconds or -1 if not;
@@ -284,7 +284,7 @@ signed WaitForReset (struct plc * plc, char string [], size_t length)
  *
  *   plc.h
  *
- *   send VS_SW_VER.REQ messages every channel->timer milliseconds
+ *   send VS_SW_VER.REQ messages every channel->timeout milliseconds
  *   until the device responds to indicate that it is active; return
  *   0 if the device eventually responds within plc->timer seconds 
  *   or -1 if not; 
@@ -383,7 +383,7 @@ signed WaitForStart (struct plc * plc, char string [], size_t length)
  *
  *   plc.h
  *
- *   send VS_NW_INFO.REQ messages every channel->timer milliseconds
+ *   send VS_NW_INFO.REQ messages every channel->timeout milliseconds
  *   until the device reports that a network has formed; return 0 if a
  *   network forms within plc->timer seconds or -1 if not;
  *
@@ -625,7 +625,7 @@ int main (int argc, char const * argv [])
 		"r\twait for device reset",
 		"R\treset device and wait",
 		"s\twait for device start",
-		"t n\tchannel timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
+		"t n\tchannel timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
 		"v\tverbose mode",
 		"w n\twait up to (n) seconds for action [" LITERAL (PLC_TIMER) "]",
 		"x\texit on error",
@@ -695,7 +695,7 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_WAITFORSTART);
 			break;
 		case 't':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

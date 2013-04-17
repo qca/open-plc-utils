@@ -1,4 +1,4 @@
-.TH mdiodump 7 "December 2012" "plc-utils-2.1.3" "Qualcomm Atheros Powerline Toolkit"
+.TH mdiodump 7 "March 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
 
 .SH NAME
 mdiodump - Qualcomm Atheros MDIO Custom Module Analyser
@@ -14,6 +14,7 @@ mdiodump - Qualcomm Atheros MDIO Custom Module Analyser
 Read one or more binary MDIO program files and output MDIO instructions on stdout.
 These instructions are suitable as input to program \fBmdioblock\fR which outputs MDIO programs.
 See the \fBmdioblock\fR manpage for more information.
+
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 See the \fBPLC\fR man page for an overview and installation instructions.
@@ -23,7 +24,6 @@ See the \fBPLC\fR man page for an overview and installation instructions.
 .TP
 .RB - s
 Print summary information on stdout instead of MDIO instructions.
-
 
 .TP
 -\fBt \fIphy_type\fR
@@ -38,7 +38,6 @@ This option and option \fB-b\fR are mutually exclusive.
 .RB - v
 Prints additional information on stdout.
 In particular, this option causes mdiodump to display every MDIO command present instead of just the simulation summary.
-
 
 .TP
 .RB - ? ,-- help   
@@ -60,7 +59,6 @@ The MDIO custom module file to operate on.
 .SH REFERENCES
 See the Qualcomm Atheros \fIHomePlug AV Firmware Technical Reference Manual\fR for information about generic MDIO register instruction.
 See the Qualcomm Atheros \fIAR8236 Six-Port Fast Ethernet Switch Data Sheet\fR for detailed information about AR8236 specific MDIO registers and instructions.
-
 
 .SH DISCLAIMER
 Atheros HomePlug AV Vendor Specific Management Message structure and content is proprietary to Qualcomm Atheros, Ocala FL USA.

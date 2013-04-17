@@ -1,4 +1,4 @@
-.TH efbu 7 "December 2012" "plc-utils-2.1.3" "Qualcomm Atheros Powerline Toolkit"
+.TH efbu 7 "March 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
 
 .SH NAME
 efbu - Ethernet Frame Blast Utility
@@ -8,22 +8,18 @@ efbu - Ethernet Frame Blast Utility
 .RI [ options ]
 
 .SH DESCRIPTION
+
 .PP
 Send IP broadcast frames of maximum length at maximum rate over a given interface for a given period in seconds.
-
 The maximum frame length is ETHER_MAX_LEN as defined in <net/ethernet.h>.
-
 The maximum rate is limited by the host processor type, the number of active processes, the interface hardware and so on.
-
 This program does the best it can within the given execution environment.
-
 Multi-processosr and faster hosts should see at least 85mb.
 Single-processor and slower hosts will see less.
+
 .PP
 This program is for test purposes.
-
 It has no practical application beyond flooding the network with useless traffic and annoying the network administrator.
-
 Don't abuse it. 
 .SH OPTIONS
 .TP
@@ -168,3 +164,4 @@ The outgoing frame will look something like this when captured with wireshark.
 .SH CREDITS
  Charles Maier <charles.maier@qca.qualcomm.com>
 
+'
