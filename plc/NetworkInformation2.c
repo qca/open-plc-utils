@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -30,12 +30,6 @@
  *   This function is similar to function NetworkInfo() but the output 
  *   format is different;
  *
- *   See the Atheros HomePlug AV Firmware Technical Reference Manual
- *   for more information;
- *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -122,7 +116,7 @@ signed NetworkInformation2 (struct plc * plc)
 
 	memset (message, 0, sizeof (*message));
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
-	FragmentHeader (&request->qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
+	QualcommHeader1 (&request->qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
 	if (sendpacket (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) <= 0) 
 	{
 		error (1, errno, CHANNEL_CANTSEND);

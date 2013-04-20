@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -28,19 +28,12 @@
  *   this function assumes that the calling program has positioned the
  *   file to the start of the image;
  *
- *   this function is deprecated on INT6400, AR7400 and later chipsets;
- *   use function WriteAndExecuteFirmware1 or WriteAndExectuteFirmware2 
- *   instead;
- *
  *   the boot loader must be running for this to work since runtime 
  *   firmware ignores VS_WR_MEM messages; 
  *
  *   future devices will ignore VS_WR_MEM messages to use function
  *   WriteExecuteFirmware1, instead;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>

@@ -16,6 +16,7 @@ codelist.o: codelist.c symbol.h
 codename.o: codename.c symbol.h 
 config.o: config.c config.h types.h
 dataspec.o: dataspec.c error.h memory.h number.h
+debug.o: debug.c error.h types.h
 decdecode.o: decdecode.c memory.h number.h
 decout.o: decout.c memory.h number.h
 decstring.o: decstring.c memory.h

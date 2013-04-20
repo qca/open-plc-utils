@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -27,9 +27,6 @@
  *   print a HomePlug AV frame header on stdout in human readable 
  *   format;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -59,13 +56,13 @@ void MMEPeek (void const * memory, size_t extent, FILE *fp)
 	fprintf (fp, "MTYPE=%04X ", ntohs (message->ethernet.MTYPE));
 	if (ntohs (message->ethernet.MTYPE) == HOMEPLUG_MTYPE) 
 	{
-		struct homeplug_std * homeplug = (struct homeplug_std *)(&message->qualcomm);
+		struct homeplug_std * homeplug = (struct homeplug_std *)(&message->content);
 		uint16_t mmtype = LE16TOH (homeplug->MMTYPE);
 		if (mmtype < MMTYPE_VS) 
 		{
 			if (homeplug->MMV == 0x00) 
 			{
-				struct homeplug_std * homeplug = (struct homeplug_std *)(&message->qualcomm);
+				struct homeplug_std * homeplug = (struct homeplug_std *)(&message->content);
 				mmtype = LE16TOH (homeplug->MMTYPE);
 				fprintf (fp, "MMV=%02X ", homeplug->MMV);
 				fprintf (fp, "MMTYPE=%04X ", mmtype);
@@ -74,7 +71,7 @@ void MMEPeek (void const * memory, size_t extent, FILE *fp)
 			}
 			if (homeplug->MMV == 0x01) 
 			{
-				struct homeplug_fmi * homeplug = (struct homeplug_fmi *)(&message->qualcomm);
+				struct homeplug_fmi * homeplug = (struct homeplug_fmi *)(&message->content);
 				mmtype = LE16TOH (homeplug->MMTYPE);
 				fprintf (fp, "MMV=%02X ", homeplug->MMV);
 				fprintf (fp, "MMTYPE=%04X ", mmtype);
@@ -88,7 +85,7 @@ void MMEPeek (void const * memory, size_t extent, FILE *fp)
 		{
 			if (homeplug->MMV == 0x00) 
 			{
-				struct qualcomm_std * qualcomm = (struct qualcomm_std *)(&message->qualcomm);
+				struct qualcomm_std * qualcomm = (struct qualcomm_std *)(&message->content);
 				mmtype = LE16TOH (qualcomm->MMTYPE);
 				fprintf (fp, "MMV=%02X ", qualcomm->MMV);
 				fprintf (fp, "MMTYPE=%04X ", mmtype);
@@ -98,7 +95,7 @@ void MMEPeek (void const * memory, size_t extent, FILE *fp)
 			}
 			if (homeplug->MMV == 0x01) 
 			{
-				struct qualcomm_fmi * qualcomm = (struct qualcomm_fmi *)(&message->qualcomm);
+				struct qualcomm_fmi * qualcomm = (struct qualcomm_fmi *)(&message->content);
 				mmtype = LE16TOH (qualcomm->MMTYPE);
 				fprintf (fp, "MMV=%02X ", qualcomm->MMV);
 				fprintf (fp, "MMTYPE=%04X ", mmtype);

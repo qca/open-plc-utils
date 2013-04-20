@@ -6,7 +6,7 @@
 			error.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -20,15 +20,15 @@
 <pre>
 /*====================================================================*
  *
- *   void error (signed status, errno_t number, char const * format, ...);
+ *   signed error (signed status, errno_t number, char const * format, ...);
  *
  *   error.h
  *
  *   custom implementation of GNU error() function for systems
- *   that do not have it;
+ *   that do not have it; this version always returns -1;
  *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
- *   Copyright 2001-2006 by Charles Maier Associates;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
@@ -50,7 +50,7 @@ __attribute__ ((format (printf, 3, 4)))
 
 #endif
 
-void error (signed status, errno_t number, char const * format, ...) 
+signed error (signed status, errno_t number, char const * format, ...) 
 
 {
 	extern char const *program_name;
@@ -95,7 +95,7 @@ void error (signed status, errno_t number, char const * format, ...)
 	{
 		exit (status);
 	}
-	return;
+	return (-1);
 }
 
 #endif

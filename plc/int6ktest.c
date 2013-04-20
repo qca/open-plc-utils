@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -22,9 +22,6 @@
  *
  *   plctest.c - Atheros Test Applet Loader;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -131,9 +128,6 @@
  *   this function is maintained for legacy purposes only and will be
  *   deleted at some point in the future;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -216,9 +210,6 @@ signed ReadMME (struct plc * plc, uint8_t MMV, uint16_t MMTYPE)
  *
  *   DO NOT USE THIS FUNCTION TO DOWNBOOT AND EXECUTE RUNTIME FIRMWARE;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -283,9 +274,6 @@ static signed sequence (struct plc * plc)
  *   execute all applets in each file on the command line; return no
  *   value; this function may be called repeatedly;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 
@@ -328,9 +316,6 @@ static void function (struct plc * plc, int argc, char const * argv [])
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 
@@ -358,7 +343,7 @@ int main (int argc, char const * argv [])
 
 		"l\tloop until program is terminated",
 		"q\tquiet mode",
-		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
 		"v\tverbose mode",
 		"x\texit on error",
 		(char const *) (0)
@@ -410,7 +395,7 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_SILENCE);
 			break;
 		case 't':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

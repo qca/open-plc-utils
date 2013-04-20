@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -22,9 +22,6 @@
  *
  *   int6kmdio2 - Qualcomm Atheros 32-bit MDIO Register Editor
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
@@ -127,9 +124,6 @@
  *   signed mdio (struct channel * channel, uint8_t mode, uint8_t phy, uint16_t * data);
  *   
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -169,8 +163,8 @@ static signed mdio (struct channel * channel, uint8_t mode, uint8_t phy, uint8_t
 #endif
 
 	memset (&message, 0, sizeof (message));
-	EthernetHeader (&message.ethernet, channel->peer, channel->host, channel->type);
-	QualcommHeader (&message.qualcomm, 0, (VS_MDIO_COMMAND | MMTYPE_REQ));
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
+	QualcommHeader (&request->qualcomm, 0, (VS_MDIO_COMMAND | MMTYPE_REQ));
 	request->OPERATION = mode;
 	request->PHY = phy;
 	request->REG = reg;
@@ -212,9 +206,6 @@ static signed mdio (struct channel * channel, uint8_t mode, uint8_t phy, uint8_t
  *   void function (struct channel * channel, uint8_t mode, uint32_t address, uint32_t content, flag_t flags);
  *
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -323,9 +314,6 @@ static void function (struct channel * channel, uint8_t mode, uint32_t address, 
  *   int main (int argc, char const * argv []);
  *   
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 

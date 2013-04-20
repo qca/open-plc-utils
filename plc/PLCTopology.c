@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -24,9 +24,6 @@
  *   
  *   plc.h
  *
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2010 by Atheros Communications; ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -313,7 +310,7 @@ signed PLCTopology (struct channel * channel, struct message * message, struct p
 #elif defined (AR7x00)
 
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
-		FragmentHeader (&request->qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
+		QualcommHeader1 (&request->qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
 
 #else
 #error "Unspecified Atheros chipset"

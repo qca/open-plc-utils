@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -24,9 +24,6 @@
  *
  *   print manifest contents on stdout in human readable format;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -117,9 +114,6 @@ static char const * nvm_chains [] =
  *   to-left to avoid reversing digits; ensure buffer is longer
  *   than needed;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -153,9 +147,6 @@ static char * myitoa (unsigned number, char buffer [], size_t length)
  *   the firmware headers; our structure assumes values are 32-bit 
  *   integers and treats strings are exceptions to that rule;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>

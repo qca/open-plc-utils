@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -29,9 +29,6 @@
  *   PHY rate and target device TX PHY rate; this does not work if
  *   the source device is also the local device, for some reason; 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -82,8 +79,8 @@ signed Antiphon (struct plc * plc, byte source [], byte target [])
 		fprintf (stderr, "%s %s %s\n", channel->ifname, sourcename, targetname);
 	}
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&message->ethernet, source, target, channel->type);
-	QualcommHeader (&message->qualcomm, 0, 41036);
+	EthernetHeader (&request->ethernet, source, target, channel->type);
+	QualcommHeader (&request->qualcomm, 0, 41036);
 	request->DURATION = plc->timer;
 	request->LENGTH = HTOLE16 (sizeof (request->PACKET));
 	memset (request->PACKET, 0xA5, sizeof (request->PACKET));

@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -24,9 +24,6 @@
  *
  *   print the neighbor device list on stdout;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -60,6 +57,12 @@ signed RemoteDeviceList1 (struct plc * plc, char const * space, char const * com
 		struct qualcomm_std qualcomm;
 	}
 	* request = (struct vs_nw_info_request *)(message);
+	struct __packed vs_nw_info_confirm 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+	}
+	* confirm = (struct vs_nw_info_confirm *)(message);
 	struct __packed station 
 	{
 		uint8_t MAC [ETHER_ADDR_LEN];
@@ -86,7 +89,7 @@ signed RemoteDeviceList1 (struct plc * plc, char const * space, char const * com
 		uint8_t NUMAVLNS;
 		struct network networks [1];
 	}
-	* networks = (struct networks *) (message->content);
+	* networks = (struct networks *) (confirm->content);
 
 #ifndef __GNUC__
 #pragma pack (pop)

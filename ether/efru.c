@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -32,22 +32,6 @@
  *   can install it using "chmod 4555" and "chown root:root" so that 
  *   anyone can run it; the program will refuse to run until you get
  *   thing right;
- *
- *   This software and documentation is the property of Atheros 
- *   Corporation, Ocala, Florida. It is provided 'as is' without 
- *   expressed or implied warranty of any kind to anyone for any 
- *   reason. Atheros assumes no responsibility or liability for 
- *   errors or omissions in the software or documentation and 
- *   reserves the right to make changes without notification. 
- *   
- *   Atheros customers may modify and distribute the software 
- *   without obligation to Atheros. Since use of this software 
- *   is optional, users shall bear sole responsibility and 
- *   liability for any consequences of it's use. 
- *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -128,9 +112,6 @@
  *   
  *   int main (int argc, char * argv[]);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 
@@ -180,7 +161,7 @@ int main (int argc, char const * argv [])
 	}
 	optind = 1;
 	channel.type = EFRU_ETHERTYPE;
-	channel.timer = CHANNEL_FOREVER;
+	channel.timeout = CHANNEL_FOREVER;
 	while ((c = getoptv (argc, argv, optv)) != -1) 
 	{
 		switch (c) 
@@ -205,7 +186,7 @@ int main (int argc, char const * argv [])
 			_setbits (flags, EFRU_SILENCE);
 			break;
 		case 't':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (flags, EFRU_VERBOSE);

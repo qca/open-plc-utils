@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -75,9 +75,6 @@
  *   ID substrings; print a specified number of consecutive addresses
  *   and password strings having a defined letter count and grouping;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -155,9 +152,6 @@ static void function (const char * string, uint32_t range, unsigned count, unsig
  *   passwords so vendors can program devices and print labels that 
  *   ship devices;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>

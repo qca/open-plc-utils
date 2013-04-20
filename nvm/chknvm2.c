@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011, Qualcomm Atheros
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -22,9 +22,6 @@
  *
  *   chknvm2.c -
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -95,9 +92,6 @@
  *   convert string to a vector and return vector count; split string
  *   on characer (c);
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -128,9 +122,6 @@ static unsigned string2vector (char ** vector, char * string, char c)
  *   locate and display information stored in a firmware image; this
  *   is magic that may change in future firmware releases;            
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -184,9 +175,6 @@ static void firmware (char const * filename, unsigned module, char const * memor
  *   verify a firmware image chain stored in memory; return 0 on 
  *   success or -1 on error;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -260,9 +248,6 @@ static signed nvmimage2 (void const * memory, size_t extent, char const * filena
  *   verify a firmware image chain stored in memory; return 0 on 
  *   success or -1 on error;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -360,9 +345,6 @@ static signed nvmchain2 (void const * memory, size_t extent, char const * filena
  *
  *   read .nvm file into memory and validate it; 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -435,9 +417,6 @@ static signed chknvm (char const * filename, flag_t flags)
  *   int main (int argc, char const * argv []);
  *   
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>

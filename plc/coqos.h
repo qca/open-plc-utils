@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -20,7 +20,7 @@
 
 /*====================================================================*
  *
- *   coqos.h - Intellon Definitions and Declarations;
+ *   coqos.h - Qualcomm Atheros Definitions and Declarations;
  *
  *--------------------------------------------------------------------*/
 

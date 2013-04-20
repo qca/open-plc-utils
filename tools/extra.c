@@ -1,13 +1,13 @@
 /*====================================================================*
  *
- *   void extra (signed status, errno_t number, int argc, char const * arg []);
+ *   signed extra (signed status, errno_t number, int argc, char const * arg []);
  *
  *   error.h
  *
  *   print error message plus excess argments on stdout;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *   Copyright 2001-2006 by Charles Maier Associates;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
@@ -23,7 +23,7 @@
 #include "../tools/types.h"
 #include "../tools/error.h"
 
-void extra (signed status, errno_t number, int argc, char const * argv []) 
+signed extra (signed status, errno_t number, int argc, char const * argv []) 
 
 {
 	extern char const *program_name;
@@ -48,7 +48,7 @@ void extra (signed status, errno_t number, int argc, char const * argv [])
 	{
 		exit (status);
 	}
-	return;
+	return (-1);
 }
 
 

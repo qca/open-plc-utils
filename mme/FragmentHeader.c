@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -20,7 +20,7 @@
 
 /*====================================================================*
  *
- *   signed FragmentHeader (struct qualcomm_fmi * header, uint8_t MMV, uint16_t MMTYPE, uint16_tFMI);
+ *   signed QualcommHeader1 (struct qualcomm_fmi * header, uint8_t MMV, uint16_t MMTYPE, uint16_tFMI);
  *
  *   mme.h 
  *
@@ -49,21 +49,6 @@
  *   to all locations unless there is an error; the caller may elect
  *   to flush the buffer before calling this function;
  *
- *   This software and documentation is the property of Atheros 
- *   Corporation, Ocala, Florida. It is provided 'as is' without 
- *   expressed or implied warranty of any kind to anyone for any 
- *   reason. Atheros assumes no responsibility or liability for 
- *   errors or omissions in the software or documentation and 
- *   reserves the right to make changes without notification. 
- *   
- *   Atheros customers may modify and distribute the software 
- *   without obligation to Atheros. Since use of this software 
- *   is optional, users shall bear sole responsibility and 
- *   liability for any consequences of it's use. 
- *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s): 
  *	Charles Maier <cmaier@qualcomm.com>
@@ -79,7 +64,7 @@
 #include "../tools/endian.h"
 #include "../mme/mme.h"
 
-signed FragmentHeader (struct qualcomm_fmi * header, uint8_t MMV, uint16_t MMTYPE) 
+signed QualcommHeader1 (struct qualcomm_fmi * header, uint8_t MMV, uint16_t MMTYPE) 
 
 {
 	header->MMV = MMV;

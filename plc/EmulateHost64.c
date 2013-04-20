@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -25,12 +25,8 @@
  *   plc.h
  *
  *   wait indefinitely for VS_HOST_ACTION messages; service the device 
- *   as directed; this function is for demonstration and experimentation
  *   only; it will stop dead - like a bug! - on error;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -234,6 +230,19 @@ signed EmulateHost64 (struct plc * plc)
 				if (ResetDevice (plc)) 
 				{
 					return (-1);
+				}
+				continue;
+			}
+			if (action == 0x06)
+			{
+				close (plc->PIB.file);
+				if (ReadParameters1 (plc)) 
+				{
+					return (-1);
+				}
+				if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1) 
+				{
+					error (1, errno, "%s", plc->PIB.name);
 				}
 				continue;
 			}

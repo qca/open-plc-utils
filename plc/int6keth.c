@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -22,9 +22,6 @@
  *
  *   int6keth.c - Atheros Ethernet PHY Settings;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -291,9 +288,6 @@ phy_readings;
  *   read and display Ethernet PHY settings or write then read and
  *   display settings;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -340,8 +334,8 @@ signed PHYSettings (struct channel * channel, struct phy_settings * settings, fl
 
 	char address [ETHER_ADDR_LEN * 3];
 	memset (&message, 0, sizeof (message));
-	EthernetHeader (&message.ethernet, channel->peer, channel->host, channel->type);
-	QualcommHeader (&message.qualcomm, 0, (VS_ENET_SETTINGS | MMTYPE_REQ));
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
+	QualcommHeader (&request->qualcomm, 0, (VS_ENET_SETTINGS | MMTYPE_REQ));
 	request->MCONTROL = settings->MCONTROL;
 	request->AUTONEGOTIATE = settings->AUTONEGOTIATE;
 	request->ADVCAPS = settings->ADVCAPS;
@@ -413,9 +407,6 @@ signed PHYSettings (struct channel * channel, struct phy_settings * settings, fl
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 

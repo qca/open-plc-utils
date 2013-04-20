@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -22,9 +22,6 @@
  *
  *   plclog.c - Atheros INT6x00 Log Retrieval Utility;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -149,15 +146,9 @@ static struct _code_ const formats [] =
  *   binary format; the output can be sent to Atheros Support for 
  *   analysis;
  *   
- *   See the Atheros HomePlug AV Firmware Technical Reference Manual
- *   for more information;
- *
  *   VS_WD_RPT request returns an indication instead of a confirmation
  *   message; this is unusual but so is life;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -240,15 +231,9 @@ static signed PrintRawWatchdogReport (struct plc * plc)
  *   Read the watchdog report using VS_WD_RPT and print to file in
  *   XML format; this file may be sent to QCA for analysis;
  *   
- *   See the Atheros HomePlug AV Firmware Technical Reference Manual
- *   for more information;
- *
  *   VS_WD_RPT request returns an indication instead of a confirmation
  *   message; this is unusual but so is life;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -343,15 +328,9 @@ static signed PrintWatchdogReport (struct plc * plc, char const * version)
  *   binary or XML format; this file can be sent to Atheros Support
  *   for analysis;
  *   
- *   See the Atheros HomePlug AV Firmware Technical Reference Manual
- *   for more information;
- *
  *   VS_CP_RPT request returns an indication instead of a confirmation
  *   message; this is unusual but so is life;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -465,9 +444,6 @@ static signed PrintCheckpointReport (struct plc * plc, char const * version)
  *   read the firmware version string from a device before reading
  *   and writing the watchdog and checkpoint reports in XML format;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 
@@ -570,9 +546,6 @@ static signed Diagnostics (struct plc * plc)
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 

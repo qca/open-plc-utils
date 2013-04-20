@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -22,9 +22,6 @@
  *
  *   amptone.c - 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -93,7 +90,7 @@
 
 #ifndef MAKEFILE
 #include "../mme/EthernetHeader.c"
-#include "../mme/FragmentHeader.c"
+#include "../mme/QualcommHeader1.c"
 #include "../mme/UnwantedMessage.c"
 #include "../mme/MMECode.c"
 #endif
@@ -147,9 +144,6 @@ static const struct _term_ couple [] =
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 
@@ -178,7 +172,7 @@ int main (int argc, char const * argv [])
 		"p n\tcoupling [" LITERAL (AMPTONE_COUPLING) "]",
 		"q\tquiet mode",
 		"s\tcompute signal-to-noise and bits-per-carrier ratios",
-		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
 		"v\tverbose mode",
 		"x\texit on error",
 		(char const *) (0)
@@ -239,7 +233,7 @@ int main (int argc, char const * argv [])
 			function = SignalToNoise2;
 			break;
 		case 't':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

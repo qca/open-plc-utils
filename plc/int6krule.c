@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -23,9 +23,6 @@
  *   int6krule.c - Qualcomm Atheros Message Classification Utility;
  *
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -129,9 +126,6 @@
  *   or permanent network classification rule to a device using a
  *   VS_CLASSIFICATION message;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -197,9 +191,6 @@ signed Classification (struct plc * plc, struct MMERule * rule)
  *   
  *   int main (int argc, char const * argv[]);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 
@@ -226,7 +217,7 @@ int main (int argc, char const * argv [])
 
 		"q\tquiet mode",
 		"s\tdisplay symbol tables",
-		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
 		"T x\tinserted vlan tag is x [" LITERAL (INT6KRULE_VLAN_TAG) "]",
 		"v\tverbose mode",
 		"V n\tcspec version is n [" LITERAL (INT6KRULE_CSPEC_VERSION) "]",
@@ -307,7 +298,7 @@ int main (int argc, char const * argv [])
 			printf ("\n");
 			return (0);
 		case 't':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'T':
 			cspec.VLAN_TAG = (uint32_t)(basespec (optarg, 16, sizeof (cspec.VLAN_TAG)));

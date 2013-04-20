@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -22,9 +22,6 @@
  *
  *   xml2pib.c - 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -96,9 +93,6 @@
  *
  *   signed pibedit1 (struct node const * node, void * memory, size_t extent);
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -126,9 +120,6 @@ static signed pibedit1 (struct node const * node, void * memory, size_t extent)
  *   this implementation reads the parameter block from file into
  *   into memory and checks it there;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -192,9 +183,6 @@ static signed pibedit2 (char const * filename, struct node const * node, char * 
  *
  *   determine the type of file and call appropriate functions;            
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -257,9 +245,6 @@ static signed function (char const * filename, struct node const * node)
  *   int main (int argc, char const * argv []);
  *
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>

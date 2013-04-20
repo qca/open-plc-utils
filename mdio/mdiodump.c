@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -152,9 +152,6 @@ struct memmap
  *   signed write_phy_reg (struct memmap * memmap, uint8_t phy, uint8_t reg, uint16_t data, uint16_t mask);
  * 
  * 
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2010 by Atheros Communications; ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
  *
  *--------------------------------------------------------------------*/
 
@@ -199,9 +196,6 @@ static signed write_phy_reg (struct memmap * memmap, uint8_t phy, uint8_t reg, u
  *   signed write_gbl_reg (struct memmap *memmap, uint32_t address, uint8_t upper, uint16_t data, uint16_t mask);
  * 
  * 
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2010 by Atheros Communications; ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
  *
  *--------------------------------------------------------------------*/
 
@@ -255,9 +249,6 @@ static signed write_gbl_reg (struct memmap * memmap, uint32_t address, uint8_t u
  *   signed read_phy_reg (struct memmap * memmap, uint8_t phy, uint8_t reg, uint32_t * data);
  * 
  * 
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2010 by Atheros Communications; ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
  *
  *--------------------------------------------------------------------*/
 
@@ -291,9 +282,6 @@ static signed read_phy_reg (struct memmap * memmap, uint8_t phy, uint8_t reg, ui
  *   signed read_gbl_reg (struct memmap * memmap, uint32_t address, uint32_t * content);
  * 
  * 
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2010 by Atheros Communications; ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
  *
  *--------------------------------------------------------------------*/
 
@@ -325,9 +313,6 @@ static signed read_gbl_reg (struct memmap * memmap, uint32_t address, uint32_t *
  *   void print_memmap (struct memmap *memmap);
  *
  * 
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2010 by Atheros Communications; ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
  *
  *--------------------------------------------------------------------*/
 
@@ -355,9 +340,6 @@ static void print_memmap (struct memmap * memmap)
  *   void print_mdioblock (struct command *command);
  *
  * 
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2010 by Atheros Communications; ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
  *
  *--------------------------------------------------------------------*/
 
@@ -389,9 +371,6 @@ static void print_mdioblock (struct command * command)
  *   signed init_memmap (unsigned count, struct memmap * memmap);
  *
  * 
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2010 by Atheros Communications; ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
  *
  *--------------------------------------------------------------------*/
 
@@ -414,9 +393,6 @@ static signed init_memmap (unsigned count, struct memmap * memmap)
  *   void free_memmap (struct memmap * memmap);
  *
  * 
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2010 by Atheros Communications; ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
  *
  *--------------------------------------------------------------------*/
 
@@ -432,21 +408,6 @@ static void free_memmap (struct memmap * memmap)
  *
  *   signed phy_ar8236 (char const * filename, unsigned commands, flag_t flags);
  *
- *   This software and documentation is the property of Atheros 
- *   Corporation, Ocala, Florida. It is provided 'as is' without 
- *   expressed or implied warranty of any kind to anyone for any 
- *   reason. Atheros assumes no responsibility or liability for 
- *   errors or omissions in the software or documentation and 
- *   reserves the right to make changes without notification. 
- *   
- *   Atheros customers may modify and distribute the software 
- *   without obligation to Atheros. Since use of this software 
- *   is optional, users shall bear sole responsibility and 
- *   liability for any consequences of it's use. 
- *
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2010 by Atheros Communications; ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
  *
  *--------------------------------------------------------------------*/
 
@@ -566,9 +527,6 @@ static signed phy_ar8236 (char const * filename, unsigned commands, flag_t flags
  *   assume instructions are 16-bit and display them in human readable 
  *   format on stdout;
  *
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2010 by Atheros Communications; ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
  *
  *--------------------------------------------------------------------*/
 
@@ -637,9 +595,6 @@ static signed phy_generic (char const * filename, unsigned commands, flag_t flag
  *   to interpret instructions and display them in human readable
  *   format;
  *
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2010 by Atheros Communications; ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
  *
  *--------------------------------------------------------------------*/
 
@@ -678,9 +633,6 @@ static signed function (char const * filename, unsigned phy_code, flag_t flags)
  *   int main (int argc, const char * argv []);
  *
  *
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2010 by Atheros Communications; ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
  *
  *--------------------------------------------------------------------*/
 

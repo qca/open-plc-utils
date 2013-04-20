@@ -6,7 +6,7 @@
 			PhyRates2.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -20,7 +20,7 @@
 <pre>
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -45,10 +45,6 @@
  *   plc.h
  *
  *   An AR7x00 only version;
- *
- *.  Atheros Powerline Toolkit for HomePlug AV; 
- *:  Published 2007 by Intellon Corp. ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
  *
  *   Contributor(s):
  *      Charles Maier &lt;cmaier@qualcomm.com&gt;
@@ -136,7 +132,7 @@ signed PhyRates2 (struct plc * plc)
 
 	memset (message, 0, sizeof (* message));
 	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
-	FragmentHeader (&amp;request-&gt;qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
+	QualcommHeader1 (&amp;request-&gt;qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
 	plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	if (SendMME (plc) &lt;= 0) 
 	{

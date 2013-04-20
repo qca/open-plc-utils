@@ -6,19 +6,19 @@
 			Select an Interface on Linux
 			</h2></div></div></div><p>
 			<span class="application">Linux</span> network interfaces are referenced by name. Use Linux utility <span class="application">ifconfig</span> to determine the names of interfaces on your host. By default, Toolkit programs communicate with powerline devices on interface <code class="varname">eth1</code> but another interface can be specified on the command line with the <strong class="userinput"><code>-i</code></strong> option:
-			</p><div class="example"><a name="id2605878"></a><p class="title"><b>Example 5.1. 
+			</p><div class="example"><a name="id2606355"></a><p class="title"><b>Example 5.1. 
 				Selecting another Interface on Linux
 				</b></p><div class="example-contents"><pre class="screen">
 # int6k -i eth3 ...
 </pre></div></div><br class="example-break"><p>
 			In the previous example, <span class="command"><strong>int6k</strong></span> will send and receive frames on interface <code class="varname">eth3</code> instead of the default interface. Having to specify the interface can become become tedious when entering commands manually. An alternative method involves setting environment variable <code class="constant">PLC</code> to your preferred Ethernet interfaces, as follows: 
-			</p><div class="example"><a name="id2605912"></a><p class="title"><b>Example 5.2. 
+			</p><div class="example"><a name="id2606389"></a><p class="title"><b>Example 5.2. 
 				Changing the Default Interface on Linux
 				</b></p><div class="example-contents"><pre class="screen">
 # export PLC="eth2"
 </pre></div></div><br class="example-break"><p>
 			In the previous example, environment variable <code class="constant">PLC</code> is defined and exported, making it available to all programs running under the current console session. This command can be included in <code class="filename">~/.profile</code> or <code class="filename">/etc/profile</code> or in <code class="filename">/etc/environment</code> on <span class="productname">Debian </span>™ and <span class="productname">Ubuntu</span>™ systems.
-			</p><div class="example"><a name="id2605965"></a><p class="title"><b>Example 5.3. 
+			</p><div class="example"><a name="id2606443"></a><p class="title"><b>Example 5.3. 
 				Finding Interfaces on Linux
 				</b></p><div class="example-contents"><pre class="screen">
 # ifconfig

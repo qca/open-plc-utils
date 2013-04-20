@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -31,9 +31,6 @@
  *
  *   some code is duplicated for the sake of modularity;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -131,7 +128,7 @@ static float error_rate (uint64_t passed, uint64_t failed)
  *
  *   float fec_bit_error_rate (struct receive * receive);
  *
- *   compute the FEC-BER from the VS_LINK_STATS when DIRECTION=1 and
+ *   compute the FEC-BER from the VS_LNK_STATS when DIRECTION=1 and
  *   LID=0xF8;
  *
  *--------------------------------------------------------------------*/

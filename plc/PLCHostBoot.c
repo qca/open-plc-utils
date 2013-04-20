@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2010, Atheros Communications Inc.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -22,9 +22,6 @@
  *
  *   PLCHostBoot.c - 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -110,27 +107,8 @@ static signed opensocket (char const * socketname)
  *   int6k.h
  *
  *   wait indefinitely for VS_HOST_ACTION messages; service the device 
- *   as directed; this function is for demonstration and experimentation
  *   only; it will stop dead - like a bug! - on error;
  *   
- *   See the Atheros HomePlug AV Firmware Technical Reference Manual 
- *   for more information;
- *   
- *   This software and documentation is the property of Atheros 
- *   Corporation, Ocala, Florida. It is provided 'as is' without 
- *   expressed or implied warranty of any kind to anyone for any 
- *   reason. Atheros assumes no responsibility or liability for 
- *   errors or omissions in the software or documentation and 
- *   reserves the right to make changes without notification. 
- *   
- *   Atheros customers may modify and distribute the software 
- *   without obligation to Atheros. Since use of this software 
- *   is optional, users shall bear sole responsibility and 
- *   liability for any consequences of it's use. 
- *   
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2010 by Atheros Communications; ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@atheros.com>
@@ -284,6 +262,19 @@ signed PLCHostBoot (struct plc * plc, char const * socket, unsigned timer)
 			if (ResetDevice (plc)) 
 			{
 				return (-1);
+			}
+			continue;
+		}
+		if (action == 0x06)
+		{
+			close (plc->PIB.file);
+			if (ReadParameters (plc)) 
+			{
+				return (-1);
+			}
+			if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1) 
+			{
+				error (1, errno, "%s", plc->PIB.name);
 			}
 			continue;
 		}

@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011, Qualcomm Atheros
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -22,9 +22,6 @@
  *
  *   nvmmerge.c - 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -70,9 +67,6 @@
  *   void copyimage (struct _file_ * file, signed extent, signed image)
  *
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -113,9 +107,6 @@ static void copyimage (struct _file_ * file, signed extent, signed image)
  *   the major and minor header version must be 0x6000 and 0x0000 
  *   and both header links must be 0x00000000;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -170,9 +161,6 @@ static void function1 (struct _file_ * file, signed index, flag_t flags)
  *   the manor and minor header version must be 0x0001 and 0x0001 
  *   and both header links must be 0xFFFFFFFF;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -235,9 +223,6 @@ static void function2 (struct _file_ * file, signed index, flag_t flags)
  *   void function (char const * filename, signed count, flag_t flags);
  *
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -287,9 +272,6 @@ static void function (char const * filename, signed index, flag_t flags)
  *   int main (int argc, char const * argv []);
  *   
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>

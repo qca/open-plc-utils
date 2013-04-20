@@ -1,58 +1,113 @@
-.TH mac2pwd 7 "December 2012" "plc-utils" "Qualcomm Atheros Powerline Toolkit"
+.TH mac2pwd 7 "March 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
+
 .SH NAME
 mac2pwd - Qualcomm Atheros Ethernet Device Password Generator
+
 .SH SYNOPSIS
 .BR mac2pwd
 .RI [ options ] 
 .IR file 
 .RI [ file ]
 [ ... ] 
+
 .SH DESCRIPTION
-Read Ethernet addresses from one or more files and print computed passwords with the associated address. Input addresses can appear in any order and need not be consecutive. Computed passwords consist of upper case letters (A-Z) with group separators. The algorithm used here is not mandatory for HomePlug AV compliance and so vendors are free to use other methods to generate their own device passwords. 
+Read Ethernet addresses from one or more files and print computed passwords with the associated address.
+Input addresses can appear in any order and need not be consecutive.
+Computed passwords consist of upper case letters (A-Z) with group separators.
+The algorithm used here is not mandatory for HomePlug AV compliance and so vendors are free to use other methods to generate their own device passwords.
+
 .PP
-This program may be used to generate passwords for large numbers of non-consecutive MAC addresses that may occur in random order. It complements program \fBmac2pw\fR which generates passwords for consecutive MAC addresses over a given range. 
+This program may be used to generate passwords for large numbers of non-consecutive MAC addresses that may occur in random order.
+It complements program \fBmac2pw\fR which generates passwords for consecutive MAC addresses over a given range.
+
 .PP
-This program is part of the Qualcomm Atheros Powerline Toolkit. See the \fBAMP\fR man page for an overview and installation instructions.
+This program is part of the Qualcomm Atheros Powerline Toolkit.
+See the \fBAMP\fR man page for an overview and installation instructions.
+
 .SH CAVEATS
-Atheros provides this program as a simple means of generating unique and apparently random device passwords for a large volume of Ethernet devices. It uses a Linear Cogruential Random Number Generator to produce a single-wheel Bazerie Cylinder and to select characters from that cylinder. The algorithm used is adequate for purpose and nothing more. Vendors are encouraged to develop their own means of generating passwords for the reasons mentioned below.
+Atheros provides this program as a simple means of generating unique and apparently random device passwords for a large volume of Ethernet devices.
+It uses a Linear Cogruential Random Number Generator to produce a single-wheel Bazerie Cylinder and to select characters from that cylinder.
+The algorithm used is adequate for purpose and nothing more.
+Vendors are encouraged to develop their own means of generating passwords for the reasons mentioned below.
+
 .PP
-MAC addresses can be determined using a variety of network management programs. Anyone having access to this program, or the algorithm used, could compute the device password and gain access to device features reserved for priviledged users. 
+MAC addresses can be determined using a variety of network management programs.
+Anyone having access to this program, or the algorithm used, could compute the device password and gain access to device features reserved for priviledged users.
+
 .SH OPTIONS
+
 .TP
 -\fBb\fR \fIbunch\fR
-The password bunching factor. Passwords have a fixed number of upper case letters broken into groups separated with dashes. The number of letters in each group are the \fBbunch\fR value. When \fBbunch\fR is \fB0\fR, password length is \fBcount\fR. When \fBbunch\fR is \fB1\fR, password length is twice \fBcount\fR because every other character will be a dash. The default \fBbunch\fR is \fB4\fR.
+The password bunching factor.
+Passwords have a fixed number of upper case letters broken into groups separated with dashes.
+The number of letters in each group are the \fBbunch\fR value.
+When \fBbunch\fR is \fB0\fR, password length is \fBcount\fR.
+When \fBbunch\fR is \fB1\fR, password length is twice \fBcount\fR because every other character will be a dash.
+The default \fBbunch\fR is \fB4\fR.
+
 .TP
 -\fBl \fIcount\fR
-The number of letters in the password string. The default \fBcount\fR is \fB16\fR. Overall password length is the sum of \fBcount\fR plus the number of delimiters implied by \fBbunch\fR.
+The number of letters in the password string.
+The default \fBcount\fR is \fB16\fR.
+Overall password length is the sum of \fBcount\fR plus the number of delimiters implied by \fBbunch\fR.
+
 .TP
 .RB - q
-Quiet mode. Exclude the MAC address on output. This option can be used in scripts to return the password associated with a given MAC address.
+Quiet mode.
+Exclude the MAC address on output.
+This option can be used in scripts to return the password associated with a given MAC address.
+
 .TP
 .RB - v
-Verbose mode. Prefix each line with a '0' column. The Atheros Production Test System (PTS) uses the first column of a password database file to indicate which addresses and passwords have already been used.
+Verbose mode.
+Prefix each line with a '0' column.
+The Atheros Production Test System (PTS) uses the first column of a password database file to indicate which addresses and passwords have already been used.
+
 .TP
 .RB - ? ,-- help
-Print program help information on stdout. This option takes precedence over other options on the command line. 
+Print program help information on stdout.
+This option takes precedence over other options on the command line.
+
 .TP
 .RB - ! ,-- version
-Print program version information on stdout. This option takes precedence over other options on the command line. Use this option when sending screen dumps to Atheros Technical Support so that they know exactly which version of the Linux Toolkit you are using.
+Print program version information on stdout.
+This option takes precedence over other options on the command line.
+Use this option when sending screen dumps to Atheros Technical Support so that they know exactly which version of the Linux Toolkit you are using.
+
 .SH ARGUMENTS 
+
 .TP
 .IR file
-The name of a file that contains Ethernet address strings. Individual address strings consist of 12 consecutive hexadecimal digits. Addresses are seperated by whites space. This allows multiple addresses on a line. There is no line length limit. Punctuation is not permitted; however, a hash ('#') or semicolon (';') in any column starts comment text that continues to the end of that line. An error in any input file terminates the program with an error message.
+The name of a file that contains Ethernet address strings.
+Individual address strings consist of 12 consecutive hexadecimal digits.
+Addresses are seperated by whites space.
+This allows multiple addresses on a line.
+There is no line length limit.
+Punctuation is not permitted; however, a hash ('#') or semicolon (';') in any column starts comment text that continues to the end of that line.
+An error in any input file terminates the program with an error message.
+
 .SH EXAMPLES
-An example input file, \fBmac.txt\fR, is shown below. Comment lines document the file. Blank lines are permitted and multiple addresses appear on one line. This file contains 5 MAC addresses. Punctuation is not permitted within a MAC address.
+An example input file, \fBmac.txt\fR, is shown below.
+Comment lines document the file.
+Blank lines are permitted and multiple addresses appear on one line.
+This file contains 5 MAC addresses.
+Punctuation is not permitted within a MAC address.
+
 .PP
    # =================================
    # unused MAC addresses;
    # ---------------------------------
    00b052000004
    00b052BABE33
-
    00b052BABE34 00b052CAFE05
    00b052CAFE01
+
 .PP
-Another example input file, \fBmac2.txt\fR, appears below. A hash ('#') and a semi-colon (';') are used to hide selected addresses. Hidden addresses are ignored because they are comments. This file contains 7 addresses but only 5 will be recognized.
+Another example input file, \fBmac2.txt\fR, appears below.
+A hash ('#') and a semi-colon (';') are used to hide selected addresses.
+Hidden addresses are ignored because they are comments.
+This file contains 7 addresses but only 5 will be recognized.
+
 .PP
    002b88ffff00
    002b887fff00
@@ -60,8 +115,11 @@ Another example input file, \fBmac2.txt\fR, appears below. A hash ('#') and a se
    002b88660067
    002b88660063 ; 002b8800FFFF
    002b88660066
+
 .PP
-The following example reads the two files shown above and prints 10 addresses, 5 from each file, with associated passwords. Output appears on the console but it could be directed to a file.
+The following example reads the two files shown above and prints 10 addresses, 5 from each file, with associated passwords.
+Output appears on the console but it could be directed to a file.
+
 .PP
    # mac2pwd mac.txt more.mac 
    00B052000004 LBPL-NZSM-VPUC-XPLM
@@ -74,8 +132,11 @@ The following example reads the two files shown above and prints 10 addresses, 5
    002B88660067 BTQY-NMZL-WUNM-HSHW
    002B88660063 EJRX-AATI-YSMU-JWSG
    002B88660066 FOFC-LVAB-MTHH-TVNO
+
 .PP
-The following example is the same but prints output suitable for input to the Qualcomm Atheros PTS because option \fB-v\fR is specified. The output format is similar to that produced by the Qualcomm Atheros DB Builder Utility for Windows.
+The following example is the same but prints output suitable for input to the Qualcomm Atheros PTS because option \fB-v\fR is specified.
+The output format is similar to that produced by the Qualcomm Atheros DB Builder Utility for Windows.
+
 .PP
    # mac2pwd -v mac.txt more.mac 
    0 00B052000004 LBPL-NZSM-VPUC-XPLM
@@ -88,8 +149,11 @@ The following example is the same but prints output suitable for input to the Qu
    0 002B88660067 BTQY-NMZL-WUNM-HSHW
    0 002B88660063 EJRX-AATI-YSMU-JWSG
    0 002B88660066 FOFC-LVAB-MTHH-TVNO
+
 .PP
-The following example omits the MAC address from the output for clandestine cases where one does not want both the MAC address and the password to appear together. It can also be used to generate random passwords for other purposes.
+The following example omits the MAC address from the output for clandestine cases where one does not want both the MAC address and the password to appear together.
+It can also be used to generate random passwords for other purposes.
+
 .PP
    # mac2pwd -q mac.txt more.mac 
    LBPL-NZSM-VPUC-XPLM
@@ -102,13 +166,16 @@ The following example omits the MAC address from the output for clandestine case
    BTQY-NMZL-WUNM-HSHW
    EJRX-AATI-YSMU-JWSG
    FOFC-LVAB-MTHH-TVNO
+
 .SH DISCLAIMER
 Qualcomm Atheros reserves the right to modify program names, functionality, input format or output format in future toolkit releases without any obligation to notify or compensate toolkit users.
+
 .SH SEE ALSO
 .BR hpavkey ( 7 ),
 .BR hpavkeys ( 7 ),
 .BR keys ( 7 ),
 .BR mac2pw ( 7 ),
 .BR rkey ( 7 )
+
 .SH CREDITS
  Charles Maier <charles.maier@qca.qualcomm.com>

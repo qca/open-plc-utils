@@ -5,10 +5,9 @@
  *   this file is a subset of the original that includes only those
  *   definitions and declaration needed for toolkit programs;
  *
- *.  Intellon Linux Toolkit; 
- *:  Published 2007 by Intellon Corp. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use;
- *
+ *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Copyright 2001-2006 by Charles Maier Associates;
+ *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 

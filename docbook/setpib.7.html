@@ -6,7 +6,7 @@
 			setpib.7
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -27,12 +27,12 @@ SYNOPSIS
        setpib [options] file base [type data] [type data] [...]
 
 DESCRIPTION
-       Replace  one  or  more values in a Qualcomm Atheros powerline parameter (or PIB) file and re-compute the checksum. Values
-       are specified as a sequence of type/data pairs. Users must know the offset, length and type of the values they change  or
-       problems will certainly result. This program makes absolutely no effort to validate offsets or values.
+       Replace  one  or more values in a Qualcomm Atheros powerline parameter (or PIB) file and re-compute the checksum.  Values
+       are specified as a sequence of type/data pairs.  Users must know the offset, length and type of the values they change or
+       problems will certainly result.  This program makes absolutely no effort to validate offsets or values.
 
-       This  program  can  be  used to change any PIB value, including those that should not be changed. Be warned that some PIB
-       values are derived from, or interact with, other PIB values. Failure to observe such dependencies  may  diminish  perfor‐
+       This  program  can  be used to change any PIB value, including those that should not be changed.  Be warned that some PIB
+       values are derived from, or interact with, other PIB values.  Failure to observe such dependencies may  diminish  perfor‐
        mance or render a device inoperable.
 
        Atheros  does not recommend the use of this program to edit PIB parameters because small mistakes can cause big problems.
@@ -43,53 +43,53 @@ DESCRIPTION
        other parameters whenever possible.
 
        This program handles older Thunderbolt/Lightning parameter files and newer Panther/Lynx parameter  files  but  it  has  a
-       larger  footprint  that  may not be acceptable for embedded systems. In cases where only the older or the newer parameter
+       larger  footprint  that may not be acceptable for embedded systems.  In cases where only the older or the newer parameter
        files are used, consider using program setpib1 for an older Thunderbolt/Lightning only version or  setpib2  for  a  newer
        Panther/Lynx only version.
 
-       This  program  is  part  of the Qualcomm Atheros Powerline Toolkit. See the AMP man page for an overview and installation
+       This  program  is  part of the Qualcomm Atheros Powerline Toolkit.  See the AMP man page for an overview and installation
        instructions.
 
 OPTIONS
        -q     Enable quiet mode which has not effect.
 
-       -v     Print a hexdump of the edited region. Print hexdump headers if this option appears twice. The region window may be
-              changed with option -w.
+       -v     Print a hexdump of the edited region.  Print hexdump headers if this option appears twice.  The region window  may
+              be changed with option -w.
 
        -w window
-              The display window in bytes. When option -v is present, PIB information surrounding the edited region is displayed
-              to provide some sort of context. The edited region appears in the middle of this window. The default window is  32
-              bytes. This means that the 32 bytes before and the 32 bytes after the edited region are included in the display.
+              The  display  window  in  bytes.  When option -v is present, PIB information surrounding the edited region is dis‐
+              played to provide some sort of context.  The edited region appears in the middle of this window.  The default win�‐
+              dow is 32 bytes.  This means that the 32 bytes before and the 32 bytes after the edited region are included in the
+              display.
 
-       -x     Repair  the checksum. By default, this program does not modify files that fail the size or checksum test on input.
-              In addition, it does not re-compute the checksum on output if no data has changed. This option skips the size  and
-              checksum  test on input and re-computes the checksum on output even if no data has changed. This option only works
-              on legacy PIB files. It does not work on PIB files having NVM file format.
+       -x     Repair the checksum.  By default, this program does not modify files that fail the size or checksum test on input.
+              In addition, it does not re-compute the checksum on output if no data has changed.  This option skips the size and
+              checksum test on input and re-computes the checksum on output even if no data has changed.  This option only works
+              on legacy PIB files.  It does not work on PIB files having NVM file format.
 
        -?, --help
-              Print program help summary on stdout. This option takes precedence over other options on the command line.
+              Print program help summary on stdout.  This option takes precedence over other options on the command line.
 
        -!, --version
-              Print program version information on stdout. This option takes precedence over other options on the command  line.
-              Usethis  option  when sending screen dumps to Atheros Technical Support so that they know exactly which version of
+              Print program version information on stdout.  This option takes precedence over other options on the command line.
+              Usethis option when sending screen dumps to Atheros Technical Support so that they know exactly which  version  of
               the Linux Toolkit you are using.
 
 ARGUMENTS
-       file   The PIB filename. The file must exist and will be re-written. No assumptions are made based  on  filename  and  no
-              filename conventions are enforced. This argument is required and must precede the base argument.
+       file   The  PIB  filename.  The file must exist and will be re-written.  No assumptions are made based on filename and no
+              filename conventions are enforced.  This argument is required and must precede the base argument.
 
-       base   The  byte  offset  where  changes will start. The offset is expressed in hexadecimal with (or without) the leading
-              &quot;0x&quot;. Changes are applied in order, left to right, and offset automatically increments by the correct amount after
-              each  change  is  applied. This permits consectuive PIB locations to be changed with one command. This argument is
-              required and must follow the file argument. It must also precede all format/data pairs.
+       base   The byte offset where changes will start.  The offset is expressed in hexadecimal with (or  without)  the  leading
+              &quot;0x&quot;.   Changes  are  applied  in  order, left to right, and offset automatically increments by the correct amount
+              after each change is applied.  This permits consectuive PIB locations to be changed with one command.  This  argu‐
+              ment  is  required  and must follow the file argument.  It must also precede all format/data pairs.  Normally, you
+              must use multiple setpib commands to change non-consecutive PIB locations but  careful  use  of  format  skip  can
+              achive the same results using one command.
 
-              Normally, you must use multiple setpib commands to change non-consecutive PIB locations but careful use of  format
-              skip can achive the same results using one command.
-
-       type   The  implied length and encoding of the data. Valid types are byte, word, long, data and hfid. A valid format must
-              precede each data item. A byte is 8 bits, a word is 16 bits, a long is 32 bits and a huge is 64 bits.  The  format
-              implies the maximum data value except for format data which is limited by the number of octets entered on the com‐
-              mand line.
+       type   The  implied  length  and  encoding of the data.  Valid types are byte, word, long, data and hfid.  A valid format
+              must precede each data item.  A byte is 8 bits, a word is 16 bits, a long is 32 bits and a huge is 64  bits.   The
+              format  implies  the maximum data value except for format data which is limited by the number of octets entered on
+              the command line.
 
        data   The information written to the current PIB offset.  Integer data may be expressed in binary, decimal or  hexadeci‐
               mal  but  must  not  exceed the type minimum or maximum.  String data may contain any ASCII characters that can be
@@ -198,9 +198,9 @@ TR69 DATA TYPES
 
 EXAMPLES
        The  following  example  edits  file  abc.pib  by  writing  decimal  value 1 at offset 01F7 followed by hexadecimal value
-       00B052BABE01. A partial dump is printed showing 16 bytes before and 16 bytes after the changed data because  the  default
-       display windows is 16 bytes. Unless the change occurs right at the start or end of the file, it will appear in the center
-       of the display window.
+       00B052BABE01.  A partial dump is printed showing 16 bytes before and 16 bytes after the changed data because the  default
+       display  windows is 16 bytes.  Unless the change occurs right at the start or end of the file, it will appear in the cen‐
+       ter of the display window.
 
           # setpib -v abc.pib 01F7 byte 1 data 00:B0:52:BA:BE:01
           000001D0                       00 00 00 00 00 00 00 00 00         .........
@@ -209,8 +209,8 @@ EXAMPLES
           00000200  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
           00000210  00 00 00 00 00 00 00 00 00 00 00 00 00 00        ..............
 
-       The following example sets the manufacturer HFID string in PIB file def.pib. HFID strings  are  64  characters  long  and
-       either  truncated or padded on the right with NUL characters. You may need to enclose the string in quotes it it contains
+       The following example sets the manufacturer HFID string in PIB file def.pib.  HFID strings are  64  characters  long  and
+       either truncated or padded on the right with NUL characters.  You may need to enclose the string in quotes it it contains
        spaces.
 
           # setpib -v def.pib 24 hfid &quot;Galactic Software Pirates, Inc.&quot;
@@ -224,9 +224,9 @@ EXAMPLES
           00000070  15 AA 8D B7 49 6E 74 65 6C 6C 6F 6E 20 45 6E 61  ....Atheros Ena
           00000080  62 6C 65 64                                      bled
 
-       The following example displays the contents of PIB file abc.pib without changing any data. The  region  displayed  is  24
-       bytes  starting  at  offset  0x24.  The format skip specifies the region but does not change it. By default, the 32 bytes
-       before and 32 bytes after are included in the display. This technique can be used to inspect a specific portion of a  PIB
+       The following example displays the contents of PIB file abc.pib without changing any data.  The region  displayed  is  24
+       bytes  starting  at  offset 0x24.  The format skip specifies the region but does not change it.  By default, the 32 bytes
+       before and 32 bytes after are included in the display.  This technique can be used to inspect a specific portion of a PIB
        file.
 
           # setpib -v abc.pib 24 skip 64
@@ -240,8 +240,8 @@ EXAMPLES
           00000070  15 AA 8D B7 49 6E 74 65 6C 6C 6F 6E 20 45 6E 61  ....Atheros Ena
           00000080  62 6C 65 64                                      bled
 
-       The  next  example does the same thing for a negative value. This is tricky because the minus sign will be interpreted as
-       the start of another option. We must use &quot;--&quot; to end normal option parsing. This is a POSIX standard  feature.  See  IEEE
+       The  next example does the same thing for a negative value.  This is tricky because the minus sign will be interpreted as
+       the start of another option.  We must use &quot;--&quot; to end normal option parsing.  This is a POSIX standard feature.  See IEEE
        Std 1002.1-2001, Section 12.2, Utility Syntax Guidelines for more an explanation.
 
           # setpib -v abc.pib 1471 -- long -50
@@ -251,15 +251,15 @@ EXAMPLES
           00001480 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
           00001490 00 00 00 00 00                                  .....
 
-       The  following  example computes a new checksum without changing any data. The filename and an offset are required but no
-       other values are needed. This technique can be used to compute a new checksum after modifying  the  file  using  software
+       The  following example computes a new checksum without changing any data.  The filename and an offset are required but no
+       other values are needed.  This technique can be used to compute a new checksum after modifying the  file  using  software
        that does not update the checksum.
 
           # setpib abc.pib 0 -x
 
 DISCLAIMER
-       PIB  file structure and content is proprietary to Qualcomm Atheros, Ocala FL USA. Consequently, public information is not
-       available. Qualcomm Atheros reserves the right to modify PIB file structure or content in future firmware releases  with‐
+       PIB file structure and content is proprietary to Qualcomm Atheros, Ocala FL USA.  Consequently, public information is not
+       available.  Qualcomm Atheros reserves the right to modify PIB file structure or content in future firmware releases with‐
        out any obligation to notify or compensate users of this program.
 
 SEE ALSO
@@ -268,7 +268,7 @@ SEE ALSO
 CREDITS
         Charles Maier &lt;charles.maier@qca.qualcomm.com&gt;
 
-plc-utils                                                 December 2012                                                setpib(7)
+plc-utils-2.1.5                                            March 2013                                                  setpib(7)
 </pre>
 		<div class='footerlink'>
 			[<a href='sdram.7.html' title=' sdram.7 '>PREV</a>]

@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -27,9 +27,6 @@
  *   encode a memory region with a standard Ethernet frame header in
  *   network byte order;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s): 
  *	Charles Maier <cmaier@qualcomm.com>
@@ -44,13 +41,13 @@
 
 #include "../mme/mme.h"
 
-signed EthernetHeader (void * memory, const uint8_t peer [], const uint8_t host [], uint16_t type) 
+signed EthernetHeader (void * memory, const uint8_t peer [], const uint8_t host [], uint16_t protocol) 
 
 {
 	struct ether_header * header = (struct ether_header *)(memory);
 	memcpy (header->ether_dhost, peer, sizeof (header->ether_dhost));
 	memcpy (header->ether_shost, host, sizeof (header->ether_shost));
-	header->ether_type = htons (type);
+	header->ether_type = htons (protocol);
 	return (sizeof (* header));
 }
 

@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -25,10 +25,6 @@
  *   plc.h
  *
  *   An AR7x00 only version;
- *
- *.  Atheros Powerline Toolkit for HomePlug AV; 
- *:  Published 2007 by Intellon Corp. ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -116,7 +112,7 @@ signed PhyRates2 (struct plc * plc)
 
 	memset (message, 0, sizeof (* message));
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
-	FragmentHeader (&request->qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
+	QualcommHeader1 (&request->qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	if (SendMME (plc) <= 0) 
 	{

@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -22,9 +22,6 @@
  *
  *   chkpib2.c
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -97,9 +94,6 @@
  *
  *   the check performed here is not exhaustive but it is adequate;   
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -161,9 +155,6 @@ static signed pibimage1 (void const * memory, size_t extent, char const * filena
  *
  *   the check performed here is not exhaustive but it is adequate;   
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -214,9 +205,6 @@ static signed pibimage2 (void const * memory, size_t extent, char const * filena
  *   this implementation reads the parameter block from file into
  *   into memory and checks it there;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -311,9 +299,6 @@ static signed pibchain2 (void const * memory, size_t extent, char const * filena
  *
  *   signed chkpib (char const * filename, flag_t flags);
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -394,9 +379,6 @@ static signed chkpib (char const * filename, flag_t flags)
  *   int main (int argc, char const * argv []);
  *
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>

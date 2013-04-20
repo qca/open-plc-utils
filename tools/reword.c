@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -26,10 +26,6 @@
  *   
  *   search a _code_ list by code and return the associated name; return the
  *   corresponding name on success or NULL on failure;
- *
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2006-2009 by Intellon Corp. ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
  *
  *   Contributor(s):
  *	Nathaniel Houghton <nathaniel.houghton@qualcomm.com>

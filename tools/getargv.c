@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2012 by Qualcomm Atheros.
+ *   Copyright (c) 2012 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -28,10 +28,6 @@
  *   line; return the number of fields found; ignore blank lines 
  *   and script style comment lines; this implementation inserts
  *   a program name at argv [0] to emulate a true argv [];
- *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 

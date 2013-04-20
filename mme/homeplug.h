@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -22,21 +22,9 @@
  *
  *   homeplug.h - HomePlug Definitions and Declarations;
  *
- *   This software and documentation is the property of Intellon 
- *   Corporation, Ocala, Florida. It is provided 'as is' without 
- *   expressed or implied warranty of any kind to anyone for any 
- *   reason. Intellon assumes no responsibility or liability for 
- *   errors or omissions in the software or documentation and 
- *   reserves the right to make changes without notification. 
- *   
- *   Intellon customers may modify and distribute the software 
- *   without obligation to Intellon. Since use of this software 
- *   is optional, users shall bear sole responsibility and 
- *   liability for any consequences of it's use. 
- *
  *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s): 
  *	Charles Maier <cmaier@qualcomm.com>
@@ -59,24 +47,20 @@
  * HomePlug Management Message Ranges for Information Only;
  *--------------------------------------------------------------------*/
 
-#if 0
 #define CC_MMTYPE_MIN 0x0000
-#define CC_MMTYPE_MAX 0x1FFC
+#define CC_MMTYPE_MAX 0x1FFF
 #define CP_MMTYPE_MIN 0x2000
-#define CP_MMTYPE_MAX 0x3FFC
+#define CP_MMTYPE_MAX 0x3FFF
 #define NN_MMTYPE_MIN 0x4000
-#define NN_MMTYPE_MAX 0x5FFC
+#define NN_MMTYPE_MAX 0x5FFF
 #define CM_MMTYPE_MIN 0x6000
-#define CM_MMTYPE_MAX 0x7FFC
+#define CM_MMTYPE_MAX 0x7FFF
 #define MS_MMTYPE_MIN 0x8000
-#define MS_MMTYPE_MAX 0x9FFC
+#define MS_MMTYPE_MAX 0x9FFF
 #define VS_MMTYPE_MIN 0xA000 
-#define VS_MMTYPE_MAX 0xBFFC
-#define XX_MMTYPE_MIN 0xC000
-#define XX_MMTYPE_MAX 0xFFFC
-#endif
-
-#define XX_MMTYPE_BAD 0xFFFF
+#define VS_MMTYPE_MAX 0xBFFF
+#define HA_MMTYPE_MIN 0xC000 
+#define HA_MMTYPE_MAX 0xFFFF
 
 /*====================================================================*
  * HomePlug AV MMEs have 4 variants indicated by the 2 MMTYPE LSBs;
@@ -153,6 +137,15 @@
 #define CM_HFID 0x6040
 #define CM_MME_ERROR 0x6044
 #define CM_NW_STATS 0x6048
+#define CM_SLAC_PARAM 0x6064
+#define CM_START_ATTEN_CHAR 0x6068
+#define CM_ATTEN_CHAR 0x606C
+#define CM_PKCS_CERT 0x6070
+#define CM_MNBC_SOUND 0x6074
+#define CM_VALIDATE 0x6078
+#define CM_SLAC_MATCH 0x607C
+#define CM_SLAC_USER_DATA 0x6080
+#define CM_ATTEN_PROFILE 0x6084
 
 /*====================================================================*
  *

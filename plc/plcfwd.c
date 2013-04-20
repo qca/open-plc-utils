@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011, Atheros Communications Inc.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -22,9 +22,6 @@
  *
  *   plcfwd.c - Atheros PLC Forward Configuration Manager;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -192,9 +189,6 @@ static const struct _term_ states [] =
  *   to initialize one or more slave structures; it is possible to fit
  *   up to 128 slave structures in one message frame;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -335,9 +329,6 @@ static unsigned readlist (struct item list [], unsigned size)
  *   print item list on stdout in a format suitable for input using
  *   readlist (); this function may be commented out if it not used;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *   
  *--------------------------------------------------------------------*/
 
@@ -369,9 +360,6 @@ static void showlist (struct item list [], unsigned items)
  *   
  *   signed ReadVLANIDs (struct plc * plc, uint32_t offset, uint32_t length);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -447,9 +435,6 @@ static signed ReadVLANIDs (struct plc * plc, uint32_t offset, uint32_t length)
  *   
  *   signed AddVLANIDs (struct plc * plc, struct item list [], unsigned items);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -535,9 +520,6 @@ static signed AddVLANIDs (struct plc * plc, struct item list [], unsigned items)
  *   
  *   signed RemoveVLANIDs (struct plc * plc, struct item list [], unsigned items);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -623,9 +605,6 @@ static signed RemoveVLANIDs (struct plc * plc, struct item list [], unsigned ite
  *   
  *   signed CommitVLANIDs (struct plc * plc);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -692,9 +671,6 @@ static signed CommitVLANIDs (struct plc * plc)
  *   
  *   signed ControlVLANIDs (struct plc * plc);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -766,9 +742,6 @@ static signed ControlVLANIDs (struct plc * plc)
  *   
  *   signed DefaultVLANIDs (struct plc * plc);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -838,9 +811,6 @@ static signed DefaultVLANIDs (struct plc * plc, struct item list [], unsigned it
  *   
  *   signed ForwardVLANIDs (struct plc * plc);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -915,9 +885,6 @@ static signed ForwardVLANIDs (struct plc * plc)
  *   in struct plc as set in the main program; only one action
  *   is performed;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -967,9 +934,6 @@ static void function (struct plc * plc, uint32_t offset, uint32_t length, struct
  *   
  *   int main (int argc, char const * argv[]);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -1004,7 +968,7 @@ int main (int argc, char const * argv [])
 		"q\tquiet mode",
 		"R\tremove VLAN ID of multiple slaves from memory",
 		"S n\tenable VLANID forwarding on all slaves",
-		"t n\ttimeout is (n) millisecond [" LITERAL (CHANNEL_TIMER) "]",
+		"t n\ttimeout is (n) millisecond [" LITERAL (CHANNEL_TIMEOUT) "]",
 		"v\tverbose mode",
 		"x\texit on error",
 		"z s\tslavespec",
@@ -1084,7 +1048,7 @@ int main (int argc, char const * argv [])
 			plc.pushbutton = (uint8_t)(uintspec (synonym (optarg, states, STATES), 0, UCHAR_MAX));
 			break;
 		case 't':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

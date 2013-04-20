@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -29,15 +29,9 @@
  *   be opened before calling this plugin; this plugin is used by many
  *   programs; 
  *
- *   WriteModuleParameters and WriteModuleFirmware use VS_MODULE_OPERATION instead 
- *   of VS_WR_MOD and VS_MOD_NVM messages; 
- *
  *   This function is for panther/lynx devices although is should also
  *   work for AR7400 devices, too.
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>

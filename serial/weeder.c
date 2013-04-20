@@ -1,6 +1,6 @@
 /*====================================================================*
  *
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -21,10 +21,6 @@
 /*====================================================================*
  *
  *   weeder.c - Weeder Solid State Relay Module Controller;
- *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
@@ -137,10 +133,6 @@ static signed offset = 0;
  *   Standard Atheros relay modules were wired in reverse order for 
  *   some reason;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
- *
  *--------------------------------------------------------------------*/
 
 static void function1 (struct _file_ * port, char const * units, unsigned wait, unsigned echo) 
@@ -172,10 +164,6 @@ static void function1 (struct _file_ * port, char const * units, unsigned wait, 
  *   send write command to Weeder Solid State Relay modules B then A
  *   because Qualcomm Atheros relay modules are wired in reverse order 
  *   for some reason;
- *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 
@@ -226,10 +214,6 @@ static void function2 (struct _file_ * port, char const * units, unsigned wait, 
  *   read weeder solid state controller and display settings on the
  *   console as attenuation;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
- *
  *--------------------------------------------------------------------*/
 
 static void function3 (struct _file_ * port, char const * units, unsigned wait) 
@@ -273,10 +257,6 @@ static void function3 (struct _file_ * port, char const * units, unsigned wait)
 /*====================================================================*
  *
  *   int main (int argc, char const * argv []);
- *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 

@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2012 by Qualcomm Atheros.
+ *   Copyright (c) 2012 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -22,9 +22,6 @@
  *
  *   pibdump.c - Qualcomm Atheros Parameter Information Block Dump Utility
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
@@ -88,9 +85,6 @@
  *   read object definitions from stdin and print an object driven 
  *   dump on stdout;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *   
  *--------------------------------------------------------------------*/
 
@@ -100,8 +94,9 @@ static void pibdump (char const * filename, flag_t flags)
 	uint32_t version;
 	unsigned object = 0;
 	unsigned lineno = 0;
-	unsigned offset = 0;
-	unsigned extent = 0;
+	off_t origin = 0;
+	off_t offset = 0;
+	off_t extent = 0;
 	unsigned length = 0;
 	char memory [_ADDRSIZE + 1];
 	char symbol [_NAMESIZE];
@@ -271,11 +266,20 @@ static void pibdump (char const * filename, flag_t flags)
 		offset += length;
 		lineno++;
 	}
+	offset += origin;
 	if (_allclr (flags, PIB_SILENCE)) 
 	{
+		if (offset < extent) 
+		{
+			error (0, 0, "file %s exceeds definition by " OFF_T_SPEC " bytes", filename, extent - offset);
+		}
+		if (offset > extent) 
+		{
+			error (0, 0, "definition exceeds file %s by " OFF_T_SPEC " bytes", filename, offset - extent);
+		}
 		if (offset != extent) 
 		{
-			error (0, 0, "file %s is %d not %u bytes", filename, extent, offset);
+			error (0, 0, "file %s is " OFF_T_SPEC " bytes not " OFF_T_SPEC " bytes", filename, extent, offset);
 		}
 	}
 	close (fd);
@@ -287,9 +291,6 @@ static void pibdump (char const * filename, flag_t flags)
  *   
  *   int main (int argc, char const * argv []);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *   
  *--------------------------------------------------------------------*/
 

@@ -22,9 +22,6 @@
  *
  *   chknvm.c
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -100,9 +97,6 @@
  *   convert string to a vector and return vector count; split string
  *   on characer (c);
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -130,9 +124,6 @@ static unsigned string2vector (char ** vector, char * string, char c)
  *
  *   void firmware (signed fd, char const * filename, unsigned module, unsigned offset, flag_t flags);
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -195,9 +186,6 @@ static void firmware (signed fd, char const * filename, unsigned module, unsigne
  *   always 0 for valid headers; similarly, the checksum of the module
  *   and module checksum is always 0 for valid modules;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -309,9 +297,6 @@ static signed nvmchain1 (signed fd, char const * filename, flag_t flags)
  *   always 0 for valid headers; similarly, the checksum of the module
  *   and module checksum is always 0 for valid modules;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -417,9 +402,6 @@ static signed nvmchain2 (signed fd, char const * filename, flag_t flags)
  *   determine file format based on module header version then rewind
  *   the file and call the appropriate chknvm; 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -478,9 +460,6 @@ static signed chknvm (char const * filename, flag_t flags)
  *   resources needed at runtime; resource requirements do not grow
  *   with file size;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>

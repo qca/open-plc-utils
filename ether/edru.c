@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -33,9 +33,6 @@
  *   UART applications; use program edsu to send files from a remote
  *   host and this program to display or save them;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -113,9 +110,6 @@
  *   
  *   int main (int argc, char * argv[]);
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 
@@ -149,7 +143,7 @@ int main (int argc, char const * argv [])
 	};
 	signed c;
 	channel.type = EDRU_ETHERTYPE;
-	channel.timer = CHANNEL_FOREVER;
+	channel.timeout = CHANNEL_FOREVER;
 	if (getenv (PLCDEVICE)) 
 	{
 
@@ -189,7 +183,7 @@ int main (int argc, char const * argv [])
 			_setbits (channel.flags, CHANNEL_SILENCE);
 			break;
 		case 't':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

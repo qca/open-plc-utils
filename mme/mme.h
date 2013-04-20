@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -25,8 +25,8 @@
  *   message header definitions and function declarations;
  *
  *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
+ *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -50,6 +50,7 @@
  *--------------------------------------------------------------------*/
 
 #include "../ether/ether.h"
+#include "../ether/channel.h"
 #include "../mme/homeplug.h"
 #include "../mme/qualcomm.h"
 
@@ -148,7 +149,7 @@ qualcomm_fmi;
 #endif
 
 /*====================================================================*
- *   Qualcomm vendor-specific  message;
+ *   Composite message formats;
  *--------------------------------------------------------------------*/
 
 #ifndef __GNUC__
@@ -159,11 +160,28 @@ typedef struct __packed message
 
 {
 	struct ethernet_std ethernet;
-	struct qualcomm_std qualcomm;
-	uint8_t content [ETHERMTU - sizeof (struct qualcomm_std)];
+	uint8_t content [ETHERMTU];
 }
 
 MESSAGE;
+typedef struct __packed homeplug 
+
+{
+	struct ethernet_std ethernet;
+	struct homeplug_fmi homeplug;
+	uint8_t content [ETHERMTU - sizeof (struct homeplug_fmi)];
+}
+
+HOMEPLUG;
+typedef struct __packed qualcomm 
+
+{
+	struct ethernet_std ethernet;
+	struct qualcomm_fmi qualcomm;
+	uint8_t content [ETHERMTU - sizeof (struct qualcomm_fmi)];
+}
+
+QUALCOMM;
 
 #ifndef __GNUC__
 #pragma pack (pop)
@@ -193,7 +211,8 @@ char const * MMECode (uint16_t MMTYPE, uint8_t MSTATUS);
 signed EthernetHeader (void * memory, const uint8_t peer [], const uint8_t host [], uint16_t protocol);
 signed HomePlugHeader (struct homeplug_std *, uint8_t MMV, uint16_t MMTYPE);
 signed QualcommHeader (struct qualcomm_std *, uint8_t MMV, uint16_t MMTYPE);
-signed FragmentHeader (struct qualcomm_fmi *, uint8_t MMV, uint16_t MMTYPE);
+signed HomePlugHeader1 (struct homeplug_fmi *, uint8_t MMV, uint16_t MMTYPE);
+signed QualcommHeader1 (struct qualcomm_fmi *, uint8_t MMV, uint16_t MMTYPE);
 
 /*====================================================================*
  *   header decode functions;
@@ -201,6 +220,13 @@ signed FragmentHeader (struct qualcomm_fmi *, uint8_t MMV, uint16_t MMTYPE);
 
 signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_t MMTYPE);
 signed FirmwareMessage (void const * memory);
+
+/*====================================================================*
+ *   intermmediate level Ethernet send/receive functions; 
+ *--------------------------------------------------------------------*/
+
+ssize_t sendmessage (struct channel const *, struct message *, ssize_t length);
+ssize_t readmessage (struct channel const *, struct message *, uint8_t MMV, uint16_t MMTYPE);
 
 /*====================================================================*
  *

@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -22,9 +22,6 @@
  *
  *   mdiogen.c - 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -74,9 +71,6 @@ const char * program_name;
  *      0008 0000 0000-0000-0000-0000
  *      0010 0000 0000-0000-0000-0000
  *
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2010 by Atheros Communications; ALL RIGHTS RESERVED;
- *;  For demonstration or evaluation only; Not for production use;
  *
  *--------------------------------------------------------------------*/
 
@@ -118,9 +112,6 @@ static void regview (void const * memory, uint16_t offset, uint16_t extent, FILE
  *   the MDIO program rules defined in the Atheros PLC Firmware TRM 
  *   under the description of the VS_MOD_OP;
  *   
- *.  Atheros Powerline Toolkit for HomePlug AV;
- *:  Published 2010 by Atheros Communications; ALL RIGHTS RESERVED;
- *;  For demonstration or evaluation only; Not for production use;
  *
  *--------------------------------------------------------------------*/
 

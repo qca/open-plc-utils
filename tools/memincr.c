@@ -13,7 +13,7 @@
  *      0xFF 0x00 0xFF --> 0xFF 0x01 0x00
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *   Copyright 2001-2006 by Charles Maier Associates;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/

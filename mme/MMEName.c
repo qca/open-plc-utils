@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -31,9 +31,6 @@
  *   If you add or remove items in this list then update constant
  *   MMTYPES to reflect the number of list members;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -258,12 +255,44 @@ mme_names [] =
 		"CM_NW_STATS"
 	},
 	{
-		MS_PB_ENC,
-		"MS_PB_ENC"
+		CM_SLAC_PARAM,
+		"CM_SLAC_PARAM"
 	},
 	{
-		MS_DISCOVER,
-		"MS_DISCOVER"
+		CM_START_ATTEN_CHAR,
+		"CM_START_ATTEN_CHAR"
+	},
+	{
+		CM_ATTEN_CHAR,
+		"CM_ATTEN_CHAR"
+	},
+	{
+		CM_PKCS_CERT,
+		"CM_PKCS_CERT"
+	},
+	{
+		CM_MNBC_SOUND,
+		"CM_MNBC_SOUND"
+	},
+	{
+		CM_VALIDATE,
+		"CM_VALIDATE"
+	},
+	{
+		CM_SLAC_MATCH,
+		"CM_SLAC_MATCH"
+	},
+	{
+		CM_SLAC_USER_DATA,
+		"CM_SLAC_USER_DATA"
+	},
+	{
+		CM_ATTEN_PROFILE,
+		"CM_ATTEN_PROFILE"
+	},
+	{
+		MS_PB_ENC,
+		"MS_PB_ENC"
 	},
 	{
 		VS_SW_VER,

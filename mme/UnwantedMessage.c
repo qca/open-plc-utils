@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -42,9 +42,6 @@
  *
  *   count is the number of fragments received so far;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -66,7 +63,8 @@ signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_
 
 {
 	extern const byte localcast [ETHER_ADDR_LEN];
-	struct message * message = (struct message *)(memory);
+//	struct message * message = (struct message *)(memory);
+	struct homeplug * homeplug = (struct homeplug *)(memory);
 	if (!extent) 
 	{
 		return (-1);
@@ -93,31 +91,31 @@ signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_
 
 		return (-1);
 	}
-	if (message->ethernet.MTYPE != htons (HOMEPLUG_MTYPE)) 
+	if (homeplug->ethernet.MTYPE != htons (HOMEPLUG_MTYPE)) 
 	{
 
 #if defined (__WHYNOT__)
 
-		error (0, 0, "Wrong Ethernet Frame Type: Received %04X while waiting for %04X", ntohs (message->ethernet.MTYPE), HOMEPLUG_MTYPE);
+		error (0, 0, "Wrong Ethernet Frame Type: Received %04X while waiting for %04X", ntohs (homeplug->ethernet.MTYPE), HOMEPLUG_MTYPE);
 
 #endif
 
 		return (-1);
 	}
-	if (message->qualcomm.MMV != MMV) 
+	if (homeplug->homeplug.MMV != MMV) 
 	{
 
 #if defined (__WHYNOT__)
 
-		error (0, 0, "Wrong Message Version: Received %02X but expected %02X", message->qualcomm.MMV, MMV);
+		error (0, 0, "Wrong Message Version: Received %02X but expected %02X", homeplug->homeplug.MMV, MMV);
 
 #endif
 
 		return (-1);
 	}
-	if (MMV == 0) 
+	if (homeplug->homeplug.MMV == 0) 
 	{
-		struct qualcomm_std * qualcomm = (struct qualcomm_std *)(&message->qualcomm);
+		struct qualcomm_std * qualcomm = (struct qualcomm_std *)(&homeplug->homeplug);
 		if (LE16TOH (qualcomm->MMTYPE) != MMTYPE) 
 		{
 
@@ -129,7 +127,10 @@ signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_
 
 			return (-1);
 		}
-		if (memcmp (localcast, qualcomm->OUI, sizeof (qualcomm->OUI))) 
+		if ((MMTYPE < VS_MMTYPE_MIN) || (MMTYPE > VS_MMTYPE_MAX))
+		{
+		}
+		else if (memcmp (localcast, qualcomm->OUI, sizeof (qualcomm->OUI))) 
 		{
 
 #if defined (__WHYNOT__)
@@ -141,9 +142,9 @@ signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_
 			return (-1);
 		}
 	}
-	if (MMV == 1) 
+	if (homeplug->homeplug.MMV == 1) 
 	{
-		struct qualcomm_fmi * qualcomm = (struct qualcomm_fmi *)(&message->qualcomm);
+		struct qualcomm_fmi * qualcomm = (struct qualcomm_fmi *)(&homeplug->homeplug);
 
 #if FMI
 

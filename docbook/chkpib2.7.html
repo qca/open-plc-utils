@@ -6,7 +6,7 @@
 			chkpib2.7
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -28,50 +28,50 @@ SYNOPSIS
 
 DESCRIPTION
        This  program  checks Atheros HomePlug AV parameter files for obvious errors, including obsolete format, wrong file size,
-       bad checksums and read errors. It makes no attempt to check internal information other than file length and checksum.
+       bad checksums and read errors.  It makes no attempt to check internal information other than file length and checksum.
 
-       This program handles both the older Thunderbolt and Lightning and the newer Panther and Lynx parameter file  formats.  It
+       This program handles both the older Thunderbolt and Lightning and the newer Panther and Lynx parameter file formats.   It
        validates files directly from memory and so it is faster than program chkpib but needs more memory at runtime.
 
-       This  program  is  part  of the Qualcomm Atheros Powerline Toolkit. See the AMP man page for an overview and installation
+       This  program  is  part of the Qualcomm Atheros Powerline Toolkit.  See the AMP man page for an overview and installation
        instructions.
 
 OPTIONS
-       -m     Display manifest content, if present. The manifest is a special module, included in some image chains,  that  con‐
-              tains useful information about the chain. This option suppresses the summary ’looks good’ message.
+       -m     Display manifest content, if present.  The manifest is a special module, included in some image chains, that  con‐
+              tains useful information about the chain.  This option suppresses the summary ’looks good’ message.
 
        -q     Suppresses printing of progress messages.
 
-       -v     Print  additional information such as the PIB header for each file processed. This information can be used to con‐
+       -v     Print additional information such as the PIB header for each file processed.  This information can be used to con‐
               firm pib version and distinguish one PIB file from another.
 
        -?,--help
-              Print program help summary on stdout. This option takes precedence over other options on the command line.
+              Print program help summary on stdout.  This option takes precedence over other options on the command line.
 
        -!,--version
-              Print program version information on stdout. This option takes precedence over other options on the command  line.
+              Print program version information on stdout.  This option takes precedence over other options on the command line.
               Use  this option when sending screen dumps to Atheros Technical Support so that they know exactly which version of
               the Linux Toolkit you are using.
 
 ARGUMENTS
-       file   The name of a runtime parameter file. By convention, runtime parameter files have a .pib extention but  this  pro‐
+       file   The name of a runtime parameter file.  By convention, runtime parameter files have a .pib extention but this  pro‐
               gram does not enforce that convention.
 
 DISCLAIMER
-       Qualcomm  Atheros  parameter  file  structure and content is proprietary to Qualcomm Atheros, Ocala FL USA. Consequently,
-       public information is not available. Qualcomm Atheros reserves the right to change parameter file structure or content or
-       change  the name or behavior of any program that inspects or changes parameter files, in future software releases without
-       any obligation to notify or compensate users of such programs.
+       Qualcomm  Atheros  parameter  file structure and content is proprietary to Qualcomm Atheros, Ocala FL USA.  Consequently,
+       public information is not available.  Qualcomm Atheros reserves the right to change parameter file structure  or  content
+       or change the name or behavior of any program that inspects or changes parameter files, in future software releases with‐
+       out any obligation to notify or compensate users of such programs.
 
 EXAMPLES
-       The next example reads file abc.pib and validates it. The message shown indicates that the PIB  version  is  recent,  the
+       The next example reads file abc.pib and validates it.  The message shown indicates that the PIB version  is  recent,  the
        file is the correct size, the checksum is valid computes and there are no read errors.
 
           # chkpib2 abc.pib
           abc.pib looks good
 
-       The  next example reads three files and reports on each one. You can suppress good news with the -q option. Remember that
-       &quot;looking good&quot; does not mean &quot;is good&quot;.
+       The  next  example  reads  three files and reports on each one.  You can suppress good news with the -q option.  Remember
+       that &quot;looking good&quot; does not mean &quot;is good&quot;.
 
           # chkpib2 INT6400.pib AR7400.pib AR7420.pib
           INT6400.pib looks good
@@ -115,9 +115,9 @@ EXAMPLES
                   CCo Auto
                   MDU N/A
 
-       This example prints the manifest found inside newer parameter files. This can be used to distinguish parameter files from
-       firmware  files,  determine  exact  firmware  or parameter file revisions and so forth. Observe that we specified several
-       files on the command line but only one file, AR7420.pib, contained a manifest.
+       This example prints the manifest found inside newer parameter files.  This can be used  to  distinguish  parameter  files
+       from  firmware  files, determine exact firmware or parameter file revisions and so forth.  Observe that we specified sev‐
+       eral files on the command line but only one file, AR7420.pib, contained a manifest.
 
           # chkpib2 -m INT6400.pib AR7400.pib AR7420.pib
           ------- AR7420.pib (0) -------
@@ -146,7 +146,7 @@ CREDITS
         Charles Maier &lt;charles.maier@qca.qualcomm.com&gt;
         Nathaniel Houghton &lt;nathaniel.houghton@qca.qualcomm.com&gt;
 
-plc-utils                                                 December 2012                                               chkpib2(7)
+plc-utils-2.1.5                                            March 2013                                                 chkpib2(7)
 </pre>
 		<div class='footerlink'>
 			[<a href='chkpib.7.html' title=' chkpib.7 '>PREV</a>]

@@ -1,6 +1,8 @@
-.TH psgraph 7 "December 2012" "plc-utils" "Qualcomm Atheros Powerline Toolkit"
+.TH psgraph 7 "March 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
+
 .SH NAME
 psgraph - Display PIB File Prescalers
+
 .SH SYNOPSIS
 .BR psgraph 
 .RI [ options ]
@@ -8,26 +10,51 @@ psgraph - Display PIB File Prescalers
 .RI  [ file ]        
 .RI [ ... ]
 .RI [> stdout ]
+
 .SH SYNOPSIS
-Read one or more PIB files and plot prescaler values on stdout. This program can be used to quickly verify that correct carriers have been notched and, by using a difference program, determine where two prescaler sets differ.
+Read one or more PIB files and plot prescaler values on stdout.
+This program can be used to quickly verify that correct carriers have been notched and, by using a difference program, determine where two prescaler sets differ.
+
 .PP
-This program is part of the Qualcomm Atheros Powerline Toolkit. See the \fBAMP\fR man page for an overview and installation instructions.
+This program is part of the Qualcomm Atheros Powerline Toolkit.
+See the \fBAMP\fR man page for an overview and installation instructions.
+
 .SH OPTIONS
+
 .TP
 -\fBs\fI scale\fR
-The amplitude scale factor. The amplitude for each carrier is scaled (divided) by this amount before printing the hash line that represents the amplitude value. Larger values result in shorter hash lines. Valid scale values are \fB1\fR through \fBUCHAR_MAX\fR, as defined in \fIlimits.h\fR. The default is \fB5\fR.
+The amplitude scale factor.
+The amplitude for each carrier is scaled (divided) by this amount before printing the hash line that represents the amplitude value.
+Larger values result in shorter hash lines.
+Valid scale values are \fB1\fR through \fBUCHAR_MAX\fR, as defined in \fIlimits.h\fR.
+The default is \fB5\fR.
+
 .TP
 -\fB?\fR, --\fBhelp\fR
-Print program help summary on stdout. This option takes precedence over other options on the command line. 
+Print program help summary on stdout.
+This option takes precedence over other options on the command line.
+
 .TP
 -\fB!\fR, --\fBversion\fR
-Print program version information on stdout. This option takes precedence over other options on the command line. Use this option when sending screen dumps to Atheros Technical Support so that they know exactly which version of the Linux Toolkit you are using.
+Print program version information on stdout.
+This option takes precedence over other options on the command line.
+Use this option when sending screen dumps to Atheros Technical Support so that they know exactly which version of the Linux Toolkit you are using.
+
 .SH ARGUMENTS
+
 .TP
 .IR file 
 The name of an Atheros Parameter Information File.
+
 .SH EXAMPLES
-The following example graphs prescaler values stored in file \fBtest.pib\fR on the console. Output consists of 1155 lines in four columns. The first collumn is the amplitude map offset. The next column is the decimal equivalent of the amplitude scaler. The next column is the carrier frequency in megahertz. The last column is a hash line that represents the amplitude scaler value. Sinc option \fB-s\fR was omitted, the hash line consists of hash character for every 5 units of amplitude.
+The following example graphs prescaler values stored in file \fBtest.pib\fR on the console.
+Output consists of 1155 lines in four columns.
+The first collumn is the amplitude map offset.
+The next column is the decimal equivalent of the amplitude scaler.
+The next column is the carrier frequency in megahertz.
+The last column is a hash line that represents the amplitude scaler value.
+Sinc option \fB-s\fR was omitted, the hash line consists of hash character for every 5 units of amplitude.
+
 .PP
    # psgraph test.pib
     0000      0  1.807 
@@ -1185,15 +1212,23 @@ The following example graphs prescaler values stored in file \fBtest.pib\fR on t
     1152      0 29.932 
     1153      0 29.956 
     1154      0 29.980 
+
 .PP
-This display graphically illustrates which carrier frequencies are enabled and which are suppressed. Atheros takes greeat care in designing amplitude maps that conform to regional and national regulations where their powerline devices are expected to operate. Any modification to Atheros supplied amplitude maps may void certain contractual obligations previously agreed with Qualcomm Atheros.
+This display graphically illustrates which carrier frequencies are enabled and which are suppressed.
+Atheros takes greeat care in designing amplitude maps that conform to regional and national regulations where their powerline devices are expected to operate.
+Any modification to Atheros supplied amplitude maps may void certain contractual obligations previously agreed with Qualcomm Atheros.
+
 .SH DISCLAIMER
-PIB file structure and content is proprietary to Qualcomm Atheros, Ocala FL USA. Consequently, public information is not available. Qualcomm Atheros reserves the right to modify PIB file structure or content in future firmware releases without any obligation to notify or compensate users of this program.
+PIB file structure and content is proprietary to Qualcomm Atheros, Ocala FL USA.
+Consequently, public information is not available.
+Qualcomm Atheros reserves the right to modify PIB file structure or content in future firmware releases without any obligation to notify or compensate users of this program.
+
 .SH SEE ALSO
 .BR int6ktone ( 7 ),
 .BR psgraph (7),
 .BR psin ( 7 ),
 .BR psout ( 7 ),
 .BR pskey ( 7 )
+
 .SH CREDITS
  Charles Maier <charles.maier@qca.qualcomm.com>

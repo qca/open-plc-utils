@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2012 by Qualcomm Atheros.
+ *   Copyright (c) 2012 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -22,9 +22,6 @@
  *   
  *   void ruledump (struct rule * rule, FILE * fp);
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 

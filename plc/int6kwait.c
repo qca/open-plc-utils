@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -24,9 +24,6 @@
  *
  *   wait for device events to start or finish before returning;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -100,7 +97,7 @@
 #include "../mme/MMECode.c"
 #include "../mme/EthernetHeader.c"
 #include "../mme/QualcommHeader.c"
-#include "../mme/FragmentHeader.c"
+#include "../mme/QualcommHeader1.c"
 #include "../mme/UnwantedMessage.c"
 #endif
 
@@ -195,7 +192,7 @@ signed ResetAndWait (struct plc * plc)
  *   plc.h
  *
  *   send and receive VS_SW_VER messages until a confirmation is not
- *   received within channel->timer milliseconds to indicate that 
+ *   received within channel->timeout milliseconds to indicate that 
  *   the device is inactive; return 0 if the device resets within 
  *   plc->timer seconds; otherwise, return -1; 
  *
@@ -293,7 +290,7 @@ signed WaitForReset (struct plc * plc, char string [], size_t length)
  *   plc.h
  *
  *   send VS_SW_VER messages until confirmation is received within
- *   channel->timer milliseconds to indicate that the device is 
+ *   channel->timeout milliseconds to indicate that the device is 
  *   active; return 0 if the device responds within plc->timer 
  *   seconds; otherwise, return -1;
  *
@@ -483,7 +480,7 @@ signed WaitForAssoc (struct plc * plc)
 	{
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
-		FragmentHeader (&request->qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
+		QualcommHeader1 (&request->qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		if (SendMME (plc) <= 0) 
 		{
@@ -535,9 +532,6 @@ signed WaitForAssoc (struct plc * plc)
  *
  *   perform operations in a logical order;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 
@@ -611,9 +605,6 @@ static void function (struct plc * plc, char const * firmware)
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 

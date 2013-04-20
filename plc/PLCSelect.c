@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -27,10 +27,6 @@
  *   wait for device to start in order to determine chipset then call
  *   the approproate function based on chipset; unfortunately, chipset
  *   detection and selection may not be this simple in the future;
- *
- *.  Atheros Powerline Toolkit for HomePlug AV; 
- *:  Published 2007 by Intellon Corp. ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>

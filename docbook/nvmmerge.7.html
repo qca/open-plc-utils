@@ -6,7 +6,7 @@
 			nvmmerge.7
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -29,34 +29,34 @@ SYNOPSIS
 DESCRIPTION
        Combine multiple binary image files into a single Atheros binary image file, leaving the original files intact.
 
-       Atheros  image files consist of a chain of image headers, each followed by an image block. Image blocks can contain data,
-       applets or programs. Atheros software reads the header chain and decides which images to download and  execute  based  on
-       information  in  image  headers.  Tampering  with  image  headers or images may void some contractual obligations made by
+       Atheros image files consist of a chain of image headers, each followed by an image block.  Image blocks can contain data,
+       applets or programs.  Atheros software reads the header chain and decides which images to download and execute  based  on
+       information  in  image  headers.   Tampering  with  image headers or images may void some contractual obligations made by
        Atheros.
 
-       This program is part of the Qualcomm Atheros Powerline Toolkit. See the AMP man page for  an  overview  and  installation
+       This program is part of the Qualcomm Atheros Powerline Toolkit.  See the AMP man page for an  overview  and  installation
        instructions.
 
 OPTIONS
-       -q     Suppresses printing of routine messages. This option has no efect.
+       -q     Suppresses printing of routine messages.  This option has no efect.
 
        -v     Print input file names on stderr as they are merged.
 
        -?,--help
-              Print program help summary on stdout. This option takes precedence over other options on the command line.
+              Print program help summary on stdout.  This option takes precedence over other options on the command line.
 
        -!,--version
-              Print  program version information on stdout. This option takes precedence over other options on the command line.
+              Print program version information on stdout.  This option takes precedence over other options on the command line.
               Use this option when sending screen dumps to Atheros Technical Support so that they know exactly which version  of
               the Linux Toolkit you are using.
 
 ARGUMENTS
-       file   The  name of an Atheros image file. By convention, Atheros image files have a .nvm file extension but this program
-              does not enforce this convention. Invalid mage files will be rejected causing the output to be incomplete.
+       file   The name of an Atheros image file.  By convention, Atheros image files have a .nvm file extension but this program
+              does not enforce this convention.  Invalid mage files will be rejected causing the output to be incomplete.
 
 EXAMPLES
-       The following example combines three files, abc-00.nvm, abc-01.nvm and abc-06.nvm into one file abc.nvm. Option  -v  dis‐
-       plays  the  input file names as they are merged. Program output is in binary format and so output should be directed to a
+       The following example combines three files, abc-00.nvm, abc-01.nvm and abc-06.nvm into one file abc.nvm.  Option -v  dis‐
+       plays  the input file names as they are merged.  Program output is in binary format and so output should be directed to a
        file or pipe and not the console.
 
           # nvmmerge -v abc-00.nvm abc-01.nvm abc-06.nvm &gt; abc.nvm
@@ -65,10 +65,10 @@ EXAMPLES
           nvmmerge: abc-06.nvm
 
 DISCLAIMER
-       Atheros image file structure and content is proprietary to Qualcomm Atheros, Ocala FL USA. Consequently, public  informa‐
-       tion  is  not  available.  Qualcomm  Atheros  reserves  the  right to change file structure or content in future firmware
+       Atheros image file structure and content is proprietary to Qualcomm Atheros, Ocala FL USA.  Consequently, public informa‐
+       tion  is  not  available.   Qualcomm  Atheros  reserves  the right to change file structure or content in future firmware
        releases without any obligation to notify or compensate users of this program.  This  program  is  reserved  for  use  by
-       Atheros Field Engineers. Use of this program may void some contractual obligations made by Atheros.
+       Atheros Field Engineers.  Use of this program may void some contractual obligations made by Atheros.
 
 SEE ALSO
        chknvm(7), int6k(7), int6kf(7), int6ktest(7), nvmsplit(7), setnvm(7)
@@ -76,7 +76,7 @@ SEE ALSO
 CREDITS
         Charles Maier &lt;charles.maier@qca.qualcomm.com&gt;
 
-plc-utils                                                 December 2012                                              nvmmerge(7)
+plc-utils-2.1.5                                            March 2013                                                nvmmerge(7)
 </pre>
 		<div class='footerlink'>
 			[<a href='nics.7.html' title=' nics.7 '>PREV</a>]

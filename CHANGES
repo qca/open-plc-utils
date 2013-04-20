@@ -11,3 +11,9 @@ open-plc-utils-0.0.2
 
 5. Added 'ignore' target to cascading Makefiles to re-write local .gitignore files.
 
+6. Corrected email address for Florian Fainelli in module ARPCPrint.
+
+7. Added new HomePlug AV SLAC Protocol MMEs definitions to homeplug.h.
+
+8. Modified makefile 'ignore' target to use tr instead of sed because some sed implementations do not accept '\n'.
+

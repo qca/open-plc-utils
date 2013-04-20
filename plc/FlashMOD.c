@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -29,9 +29,6 @@
  *   to the local host since they have no NVRAM; the host must be
  *   ready to receive the module;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -81,8 +78,8 @@ signed FlashMOD (struct channel * channel, uint8_t module)
 
 	ssize_t packetsize;
 	memset (&message, 0, sizeof (message));
-	EthernetHeader (&message.ethernet, channel->peer, channel->host, channel->type);
-	QualcommHeader (&message.qualcomm, 0, (VS_MOD_NVM | MMTYPE_REQ));
+	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
+	QualcommHeader (&request->qualcomm, 0, (VS_MOD_NVM | MMTYPE_REQ));
 	request->MODULEID = module;
 	if (sendpacket (channel, &message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) <= 0) 
 	{

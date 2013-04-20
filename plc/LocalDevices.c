@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -42,9 +42,6 @@
  *   to respond; the list is a collection of source addresses taken
  *   from all responses;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -67,13 +64,19 @@ unsigned LocalDevices (struct channel const * channel, struct message * message,
 
 {
 	extern const byte localcast [ETHER_ADDR_LEN];
+	struct vs_sw_ver_request 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+	}
+	* request = (struct vs_sw_ver_request *)(message);
 	uint8_t * origin = (uint8_t *)(memory);
 	uint8_t * offset = (uint8_t *)(memory);
 	ssize_t packetsize;
 	memset (memory, 0, extent);
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&message->ethernet, localcast, channel->host, channel->type);
-	QualcommHeader (&message->qualcomm, 0, (VS_SW_VER | MMTYPE_REQ));
+	EthernetHeader (&request->ethernet, localcast, channel->host, channel->type);
+	QualcommHeader (&request->qualcomm, 0, (VS_SW_VER | MMTYPE_REQ));
 	if (sendpacket (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) <= 0) 
 	{
 		return (0);

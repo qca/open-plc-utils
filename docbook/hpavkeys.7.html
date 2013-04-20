@@ -6,7 +6,7 @@
 			hpavkeys.7
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -27,79 +27,79 @@ SYNOPSIS
        hpavkeys [options] file [file] [...]
 
 DESCRIPTION
-       Convert  blocks  of  phrases  to encrypted HomePlug AV keys. Phrases are read from one or more files, converted to either
-       Device Access Keys, Networks Membership Keys or Network Identification Keys and printed on stdout. By default, only  keys
+       Convert  blocks  of  phrases to encrypted HomePlug AV keys.  Phrases are read from one or more files, converted to either
+       Device Access Keys, Networks Membership Keys or Network Identification Keys and printed on stdout.  By default, only keys
        are printed, one per line, but both keys and phrases can be printed, one pair per line.
 
-       This  program  is  part  of the Qualcomm Atheros Powerline Toolkit. See the AMP man page for an overview and installation
+       This  program  is  part of the Qualcomm Atheros Powerline Toolkit.  See the AMP man page for an overview and installation
        instructions.
 
 BACKGROUND
        HomePlug AV technology uses 16-byte binary values, called &quot;keys&quot;, for various purposes such  as  identity  and  security.
        Three  keys of interest to users are the Device Access Key (DAK), the Network Memership Key (NMK) and Network Identifica‐
-       tion Key (NID). Their purpose is described in the HomePlug AV Specification.
+       tion Key (NID).  Their purpose is described in the HomePlug AV Specification.
 
        The HomePlug AV Specification explains how to generate 16-btye binary DAK, NMK and NID values using the SHA-256 algorithm
-       to  hash user-supplied ASCII strings, called &quot;pass phrases&quot; in the specification. HomePlug AV compliant pass phrases have
-       from 12 to 64 7-bit ASCII character values in the range 0x20 to 0x7F. In some cases, a specified 8-byte salt is added  to
-       the  pass  phrase  before  computing the 32-byte hash value. In all cases, the computed hash is then rehashed a specified
-       number of times to produce the final 32-byte value. The HomePlug AV key is the lower 16-bytes of that value.
+       to hash user-supplied ASCII strings, called &quot;pass phrases&quot; in the specification.  HomePlug AV compliant pass phrases have
+       from 12 to 64 7-bit ASCII character values in the range 0x20 to 0x7F.  In some cases, a specified 8-byte salt is added to
+       the  pass  phrase  before computing the 32-byte hash value.  In all cases, the computed hash is then rehashed a specified
+       number of times to produce the final 32-byte value.  The HomePlug AV key is the lower 16-bytes of that value.
 
        Keys can be any 16-byte binary value but binary values are difficult to remember.  HomePlug  AV  compliant  applications,
        like the Qualcomm Atheros Device Manager, ask users for a pass phrase that is converted to a 16-byte binary value using a
-       standard hashing algorithm. In principle, no two phrases will produce the same key and it would be computationally expen‐
-       sive  to derive the pass phrase given the key. Although HomePlug AV software deals directly with the key, users need only
-       remember the pass phrase in order to reproduce the key.
+       standard hashing algorithm.  In principle, no two phrases will produce the same  key  and  it  would  be  computationally
+       expensive to derive the pass phrase given the key.  Although HomePlug AV software deals directly with the key, users need
+       only remember the pass phrase in order to reproduce the key.
 
 OPTIONS
-       -D     Uses HomePlug AV rules to compute Device Access Keys (DAK) from pass phrases read from file or stdin. A DAK is  16
-              bytes expressed as 32 hexadecimal digits. This option over-rides any -M and -N options previously specified on the
-              command line.
+       -D     Uses HomePlug AV rules to compute Device Access Keys (DAK) from pass phrases read from file or stdin.  A DAK is 16
+              bytes  expressed  as  32 hexadecimal digits.  This option over-rides any -M and -N options previously specified on
+              the command line.
 
-       -e     Enforce HomePlug AV length and content rules for phrases. Non-compliant phrases are reported and ignored.  Compli‐
-              ant  phrases  are  12  to  64  7-bit ASCII characters in the range 0x20 (SP) through 0x7F (DEL). Essentially, this
-              includes any character that can be typed on a standard US or UK keyboard, excluding horizontal tab (HT). Be  aware
-              that  some  command  shells intercept and act on special characters instead of passing them to the application. In
+       -e     Enforce HomePlug AV length and content rules for phrases.  Non-compliant phrases are reported and  ignored.   Com‐
+              pliant  phrases  are 12 to 64 7-bit ASCII characters in the range 0x20 (SP) through 0x7F (DEL).  Essentially, this
+              includes any character that can be typed on a standard US or UK keyboard, excluding horizontal tab (HT).  Be aware
+              that  some  command shells intercept and act on special characters instead of passing them to the application.  In
               such cases, you may need to include meta characters.
 
        -L level
-              Set security level. The security level is encoded into the NID. Level 0 enables pusbutton pairing.  Level  1  dis‐
-              ables it. This option has no effect unless a NID is computed.
+              Set security level.  The security level is encoded into the NID.  Level 0 enables pusbutton pairing.  Level 1 dis‐
+              ables it.  This option has no effect unless a NID is computed.
 
-       -M     Uses  HomePlug AV rules to compute Network Membership Keys (NMK) from pass phrases read from file or stdin. An NMK
-              is 16 bytes expressed as 32 hexadecimal characters. This option over-rides any -D or -N options previsously speci‐
-              fied on the command line.
+       -M     Uses HomePlug AV rules to compute Network Membership Keys (NMK) from pass phrases read from file or stdin.  An NMK
+              is 16 bytes expressed as 32 hexadecimal characters.  This option over-rides any -D or -N options previsously spec‐
+              ified on the command line.
 
-       -N     Uses  HomePlug AV rules to compute Network Identification Keys (NID) from pass phrases read from file or stdin. An
-              NID is 7 bytes expressed as 14 hexadecimal digits. This option over-rides any -D or -M options  previously  speci‐
-              fied on the command line.
+       -N     Uses HomePlug AV rules to compute Network Identification Keys (NID) from pass phrases read from file or stdin.  An
+              NID is 7 bytes expressed as 14 hexadecimal digits.  This  option  over-rides  any  -D  or  -M  options  previously
+              specified on the command line.
 
-       -p     Print the password, or pass phrase, used to generate each key after each key on stdout. One single space seperates
-              the pass phrase from the key string. The pass phrase consists of  all  subsequent  characters,  including  spaces,
-              appearing up to the end of the line. Without this option, only the keys are printed.
+       -p     Print  the  password, or pass phrase, used to generate each key after each key on stdout.  One single space seper‐
+              ates the pass phrase from the key string.  The pass  phrase  consists  of  all  subsequent  characters,  including
+              spaces, appearing up to the end of the line.  Without this option, only the keys are printed.
 
        -q     Enable quiet mode which, for this application, has no effect.  This behavior has changed from earlier program ver‐
               sions.
 
-       -v     Enable verbose mode which, for this application, prints the input phrase after each key. This behavior has changed
-              from earlier program versions.
+       -v     Enable verbose mode which, for this application, prints the input  phrase  after  each  key.   This  behavior  has
+              changed from earlier program versions.
 
        -?,--help
-              Print program help summary on stdout. This option takes precedence over other options on the command line.
+              Print program help summary on stdout.  This option takes precedence over other options on the command line.
 
        -!,--version
-              Print  program version information on stdout. This option takes precedence over other options on the command line.
+              Print program version information on stdout.  This option takes precedence over other options on the command line.
               Use this option when sending screen dumps to Atheros Technical Support so that they know exactly which version  of
               the Linux Toolkit you are using.
 
 ARGUMENTS
-       file   Any  valid  filename. Each file on the command line is read in turn and output is written to stdout, much like the
-              cat utility. Input is read from the console when no filenames are specified.
+       file   Any  valid filename.  Each file on the command line is read in turn and output is written to stdout, much like the
+              cat utility.  Input is read from the console when no filenames are specified.
 
 EXAMPLES
-       The following command reads file example.keys and prints the SHA256 key for each phrase in that file. An  SHA256  key  is
-       128  bits  or  32 bytes expressed as 32 hexadecimal digits. SHA256 keys are the default output when no key type is speci‐
-       fied. SHA256 is a public domain standard, not a HomePlug AV standard.
+       The following command reads file example.keys and prints the SHA256 key for each phrase in that file.  An SHA256  key  is
+       128  bits  or 32 bytes expressed as 32 hexadecimal digits.  SHA256 keys are the default output when no key type is speci‐
+       fied.  SHA256 is a public domain standard, not a HomePlug AV standard.
 
           # hpavkeys example.keys
           EA41A2383355FA7CA3B467DF0848A8EB9C41591BE53696C5F45DDAF621784F07
@@ -108,10 +108,10 @@ EXAMPLES
           7257DF11A035A49119FD881F20AA7FE88970F1A034E4BBBF2D50FAB0D0239F25
           FAC202F439E47EB5EACF6B9CC4151BF6B2B6E736A79BCAB0F589C63BCB78D16B
 
-       The following command reads file example.keys and prints the DAK for each phrase in that file. Input phrases are  checked
-       for HomePlugAV compliance and illegal phrases are reported then ignored. A legal HomePlug pass phrase is 12 to 64 charac‐
-       ters consisting of ASCII characters ’ ’ through ’~’. Essentially, these are the only characters that one can enter  on  a
-       standard English keyboard.
+       The following command reads file example.keys and prints the DAK for each phrase in that file.  Input phrases are checked
+       for  HomePlugAV compliance and illegal phrases are reported then ignored.  A legal HomePlug pass phrase is 12 to 64 char‐
+       acters consisting of ASCII characters ’ ’ through ’~’.  Essentially, these are the only characters that one can enter  on
+       a standard English keyboard.
 
           # hpavkeys -D example.keys
           F084B4E8F6069FF1300C9BDB812367FF
@@ -125,9 +125,9 @@ EXAMPLES
           08AE750B07884E2C380BDCEDBC28D2C8
           F8EE1AC7F4234A3F724D21F8B837B547
 
-       The  following  example  reads  the  same  file as above but prints the NMK for each phrase, instead of the DAK. The keys
+       The  following  example  reads  the  same file as above but prints the NMK for each phrase, instead of the DAK.  The keys
        printed here have different values because the HomePlug AV Specification requires different hash algorithms for  the  DAK
-       and NMK. Don’t mix them up.
+       and NMK.  Don’t mix them up.
 
           # hpavkeys -M example.keys
           B59319D7E8157BA001B018669CCEE30D
@@ -158,8 +158,8 @@ EXAMPLES
           E5A7C020E0889A0265759D80DB3F9834 A = 3 * (5+2) - 1045
 
 TIPS&amp;TRICKS
-       The following example illustrates an unusual case where passwords start with dash (&quot;-&quot;). Program hpavkey assumes that the
-       dash is an option prefix which is incorrect in this case. An error occurs because option -H is illegal.
+       The  following  example  illustrates an unusual case where passwords start with dash (&quot;-&quot;).  Program hpavkey assumes that
+       the dash is an option prefix which is incorrect in this case.  An error occurs because option -H is illegal.
 
           # hpavkey -vM -HomePlugAV -HomePlugAV123
           hpavkey: Operation canceled: Option ’H’ has no meaning
@@ -172,7 +172,7 @@ TIPS&amp;TRICKS
           1A46BDE6F75209292FDFC4CCE4D19B4E -HomePlugAV123
 
 REFERENCES
-       See  the  HomePlug  AV  Specification for more information on encryption keys, pass phrases and hash algorithms used. See
+       See  the  HomePlug  AV Specification for more information on encryption keys, pass phrases and hash algorithms used.  See
        standard FIPS180-2 sec 5.3.2 for more information on SHA256 encoding.
 
 DISCLAIMER
@@ -185,7 +185,7 @@ SEE ALSO
 CREDITS
         Charles Maier &lt;charles.maier@qca.qualcomm.com&gt;
 
-plc-utils                                                 December 2012                                              hpavkeys(7)
+plc-utils-2.1.5                                            March 2013                                                hpavkeys(7)
 </pre>
 		<div class='footerlink'>
 			[<a href='hpavkey.7.html' title=' hpavkey.7 '>PREV</a>]

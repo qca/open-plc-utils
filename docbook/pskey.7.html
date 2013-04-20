@@ -6,7 +6,7 @@
 			pskey.7
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -27,31 +27,31 @@ SYNOPSIS
        pskey [options] file [file] [...]  [&gt;stdout]
 
 DESCRIPTION
-       Read  the prescaler section of a .pib file and print the SHA256 digest (key) on stdout. The digest acts as a finger-print
-       of the prescalers stored within and may be used to compare prescalers and detect changes. Only the prescaler  section  is
-       read. The rest of the PIB is ignored.
+       Read the prescaler section of a .pib file and print the SHA256 digest (key) on stdout.  The digest acts as a finger-print
+       of the prescalers stored within and may be used to compare prescalers and detect changes.  Only the prescaler section  is
+       read.  The rest of the PIB is ignored.
 
-       This  program  is  part  of the Qualcomm Atheros Powerline Toolkit. See the AMP man page for an overview and installation
+       This  program  is  part of the Qualcomm Atheros Powerline Toolkit.  See the AMP man page for an overview and installation
        instructions.
 
 OPTIONS
-       -q     Enable quiet mode. This suppresses the filename after prescaler keys on output.
+       -q     Enable quiet mode.  This suppresses the filename after prescaler keys on output.
 
-       -v     Verbose mode. This option has no effect at present.  None.
+       -v     Verbose mode.  This option has no effect at present.  None.
 
 ARGUMENTS
-       file   THe name of an Atheros Parameter Information Block (PIB) file. This file is not modified. By convention, PIB files
-              have a .pib extenstion but this program does not enforce that convention but invalid PIB files will be rejected on
-              input.
+       file   THe name of an Atheros Parameter Information Block (PIB) file.  This file is not  modified.   By  convention,  PIB
+              files  have  a  .pib  extenstion  but  this program does not enforce that convention but invalid PIB files will be
+              rejected on input.
 
 DISCLAIMER
-       PIB file structure and content is proprietary to Qualcomm Atheros, Ocala FL USA. Consequently, public information is  not
+       PIB file structure and content is proprietary to Qualcomm Atheros, Ocala FL USA.  Consequently, public information is not
        available.  Qualcomm Atheros reserves the right to modify PIB file structure or content in future firmware releases with‐
        out any obligation to notify or compensate users of this program.
 
 EXAMPLES
-       This example prints the SHA256 digest for the prescaler section in file v3.3.4.pib. The digest uniquely  identifies  that
-       particular prescaler set. PIB files with the same prescaler digest contain the same prescaler set.
+       This example prints the SHA256 digest for the prescaler section in file v3.3.4.pib.  The digest uniquely identifies  that
+       particular prescaler set.  PIB files with the same prescaler digest contain the same prescaler set.
 
           # pskey v3.3.4.pib
           AF26B02BB5044BE70986A5C2F5705671213D63A7827928C240D131E940EF4FC4 v3.3.4.pib
@@ -61,9 +61,9 @@ EXAMPLES
           # pskey v3.3.4.pib -q
           AF26B02BB5044BE70986A5C2F5705671213D63A7827928C240D131E940EF4FC4
 
-       The next example does the same for all .pib files in the current folder. Observe that several files have the same finger‐
-       print and so contain identical prescaler sets. Prescalers are designed to satisfy EMI requirements for  various  applica‐
-       tions and world regions. It is critical that the correct prescalers are used.
+       The  next  example does the same for all .pib files in the current folder.  Observe that several files have the same fin‐
+       gerprint and so contain identical prescaler sets.  Prescalers are designed to satisfy EMI requirements for various appli‐
+       cations and world regions.  It is critical that the correct prescalers are used.
 
           # pskey *.pib
           AF26B02BB5044BE70986A5C2F5705671213D63A7827928C240D131E940EF4FC4 2008-06-25.pib
@@ -88,8 +88,8 @@ EXAMPLES
           AF26B02BB5044BE70986A5C2F5705671213D63A7827928C240D131E940EF4FC4 v3.3.4.pib
 
        The  next  example  does  the same as the previous one but sorts on the digest in order to group files by their prescaler
-       sets. This highlights the fact that we have four different prescaler sets in the group and two files are apparently  dif‐
-       ferent from the others. The sort program is a Linux utility and may not be available on some systems.
+       sets.  This highlights the fact that we have four different prescaler sets in the group and two files are apparently dif‐
+       ferent from the others.  The sort program is a Linux utility and may not be available on some systems.
 
           # pskey *.pib | sort
           649C3B280E20A78994D11048C6E2ABEB6BA5DBCBBE3BA2BDD3BA3C3CFF8EF7E4 v3.3.4-RC9.pib
@@ -114,8 +114,8 @@ EXAMPLES
           AF26B02BB5044BE70986A5C2F5705671213D63A7827928C240D131E940EF4FC4 v3.3.4.pib
 
 DISCLAIMER
-       PIB  file structure and content is proprietary to Qualcomm Atheros, Ocala FL USA. Consequently, public information is not
-       available. Qualcomm Atheros reserves the right to modify PIB file structure or content in future firmware releases  with‐
+       PIB file structure and content is proprietary to Qualcomm Atheros, Ocala FL USA.  Consequently, public information is not
+       available.  Qualcomm Atheros reserves the right to modify PIB file structure or content in future firmware releases with‐
        out any obligation to notify or compensate users of this program.
 
 SEE ALSO
@@ -124,7 +124,7 @@ SEE ALSO
 CREDITS
         Charles Maier &lt;charles.maier@qca.qualcomm.com&gt;
 
-plc-utils                                                 December 2012                                                 pskey(7)
+plc-utils-2.1.5                                            March 2013                                                   pskey(7)
 </pre>
 		<div class='footerlink'>
 			[<a href='psin.7.html' title=' psin.7 '>PREV</a>]

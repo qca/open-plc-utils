@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -37,9 +37,6 @@
  *   i/o differently depending on environment; they all use a channel
  *   structure;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -62,13 +59,14 @@ signed ReadMFG (struct plc * plc, uint8_t MMV, uint16_t MMTYPE)
 {
 	struct channel * channel = (struct channel *)(plc->channel);
 	struct message * message = (struct message *)(plc->message);
+	struct homeplug * homeplug = (struct homeplug *)(message);
 	while ((plc->packetsize = readpacket (channel, message, sizeof (* message))) > 0) 
 	{
-		if (message->qualcomm.MMV != MMV) 
+		if (homeplug->homeplug.MMV != MMV) 
 		{
 			continue;
 		}
-		if (message->qualcomm.MMTYPE != HTOLE16 (MMTYPE)) 
+		if (homeplug->homeplug.MMTYPE != HTOLE16 (MMTYPE)) 
 		{
 			continue;
 		}

@@ -6,7 +6,7 @@
 			psnotch.7
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -27,78 +27,78 @@ SYNOPSIS
        psnotch [options] [&lt;stdin] [&gt;stdout]
 
 SYNOPSIS
-       Read  an  amplitude  map from stdin and print a notched version on stdout. Notches are computed based on an optional tone
-       map and are applied only to a specified range of carriers. An optional histogram may be printed on  stderr  to  visualize
+       Read  an  amplitude map from stdin and print a notched version on stdout.  Notches are computed based on an optional tone
+       map and are applied only to a specified range of carriers.  An optional histogram may be printed on stderr  to  visualize
        tone map characteristics.
 
-       This  program  determines which prescalers to notch by inspecting a tonemap for radical changes. Changes are computed and
-       appear as parabolic dips in amplitude that tend to exaggerate the center point. This program notches prescalers that cor‐
-       respond  to  tonemap low points. The notch width, in terms of carriers, will depend on the threshold set by the user. See
-       int6ktone for an explanation and example of how tonemaps can be used to detect powerline noise.
+       This  program determines which prescalers to notch by inspecting a tonemap for radical changes.  Changes are computed and
+       appear as parabolic dips in amplitude that tend to exaggerate the center point.  This  program  notches  prescalers  that
+       correspond  to  tonemap low points.  The notch width, in terms of carriers, will depend on the threshold set by the user.
+       See int6ktone for an explanation and example of how tonemaps can be used to detect powerline noise.
 
-       This program is part of the Qualcomm Atheros Powerline Toolkit. See the AMP man page for  an  overview  and  installation
+       This program is part of the Qualcomm Atheros Powerline Toolkit.  See the AMP man page for an  overview  and  installation
        instructions.
 
 OPTIONS
        -c     Display comma delimited output on stderr showing only carriers in the range specified or implied by options -L and
-              -U. The histogram shows the carrier, amplitude mask, tonemap slot values and carrier frequency. Data  columns  are
-              seperated by commas instead of spaces. This option excludes option -v.
+              -U.  The histogram shows the carrier, amplitude mask, tonemap slot values and carrier frequency.  Data columns are
+              seperated by commas instead of spaces.  This option excludes option -v.
 
        -f tonemap
-              The  name  of  a  tone  map file created using program int6ktone. The tone map reflects dynamic, real-time carrier
-              information read from a device and may be obsolete before it can be applied. If the tone map file is omitted  then
+              The  name  of  a  tone map file created using program int6ktone.  The tone map reflects dynamic, real-time carrier
+              information read from a device and may be obsolete before it can be applied.  If the tone map file is omitted then
               no amplitude map notching will occur and the histogram will not illustrate any signal activity.
 
        -l carrier
-              The  lowest carrier to be notched. No carriers below this one will be notched. This option and option -u must both
-              be specified for notching to occur. The minimum is 0 and the maximum is 1154. The default is 1154 to  avoid  acci‐
-              dental notching. Use program psgraph to determine amplitude map offsets for carriers of interest.
+              The  lowest  carrier  to  be notched.  No carriers below this one will be notched.  This option and option -u must
+              both be specified for notching to occur.  The minimum is 0 and the maximum is 1154.  The default is 1154 to  avoid
+              accidental notching.  Use program psgraph to determine amplitude map offsets for carriers of interest.
 
        -L carrier
-              The lowest carrier displayed when option -v is present. Generally speaking, this carrier should be lower than that
-              specified or implied by option -l to provide some context. The minimum is 0 and the maximum is 1154.  The  default
-              is 0.
+              The  lowest  carrier  displayed  when option -v is present.  Generally speaking, this carrier should be lower than
+              that specified or implied by option -l to provide some context.  The minimum is 0 and the maximum  is  1154.   The
+              default is 0.
 
        -u carrier
-              The highest carrier to be notched. No carriers above this one will be notched. This option and option -l must both
-              be specified for notching to occur. The minimum is 0 and the maximum is 1154. The default is 0 to avoid accidental
-              notching. Use program psgraph to determine amplitude map offsets for carriers of interest.
+              The  highest  carrier  to be notched.  No carriers above this one will be notched.  This option and option -l must
+              both be specified for notching to occur.  The minimum is 0 and the maximum is 1154.  The default  is  0  to  avoid
+              accidental notching.  Use program psgraph to determine amplitude map offsets for carriers of interest.
 
        -U carrier
-              The  highest  carrier  displayed when option -v is present. Generally speaking, this carrier should be higher than
-              that specified using option -u to provide some context. The minimum is 0 and the maximum is 1154. The  default  is
+              The  highest  carrier displayed when option -v is present.  Generally speaking, this carrier should be higher than
+              that specified using option -u to provide some context.  The minimum is 0 and the maximum is 1154.  The default is
               1154.
 
        -t threshold
-              The  notching  threshold expressed as an integer in the range 0 through 49. A value of 0 will notch scalers in the
-              specified carrier range. A value in the range 1 through 5 is reasonable. A value greater than 5 may result  in  no
-              notching at all. See the man page for program int6ktone for an explanation and illustration of threshold values.
+              The  notching threshold expressed as an integer in the range 0 through 49.  A value of 0 will notch scalers in the
+              specified carrier range.  A value in the range 1 through 5 is reasonable.  A value greater than 5 may result in no
+              notching  at all.  See the man page for program int6ktone for an explanation and illustration of threshold values.
 
-       -v     Verbose  mode.  Display a histogram on stderr showing carriers in the range specified or implied by options -L and
-              -U. The histogram shows the carrier, amplitude mask, tonemap slot values and carrier frequency. Data  columns  are
-              separated by specases instead of commas. This option excludes option -c.
+       -v     Verbose mode.  Display a histogram on stderr showing carriers in the range specified or implied by options -L  and
+              -U.  The histogram shows the carrier, amplitude mask, tonemap slot values and carrier frequency.  Data columns are
+              separated by specases instead of commas.  This option excludes option -c.
 
 ARGUMENTS
-       stdin  The  unotched  amplitude  map file. This amplitude map should conform to EMI regulations for the region or country
-              where the powerline device will operate. A range of approved amplitude maps is available  from  Qualcomm  Atheros.
-              Use  program  psout  to  extract  the  amplitude  map  from an existing PIB file or program psgraph to display the
-              amplitude map in an existing PIB file.
+       stdin  The unotched amplitude map file.  This amplitude map should conform to EMI regulations for the region  or  country
+              where  the  powerline device will operate.  A range of approved amplitude maps is available from Qualcomm Atheros.
+              Use program psout to extract the amplitude map from an existing PIB file or program psgraph to display the  ampli‐
+              tude map in an existing PIB file.
 
-       stdout The notched amplitude map file. If no tone map file is specified on the command line then no notches are  computed
-              or  applied. Otherwise, the selected carriers may be suppressed based on time slot modulation information from the
-              tone map. Use program psin to insert an amplitude map into an existing PIB file.
+       stdout The notched amplitude map file.  If no tone map file is specified on the command line then no notches are computed
+              or applied.  Otherwise, the selected carriers may be suppressed based on time slot modulation information from the
+              tone map.  Use program psin to insert an amplitude map into an existing PIB file.
 
 EXAMPLES
-       The following example reads unotched amplitude map unotched.psc and creates a notched  amplitude  map  notched.psc.  File
-       tone.map  determines  if and wehre notching may be required; however, only carriers from offset 57 through 66 are notched
-       if their mean-square values are less than 3. No other carriers will be notched. See the man page  for  program  int6ktone
+       The  following  example  reads unotched amplitude map unotched.psc and creates a notched amplitude map notched.psc.  File
+       tone.map determines if and wehre notching may be required; however, only carriers from offset 57 through 66  are  notched
+       if  their mean-square values are less than 3.  No other carriers will be notched.  See the man page for program int6ktone
        for an illustration of threshold values.
 
           # psnotch &lt; unotched.psc &gt; notched.psc -f tone.map -l 57 -u 66 -t 3
 
-       The  next  example does the same thing but also displays a histogram on stderr. It show, in order from left to right, the
-       carrier, prescaler amplitude mask, the five or six tonemap slot values, the carrier frequency and a bar representing  the
-       mean square of the slot values. To save this output, redirect stderr to a file using &quot;2&gt; temp.txt&quot;.
+       The next example does the same thing but also displays a histogram on stderr.  It show, in order from left to right,  the
+       carrier,  prescaler amplitude mask, the five or six tonemap slot values, the carrier frequency and a bar representing the
+       mean square of the slot values.  To save this output, redirect stderr to a file using &quot;2&gt; temp.txt&quot;.
 
           # psnotch &lt; unotched.psc &gt; notched.psc -f tone.map -v
           0000 0000 00 00 00 00 00 00  1.807
@@ -1256,9 +1256,9 @@ EXAMPLES
           1152 0000 00 00 00 00 00 00 29.932
           1153 0000 00 00 00 00 00 00 29.956
 
-       ThIs  next  example does the same thing as the previous example but outputs information in comma-delimited format because
-       option -c was used instead of option -v. This format is better suited for importing into  a  spreadsheet  but  lacks  the
-       visual effect of the histogram. Observe that prescaler values appear in decimal rather than hexadecimal.
+       ThIs next example does the same thing as the previous example but outputs information in comma-delimited  format  because
+       option  -c  was  used  instead of option -v.  This format is better suited for importing into a spreadsheet but lacks the
+       visual effect of the histogram.  Observe that prescaler values appear in decimal rather than hexadecimal.
 
           # psnotch &lt; unotched.psc &gt; notched.psc -f tone.map -c
           0,0,0,0,0,0,0,0,0, 1.807
@@ -2417,8 +2417,8 @@ EXAMPLES
           1153,0,0,0,0,0,0,0,0,29.956
 
 DISCLAIMER
-       PIB  file structure and content is proprietary to Qualcomm Atheros, Ocala FL USA. Consequently, public information is not
-       available. Qualcomm Atheros reserves the right to modify PIB file structure or content in future firmware releases  with‐
+       PIB file structure and content is proprietary to Qualcomm Atheros, Ocala FL USA.  Consequently, public information is not
+       available.  Qualcomm Atheros reserves the right to modify PIB file structure or content in future firmware releases with‐
        out any obligation to notify or compensate users of this program.
 
 SEE ALSO
@@ -2427,7 +2427,7 @@ SEE ALSO
 CREDITS
         Charles Maier &lt;charles.maier@qca.qualcomm.com&gt;
 
-plc-utils                                                 December 2012                                               psnotch(7)
+plc-utils-2.1.5                                            March 2013                                                 psnotch(7)
 </pre>
 		<div class='footerlink'>
 			[<a href='pskey.7.html' title=' pskey.7 '>PREV</a>]

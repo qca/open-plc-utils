@@ -84,21 +84,7 @@ __attribute__ ((format (printf, 3, 4)))
 
 #endif
 
-void error (signed status, errno_t number, char const * format, ...);
-
-#ifdef __GNUC__
-
-__attribute__ ((format (printf, 5, 6))) 
-
-#endif
-
-void error_at_line (signed status, errno_t number, char const * filename, unsigned lineno, char const * format, ...);
-
-/*====================================================================*
- *   declare GNU error() function alternatives;  
- *--------------------------------------------------------------------*/
-
-void extra (signed status, errno_t number, int argc, char const * argv []);
+signed error (signed status, errno_t number, char const * format, ...);
 
 #ifdef __GNUC__
 
@@ -106,15 +92,9 @@ __attribute__ ((format (printf, 3, 4)))
 
 #endif
 
-void event (signed status, signo_t number, char const * format, ...);
+signed debug (signed status, char const * string, char const * format, ...);
 
-#ifdef __GNUC__
-
-__attribute__ ((format (printf, 1, 2))) 
-
-#endif
-
-void alert (char const * format, ...);
+signed extra (signed status, errno_t number, int argc, char const * argv []);
 
 /*====================================================================*
  *   end definitions and declarations;

@@ -1,14 +1,14 @@
 /*====================================================================*
  *
- *   void error (signed status, errno_t number, char const * format, ...);
+ *   signed error (signed status, errno_t number, char const * format, ...);
  *
  *   error.h
  *
  *   custom implementation of GNU error() function for systems
- *   that do not have it;
+ *   that do not have it; this version always returns -1;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *   Copyright 2001-2006 by Charles Maier Associates;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
@@ -30,7 +30,7 @@ __attribute__ ((format (printf, 3, 4)))
 
 #endif
 
-void error (signed status, errno_t number, char const * format, ...) 
+signed error (signed status, errno_t number, char const * format, ...) 
 
 {
 	extern char const *program_name;
@@ -75,7 +75,7 @@ void error (signed status, errno_t number, char const * format, ...)
 	{
 		exit (status);
 	}
-	return;
+	return (-1);
 }
 
 

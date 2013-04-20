@@ -6,7 +6,7 @@
 			pibcomp.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -20,7 +20,7 @@
 <pre>
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -42,9 +42,6 @@
  *
  *   pibcomp.c - Qualcomm Atheros Parameter Information Block Compare Utility
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Nathan Houghton &lt;nathan.houghton@qca.qualcomm.com&gt;
@@ -104,9 +101,6 @@
  *   read object definitions from stdin and use them to compare two 
  *   files; dump only those objects that differ on stdout;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 
@@ -116,15 +110,18 @@ static void function (char const * filename [], flag_t flags)
 	unsigned file;
 	unsigned object = 0;
 	unsigned lineno = 1;
-	unsigned offset = 0;
-	unsigned extent [2];
-	signed length = 0;
 	signed fd [2];
+	signed length = 0;
+	off_t origin [2];
+	off_t offset [2];
+	off_t extent [2];
 	char memory [_ADDRSIZE+1];
 	char symbol [_NAMESIZE];
 	char string [_LINESIZE];
 	char * sp;
 	signed c;
+	offset [0] = 0;
+	offset [1] = 0;
 	for (file = 0; file &lt; SIZEOF (fd); file++) 
 	{
 		uint32_t version;
@@ -136,7 +133,11 @@ static void function (char const * filename [], flag_t flags)
 		{
 			error (1, errno, FILE_CANTREAD, filename [file]);
 		}
-		if (lseek (fd [file], 0, SEEK_SET)) 
+		if ((extent [file] = lseek (fd [file], 0, SEEK_END)) == (off_t)(-1)) 
+		{
+			error (1, 0, FILE_CANTSIZE, filename [file]);
+		}
+		if ((origin [file] = lseek (fd [file], 0, SEEK_SET))) 
 		{
 			error (1, errno, FILE_CANTHOME, filename [file]);
 		}
@@ -151,7 +152,12 @@ static void function (char const * filename [], flag_t flags)
 			{
 				error (1, ENOTSUP, &quot;%s is not a PIB file&quot;, filename [file]);
 			}
+			origin [file] = lseek (fd [file], 0, SEEK_CUR);
 		}
+	}
+	if (origin [0] != origin [1]) 
+	{
+		error (1, EINVAL, &quot;PIBs have different offsets&quot;);
 	}
 	while ((c = getc (stdin)) != EOF) 
 	{
@@ -262,19 +268,19 @@ static void function (char const * filename [], flag_t flags)
 						}
 						putc ('\n', stdout);
 					}
-					printf (&quot;%s %d %s\n&quot;, hexoffset (memory, sizeof (memory), offset), length, symbol);
+					printf (&quot;%s %d %s\n&quot;, hexoffset (memory, sizeof (memory), offset [0]), length, symbol);
 					for (c = 0; c &lt; _ADDRSIZE; c++) 
 					{
 						putc ('-', stdout);
 					}
 					printf (&quot; %s\n&quot;, filename [0]);
-					hexview (buffer [0], offset, length, stdout);
+					hexview (buffer [0], offset [0], length, stdout);
 					for (c = 0; c &lt; _ADDRSIZE; c++) 
 					{
 						putc ('-', stdout);
 					}
 					printf (&quot; %s\n&quot;, filename [1]);
-					hexview (buffer [1], offset, length, stdout);
+					hexview (buffer [1], offset [1], length, stdout);
 					for (c = 0; c &lt; _ADDRSIZE + 65; c++) 
 					{
 						putc ('-', stdout);
@@ -291,39 +297,36 @@ static void function (char const * filename [], flag_t flags)
 #endif
 
 		}
-		offset += length;
+		offset [0] += length;
+		offset [1] += length;
 		lineno++;
 	}
 	if (_allclr (flags, PIB_SILENCE)) 
 	{
+		offset [0] += origin [0];
+		offset [1] += origin [1];
 		for (file = 0; file &lt; SIZEOF (extent); file++) 
 		{
-			if ((extent [file] = lseek (fd [file], 0, SEEK_END)) == (unsigned)(-1)) 
+			if (offset [file] &lt; extent [file]) 
 			{
-				error (1, 0, FILE_CANTSIZE, filename [file]);
+				error (0, 0, &quot;%s exceeds definition by &quot; OFF_T_SPEC &quot; bytes&quot;, filename [file], extent [file] - offset [file]);
 			}
-			if (offset &lt; extent [file]) 
+			if (offset [file] &gt; extent [file]) 
 			{
-				error (0, 0, &quot;%s exceeds definition by %u bytes&quot;, filename [file], extent [file] - offset);
-			}
-			if (offset &gt; extent [file]) 
-			{
-				error (0, 0, &quot;definition exceeds %s by %u bytes&quot;, filename [file], offset - extent [file]);
+				error (0, 0, &quot;definition exceeds %s by &quot; OFF_T_SPEC &quot; bytes&quot;, filename [file], offset [file] - extent [file]);
 			}
 		}
 		if (extent [0] &gt; extent [1]) 
 		{
-			error (0, 0, &quot;%s exceeds %s by %u bytes&quot;, filename [0], filename [1], extent [0] - extent [1]);
+			error (0, 0, &quot;%s exceeds %s by &quot; OFF_T_SPEC &quot; bytes&quot;, filename [0], filename [1], extent [0] - extent [1]);
 		}
 		if (extent [1] &gt; extent [0]) 
 		{
-			error (0, 0, &quot;%s exceeds %s by %u bytes&quot;, filename [1], filename [0], extent [1] - extent [0]);
+			error (0, 0, &quot;%s exceeds %s by &quot; OFF_T_SPEC &quot; bytes&quot;, filename [1], filename [0], extent [1] - extent [0]);
 		}
 	}
-	for (file = 0; file &lt; SIZEOF (fd); file++) 
-	{
-		close (fd [file]);
-	}
+	close (fd [0]);
+	close (fd [1]);
 	return;
 }
 
@@ -332,9 +335,6 @@ static void function (char const * filename [], flag_t flags)
  *   int main (int argc, char const * argv []);
  *   
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 

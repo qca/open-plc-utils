@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -35,9 +35,6 @@
  *   the file is read; the errors that can occur are non-hex digits
  *   and odd number of hex digits;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 
@@ -128,9 +125,6 @@ static const struct _term_ protocols [] =
  *   as raw ethernet frames; wait for a response if CHANNEL_LISTEN
  *   flagword bit is set;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 
@@ -172,9 +166,6 @@ static void function (struct channel * channel, void * memory, ssize_t extent)
  *   void iterate (int argc, char const * argv [], void * memory, ssize_t extent, unsigned pause);
  *
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 
@@ -209,9 +200,6 @@ static void iterate (int argc, char const * argv [], struct channel * channel, u
  *   int main (int argc, char const * argv []);
  *
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 
@@ -240,7 +228,7 @@ int main (int argc, char const * argv [])
 
 		"l n\trepeat file sequence (n) times [" LITERAL (EFSU_LOOP) "]",
 		"p n\twait (n) seconds between files [" LITERAL (EFSU_PAUSE) "]",
-		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
 		"v\tverbose messages",
 		"w n\twait (n) seconds between loops [" LITERAL (EFSU_DELAY) "]",
 		(char const *) (0)
@@ -306,7 +294,7 @@ int main (int argc, char const * argv [])
 			_setbits (channel.flags, CHANNEL_SILENCE);
 			break;
 		case 't':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

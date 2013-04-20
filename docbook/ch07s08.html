@@ -89,7 +89,7 @@
 			Print an <acronym class="acronym">XML</acronym> schema that supports function <a class="link" href="ch07s08.html#nodes-xmledit" title="xmledit">xmledit</a> on stdout. This function has no argument. The schema produced by this function is guaranteed to support the parse logic implemented by function <a class="link" href="ch07s08.html#nodes-xmledit" title="xmledit">xmledit</a>. Scheme element names are defined as constants in <a class="ulink" href="nodes.h.html" target="_top">nodes.h</a> so that they can be referenced by applications that create their own <acronym class="acronym">XML</acronym> edit instructions. The function is declared in <a class="ulink" href="nodes.h.html" target="_top">nodes.h</a> and defined in <a class="ulink" href="xmlschema.c.html" target="_top">xmlschema.c</a>.
 			</p><p>
 			The <code class="varname">text</code> member in the parse tree root node points to memory allocated by <a class="link" href="ch07s08.html#nodes-xmlscan" title="xmlscan">xmlscan </a> to store the original <acronym class="acronym">XML</acronym> string. The application must either deallocate that memory before calling this function or store the text address and deallocate that memory after calling this function;  otherwise, memory leaks will result. 
-			</p><div class="example"><a name="id2632266"></a><p class="title"><b>Example 7.5. 
+			</p><div class="example"><a name="id2632741"></a><p class="title"><b>Example 7.5. 
 				XML Edit Schema
 				</b></p><div class="example-contents"><pre class="screen">
 &lt;?xml version='1.0' encoding='UTF-8'?&gt;

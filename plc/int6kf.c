@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -29,22 +29,6 @@
  *   anyone can run it; the program will refuse to run until you get
  *   things right;
  *   
- *   This software and documentation is the property of Atheros 
- *   Corporation, Ocala, Florida. It is provided 'as is' without 
- *   expressed or implied warranty of any kind to anyone for any 
- *   reason. Atheros assumes no responsibility or liability for 
- *   errors or omissions in the software or documentation and 
- *   reserves the right to make changes without notification. 
- *   
- *   Atheros customers may modify and distribute the software 
- *   without obligation to Atheros. Since use of this software 
- *   is optional, users shall bear sole responsibility and 
- *   liability for any consequences of it's use. 
- *   
- *.  Atheros Powerline Toolkit for HomePlug AV; 
- *:  Published 2007 by Intellon Corp. ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
- *
  *   Contributor(s):
  *      Charles Maier <charles.maier@atheros.com>
  *
@@ -173,10 +157,6 @@
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
  *   
- *.  Atheros Powerline Toolkit for HomePlug AV; 
- *:  Published 2007 by Intellon Corp. ALL RIGHTS RESERVED;
- *;  For demonstration; Not for production use;
- *
  *--------------------------------------------------------------------*/
 
 int main (int argc, const char * argv []) 
@@ -322,7 +302,7 @@ int main (int argc, const char * argv [])
 			_setbits (plc.flags, PLC_SILENCE);
 			break;
 		case 't':
-			channel.timer = (unsigned)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (unsigned)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

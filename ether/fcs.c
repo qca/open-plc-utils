@@ -1,16 +1,13 @@
-/*
- *   Copyright (c) 2010-2012 Qualcomm Atheros Incorporated.
- *   All Rights Reserved.
- *   Qualcomm Proprietary and Confidential.
- *   Notifications and licenses are retained for attribution purposes only.
- */
-
 /*====================================================================*
  *
  *   fcs.c - ethernet frame check sequence functions
  *
+ *   see http://www.csm.ornl.gov/~dunigan/crc.html for an explanation
+ *   of the CRC-32 algorithm reportedly used by PKZip, Ethernet, FDDI
+ *   and other popular protocols for error detection;
+ *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *   Copyright 2001-2006 by Charles Maier Associates;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
@@ -297,7 +294,7 @@ static uint32_t CRCTable [256] =
  *   return the bitwise mirror image of an integer value;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *   Copyright 2001-2006 by Charles Maier Associates;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
@@ -331,7 +328,7 @@ static uint32_t ReflectBits (uint32_t value, uint32_t bits)
  *   only needed to populate an empty CRCTable;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *   Copyright 2001-2006 by Charles Maier Associates;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
@@ -366,7 +363,7 @@ static void InitCRCTable (uint32_t CRCTable [])
  *
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *   Copyright 2001-2006 by Charles Maier Associates;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
@@ -391,7 +388,7 @@ uint32_t ComputeCRC (uint8_t buffer [], uint32_t length)
  *
  * 
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *   Copyright 2001-2006 by Charles Maier Associates;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
@@ -409,7 +406,7 @@ int VerifyCRC (uint8_t buffer [], uint32_t length, uint32_t crc)
  *   
  *   
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
- *   Copyright 2001-2006 by Charles Maier Associates;
+ *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/

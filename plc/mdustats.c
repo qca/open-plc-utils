@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011, Atheros Communications Inc.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -22,9 +22,6 @@
  *
  *   mdustats.c - 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -134,9 +131,6 @@
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 
@@ -164,7 +158,7 @@ int main (int argc, char const * argv [])
 		"e\tredirect stderr to stdout",
 		"q\tquiet mode",
 		"s n\tsession identifier [" LITERAL (MDUSTATS_SESSION) "]",
-		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
 		"u n\tslave unit number [" LITERAL (MDUSTATS_SLAVE) "]",
 		"v\tverbose mode",
 		(char const *) (0)
@@ -222,7 +216,7 @@ int main (int argc, char const * argv [])
 			session = (uint8_t)(uintspec (optarg, 0, 255));
 			break;
 		case 't':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'u':
 			slave = (uint8_t)(uintspec (optarg, 0, 255));

@@ -6,7 +6,7 @@
 			Antiphon.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='Motley Tools 1.8.2'/>
+		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -20,7 +20,7 @@
 <pre>
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -49,9 +49,6 @@
  *   PHY rate and target device TX PHY rate; this does not work if
  *   the source device is also the local device, for some reason; 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier &lt;cmaier@qualcomm.com&gt;
@@ -71,7 +68,6 @@
 signed Antiphon (struct plc * plc, byte source [], byte target []) 
 
 {
-	extern byte const broadcast [ETHER_ADDR_LEN];
 	struct channel * channel = (struct channel *)(plc-&gt;channel);
 	struct message * message = (struct message *)(plc-&gt;message);
 
@@ -103,8 +99,8 @@ signed Antiphon (struct plc * plc, byte source [], byte target [])
 		fprintf (stderr, &quot;%s %s %s\n&quot;, channel-&gt;ifname, sourcename, targetname);
 	}
 	memset (message, 0, sizeof (* message));
-	EthernetHeader (&amp;message-&gt;ethernet, source, target, channel-&gt;type);
-	QualcommHeader (&amp;message-&gt;qualcomm, 0, (VS_FR_LBK | MMTYPE_REQ));
+	EthernetHeader (&amp;request-&gt;ethernet, source, target, channel-&gt;type);
+	QualcommHeader (&amp;request-&gt;qualcomm, 0, 41036);
 	request-&gt;DURATION = plc-&gt;timer;
 	request-&gt;LENGTH = HTOLE16 (sizeof (request-&gt;PACKET));
 	memset (request-&gt;PACKET, 0xA5, sizeof (request-&gt;PACKET));
@@ -118,13 +114,13 @@ signed Antiphon (struct plc * plc, byte source [], byte target [])
 #if 0
 
 /*
- *	This causes a multi-device session to terminate of the device has recently
+ *	This causes a multi-device session to terminate if the device has recently
  *	been removed or powered-off; The device appears to be present but will not
- *	respond; Also, this terminate a session of the network is overloaded with
+ *	respond; Also, this terminates a session if the network is overloaded with
  *	traffic;
  */
 
-	if (ReadMME (plc, 0, (VS_FR_LBK | MMTYPE_CNF)) &lt;= 0) 
+	if (ReadMME (plc, 0, 41037) &lt;= 0) 
 	{
 		error (1, errno, CHANNEL_CANTREAD);
 	}

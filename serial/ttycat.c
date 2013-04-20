@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -23,10 +23,6 @@
  *   ttycat.c - serial port test program;
  *
  *   write one or more files to a serial device;
- *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 
@@ -80,10 +76,6 @@
  *
  *   copy ifd to ofd using a buffer of specified size;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
- *
  *--------------------------------------------------------------------*/
 
 static signed copy (signed ifd, signed ofd, void * memory, signed extent) 
@@ -103,10 +95,6 @@ static signed copy (signed ifd, signed ofd, void * memory, signed extent)
 /*====================================================================*
  *
  *   int main (int argc, char const * argv []);
- *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 

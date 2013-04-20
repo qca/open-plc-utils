@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -58,7 +58,6 @@
 #define CHIPSET_QCA6411 0x21
 #define CHIPSET_QCA7000 0x22
 #define CHIPSET_QCA7000I 0x22
-#define CHIPSETS 12
 
 #define PLC_MODULE_SOFTLOADER           0x00
 #define PLC_MODULE_FIRMWARE             (1 << 0)
@@ -236,7 +235,7 @@ extern struct _term_ const devices [PLCDEVICES];
  *   character array address[] holds a decoded ethernet address for 
  *   display purposes because humans cannot read; 
  *
- *   byte array LMA[] holds the Intellon Local Broadcast Address 
+ *   byte array LMA[] holds the Qualcomm Local Broadcast Address 
  *   because it is used in so many places;
  *
  *   byte arrays NMK[] and DAK[] hold encryption keys used by some
@@ -440,7 +439,6 @@ signed WaitForReset (struct plc *, char buffer [], size_t length);
 signed WaitForStart (struct plc *, char buffer [], size_t length);
 signed WatchdogReport (struct plc *);
 signed WriteCFG (struct plc *);
-signed WriteExecuteApplet1 (struct plc *, unsigned module, const struct nvm_header1 *);
 signed WriteExecuteApplet2 (struct plc *, unsigned module, const struct nvm_header2 *);
 signed WriteExecuteFirmware (struct plc *, unsigned module, void const * nvm_header);
 signed WriteExecuteFirmware1 (struct plc *, unsigned module, const struct nvm_header1 *);
@@ -552,13 +550,6 @@ signed PLCReadParameterBlock (struct channel *, struct message *, void * memory,
 signed PLCReadFirmwareImage (struct channel *, struct message *, void * memory, size_t extent);
 signed PLCTopology (struct channel *, struct message *, struct plctopology *);
 signed PLCTopologyPrint (struct plctopology *);
-
-/*====================================================================*
- *   
- *--------------------------------------------------------------------*/
-
-ssize_t sendmessage (struct channel *, struct message *, ssize_t length);
-ssize_t readmessage (struct channel *, struct message *, uint8_t MMV, uint16_t MMTYPE);
 
 /*====================================================================*
  *   vs_module_spec message;

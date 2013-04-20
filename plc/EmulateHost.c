@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -25,12 +25,8 @@
  *   plc.h
  *
  *   wait indefinitely for VS_HOST_ACTION messages; service requests
- *   as they arrive; this function is for demonstration and testing
  *   only; it stops dead - like a bug! - on error;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -103,14 +99,14 @@ signed EmulateHost (struct plc * plc)
 	uint32_t offset;
 	char const * PIB = plc->PIB.name;
 	char const * NVM = plc->NVM.name;
-	signed timer = channel->timer;
+	signed timer = channel->timeout;
 	signed status = 0;
 	Request (plc, "Waiting for Host Action");
 	while (1) 
 	{
-		channel->timer = plc->timer;
+		channel->timeout = plc->timer;
 		status = ReadMME (plc, 0, (VS_HOST_ACTION | MMTYPE_IND));
-		channel->timer = timer;
+		channel->timeout = timer;
 		if (status < 0) 
 		{
 			break;
@@ -128,7 +124,7 @@ signed EmulateHost (struct plc * plc)
 				continue;
 			}
 			memcpy (channel->peer, indicate->ethernet.OSA, sizeof (channel->peer));
-			channel->timer = timer;
+			channel->timeout = timer;
 			if (indicate->MACTION == 0x00) 
 			{
 				unsigned module = 0;

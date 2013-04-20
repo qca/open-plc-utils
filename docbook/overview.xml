@@ -7,7 +7,10 @@
 			Introduction 
 			</title>
 		<para>
-			 Qualcomm Atheros provides the <application>Open Powerline Toolkit</application> free of charge to their customers. The toolkit contains C Language source code and <productname>GNU</productname> makefiles to compile many useful programs. It also includes Linux shell scripts that use these programs, in various ways, to interrogate, control and manage Qualcomm Atheros <productname>INT6000</productname>, <productname>INT6300</productname>, <productname>INT6400</productname>, <productname>AR7400</productname> and later powerline devices. Qualcomm Atheros also provides a similar, but less extensive, toolkit for <productname>INT5500</productname> powerline devices.
+			 The <application>Open Powerline Toolkit</application> (vanilla version) may be downloaded from <ulink utl="https://github.com/qca/open-plc-utils.git">https://github.com/qca/open-plc-utils.git</ulink> by any interested party. An advanced version (chocolate version) may be downloaded from the Qualcomm Atheros Customer FTP site by parties having permission to do so. The chocolate version includes special programs that perform advanced engineering, production and maintenance tasks. Within this document, we refer to both versions, collectively, as <quote>the toolkit</quote>.
+			</para>
+		<para>
+			The toolkit contains C Language source code and <productname>GNU</productname> makefiles to compile many useful programs. It also includes Linux shell scripts that use these programs, in various ways, to interrogate, control and manage Qualcomm Atheros <productname>INT6000</productname>, <productname>INT6300</productname>, <productname>INT6400</productname>, <productname>AR7400</productname> and later powerline devices. Qualcomm Atheros also provides a similar, but less extensive, toolkit for <productname>INT5500</productname> powerline devices.
 			</para>
 		<para>
 			The toolkit is intended for hardware engineers, verification engineers, field engineers and embedded software developers, consequently, programs are simple and compact. It is not intended for computer novices or retail users. Many customers embed a subset of toolkit programs in products for troubleshooting purposes.

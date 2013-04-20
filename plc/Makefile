@@ -47,7 +47,7 @@ fresh: clean compile
 clean:
 	rm -f ${TRASH} ${TOOLS}
 ignore:
-	echo ${TOOLS} | sed "s/ /\n/g" > .gitignore
+	echo ${TOOLS} | tr ' ' '\n' > .gitignore
 
 # ====================================================================
 # programs;     

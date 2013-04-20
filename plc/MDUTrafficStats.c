@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -24,12 +24,6 @@
  *   
  *   plc.h
  * 
- *   See the Atheros HomePlug AV Firmware Technical Reference Manual
- *   for more information;
- *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -245,9 +239,6 @@ class_counters;
  *   be one or more such functions depending on the audience; this
  *   output was designed by the Product Verification Team in Ocala;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 
@@ -279,9 +270,6 @@ static void StationStats (struct plc * plc, struct station_stats * stats)
  *
  *   void EthernetStats (struct plc * plc, struct ethernet_stats * stats);
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 
@@ -296,9 +284,6 @@ static void EthernetStats (struct plc * plc, struct ethernet_stats * stats)
  *
  *   void ClassificationCounters (struct plc * plc, struct class_counters * counters);
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 
@@ -321,9 +306,6 @@ static void ClassificationCounters (struct plc * plc, struct class_counters * co
  *   request type; different types of confirmations are returned
  *   depending on the type of request;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 

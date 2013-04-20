@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -30,9 +30,6 @@
  *   array vs_module_spec contains information about each module in
  *   this session;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 
@@ -100,7 +97,7 @@ signed ModuleSession (struct plc * plc, unsigned modules, struct vs_module_spec 
 #pragma pack (pop)
 #endif
 
-	unsigned timer = channel->timer;
+	unsigned timer = channel->timeout;
 	struct vs_module_spec * request_spec = (struct vs_module_spec *)(&request->MOD_OP_SPEC);
 	Request (plc, "Start Module Write Session");
 	memset (message, 0, sizeof (* message));
@@ -126,14 +123,14 @@ signed ModuleSession (struct plc * plc, unsigned modules, struct vs_module_spec 
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	channel->timer = PLC_MODULE_REQUEST_TIMEOUT;
+	channel->timeout = PLC_MODULE_REQUEST_TIMEOUT;
 	if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0) 
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
-		channel->timer = timer;
+		channel->timeout = timer;
 		return (-1);
 	}
-	channel->timer = timer;
+	channel->timeout = timer;
 	if (confirm->MSTATUS) 
 	{
 		Failure (plc, PLC_WONTDOIT);

@@ -1,6 +1,6 @@
 /*===============>====================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -22,9 +22,6 @@
  *
  *   modpib.c - 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -112,9 +109,6 @@
  *   this function assumes that the file is open and positioned to
  *   the start of the parameter block;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *	Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
@@ -229,9 +223,6 @@ static signed pibimage1 (struct _file_ * file, simple_pib * sample_pib, signed l
  * 
  *   modify selected PIB header values but do not compute a checksum;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -335,9 +326,6 @@ static signed pibimage2 (struct _file_ * file, simple_pib * sample_pib, signed l
  *   signed pibchain2 (struct _file_ * file, simple_pib * sample_pib, signed level, flag_t flags);
  *
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -418,9 +406,6 @@ static signed pibchain2 (struct _file_ * file, simple_pib * sample_pib, signed l
  *   signed function (char const * filename, struct simple_pib * simple_pib, unsigned level, flag_t flags);
  *
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qualcomm.com>
@@ -471,9 +456,6 @@ static signed function (char const * filename, struct simple_pib * sample_pib, u
  *   
  *   int main (int argc, char const * argv []) 
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *;  For demonstration and evaluation only. Not for production use.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *--------------------------------------------------------------------*/
 

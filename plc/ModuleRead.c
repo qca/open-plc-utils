@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -27,9 +27,6 @@
  *   Read a module from volatile or non-volatile memory and write it
  *   to file;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -105,7 +102,7 @@ signed ModuleRead (struct plc * plc, struct _file_ * file, uint16_t source, uint
 #pragma pack (pop)
 #endif
 
-	unsigned timer = channel->timer;
+	unsigned timer = channel->timeout;
 	uint16_t length = PLC_MODULE_SIZE;
 	uint32_t offset = 0;
 	Request (plc, "Read Module from %s", source? "Flash": "Memory");
@@ -153,13 +150,13 @@ signed ModuleRead (struct plc * plc, struct _file_ * file, uint16_t source, uint
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		channel->timer = PLC_MODULE_READ_TIMEOUT;
+		channel->timeout = PLC_MODULE_READ_TIMEOUT;
 		if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0) 
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
-		channel->timer = timer;
+		channel->timeout = timer;
 
 #if 0
 #if defined (__GNUC__)

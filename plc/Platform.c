@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -24,9 +24,6 @@
  *   
  *   plc.h
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -57,6 +54,12 @@ signed Platform (struct channel * channel, const uint8_t device [])
 #pragma pack (push,1)
 #endif
 
+	struct __packed vs_sw_ver_request 
+	{
+		struct ethernet_std ethernet;
+		struct qualcomm_std qualcomm;
+	}
+	* request = (struct vs_sw_ver_request *) (&message);
 	struct __packed vs_sw_ver_confirm 
 	{
 		struct ethernet_std ethernet;
@@ -73,8 +76,8 @@ signed Platform (struct channel * channel, const uint8_t device [])
 #endif
 
 	memset (&message, 0, sizeof (message));
-	EthernetHeader (&message.ethernet, device, channel->host, channel->type);
-	QualcommHeader (&message.qualcomm, 0, (VS_SW_VER | MMTYPE_REQ));
+	EthernetHeader (&request->ethernet, device, channel->host, channel->type);
+	QualcommHeader (&request->qualcomm, 0, (VS_SW_VER | MMTYPE_REQ));
 	if (sendpacket (channel, &message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) > 0) 
 	{
 		while ((packetsize = readpacket (channel, &message, sizeof (message))) > 0) 

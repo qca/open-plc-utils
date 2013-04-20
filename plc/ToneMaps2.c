@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -24,9 +24,6 @@
  *
  *   amp.h
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -153,7 +150,7 @@ signed ToneMaps2 (struct plc * plc)
 	{
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
-		FragmentHeader (&request->qualcomm, 1, (VS_TONE_MAP_CHAR | MMTYPE_REQ));
+		QualcommHeader1 (&request->qualcomm, 1, (VS_TONE_MAP_CHAR | MMTYPE_REQ));
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		memcpy (request->MACADDRESS, plc->RDA, sizeof (request->MACADDRESS));
 		request->TMSLOT = slot;

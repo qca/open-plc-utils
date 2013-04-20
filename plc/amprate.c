@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -22,9 +22,6 @@
  *
  *   amprate.c - 
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit.
- *:  Published 2010-2012 by Qualcomm Atheros. ALL RIGHTS RESERVED.
- *;  For demonstration and evaluation only. Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qualcomm.com>
@@ -112,7 +109,7 @@
 #include "../mme/EthernetHeader.c"
 #include "../mme/EthernetHeader.c"
 #include "../mme/QualcommHeader.c"
-#include "../mme/FragmentHeader.c"
+#include "../mme/QualcommHeader1.c"
 #include "../mme/UnwantedMessage.c"
 #include "../mme/MMECode.c"
 #endif
@@ -135,9 +132,6 @@
  *   shown here; the entire operation sequence can be repeated with
  *   an optional pause between each iteration;
  * 
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 
@@ -201,9 +195,6 @@ void manager (struct plc * plc, signed count, signed pause)
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
  *   
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Published 2009-2011 by Qualcomm Atheros. ALL RIGHTS RESERVED
- *;  For demonstration and evaluation only. Not for production use
  *
  *--------------------------------------------------------------------*/
 
@@ -233,7 +224,7 @@ int main (int argc, char const * argv [])
 		"l n\tloop (n) times [" LITERAL (AMPRATE_LOOP) "]",
 		"n\tnetwork TX/RX information",
 		"N\tnetwork RX only information",
-		"o n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMER) "]",
+		"o n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
 		"q\tquiet mode",
 		"r\trequest device information",
 		"R\treset device with VS_RS_DEV",
@@ -302,7 +293,7 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_RXONLY);
 			break;
 		case 'o':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'q':
 			_setbits (plc.flags, PLC_SILENCE);
