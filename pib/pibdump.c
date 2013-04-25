@@ -162,6 +162,10 @@ static void pibdump (char const * filename, flag_t flags)
 			}
 			continue;
 		}
+		if (c == '+')
+		{
+			do { c = getc (stdin); } while (isblank (c));
+		}
 		length = 0;
 		while (isdigit (c)) 
 		{
