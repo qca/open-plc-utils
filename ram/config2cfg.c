@@ -23,7 +23,7 @@
  *   config2cfg.c - convert a .config file to a .cfg file;
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 

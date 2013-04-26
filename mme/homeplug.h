@@ -27,8 +27,8 @@
  *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s): 
- *	Charles Maier <cmaier@qualcomm.com>
- *	Alex Vasquez <alex.vasquez@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Alex Vasquez <alex.vasquez@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 

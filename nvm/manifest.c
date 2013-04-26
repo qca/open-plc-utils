@@ -26,7 +26,7 @@
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -116,7 +116,7 @@ static char const * nvm_chains [] =
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -149,7 +149,7 @@ static char * myitoa (unsigned number, char buffer [], size_t length)
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 

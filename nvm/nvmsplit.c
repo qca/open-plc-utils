@@ -24,7 +24,7 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qualcomm.com>
+ *      Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -70,7 +70,7 @@
  *
  *   
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -185,7 +185,7 @@ static void function1 (char const * filename, flag_t flags)
  *
  *   
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -305,7 +305,7 @@ static void function2 (char const * filename, flag_t flags)
  *
  *   
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -341,7 +341,7 @@ static void function (char const * filename, flag_t flags)
  *   
  *   
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 

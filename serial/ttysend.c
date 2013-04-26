@@ -23,7 +23,7 @@
  *   ttysend.c
  *
  *   Contributor(s):
- *	Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
+ *	Nathaniel Houghton <nathaniel.houghton@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 

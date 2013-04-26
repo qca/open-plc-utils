@@ -24,8 +24,8 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qualcomm.com>
- *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
+ *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Nathaniel Houghton <nathaniel.houghton@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -94,7 +94,7 @@
  *
  *   
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -124,7 +124,7 @@ static unsigned string2vector (char ** vector, char * string, char c)
  *
  *   
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -177,7 +177,7 @@ static void firmware (char const * filename, unsigned module, char const * memor
  *
  *   
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -250,7 +250,7 @@ static signed nvmimage2 (void const * memory, size_t extent, char const * filena
  *
  *   
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -347,7 +347,7 @@ static signed nvmchain2 (void const * memory, size_t extent, char const * filena
  *
  *   
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -419,7 +419,7 @@ static signed chknvm (char const * filename, flag_t flags)
  *
  *   
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 

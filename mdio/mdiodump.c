@@ -23,9 +23,9 @@
  *   mdiodump.c - Atheros MDIO Custom Module Analyser
  *
  *   Contributor(s):
- *	Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
- *	Charles Maier <charles.maier@qualcomm.com>
- *	Marc Bertola <marc.bertola@qualcomm.com>
+ *	Nathaniel Houghton <nathaniel.houghton@qca.qualcomm.com>
+ *	Charles Maier <charles.maier@qca.qualcomm.com>
+ *	Marc Bertola <marc.bertola@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 

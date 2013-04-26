@@ -24,8 +24,8 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qualcomm.com>
- *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
+ *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Nathaniel Houghton <nathaniel.houghton@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -151,7 +151,7 @@ static struct _code_ const formats [] =
  *   
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qualcomm.com>
+ *      Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -236,7 +236,7 @@ static signed PrintRawWatchdogReport (struct plc * plc)
  *   
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qualcomm.com>
+ *      Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -333,8 +333,8 @@ static signed PrintWatchdogReport (struct plc * plc, char const * version)
  *   
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qualcomm.com>
- *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
+ *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Nathaniel Houghton <nathaniel.houghton@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 

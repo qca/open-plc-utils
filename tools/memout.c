@@ -20,7 +20,7 @@
  *   Licensed under the Internet Software Consortium License;
  *
  *   Contributor(s):
- *	Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
+ *	Nathaniel Houghton <nathaniel.houghton@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
