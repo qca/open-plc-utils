@@ -30,7 +30,7 @@
  *   several program like int6k, int6kf and int6khost;
  *   
  *   Contributor(s):
- *      Charles Maier <charles.maier@atheros.com>
+ *      Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 

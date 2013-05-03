@@ -25,7 +25,7 @@
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
- *      Nathaniel Houghton <nathaniel.houghton@qca.qualcomm.com>
+ *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -334,7 +334,7 @@ static signed PrintWatchdogReport (struct plc * plc, char const * version)
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
- *      Nathaniel Houghton <nathaniel.houghton@qca.qualcomm.com>
+ *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 

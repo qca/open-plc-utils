@@ -32,7 +32,7 @@
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
- *      Alex Vasquez <alex.vasquez@qca.qualcomm.com>
+ *      Alex Vasquez <avasquez@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 

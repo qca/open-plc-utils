@@ -36,7 +36,7 @@
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
- *      Nathaniel Houghton <nathaniel.houghton@qca.qualcomm.com>
+ *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
  *	Florian Fainelli <f.fainelli@gmail.com>
  *
  *--------------------------------------------------------------------*/
