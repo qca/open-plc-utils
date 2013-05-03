@@ -142,9 +142,6 @@ gcc -Wall -Wextra -Wno-unused-parameter -c Traffic1.c
 gcc -Wall -Wextra -Wno-unused-parameter -c Traffic2.c 
 gcc -Wall -Wextra -Wno-unused-parameter -c VersionInfo1.c
 gcc -Wall -Wextra -Wno-unused-parameter -c VersionInfo2.c
-gcc -Wall -Wextra -Wno-unused-parameter -c WaitForAssoc.c 
-gcc -Wall -Wextra -Wno-unused-parameter -c WaitForAssoc1.c 
-gcc -Wall -Wextra -Wno-unused-parameter -c WaitForAssoc2.c 
 gcc -Wall -Wextra -Wno-unused-parameter -c WaitForReset.c
 gcc -Wall -Wextra -Wno-unused-parameter -c WaitForStart.c
 gcc -Wall -Wextra -Wno-unused-parameter -c WatchdogReport.c
