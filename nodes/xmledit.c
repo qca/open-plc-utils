@@ -71,11 +71,11 @@ static void position (size_t extent)
 	}
 	if (offset > extent) 
 	{
-		error (XML_BAD_OFFSET, EPERM, "%s offset of 0x%04X exceeds " DATA_OBJECT " offset of 0x%04X", member, offset, extent);
+		error (XML_BAD_OFFSET, EPERM, "%s offset of 0x%04X exceeds " DATA_OBJECT " offset of 0x%04X", member, offset, (unsigned int) extent);
 	}
 	if ((offset + length) > extent) 
 	{
-		error (XML_BAD_EXTENT, EPERM, "%s length of %d bytes exceeds " DATA_OBJECT " length of %d bytes", member, length, extent);
+		error (XML_BAD_EXTENT, EPERM, "%s length of %d bytes exceeds " DATA_OBJECT " length of "SIZE_T_SPEC" bytes", member, length, extent);
 	}
 	return;
 }

@@ -37,6 +37,7 @@
 #include <limits.h>
 #include <string.h>
 #include <ctype.h>
+#include <inttypes.h>
 
 /*====================================================================*
  *   custom header files;
@@ -174,7 +175,7 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			{
 				error (1, ECANCELED, "%s exceeds PIB extent " SIZE_T_SPEC, object, extent);
 			}
-			printf ("%llu", LE64TOH (* number));
+			printf ("%" PRIu64, LE64TOH (* number));
 			memory += sizeof (* number);
 			extent -= sizeof (* number);
 		}
@@ -221,7 +222,7 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			{
 				error (1, ECANCELED, "%s exceeds PIB extent " SIZE_T_SPEC, object, extent);
 			}
-			printf ("0x%016LX", LE64TOH (* number));
+			printf ("0x%016" PRIX64, LE64TOH (* number));
 			memory += sizeof (* number);
 			extent -= sizeof (* number);
 		}
@@ -435,7 +436,7 @@ int main (int argc, char const * argv [])
 	offset = (uint32_t)(basespec (* argv, 16, sizeof (uint32_t)));
 	if (offset > extent) 
 	{
-		error (1, ECANCELED, "PIB offset " SIZE_T_SPEC " exceeds PIB extent " SIZE_T_SPEC, offset, extent);
+		error (1, ECANCELED, "PIB offset " SIZE_T_SPEC " exceeds PIB extent " SIZE_T_SPEC, (size_t) offset, (size_t) extent);
 	}
 	argc--;
 	argv++;

@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <errno.h>
+#include <inttypes.h>
 
 #include "../tools/number.h"
 #include "../tools/error.h"
@@ -65,7 +66,7 @@ uint64_t uintspec (char const * string, uint64_t minimum, uint64_t maximum)
 
 #else
 
-		error (1, ERANGE, "Have %s but want %lld thru %lld", string, minimum, maximum);
+		error (1, ERANGE, "Have %s but want %"PRId64" thru %"PRId64, string, minimum, maximum);
 
 #endif
 
