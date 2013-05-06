@@ -33,7 +33,7 @@ manuals:
 	install -m ${MAN_PERM} -o ${OWNER} -g ${GROUP} ${PAGES} ${MAN}
 library:
 	install -m ${DIR_PERM} -o ${OWNER} -g ${GROUP} -d ${BIN}
-install: compile library
+install: $(TOOLS) library
 	install -m ${BIN_PERM} -o ${OWNER} -g ${GROUP} ${TOOLS} ${BIN}
 uninstall:
 	cd ${BIN}; rm -f ${TOOLS} 

@@ -31,7 +31,7 @@ library:
 scripts:
 manuals:
 	install -m ${MAN_PERM} -o ${OWNER} -g ${GROUP} ${PAGES} ${MAN}
-install: compile
+install: $(TOOLS)
 	install -m ${BIN_PERM} -o ${OWNER} -g ${GROUP} ${TOOLS} ${BIN}
 uninstall:
 	cd ${BIN}; rm -f ${TOOLS}

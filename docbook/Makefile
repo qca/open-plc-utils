@@ -33,7 +33,7 @@ manuals:
 scripts:
 library:
 	install -m ${DIR_PERM} -o ${OWNER} -g ${GROUP} -d ${LIBRARY}
-install: compile library
+install: $(TOOLS) library
 	if [ -d ${LIBRARY} ]; then install -m ${WWW_PERM} -o ${OWNER} -g ${GROUP} *.html *.css *.png ${LIBRARY}; fi
 uninstall:
 	rm -f ${LIBRARY}/*.c.html ${LIBRARY}/*.h.html ${LIBRARY}/*.7.html
