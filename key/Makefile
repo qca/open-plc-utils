@@ -13,8 +13,9 @@ include ../make.def
 
 CFLAGS+=
 LDFLAGS+=
-TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9]
-TOOLS=hpavkey hpavkeys rkey mac2pw mac2pwd libkeys.a
+TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9] *.a
+TOOLS=hpavkey hpavkeys rkey mac2pw mac2pwd
+LIBS=libkeys.a
 FILES=*.c *.h *.sh *.xml *.txt *.mak Makefile Makefile.*
 PAGES=hpavkey.1 hpavkeys.1 rkey.1 mac2pw.1 mac2pwd.1
 
@@ -22,7 +23,7 @@ PAGES=hpavkey.1 hpavkeys.1 rkey.1 mac2pw.1 mac2pwd.1
 # pseudo targets;
 # --------------------------------------------------------------------
 
-all compile: ${TOOLS}
+all compile: ${TOOLS} ${LIBS}
 compact: compile
 	if [ ! -z ${STRIP} ]; then ${STRIP} ${TOOLS}; fi
 	if [ -x /usr/local/bin/upx ]; then upx --best ${TOOLS}; fi
