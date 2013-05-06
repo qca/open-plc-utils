@@ -16,7 +16,7 @@ LDFLAGS+=
 TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9] *.test *-[0-9][0-9].nvm
 FILES=Makefile *.mak *.sh *.txt *.c *.h *.xml *.css
 TOOLS=chknvm chknvm2 nvmsplit nvmmerge
-PAGES=chknvm.7 chknvm2.7 nvmsplit.7 nvmmerge.7
+PAGES=chknvm.1 chknvm2.1 nvmsplit.1 nvmmerge.1
 
 # ====================================================================
 # pseudo targets;
@@ -31,7 +31,7 @@ manuals:
 	install -m ${MAN_PERM} -o ${OWNER} -g ${GROUP} ${PAGES} ${MAN}
 library:
 	install -m ${DIR_PERM} -o ${OWNER} -g ${GROUP} -d ${BIN}
-install: compile library
+install: $(TOOLS) library
 	install -m ${BIN_PERM} -o ${OWNER} -g ${GROUP} ${TOOLS} ${BIN}
 uninstall:
 	cd ${BIN}; rm -f ${TOOLS}

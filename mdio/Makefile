@@ -16,7 +16,7 @@ LDFLAGS+=
 TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9]
 FILES=Makefile *.mak *.sh *.c *.h 
 TOOLS=mdioblock mdioblock2 mdiodump mdiogen
-PAGES=mdioblock.7 mdioblock2.7 mdiodump.7
+PAGES=mdioblock.1 mdioblock2.1 mdiodump.1
 
 # ====================================================================
 # pseudo targets;
@@ -31,7 +31,7 @@ library:
 scripts:
 manuals:
 	install -m ${MAN_PERM} -o ${OWNER} -g ${GROUP} ${PAGES} ${MAN}
-install: compile library
+install: $(TOOLS) library
 	install -m ${SUID_PERM} -o ${OWNER} -g ${GROUP} ${TOOLS} ${BIN}
 uninstall:
 	cd ${BIN}; rm -f int6k ${TOOLS}

@@ -14,7 +14,7 @@ include ../make.def
 TRASH=t t.* *~ *.[0-9][0-9][0-9]
 FILES=*.c *.h *.mak Makefile Makefile.*
 TOOLS=
-PAGES=fdm.7
+PAGES=fdm.1
 
 # ====================================================================
 #
