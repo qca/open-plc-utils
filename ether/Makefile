@@ -16,7 +16,7 @@ LDFLAGS+=
 TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9]
 FILES=Makefile *.mak *.sh *.c *.h 
 TOOLS=efbu efeu efru efsu edru edsu nics 
-PAGES=efbu.7 efeu.7 efru.7 efsu.7 edru.7 edsu.7 pcapdevs.7 nics.7
+PAGES=efbu.1 efeu.1 efru.1 efsu.1 edru.1 edsu.1 pcapdevs.1 nics.1
 
 # ====================================================================
 # pseudo targets;

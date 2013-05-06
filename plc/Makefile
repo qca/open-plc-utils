@@ -18,10 +18,10 @@ FILES=Makefile *.mak *.sh *.txt *.c
 TOOLS=int6k int6kboot int6keth int6kf int6khost int64host int6kid int6klist int6klog int6kmdio int6kmdio2 int6kmod int6kstat int6ktest int6krate int6krule int6ktone int6kwait CMEncrypt sada coqos_add coqos_info coqos_man coqos_mod coqos_rel mdustats
 TOOLS+=ampboot amphost ampID amplist amprate ampstat amptest amptool amptone ampwait
 TOOLS+=plcboot plchost plcID plclist plcrate plcrule plcstat plctest plctool plctone plcwait plchostd plcget plcset plcotst plcfwd plcdevs plclog plcmdio16 plcmdio32
-PAGES=plc.7
-PAGES+=int6k.7 int6kboot.7 int6keth.7 int6kid.7 int6kf.7 int6khost.7 int64host.7 int6klist.7 int6klog.7 int6kmdio.7 int6kmdio2.7 int6kmod.7 int6kstat.7 int6ktest.7 int6ktone.7 int6krate.7 int6krule.7 int6kwait.7 CMEncrypt.7 sada.7 coqos_add.7 coqos_info.7 coqos_man.7 coqos_mod.7 coqos_rel.7 mdustats.7
-PAGES+=ampboot.7 amphost.7 ampID.7 amplist.7 amprate.7 ampstat.7 amptest.7 amptool.7 amptone.7 ampwait.7
-PAGES+=plcboot.7 plchost.7 plcID.7 plclist.7 plcrate.7 plcrule.7 plcstat.7 plctest.7 plctool.7 plctone.7 plcwait.7 plchostd.7 plcget.7 plcset.7 plcotst.7 plcfwd.7 plcdevs.7 plclog.7 plcmdio16.7 plcmdio32.7 
+PAGES=plc.1
+PAGES+=int6k.1 int6kboot.1 int6keth.1 int6kid.1 int6kf.1 int6khost.1 int64host.1 int6klist.1 int6klog.1 int6kmdio.1 int6kmdio2.1 int6kmod.1 int6kstat.1 int6ktest.1 int6ktone.1 int6krate.1 int6krule.1 int6kwait.1 CMEncrypt.1 sada.1 coqos_add.1 coqos_info.1 coqos_man.1 coqos_mod.1 coqos_rel.1 mdustats.1
+PAGES+=ampboot.1 amphost.1 ampID.1 amplist.1 amprate.1 ampstat.1 amptest.1 amptool.1 amptone.1 ampwait.1
+PAGES+=plcboot.1 plchost.1 plcID.1 plclist.1 plcrate.1 plcrule.1 plcstat.1 plctest.1 plctool.1 plctone.1 plcwait.1 plchostd.1 plcget.1 plcset.1 plcotst.1 plcfwd.1 plcdevs.1 plclog.1 plcmdio16.1 plcmdio32.1 
 
 # ====================================================================
 # pseudo targets;

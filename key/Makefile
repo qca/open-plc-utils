@@ -16,7 +16,7 @@ LDFLAGS+=
 TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9]
 TOOLS=hpavkey hpavkeys rkey mac2pw mac2pwd libkeys.a
 FILES=*.c *.h *.sh *.xml *.txt *.mak Makefile Makefile.*
-PAGES=hpavkey.7 hpavkeys.7 rkey.7 mac2pw.7 mac2pwd.7
+PAGES=hpavkey.1 hpavkeys.1 rkey.1 mac2pw.1 mac2pwd.1
 
 # ====================================================================
 # pseudo targets;

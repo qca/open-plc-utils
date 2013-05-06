@@ -16,7 +16,7 @@ LDFLAGS+=
 TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9] *.test *-[0-9][0-9].nvm
 FILES=Makefile *.mak *.sh *.txt *.c *.h *.xml *.css
 TOOLS=chknvm chknvm2 nvmsplit nvmmerge
-PAGES=chknvm.7 chknvm2.7 nvmsplit.7 nvmmerge.7
+PAGES=chknvm.1 chknvm2.1 nvmsplit.1 nvmmerge.1
 
 # ====================================================================
 # pseudo targets;

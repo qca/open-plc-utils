@@ -17,7 +17,7 @@ XFLAGS=--skip-validation
 # symbols;
 # --------------------------------------------------------------------
 
-TRASH=*~ *.[0-9][0-9][0-9] t t.* *.7 *.7a *.1.html *.c.html *.cpp.html *.h.html *.hpp.html *.7.html *.7a.html *.sh.html *.xml.html *.xsd.html ch[0-9][0-9]*.html 
+TRASH=*~ *.[0-9][0-9][0-9] t t.* *.1 *.1a *.1.html *.c.html *.cpp.html *.h.html *.hpp.html *.1.html *.1a.html *.sh.html *.xml.html *.xsd.html ch[0-9][0-9]*.html 
 STYLES=param.xsl lists.xsl synop.xsl
 BOOKS=index.html 
 
@@ -36,7 +36,7 @@ library:
 install: $(TOOLS) library
 	if [ -d ${LIBRARY} ]; then install -m ${WWW_PERM} -o ${OWNER} -g ${GROUP} *.html *.css *.png ${LIBRARY}; fi
 uninstall:
-	rm -f ${LIBRARY}/*.c.html ${LIBRARY}/*.h.html ${LIBRARY}/*.7.html
+	rm -f ${LIBRARY}/*.c.html ${LIBRARY}/*.h.html ${LIBRARY}/*.1.html
 setup:
 	install ${STYLES} ${DOCBOOK}
 clean:

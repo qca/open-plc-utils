@@ -16,7 +16,7 @@ LDFLAGS+=
 TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9] *.out
 FILES=Makefile *.mak *.sh *.txt *.c *.h *.xml *.css
 TOOLS=hpav mme 
-PAGES=hpav.7 mme.7
+PAGES=hpav.1 mme.1
 
 # ====================================================================
 # pseudo targets;

@@ -16,7 +16,7 @@ LDFLAGS+=
 TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9]
 FILES=Makefile *.mak *.sh *.txt *.c *.h
 TOOLS=config2cfg sdram 
-PAGES=config2cfg.7 sdram.7
+PAGES=config2cfg.1 sdram.1
 
 # ====================================================================
 # pseudo targets;
