@@ -16,7 +16,7 @@ LDFLAGS+=
 TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9]
 FILES=Makefile *.mak *.sh *.txt *.c *.h 
 TOOLS=int6kuart int6kbaud ttysig ptsctl weeder ttysend ttyrecv ttycat int6kdetect 
-PAGES=int6kuart.7 int6kbaud.7 ttysig.7 ptsctl.7 weeder.7 ttycat.7 ttysend.7 ttyrecv.7 int6kdetect.7 
+PAGES=int6kuart.1 int6kbaud.1 ttysig.1 ptsctl.1 weeder.1 ttycat.1 ttysend.1 ttyrecv.1 int6kdetect.1
 
 # ====================================================================
 # pseudo targets;
@@ -31,7 +31,7 @@ library:
 scripts:
 manuals:
 	install -m ${MAN_PERM} -o ${OWNER} -g ${GROUP} ${PAGES} ${MAN}
-install: compile library
+install: $(TOOLS) library
 	install -m ${BIN_PERM} -o ${OWNER} -g ${GROUP} ${TOOLS} ${BIN}
 uninstall:
 	cd ${BIN}; rm -f int6k ${TOOLS}
