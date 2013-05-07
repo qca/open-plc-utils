@@ -6,7 +6,7 @@
 			amptone.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
+		<meta name='generator' content='motley-tools 1.8.2.14:14:37 May  1 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -44,7 +44,7 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *      Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
@@ -190,7 +190,7 @@ int main (int argc, char const * argv [])
 		&quot;p n\tcoupling [&quot; LITERAL (AMPTONE_COUPLING) &quot;]&quot;,
 		&quot;q\tquiet mode&quot;,
 		&quot;s\tcompute signal-to-noise and bits-per-carrier ratios&quot;,
-		&quot;t n\tread timeout is (n) milliseconds [&quot; LITERAL (CHANNEL_TIMER) &quot;]&quot;,
+		&quot;t n\tread timeout is (n) milliseconds [&quot; LITERAL (CHANNEL_TIMEOUT) &quot;]&quot;,
 		&quot;v\tverbose mode&quot;,
 		&quot;x\texit on error&quot;,
 		(char const *) (0)
@@ -251,7 +251,7 @@ int main (int argc, char const * argv [])
 			function = SignalToNoise2;
 			break;
 		case 't':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

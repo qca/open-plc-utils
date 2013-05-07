@@ -6,7 +6,7 @@
 			getpib.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
+		<meta name='generator' content='motley-tools 1.8.2.14:14:37 May  1 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -44,7 +44,7 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *      Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
@@ -57,6 +57,7 @@
 #include &lt;limits.h&gt;
 #include &lt;string.h&gt;
 #include &lt;ctype.h&gt;
+#include &lt;inttypes.h&gt;
 
 /*====================================================================*
  *   custom header files;
@@ -192,7 +193,7 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			{
 				error (1, ECANCELED, &quot;%s exceeds PIB extent &quot; SIZE_T_SPEC, object, extent);
 			}
-			printf (&quot;%llu&quot;, LE64TOH (* number));
+			printf (&quot;%&quot; PRIu64, LE64TOH (* number));
 			memory += sizeof (* number);
 			extent -= sizeof (* number);
 		}
@@ -239,7 +240,7 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			{
 				error (1, ECANCELED, &quot;%s exceeds PIB extent &quot; SIZE_T_SPEC, object, extent);
 			}
-			printf (&quot;0x%016LX&quot;, LE64TOH (* number));
+			printf (&quot;0x%016&quot; PRIX64, LE64TOH (* number));
 			memory += sizeof (* number);
 			extent -= sizeof (* number);
 		}
@@ -452,7 +453,7 @@ int main (int argc, char const * argv [])
 	offset = (uint32_t)(basespec (* argv, 16, sizeof (uint32_t)));
 	if (offset &gt; extent) 
 	{
-		error (1, ECANCELED, &quot;PIB offset &quot; SIZE_T_SPEC &quot; exceeds PIB extent &quot; SIZE_T_SPEC, offset, extent);
+		error (1, ECANCELED, &quot;PIB offset &quot; SIZE_T_SPEC &quot; exceeds PIB extent &quot; SIZE_T_SPEC, (size_t) offset, (size_t) extent);
 	}
 	argc--;
 	argv++;

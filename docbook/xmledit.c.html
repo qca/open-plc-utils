@@ -6,7 +6,7 @@
 			xmledit.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
+		<meta name='generator' content='motley-tools 1.8.2.14:14:37 May  1 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -91,11 +91,11 @@ static void position (size_t extent)
 	}
 	if (offset &gt; extent) 
 	{
-		error (XML_BAD_OFFSET, EPERM, &quot;%s offset of 0x%04X exceeds &quot; DATA_OBJECT &quot; offset of 0x%04X&quot;, member, offset, extent);
+		error (XML_BAD_OFFSET, EPERM, &quot;%s offset of 0x%04X exceeds &quot; DATA_OBJECT &quot; offset of 0x%04X&quot;, member, offset, (unsigned int) extent);
 	}
 	if ((offset + length) &gt; extent) 
 	{
-		error (XML_BAD_EXTENT, EPERM, &quot;%s length of %d bytes exceeds &quot; DATA_OBJECT &quot; length of %d bytes&quot;, member, length, extent);
+		error (XML_BAD_EXTENT, EPERM, &quot;%s length of %d bytes exceeds &quot; DATA_OBJECT &quot; length of &quot;SIZE_T_SPEC&quot; bytes&quot;, member, length, extent);
 	}
 	return;
 }

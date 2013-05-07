@@ -6,7 +6,7 @@
 			plcfwd.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
+		<meta name='generator' content='motley-tools 1.8.2.14:14:37 May  1 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -976,7 +976,7 @@ int main (int argc, char const * argv [])
 		&quot;q\tquiet mode&quot;,
 		&quot;R\tremove VLAN ID of multiple slaves from memory&quot;,
 		&quot;S n\tenable VLANID forwarding on all slaves&quot;,
-		&quot;t n\ttimeout is (n) millisecond [&quot; LITERAL (CHANNEL_TIMER) &quot;]&quot;,
+		&quot;t n\ttimeout is (n) millisecond [&quot; LITERAL (CHANNEL_TIMEOUT) &quot;]&quot;,
 		&quot;v\tverbose mode&quot;,
 		&quot;x\texit on error&quot;,
 		&quot;z s\tslavespec&quot;,
@@ -1056,7 +1056,7 @@ int main (int argc, char const * argv [])
 			plc.pushbutton = (uint8_t)(uintspec (synonym (optarg, states, STATES), 0, UCHAR_MAX));
 			break;
 		case 't':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

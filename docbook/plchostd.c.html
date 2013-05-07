@@ -6,7 +6,7 @@
 			plchostd.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
+		<meta name='generator' content='motley-tools 1.8.2.14:14:37 May  1 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -44,8 +44,8 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier &lt;cmaier@qualcomm.com&gt;
- *      Nathaniel Houghton &lt;nathaniel.houghton@qualcomm.com&gt;
+ *      Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
+ *      Nathaniel Houghton &lt;nhoughto@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
@@ -222,7 +222,7 @@ static bool done = false;
  *
  *
  *   Contributor(s):
- *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *      Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
@@ -240,7 +240,7 @@ static void terminate (signo_t signal)
  *
  *
  *   Contributor(s):
- *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *      Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
@@ -299,7 +299,7 @@ static signed opensocket (char const * socketname)
  *   
  *
  *   Contributor(s):
- *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *      Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
@@ -513,7 +513,7 @@ int main (int argc, char const * argv [])
 		&quot;q\tquiet mode&quot;,
 		&quot;s f\tbroadcast event status on socket (f) [&quot; SOCKETNAME &quot;]&quot;,
 		&quot;S f\tsoftloader file is (f)&quot;,
-		&quot;t n\tread timeout is (n) milliseconds [&quot; LITERAL (CHANNEL_TIMER) &quot;]&quot;,
+		&quot;t n\tread timeout is (n) milliseconds [&quot; LITERAL (CHANNEL_TIMEOUT) &quot;]&quot;,
 		&quot;v\tverbose mode&quot;,
 		&quot;w n\twakeup every (n) seconds [&quot; LITERAL (PLC_LONGTIME) &quot;]&quot;,
 		&quot;x\texit on error&quot;,
@@ -633,7 +633,7 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_FLASH_DEVICE);
 			break;
 		case 't':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			coqos.h
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='motley-tools 1.8.2.14:14:37 May  1 2013'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='config.h.html' title=' config.h '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='debug.h.html' title=' debug.h '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   coqos.h - Qualcomm Atheros Definitions and Declarations;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef COQOS_HEADER
+#define COQOS_HEADER
+
+/*====================================================================*
+ *   custom heder files;
+ *--------------------------------------------------------------------*/
+
+#include &quot;../plc/rules.h&quot;
+
+/*====================================================================*
+ *   network classification rule structure;
+ *--------------------------------------------------------------------*/
+
+#ifndef __GNUC__
+#pragma pack (push,1)
+#endif
+
+struct __packed connection 
+
+{
+	uint32_t REQ_ID;
+	uint32_t RSVD;
+	uint8_t APP_DA [6];
+	uint8_t RSVD2;
+	struct __packed 
+	{
+		uint8_t MOPERAND;
+		uint8_t NUM_CLASSIFIERS;
+		struct MMEClassifier CLASSIFIERS [RULE_MAX_CLASSIFIERS];
+	}
+	rule;
+	struct __packed 
+	{
+		uint16_t CSPEC_VERSION;
+		uint8_t CONN_CAP;
+		uint8_t CONN_COQOS_PRIO;
+		uint16_t CONN_RATE;
+		uint32_t CONN_TTL;
+	}
+	cspec;
+};
+
+struct __packed conn_info 
+
+{
+	uint8_t SNID;
+	uint16_t CID;
+	uint8_t STEI;
+	uint8_t DTEI;
+	uint8_t LLID;
+	uint8_t RSVD;
+	uint16_t CSPECVERSION;
+	uint8_t CONN_CAP;
+	uint8_t CONN_COQOS_PRIO;
+	uint16_t CONN_RATE;
+	uint32_t CONN_TTL;
+	uint16_t BW_USED;
+};
+
+#ifndef __GNUC__
+#pragma pack (pop)
+#endif
+
+/*====================================================================*
+ *
+ *--------------------------------------------------------------------*/
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='config.h.html' title=' config.h '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='debug.h.html' title=' debug.h '>NEXT</a>]
+			</div>
+		</body>
+	</html>

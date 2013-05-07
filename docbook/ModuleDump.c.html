@@ -6,7 +6,7 @@
 			ModuleDump.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
+		<meta name='generator' content='motley-tools 1.8.2.14:14:37 May  1 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -47,7 +47,7 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *      Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
@@ -119,7 +119,7 @@ signed ModuleDump (struct plc * plc, uint16_t source, uint16_t module, uint16_t 
 
 	unsigned offset = 0;
 	unsigned length = PLC_MODULE_SIZE;
-	unsigned timer = channel-&gt;timer;
+	unsigned timer = channel-&gt;timeout;
 	Request (plc, &quot;Read Module from Flash&quot;);
 	while (length == PLC_MODULE_SIZE) 
 	{
@@ -140,14 +140,14 @@ signed ModuleDump (struct plc * plc, uint16_t source, uint16_t module, uint16_t 
 			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		channel-&gt;timer = PLC_MODULE_READ_TIMEOUT;
+		channel-&gt;timeout = PLC_MODULE_READ_TIMEOUT;
 		if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) &lt;= 0) 
 		{
 			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
-			channel-&gt;timer = timer;
+			channel-&gt;timeout = timer;
 			return (-1);
 		}
-		channel-&gt;timer = timer;
+		channel-&gt;timeout = timer;
 		if (confirm-&gt;MSTATUS) 
 		{
 			Failure (plc, PLC_WONTDOIT);

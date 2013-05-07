@@ -6,7 +6,7 @@
 			mdiodump.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
+		<meta name='generator' content='motley-tools 1.8.2.14:14:37 May  1 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -43,9 +43,9 @@
  *   mdiodump.c - Atheros MDIO Custom Module Analyser
  *
  *   Contributor(s):
- *	Nathaniel Houghton &lt;nathaniel.houghton@qualcomm.com&gt;
- *	Charles Maier &lt;charles.maier@qualcomm.com&gt;
- *	Marc Bertola &lt;marc.bertola@qualcomm.com&gt;
+ *	Nathaniel Houghton &lt;nhoughto@qca.qualcomm.com&gt;
+ *	Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
+ *	Marc Bertola &lt;mbertola@qti.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
@@ -349,13 +349,13 @@ static void print_memmap (struct memmap * memmap)
 
 /*====================================================================*
  *
- *   void print_mdioblock (struct command *command);
+ *   void print_command (struct command *command);
  *
  * 
  *
  *--------------------------------------------------------------------*/
 
-static void print_mdioblock (struct command * command) 
+static void print_command (struct command * command) 
 
 {
 	union __packed 
@@ -571,17 +571,17 @@ static signed phy_generic (char const * filename, unsigned commands, flag_t flag
 			printf (&quot;Data: 0x%04x\n&quot;, command.data);
 			printf (&quot;Mask: 0x%04x\n&quot;, command.mask);
 			printf (&quot;\n&quot;);
+			continue;
 		}
 		if ((command.ctrl &amp; 0x0C) &gt;&gt; 2 == 0x01) 
 		{
 			if (_anyset (flags, MDIODUMP_SUMMARY)) 
 			{
 				write_phy_reg (&amp;memmap, (command.ctrl &amp; 0x1F0) &gt;&gt; 4, (command.ctrl &amp; 0x3E00) &gt;&gt; 9, command.data, command.mask);
+				continue;
 			}
-			else 
-			{
-				print_mdioblock (&amp;command);
-			}
+			print_command (&amp;command);
+			continue;
 		}
 	}
 	if (_anyset (flags, MDIODUMP_SUMMARY)) 
@@ -617,9 +617,9 @@ static signed function (char const * filename, unsigned phy_code, flag_t flags)
 	}
 	mdio_header = LE16TOH (mdio_header);
 	commands = (mdio_header &amp; 0xFFC0) &gt;&gt; 6;
+	printf (&quot;# ------- %s -------\n&quot;, filename);
 	if (_anyset (flags, MDIODUMP_SUMMARY)) 
 	{
-		printf (&quot;------- %s -------\n&quot;, filename);
 		printf (&quot;Enabled: %s\n&quot;, (mdio_header &amp; 0x0001)? &quot;yes&quot;: &quot;no&quot;);
 		printf (&quot;Number of Commands: %d\n&quot;, commands);
 	}

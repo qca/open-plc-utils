@@ -6,7 +6,7 @@
 			LinkStatistics.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
+		<meta name='generator' content='motley-tools 1.8.2.14:14:37 May  1 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -53,7 +53,7 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *      Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
@@ -62,6 +62,7 @@
 
 #include &lt;stdint.h&gt;
 #include &lt;memory.h&gt;
+#include &lt;inttypes.h&gt;
 
 #include &quot;../plc/plc.h&quot;
 #include &quot;../tools/memory.h&quot;
@@ -177,35 +178,12 @@ static void TransmitStatistics (struct transmit * transmit)
 
 {
 	printf (&quot;    TX&quot;);
-
-#if defined (WIN32)
-
-	printf (&quot; %20I64d&quot;, transmit-&gt;NUMTXPBS_PASS);
-	printf (&quot; %20I64d&quot;, transmit-&gt;NUMTXPBS_FAIL);
-
-#else
-
-	printf (&quot; %20lld&quot;, transmit-&gt;NUMTXPBS_PASS);
-	printf (&quot; %20lld&quot;, transmit-&gt;NUMTXPBS_FAIL);
-
-#endif
-
+	printf (&quot; %20&quot; PRId64, transmit-&gt;NUMTXPBS_PASS);
+	printf (&quot; %20&quot; PRId64, transmit-&gt;NUMTXPBS_FAIL);
 	printf (&quot; %6.2f%%&quot;, error_rate (transmit-&gt;NUMTXPBS_PASS, transmit-&gt;NUMTXPBS_FAIL));
-
-#if defined (WIN32)
-
-	printf (&quot; %20I64d&quot;, transmit-&gt;NUMTXMPDU_ACKD);
-	printf (&quot; %20i64d&quot;, transmit-&gt;NUMTXMPDU_FAIL);
-
-#else
-
-	printf (&quot; %20lld&quot;, transmit-&gt;NUMTXMPDU_ACKD);
-	printf (&quot; %20lld&quot;, transmit-&gt;NUMTXMPDU_FAIL);
-
-#endif
-
-// printf (&quot; %20lld&quot;, transmit-&gt;NUMTXMPDU_COLL);
-
+	printf (&quot; %20&quot; PRId64, transmit-&gt;NUMTXMPDU_ACKD);
+	printf (&quot; %20&quot; PRId64, transmit-&gt;NUMTXMPDU_FAIL);
+	printf (&quot; %20&quot; PRId64, transmit-&gt;NUMTXMPDU_COLL);
 	printf (&quot; %6.2f%%&quot;, error_rate (transmit-&gt;NUMTXMPDU_ACKD, transmit-&gt;NUMTXMPDU_FAIL));
 	printf (&quot;\n&quot;);
 	return;
@@ -223,11 +201,11 @@ static void ReceiveStatistics (struct receive * receive)
 
 {
 	printf (&quot;    RX&quot;);
-	printf (&quot; %20lld&quot;, receive-&gt;NUMRXPBS_PASS);
-	printf (&quot; %20lld&quot;, receive-&gt;NUMRXPBS_FAIL);
+	printf (&quot; %20&quot; PRId64, receive-&gt;NUMRXPBS_PASS);
+	printf (&quot; %20&quot; PRId64, receive-&gt;NUMRXPBS_FAIL);
 	printf (&quot; %6.2f%%&quot;, error_rate (receive-&gt;NUMRXPBS_PASS, receive-&gt;NUMRXPBS_FAIL));
-	printf (&quot; %20lld&quot;, receive-&gt;NUMRXMPDU_ACKD);
-	printf (&quot; %20lld&quot;, receive-&gt;NUMRXMPDU_FAIL);
+	printf (&quot; %20&quot; PRId64, receive-&gt;NUMRXMPDU_ACKD);
+	printf (&quot; %20&quot; PRId64, receive-&gt;NUMRXMPDU_FAIL);
 	printf (&quot; %6.2f%%&quot;, error_rate (receive-&gt;NUMRXMPDU_ACKD, receive-&gt;NUMRXMPDU_FAIL));
 	printf (&quot;\n&quot;);
 	return;
@@ -251,22 +229,22 @@ static void Receive2 (struct receive * receive)
 	{
 		printf (&quot; %1d&quot;, slot);
 		printf (&quot; %3d&quot;, interval-&gt;RXPHYRATE_MBPS_0);
-		printf (&quot; %20lld&quot;, interval-&gt;NUMRXPBS_PASS);
-		printf (&quot; %20lld&quot;, interval-&gt;NUMRXPBS_FAIL);
+		printf (&quot; %20&quot; PRId64, interval-&gt;NUMRXPBS_PASS);
+		printf (&quot; %20&quot; PRId64, interval-&gt;NUMRXPBS_FAIL);
 		printf (&quot; %6.2f%%&quot;, error_rate (interval-&gt;NUMRXPBS_PASS, interval-&gt;NUMRXPBS_FAIL));
-		printf (&quot; %20lld&quot;, interval-&gt;SUMTURBOBER_PASS);
-		printf (&quot; %20lld&quot;, interval-&gt;SUMTURBOBER_FAIL);
+		printf (&quot; %20&quot; PRId64, interval-&gt;SUMTURBOBER_PASS);
+		printf (&quot; %20&quot; PRId64, interval-&gt;SUMTURBOBER_FAIL);
 		printf (&quot; %6.2f%%&quot;, error_rate (interval-&gt;SUMTURBOBER_PASS, interval-&gt;SUMTURBOBER_FAIL));
 		printf (&quot;\n&quot;);
 		interval++;
 		slot++;
 	}
 	printf (&quot;   ALL&quot;);
-	printf (&quot; %20lld&quot;, receive-&gt;NUMRXPBS_PASS);
-	printf (&quot; %20lld&quot;, receive-&gt;NUMRXPBS_FAIL);
+	printf (&quot; %20&quot; PRId64, receive-&gt;NUMRXPBS_PASS);
+	printf (&quot; %20&quot; PRId64, receive-&gt;NUMRXPBS_FAIL);
 	printf (&quot; %6.2f%%&quot;, error_rate (receive-&gt;NUMRXPBS_PASS, receive-&gt;NUMRXPBS_FAIL));
-	printf (&quot; %20lld&quot;, receive-&gt;SUMTURBOBER_PASS);
-	printf (&quot; %20lld&quot;, receive-&gt;SUMTURBOBER_FAIL);
+	printf (&quot; %20&quot; PRId64, receive-&gt;SUMTURBOBER_PASS);
+	printf (&quot; %20&quot; PRId64, receive-&gt;SUMTURBOBER_FAIL);
 	printf (&quot; %6.2f%%&quot;, error_rate (receive-&gt;SUMTURBOBER_PASS, receive-&gt;SUMTURBOBER_FAIL));
 	printf (&quot; %6.2f%%&quot;, fec_bit_error_rate (receive));
 	printf (&quot;\n&quot;);

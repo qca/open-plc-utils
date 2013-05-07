@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			debug.h
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='motley-tools 1.8.2.14:14:37 May  1 2013'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='coqos.h.html' title=' coqos.h '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='endian.h.html' title=' endian.h '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *   
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
+ *   
+ *   Permission to use, copy, modify, and/or distribute this software 
+ *   for any purpose with or without fee is hereby granted, provided 
+ *   that the above copyright notice and this permission notice appear 
+ *   in all copies.
+ *   
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *   
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ * 
+ *   debug.h - Debugging Definitions and Declarations;
+ *
+ *   this file is a subset of the original that includes only those
+ *   definitions and declaration needed for toolkit programs;
+ *
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
+ *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
+ *;  For demonstration and evaluation only; Not for production use.
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef DEBUG_HEADER
+#define DEBUG_HEADER
+
+/*====================================================================*
+ *   constants;
+ *--------------------------------------------------------------------*/
+
+#define QUALCOMM_DEBUG 1
+#define QUALCOMM_TRACE 1
+
+/*====================================================================*
+ *   
+ *--------------------------------------------------------------------*/
+
+#if QUALCOMM_TRACE
+#define EVENT(s) printk(KERN_DEBUG &quot;---[ %s ]---\n&quot;, (s))
+#define ENTER printk(KERN_DEBUG &quot;--&gt;[ %s:%d ]\n&quot;, __func__,__LINE__)
+#define ABORT printk(KERN_DEBUG &quot;&lt;--( %s:%d )\n&quot;, __func__,__LINE__)
+#define LEAVE printk(KERN_DEBUG &quot;&lt;--[ %s:%d ]\n&quot;, __func__,__LINE__)
+#define CRUMB printk(KERN_DEBUG &quot;... %s:%d\n&quot;,__func__,__LINE__) 
+#else
+#define EVENT {}
+#define ENTER {}
+#define ABORT {}
+#define LEAVE {}
+#define CRUMB {}
+#endif
+
+/*====================================================================*
+ *   
+ *--------------------------------------------------------------------*/
+
+#if QUALCOMM_DEBUG
+#define address(e) if (!(e)) { printk (&quot;%s(%d): address %s is null\n&quot;,__func__,__LINE__,#e); }
+#define confirm(e) if (!(e)) { printk (&quot;%s(%d): assertion %s is wrong\n&quot;,__func__,__LINE__, #e); }
+#else
+#define address(e) {}
+#define confirm(e) {}
+#endif
+
+/*====================================================================*
+ *
+ *--------------------------------------------------------------------*/
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='coqos.h.html' title=' coqos.h '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='endian.h.html' title=' endian.h '>NEXT</a>]
+			</div>
+		</body>
+	</html>

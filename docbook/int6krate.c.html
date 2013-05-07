@@ -6,7 +6,7 @@
 			int6krate.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
+		<meta name='generator' content='motley-tools 1.8.2.14:14:37 May  1 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -44,7 +44,7 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *      Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
@@ -236,7 +236,7 @@ int main (int argc, char const * argv [])
 
 		&quot;l n\tloop (n) times [&quot; LITERAL (INT6KRATE_LOOP) &quot;]&quot;,
 		&quot;n\tnetwork TX/RX information&quot;,
-		&quot;o n\tread timeout is (n) milliseconds [&quot; LITERAL (CHANNEL_TIMER) &quot;]&quot;,
+		&quot;o n\tread timeout is (n) milliseconds [&quot; LITERAL (CHANNEL_TIMEOUT) &quot;]&quot;,
 		&quot;q\tquiet mode&quot;,
 		&quot;r\trequest device information&quot;,
 		&quot;R\treset device with VS_RS_DEV&quot;,
@@ -302,7 +302,7 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_NETWORK);
 			break;
 		case 'o':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'q':
 			_setbits (plc.flags, PLC_SILENCE);
