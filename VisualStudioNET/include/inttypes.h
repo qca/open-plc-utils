@@ -1,6 +1,6 @@
 /*====================================================================*
  *      
- *   Copyright (c) 2011 by Qualcomm Atheros.
+ *   Copyright (c) 2013 by Qualcomm Atheros.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -19,45 +19,21 @@
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
-
  *
- *   stdint.h - substitute stdint.h file for Windows;
+ *   inttypes.h - substitute inttypes.h file for Windows;
  *
- *   this is an important POSIX header that Microsoft ommits;
+ *   this is an important POSIX header that Microsoft ommits; 
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Mathieu Olivari <mathieu@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-#ifndef STDINT_HEADER
-#define STDINT_HEADER
+#ifndef INTTYPES_HEADER
+#define INTTYPES_HEADER
 
-/*====================================================================*
- *   system header files;
- *--------------------------------------------------------------------*/
-
-#include <limits.h>
-
-/*====================================================================*
- *   variable types;
- *--------------------------------------------------------------------*/
-
-#ifdef _MSC_VER 
-typedef __int8 int8_t;
-typedef __int16 int16_t;
-typedef __int32 int32_t;
-typedef __int64 int64_t;
-typedef unsigned __int8 uint8_t;
-typedef unsigned __int16 uint16_t;
-typedef unsigned __int32 uint32_t;
-typedef unsigned __int64 uint64_t;
-typedef long off_t;
-#endif
-
-/*====================================================================*
- *
- *--------------------------------------------------------------------*/
+#define PRI64d "I64d"
 
 #endif
 

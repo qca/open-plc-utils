@@ -160,35 +160,12 @@ static void TransmitStatistics (struct transmit * transmit)
 
 {
 	printf ("    TX");
-
-#if defined (WIN32)
-
-	printf (" %20I64d", transmit->NUMTXPBS_PASS);
-	printf (" %20I64d", transmit->NUMTXPBS_FAIL);
-
-#else
-
 	printf (" %20" PRId64, transmit->NUMTXPBS_PASS);
 	printf (" %20" PRId64, transmit->NUMTXPBS_FAIL);
-
-#endif
-
 	printf (" %6.2f%%", error_rate (transmit->NUMTXPBS_PASS, transmit->NUMTXPBS_FAIL));
-
-#if defined (WIN32)
-
-	printf (" %20I64d", transmit->NUMTXMPDU_ACKD);
-	printf (" %20i64d", transmit->NUMTXMPDU_FAIL);
-
-#else
-
 	printf (" %20" PRId64, transmit->NUMTXMPDU_ACKD);
 	printf (" %20" PRId64, transmit->NUMTXMPDU_FAIL);
-
-#endif
-
-// printf (" %20lld", transmit->NUMTXMPDU_COLL);
-
+	printf (" %20" PRId64, transmit->NUMTXMPDU_COLL);
 	printf (" %6.2f%%", error_rate (transmit->NUMTXMPDU_ACKD, transmit->NUMTXMPDU_FAIL));
 	printf ("\n");
 	return;
