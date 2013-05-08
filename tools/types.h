@@ -9,6 +9,10 @@
  *   Copyright 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
+ *   Contributor(s):
+ *
+ *   Werner Henze <w.henze@avm.de>
+ *
  *--------------------------------------------------------------------*/
 
 #ifndef TYPES_HEADER
@@ -24,17 +28,20 @@
  *   constants;
  *--------------------------------------------------------------------*/
 
-#if defined (WIN32)
-	#define SIZE_T_SPEC "%u"
-	#define ADDR_T_SPEC "%04X"
-	#define OFF_T_SPEC "%d"
-#elif defined (__APPLE__) || defined (__OpenBSD__)
+#if defined (_WIN64)
+	#define SIZE_T_SPEC "%I64d"
+	#define OFF_T_SPEC "%ld"
+#elif defined (WIN32)
+	#define SIZE_T_SPEC "%d"
+	#define OFF_T_SPEC "%ld"
+#elif defined (__APPLE__) 
 	#define SIZE_T_SPEC "%zu"
-	#define ADDR_T_SPEC "%08llX"
 	#define OFF_T_SPEC "%lld"
+#elif defined (__OpenBSD__)
+	#define SIZE_T_SPEC "%zu"
+	#define OFF_T_SPEC "%ld"
 #elif defined (__linux__)
 	#define SIZE_T_SPEC "%zu"
-	#define ADDR_T_SPEC "%04X"
 	#define OFF_T_SPEC "%ld"
 #else
 error "Unknown environment."

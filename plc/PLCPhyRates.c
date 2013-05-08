@@ -30,7 +30,7 @@
  *   call INTPhyRate or AMPPhyRate directly and save some overhead;
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qualcomm.com>
+ *      Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 

@@ -24,9 +24,9 @@
  *
  *
  *   Contributor(s):
- *	Bill Wike <bill.wike@qualcomm.com>
- *	Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
- *      Charles Maier <cmaier@qualcomm.com>
+ *	Bill Wike <bill.wike@qca.qualcomm.com>
+ *	Nathaniel Houghton <nhoughto@qca.qualcomm.com>
+ *      Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -106,7 +106,7 @@
  *
  *
  *   Contributor(s):
- *	Bill Wike <bill.wike@qualcomm.com>
+ *	Bill Wike <bill.wike@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 

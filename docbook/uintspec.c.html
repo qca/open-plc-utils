@@ -6,7 +6,7 @@
 			uintspec.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
+		<meta name='generator' content='motley-tools 1.8.2.14:14:37 May  1 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -38,6 +38,7 @@
 #define UINTSPEC_SOURCE
 
 #include &lt;stdlib.h&gt;
+#include &lt;inttypes.h&gt;
 #include &lt;ctype.h&gt;
 #include &lt;errno.h&gt;
 
@@ -78,17 +79,7 @@ uint64_t uintspec (char const * string, uint64_t minimum, uint64_t maximum)
 	}
 	if ((value &lt; minimum) || (value &gt; maximum)) 
 	{
-
-#if defined (WIN32)
-
-		error (1, ERANGE, &quot;Have %s but want %I64d thru %I64d&quot;, string, minimum, maximum);
-
-#else
-
-		error (1, ERANGE, &quot;Have %s but want %lld thru %lld&quot;, string, minimum, maximum);
-
-#endif
-
+		error (1, ERANGE, &quot;Have %s but want %&quot; PRId64 &quot; thru %&quot; PRId64, string, minimum, maximum);
 	}
 	return (value);
 }

@@ -27,7 +27,7 @@
  *   
  *
  *   Contributor(s):
- *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
+ *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 

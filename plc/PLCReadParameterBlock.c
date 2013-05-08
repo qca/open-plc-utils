@@ -40,8 +40,8 @@
  *   the data we request or nothing at all;
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qualcomm.com>
- *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
+ *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 

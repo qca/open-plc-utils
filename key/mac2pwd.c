@@ -158,7 +158,7 @@ static void function (const char * file, unsigned count, unsigned group, unsigne
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 

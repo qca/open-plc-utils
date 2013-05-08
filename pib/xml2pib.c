@@ -24,7 +24,7 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qualcomm.com>
+ *      Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -95,7 +95,7 @@
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -122,7 +122,7 @@ static signed pibedit1 (struct node const * node, void * memory, size_t extent)
  *
  *   
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -130,8 +130,8 @@ static signed pibedit2 (char const * filename, struct node const * node, char * 
 
 {
 	struct nvm_header2 * nvm_header;
-	unsigned origin = ~0;
-	unsigned offset = 0;
+	uint32_t origin = ~0;
+	uint32_t offset = 0;
 	unsigned length = 0;
 	unsigned module = 0;
 	do 
@@ -185,7 +185,7 @@ static signed pibedit2 (char const * filename, struct node const * node, char * 
  *
  *   
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -247,7 +247,7 @@ static signed function (char const * filename, struct node const * node)
  *
  *   
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 

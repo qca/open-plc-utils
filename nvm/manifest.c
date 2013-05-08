@@ -26,7 +26,7 @@
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -116,7 +116,7 @@ static char const * nvm_chains [] =
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -149,7 +149,7 @@ static char * myitoa (unsigned number, char buffer [], size_t length)
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -313,7 +313,7 @@ signed manifest (void const * memory, size_t extent)
 			printf ("\t%s: %d\n", nvm_fields [type], data);
 			break;
 		case NVM_FIELD_FREE_SPACE:
-			printf ("\t%s: %d/%d bytes\n", nvm_fields [type], size, extent);
+			printf ("\t%s: %d/"SIZE_T_SPEC" bytes\n", nvm_fields [type], size, extent);
 			break;
 		default:
 			error (0, 0, "%s: %d", nvm_fields [sizeof (nvm_fields) / sizeof (const char *) - 1], type);

@@ -6,7 +6,7 @@
 			ModuleSession.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
+		<meta name='generator' content='motley-tools 1.8.2.14:14:37 May  1 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -117,7 +117,7 @@ signed ModuleSession (struct plc * plc, unsigned modules, struct vs_module_spec 
 #pragma pack (pop)
 #endif
 
-	unsigned timer = channel-&gt;timer;
+	unsigned timer = channel-&gt;timeout;
 	struct vs_module_spec * request_spec = (struct vs_module_spec *)(&amp;request-&gt;MOD_OP_SPEC);
 	Request (plc, &quot;Start Module Write Session&quot;);
 	memset (message, 0, sizeof (* message));
@@ -143,14 +143,14 @@ signed ModuleSession (struct plc * plc, unsigned modules, struct vs_module_spec 
 		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	channel-&gt;timer = PLC_MODULE_REQUEST_TIMEOUT;
+	channel-&gt;timeout = PLC_MODULE_REQUEST_TIMEOUT;
 	if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) &lt;= 0) 
 	{
 		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
-		channel-&gt;timer = timer;
+		channel-&gt;timeout = timer;
 		return (-1);
 	}
-	channel-&gt;timer = timer;
+	channel-&gt;timeout = timer;
 	if (confirm-&gt;MSTATUS) 
 	{
 		Failure (plc, PLC_WONTDOIT);

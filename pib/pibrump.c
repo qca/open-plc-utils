@@ -27,7 +27,7 @@
  *   
  *
  *   Contributor(s):
- *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
+ *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -103,7 +103,7 @@
  *   This function for program pibrump displays a single classifier;
  *
  *   Contributor(s):
- *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
+ *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -195,7 +195,7 @@ signed Classifier (struct PIBClassifier * classifier)
  *   structure;
  *
  *   Contributor(s):
- *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
+ *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -229,7 +229,7 @@ signed AutoConnection (struct auto_connection * auto_connection)
  *   ClassifierPriorityMap structure;
  *
  *   Contributor(s):
- *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
+ *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 

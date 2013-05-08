@@ -23,8 +23,8 @@
  *   ptsctl.c - PTS Module Controller;
  *
  *   Contributor(s):
- *	Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Nathaniel Houghton <nhoughto@qca.qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *	Mathieu Olivari <mathieu@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/

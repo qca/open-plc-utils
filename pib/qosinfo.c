@@ -162,7 +162,7 @@ int main (int argc, char const * argv [])
 			{
 				printf ("AggregateConfigEntries [%d] %02x %02X\n", c, QoS.AggregateConfigEntries [c].one, QoS.AggregateConfigEntries [c].two);
 			}
-			printf ("QoS %d %04X\n", sizeof (QoS), sizeof (QoS));
+			printf ("QoS "SIZE_T_SPEC" %04X\n", sizeof (QoS), (unsigned int) sizeof (QoS));
 			close (fd);
 		}
 		argc--;

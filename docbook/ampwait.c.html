@@ -6,7 +6,7 @@
 			ampwait.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
+		<meta name='generator' content='motley-tools 1.8.2.14:14:37 May  1 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -44,8 +44,8 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier &lt;cmaier@qualcomm.com&gt;
- *      Nathaniel Houghton &lt;nathaniel.houghton@qualcomm.com&gt;
+ *      Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
+ *      Nathaniel Houghton &lt;nhoughto@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
@@ -125,7 +125,7 @@
  * 
  *   plc.h
  *
- *   send VS_RS_DEV.REQ messages every channel-&gt;timer milliseconds
+ *   send VS_RS_DEV.REQ messages every channel-&gt;timeout milliseconds
  *   until the device responds to indicate that it is ready to reset;
  *   return 0 if the device eventually responds within plc-&gt;timer 
  *   seconds or -1 if not;
@@ -206,7 +206,7 @@ signed ResetAndWait (struct plc * plc)
  *
  *   plc.h
  *
- *   send VS_SW_VER.REQ  messages every channel-&gt;timer milliseconds
+ *   send VS_SW_VER.REQ  messages every channel-&gt;timeout milliseconds
  *   until the device stops responding to indicate that it is inactive;
  *   return 0 if the device eventually stops responding within 
  *   plc-&gt;timer seconds or -1 if not;
@@ -303,7 +303,7 @@ signed WaitForReset (struct plc * plc, char string [], size_t length)
  *
  *   plc.h
  *
- *   send VS_SW_VER.REQ messages every channel-&gt;timer milliseconds
+ *   send VS_SW_VER.REQ messages every channel-&gt;timeout milliseconds
  *   until the device responds to indicate that it is active; return
  *   0 if the device eventually responds within plc-&gt;timer seconds 
  *   or -1 if not; 
@@ -401,7 +401,7 @@ signed WaitForStart (struct plc * plc, char string [], size_t length)
  *
  *   plc.h
  *
- *   send VS_NW_INFO.REQ messages every channel-&gt;timer milliseconds
+ *   send VS_NW_INFO.REQ messages every channel-&gt;timeout milliseconds
  *   until the device reports that a network has formed; return 0 if a
  *   network forms within plc-&gt;timer seconds or -1 if not;
  *
@@ -641,7 +641,7 @@ int main (int argc, char const * argv [])
 		&quot;r\twait for device reset&quot;,
 		&quot;R\treset device and wait&quot;,
 		&quot;s\twait for device start&quot;,
-		&quot;t n\tchannel timeout is (n) milliseconds [&quot; LITERAL (CHANNEL_TIMER) &quot;]&quot;,
+		&quot;t n\tchannel timeout is (n) milliseconds [&quot; LITERAL (CHANNEL_TIMEOUT) &quot;]&quot;,
 		&quot;v\tverbose mode&quot;,
 		&quot;w n\twait up to (n) seconds for action [&quot; LITERAL (PLC_TIMER) &quot;]&quot;,
 		&quot;x\texit on error&quot;,
@@ -711,7 +711,7 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_WAITFORSTART);
 			break;
 		case 't':
-			channel.timer = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);

@@ -6,7 +6,7 @@
 			xml2pib.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
+		<meta name='generator' content='motley-tools 1.8.2.14:14:37 May  1 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -44,7 +44,7 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *      Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
@@ -115,7 +115,7 @@
  *
  *
  *   Contributor(s):
- *	Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *	Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
@@ -141,7 +141,7 @@ static signed pibedit1 (struct node const * node, void * memory, size_t extent)
  *
  *   
  *   Contributor(s):
- *	Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *	Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
@@ -149,8 +149,8 @@ static signed pibedit2 (char const * filename, struct node const * node, char * 
 
 {
 	struct nvm_header2 * nvm_header;
-	unsigned origin = ~0;
-	unsigned offset = 0;
+	uint32_t origin = ~0;
+	uint32_t offset = 0;
 	unsigned length = 0;
 	unsigned module = 0;
 	do 
@@ -203,7 +203,7 @@ static signed pibedit2 (char const * filename, struct node const * node, char * 
  *
  *   
  *   Contributor(s):
- *	Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *	Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
@@ -264,7 +264,7 @@ static signed function (char const * filename, struct node const * node)
  *
  *   
  *   Contributor(s):
- *	Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *	Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 

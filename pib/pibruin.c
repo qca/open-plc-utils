@@ -24,7 +24,7 @@
  *
  *
  *   Contributor(s):
- *      Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
+ *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
  *      Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
@@ -120,7 +120,7 @@
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -176,7 +176,7 @@ static signed pibimage1 (signed fd, char const * filename, unsigned offset, stru
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -371,7 +371,6 @@ int main (int argc, char const * argv [])
 	char const * vector [24];
 	uint32_t offset = 0;
 	uint32_t version;
-	signed status;
 	signed fd;
 	signed count;
 	flag_t flags = (flag_t)(0);
@@ -426,33 +425,29 @@ int main (int argc, char const * argv [])
 
 	while ((argc) && (*argv)) 
 	{
-		status = 0;
 		if ((fd = open (*argv, O_BINARY|O_RDWR)) == -1) 
 		{
 			error (0, errno, "%s", *argv);
-			status = 1;
 		}
 		else if (read (fd, &version, sizeof (version)) != sizeof (version)) 
 		{
 			error (0, errno, FILE_CANTREAD, *argv);
-			status = 1;
 		}
 		else if (lseek (fd, 0, SEEK_SET)) 
 		{
 			error (0, errno, FILE_CANTHOME, *argv);
-			status = 1;
 		}
 		else if (LE32TOH (version) == 0x00010001) 
 		{
 			struct nvm_header2 nvm_header;
 			if (!nvmseek2 (fd, *argv, &nvm_header, NVM_IMAGE_PIB)) 
 			{
-				status = pibimage2 (fd, *argv, &nvm_header, offset? offset: PIB_OFFSET2, &classifiers);
+				pibimage2 (fd, *argv, &nvm_header, offset? offset: PIB_OFFSET2, &classifiers);
 			}
 		}
 		else 
 		{
-			status = pibimage1 (fd, *argv, offset? offset: PIB_OFFSET1, &classifiers);
+			pibimage1 (fd, *argv, offset? offset: PIB_OFFSET1, &classifiers);
 		}
 		close (fd);
 		argc--;

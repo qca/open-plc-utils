@@ -6,7 +6,7 @@
 			int6kwait.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
+		<meta name='generator' content='motley-tools 1.8.2.14:14:37 May  1 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -46,7 +46,7 @@
  *   
  *
  *   Contributor(s):
- *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *      Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
@@ -210,7 +210,7 @@ signed ResetAndWait (struct plc * plc)
  *   plc.h
  *
  *   send and receive VS_SW_VER messages until a confirmation is not
- *   received within channel-&gt;timer milliseconds to indicate that 
+ *   received within channel-&gt;timeout milliseconds to indicate that 
  *   the device is inactive; return 0 if the device resets within 
  *   plc-&gt;timer seconds; otherwise, return -1; 
  *
@@ -307,7 +307,7 @@ signed WaitForReset (struct plc * plc, char string [], size_t length)
  *   plc.h
  *
  *   send VS_SW_VER messages until confirmation is received within
- *   channel-&gt;timer milliseconds to indicate that the device is 
+ *   channel-&gt;timeout milliseconds to indicate that the device is 
  *   active; return 0 if the device responds within plc-&gt;timer 
  *   seconds; otherwise, return -1;
  *

@@ -23,9 +23,9 @@
  *   mdiodump.c - Atheros MDIO Custom Module Analyser
  *
  *   Contributor(s):
- *	Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
- *	Charles Maier <charles.maier@qualcomm.com>
- *	Marc Bertola <marc.bertola@qualcomm.com>
+ *	Nathaniel Houghton <nhoughto@qca.qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Marc Bertola <mbertola@qti.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -337,13 +337,13 @@ static void print_memmap (struct memmap * memmap)
 
 /*====================================================================*
  *
- *   void print_mdioblock (struct command *command);
+ *   void print_command (struct command *command);
  *
  * 
  *
  *--------------------------------------------------------------------*/
 
-static void print_mdioblock (struct command * command) 
+static void print_command (struct command * command) 
 
 {
 	union __packed 
@@ -563,17 +563,17 @@ static signed phy_generic (char const * filename, unsigned commands, flag_t flag
 			printf ("Data: 0x%04x\n", command.data);
 			printf ("Mask: 0x%04x\n", command.mask);
 			printf ("\n");
+			continue;
 		}
 		if ((command.ctrl & 0x0C) >> 2 == 0x01) 
 		{
 			if (_anyset (flags, MDIODUMP_SUMMARY)) 
 			{
 				write_phy_reg (&memmap, (command.ctrl & 0x1F0) >> 4, (command.ctrl & 0x3E00) >> 9, command.data, command.mask);
+				continue;
 			}
-			else 
-			{
-				print_mdioblock (&command);
-			}
+			print_command (&command);
+			continue;
 		}
 	}
 	if (_anyset (flags, MDIODUMP_SUMMARY)) 
@@ -610,9 +610,9 @@ static signed function (char const * filename, unsigned phy_code, flag_t flags)
 	}
 	mdio_header = LE16TOH (mdio_header);
 	commands = (mdio_header & 0xFFC0) >> 6;
+	printf ("# ------- %s -------\n", filename);
 	if (_anyset (flags, MDIODUMP_SUMMARY)) 
 	{
-		printf ("------- %s -------\n", filename);
 		printf ("Enabled: %s\n", (mdio_header & 0x0001)? "yes": "no");
 		printf ("Number of Commands: %d\n", commands);
 	}

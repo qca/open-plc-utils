@@ -113,6 +113,11 @@ static void pibdump (signed fd, char const * filename, char const * schema, unsi
 			}
 			continue;
 		}
+		if (c == '+')
+		{
+			do { c = getc (stdin); } while (isblank (c));
+		}
+		length = 0;
 		while (isdigit (c)) 
 		{
 			length *= 10;
@@ -248,7 +253,6 @@ static void pibdump (signed fd, char const * filename, char const * schema, unsi
 
 		}
 		offset += length;
-		length = 0;
 	}
 	output (indent--, "</%s>", DATA_OBJECT);
 	if (_allclr (flags, PIB_SILENCE)) 

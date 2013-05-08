@@ -26,8 +26,8 @@
  *   this is an important POSIX header that Microsoft ommits; 
  *
  *   Contributor(s):
- *	Charles Maier <charles.maier@atheros.com>
- *	Nathaniel Houghton <nathaniel.houghton@atheros.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Nathaniel Houghton <nhoughto@qca.qualcomm.com>
  *	Abdel Younes <younes@leacom.fr>
  *
  *--------------------------------------------------------------------*/

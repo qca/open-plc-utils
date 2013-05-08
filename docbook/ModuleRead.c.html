@@ -6,7 +6,7 @@
 			ModuleRead.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
+		<meta name='generator' content='motley-tools 1.8.2.14:14:37 May  1 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -49,7 +49,7 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *      Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
@@ -122,7 +122,7 @@ signed ModuleRead (struct plc * plc, struct _file_ * file, uint16_t source, uint
 #pragma pack (pop)
 #endif
 
-	unsigned timer = channel-&gt;timer;
+	unsigned timer = channel-&gt;timeout;
 	uint16_t length = PLC_MODULE_SIZE;
 	uint32_t offset = 0;
 	Request (plc, &quot;Read Module from %s&quot;, source? &quot;Flash&quot;: &quot;Memory&quot;);
@@ -170,13 +170,13 @@ signed ModuleRead (struct plc * plc, struct _file_ * file, uint16_t source, uint
 			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		channel-&gt;timer = PLC_MODULE_READ_TIMEOUT;
+		channel-&gt;timeout = PLC_MODULE_READ_TIMEOUT;
 		if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) &lt;= 0) 
 		{
 			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
-		channel-&gt;timer = timer;
+		channel-&gt;timeout = timer;
 
 #if 0
 #if defined (__GNUC__)

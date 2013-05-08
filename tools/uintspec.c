@@ -18,6 +18,7 @@
 #define UINTSPEC_SOURCE
 
 #include <stdlib.h>
+#include <inttypes.h>
 #include <ctype.h>
 #include <errno.h>
 
@@ -58,17 +59,7 @@ uint64_t uintspec (char const * string, uint64_t minimum, uint64_t maximum)
 	}
 	if ((value < minimum) || (value > maximum)) 
 	{
-
-#if defined (WIN32)
-
-		error (1, ERANGE, "Have %s but want %I64d thru %I64d", string, minimum, maximum);
-
-#else
-
-		error (1, ERANGE, "Have %s but want %lld thru %lld", string, minimum, maximum);
-
-#endif
-
+		error (1, ERANGE, "Have %s but want %" PRId64 " thru %" PRId64, string, minimum, maximum);
 	}
 	return (value);
 }

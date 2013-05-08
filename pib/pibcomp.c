@@ -24,8 +24,8 @@
  *
  *
  *   Contributor(s):
- *      Nathan Houghton <nathan.houghton@qca.qualcomm.com>
- *	Charles Maier <charles.maier@qca.qualcomm.com>
+ *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -158,6 +158,10 @@ static void function (char const * filename [], flag_t flags)
 				lineno++;
 			}
 			continue;
+		}
+		if (c == '+')
+		{
+			do { c = getc (stdin); } while (isblank (c));
 		}
 		length = 0;
 		while (isdigit (c)) 

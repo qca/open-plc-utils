@@ -17,8 +17,8 @@ TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9] *.test
 FILES=Makefile *.mak *.sh *.txt *.c *.h *.xml *.css
 TOOLS=chkpib chkpib2 setpib getpib modpib pib2xml pibcomp pibdump pibruin xml2pib psin psout pskey
 TOOLS+=psgraph psnotch pibrump 
-PAGES=chkpib.7 chkpib2.7 setpib.7 getpib.7 modpib.7 pib2xml.7 pibcomp.7 pibdump.7 xml2pib.7 psin.7 psout.7 pskey.7
-# PAGES+=pibrump.7 pibruin.7 psgraph.7 psnotch.7  
+PAGES=chkpib.1 chkpib2.1 setpib.1 getpib.1 modpib.1 pib2xml.1 pibcomp.1 pibdump.1 xml2pib.1 psin.1 psout.1 pskey.1
+# PAGES+=pibrump.1 pibruin.1 psgraph.1 psnotch.1
 
 # ====================================================================
 # pseudo targets;
@@ -33,7 +33,7 @@ manuals:
 	install -m ${MAN_PERM} -o ${OWNER} -g ${GROUP} ${PAGES} ${MAN}
 library:
 	install -m ${DIR_PERM} -o ${OWNER} -g ${GROUP} -d ${BIN}
-install: compile library
+install: $(TOOLS) library
 	install -m ${BIN_PERM} -o ${OWNER} -g ${GROUP} ${TOOLS} ${BIN}
 uninstall:
 	cd ${BIN}; rm -f ${TOOLS} 

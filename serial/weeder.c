@@ -24,7 +24,7 @@
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
- *	Nathaniel Houghton <nathaniel.houghton@qualcomm.com>
+ *	Nathaniel Houghton <nhoughto@qca.qualcomm.com>
  *	Mathieu Olivari <mathieu@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/

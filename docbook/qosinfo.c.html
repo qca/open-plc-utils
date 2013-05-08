@@ -6,7 +6,7 @@
 			qosinfo.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
+		<meta name='generator' content='motley-tools 1.8.2.14:14:37 May  1 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -182,7 +182,7 @@ int main (int argc, char const * argv [])
 			{
 				printf (&quot;AggregateConfigEntries [%d] %02x %02X\n&quot;, c, QoS.AggregateConfigEntries [c].one, QoS.AggregateConfigEntries [c].two);
 			}
-			printf (&quot;QoS %d %04X\n&quot;, sizeof (QoS), sizeof (QoS));
+			printf (&quot;QoS &quot;SIZE_T_SPEC&quot; %04X\n&quot;, sizeof (QoS), (unsigned int) sizeof (QoS));
 			close (fd);
 		}
 		argc--;

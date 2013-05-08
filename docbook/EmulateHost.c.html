@@ -6,7 +6,7 @@
 			EmulateHost.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
+		<meta name='generator' content='motley-tools 1.8.2.14:14:37 May  1 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -49,7 +49,7 @@
  *   
  *
  *   Contributor(s):
- *      Charles Maier &lt;cmaier@qualcomm.com&gt;
+ *      Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
@@ -119,14 +119,14 @@ signed EmulateHost (struct plc * plc)
 	uint32_t offset;
 	char const * PIB = plc-&gt;PIB.name;
 	char const * NVM = plc-&gt;NVM.name;
-	signed timer = channel-&gt;timer;
+	signed timer = channel-&gt;timeout;
 	signed status = 0;
 	Request (plc, &quot;Waiting for Host Action&quot;);
 	while (1) 
 	{
-		channel-&gt;timer = plc-&gt;timer;
+		channel-&gt;timeout = plc-&gt;timer;
 		status = ReadMME (plc, 0, (VS_HOST_ACTION | MMTYPE_IND));
-		channel-&gt;timer = timer;
+		channel-&gt;timeout = timer;
 		if (status &lt; 0) 
 		{
 			break;
@@ -144,7 +144,7 @@ signed EmulateHost (struct plc * plc)
 				continue;
 			}
 			memcpy (channel-&gt;peer, indicate-&gt;ethernet.OSA, sizeof (channel-&gt;peer));
-			channel-&gt;timer = timer;
+			channel-&gt;timeout = timer;
 			if (indicate-&gt;MACTION == 0x00) 
 			{
 				unsigned module = 0;

@@ -200,9 +200,6 @@ Traffic3.o: Traffic3.c channel.h error.h flags.h memory.h mme.h plc.h
 Transmit.o: Transmit.c error.h flags.h plc.h timer.h
 VersionInfo1.o: VersionInfo1.c error.h memory.h plc.h symbol.h
 VersionInfo2.o: VersionInfo2.c error.h memory.h plc.h symbol.h
-WaitForAssoc.o: WaitForAssoc.c plc.h
-WaitForAssoc1.o: WaitForAssoc1.c error.h plc.h timer.h
-WaitForAssoc2.o: WaitForAssoc2.c error.h plc.h timer.h
 WaitForReset.o: WaitForReset.c error.h plc.h timer.h
 WaitForStart.o: WaitForStart.c error.h plc.h timer.h
 WatchdogReport.o: WatchdogReport.c error.h flags.h format.h memory.h plc.h

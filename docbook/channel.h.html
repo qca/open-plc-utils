@@ -6,7 +6,7 @@
 			channel.h
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.8.2.10:42:30 Mar 28 2013'/>
+		<meta name='generator' content='motley-tools 1.8.2.14:14:37 May  1 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -50,8 +50,8 @@
  *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
- *      Charles Maier &lt;cmaier@qualcomm.com&gt;
- *      Nathaniel Houghton &lt;nathaniel.houghton@qualcomm.com&gt;
+ *      Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
+ *      Nathaniel Houghton &lt;nathaniel.houghton@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
@@ -121,9 +121,9 @@
 #       define CHANNEL_ETHDEVICE &quot;nic1&quot;
 #endif
 #define CHANNEL_FOREVER (unsigned)(-1)
-#define CHANNEL_TIMEOUT 15 
 #define CHANNEL_BAILOUT 0
-#define CHANNEL_TIMER 50 
+#define CHANNEL_CAPTURE 15 
+#define CHANNEL_TIMEOUT 50 
 #define CHANNEL_FLAGS 0
 
 /*====================================================================*
@@ -178,8 +178,8 @@ typedef struct channel
 #error &quot;Unknown Environment&quot;
 #endif
 
+	signed capture;
 	signed timeout;
-	signed timer;
 	flag_t flags;
 }
 
