@@ -1,3 +1,13 @@
+open-plc-utils-0.0.3
+---------------
+
+1. Added header VisualStudioNET/include/inttype.h to define print specifier constant PRId64 for Windows systems.
+
+2. Replaced conditional compiler code around print specifiers "lld" and "I64d" and replaced single specifier PRId64 as defined by the system.
+
+3. Renamed man pages ending in .7 with .1 to reflect that fact that they will now be installed man1 instead of man7.
+
+
 open-plc-utils-0.0.2
 ---------------
 
