@@ -100,8 +100,6 @@ static void function (char const * filename [], flag_t flags)
 	char string [_LINESIZE];
 	char * sp;
 	signed c;
-	offset [0] = 0;
-	offset [1] = 0;
 	for (file = 0; file < SIZEOF (fd); file++) 
 	{
 		uint32_t version;
@@ -137,8 +135,9 @@ static void function (char const * filename [], flag_t flags)
 	}
 	if (origin [0] != origin [1]) 
 	{
-		error (1, EINVAL, "PIBs have different offsets");
+		error (0, EINVAL, "PIBs have different offsets");
 	}
+	memset (offset, 0, sizeof (offset));
 	while ((c = getc (stdin)) != EOF) 
 	{
 		if ((c == '#') || (c == ';')) 
@@ -159,9 +158,13 @@ static void function (char const * filename [], flag_t flags)
 			}
 			continue;
 		}
-		if (c == '+')
+		if (c == '+') 
 		{
-			do { c = getc (stdin); } while (isblank (c));
+			do 
+			{
+				c = getc (stdin);
+			}
+			while (isblank (c));
 		}
 		length = 0;
 		while (isdigit (c)) 
