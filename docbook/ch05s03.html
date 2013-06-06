@@ -6,13 +6,13 @@
 			Select an Interface on Windows
 			</h2></div></div></div><p>
 			<span class="application">Winpcap</span> references host network interfaces by number, not name. This means that you must determine the proper interface number for the network adapter that you plan to use. Use Toolkit <a class="ulink" href="pcapdevs.7.html" target="_top">pcapdevs</a>  utility will enumerate available host network adapters by number,  <acronym class="acronym">MAC</acronym> address and description. By default, Toolkit programs communicate with powerline devices on pcap interface <code class="varname">2</code> but another interface can be specified on the command line with the <strong class="userinput"><code>-i</code></strong> option:
-			</p><div class="example"><a name="id2606556"></a><p class="title"><b>Example 5.4. 
+			</p><div class="example"><a name="idp11010520"></a><p class="title"><b>Example 5.4. 
 				Selecting another Interface on Windows
 				</b></p><div class="example-contents"><pre class="screen">
 # int6k -i 3 ...
 </pre></div></div><br class="example-break"><p>
 			In the previous example, <span class="command"><strong>int6k</strong></span> will send and receive frames using host interface <code class="varname">3</code> instead of the default interface. Having to specify the interface can become tedious when entering commands manually. Presently there is no way to specify a default interface on WIndows platforms.
-			</p><div class="example"><a name="id2606586"></a><p class="title"><b>Example 5.5. 
+			</p><div class="example"><a name="idp11012312"></a><p class="title"><b>Example 5.5. 
 				Finding Interfaces on Windows
 				</b></p><div class="example-contents"><pre class="screen">
 # pcapdevs

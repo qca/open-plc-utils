@@ -8,7 +8,7 @@
 			The Boot from Host operation downloads a firmware image and <acronym class="acronym">PIB</acronym> image from the local host and starts firmware execution. The process is initiated by the <span class="trademark">INT6000</span>™ <span class="application">Bootloader</span> following a device reset. The <span class="application">Bootloader</span> passes control to the <span class="trademark">INT6000</span>™ <span class="application">Softloader</span> to negotiate with the local host. The process thererfore requires <span class="application">Softloader</span> aware software running on the local host in order to complete.
 			</p><p>
 			The device does not have a unique hardware address until the firmware starts and assigns one. Until that time, the <span class="application">Softloader</span> accepts messages addressed to 00:B0:52:00:00:01. In addition, the <span class="application">Softloader</span> does not know the hardware address of the local host and so it addresses <code class="constant">VS_HST_ACTION</code> messages to FF:FF:FF:FF:FF:FF; however, these messages are not forwarded over powerline.
-			</p><div class="figure"><a name="id2592668"></a><p class="title"><b>Figure 4.4. 
+			</p><div class="figure"><a name="idp10177328"></a><p class="title"><b>Figure 4.4. 
 				Boot from Host (INT6000)
 				</b></p><div class="figure-contents"><pre class="programlisting">
 

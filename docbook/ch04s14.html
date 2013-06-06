@@ -12,7 +12,7 @@
 			The <span class="productname">INT6400</span>™ boot-from-host method will work for <span class="productname">AR7400</span>™ and <span class="productname">QCA7420</span>™ chipsets but will not work on successive chipsets. Customers should adopt or implement the <span class="productname">AR7400</span>™ boot-from-host method, instead of this one, to avoid building obsolete products.
 			</p><p>
 			The <span class="productname">INT6400</span>™ does not have a unique hardware address until the firmware starts and assigns one from the parameter information block. Until that time, the bootloader will only acknowledge messages addressed to <code class="constant">00:B0:52:00:00:01</code>. In addition, the bootloader does not know the hardware address of the local host and so it addresses <code class="constant">VS_HOST_ACTION</code> messages to <code class="constant">FF:FF:FF:FF:FF:FF</code>; however, these messages are not transmitted over the powerline.
-			</p><div class="figure"><a name="id2593385"></a><p class="title"><b>Figure 4.6. 
+			</p><div class="figure"><a name="idp10220344"></a><p class="title"><b>Figure 4.6. 
 				Boot from Host (INT6400)
 				</b></p><div class="figure-contents"><pre class="programlisting">
 

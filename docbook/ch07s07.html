@@ -6,7 +6,7 @@
 			Key Generation Functions
 			</h2></div></div></div><p>
 			Atheros applications use the SHA256 algorithm to compute unique HomePlug AV keys, including the Device Access Key (<acronym class="acronym">DAK</acronym>), Network Membership Key (<acronym class="acronym">NMK</acronym>) and Network Identifier (<acronym class="acronym">NID</acronym>). The SHA256 algorithm is seeded, salted and rehashed differently for each type of HomePlug AV key. A different function is used to compute each type of HomePlug AV key but all of them call the SHA256 functions. The SHA256 algorithm returns a <code class="constant">256</code> bit (<code class="constant">32</code> byte) digest but only the upper <code class="constant">128</code> bits (<code class="constant">16</code> bytes) are used for HomePlug AV keys. 
-			</p><div class="example"><a name="id2629172"></a><p class="title"><b>Example 7.3. 
+			</p><div class="example"><a name="idp12367288"></a><p class="title"><b>Example 7.3. 
 				SHA256 Digest Computation
 				</b></p><div class="example-contents"><p>
 			The following code example illustrates how to generate, rehash and print an SHA256 digest, or key, from a user-defined seed string and salt string. This logic is typical of that used to generate HomePlug AV compliant keys. See the HomePlug AV Specification for the specific rules used to generate each type of key.

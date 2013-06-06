@@ -6,7 +6,7 @@
 			pibcomp.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.8.2.14:14:37 May  1 2013'/>
+		<meta name='generator' content='motley-tools 1.8.2.10:08:06 Jun  6 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -120,8 +120,6 @@ static void function (char const * filename [], flag_t flags)
 	char string [_LINESIZE];
 	char * sp;
 	signed c;
-	offset [0] = 0;
-	offset [1] = 0;
 	for (file = 0; file &lt; SIZEOF (fd); file++) 
 	{
 		uint32_t version;
@@ -157,8 +155,9 @@ static void function (char const * filename [], flag_t flags)
 	}
 	if (origin [0] != origin [1]) 
 	{
-		error (1, EINVAL, &quot;PIBs have different offsets&quot;);
+		error (0, EINVAL, &quot;PIBs have different offsets&quot;);
 	}
+	memset (offset, 0, sizeof (offset));
 	while ((c = getc (stdin)) != EOF) 
 	{
 		if ((c == '#') || (c == ';')) 
@@ -179,9 +178,13 @@ static void function (char const * filename [], flag_t flags)
 			}
 			continue;
 		}
-		if (c == '+')
+		if (c == '+') 
 		{
-			do { c = getc (stdin); } while (isblank (c));
+			do 
+			{
+				c = getc (stdin);
+			}
+			while (isblank (c));
 		}
 		length = 0;
 		while (isdigit (c)) 
