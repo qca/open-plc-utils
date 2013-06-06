@@ -10,7 +10,7 @@
 			A <span class="productname">Linux</span>™ kernel <a class="ulink" href="http://www.ssi.bg/~ja/#loop" target="_top">patch</a> is available that will allow ISO Layer 3 traffic to be routed from one Ethernet interface to another on the same host. With this patch, multiple instances of a traffic generator,  like <span class="application">ttcp</span> or <span class="application">iperf</span>, can be effectively deployed on the same host without modification.
 			</p><p>
 			This patch is useful for testing on a closed network but it could pose a security risk to the local host when connected to a public network. Kernels having this patch installed should have a special designation such as “<span class="quote">linux-2.6.28-send-to-self</span>” so that users are aware that the patch is installed. 
-			</p><div class="example"><a name="idp9351664"></a><p class="title"><b>Example 2.1. 
+			</p><div class="example"><a name="idp9306648"></a><p class="title"><b>Example 2.1. 
 				“<span class="quote">send-to-self</span>” Patch Description
 				</b></p><div class="example-contents"><p>
 				The following is the full, original patch description.
@@ -102,7 +102,7 @@ telnet 192.168.2.1
 # Note that by replacing the local route's preferred source IP address
 # we help the IP address autoselection to select proper IP to the
 # target, in our case, route via eth
-</pre></div></div><br class="example-break"><div class="example"><a name="idp9352832"></a><p class="title"><b>Example 2.2. 
+</pre></div></div><br class="example-break"><div class="example"><a name="idp9307816"></a><p class="title"><b>Example 2.2. 
 					“<span class="quote">send-to-self</span>” Patch Application
 					</b></p><div class="example-contents"><p>
 					The following example illustrates how to use <span class="application">iperf</span> to perform <acronym class="acronym">TCP</acronym> and <acronym class="acronym">UDP</acronym> traffic measurements once this patch is installed. We illustrate the use of <span class="application">iperf</span> but do not necessarily endorse it for traffic measurement. We also illustrate the use of two interfaces but the “<span class="quote">send-to-self</span>” patch will support additional interfaces. We also illustrate the use of environment variables so that procedures can execute on different hosts without modification but these environment variables are not required. 
@@ -149,7 +149,7 @@ TCP window size: 16.0 KByte (default)
 [  3] local 192.168.2.1 port 5001 connected with 192.168.1.1 port 5001
 [ ID] Interval       Transfer     Bandwidth
 [  3]  0.0-10.0 sec  31.1 MBytes  26.0 Mbits/sec
-</pre></div></div><br class="example-break"><div class="example"><a name="idp9370600"></a><p class="title"><b>Example 2.3. 
+</pre></div></div><br class="example-break"><div class="example"><a name="idp9325632"></a><p class="title"><b>Example 2.3. 
 				“<span class="quote">send-to-self</span>” Patch Installation
 				</b></p><div class="example-contents"><p>
 				The “<span class="quote">send-to-self</span>” patch exists for several recent <span class="productname">Linux</span>™ kernel versions but not all versions. Assuming you have obtained the correct kernel archive and the correct patch version, the following script illustrates the steps needed to apply the patch on <span class="productname">Ubuntu 9.04</span>™ and recompile the kernel. Observe that, in this case, the patch version does not match the kernel version because a patch has not been published for that kernel version. 
@@ -296,7 +296,7 @@ ln -fs vmlinuz-${VERSION} /boot/vmlinuz
 					grub/menu.lst
 					</p><p>
 					If your system uses <span class="application">grub</span> then edit file <code class="filename">/boot/grub/menu.lst</code> and add a new reference to the new <code class="filename">initrd.img</code>,  <code class="filename">System.map</code> and <code class="filename">vmlinuz</code> files installed in folder <code class="filename">/boot</code> by this script. We recommend adding these references as the last ones in the file so that the new kernel does not start by default. Once you are confident that everything works, you can then move the references to the first entry. We also recommend setting the <code class="varname">timeout</code> value to <code class="constant">10</code> for now.
-					</p></div><div class="example"><a name="idp9403544"></a><p class="title"><b>Example 2.4. 
+					</p></div><div class="example"><a name="idp9358600"></a><p class="title"><b>Example 2.4. 
 				“<span class="quote">send-to-self</span>” Patch Listing
 				</b></p><div class="example-contents"><p>
 				The following “<span class="quote">send-to-self</span>” patch is specifically for <span class="productname">Linux</span>™ kernel 2.6.30 and is provided for information only. For practical purposes, the patch has not changed much from version to version but the line numbers have changed. Some recent “<span class="quote">send-to-self</span>” patches are included in the toolkit <code class="filename">./patches</code> folder.

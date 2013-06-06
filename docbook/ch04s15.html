@@ -12,7 +12,7 @@
 			The <span class="productname">AR7400</span>™ boot-from-host method works on <span class="productname">AR6400</span>™ and will continue to work on <span class="productname">QCA7420</span>™ and planned successors. Customers should implement this boot-from-host method now to avoid building obsolete products.
 			</p><p>
 			The <span class="productname">AR7400</span>™ does not have a unique hardware address until the firmware starts and assigns one read from the PIB. Until that time, the <span class="application">Bootloader</span> will only acknowledge messages addressed to 00:B0:52:00:00:01. In addition, the <span class="application">Bootloader</span> does not know the hardware address of the local host and so it addresses all <code class="constant">VS_HOST_ACTION</code> messages to FF:FF:FF:FF:FF:FF; however, these messages are not transmitted over the powerline.
-			</p><div class="figure"><a name="idp10352016"></a><p class="title"><b>Figure 4.7. 
+			</p><div class="figure"><a name="idp10306984"></a><p class="title"><b>Figure 4.7. 
 				Boot from Host (AR7400)
 				</b></p><div class="figure-contents"><pre class="programlisting">
 
