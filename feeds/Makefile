@@ -106,7 +106,7 @@ define AddPlcUtil
   DEPENDS+=open-plc-utils
  endef
  define Package/open-plc-utils-$(2)/description
-  $(4).
+  $(4)
  endef
  define Package/open-plc-utils-$(2)/install
 	$(INSTALL_DIR) $$(1)/usr/bin

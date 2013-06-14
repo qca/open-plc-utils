@@ -22,7 +22,6 @@
  *
  *   xml2pib.c - 
  *
- *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
  *
@@ -93,7 +92,6 @@
  *
  *   signed pibedit1 (struct node const * node, void * memory, size_t extent);
  *
- *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
  *
@@ -119,7 +117,6 @@ static signed pibedit1 (struct node const * node, void * memory, size_t extent)
  *
  *   this implementation reads the parameter block from file into
  *   into memory and checks it there;
- *
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
@@ -182,7 +179,6 @@ static signed pibedit2 (char const * filename, struct node const * node, char * 
  *   signed function (char const * filename);
  *
  *   determine the type of file and call appropriate functions;            
- *
  *   
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
@@ -243,7 +239,6 @@ static signed function (char const * filename, struct node const * node)
 /*====================================================================*
  *   
  *   int main (int argc, char const * argv []);
- *
  *
  *   
  *   Contributor(s):

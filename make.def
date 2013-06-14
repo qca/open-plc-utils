@@ -65,6 +65,7 @@ STRIP=$(CROSS)strip
 # installation folders;
 # --------------------------------------------------------------------
 
+ROOTFS=
 BIN=${ROOTFS}/usr/local/bin
 MAN=${ROOTFS}/usr/share/man/man1
 DOC=${ROOTFS}/home/www/software
