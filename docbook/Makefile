@@ -25,15 +25,15 @@ BOOKS=index.html
 # pseudo targets;
 # --------------------------------------------------------------------
 
-all: manuals install
-compile: manuals ${BOOKS}
+all: compile install
+compile: manuals ${TOOLS} ${BOOKS}
 	rm -f *.[0-9][0-9][0-9]
 manuals: 
 	${SHELL} ../docbook/manuals
 scripts:
 library:
 	install -m ${DIR_PERM} -o ${OWNER} -g ${GROUP} -d ${LIBRARY}
-install: $(TOOLS) library
+install: library
 	if [ -d ${LIBRARY} ]; then install -m ${WWW_PERM} -o ${OWNER} -g ${GROUP} *.html *.css *.png ${LIBRARY}; fi
 uninstall:
 	rm -f ${LIBRARY}/*.c.html ${LIBRARY}/*.h.html ${LIBRARY}/*.1.html

@@ -6,7 +6,7 @@
 			Architecture Overview 
 			</h2></div></div></div><p>
 			The following figure illustrates a hypothetical powerline network consisting of two devices. Each device has an <span class="productname">INT6300</span>™  with optional dedicated flash memory and an onboard processor with associated storage. The processor in each device is the local host for that device and the remote host for the other device. The processor storage is unspecified but it must be persistent. The two devices are connected via coax or powerline. The flash memory is optional in this design because it uses the <span class="productname">INT6300</span>™  chipset. 
-			</p><div class="figure"><a name="id2588866"></a><p class="title"><b>Figure 4.1. 
+			</p><div class="figure"><a name="idp9904136"></a><p class="title"><b>Figure 4.1. 
 				Simple Network
 				</b></p><div class="figure-contents"><div class="mediaobject" align="center"><img src="SimpleNetwork.png" align="middle" alt="Simple Network"></div></div></div><br class="figure-break"><p>
 			The Boot Loader is permanent program that executes on startup. It detects the presence of flash memory and attempts to read <acronym class="acronym">SDRAM</acronym> configuration from flash memory then load and runtime the firmware image and <acronym class="acronym">PIB</acronym> from flash memory. On success, the Boot runtime firmware starts and the device assumes HomePlug AV compliant behavior. On failure, the Boot Loader requests <acronym class="acronym">SDRAM</acronym> configruation, runtime firmware image and <acronym class="acronym">PIB</acronym> from the local host. The local host must be prepared to respond to these requests. 

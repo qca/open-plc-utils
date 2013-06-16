@@ -429,18 +429,6 @@
 							</para>
 						</listitem>
 					</varlistentry>
-				<varlistentry id="program-plcrate">
-					<term>
-						<application>
-							plcrate
-							</application>
-						</term>
-					<listitem>
-						<para>
-							A command line utility that downloads and executes program images stored in either older or newer <filename>.nvm</filename> files. It can be used to download and execute special powerline hardware diagnostic programs. It is not intended to download and start runtime firmware. The program is installed in folder <filename>/usr/local/bin</filename> with 4555 file permissions. See the discussion on security for more information about file permissions. The main source code is located in folder <filename>./plc</filename>. See the <ulink url='plctest.7.html'>amptest</ulink> man page for more information. 
-							</para>
-						</listitem>
-					</varlistentry>
 				<varlistentry id="program-plctest">
 					<term>
 						<application>
@@ -449,7 +437,7 @@
 						</term>
 					<listitem>
 						<para>
-							A command line utility that downloads and executes program images stored in older and newer <filename>.nvm</filename> files. It can be used to download and execute special powerline hardware diagnostic programs. It is not intended to download and start runtime firmware. The program is installed in folder <filename>/usr/local/bin</filename> with 4555 file permissions. See the discussion on security for more information about file permissions. The main source code is located in folder <filename>./plc</filename>. See the <ulink url='plctest.7.html'>amptest</ulink> man page for more information. 
+							A command line utility that downloads and executes small program images stored in older and newer <filename>.nvm</filename> files. It can be used to download and execute small powerline diagnostic programs. It is not intended to download and start runtime firmware. The program is installed in folder <filename>/usr/local/bin</filename> with 4555 file permissions. See the discussion on security for more information about file permissions. The main source code is located in folder <filename>./plc</filename>. See the <ulink url='plctest.7.html'>plctest</ulink> man page for more information. 
 							</para>
 						<para>
 							This program automatically detects the type of .nvm file format and adapts. 
