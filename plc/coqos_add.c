@@ -74,7 +74,6 @@
 #include "../tools/hexdecode.c"
 #include "../tools/todigit.c"
 #include "../tools/typename.c"
-#include "../tools/endian.c"
 #include "../tools/error.c"
 #include "../tools/synonym.c"
 #include "../tools/lookup.c"
@@ -371,7 +370,7 @@ int main (int argc, char const * argv [])
 		case FIELD_HPAV_MME:
 			bytespec (* argv++, rule->CR_VALUE, sizeof (uint8_t) + sizeof (uint16_t));
 			byte = (uint8_t *)(rule->CR_VALUE);
-			endian (++byte, sizeof (uint16_t));
+			HTOBE16 ((uint16_t)(* ++byte));
 			break;
 		case FIELD_IPV6_TC:
 		case FIELD_IPV6_FL:
