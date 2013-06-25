@@ -22,7 +22,6 @@ decout.o: decout.c memory.h number.h
 decstring.o: decstring.c memory.h
 efreopen.o: efreopen.c error.h files.h
 emalloc.o: emalloc.c error.h
-endian.o: endian.c memory.h
 error.o: error.c error.h types.h
 extra.o: extra.c error.h types.h
 fdchecksum32.o: fdchecksum32.c memory.h
@@ -51,6 +50,7 @@ memswap.o: memswap.c memory.h
 output.o: output.c format.h
 putoptv.o: putoptv.c getoptv.h putoptv.h
 regview32.o: regview32.c endian.h memory.h
+reverse.o: reverse.c memory.h
 reword.o: reword.c symbol.h
 set32bitmap.o: set32bitmap.c endian.h flags.h
 strdecr.o: strdecr.c memory.h

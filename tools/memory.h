@@ -87,7 +87,7 @@ void * emalloc (size_t length);
  *--------------------------------------------------------------------*/
 
 void memswap (void *, void *, size_t extent);
-void endian (void * memory, size_t extent);
+void reverse (void * memory, size_t extent);
 
 /*====================================================================*
  *   memory validation functions (deprecated);

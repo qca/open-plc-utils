@@ -65,16 +65,16 @@ chkpib2: chkpib2.o getoptv.o putoptv.o version.o pibpeek1.o pibpeek2.o checksum3
 modpib: modpib.o getoptv.o putoptv.o version.o hexencode.o hexdecode.o todigit.o memincr.o fdchecksum32.o keys.o uintspec.c error.o pibpeek1.o pibpeek2.o hexstring.o pibfile.o pibfile1.o pibfile2.o SHA256.o HPAVKeyNID.o checksum32.o
 getpib: getpib.o getoptv.o putoptv.o version.o uintspec.o basespec.o todigit.o hexout.o error.o 
 mrgpib: mrgpib.o getoptv.o putoptv.o version.o error.o fdchecksum32.o pibfile1.o
-setpib: setpib.o getoptv.o putoptv.o version.o hexpeek.o hexdump.o dataspec.o basespec.o error.o todigit.o uintspec.o bytespec.o pibfile1.o endian.o checksum32.o fdchecksum32.o memencode.o nvmseek2.o
-setpib1: setpib1.o getoptv.o putoptv.o version.o hexpeek.o hexdump.o dataspec.o basespec.o error.o todigit.o uintspec.o bytespec.o pibfile1.o endian.o checksum32.o fdchecksum32.o memencode.o
-setpib2: setpib2.o getoptv.o putoptv.o version.o hexpeek.o hexdump.o dataspec.o basespec.o error.o todigit.o uintspec.o bytespec.o pibfile1.o endian.o checksum32.o fdchecksum32.o memencode.o
+setpib: setpib.o getoptv.o putoptv.o version.o hexpeek.o hexdump.o dataspec.o basespec.o error.o todigit.o uintspec.o bytespec.o pibfile1.o checksum32.o fdchecksum32.o memencode.o nvmseek2.o
+setpib1: setpib1.o getoptv.o putoptv.o version.o hexpeek.o hexdump.o dataspec.o basespec.o error.o todigit.o uintspec.o bytespec.o pibfile1.o checksum32.o fdchecksum32.o memencode.o
+setpib2: setpib2.o getoptv.o putoptv.o version.o hexpeek.o hexdump.o dataspec.o basespec.o error.o todigit.o uintspec.o bytespec.o pibfile1.o checksum32.o fdchecksum32.o memencode.o
 psin: psin.o getoptv.o putoptv.o version.o hexdecode.o hexstring.o todigit.o error.o pibfile1.o piblock.o pibscalers.o fdchecksum32.o 
 pskey: pskey.o getoptv.o putoptv.o version.o error.o hexdecode.o hexstring.o hexout.o pibfile1.o SHA256Reset.o SHA256Write.o SHA256Block.o SHA256Fetch.o keys.o fdchecksum32.o
 psout: psout.o getoptv.o putoptv.o version.o error.o pibfile1.o pibscalers.o fdchecksum32.o
 psnotch: psnotch.o getoptv.o putoptv.o version.o error.o todigit.o uintspec.o
 psgraph: psgraph.o getoptv.o putoptv.o version.o error.o todigit.o uintspec.o pibscalers.o
 pibrump: pibrump.o getoptv.o putoptv.o version.o error.o pibfile1.o fdchecksum32.o reword.o hexstring.o hexdecode.o memout.o rules.o
-pibruin: pibruin.o getoptv.o putoptv.o version.o error.o pibfile1.o nvmseek2.o checksum32.o fdchecksum32.o reword.o getargv.o hexstring.o hexdecode.o memout.o lookup.o assist.o bytespec.o basespec.o ipv4spec.o ipv6spec.o todigit.o codelist.o endian.o emalloc.o rules.o ParseRule.o piblock.o ruledump.o 
+pibruin: pibruin.o getoptv.o putoptv.o version.o error.o pibfile1.o nvmseek2.o checksum32.o fdchecksum32.o reword.o getargv.o hexstring.o hexdecode.o memout.o lookup.o assist.o bytespec.o basespec.o ipv4spec.o ipv6spec.o todigit.o codelist.o emalloc.o rules.o ParseRule.o piblock.o ruledump.o 
 pib2xml: pib2xml.o checksum32.o error.o fdchecksum32.o getoptv.o hexview.o output.o nvmseek2.o putoptv.o version.o xmlschema.o
 pibdump: pibdump.o getoptv.o putoptv.o version.o hexoffset.o hexview.o emalloc.o error.o checksum32.o fdchecksum32.o nvmseek2.o 
 pibcomp: pibcomp.o getoptv.o putoptv.o version.o hexoffset.o hexview.o emalloc.o error.o checksum32.o fdchecksum32.o nvmseek2.o
