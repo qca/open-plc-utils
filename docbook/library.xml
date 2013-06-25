@@ -957,7 +957,7 @@
 
 	<section id="library-nodes">
 		<title>
-			nodes/nodes.h
+			nodes/node.h
 			</title>
 	<section id="function-xmledit">
 		<title>
@@ -972,7 +972,7 @@
    				</funcprototype>
 			</funcsynopsis>
 		<para>
-			Write data into <varname>buffer</varname> based on offset and length values defined in <acronym>XML</acronym> parse tree, <varname>node</varname>. This function will not apply modifications having malformed structure or having an invalid or an illegal offset, length or data value. Use function <link linkend='nodes-xmlschema'>xmlschema</link> to print the current schema. The function is declared in <ulink url='nodes.h.html'>nodes.h</ulink> and defined in <ulink url='xmledit.c.html'>xmledit.c</ulink>. The <varname>node</varname> structure is defined in <ulink url='nodes.h.html'>nodes.h</ulink>.
+			Write data into <varname>buffer</varname> based on offset and length values defined in <acronym>XML</acronym> parse tree, <varname>node</varname>. This function will not apply modifications having malformed structure or having an invalid or an illegal offset, length or data value. Use function <link linkend='nodes-xmlschema'>xmlschema</link> to print the current schema. The function is declared in <ulink url='node.h.html'>node.h</ulink> and defined in <ulink url='xmledit.c.html'>xmledit.c</ulink>. The <varname>node</varname> structure is defined in <ulink url='node.h.html'>node.h</ulink>.
 			</para>
 		</section>
 	<section id="function-xmlfree">
@@ -986,7 +986,7 @@
   				</funcprototype>
 			</funcsynopsis>
 		<para>
-			Release memory associated with an XML parse tree. The function is declared in <ulink url='nodes.h.html'>nodes.h</ulink> and defined in <ulink url='xmlfree.c.html'>xmlfree.c</ulink>. The <varname>node</varname> structure is defined in <ulink url='nodes.h.html'>nodes.h</ulink>.
+			Release memory associated with an XML parse tree. The function is declared in <ulink url='node.h.html'>node.h</ulink> and defined in <ulink url='xmlfree.c.html'>xmlfree.c</ulink>. The <varname>node</varname> structure is defined in <ulink url='node.h.html'>node.h</ulink>.
 			</para>
 		<para>
 			The <varname>text</varname> member if the parse tree root node points to memory allocated by <link linkend="nodes-xmlscan">xmlscan </link> to store the original <acronym>XML</acronym> string. The application must either deallocate that memory before calling this function or store the text address and deallocate that memory after calling this function;  otherwise, memory leaks will result. 
@@ -1003,7 +1003,7 @@
   				</funcprototype>
 			</funcsynopsis>
 		<para>
-			Create an empty node blow the specified node and return a pointer to it. A typical application can be seen in function <ulink url="xmlscan.c.html" >xmlscan.c</ulink>. The function is declared in <ulink url='nodes.h.html'>nodes.h</ulink> and defined in <ulink url='xmlnode.c.html'>xmlnode.c</ulink>. The <varname>node</varname> structure is defined in <ulink url='nodes.h.html'>nodes.h</ulink>.
+			Create an empty node blow the specified node and return a pointer to it. A typical application can be seen in function <ulink url="xmlscan.c.html" >xmlscan.c</ulink>. The function is declared in <ulink url='node.h.html'>node.h</ulink> and defined in <ulink url='xmlnode.c.html'>xmlnode.c</ulink>. The <varname>node</varname> structure is defined in <ulink url='node.h.html'>node.h</ulink>.
 			</para>
 		</section>
 	<section id="function-xmlopen">
@@ -1017,7 +1017,7 @@
    				</funcprototype>
 			</funcsynopsis>
 		<para>
-			Open the named XML file, parse it and return the XML parse tree. The parse tree contains, among other things, all XML elements,  attributes and values specified in the file. The function is declared in <ulink url='nodes.h.html'>nodes.h</ulink> and defined in <ulink url='xmlopen.c.html'>xmlopen.c</ulink>. The <varname>node</varname> structure is defined in <ulink url='nodes.h.html'>nodes.h</ulink>.
+			Open the named XML file, parse it and return the XML parse tree. The parse tree contains, among other things, all XML elements,  attributes and values specified in the file. The function is declared in <ulink url='node.h.html'>node.h</ulink> and defined in <ulink url='xmlopen.c.html'>xmlopen.c</ulink>. The <varname>node</varname> structure is defined in <ulink url='node.h.html'>node.h</ulink>.
 			</para>
 		<para>
 			The returned parse tree is ready to traverse using struct <varname>node</varname> members <varname>above</varname>, <varname>below</varname>, <varname>prior</varname> and <varname>after</varname>. Each node has a <varname>line</varname>, <varname>type</varname> and <varname>test</varname> member. This function calls function <link linkend="nodes-xmlscan">xmlscan </link> to parse the file and generate the tree. The parse tree can be inspected by passing the root node to function <link linkend="nodes-xmltree">xmltree</link>.  
@@ -1034,7 +1034,7 @@
   				</funcprototype>
 			</funcsynopsis>
 		<para>
-			Scan the XML string attached to the specified <varname>node</varname> and create a parse tree below it. Return <constant>0</constant> if parsing is successrul or <constant>-1</constant> if not. The function is declared in <ulink url='nodes.h.html'>nodes.h</ulink> and defined in <ulink url='xmlscan.c.html'>xmlscan.c</ulink>. The <varname>node</varname> structure is defined in <ulink url='nodes.h.html'>nodes.h</ulink>.
+			Scan the XML string attached to the specified <varname>node</varname> and create a parse tree below it. Return <constant>0</constant> if parsing is successrul or <constant>-1</constant> if not. The function is declared in <ulink url='node.h.html'>node.h</ulink> and defined in <ulink url='xmlscan.c.html'>xmlscan.c</ulink>. The <varname>node</varname> structure is defined in <ulink url='node.h.html'>node.h</ulink>.
 			</para>
 		<para>
 			The application must point the <varname>text</varname> member to a  copy of the XML string before calling this function because parsing is destructive and requires write access to the string. The application can search and manipulate the tree on return. The application should deallocate string memory before calling <link linkend="nodes-xmlfree">xmlfree</link>.   
@@ -1090,7 +1090,7 @@
   				</funcprototype>
 			</funcsynopsis>
 		<para>
-			Print an <acronym>XML</acronym> schema that supports function <link linkend='nodes-xmledit'>xmledit</link> on stdout. This function has no argument. The schema produced by this function is guaranteed to support the parse logic implemented by function <link linkend='nodes-xmledit'>xmledit</link>. Scheme element names are defined as constants in <ulink url='nodes.h.html'>nodes.h</ulink> so that they can be referenced by applications that create their own <acronym>XML</acronym> edit instructions. The function is declared in <ulink url='nodes.h.html'>nodes.h</ulink> and defined in <ulink url='xmlschema.c.html'>xmlschema.c</ulink>.
+			Print an <acronym>XML</acronym> schema that supports function <link linkend='nodes-xmledit'>xmledit</link> on stdout. This function has no argument. The schema produced by this function is guaranteed to support the parse logic implemented by function <link linkend='nodes-xmledit'>xmledit</link>. Scheme element names are defined as constants in <ulink url='node.h.html'>node.h</ulink> so that they can be referenced by applications that create their own <acronym>XML</acronym> edit instructions. The function is declared in <ulink url='node.h.html'>node.h</ulink> and defined in <ulink url='xmlschema.c.html'>xmlschema.c</ulink>.
 			</para>
 		<para>
 			The <varname>text</varname> member in the parse tree root node points to memory allocated by <link linkend="nodes-xmlscan">xmlscan </link> to store the original <acronym>XML</acronym> string. The application must either deallocate that memory before calling this function or store the text address and deallocate that memory after calling this function;  otherwise, memory leaks will result. 
@@ -1156,14 +1156,14 @@
   				</funcprototype>
 			</funcsynopsis>
 		<para>
-			Print the XML parse tree on stdout. The function is declared in <ulink url='nodes.h.html'>nodes.h</ulink> and defined in <ulink url='xmltree.c.html'>xmltree.c</ulink>.
+			Print the XML parse tree on stdout. The function is declared in <ulink url='node.h.html'>node.h</ulink> and defined in <ulink url='xmltree.c.html'>xmltree.c</ulink>.
 			</para>
 		<example id="nodes-example-2">
 			<title>
 				XML Parse Tree 
 				</title>
 		<para>
-			The following is sample output from function <function>xmltree</function>. The XML source is shown in the example for function <link linkend="nodes-example-1">xmlscan </link>. The numbers appearing down the left margin indicate the input line number from the XML source file parsed by function <link linkend="nodes-xmlscan">xmlscan </link>. The character codes indicate the node type and are defined in <ulink url="nodes.h.html">nodes.h</ulink>. The <varname>node</varname> structure is defined in <ulink url='nodes.h.html'>nodes.h</ulink>.
+			The following is sample output from function <function>xmltree</function>. The XML source is shown in the example for function <link linkend="nodes-example-1">xmlscan </link>. The numbers appearing down the left margin indicate the input line number from the XML source file parsed by function <link linkend="nodes-xmlscan">xmlscan </link>. The character codes indicate the node type and are defined in <ulink url="node.h.html">node.h</ulink>. The <varname>node</varname> structure is defined in <ulink url='node.h.html'>node.h</ulink>.
 			</para>
 <screen><![CDATA[
 001 [?] [xml]
