@@ -32,7 +32,7 @@
 			Qualcomm Atheros makes no claim that the <application>Open Powerline Toolkit</application> will compile  and link in all environments without generating warnings or errors. Different compilers, and compiler versions, treat certain conditions differently and different distributions include different header files or define standard constants and macros differently. Developers should expect to make some source code and makefile modifications to match their environment. 
 			</para>
 		<para>
-			The principle consideration is support for raw Ethernet frames. Other considerations include POSIX compliance,  system header file locations,  compiler version and library support. This section discusses some of these considertations.
+			The principle consideration is support for raw Ethernet frames. Other considerations include POSIX compliance,  system header file locations,  compiler version and library support. This section discusses some of these considerations.
 			</para>
 			<section id="platform-linux" >
 				<title>
@@ -80,10 +80,10 @@
 					<productname>Windows XP</productname> with Winpcap 
 					</title>
 				<para>
-					The toolkit will compile and execute on Microsoft <productname>Windows XP</productname> having <application>WinPcap 4.0.1</application> runtime libraries installed. To assist windows devlopers, the toolkit includes a Microsoft <productname>Visual Studio .NET 2003</productname> solution file plus required <application>WinPcap 4.0.1</application> header files and libraries. The resulting programs should execute on any Microsoft <productname>Windows</productname> computer having <application>WinPcap 4.0.1</application> runtime libraries installed. Qualcomm Atheros does not support the toolkit under any Microsoft <productname>Windows</productname> operating system at this time. 
+					The toolkit will compile and execute on Microsoft <productname>Windows XP</productname> having <application>WinPcap 4.0.1</application> runtime libraries installed. To assist windows developers, the toolkit includes a Microsoft <productname>Visual Studio .NET 2003</productname> solution file plus required <application>WinPcap 4.0.1</application> header files and libraries. The resulting programs should execute on any Microsoft <productname>Windows</productname> computer having <application>WinPcap 4.0.1</application> runtime libraries installed. Qualcomm Atheros does not support the toolkit under any Microsoft <productname>Windows</productname> operating system at this time. 
 					</para>
 				<para>
-					Recent versions of the toolkit include self-extraing file <filename>.\VisualStudioNET\WinPcap4_0_1.exe</filename> that installs <application>WinPcap 4.0.1</application> libraries on your system in cases where you have another version installed. If this creates a conflict the you must resolve it to satifsy your system requirements.
+					Recent versions of the toolkit include self-extracting file <filename>.\VisualStudioNET\WinPcap4_0_1.exe</filename> that installs <application>WinPcap 4.0.1</application> libraries on your system in cases where you have another version installed. If this creates a conflict the you must resolve it to satisfy your system requirements.
 					</para>
 				<para>
 					This is not the preferred Toolkit environment due to cost, networking overhead, difficulty accessing Layer network support and lack of a powerful native scripting language. Qualcomm Atheros has not implemented all Toolkit programs on Windows for technical reasons. 
@@ -95,7 +95,7 @@
 				GNU Makefiles on Linux
 				</title>
 			<para>
-				The toolkit includes recursive GNU makefiles for Linux. The <filename>Makefile</filename> in the root folder calls Makefiles in subordinate folders. Makefiles in subordinate folders can be run indpendently to produce individual toolkit components. Developers can control which components are compiled and installed by editing the <constant>FOLDERS</constant> symbol in the main Makefile.
+				The toolkit includes recursive GNU makefiles for Linux. The <filename>Makefile</filename> in the root folder calls Makefiles in subordinate folders. Makefiles in subordinate folders can be run independently to produce individual toolkit components. Developers can control which components are compiled and installed by editing the <constant>FOLDERS</constant> symbol in the main Makefile.
 				</para>
 			<para>
 				Component Makefiles have a standard format that includes the following targets: 

@@ -6,7 +6,7 @@
 			The <productname>Windows</productname> version of the toolkit comes pre-compiled and ready to install and run using the <application>Windows Installer</application>. You may copy and distribute installation file <filename>plc-utils-x.x.x.msi</filename>. Users may then click on the installation file to install the package then discard it afterwards. The installation file permits remote installation over the network.
 			</para>
 		<para>
-			The version of the Windows Installer used here needs Microsoft <productname>.NET Framework 1.1</productname> to work correctly. Newer versions of the <productname>.NET Framework</productname> will not work. The <productname>.NET Framework</productname> must be installed before the toolkit is installed or the <productname>Windows Installer</productname> will report depenency errors and refuse to complete installation. Multiple versions of the <productname>.NET Framework</productname> can coexist under <productname>Windows 7</productname>. The <productname>.NET Framework</productname> needed is included in the toolkit <filename>support</filename> folder. 
+			The version of the Windows Installer used here needs Microsoft <productname>.NET Framework 1.1</productname> to work correctly. Newer versions of the <productname>.NET Framework</productname> will not work. The <productname>.NET Framework</productname> must be installed before the toolkit is installed or the <productname>Windows Installer</productname> will report dependency errors and refuse to complete installation. Multiple versions of the <productname>.NET Framework</productname> can coexist under <productname>Windows 7</productname>. The <productname>.NET Framework</productname> needed is included in the toolkit <filename>support</filename> folder. 
 			</para>
 		<tip>
 			<para>
@@ -18,7 +18,7 @@
 			</para>
 		<tip>
 			<para>
-				Users on the QCA corporate network may be able to download installer <ulink url='ftp://appslinux01.qca.qualcomm.com/windows/WinPcap_4_1_2.exe'>ftp://appslinux01.qca.qualcomm.com/windows/WinPcap_4_1_2.exe</ulink> then execute it by right-clicking on the file and selecting option Run As Administator.
+				Users on the QCA corporate network may be able to download installer <ulink url='ftp://appslinux01.qca.qualcomm.com/windows/WinPcap_4_1_2.exe'>ftp://appslinux01.qca.qualcomm.com/windows/WinPcap_4_1_2.exe</ulink> then execute it by right-clicking on the file and selecting option Run As Administrator.
 				</para>
 			</tip>
 		<para>
