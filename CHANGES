@@ -9,6 +9,8 @@ open-plc-utils-0.0.3
 
 4. Replaced const HOMEPLUG_MTYPE with constant ETH_P_HPAV throughout.
 
+5. Correct endianess of FIRLD_ETH_TYPE in module coqos_add.c.
+
 
 open-plc-utils-0.0.2
 ---------------

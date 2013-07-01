@@ -365,7 +365,7 @@ int main (int argc, char const * argv [])
 		case FIELD_ETH_TYPE:
 			word = (uint16_t *)(rule->CR_VALUE);
 			*word = (uint16_t)(basespec (* argv++, 0, sizeof (* word)));
-			*word = HTOLE16 (*word);
+			*word = htons (*word);
 			break;
 		case FIELD_HPAV_MME:
 			bytespec (* argv++, rule->CR_VALUE, sizeof (uint8_t) + sizeof (uint16_t));
