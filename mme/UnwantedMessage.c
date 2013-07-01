@@ -91,12 +91,12 @@ signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_
 
 		return (-1);
 	}
-	if (homeplug->ethernet.MTYPE != htons (HOMEPLUG_MTYPE)) 
+	if (ntohs (homeplug->ethernet.MTYPE) != ETH_P_HPAV) 
 	{
 
 #if defined (__WHYNOT__)
 
-		error (0, 0, "Wrong Ethernet Frame Type: Received %04X while waiting for %04X", ntohs (homeplug->ethernet.MTYPE), HOMEPLUG_MTYPE);
+		error (0, 0, "Wrong Ethernet Frame Type: Received %04X while waiting for %04X", ntohs (homeplug->ethernet.MTYPE), ETH_P_HPAV);
 
 #endif
 

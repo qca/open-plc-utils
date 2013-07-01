@@ -39,7 +39,6 @@
  *   HomePlug AV Constants;
  *--------------------------------------------------------------------*/
 
-#define HOMEPLUG_MTYPE 0x88E1
 #define HOMEPLUG_MMV 0x01  
 #define HOMEPLUG_MMTYPE 0x0000
 

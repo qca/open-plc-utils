@@ -7,6 +7,8 @@ open-plc-utils-0.0.3
 
 3. Renamed man pages ending in .7 with .1 to reflect that fact that they will now be installed man1 instead of man7.
 
+4. Replaced const HOMEPLUG_MTYPE with constant ETH_P_HPAV throughout.
+
 
 open-plc-utils-0.0.2
 ---------------
