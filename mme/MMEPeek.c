@@ -54,7 +54,7 @@ void MMEPeek (void const * memory, size_t extent, FILE *fp)
 	fprintf (fp, "ODA=%s ", hexstring (address, sizeof (address), message->ethernet.ODA, sizeof (message->ethernet.ODA)));
 	fprintf (fp, "OSA=%s ", hexstring (address, sizeof (address), message->ethernet.OSA, sizeof (message->ethernet.OSA)));
 	fprintf (fp, "MTYPE=%04X ", ntohs (message->ethernet.MTYPE));
-	if (ntohs (message->ethernet.MTYPE) == HOMEPLUG_MTYPE) 
+	if (ntohs (message->ethernet.MTYPE) == ETH_P_HPAV) 
 	{
 		struct homeplug_std * homeplug = (struct homeplug_std *)(&message->content);
 		uint16_t mmtype = LE16TOH (homeplug->MMTYPE);

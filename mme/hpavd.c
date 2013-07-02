@@ -150,7 +150,7 @@ int main (int argc, char const * argv [])
 	struct sockaddr_ll sockaddr = 
 	{
 		PF_PACKET,
-		htons (HOMEPLUG_MTYPE),
+		htons (ETH_P_HPAV),
 		0x0000,
 		ARPHRD_ETHER,
 		PACKET_OTHERHOST,
