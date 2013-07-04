@@ -7,7 +7,7 @@
 			Introduction 
 			</title>
 		<para>
-			The Atheros <application>Open Powerline Toolkit</application> includes several example applications that perform basic powerline device management from a remote host. Each example implements a different network protocol,  such as HTTP,  SNMP or TR-069. These applications merely demonstrate the underlying concepts but none perfrom full network device management. That is left to our customers because their needs vary. 
+			The Atheros <application>Open Powerline Toolkit</application> includes several example applications that perform basic powerline device management from a remote host. Each example implements a different network protocol,  such as HTTP,  SNMP or TR-069. These applications merely demonstrate the underlying concepts but none perform full network device management. That is left to our customers because their needs vary. 
 			</para>
 		<para>
 			All examples are proxy implementations where a local host communicates with one powerline device over Ethernet. That device then communicates with other devices over powerline or coax. All management functionality is programmed into the local host but other hosts are able to request information or services from it over Ethernet. The local host could be either part of the local powerline device or an external workstation.
@@ -22,7 +22,7 @@
 				Overview
 				</title>
 			<para>
-				HTTP provides a simple means for one device to interact with one or more remote hosts. The device merely needs requires a basic web server with Common Gateway Inteface (<acronym>CGI</acronym>) support. With CGI support, one can write programs that read structured data from their standard input and write HTML to their standard output. Generally, the HTML output is a form that the user can complete and submit for subsequent processing by some application on device.
+				HTTP provides a simple means for one device to interact with one or more remote hosts. The device merely needs requires a basic web server with Common Gateway Interface (<acronym>CGI</acronym>) support. With CGI support, one can write programs that read structured data from their standard input and write HTML to their standard output. Generally, the HTML output is a form that the user can complete and submit for subsequent processing by some application on device.
 				</para>
 			<para>
 				The basic chain of events looks something like this:
@@ -60,7 +60,7 @@
 					</listitem>
 				<listitem>
 					<para>
-						The client forwards the form to the URL designated by the spplication. Often, this URL is an application on the originating server but it could be an application on another server.
+						The client forwards the form to the URL designated by the application. Often, this URL is an application on the originating server but it could be an application on another server.
 						</para>
 					</listitem>
 				<listitem>

@@ -7,7 +7,7 @@
 			Introduction
 			</title>
 		<para>
-			Most Qualcomm Atheros PLC chipsets are Ethernet-to-Powerline bridges but the QCA7000 is a Serial-to-Powerline bridge, ... with a big difference. The QCA7000 expects the host serial stream to be segmented into Ethernet frames where each frame is encapsulated by a distinct serial header and trailer. This means the host can format and transmit, or receive and decode, standard Ethernet 802.3 frames over an ordinary SPI or UART interface thereby enabling full Ethernet or Internet protocol communications over powerline at low cost and low speed. The enabling componenthere is an Ethernet-to-Serial driver that supports the SPI or UART interface connected to the QCA7000. This section covers such a driver.
+			Most Qualcomm Atheros PLC chipsets are Ethernet-to-Powerline bridges but the QCA7000 is a Serial-to-Powerline bridge, ... with a big difference. The QCA7000 expects the host serial stream to be segmented into Ethernet frames where each frame is encapsulated by a distinct serial header and trailer. This means the host can format and transmit, or receive and decode, standard Ethernet 802.3 frames over an ordinary SPI or UART interface thereby enabling full Ethernet or Internet protocol communications over powerline at low cost and low speed. The enabling component here is an Ethernet-to-Serial driver that supports the SPI or UART interface connected to the QCA7000. This section covers such a driver.
 			</para>
 		<para>
 			The example driver described here was written for the Freescale iMX28 board support package running a custom Freescale Linux distribution. As such, we believe that this driver is suitable for the iMX28 processor out of the box but it could be adapted to other processors.
@@ -26,7 +26,7 @@
 				SPI Transmit Frame
 				</title>
 		<para>
-			Allocate a 1528-byte buffer to accomodate the largest outgoing serial packet and pad with <constant>NUL</constant> bytes. Write <varname>SOF</varname>, compute and write <varname>FL</varname>, copy the outgoing frame then write <varname>EOF</varname>. Serially transmit <varname>FL</varname> + <constant>12</constant> buffer bytes to the QCA7000.
+			Allocate a 1528-byte buffer to accommodate the largest outgoing serial packet and pad with <constant>NUL</constant> bytes. Write <varname>SOF</varname>, compute and write <varname>FL</varname>, copy the outgoing frame then write <varname>EOF</varname>. Serially transmit <varname>FL</varname> + <constant>12</constant> buffer bytes to the QCA7000.
 			</para>
 		<tgroup cols="4">
 			<thead>
