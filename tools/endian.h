@@ -60,8 +60,10 @@
 #       define BYTE_ORDER LITTLE_ENDIAN
 #elif defined (__vxworks)
 #       include <netinet/in.h>
+#elif defined (__CYGWIN__)
+#	error "Cygwin is unsupported"
 #else
-#error "Unknown environment"
+#	error "Unknown environment"
 #endif
 
 /*====================================================================*

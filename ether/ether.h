@@ -46,8 +46,10 @@
 #       endif
 #       include <net/ethernet.h>
 #       include <net/if.h>
+#elif defined (__CYGWIN__)
+#	error "Cygwin in unsupported!"
 #else
-#error "Unknown environment"
+#	error "Unknown environment!"
 #endif
 
 /*====================================================================*

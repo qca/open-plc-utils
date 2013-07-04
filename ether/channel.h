@@ -62,15 +62,17 @@
 #       ifdef LIBPCAP
 #               error "Don't enable libpcap on Linux. You don't need it."
 #               endif
-#elif defined (WIN32)
+#elif defined (WIN32) 
 #       ifndef WINPCAP
 #               error "Define preprocessor constant WINPCAP on Windows."
 #               endif
 #       ifdef LIBPCAP
 #               error "Don't enable libpcap on Windows. It won't work."
 #               endif
+#elif defined (__CYGWIN__)
+# 	error "cygwin is unsupported!"
 #else
-#       error "Unknown Environment"
+#       error "unknown environment"
 #endif
 
 /*====================================================================*
