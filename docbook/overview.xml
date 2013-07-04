@@ -65,7 +65,7 @@
 			Packages 
 			</title>
 		<para>
-			The following table lists programs and the release packages that contains them. Packages contain programs of interest to various customer and engineering groups based on the activities that they normally perform. Som groups may need multiple packages. Some packages are restricted.
+			The following table lists programs and the release packages that contains them. Packages contain programs of interest to various customer and engineering groups based on the activities that they normally perform. Some groups may need multiple packages. Some packages are restricted.
 			</para>
 		&packages;
 		</section>

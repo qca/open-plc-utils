@@ -3,10 +3,10 @@
 			Toolkit Installation on <productname>Windows 7</productname>
 			</title>
 		<para>
-			The <productname>Windows</productname> version of the toolkit comes pre-compiled and ready to install and run using the native <application>Windows Installer</application>. You may copy and distribute installation file <filename>plc-utils-x.x.x.msi</filename>. Users merely click on the file to install the package and may discard it afterwards. This method of installation permits remote installation over anetwork.
+			The <productname>Windows</productname> version of the toolkit comes pre-compiled and ready to install and run using the native <application>Windows Installer</application>. You may copy and distribute installation file <filename>plc-utils-x.x.x.msi</filename>. Users merely click on the file to install the package and may discard it afterwards. This method of installation permits remote installation over network.
 			</para>
 		<para>
-			The version of the Windows Installer used here needs Microsoft <productname>.NET Framework 1.1</productname> to work correctly. Newer versions of the <productname>.NET Framework</productname> will not work. The <productname>.NET Framework</productname> must be installed before the toolkit is installed or the <productname>Windows Installer</productname> will report depenency errors and refuse to complete installation. Multiple versions of the <productname>.NET Framework</productname> can coexist under <productname>Windows 7</productname>. The <productname>.NET Framework</productname> needed is included in the toolkit <filename>support</filename> folder.
+			The version of the Windows Installer used here needs Microsoft <productname>.NET Framework 1.1</productname> to work correctly. Newer versions of the <productname>.NET Framework</productname> will not work. The <productname>.NET Framework</productname> must be installed before the toolkit is installed or the <productname>Windows Installer</productname> will report dependency errors and refuse to complete installation. Multiple versions of the <productname>.NET Framework</productname> can coexist under <productname>Windows 7</productname>. The <productname>.NET Framework</productname> needed is included in the toolkit <filename>support</filename> folder.
 			</para>
 		<tip>
 			<para>
@@ -21,7 +21,7 @@
 			</para>
 		<tip>
 			<para>
-				Users on the QCA corporate network may be able to download installer <ulink url='ftp://appslinux01.qca.qualcomm.com/windows/WinPcap_4_1_2.exe'>ftp://appslinux01.qca.qualcomm.com/windows/WinPcap_4_1_2.exe</ulink> then execute it by right-clicking on the file and selecting option Run As Administator.
+				Users on the QCA corporate network may be able to download installer <ulink url='ftp://appslinux01.qca.qualcomm.com/windows/WinPcap_4_1_2.exe'>ftp://appslinux01.qca.qualcomm.com/windows/WinPcap_4_1_2.exe</ulink> then execute it by right-clicking on the file and selecting option Run As Administrator.
 				</para>
 			</tip>
 		<section>
@@ -40,7 +40,7 @@
 				Installing the Toolkit
 				</title>
 				<para>
-					 Older toolkit programs were installed in folder <filename>C:\Program Files\Atheros\Toolkit</filename> by default but now they are installed in <filename>C:\Program Files (x86)\Qualcomm Atheros\Open Powerline Toolkit</filename> instead. If you slect a different folder during installation then remember it for the next step.
+					 Older toolkit programs were installed in folder <filename>C:\Program Files\Atheros\Toolkit</filename> by default but now they are installed in <filename>C:\Program Files (x86)\Qualcomm Atheros\Open Powerline Toolkit</filename> instead. If you select a different folder during installation then remember it for the next step.
 					</para>
 			<figure>
 				<title>
@@ -86,7 +86,7 @@
 					</listitem>
 				<listitem>
 					<para>
-						On the <command>View basic informtion about your computer</command> page, select the <command>Advanced system settings</command> option.
+						On the <command>View basic information about your computer</command> page, select the <command>Advanced system settings</command> option.
 						</para>
 					</listitem>
 				<listitem>

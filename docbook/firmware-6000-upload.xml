@@ -39,7 +39,7 @@
 	<orderedlist>
 		<listitem>
 			<para>
-					The runtime firmware initiates this operation by broadcasting <constant>VS_HOST_ACTION.IND</constant> messages every 500 milliseconds. The <constant>HOST_ACTION_REQ</constant> field of the message can be either <constant>0x01</constant>, <constant>0x02</constant> or <constant>0x03</constant> to indicate that a firmware image, a paramter block image or both are ready for upload by the local host. 
+					The runtime firmware initiates this operation by broadcasting <constant>VS_HOST_ACTION.IND</constant> messages every 500 milliseconds. The <constant>HOST_ACTION_REQ</constant> field of the message can be either <constant>0x01</constant>, <constant>0x02</constant> or <constant>0x03</constant> to indicate that a firmware image, a parameter block image or both are ready for upload by the local host. 
 					</para>
 		</listitem>
 		<listitem>

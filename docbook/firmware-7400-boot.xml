@@ -6,7 +6,7 @@
 			The <productname>AR7400</productname> boot-from-host method downloads and executes a device configuration applet then downloads runtime parameters and firmware from a local host and starts firmware execution. This method is initiated by the <application>Bootloader</application> after reset on a device having no flash memory, blank flash memory or corrupted flash memory. The method requires <application>Bootloader</application> aware software running on the local host in order to complete.
 			</para>
 		<para>
-			The <productname>AR7400</productname> boot-from-host method is similar to the <productname>INT6400</productname> boot-from-host method but it uses the <constant>VS_WRITE_AND_EXECUTE</constant> message instead of the <constant>VS_WR_MEM</constant> message write into SDRAM and start firmware execution. This elminates the need for the <constant>VS_ST_MAC</constant> message. The <constant>VS_WR_MEM</constant> and <constant>VS_ST_MAC</constant> message types will no longer be recognized by bootloaders after the <productname>QCA7420</productname> chipset. 
+			The <productname>AR7400</productname> boot-from-host method is similar to the <productname>INT6400</productname> boot-from-host method but it uses the <constant>VS_WRITE_AND_EXECUTE</constant> message instead of the <constant>VS_WR_MEM</constant> message write into SDRAM and start firmware execution. This eliminates the need for the <constant>VS_ST_MAC</constant> message. The <constant>VS_WR_MEM</constant> and <constant>VS_ST_MAC</constant> message types will no longer be recognized by bootloaders after the <productname>QCA7420</productname> chipset. 
 			</para>
 		<para>
 			The <productname>AR7400</productname> boot-from-host method works on <productname>AR6400</productname> and will continue to work on <productname>QCA7420</productname> and planned successors. Customers should implement this boot-from-host method now to avoid building obsolete products.
@@ -48,7 +48,7 @@
 		<orderedlist>
 			<listitem>
 				<para>
-					The bootloader automatically starts after device reset and attempts to read the runtime firmware image from flash memory, write it into <acronym>SDRAM</acronym> and start execution. If it succeeds then normal operation begins and no futher action is required. If it fails, for any reason, then the bootloader initiates the boot-from-host sequence.
+					The bootloader automatically starts after device reset and attempts to read the runtime firmware image from flash memory, write it into <acronym>SDRAM</acronym> and start execution. If it succeeds then normal operation begins and no further action is required. If it fails, for any reason, then the bootloader initiates the boot-from-host sequence.
 					</para>
 				</listitem>
 			<listitem>
