@@ -43,11 +43,8 @@
 #include "../tools/memory.h"
 #include "../tools/number.h"
 #include "../tools/error.h"
+#include "../ether/ether.h"
 #include "../plc/rules.h"
-
-#ifndef ETHER_ADDR_LEN
-#define ETHER_ADDR_LEN 6 
-#endif
 
 signed ParseRule (int * argcp, char const ** argvp [], struct MMERule * rule, struct cspec * cspec) 
 
