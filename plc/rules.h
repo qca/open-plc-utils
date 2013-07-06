@@ -51,21 +51,21 @@
  *   constants;
  *--------------------------------------------------------------------*/
 
-#define CONTROLS 3
-#define VOLATILITIES 2
-#define ACTIONS 12
-#define OPERANDS 3
-#define OPERATORS 2
-#define STATES 8
-#define FIELDS 22
+#define CLASSIFIER_CONTROLS 3
+#define CLASSIFIER_VOLATILITIES 2
+#define CLASSIFIER_ACTIONS 12
+#define CLASSIFIER_OPERANDS 3
+#define CLASSIFIER_OPERATORS 2
+#define CLASSIFIER_STATES 8
+#define CLASSIFIER_FIELDS 22
 
-#define CONTROL "control"
-#define VOLATILITY "volatility"
-#define ACTION "action"
-#define OPERAND "operand"
-#define OPERATOR "operator"
-#define STATE "state"
-#define FIELD "field"
+#define CLASSIFIER_CONTROL_NAME "control"
+#define CLASSIFIER_VOLATILITY_NAME "volatility"
+#define CLASSIFIER_ACTION_NAME "action"
+#define CLASSIFIER_OPERAND_NAME "operand"
+#define CLASSIFIER_OPERATOR_NAME "operator"
+#define CLASSIFIER_STATE_NAME "state"
+#define CLASSIFIER_FIELD_NAME "field"
 
 #define CONTROL_ADD 0x00
 #define CONTROL_REM 0x01
@@ -125,13 +125,13 @@
  *   variables;
  *--------------------------------------------------------------------*/
 
-extern struct _code_ const controls [CONTROLS];
-extern struct _code_ const volatilities [VOLATILITIES];
-extern struct _code_ const actions [ACTIONS];
-extern struct _code_ const operands [OPERANDS];
-extern struct _code_ const fields [FIELDS];
-extern struct _code_ const operators [OPERATORS];
-extern struct _code_ const states [STATES];
+extern struct _code_ const controls [CLASSIFIER_CONTROLS];
+extern struct _code_ const volatilities [CLASSIFIER_VOLATILITIES];
+extern struct _code_ const actions [CLASSIFIER_ACTIONS];
+extern struct _code_ const operands [CLASSIFIER_OPERANDS];
+extern struct _code_ const fields [CLASSIFIER_FIELDS];
+extern struct _code_ const operators [CLASSIFIER_OPERATORS];
+extern struct _code_ const states [CLASSIFIER_STATES];
 
 #ifndef __GNUC__
 #pragma pack (push,1)

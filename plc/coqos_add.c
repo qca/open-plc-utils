@@ -276,7 +276,7 @@ int main (int argc, char const * argv [])
 	memset (&connection, 0, sizeof (connection));
 	if ((code = lookup (* argv++, actions, SIZEOF (actions))) == -1) 
 	{
-		assist (*--argv, ACTION, actions, SIZEOF (actions));
+		assist (*--argv, CLASSIFIER_ACTION_NAME, actions, SIZEOF (actions));
 	}
 	connection.cspec.CONN_CAP = (uint8_t)(code);
 	argc--;
@@ -309,7 +309,7 @@ int main (int argc, char const * argv [])
 	argc--;
 	if ((code = lookup (* argv++, operands, SIZEOF (operands))) == -1) 
 	{
-		assist (*--argv, OPERAND, operands, SIZEOF (operands));
+		assist (*--argv, CLASSIFIER_OPERAND_NAME, operands, SIZEOF (operands));
 	}
 	connection.rule.MOPERAND = (uint8_t)(code);
 	argc--;
@@ -317,19 +317,19 @@ int main (int argc, char const * argv [])
 	{
 		if ((code = lookup (* argv++, fields, SIZEOF (fields))) == -1) 
 		{
-			assist (*--argv, FIELD, fields, SIZEOF (fields));
+			assist (*--argv, CLASSIFIER_FIELD_NAME, fields, SIZEOF (fields));
 		}
 		rule->CR_PID = (uint8_t)(code);
 		argc--;
 		if ((code = lookup (* argv++, operators, SIZEOF (operators))) == -1) 
 		{
-			assist (*--argv, OPERATOR, operators, SIZEOF (operators));
+			assist (*--argv, CLASSIFIER_OPERATOR_NAME, operators, SIZEOF (operators));
 		}
 		rule->CR_OPERAND = (uint8_t)(code);
 		argc--;
 		if (!argc || !* argv) 
 		{
-			error (1, ENOTSUP, "Have %s '%s' without any value", OPERATOR, *--argv);
+			error (1, ENOTSUP, "Have %s '%s' without any value", CLASSIFIER_OPERATOR_NAME, *--argv);
 		}
 		switch (rule->CR_PID) 
 		{

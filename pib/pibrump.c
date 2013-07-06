@@ -114,7 +114,7 @@ signed Classifier (struct PIBClassifier * classifier)
 	uint32_t val32;
 	uint16_t val16;
 	uint8_t val8;
-	printf ("%s %s", reword (classifier->CR_PID, fields, FIELDS), reword (classifier->CR_OPERAND, operators, OPERATORS));
+	printf ("%s %s", reword (classifier->CR_PID, fields, SIZEOF (fields)), reword (classifier->CR_OPERAND, operators, SIZEOF (operators)));
 	switch (classifier->CR_PID) 
 	{
 	case FIELD_ETH_SA:
@@ -167,14 +167,14 @@ signed Classifier (struct PIBClassifier * classifier)
 		{
 			code_t val;
 			memcpy (&val, classifier->CR_VALUE, sizeof (val));
-			printf (" %s", reword (val, states, STATES));
+			printf (" %s", reword (val, states, SIZEOF (states)));
 		}
 		break;
 	case FIELD_VLAN_TAG:
 		{
 			code_t val;
 			memcpy (&val, classifier->CR_VALUE, sizeof (val));
-			printf (" %s", reword (val, states, STATES));
+			printf (" %s", reword (val, states, SIZEOF (states)));
 		}
 		break;
 	default:
@@ -207,8 +207,8 @@ signed AutoConnection (struct auto_connection * auto_connection)
 	{
 		printf ("-T 0x%08X -V %d ", ntohl (auto_connection->cspec.VLAN_TAG), LE16TOH (auto_connection->cspec.CSPEC_VERSION));
 	}
-	printf ("%s", reword (auto_connection->MACTION, actions, ACTIONS));
-	printf (" %s ", reword (auto_connection->MOPERAND, operands, OPERANDS));
+	printf ("%s", reword (auto_connection->MACTION, actions, SIZEOF (actions)));
+	printf (" %s ", reword (auto_connection->MOPERAND, operands, SIZEOF (operands)));
 	for (i = 0; i < LE16TOH (auto_connection->NUM_CLASSIFIERS); ++i) 
 	{
 		Classifier (&auto_connection->CLASSIFIER [i]);
@@ -236,7 +236,7 @@ signed AutoConnection (struct auto_connection * auto_connection)
 signed ClassifierPriorityMap (struct classifier_priority_map * map) 
 
 {
-	printf ("%s Any ", reword (LE32TOH (map->Priority), actions, ACTIONS));
+	printf ("%s Any ", reword (LE32TOH (map->Priority), actions, SIZEOF (actions)));
 	Classifier (&map->CLASSIFIER);
 	printf (" add perm\n");
 	return (0);

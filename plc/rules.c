@@ -38,7 +38,7 @@
 
 #include "../plc/rules.h"
 
-struct _code_ const controls [CONTROLS] = 
+struct _code_ const controls [CLASSIFIER_CONTROLS] = 
 
 {
 	{
@@ -55,7 +55,7 @@ struct _code_ const controls [CONTROLS] =
 	}
 };
 
-struct _code_ const volatilities [VOLATILITIES] = 
+struct _code_ const volatilities [CLASSIFIER_VOLATILITIES] = 
 
 {
 	{
@@ -68,7 +68,7 @@ struct _code_ const volatilities [VOLATILITIES] =
 	}
 };
 
-struct _code_ const actions [ACTIONS] = 
+struct _code_ const actions [CLASSIFIER_ACTIONS] = 
 
 {
 	{
@@ -121,7 +121,7 @@ struct _code_ const actions [ACTIONS] =
 	}
 };
 
-struct _code_ const operands [OPERANDS] = 
+struct _code_ const operands [CLASSIFIER_OPERANDS] = 
 
 {
 	{
@@ -138,7 +138,7 @@ struct _code_ const operands [OPERANDS] =
 	}
 };
 
-struct _code_ const fields [FIELDS] = 
+struct _code_ const fields [CLASSIFIER_FIELDS] = 
 
 {
 	{
@@ -231,7 +231,7 @@ struct _code_ const fields [FIELDS] =
 	}
 };
 
-struct _code_ const operators [OPERATORS] = 
+struct _code_ const operators [CLASSIFIER_OPERATORS] = 
 
 {
 	{
@@ -244,7 +244,7 @@ struct _code_ const operators [OPERATORS] =
 	}
 };
 
-struct _code_ const states [STATES] = 
+struct _code_ const states [CLASSIFIER_STATES] = 
 
 {
 	{
