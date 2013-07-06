@@ -149,7 +149,7 @@ PLCReadParameterBlock.o: PLCReadParameterBlock.c error.h files.h pib.h plc.h
 PLCSelect.o: PLCSelect.c plc.h
 PLCTopology.o: PLCTopology.c error.h flags.h memory.h plc.h symbol.h
 PLCTopologyPrint.o: PLCTopologyPrint.c memory.h plc.h
-ParseRule.o: ParseRule.c error.h memory.h number.h rules.h
+ParseRule.o: ParseRule.c ether.h error.h memory.h number.h rules.h
 PhyRates.o: PhyRates.c plc.h
 PhyRates1.o: PhyRates1.c error.h flags.h plc.h types.h
 PhyRates2.o: PhyRates2.c error.h flags.h memory.h plc.h
