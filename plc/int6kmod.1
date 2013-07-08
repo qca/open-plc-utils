@@ -40,7 +40,7 @@ This option prints all output on stdout in cases where this is desired.
 .TP
 -\fBi \fIinterface\fR
 Select the host Ethernet interface.
-All requests are sent via this host interface and only reponses received via this host interface are recognized.
+All requests are sent via this host interface and only responses received via this host interface are recognized.
 The default interface is \fBeth1\fR because most people use \fBeth0\fR as their principle network connection; however, if environment string "PLC" is defined then it takes precedence over the default interface.
 This option then takes precedence over either default.
 
@@ -57,7 +57,7 @@ This option and option \fB-d\fR are mutually exclusive.
 -\fBM \fIfilename\fR
 Read the named module file and download it to the named device and commit NVRAM.
 The module is assigned to a module and sub-module identifier using options \fB-t\fR and \fB-s\fR.
-Runtime firmware will reject modules having invalid module and sub-mocule idetnifiers.
+Runtime firmware will reject modules having invalid module and sub-module identifiers.
 As implemented, int6kmod will reject files exceeding 1400 bytes but this restriction will be removed in later versions.
 
 .TP
@@ -156,7 +156,7 @@ Qualcomm Atheros reserves the right to modify message structure or content in fu
 .SH EXAMPLES
 The following command reads module file \fBabc.bin\fR and writes it to the local device.
 The module identifier \fB0x1000\fR indicates that it is an \fBMDIO Init\fR module.
-The sub-module identifer defaults to \fB0x0000\fR because option \fB-s\fR is omitted.
+The sub-module identifier defaults to \fB0x0000\fR because option \fB-s\fR is omitted.
 The session identifier defaults to \fB0x78563412\fR because option \fB-S\fR is omitted.
 The operation takes place in three steps.
 The last step may take 2 or 3 seconds to complete.

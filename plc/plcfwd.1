@@ -27,7 +27,7 @@ Add VLANIDs of multiple slaves to memory.
 
 .TP
 .RB - C
-Commit configruation to flash memory.
+Commit configuration to flash memory.
 
 .TP
 -\fBD\fI VLANID\fR
@@ -43,13 +43,13 @@ This option prints all output on stdout in cases where this is desired.
 -\fBf\fI filename\fR
 Read additional device addresses and VLAN IDs from the named file.
 This option may appear multiple times and may appear in addition option \fb-z\fR.
-Each occurance of this option adds one or more entries to the VLANID table used by options \fB-A\fR or \fB-R\fR.
+Each occurrence of this option adds one or more entries to the VLANID table used by options \fB-A\fR or \fB-R\fR.
 The format used on each line of this file is identical to that used by option \fB-z\fR.
 
 .TP
 -\fBi \fIinterface\fR
 Select the host Ethernet interface.
-All requests are sent via this host interface and only reponses received via this host interface are recognized.
+All requests are sent via this host interface and only responses received via this host interface are recognized.
 The default interface is \fBeth1\fR because most people use \fBeth0\fR as their principle network connection; however, if environment string "PLC" is defined then it takes precedence over the default interface.
 This option then takes precedence over either default.
 
@@ -101,7 +101,7 @@ In particular, this option dumps outgoing Ethernet packets on stdout.
 -\fBz\fI address\fR,\fIid\fR[,\fIid\fR[,...]]
 A device address and associated VLAN IDs separated by commas.
 This option may appear multiple times and may appear in addition option \fb-f\fR.
-Each occurance of this option adds one entry to the VLANID table used by options \fB-A\fR or \fB-R\fR.
+Each occurrence of this option adds one entry to the VLANID table used by options \fB-A\fR or \fB-R\fR.
 The string format used here is identical to that used on each line of input files named by option \fB-f\fR.
 
 .TP
@@ -162,7 +162,7 @@ Qualcomm Atheros reserves the right to modify message structure and content in f
 
 .SH EXAMPLES
 The following example reads \fB100\fR bytes starting at offset \fB0x24\fR.
-The operation is \fBread\fR because no other operation is specifed using \fB-A\fR, \fB-C\fR, \fB-R\fB, \fB-M\fR or \fB-S\fR.
+The operation is \fBread\fR because no other operation is specified using \fB-A\fR, \fB-C\fR, \fB-R\fB, \fB-M\fR or \fB-S\fR.
 The offset is always in hexadecimal and length is always in decimal.
 
 .PP

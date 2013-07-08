@@ -1,7 +1,7 @@
 .TH plcget 1 "April 2013" "plc-utils-2.1.5" "Qualcomm Atheros Powerline Toolkit"
 
 .SH NAME
-plcget - Qualcomm Atheros PLC Get Propery
+plcget - Qualcomm Atheros PLC Get Property
 
 .SH SYNOPSIS
 .BR plcget
@@ -61,14 +61,14 @@ Property identifiers and versions are entered as 32-bit decimal integers.
 Property names are not supported.
 The default is \fB0\fR.
 This option may appear more than once on the command line.
-The first occurance specifies the property identifier.
-The second occurances specifies the property version.
+The first occurrence specifies the property identifier.
+The second occurrences specifies the property version.
 See the \fIFirmware Technical Reference Manual\fR for an list of valid property identifiers and versions.
 
 .TP
 -\fBi \fIinterface\fR
 Select the host Ethernet interface.
-All requests are sent via this interface and only reponses received via this interface are recognized.
+All requests are sent via this interface and only responses received via this interface are recognized.
 The default interface is \fBeth1\fR because most people use \fBeth0\fR as their principle network connection; however, if environment string "PLC" is defined then it takes precedence over the default interface.
 This option then takes precedence over either default.
 

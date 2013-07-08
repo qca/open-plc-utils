@@ -27,16 +27,16 @@ This option then takes precedence over either default.
 
 .TP
 -\fBg\fI attenuation\fR
-The desired line/ground attenation in Decibels.
+The desired line/ground attenuation in Decibels.
 The value may be expressed in decimal, binary, or hexadecimal.
-Binary varues start with "\fB0b\fR" and hexadecimal values start with "\fB0x\fR".
+Binary values start with "\fB0b\fR" and hexadecimal values start with "\fB0x\fR".
 The default for this option is \fB127\fR dB.
 
 .TP
 -\fBn\fI attenuation\fR
-The desired line/neutral attenation in Decibels.
+The desired line/neutral attenuation in Decibels.
 The value may be expressed in decimal, binary, or hexadecimal.
-Binary varues start with "0b" and hexadecimal values start with "0x".
+Binary values start with "0b" and hexadecimal values start with "0x".
 The default for this option is \fB127\fR dB.
 
 .TP
@@ -64,7 +64,7 @@ The default is 10 milliseconds which should be adequate on most systems.
 
 .SH EXAMPLES
 The following example turns the Device Under Test power on and configures the line/neutral attenuator for \fB72\fRdB attenuation.
-Line ground attenation is automatically set to \fB127\fR dB since it is not specified on the command line.
+Line ground attenuation is automatically set to \fB127\fR dB since it is not specified on the command line.
 Option \fB-p\fR is not necessary if the Device Under Test power is already on.
 
 .PP
@@ -84,7 +84,7 @@ The next example configures the controller for \fB56\fR dB attenuation on line/g
    # ptsctl -p off -g 56
 
 .PP
-The next example reads the atteuator setting and displays them on decimal format on stdout.
+The next example reads the attenuator setting and displays them on decimal format on stdout.
 The line/neutral setting appears first then the line/ground setting.
 In this example, line/neutral has \fB55\fR dB attenuation and line/ground has \fB120\fR dB attenuation.
 

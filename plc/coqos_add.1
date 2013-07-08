@@ -31,11 +31,11 @@ See the \fBplc\fR man page for an overview and installation instructions.
 
 .PP
 Bandwidth management prioritizes streams so that data from lowest priority stream is dropped first whenever one of the following conditions is detected.
-This ensures that the remaining streams continue operate at their full pontential.
+This ensures that the remaining streams continue operate at their full potential.
 
 .TP
 .B Degraded line condition 
-The channel degrades to the point where the available PHY rate from the transmitter to the receiver is too low due to the variability of the power line.s characteristics.
+The channel degrades to the point where the available PHY rate from the transmitter to the receiver is too low due to the variability of the power lines characteristics.
 
 .TP
 .B Over subscription 
@@ -56,7 +56,7 @@ This option prints all output on stdout in cases where this is desired.
 .TP
 -\fBi \fIinterface\fR
 Select the host Ethernet interface.
-All requests are sent via this host interface and only reponses received via this host interface are recognized.
+All requests are sent via this host interface and only responses received via this host interface are recognized.
 The default interface is \fBeth1\fR because most people use \fBeth0\fR as their principle network connection; however, if environment string "PLC" is defined then it takes precedence over the default interface.
 This option then takes precedence over either default.
 
@@ -145,7 +145,7 @@ Recognized fields are listed and described under \fBFIELDS\fR.
 
 .TP
 .IR operator
-The operator specifies the relationsip that must exist between the \fIfield\fR and \fIvalue\fR in order for the \fIcondition\fR to evaluate \fBTrue\fR.
+The operator specifies the relationship that must exist between the \fIfield\fR and \fIvalue\fR in order for the \fIcondition\fR to evaluate \fBTrue\fR.
 Currently, only equality operators are supported.
 Valid operators are listed and described under \fBOPERATORS\fR.
 
@@ -154,7 +154,7 @@ Valid operators are listed and described under \fBOPERATORS\fR.
 The value must be appropriate to the field type.
 Some fields are MAC or IP addresses, some are integers, some are bitmaps and others are states.
 Integers and bitmaps may be expressed in binary, decimal or hexadecimal format.
-Binary values staRt with \fB0b\fR.
+Binary values start with \fB0b\fR.
 Hexadecimal values start with \fB0x\fR.
 States are expressed using keywords.
 Users are responsible for knowing how many bits are significant for each type of value.
@@ -164,7 +164,7 @@ Valid values are described along with fields under \fBFIELDS\fR.
 The \fIoperand\fR indicates the logical relationship that must exist between conditions in the rule set before the action is applied to a frame.
 Operands are expressed as discrete alphanumeric strings entered in upper, lower or mixed character case.
 Failure to enter a known operand will result in an error message that lists all possible operands.
-They are positon sensitive.
+They are position sensitive.
 One operand is allowed and it must appear after the \fIaction\fR and before any \fIcondition\fR.
 
 .TP
@@ -182,7 +182,7 @@ This is equivalent to the logical \fBand\fR operation.
 Apply the action to all frames, regardless of any and all conditions that may be specified.
 
 .SH FIELDS
-Fields indicate the portion of the frame that is inspected during selection and the size and format of the value permited in the condition statement.
+Fields indicate the portion of the frame that is inspected during selection and the size and format of the value permitted in the condition statement.
 They are expressed as discrete alphanumeric strings entered in upper, lower or mixed character case.
 Failure to enter a known field will result in an error message that lists all possible fields.
 
@@ -236,16 +236,16 @@ An 8-bit Internet Protocol V6 traffic class expressed as defined in RFC 2460 (In
 
 .TP
 .BR IPV6FL
-A 24-bit IPV6 flow label where the lower 20 bits are the IPv6 Flow Label defined in RFC 2460 (Internat Protocol Version 6) [17].
+A 24-bit IPV6 flow label where the lower 20 bits are the IPv6 Flow Label defined in RFC 2460 (Internet Protocol Version 6) [17].
 The upper 4 bits should be zero.
 The value can be entered either as a decimal, binary or hex integer.
 
 .TP
 .BR IPV6SA
-A 128-bit IPV6 source address expressed as colon-separated hexadecmial quartets (octet pairs).
+A 128-bit IPV6 source address expressed as colon-separated hexadecimal quartets (octet pairs).
 The official format is defined in RFC 2460 (Internet Protocol Version 6) [17].
-Our implementation permits multiple empty fields, abreviated fields and leading zeros within fields.
-When multiple empty fields appear, only the right-most occurance expands to zeros.
+Our implementation permits multiple empty fields, abbreviated fields and leading zeros within fields.
+When multiple empty fields appear, only the right-most occurrence expands to zeros.
 For example, "FFFF::DDDD::BBBB::AAAA" is equivalent to "FFFF:0000:DDDD:0000:BBBB:0000:0000:AAAA".
 
 .TP
@@ -253,7 +253,7 @@ For example, "FFFF::DDDD::BBBB::AAAA" is equivalent to "FFFF:0000:DDDD:0000:BBBB
 A 128-bit IPV6 destination address expressed as colon-separated hexadecimal quartets (octet pairs).
 The official format is defined in RFC 2460 (Internet Protocol Version 6) [17].
 Our implementation permits multiple empty fields, abbreviated fields and leading zeros within fields.
-When multiple empty fields appear, only the right-most occurance expands to zeros.
+When multiple empty fields appear, only the right-most occurrence expands to zeros.
 For example, "AAAA::BBBB::CCCC::DDDD" is equivalent to "AAAA:0000:BBBB:0000:CCCC:0000:0000:DDDD".
 
 .TP
@@ -314,13 +314,13 @@ A state is a special case of \fIvalue\fR.
 .BR True , On , Yes , Present
 Indicates a positive state or presence of some entity.
 All are equivalent and can be used interchangeably.
-Double negatives are permitted so "Is True" is equvalent to "Not False".
+Double negatives are permitted so "Is True" is equivalent to "Not False".
 
 .TP
 .BR False , Off , No , Missing
 Indicates a negative state or absence of some entity.
-ALl are equivalent and can be used interchangeably.
-Double negatives are permitted so "Is False" is equvalent to "Not True".
+All are equivalent and can be used interchangeably.
+Double negatives are permitted so "Is False" is equivalent to "Not True".
 
 .SH DEVICES
 Powerline devices use Ethernet Media Access Control (MAC) addresses.

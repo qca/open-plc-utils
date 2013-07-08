@@ -34,7 +34,7 @@ Once the runtime firmware starts, the device will be operational.
 
 .PP
 Flashing a device is a two phase operation that can only be performed when the firmware is running.
-The first phase downloads runtime firmare and parameters into scratch buffers under firmware control.
+The first phase downloads runtime firmware and parameters into scratch buffers under firmware control.
 The second phase instructs the firmware to write the scratch buffers to flash memory and restart the device.
 After flashing, the device will be self-sustaining.
 
@@ -72,7 +72,7 @@ Subsequent use creates and updates operational settings that can be erased using
 .TP
 -\fB\i \fIinterface\fR
 Select the host Ethernet interface.
-All requests are sent via this host interface and only reponses received via this host interface are recognized.
+All requests are sent via this host interface and only responses received via this host interface are recognized.
 The default interface is \fBeth1\fR because most people use \fBeth0\fR as their principle network connection; however, if environment string "PLC" is defined then it takes precedence over the default interface.
 This option then takes precedence over either default.
 
@@ -157,12 +157,12 @@ All local Atheros devices will respond to this address but remote and foreign de
 
 .SH REFERENCES
 See the Qualcomm Atheros HomePlug AV Firmware Technical Reference Manual for technical information.
-See the Qualcomm Atheros Powerline Toolkit Online Documetation for practical information and examples.
+See the Qualcomm Atheros Powerline Toolkit Online Documentation for practical information and examples.
 
 .SH EXAMPLES
 The -\fBN\fR and -\fBP\fR options are always required.
 Their order is not important.
-Tne MAC address is not needed because devices default to address 00:B0:52:00:00:01 (the program default address) in bootloader mode.
+The MAC address is not needed because devices default to address 00:B0:52:00:00:01 (the program default address) in bootloader mode.
 Once this operation completes, firmware is running in SDRAM but the NVRAM, if present, has not been programmed.
 This operation is common for flash-less devices.
 If we reset the device at this point then the device will return to bootloader mode.
