@@ -14,4 +14,3 @@ main
 *.a
 *.exe
 /.project
-/.gitignore
