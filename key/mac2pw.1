@@ -32,7 +32,7 @@ Vendors are encouraged to develop their own means of generating passwords for th
 
 .PP
 Device addresses can be determined using a variety of network management programs.
-Anyone having access to this program, or the algorithm used, could compute the device password and gain access to device features reserved for priviledged users.
+Anyone having access to this program, or the algorithm used, could compute the device password and gain access to device features reserved for privileged users.
 
 .SH OPTIONS
 
@@ -89,7 +89,7 @@ Use this option when sending screen dumps to Atheros Technical Support so that t
 .TP
 \fBaddress\fR
 The first Ethernet address expressed as 12 consecutive hexadecimal digits.
-Puncutation is not permitted.
+Punctuation is not permitted.
 The final address of the range is computed by adding \fBnumber\fR to this address.
 This argument is required.
 There is no default \fBaddress\fR.
@@ -103,7 +103,7 @@ The following example prints the given device address and associated password st
    00B052000001 MLPB-YLQM-YSSL-BMBB
 
 .PP
-This example does the same thing but ommits the device address.
+This example does the same thing but omits the device address.
 
 .PP
    # mac2pw 00B052000001 -q
@@ -165,7 +165,7 @@ Use a bunching factor of \fB0\fR to remove dashes.
 .PP
 The following example prints 10 consecutive device addresses and passwords but inserts a \fB0\fR at the start of each line to indicate that the address and password have not been used.
 The Atheros Production Test System (PTS) will set the \fB0\fR to \fB1\fR after it programs a device.
-This format is simlar to PTS DBBuilder Utility output.
+This format is similar to PTS DBBuilder Utility output.
 
 .PP
    # mac2pw 00B052000006 -n 10 -u

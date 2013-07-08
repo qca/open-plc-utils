@@ -17,7 +17,7 @@ An applet is a small firmware image that can be started by the bootloader and th
 .PP
 An Atheros image file can contain one or more firmware images.
 Each image is preceded by a header that specifies the image size, load address and start address.
-\fBint6ktest\fR sequentially dowloads and executes each image found in each image file specified as a command line argument.
+\fBint6ktest\fR sequentially downloads and executes each image found in each image file specified as a command line argument.
 It waits for each image to complete before it will download and execute the next image.
 The program terminates once all images in all image files have been executed or some image fails to complete within 60 seconds.
 
@@ -67,7 +67,7 @@ This option prints all output on stdout in cases where this is desired.
 .TP
 -\fBi\fR \fIinterface\fR
 Select the host Ethernet interface.
-All requests are sent via this host interface and only reponses received via this host interface are recognized.
+All requests are sent via this host interface and only responses received via this host interface are recognized.
 The default interface is \fBeth1\fR because most people use \fBeth0\fR as their principle network connection; however, if environment string "PLC" is defined then it takes precedence over the default interface.
 This option then takes precedence over either default.
 

@@ -15,7 +15,7 @@ Read or write global MDIO registers using multiple VS_MDIO_COMMAND vendor-specif
 Commands are entered using 32-bit register and data values then converted to threeequivalen  16-bit commands.
 The default operation is to read a register.
 Registers are written only if data is specified on the command line.
-Thsi program replaces program \fBint6kmdio2\fR.
+This program replaces program \fBint6kmdio2\fR.
 
 .PP
 This program writes MDIO instructions using \fB802.3ae Clause 45\fR (\fIaddress\fR, \fIdata\fR and \fImask\fR) format.
@@ -59,7 +59,7 @@ This is not a common situation.
 .TP
 -\fBi \fIinterface\fR
 Select the host Ethernet interface.
-All requests are sent via this host interface and only reponses received via this host interface are recognized.
+All requests are sent via this host interface and only responses received via this host interface are recognized.
 The default interface is \fBeth1\fR because most people use \fBeth0\fR as their principle network connection; 
 however, if environment string "PLC" is defined then it takes precedence over the default interface.
 This option then takes precedence over either default.

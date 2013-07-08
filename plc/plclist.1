@@ -47,7 +47,7 @@ Print bridge device addresses.
 Each specified device reports it's own address. This option has no effect if no devices are specified. 
 .TP
 .RB - i
-Select the host Ethernet interface. All requests are sent via this host interface and only reponses received via this host interface are recognized. The default interface is \fBeth1\fR because most people use \fBeth0\fR as their principle network connection; however, if environment string "PLC" is defined then it takes precedence over the default interface. This option then takes precedence over either default.
+Select the host Ethernet interface. All requests are sent via this host interface and only responses received via this host interface are recognized. The default interface is \fBeth1\fR because most people use \fBeth0\fR as their principle network connection; however, if environment string "PLC" is defined then it takes precedence over the default interface. This option then takes precedence over either default.
 .TP
 .RB - n
 Append a newline to output. 
@@ -62,7 +62,7 @@ Print remote device addresses. Each specified device reports neighbor device add
 Insert a newline, instead of a space, between each device address.
 .TP
 .RB - v 
-Enter verbose mode. All Etherenet frames sent or received by the program are displayed on stdout.
+Enter verbose mode. All Ethernet frames sent or received by the program are displayed on stdout.
 .TP
 -\fB?\fR, --\fBhelp\fR
 Print program help summary on stdout. This option takes precedence over other options on the command line. 
@@ -72,7 +72,7 @@ Print program version information on stdout. This option takes precedence over o
 .SH ARGUMENTS
 .TP
 .BR device
-The MAC address of some powerline device. More than one address may be specified. If omitted the the program output consists of local device addresses only. Otherwise, output conisists of the specified device followed by all devices associated with it. The default address is \fBlocal\fR. See \fBDEVICES\fR for information about symbolic device addresses.
+The MAC address of some powerline device. More than one address may be specified. If omitted the the program output consists of local device addresses only. Otherwise, output consists of the specified device followed by all devices associated with it. The default address is \fBlocal\fR. See \fBDEVICES\fR for information about symbolic device addresses.
 .SH DEVICES
 Powerline devices use Ethernet Media Access Control (MAC) addresses. A MAC address is a 48-bit value entered as 12 hexadecimal digits in upper, lower or mixed character case. Octets may be separated with colons for clarity. For example, "00b052000001", "00:b0:52:00:00:01" and "00b052:000001" are valid and equivalent.
 .PP
@@ -116,14 +116,14 @@ The next example shows that we can query multiple devices at a time for neighbor
    # plclist 00:B0:52:BE:EF:04 00:B0:52:BA:BE:02 00:B0:52:BA:BE:01 
    00:B0:52:BE:EF:04 00:B0:52:BA:BE:01 00:B0:52:BA:BE:02 00:0F:33:F2:01:21 00:0F:00:F2:01:13 
 .PP
-This next example does the same thing but uses option \fB-n\fR to append a newline after each query. This output is eaiser to understand because each device queried starts on a new line and is followed by any neighbors.
+This next example does the same thing but uses option \fB-n\fR to append a newline after each query. This output is easier to understand because each device queried starts on a new line and is followed by any neighbors.
 .PP
    # plclist 00:B0:52:BE:EF:04 00:B0:52:BA:BE:02 00:B0:52:BA:BE:01 -n
    00:B0:52:BE:EF:04 
    00:B0:52:BA:BE:02 00:0F:33:F2:01:21 00:0F:00:F2:01:13 
    00:B0:52:BA:BE:01 
 .PP
-This example invokes \fBplclist\fR which returns a list of local devices. That list is inserted into another \fBplclist\fR command line. This demontrates how program output can be used in scripts. 
+This example invokes \fBplclist\fR which returns a list of local devices. That list is inserted into another \fBplclist\fR command line. This demonstrates how program output can be used in scripts. 
 .PP
    # plclist $(plclist) -n
    00:B0:52:BE:EF:04 

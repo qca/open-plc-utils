@@ -26,7 +26,7 @@ See the \fBAMP\fR man page for an overview and installation instructions.
 -\fBf \fIfilename\fR
 The XML instruction file.
 XML instruction files must conform to the Qualcomm Atheros scheme designed for this purpose.
-If more that one \fB.xml\fR file is specified then edits are applied in order of filename such that later edit instructions can over-write eariler instructions.
+If more that one \fB.xml\fR file is specified then edits are applied in order of filename such that later edit instructions can over-write earlier instructions.
 Instruction files usually have a \fB.xml\fR extension but this program makes no assumption based on filename and does not enforce any filename conventions.
 
 .TP
@@ -125,7 +125,7 @@ There is exactly one \fBpib\fR defined in an instruction file.
 
 .TP
 .RB < object >
-A data region withn a \fBpib\fR.
+A data region within a \fBpib\fR.
 There must be at least one \fBobject\fR defined inside a \fBpib\fR.
 Each \fBobject\fR has an \fBoffset\fR, a \fBlength\fR and \fBdata\fR where data is expressed as one \fBdataString\fR, a \fBdataByte\fR, a \fBdataHex\fR or an \fBarray\fR as described below.
 The name attribute optional but may be used for clarity or for reporting purposes.

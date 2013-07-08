@@ -21,11 +21,11 @@ See the \fBAMP\fR man page for an overview and installation instructions.
 
 .SH BACKGROUND
 HomePlug AV technology makes use of special 16-byte binary values, called "keys", for various purposes such as identity and security.
-Three keys of interest to users are the Device Access Key (DAK), the Network Memership Key (NMK) and Network Identification Key (NID).
+Three keys of interest to users are the Device Access Key (DAK), the Network Membership Key (NMK) and Network Identification Key (NID).
 Their purpose is described in the HomePlug AV Specification.
 
 .PP
-The HomePlug AV Specification explains how to generate 16-btye binary DAK, NMK and NID values using the SHA-256 algorithm to hash user-supplied ASCII strings, called "pass phrases" in the specification.
+The HomePlug AV Specification explains how to generate 16-byte binary DAK, NMK and NID values using the SHA-256 algorithm to hash user-supplied ASCII strings, called "pass phrases" in the specification.
 HomePlug AV compliant pass phrases have from 12 to 64 7-bit ASCII character values in the range 0x20 to 0x7F.
 In some cases, a specified 8-byte salt is added to the pass phrase before computing the 32-byte hash value.
 In all cases, the computed hash is then rehashed a specified number of times to produce the final 32-byte value.
@@ -58,7 +58,7 @@ In such cases, you may need to include meta characters.
 -\fBL \fIlevel\fR
 Set security level.
 The security level is encoded into the NID.
-Level \fB0\fR enables pusbutton pairing.
+Level \fB0\fR enables pushbutton pairing.
 Level \fB1\fR disables it.
 This option has no effect unless a NID is computed.
 
@@ -101,7 +101,7 @@ A pass phrase to be converted to a DAK, NMK or NID.
 More than one pass phrase can be entered on the command line.
 Each phrase will be converted to the same type of key and printed in the order specified.
 Phrases that contain quotes or special delimiters should be enclosed in quotes or apostrophes.
-By default, phrases can be any length and contain any ASCII chracter except ASCII NUL.
+By default, phrases can be any length and contain any ASCII character except ASCII NUL.
 Use option \fB-e\fR to enforce HomePlug AV password character and length rules.
 
 .SH EXAMPLES
@@ -123,7 +123,7 @@ The following example prints the DAK for the phrase, "HomePlugAV0123", entered o
 
 .PP
 The following command prints the NMK, instead of the DAK, for the phrase entered on the command line.
-The ouput is different because the DAK and NMK are computed differently given the same pass phrase.
+The output is different because the DAK and NMK are computed differently given the same pass phrase.
 
 .PP
    # hpavkey -M HomePlugAV0123
@@ -153,7 +153,7 @@ The \fBmodpib\fR command shown below will edit file \fBexample.pib\fR by replaci
 The \fB-D\fR option expects a hexadecimal key so we can supply one from the phrase "HomePlugAV0123".
 
 .PP
-   # modpid -D $(\fBhpavkey -D HomePlugAV0123\fR) example.pib 
+   # modpib -D $(\fBhpavkey -D HomePlugAV0123\fR) example.pib 
 
 .SH TIPS&TRICKS
 The following example illustrates an unusual case where the passwords start with dash ("\fB-\fR").

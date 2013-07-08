@@ -45,14 +45,14 @@ An identification string looks like "INT6000-MAC-3-1-3143-1690-20071107-FINAL-B"
 .TP
 -\fBi\fR
 Select the host Ethernet interface.
-All requests are sent via this host interface and only reponses received via this host interface are recognized.
+All requests are sent via this host interface and only responses received via this host interface are recognized.
 The default interface is \fBeth1\fR because most people use \fBeth0\fR as their principle network connection; however, if environment string "PLC" is defined then it takes precedence over the default interface.
 This option then takes precedence over either default.
 
 .TP
 -\fBp \fIseconds\fR
 Fixed pause time in seconds.
-This adds an fixed delay after the other events have occured.
+This adds an fixed delay after the other events have occurred.
 A pause does not occur if any of the specified events timeout.
 When no other events are specified this option is effectively equivalent to \fBsleep\fR.
 This option can be used to allow the device or the network to settle.
@@ -83,7 +83,7 @@ The default is \fB50\fR milliseconds.
 .TP
 .RB - v
 Enter verbose mode.
-All Etherenet frames sent or received by the program are displayed on stdout.
+All Ethernet frames sent or received by the program are displayed on stdout.
 
 .TP
 -\fBw \fIseconds\fR

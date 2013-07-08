@@ -38,19 +38,19 @@ This option prints all output on stdout in cases where this is desired.
 
 .TP
 -\fBn\fI number\fR
-The property identifier or peoperty version.
+The property identifier or property version.
 Property identifiers and versions are entered as 32-bit decimal integers.
 Property names are not supported.
 The default is \fB0\fR.
 This option may appear more than once on the command line.
-The first occurance specifies the property identifier.
-The second occurances specifies the property version.
+The first occurrence specifies the property identifier.
+The second occurrences specifies the property version.
 See the \fIFirmware Technical Reference Manual\fR for an list of valid property identifiers and versions.
 
 .TP
 -\fBi \fIinterface\fR
 Select the host Ethernet interface.
-All requests are sent via this interface and only reponses received via this interface are recognized.
+All requests are sent via this interface and only responses received via this interface are recognized.
 The default interface is \fBeth1\fR because most people use \fBeth0\fR as their principle network connection; however, if environment string "PLC" is defined then it takes precedence over the default interface.
 This option then takes precedence over either default.
 
@@ -293,9 +293,9 @@ Data type \fBlong\fR specifies a 32-bit decimal value that will be converted to 
 
 .PP
 The next example set the User HFID.
-The first occurance of option \fB-n\fR specifies the property by number as \fB105\fR.
-The second occurance specifies the property version as \fB1\fR.
-This is merely an example of how to specify the propery version.
+The first occurrence of option \fB-n\fR specifies the property by number as \fB105\fR.
+The second occurrence specifies the property version as \fB1\fR.
+This is merely an example of how to specify the properly version.
 At the time of writing, property \fB105\fR is still version \fB0\fR.
 
 .PP

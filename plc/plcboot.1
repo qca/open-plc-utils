@@ -17,7 +17,7 @@ plcboot - Qualcomm Atheros Panther/Lynx Powerline Device Bootstrapper
 .SH DESCRIPTION
 Download and start runtime firmware on a local powerline device when it is in bootloader mode.
 A powerline device enters bootloader mode if it has not flash memory or cannot load firmware from flash memory for some reason.
-You can use this progrm to start the device and then, optionally, permanently write a softloader, parameters and firmware into flash memory.
+You can use this program to start the device and then, optionally, permanently write a softloader, parameters and firmware into flash memory.
 
 .PP
 Qualcomm Atheros introduced new boot methods with the \fBLightning\fR chipset and new file formats and flash methods with the \fBPanther\fR chipset.
@@ -46,7 +46,7 @@ Firmware loaded from NVRAM may treat force-flash as an error, depending of the f
 .TP
 -\fB\i \fIinterface\fR
 Select the host Ethernet interface.
-All requests are sent via this host interface and only reponses received via this host interface are recognized.
+All requests are sent via this host interface and only responses received via this host interface are recognized.
 The default interface is \fBeth1\fR because most people use \fBeth0\fR as their principle network connection; however, if environment string "PLC" is defined then it takes precedence over the default interface.
 This option then takes precedence over either default.
 
@@ -140,14 +140,14 @@ All local Atheros devices will respond to this address but remote and foreign de
 
 .SH REFERENCES
 See the Qualcomm Atheros HomePlug AV Firmware Technical Reference Manual for technical information.
-See the Qualcomm Atheros Powerline Toolkit Online Documetation for practical information and examples.
+See the Qualcomm Atheros Powerline Toolkit Online Documentation for practical information and examples.
 
 .SH EXAMPLES
 This example boots a powerline device by downloading runtime parameters and firmware then starting firmware execution.
 The actual boot method used will depend on the file formats and powerline device type detected by the program.
 The output shown here is typical for panther and lynx chipsets.
 Option \fB-P\fR and \fB-N\fR are required but their order is not important.
-Tne MAC address may be omitted beccause it will default to 00:B0:52:00:00:01 which is also the default bootloader device address.
+The MAC address may be omitted because it will default to 00:B0:52:00:00:01 which is also the default bootloader device address.
 On completion, runtime firmware is executing in SDRAM but flash memory has not been programmed.
 If This operation is common for flash-less devices.
 If we reset the device at this point then it will return to bootloader mode.
@@ -190,7 +190,7 @@ Consequently, public information is not available.
 Qualcomm Atheros reserves the right to change firmware file structure or content or change the name or behavior of any program that inspects or changes firmware files, in future software releases without any obligation to notify or compensate users of such programs.
 Qualcomm Atheros HomePlug AV Vendor Specific Management Message structure and content is proprietary to Qualcomm Atheros, Ocala FL USA.
 Consequently, public information may not be available.
-Aualcomm Atheros reserves the right to modify message structure and content in future firmware releases without any obligation to notify or compensate users of this program.
+Qualcomm Atheros reserves the right to modify message structure and content in future firmware releases without any obligation to notify or compensate users of this program.
 
 .SH SEE ALSO
 .BR ampboot ( 1 ), 

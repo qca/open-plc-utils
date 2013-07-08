@@ -28,7 +28,7 @@ Optionally, it will proceed to flash NVRAM after the firmware has started.
 .PP
 Booting a device is a two part operation.
 The first part downloads SDRAM configuration parameters then download runtime firmware and parameters into SDRAM and starts the firmware.
-The second part downloads runtime firmare and parameters (again) into scratch buffers and instructs the firmware to write them into to NVRAM.
+The second part downloads runtime firmware and parameters (again) into scratch buffers and instructs the firmware to write them into to NVRAM.
 This program can perform the first part alone or the first then the second part but not the second part alone.
 The second part can be performed alone using program \fBint6k\fR.
 
@@ -67,7 +67,7 @@ This option is executed after all others on the command line, except for the \fB
 .TP
 -\fB\i \fIinterface\fR
 Select the host Ethernet interface.
-All requests are sent via this interface and only reponses received via this interface are recognized.
+All requests are sent via this interface and only responses received via this interface are recognized.
 The default interface is \fBeth1\fR because most people use \fBeth0\fR as their principle network connection; however, if environment string "PLC" is defined then it takes precedence over the default interface.
 This option then takes precedence over either default.
 

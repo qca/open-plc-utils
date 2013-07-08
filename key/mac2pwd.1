@@ -26,13 +26,13 @@ See the \fBAMP\fR man page for an overview and installation instructions.
 
 .SH CAVEATS
 Atheros provides this program as a simple means of generating unique and apparently random device passwords for a large volume of Ethernet devices.
-It uses a Linear Cogruential Random Number Generator to produce a single-wheel Bazerie Cylinder and to select characters from that cylinder.
+It uses a Linear Congruential Random Number Generator to produce a single-wheel Bazerie Cylinder and to select characters from that cylinder.
 The algorithm used is adequate for purpose and nothing more.
 Vendors are encouraged to develop their own means of generating passwords for the reasons mentioned below.
 
 .PP
 MAC addresses can be determined using a variety of network management programs.
-Anyone having access to this program, or the algorithm used, could compute the device password and gain access to device features reserved for priviledged users.
+Anyone having access to this program, or the algorithm used, could compute the device password and gain access to device features reserved for privileged users.
 
 .SH OPTIONS
 
@@ -80,7 +80,7 @@ Use this option when sending screen dumps to Atheros Technical Support so that t
 .IR file
 The name of a file that contains Ethernet address strings.
 Individual address strings consist of 12 consecutive hexadecimal digits.
-Addresses are seperated by whites space.
+Addresses are separated by whites space.
 This allows multiple addresses on a line.
 There is no line length limit.
 Punctuation is not permitted; however, a hash ('#') or semicolon (';') in any column starts comment text that continues to the end of that line.
