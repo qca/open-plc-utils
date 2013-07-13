@@ -182,7 +182,6 @@ static signed PLCIdentity (struct channel * channel, struct plcstation * plcstat
  *
  *   INT6x00 chipsets have an 8-bit PHY rate while AR7x00 chipsets
  *   have a 16-bit PHY rate; this means that AR7x00 PHY rates need
- *   endian conversion;
  *
  *--------------------------------------------------------------------*/
 
