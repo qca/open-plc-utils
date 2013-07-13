@@ -19,10 +19,10 @@
 # --------------------------------------------------------------------
 
 This package is an open version of the Qualcomm Atheros Powerline 
-Toolkit. It is distributed as a gzip tarball that contains source 
-code and build streams for Linux, OpenBSD, MAC OSX and Microsoft
-Windows. It also contains documentation in docbook XML, HTML and 
-plain text. 
+Toolkit. It may be distributed as a zip, gzip or bzip2 tarball that
+contains source code and build scripts for Linux, OpenBSD, MAC OSX 
+and Microsoft Windows. It also contains documentation in docbook XML, 
+HTML and plain text format. 
 
 We recommend that you open file docbook/index.html with a web browser 
 the read Chapter 1 before attempting to install or use the toolkit 
@@ -53,7 +53,7 @@ Ocala FL 34470 USA
 cmaier@qca.qualcomm.com
 
 CONTRIBUTORS
------------
+------------
 Abdel Younes <younes@leacom.fr>
 Alejandro Vasquez <avasquez@qca.qualcomm.com>
 Charles Maier <razzlefratz@gmail.com>
@@ -62,5 +62,6 @@ Mathieu Olivari <mathieu.olivari@gmail.com>
 Mathieu Poullet <m.poullet@avm.de>
 Marc Bertola <mbertola@qti.qualcomm.com>
 Nathaniel Houghton <nhoughto@qca.qualcomm.com>
+Stefan Wahren <stefan.wahren@i2se.com>
 Werner Henze <w.henze@avm.de>
 
