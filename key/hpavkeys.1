@@ -21,11 +21,11 @@ See the \fBAMP\fR man page for an overview and installation instructions.
 
 .SH BACKGROUND
 HomePlug AV technology uses 16-byte binary values, called "keys", for various purposes such as identity and security.
-Three keys of interest to users are the Device Access Key (DAK), the Network Memership Key (NMK) and Network Identification Key (NID).
+Three keys of interest to users are the Device Access Key (DAK), the Network Membership Key (NMK) and Network Identification Key (NID).
 Their purpose is described in the HomePlug AV Specification.
 
 .PP
-The HomePlug AV Specification explains how to generate 16-btye binary DAK, NMK and NID values using the SHA-256 algorithm to hash user-supplied ASCII strings, called "pass phrases" in the specification.
+The HomePlug AV Specification explains how to generate 16-byte binary DAK, NMK and NID values using the SHA-256 algorithm to hash user-supplied ASCII strings, called "pass phrases" in the specification.
 HomePlug AV compliant pass phrases have from 12 to 64 7-bit ASCII character values in the range 0x20 to 0x7F.
 In some cases, a specified 8-byte salt is added to the pass phrase before computing the 32-byte hash value.
 In all cases, the computed hash is then rehashed a specified number of times to produce the final 32-byte value.
@@ -58,7 +58,7 @@ In such cases, you may need to include meta characters.
 -\fBL\fR \fIlevel\fR
 Set security level.
 The security level is encoded into the NID.
-Level \fB0\fR enables pusbutton pairing.
+Level \fB0\fR enables pushbutton pairing.
 Level \fB1\fR disables it.
 This option has no effect unless a NID is computed.
 
@@ -66,7 +66,7 @@ This option has no effect unless a NID is computed.
 .RB - M
 Uses HomePlug AV rules to compute Network Membership Keys (NMK) from pass phrases read from file or stdin.
 An NMK is 16 bytes expressed as 32 hexadecimal characters.
-This option over-rides any \fB-D\fR or \fB-N\fR options previsously specified on the command line.
+This option over-rides any \fB-D\fR or \fB-N\fR options previously specified on the command line.
 
 .TP
 .RB - N
@@ -77,7 +77,7 @@ This option over-rides any \fB-D\fR or \fB-M\fR options previously specified on 
 .TP
 .RB - p
 Print the password, or pass phrase, used to generate each key after each key on stdout.
-One single space seperates the pass phrase from the key string.
+One single space separates the pass phrase from the key string.
 The pass phrase consists of all subsequent characters, including spaces, appearing up to the end of the line.
 Without this option, only the keys are printed.
 

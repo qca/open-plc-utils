@@ -21,7 +21,7 @@ This program can be used to test remote Atheros UART-enabled powerline devices.
 The remote UART-enabled powerline device will remove frame headers and forward frame data to the local host as a serial data stream.
 No protocol is imposed on the serial data stream.
 For example, there is no indication of frame or file start or end within the stream.
-The retmote powerline device must be in \fBTransparent Mode\fR and configured to accept frames from the sending host.
+The remote powerline device must be in \fBTransparent Mode\fR and configured to accept frames from the sending host.
 The remote host must also be ready to handle serial data as it arrives.
 
 .SH OPTIONS
@@ -30,7 +30,7 @@ The remote host must also be ready to handle serial data as it arrives.
 -\fBd \fIxx:xx:xx:xx:xx:xx\fR
 The Ethernet address of the destination device.
 If the destination device is a Linux, Mac OSX or Windows host then program \fBedru\fR can be used to receive and write frame data to \fBstdout\fR as a serial stream.
-If the destination device is an Atheros UART-enabled powerline device then received frame data will be converted to a serial data stream and forwared to the host connected to that device.
+If the destination device is an Atheros UART-enabled powerline device then received frame data will be converted to a serial data stream and forwarded to the host connected to that device.
 In that case, the UART-enabled powerline device must be programmed with the address of the sending host.
 
 .TP

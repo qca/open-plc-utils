@@ -31,7 +31,7 @@ See the \fBAMP\fR man page for an overview and installation instructions.
 .RB - c
 Display comma delimited output on stderr showing only carriers in the range specified or implied by options \fB-L\fR and \fB-U\fR.
 The histogram shows the carrier, amplitude mask, tonemap slot values and carrier frequency.
-Data columns are seperated by commas instead of spaces.
+Data columns are separated by commas instead of spaces.
 This option excludes option \fB-v\fR.
 
 .TP
@@ -92,7 +92,7 @@ This option excludes option \fB-c\fR.
 
 .TP
 .IR stdin
-The unotched amplitude map file.
+The unnotched amplitude map file.
 This amplitude map should conform to EMI regulations for the region or country where the powerline device will operate.
 A range of approved amplitude maps is available from Qualcomm Atheros.
 Use program \fBpsout\fR to extract the amplitude map from an existing PIB file or program \fBpsgraph\fR to display the amplitude map in an existing PIB file.
@@ -105,8 +105,8 @@ Otherwise, the selected carriers may be suppressed based on time slot modulation
 Use program \fBpsin\fR to insert an amplitude map into an existing PIB file.
 
 .SH EXAMPLES
-The following example reads unotched amplitude map \fBunotched.psc\fR and creates a notched amplitude map \fBnotched.psc\fR.
-File \fBtone.map\fR determines if and wehre notching may be required; however, only carriers from offset \fB57\fR through \fB66\fR are notched if their mean-square values are less than \fB3\fR.
+The following example reads unnotched amplitude map \fBunotched.psc\fR and creates a notched amplitude map \fBnotched.psc\fR.
+File \fBtone.map\fR determines if and where notching may be required; however, only carriers from offset \fB57\fR through \fB66\fR are notched if their mean-square values are less than \fB3\fR.
 No other carriers will be notched.
 See the man page for program \fBint6ktone\fR for an illustration of threshold values.
 
@@ -1276,7 +1276,7 @@ To save this output, redirect stderr to a file using "\fB2> temp.txt\fB".
    1153 0000 00 00 00 00 00 00 29.956 
 
 .PP
-ThIs next example does the same thing as the previous example but outputs information in comma-delimited format because option \fB-c\fR was used instead of option \fB-v\fR.
+Chis next example does the same thing as the previous example but outputs information in comma-delimited format because option \fB-c\fR was used instead of option \fB-v\fR.
 This format is better suited for importing into a spreadsheet but lacks the visual effect of the histogram.
 Observe that prescaler values appear in decimal rather than hexadecimal.
 

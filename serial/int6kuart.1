@@ -91,7 +91,7 @@ This option is similar to option \fB-D\fR but substitutes \fB?\fR for the device
 .TP
 -\fBD \fIaddress\fR
 Set the destination device address for \fBTransparent Mode\fR using the \fBATDST\fR serial line command.
-This address will supercede the default destination device address, stored in the PIB, until the device is reset.
+This address will supersede the default destination device address, stored in the PIB, until the device is reset.
 Multicast address values are not permitted by the device.
 Argument \fIaddress\fR is six hexadecimal octets optionally separated by colons.
 
@@ -188,7 +188,7 @@ Any destination device address previously set using option \fN-d\fR will be lost
 Force default host port settings to match the default setting for UART-enabled Atheros powerline devices.
 The setting are \fB115200\fR baud, \fB8\fR data bits, \fBno\fR parity bits and \fB1\fR stop bit.
 These settings will remain active when the program terminates and will not change unless changed by some other means, perhaps by another application.
-This option is an easy means of establishg an initial serial connection with a powerline device, unless it's settings have been changed.
+This option is an easy means of establishing an initial serial connection with a powerline device, unless it's settings have been changed.
 .TP
 .RB - v
 Display actual serial line commands and responses on stdout.  
@@ -246,7 +246,7 @@ Exit \FBCommand Mode\fR and enter \fBHigh Speed Command Mode\fR. Once the \fBOK\
 Send an Atheros vendor-specific management message over powerline. The message is expressed as a series of hexadecimal digits.
 .TP
 .BI ATNI ?
-Read nework information and store the information internally. Return the number of associated stations and information about the first associated station. The information includes the peer station device address, TX rate and RX rate.
+Read network information and store the information internally. Return the number of associated stations and information about the first associated station. The information includes the peer station device address, TX rate and RX rate.
 .TP
 .BI ATNI station
 Extract and display previously stored network information for a specific peer \fIstation\fR. The information returned is that previosly stored using a \fBATNI\fR serial line command query.

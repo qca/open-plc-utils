@@ -27,7 +27,7 @@ Use the Qualcomm Atheros Embedded API for real-time, production-grade applicatio
 Host emulation applies to flash-less device designs where a local host processor provides the persistent storage.
 The local host can provide a wide range of intelligent storage functions for a device but this program offers one.
 Options -\fBC\fR, -\fBN\fR and -\fBP\fR name existing files that store factory default memory configuration, runtime firmware and parameters, respectively.
-Options -\fBn\fR and -\fBp\fR name scratch files that will store user firmware and parameters, respectively.This is similiar to the standard Atheros NVRAM scheme but still different.
+Options -\fBn\fR and -\fBp\fR name scratch files that will store user firmware and parameters, respectively.This is similar to the standard Atheros NVRAM scheme but still different.
 
 .P
 To use the program, connect a flash-less device to the host via ethernet then start this program with the correct filenames.
@@ -66,7 +66,7 @@ This operation will fail when no NVRAM is present.
 .TP
 \fB\-i \fIinterface\fR
 Select the host Ethernet interface.
-All requests are sent via this host interface and only reponses received via this host interface are recognized.
+All requests are sent via this host interface and only responses received via this host interface are recognized.
 The default interface is \fBeth1\fR because most people use \fBeth0\fR as their principle network connection; however, if environment string "PLC" is defined then it takes precedence over the default interface.
 This option then takes precedence over either default.
 

@@ -27,14 +27,14 @@ Older firmware versions may not recognize this message version.
 .TP
 .RB - c
 Display coded PHY rates.
-Coded PHY rates are displayed by default so this option is redundant but it has been kept for backword compatibility.
+Coded PHY rates are displayed by default so this option is redundant but it has been kept for backward compatibility.
 This option and option \fB-u\fR are mutually exclusive.
 
 .TP
 -\fBd \fIseconds\fR
 Traffic duration in seconds per connection.
 Directional traffic is systematically sent between each pair of powerline network devices for this period of time.
-Consequently, the total time needed to generate traffic between all network devices will be approximately \fBn!\fR times this value, so don''t get carried away.
+Consequently, the total time needed to generate traffic between all network devices will be approximately \fBn!\fR times this value, so don't get carried away.
 The minimum value is \fB1\fR second and the maximum value is \fB60\fR seconds.
 
 .TP
@@ -46,13 +46,13 @@ This option prints all output on stdout in cases where this is desired.
 .TP
 -\fBi \fIinterface\fR
 Select the host Ethernet interface.
-All requests are sent via this host interface and only reponses received via this host interface are recognized.
+All requests are sent via this host interface and only responses received via this host interface are recognized.
 The default interface is \fBeth1\fR because most people use \fBeth0\fR as their principle network connection; however, if environment string "PLC" is defined then it takes precedence over the default interface.
 This option then takes precedence over either default.
 
 .TP
 .RB - n
-Reads the average transmit and receive PHY rate for wach device using VS_NW_INFO and prints it on stdout.
+Reads the average transmit and receive PHY rate for each device using VS_NW_INFO and prints it on stdout.
 Each output line displays the ethernet interface, source address, destination address and either the transmit or receive PHY rate.
 
 .TP
@@ -97,7 +97,7 @@ This option and option \fB-c\fR are mutually exclusive.
 .TP
 .RB -v
 Enter verbose mode.
-All Etherenet frames sent or received by the program are displayed on stdout.
+All Ethernet frames sent or received by the program are displayed on stdout.
 
 .TP
 .RB - x
@@ -159,7 +159,7 @@ See the Qualcomm Atheros HomePlug AV Firmware Technical Reference Manual for mor
 The following example displays the average transmit and receive PHY rates from each of two devices.
 One is a local device connected to interface \fBeth2\fR and the other is a remote device at the far end of the powerline.
 In this case, they are the only two devices on the powerline network.
-Observe the recipricol rates shown.
+Observe the reciprocal rates shown.
 
 .PP
    # amprate -ni eth2 00:B0:52:00:00:AA 00:B0:52:00:00:BB
