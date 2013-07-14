@@ -153,7 +153,7 @@ Suppresses status messages on stderr.
 Quick flash.
 The program will not wait for a device to reset or the firmware to restart after writing flash memory.
 This option is desirable with newer firmware that writes flash memory in the background.
-It has no effect unless used with option -\fBF\fR or -\fBC\fR.
+It has no effect unless used with option -\fBF\fR.
 
 .TP
 .RB - r
@@ -290,15 +290,11 @@ If you want reading and writing to occur in a different order then you must use 
 .PP
    # plctool -N new.nvm 01:23:45:67:89:28
    # plctool -P new.pib 01:23:45:67:89:28
-   # plctool -C 3 01:23:45:67:89:28
+   # plctool -F 01:23:45:67:89:28
 
 .PP
 It is not necessary to specify all operations on one command line.
 The three command lines above do essentially the same thing as the command line shown in the previous example.
-Notice that this example uses -\fBC 3\fR, instead of -\fBF\fR, as an alternate way to write MAC and PIB to NVRAM.
-Specifying -\fBC 1\fR, instead, would write the .nvm file only.
-Specifying, -\fBC 2\fR, instead, would write the .pib file only.
-THe value \fB3\fR is the logical OR of \fB1\fR and \fB2\fR.
 
 .PP
    # plctool -N new.nvm -P new.pib -FF local
