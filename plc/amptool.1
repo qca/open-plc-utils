@@ -51,7 +51,7 @@ Use option -\fBFF\fR to force flash.
 -\fBd\fR \fIfilename\fR
 Read Watchdog Report from the device and write it to the named file in binary format using VS_WD_RPT.
 The report file can be sent to Qualcomm Atheros for technical analysis.
-No assumptions are made based on filename and no filename convetions are enforced; however, you should use a \fB.log\fR file extension to indicate binary format.
+No assumptions are made based on filename and no filename conventions are enforced; however, you should use a \fB.log\fR file extension to indicate binary format.
 
 .TP
 -\fBD\fR \fIxx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx\fR
@@ -86,7 +86,7 @@ Read multicast group information discovered while IGMP snooping using VS_MULTICA
 .TP
 -\fBi\fR \fIinterface\fR
 Select the host Ethernet interface.
-All requests are sent via this host interface and only reponses received via this host interface are recognized.
+All requests are sent via this host interface and only responses received via this host interface are recognized.
 The default interface is \fBeth1\fR because most people use \fBeth0\fR as their principle network connection; however, if environment string "PLC" is defined then it takes precedence over the default interface.
 This option then takes precedence over either default.
 
@@ -139,7 +139,7 @@ This option is executed after -\fBn\fR when both are specified.
 .TP
 -\fBp\fR \fIfilename\fR
 Read parameters from the device SDRAM and write them to the named \fB.pib\fR file using multiple VS_RD_MOD messages.
-No assumptions are made based on filename and no filename convetions are enforced.
+No assumptions are made based on filename and no filename conventions are enforced.
 This option is executed before option \f-BP\fR when both are specified.
 
 .TP
@@ -252,7 +252,7 @@ Always "00000000000000000000000000000000".
 .SH DEVICES
 Powerline devices use Ethernet hardware, or Media Access Control (MAC), addresses.
 Device addresses are 12 hexadecimal digits (\fB0123456789ABCDEFabcdef\fR) in upper, lower or mixed case.
-Individual octets may be separated by colons, for clarity, but not all octets need to be seperated.
+Individual octets may be separated by colons, for clarity, but not all octets need to be separated.
 For example, "00b052000001", "00:b0:52:00:00:01" and "00b052:000001" are valid and equivalent.
 
 .PP
@@ -301,12 +301,12 @@ If you want reading and writing to occur in a different order then you must use 
    # amptool -C 3 01:23:45:67:89:28
 
 .PP
-It is not neccessary to specify all operations on one command line.
-The three command lines above do essentially the same thing as the command line shown in the previou example.
+It is not necessary to specify all operations on one command line.
+The three command lines above do essentially the same thing as the command line shown in the previous example.
 Notice that this example uses -\fBC 3\fR, instead of -\fBF\fR, as an alternate way to write MAC and PIB to NVRAM.
 Specifying -\fBC 1\fR, instead, would write the .nvm file only.
 Specifying, -\fBC 2\fR, instead, would write the .pib file only.
-THe value \fB3\fR is the logical OR of \fB1\fR and \fB2\fR.
+The value \fB3\fR is the logical OR of \fB1\fR and \fB2\fR.
 
 .PP
    # amptool -N new.nvm -P new.pib -FF local
@@ -322,7 +322,7 @@ See \fBamptoolf\fR to download, start firmware and perform a force flash in one 
 
 .PP
 These two commands are equivalent.
-They set the NMK on the local device to key1 as descripted in the \fBKEYS\fR section.
+They set the NMK on the local device to key1 as described in the \fBKEYS\fR section.
 The first command resets the NMK on the local device with -\fBM\fR then specifies the NMK as \fBkey1\fR.
 The second command omits the key specification since \fBkey1\fR is the program default NMK.
 One could, of course, type the encryption key.

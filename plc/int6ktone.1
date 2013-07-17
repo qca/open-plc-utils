@@ -35,12 +35,12 @@ This option prints all output on stdout in cases where this is desired.
 Print histogram of mean-square time slot values for each carrier.
 The histogram facilitates visual identification of signals that interfere with powerline data transmission.
 These signals normally appear as a parabolic dip in otherwise uniform data.
-Thie option is ignored when option \fB-s\fR is present.
+This option is ignored when option \fB-s\fR is present.
 
 .TP
 .BR - i
 Select the host Ethernet interface.
-All requests are sent via this host interface and only reponses received via this host interface are recognized.
+All requests are sent via this host interface and only responses received via this host interface are recognized.
 The default interface is \fBeth1\fR because most people use \fBeth0\fR as their principle network connection; however, if environment string "PLC" is defined then it takes precedence over the default interface.
 This option then takes precedence over either default.
 
@@ -59,7 +59,7 @@ This option suppresses tone map output and causes option \fB-h\fR to be ignored.
 .TP
 .BR - v 
 Enter verbose mode.
-All Etherenet frames sent or received by the program are displayed on stdout.
+All Ethernet frames sent or received by the program are displayed on stdout.
 
 .TP
 -\fB?\fR, --\fBhelp\fR
@@ -80,7 +80,7 @@ The MAC address of the primary device.
 
 .TP
 .BR peer
-THe MAC address of the peer device.
+The MAC address of the peer device.
 
 .SH REFERENCES
 See the Qualcomm Atheros HomePlug AV Firmware Technical Reference Manual for more information.
@@ -1030,7 +1030,7 @@ See the man page for program \fBpsnotch\fR for more information.
 
 .PP
 This program can be used to detect the presence of powerline interference when electronic test equipment is not available.
-Although the frequency cannot be determined, the presence or absence of severe interferrence can be detected.
+Although the frequency cannot be determined, the presence or absence of severe interference can be detected.
 
 .PP
 The following example computes average signal-to-noise ratios (SNR) for each time slot and the entire tone map because option \fB-s\fR is selected.
@@ -1047,7 +1047,7 @@ Option \fB-s\fR also suppresses tone map output.
 
 .PP
 The SNR values shown above are for a very clean and stable connection.
-Once a tone map is computed it remains stable unless the attenuation changes or noise is introduced while data is being transfered.
+Once a tone map is computed it remains stable unless the attenuation changes or noise is introduced while data is being transferred.
 With no data transfer, the map will automatically update after some (long) period, perhaps a minute, based on a number of interrelated factors.
 
 .SH DISCLAIMER

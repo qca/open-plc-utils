@@ -29,7 +29,7 @@ This utility does that.
 \fB-h\fR
 Print \fBbash\fR compatible variable definitions on stdout.
 The definitions enumerate available devices and their MAC addresses.
-This is merely a convenience to minimze typing errors and, consequently, some editing may be required.
+This is merely a convenience to minimize typing errors and, consequently, some editing may be required.
 The output is a generous start when creating file \fBhardware.sh\fR.
 
 .TP
@@ -53,7 +53,7 @@ The Ethernet hardware addresses shown may be useful when writing scripts.
    4 00:00:00:00:00:00 lo
 
 .PP
-The next example enumaerates available winpcap devices on a Windows hosts.
+The next example enumerates available winpcap devices on a Windows hosts.
 Observe that device names and descriptions are much longer than on Linux.
 
 .PP
@@ -65,7 +65,7 @@ Observe that device names and descriptions are much longer than on Linux.
 
 .PP
 Assuming that we have compiled and installed the Linux Toolkit with libpcap or winpcap support, we can use \fBint6k\fR to request revision information on all devices connected to interface \fB2\fR with the following command.
-Interface \fB2\fR is the default interface when the toolkit is comipled with either libpcap or winpcap and so option \fB-i\fR could have been omitted in this case.
+Interface \fB2\fR is the default interface when the toolkit is compiled with either libpcap or winpcap and so option \fB-i\fR could have been omitted in this case.
 
 .PP
    # int6k -i 2 -r
@@ -89,7 +89,7 @@ The output can be used with the Cygwin bash shell, for example.
    MAC4=00:0C:76:87:3E:3D # Broadcom NetXtreme Gigabit Ethernet Driver
 
 .PP
-The previous example creats a basic \fBhardware.sh\fR file but some editing is still required.
+The previous example creates a basic \fBhardware.sh\fR file but some editing is still required.
 You should add a \fBbang path\fR at the top, delete definitions of \fBNIC1\fR and \fBMAC\fR and renumber the remaining symbols.
 You may also want to add other host-specific definitions.
 

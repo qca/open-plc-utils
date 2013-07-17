@@ -94,7 +94,7 @@ The default is \fB1\fR.
 Force default host port settings to match the default setting for UART-enabled Atheros powerline devices.
 The setting are \fB115200\fR baud, \fB8\fR data bits, \fBno\fR parity bits and \fB1\fR stop bit.
 These settings will remain active when the program terminates and will not change unless changed by some other means, perhaps by another application.
-This option is an easy means of establishg an initial serial connection with a powerline device, unless it's settings have been changed.
+This option is an easy means of establishing an initial serial connection with a powerline device, unless it's settings have been changed.
 .TP
 .RB - v
 Display serial line commands and responses on stdout.
@@ -140,7 +140,7 @@ Reset local device to factory defaults. See option \fB-T\fR above.
 Exit \FBCommand Mode\fR and enter \fBHigh Speed Command Mode\fR. Once the \fBOK\fR response is received, the local host should send commands to the device at successively higher speeds until a valid response is received.
 .TP
 .BI ATNI ?
-Read nework information and store the information internally. Return the number of associated stations and information about the first associated station. The information includes the peer station device address, TX rate and RX rate.
+Read network information and store the information internally. Return the number of associated stations and information about the first associated station. The information includes the peer station device address, TX rate and RX rate.
 .TP
 .BI ATNI station
 Extract and display previously stored network information for a specific peer \fIstation\fR. The information returned is that previosly stored using a \fBATNI\fR serial line command query.
@@ -205,7 +205,7 @@ The outgoing serial line command and incoming response are displayed on stderr b
 
 .PP
 Observe that decimal command line arguments are converted to hexadecimal on output.
-Although this program outputs fixed-length fields, including leaing zeros, device firmware ignores them.
+Although this program outputs fixed-length fields, including leading zeros, device firmware ignores them.
 Leading zeros may be omitted when entering serial line commands manually.
 
 .PP 

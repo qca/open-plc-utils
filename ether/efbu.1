@@ -14,7 +14,7 @@ Send IP broadcast frames of maximum length at maximum rate over a given interfac
 The maximum frame length is ETHER_MAX_LEN as defined in <net/ethernet.h>.
 The maximum rate is limited by the host processor type, the number of active processes, the interface hardware and so on.
 This program does the best it can within the given execution environment.
-Multi-processosr and faster hosts should see at least 85mb.
+Multiprocessor and faster hosts should see at least 85mb.
 Single-processor and slower hosts will see less.
 
 .PP
@@ -27,7 +27,7 @@ Don't abuse it.
 Byte value used to pad Ethernet frames. Valid values are \fB0\fR through \fB255\fR and may be specified in decimal, hexadecimal or binary. Hexadecimal is prefixed with \fB0x\fR. Binary is prefixed with \fB0b\fR. The default is \fB0xAA\fR or \fB0b10101010\fR.
 .TP
 -\fBd \fIaddress\fR
-Replace the destination Ethernet address of each transmitted frame with the option argument. The destination address consists of 12 hex digits in upper, lower or mixed case. Octets may be seperated with colons for clarity but colons are not required.
+Replace the destination Ethernet address of each transmitted frame with the option argument. The destination address consists of 12 hex digits in upper, lower or mixed case. Octets may be separated with colons for clarity but colons are not required.
 .TP
 -\fBe \fIethertype\fR
 The ethertype expressed as a 16-bit hexadecimal integer. Prefix "\fB0x\fR" is optional. 

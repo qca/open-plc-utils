@@ -71,7 +71,6 @@
 #include "../tools/hexdecode.c"
 #include "../tools/todigit.c"
 #include "../tools/typename.c"
-#include "../tools/endian.c"
 #include "../tools/error.c"
 #include "../tools/synonym.c"
 #include "../tools/lookup.c"

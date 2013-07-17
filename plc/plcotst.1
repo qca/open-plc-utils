@@ -32,14 +32,14 @@ This option applies to both selftest configuration and selftest results.
 .RB - C
 Clear stored selftest results.
 This option clears stored selftest results.
-This option implies selftest results and supercedes options \fB-d\fR, \fB-f\fR, \fB-m\fR, \fB-r\fR and \fB-R\fR, if present on the command line.
+This option implies selftest results and supersedes options \fB-d\fR, \fB-f\fR, \fB-m\fR, \fB-r\fR and \fB-R\fR, if present on the command line.
 
 .TP
 -\fBd\fI seconds\fR
 Delay selftest after reboot.
 Permitted delay times are \fB0\fR through \fBUINT_MAX\fR seconds.
 The default is \fB0\fR seconds.
-This option implies selftest configuration and supercedes option \fB-C\fR, if present on the command line.
+This option implies selftest configuration and supersedes option \fB-C\fR, if present on the command line.
 
 .TP
 .RB - e
@@ -52,14 +52,14 @@ This option prints all output on stdout in cases where this is desired.
 Run the flash memory selftest \fIcount\fR times.
 Valid values are \fB0\fR through \fBUINT_MAX\fR.
 The default is \fB0\fR which effectively suppresses the test.
-This option implies selftest configuration and supercedes option \fB-C\fR, if present on the command line.
+This option implies selftest configuration and supersedes option \fB-C\fR, if present on the command line.
 
 .TP
 -\fBm\fI count\fR
 Run the memory selftest \fIcount\fR times.
 Valid values are \fB0\fR through \fBUINT_MAX\fR.
 The default is \fB0\fR which suppresses effectively the test.
-This option implies selftest configuration and supercedes option \fB-C\fR, if present on the command line.
+This option implies selftest configuration and supersedes option \fB-C\fR, if present on the command line.
 
 .TP
 .RB - q
@@ -72,7 +72,7 @@ Permitted values are \fB0\fR through \fB255\fR.
 Expected values are \fB0\fR for \fBfalse\fR and \fB1\fR for \fBtrue\fR.
 The default is \fB1\fR.
 If the memory test \fIcount\fR and flash test \fIcount\fR are both \fB0\fR no testing will occur when the time comes.
-This option implies selftest configuration and supercedes option \fB-C\fR, if present on the command line.
+This option implies selftest configuration and supersedes option \fB-C\fR, if present on the command line.
 
 .TP
 -\fBR\fI flag\fR
@@ -80,7 +80,7 @@ Reset device after selftest.
 Permitted values are \fB0\fR through \fB255\fR.
 Expected values are \fB0\fR for \fBfalse\fR and \fB1\fR for \fBtrue\fR.
 The default is \fB0\fR.
-This option applies to selftest configuration only and supercedes option \fB-C\fR, if present on the command line.
+This option applies to selftest configuration only and supersedes option \fB-C\fR, if present on the command line.
 
 .TP
 -\fBt \fItimeout\fR

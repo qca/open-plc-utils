@@ -79,7 +79,6 @@
 #include "../tools/basespec.c"
 #include "../tools/ipv4spec.c"
 #include "../tools/ipv6spec.c"
-#include "../tools/endian.c"
 #include "../tools/emalloc.c"
 #include "../tools/todigit.c"
 #include "../tools/codelist.c"
