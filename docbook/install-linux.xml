@@ -33,7 +33,7 @@
 				We recommend that you <command>login</command> as <constant>root</constant> user before installing the toolkit; otherwise, you will be prompted for the <constant>root</constant> password as each program or component is installed. 
 				</para>
 			<para>
-				Programs are installed in folder <filename>/usr/local/bin</filename> and man pages are installed in folders <filename>/usr/share/man/man7</filename>. If these folders are not correct for your system, or if you want to install in other folders, then edit the folder names defined in the <link linkend="software-cross-compile">make.def</link> file found in main toolkit folder or over-ride these definitions in subordinate makefiles.
+				Programs are installed in folder <filename>/usr/local/bin</filename> and man pages are installed in folders <filename>/usr/share/man/man1</filename>. If these folders are not correct for your system, or if you want to install in other folders, then edit the folder names defined in the <link linkend="software-cross-compile">make.def</link> file found in main toolkit folder or over-ride these definitions in subordinate makefiles.
 				</para>
 			</section>
 		<section>

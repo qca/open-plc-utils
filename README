@@ -33,7 +33,7 @@ TO INSTALL
 
 1. Enter package folder using "cd open-plc-utils".
 2. Compile and install all tools in /usr/local/bin using "sudo make install". 
-3. Compile and install man pages in  /usr/share/man/man7 using "sudo make manuals".
+3. Compile and install man pages in  /usr/share/man/man1 using "sudo make manuals".
 4  Change to the documentation folder using "cd docbook".
 5. Add page index.html to browser favorites.
 6. Add page toolkit.html to browser favorites.
