@@ -83,6 +83,11 @@
 				</collab>
 			<collab>
 				<collabname>
+					Stefan Wahren &lt;stefan.wahren@i2se.com&gt;
+					</collabname>
+				</collab>
+			<collab>
+				<collabname>
 					Bill Wike &lt;bwike@qca.qualcomm.com&gt;
 					</collabname>
 				</collab>
@@ -93,7 +98,7 @@
 				</collab>
 			</authorgroup>
 		<date>
-			APR 2013
+			JUL 2013
 			</date>
 		<releaseinfo>
 			open-plc-utils-0.0.2
