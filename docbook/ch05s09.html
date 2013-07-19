@@ -6,14 +6,14 @@
 			Upgrading PIB Only
 			</h2></div></div></div><p>
 			When flashing a <acronym class="acronym">PIB</acronym> to the local device, the <acronym class="acronym">PIB</acronym> <acronym class="acronym">DAK</acronym> must match that of the local device or you will get a “<span class="quote">DAK Not Zero</span>” error message. This message is incorrect and should probably read “<span class="quote">DAK Mismatch</span>”. The following two toolkit commands should prevent this error from occuring on Linux. The first command reads the actual <acronym class="acronym">MAC</acronym> (<strong class="userinput"><code>-A</code></strong>) and <acronym class="acronym">DAK</acronym> (<strong class="userinput"><code>-D</code></strong>) from the device using program <a class="ulink" href="int6kid.7.html" target="_top">int6kid</a> and inserts them on the command lise as <a class="ulink" href="modpib.7.html" target="_top">modpib</a> arguments using options <strong class="userinput"><code>-M</code></strong> and <strong class="userinput"><code>-D</code></strong>. We need not include the station <acronym class="acronym">MAC</acronym> address on the <a class="ulink" href="int6k.7.html" target="_top">int6k</a> command line because the device is local, but we could include it.
-			</p><div class="example"><a name="idp11038608"></a><p class="title"><b>Example 5.16. 
+			</p><div class="example"><a name="idp6878288"></a><p class="title"><b>Example 5.16. 
 				Upgrade local device PIB
 				</b></p><div class="example-contents"><pre class="screen">
  # modpib abc.pib -ieth1 -M $(int6kid -ieth1 -A) -D $(int6kid -ieth1 -D)
  # int6k -P abc.pib -C pib 
  </pre></div></div><br class="example-break"><p>
 			When flashing a <acronym class="acronym">PIB</acronym> to a remote device, the <acronym class="acronym">PIB</acronym> <acronym class="acronym">DAK</acronym> must be all zeros or you will get a “<span class="quote">DAK Not Zero</span>” error message. This message occurs because the <span class="productname">HomePlug</span>™ AV Specification does not permit a <acronym class="acronym">DAK</acronym> to be transmitted over powerline in any form. The following two toolkit commands should prevent this error on Linux. We must include the device <acronym class="acronym">MAC</acronym> on the command line when invoking each program because the device is remote. Notice that symbol <code class="constant">none</code> can be used as shorthand <code class="constant">00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00</code> when specifying the <acronym class="acronym">DAK</acronym>.
-			</p><div class="example"><a name="idp11042440"></a><p class="title"><b>Example 5.17. 
+			</p><div class="example"><a name="idp6882120"></a><p class="title"><b>Example 5.17. 
 				Upgrade remote PIB
 				</b></p><div class="example-contents"><pre class="screen">
  # modpib abc.pib -ieth1 -M $(int6kid -ieth1 -A 00B052BEEF03) -D none 

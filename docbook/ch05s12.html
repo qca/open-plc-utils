@@ -10,7 +10,7 @@
 				The <span class="productname">INT6300</span>™ and <span class="productname">INT6400</span>™ do not require a special <acronym class="acronym">SDRAM</acronym> configuration file and so program <a class="ulink" href="int6kboot.7.html" target="_top">int6kboot</a> may be used in place of <a class="ulink" href="int6kf.7.html" target="_top">int6kf</a> which is described here. The only real difference between the two programs is the presence or absence of option <span class="command"><strong>-C</strong></span> on the command line.
 				</p></div><p>
 			The <a class="ulink" href="int6kf.7.html" target="_top">int6kf</a> program can program a blank or corrupted <acronym class="acronym">NVRAM</acronym> on the INT6300. The process involves starting the runtime firmware as shown in the previous example then downloading a .nvm file using a <code class="constant">VS_WR_MOD</code> message, downloading a .pib file using another WR_WR_MOD message then writing both to <acronym class="acronym">NVRAM</acronym> using a <code class="constant">VS_MOD_NVM</code> message. An example <a class="ulink" href="int6kf.7.html" target="_top">int6kf</a> command line is shown below. It is identical to the one shown above except for the addition of the flash option at the end. 
-			</p><div class="example"><a name="idp11082536"></a><p class="title"><b>Example 5.22. 
+			</p><div class="example"><a name="idp6922160"></a><p class="title"><b>Example 5.22. 
 				Flash NVRAM with int6kf
 				</b></p><div class="example-contents"><pre class="screen">
 # int6kf -C abc.cfg -N abc.nvm -P abc.pib -F
@@ -18,7 +18,7 @@
 			The example above starts the firmware then uses it to program the <acronym class="acronym">NVRAM</acronym>. This was done in one step rather than two seperate steps as shown in the examples before it. The only difference is that <span class="command"><strong>int6k</strong></span> needs to use the 'force flash' option when using downloaded firmware to write <acronym class="acronym">NVRAM</acronym>. The following example accomplishes the same thing as the previous example but uses <span class="command"><strong>int6k</strong></span> to program <acronym class="acronym">NVRAM</acronym>. See the <a class="ulink" href="int6k.7.html" target="_top">int6k</a> man page for an explanation of the command line options and arguments used here.
 			</p><p>
 			The <a class="ulink" href="int6kf.7.html" target="_top">int6kf</a> program cannot program blank or corrupted <acronym class="acronym">NVRAM</acronym> on the INT6000 unless the <span class="application">Softloader</span> is running. Since the <span class="application">Softloader</span> resides in <acronym class="acronym">NVRAM</acronym>, the NVRAM must be either pre-programmed before use or removed and externally re-programmed if it corrupts.
-			</p><div class="example"><a name="idp11087656"></a><p class="title"><b>Example 5.23. 
+			</p><div class="example"><a name="idp6927280"></a><p class="title"><b>Example 5.23. 
 				Flash NVRAM with int6k
 				</b></p><div class="example-contents"><pre class="screen">
 # int6kf -C abc.cfg -N abc.nvm -P abc.pib 

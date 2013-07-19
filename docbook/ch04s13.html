@@ -7,10 +7,10 @@
 			</h2></div></div></div><p>
 			The boot-from-host operation downloads <acronym class="acronym">SDRAM</acronym> configuration information, runtime parameters and runtime firmware from a local host and starts firmware execution. This method is initiated by the device bootloader after reset reset if the device has no flash memory, blank flash memory or corrupted flash memory. The method requires the bootloader aware software running on the local host to detect and service <code class="constant">VS_HOST_ACTION</code> messages from the device.
 			</p><p>
-			The <span class="productname">INT6300</span>™ boot-from-host method is similar to the <span class="productname">INT6000</span>™ method but it has an extra stage to download <acronym class="acronym">SDRAM</acronym> configuration parameters and it uses <code class="constant">VS_WR_MEM</code> messages to download runtime paramters and firmware instead of <code class="constant">VS_WR_MOD</code> messages. The <code class="constant">VS_WR_MEM</code> messages write directy to <acronym class="acronym">SDRAM</acronym> and an <code class="constant">VS_ST_MAC</code> message is needed to start firmware execution. Once the firmware is running, another method is used to write runtime parameters and firmware to flash memory.
+			The <span class="productname">INT6300</span>™ boot-from-host method is similar to the <span class="productname">INT6000</span>™ method but it has an extra stage to download <acronym class="acronym">SDRAM</acronym> configuration parameters and it uses <code class="constant">VS_WR_MEM</code> messages to download runtime parameters and firmware instead of <code class="constant">VS_WR_MOD</code> messages. The <code class="constant">VS_WR_MEM</code> messages write directly to <acronym class="acronym">SDRAM</acronym> and an <code class="constant">VS_ST_MAC</code> message is needed to start firmware execution. Once the firmware is running, another method is used to write runtime parameters and firmware to flash memory.
 			</p><p>
 			The <span class="productname">INT6300</span>™ does not have a unique hardware address until runtime firmware starts and assigns one from the runtime parameter block. Until that time, the bootloader will accept messages addressed to <code class="constant">00:B0:52:00:00:01</code>. In addition, the bootloader does not know the hardware address of the local host and so it addresses <code class="constant">VS_HOST_ACTION</code> messages to <code class="constant">FF:FF:FF:FF:FF:FF</code>; however, these messages are not transmitted over the powerline.
-			</p><div class="figure"><a name="idp10180312"></a><p class="title"><b>Figure 4.5. 
+			</p><div class="figure"><a name="idp6019904"></a><p class="title"><b>Figure 4.5. 
 				boot-from-host (INT6300)
 				</b></p><div class="figure-contents"><pre class="programlisting">
 
@@ -36,7 +36,7 @@
         [14] |-------- VS_ST_MAC.CNF ------------&gt;| [15]
 
  </pre></div></div><br class="figure-break"><div class="orderedlist"><ol type="1"><li><p>
-					The bootloader automatically starts after device reset and attempts to read the runtime firmware image from flash memory, write it into <acronym class="acronym">SDRAM</acronym> and start execution. If it succeeds then normal operation begins and no futher action is required. If it fails, for any reason, then the bootloader starts the boot-from-host process.
+					The bootloader automatically starts after device reset and attempts to read the runtime firmware image from flash memory, write it into <acronym class="acronym">SDRAM</acronym> and start execution. If it succeeds then normal operation begins and no further action is required. If it fails, for any reason, then the bootloader starts the boot-from-host process.
 					</p></li><li><p>
 					The bootloader broadcasts <code class="constant">VS_HOST_ACTION.IND</code> with <code class="varname">HOST_ACTION_REQ</code> set to <code class="constant">0x04</code> to indicate that configuration is required. The destination address is <code class="constant">FF:FF:FF:FF:FF:FF</code> and the source address is <code class="constant">00:B0:52:00:00:01</code> as explained above. This message is sent every <code class="constant">10</code> seconds which differs from that of other chips. 
 					</p></li><li><p>

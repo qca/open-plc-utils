@@ -6,7 +6,7 @@
 			plcrule.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.0 11:16:46 Jun 25 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -91,7 +91,6 @@
 #include &quot;../tools/uintspec.c&quot;
 #include &quot;../tools/hexdecode.c&quot;
 #include &quot;../tools/todigit.c&quot;
-#include &quot;../tools/endian.c&quot;
 #include &quot;../tools/error.c&quot;
 #include &quot;../tools/synonym.c&quot;
 #include &quot;../tools/assist.c&quot;
@@ -293,25 +292,25 @@ int main (int argc, char const * argv [])
 		case 's':
 			printf (&quot;\n&quot;);
 			printf (&quot; Controls are &quot;);
-			codelist (controls, CONTROLS, COMMA, QUOTE, stdout);
+			codelist (controls, SIZEOF (controls), COMMA, QUOTE, stdout);
 			printf (&quot;.\n&quot;);
 			printf (&quot; Volatilities are &quot;);
-			codelist (volatilities, VOLATILITIES, COMMA, QUOTE, stdout);
+			codelist (volatilities, SIZEOF (volatilities), COMMA, QUOTE, stdout);
 			printf (&quot;.\n&quot;);
 			printf (&quot; Actions are &quot;);
-			codelist (actions, ACTIONS, COMMA, QUOTE, stdout);
+			codelist (actions, SIZEOF (actions), COMMA, QUOTE, stdout);
 			printf (&quot;.\n&quot;);
 			printf (&quot; Operands are &quot;);
-			codelist (operands, OPERANDS, COMMA, QUOTE, stdout);
+			codelist (operands, SIZEOF (operands), COMMA, QUOTE, stdout);
 			printf (&quot;.\n&quot;);
 			printf (&quot; Fields are &quot;);
-			codelist (fields, FIELDS, COMMA, QUOTE, stdout);
+			codelist (fields, SIZEOF (fields), COMMA, QUOTE, stdout);
 			printf (&quot;.\n&quot;);
 			printf (&quot; Operators are &quot;);
-			codelist (operators, OPERATORS, COMMA, QUOTE, stdout);
+			codelist (operators, SIZEOF (operators), COMMA, QUOTE, stdout);
 			printf (&quot;.\n&quot;);
 			printf (&quot; States  are &quot;);
-			codelist (states, STATES, COMMA, QUOTE, stdout);
+			codelist (states, SIZEOF (states), COMMA, QUOTE, stdout);
 			printf (&quot;.\n&quot;);
 			printf (&quot;\n&quot;);
 			return (0);

@@ -6,7 +6,7 @@
 			Configuring a Device
 			</h2></div></div></div><p>
 			Device identity, capability and behavior are controlled by runtime parameters stored in the device <acronym class="acronym">PIB</acronym>. To change device identity,  capability or behavior you must alter a template <acronym class="acronym">PIB</acronym> file, download it to the device and flash it into <acronym class="acronym">NVRAM</acronym>. A template PIB can come from several sources but an excellent souce is the device, itself. Configuration changes then become a simple read, modify and write back operation.
-			</p><div class="example"><a name="idp11009376"></a><p class="title"><b>Example 5.12. 
+			</p><div class="example"><a name="idp6849096"></a><p class="title"><b>Example 5.12. 
 				Read a PIB File
 				</b></p><div class="example-contents"><pre class="screen">
 # int6k  -i eth2 -p old.pib local
@@ -14,7 +14,7 @@ eth2 00:B0:52:00:00:01 Read Parameters from Device
 eth2 00:B0:52:00:00:BE Read.
 </pre><p>
 				This example reads the <acronym class="acronym">PIB</acronym> from the local device and writes it to a file. The toolkit has a growing number of programs designed to inspect and change pibfiles in various ways. Program <a class="ulink" href="modpib.7.html" target="_top">modpib</a> is one program that can be used for this purpose.
-				</p></div></div><br class="example-break"><div class="example"><a name="idp11011224"></a><p class="title"><b>Example 5.13. 
+				</p></div></div><br class="example-break"><div class="example"><a name="idp6850944"></a><p class="title"><b>Example 5.13. 
 				Modify a PIB File
 				</b></p><div class="example-contents"><pre class="screen">
 # modpib old.pib -M 00:B0:52:00:BA:BE \
@@ -27,7 +27,7 @@ eth2 00:B0:52:00:00:BE Read.
 			The example above edits identity parameters in <acronym class="acronym">PIB</acronym> file,  <code class="filename">old.pib</code>, recomputes the internal checksum and re-writes the file. The network identity parameters are <acronym class="acronym">MAC</acronym> (<strong class="userinput"><code>-M</code></strong>), <acronym class="acronym">NMK</acronym> (<strong class="userinput"><code>-N</code></strong>) and <acronym class="acronym">DAK</acronym> (<strong class="userinput"><code>-D</code></strong>). The user identity parameters are <acronym class="acronym">MFG_HFID</acronym> (<strong class="userinput"><code>-S</code></strong>),  <acronym class="acronym">NET_HFID</acronym> (<strong class="userinput"><code>-T</code></strong>) and <acronym class="acronym">USR_HFID</acronym> (<strong class="userinput"><code>-U</code></strong>). The <acronym class="acronym">PIB</acronym> file is ready for download and flash.
 			</p><p>
 			Program <a class="ulink" href="modpib.7.html" target="_top">modpib</a> is a safe way to edit a <acronym class="acronym">PIB</acronym> file because it only change selected parameters. Use program <a class="ulink" href="setpib.7.html" target="_top">setpib</a> to edit other parameters if required.
-			</p><div class="example"><a name="idp11018008"></a><p class="title"><b>Example 5.14. 
+			</p><div class="example"><a name="idp6857776"></a><p class="title"><b>Example 5.14. 
 				Save a PIB File
 				</b></p><div class="example-contents"><pre class="screen">
 # int6k  -i eth2 -P old.pib -C pib

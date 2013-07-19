@@ -6,7 +6,7 @@
 			coqos_add.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.0 11:16:46 Jun 25 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -93,7 +93,6 @@
 #include &quot;../tools/hexdecode.c&quot;
 #include &quot;../tools/todigit.c&quot;
 #include &quot;../tools/typename.c&quot;
-#include &quot;../tools/endian.c&quot;
 #include &quot;../tools/error.c&quot;
 #include &quot;../tools/synonym.c&quot;
 #include &quot;../tools/lookup.c&quot;
@@ -294,7 +293,7 @@ int main (int argc, char const * argv [])
 	memset (&amp;connection, 0, sizeof (connection));
 	if ((code = lookup (* argv++, actions, SIZEOF (actions))) == -1) 
 	{
-		assist (*--argv, ACTION, actions, SIZEOF (actions));
+		assist (*--argv, CLASSIFIER_ACTION_NAME, actions, SIZEOF (actions));
 	}
 	connection.cspec.CONN_CAP = (uint8_t)(code);
 	argc--;
@@ -327,7 +326,7 @@ int main (int argc, char const * argv [])
 	argc--;
 	if ((code = lookup (* argv++, operands, SIZEOF (operands))) == -1) 
 	{
-		assist (*--argv, OPERAND, operands, SIZEOF (operands));
+		assist (*--argv, CLASSIFIER_OPERAND_NAME, operands, SIZEOF (operands));
 	}
 	connection.rule.MOPERAND = (uint8_t)(code);
 	argc--;
@@ -335,19 +334,19 @@ int main (int argc, char const * argv [])
 	{
 		if ((code = lookup (* argv++, fields, SIZEOF (fields))) == -1) 
 		{
-			assist (*--argv, FIELD, fields, SIZEOF (fields));
+			assist (*--argv, CLASSIFIER_FIELD_NAME, fields, SIZEOF (fields));
 		}
 		rule-&gt;CR_PID = (uint8_t)(code);
 		argc--;
 		if ((code = lookup (* argv++, operators, SIZEOF (operators))) == -1) 
 		{
-			assist (*--argv, OPERATOR, operators, SIZEOF (operators));
+			assist (*--argv, CLASSIFIER_OPERATOR_NAME, operators, SIZEOF (operators));
 		}
 		rule-&gt;CR_OPERAND = (uint8_t)(code);
 		argc--;
 		if (!argc || !* argv) 
 		{
-			error (1, ENOTSUP, &quot;Have %s '%s' without any value&quot;, OPERATOR, *--argv);
+			error (1, ENOTSUP, &quot;Have %s '%s' without any value&quot;, CLASSIFIER_OPERATOR_NAME, *--argv);
 		}
 		switch (rule-&gt;CR_PID) 
 		{
@@ -383,12 +382,12 @@ int main (int argc, char const * argv [])
 		case FIELD_ETH_TYPE:
 			word = (uint16_t *)(rule-&gt;CR_VALUE);
 			*word = (uint16_t)(basespec (* argv++, 0, sizeof (* word)));
-			*word = HTOLE16 (*word);
+			*word = htons (*word);
 			break;
 		case FIELD_HPAV_MME:
 			bytespec (* argv++, rule-&gt;CR_VALUE, sizeof (uint8_t) + sizeof (uint16_t));
 			byte = (uint8_t *)(rule-&gt;CR_VALUE);
-			endian (++byte, sizeof (uint16_t));
+			HTOBE16 ((uint16_t)(* ++byte));
 			break;
 		case FIELD_IPV6_TC:
 		case FIELD_IPV6_FL:

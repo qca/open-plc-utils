@@ -7,12 +7,12 @@
 			</h2></div></div></div><p>
 			The <span class="productname">AR7400</span>™ boot-from-host method downloads and executes a device configuration applet then downloads runtime parameters and firmware from a local host and starts firmware execution. This method is initiated by the <span class="application">Bootloader</span> after reset on a device having no flash memory, blank flash memory or corrupted flash memory. The method requires <span class="application">Bootloader</span> aware software running on the local host in order to complete.
 			</p><p>
-			The <span class="productname">AR7400</span>™ boot-from-host method is similar to the <span class="productname">INT6400</span>™ boot-from-host method but it uses the <code class="constant">VS_WRITE_AND_EXECUTE</code> message instead of the <code class="constant">VS_WR_MEM</code> message write into SDRAM and start firmware execution. This elminates the need for the <code class="constant">VS_ST_MAC</code> message. The <code class="constant">VS_WR_MEM</code> and <code class="constant">VS_ST_MAC</code> message types will no longer be recognized by bootloaders after the <span class="productname">QCA7420</span>™ chipset. 
+			The <span class="productname">AR7400</span>™ boot-from-host method is similar to the <span class="productname">INT6400</span>™ boot-from-host method but it uses the <code class="constant">VS_WRITE_AND_EXECUTE</code> message instead of the <code class="constant">VS_WR_MEM</code> message write into SDRAM and start firmware execution. This eliminates the need for the <code class="constant">VS_ST_MAC</code> message. The <code class="constant">VS_WR_MEM</code> and <code class="constant">VS_ST_MAC</code> message types will no longer be recognized by bootloaders after the <span class="productname">QCA7420</span>™ chipset. 
 			</p><p>
 			The <span class="productname">AR7400</span>™ boot-from-host method works on <span class="productname">AR6400</span>™ and will continue to work on <span class="productname">QCA7420</span>™ and planned successors. Customers should implement this boot-from-host method now to avoid building obsolete products.
 			</p><p>
 			The <span class="productname">AR7400</span>™ does not have a unique hardware address until the firmware starts and assigns one read from the PIB. Until that time, the <span class="application">Bootloader</span> will only acknowledge messages addressed to 00:B0:52:00:00:01. In addition, the <span class="application">Bootloader</span> does not know the hardware address of the local host and so it addresses all <code class="constant">VS_HOST_ACTION</code> messages to FF:FF:FF:FF:FF:FF; however, these messages are not transmitted over the powerline.
-			</p><div class="figure"><a name="idp10306984"></a><p class="title"><b>Figure 4.7. 
+			</p><div class="figure"><a name="idp6146616"></a><p class="title"><b>Figure 4.7. 
 				Boot from Host (AR7400)
 				</b></p><div class="figure-contents"><pre class="programlisting">
 
@@ -40,7 +40,7 @@
         [25] |                                    |
 
  </pre></div></div><br class="figure-break"><div class="orderedlist"><ol type="1"><li><p>
-					The bootloader automatically starts after device reset and attempts to read the runtime firmware image from flash memory, write it into <acronym class="acronym">SDRAM</acronym> and start execution. If it succeeds then normal operation begins and no futher action is required. If it fails, for any reason, then the bootloader initiates the boot-from-host sequence.
+					The bootloader automatically starts after device reset and attempts to read the runtime firmware image from flash memory, write it into <acronym class="acronym">SDRAM</acronym> and start execution. If it succeeds then normal operation begins and no further action is required. If it fails, for any reason, then the bootloader initiates the boot-from-host sequence.
 					</p></li><li><p>
 					The bootloader broadcasts <code class="constant">VS_HOST_ACTION.IND</code> with <code class="varname">HOST_ACTION_REQ</code> set to <code class="constant">0x04</code> to indicate that it is waiting to be configured. The bootloader continues to broadcast this message message every <code class="constant">750</code> milliseconds which differs from that of other chips.
 					</p></li><li><p>

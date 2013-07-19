@@ -6,7 +6,7 @@
 			pibrump.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.0 11:16:46 Jun 25 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -134,7 +134,7 @@ signed Classifier (struct PIBClassifier * classifier)
 	uint32_t val32;
 	uint16_t val16;
 	uint8_t val8;
-	printf (&quot;%s %s&quot;, reword (classifier-&gt;CR_PID, fields, FIELDS), reword (classifier-&gt;CR_OPERAND, operators, OPERATORS));
+	printf (&quot;%s %s&quot;, reword (classifier-&gt;CR_PID, fields, SIZEOF (fields)), reword (classifier-&gt;CR_OPERAND, operators, SIZEOF (operators)));
 	switch (classifier-&gt;CR_PID) 
 	{
 	case FIELD_ETH_SA:
@@ -187,14 +187,14 @@ signed Classifier (struct PIBClassifier * classifier)
 		{
 			code_t val;
 			memcpy (&amp;val, classifier-&gt;CR_VALUE, sizeof (val));
-			printf (&quot; %s&quot;, reword (val, states, STATES));
+			printf (&quot; %s&quot;, reword (val, states, SIZEOF (states)));
 		}
 		break;
 	case FIELD_VLAN_TAG:
 		{
 			code_t val;
 			memcpy (&amp;val, classifier-&gt;CR_VALUE, sizeof (val));
-			printf (&quot; %s&quot;, reword (val, states, STATES));
+			printf (&quot; %s&quot;, reword (val, states, SIZEOF (states)));
 		}
 		break;
 	default:
@@ -226,8 +226,8 @@ signed AutoConnection (struct auto_connection * auto_connection)
 	{
 		printf (&quot;-T 0x%08X -V %d &quot;, ntohl (auto_connection-&gt;cspec.VLAN_TAG), LE16TOH (auto_connection-&gt;cspec.CSPEC_VERSION));
 	}
-	printf (&quot;%s&quot;, reword (auto_connection-&gt;MACTION, actions, ACTIONS));
-	printf (&quot; %s &quot;, reword (auto_connection-&gt;MOPERAND, operands, OPERANDS));
+	printf (&quot;%s&quot;, reword (auto_connection-&gt;MACTION, actions, SIZEOF (actions)));
+	printf (&quot; %s &quot;, reword (auto_connection-&gt;MOPERAND, operands, SIZEOF (operands)));
 	for (i = 0; i &lt; LE16TOH (auto_connection-&gt;NUM_CLASSIFIERS); ++i) 
 	{
 		Classifier (&amp;auto_connection-&gt;CLASSIFIER [i]);
@@ -254,7 +254,7 @@ signed AutoConnection (struct auto_connection * auto_connection)
 signed ClassifierPriorityMap (struct classifier_priority_map * map) 
 
 {
-	printf (&quot;%s Any &quot;, reword (LE32TOH (map-&gt;Priority), actions, ACTIONS));
+	printf (&quot;%s Any &quot;, reword (LE32TOH (map-&gt;Priority), actions, SIZEOF (actions)));
 	Classifier (&amp;map-&gt;CLASSIFIER);
 	printf (&quot; add perm\n&quot;);
 	return (0);

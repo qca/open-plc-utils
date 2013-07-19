@@ -6,7 +6,7 @@
 				Stand-alone Compiling on GNU/Linux
 				</h2></div></div></div><p>
 				You do not need makefiles to build toolkit programs because source files explicitly include all required components using <span class="command"><strong>include</strong></span> statement blocks like that shown below. You will see similar blocks near the top of most programs. 
-				</p><div class="example"><a name="idp9528776"></a><p class="title"><b>Example 3.1. 
+				</p><div class="example"><a name="idp5368160"></a><p class="title"><b>Example 3.1. 
 					The <code class="constant">MAKEFILE</code> constant
 					</b></p><div class="example-contents"><pre class="programlisting">
 #ifndef MAKEFILE 
@@ -17,7 +17,7 @@
 #endif 
 </pre></div></div><br class="example-break"><p>
 				This mechanism has several advantages. First, the preprocessor <strong class="userinput"><code>include</code></strong> statements form a complete inventory of required files. Secondly, the relative pathnames help developers locate needed source files. Third,  the complete program can be compiled with one <span class="command"><strong>gcc</strong></span> command, like the one shown below. This allows program compilation in environments where the <span class="application">GNU make</span> program or the Atheros <code class="filename">Makefiles</code> are not available.
-				</p><div class="example"><a name="idp9531848"></a><p class="title"><b>Example 3.2. 
+				</p><div class="example"><a name="idp5371232"></a><p class="title"><b>Example 3.2. 
 					Stand-alone Compiling on GNU/Linux
 					</b></p><div class="example-contents"><pre class="screen">
 # gcc -o program program.c 

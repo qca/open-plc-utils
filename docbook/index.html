@@ -1,6 +1,6 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Qualcomm Atheros Open Powerline Toolkit</title><link rel="stylesheet" href="docbook.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.73.2"><meta name="description" content="This document is the manual for the Qualcomm Atheros Open Powerline Toolkit. New users should read the first chapter before starting using the toolkit because it will answer many questions about toolkit installation, structure, content and application. New users may want to add this page and toolkit.html to their browser favorites for later reference. HomePlug AV is a registered trademark of the HomePlug Powerline Alliance. Linux is a trademark of Linus Tovalds. Windows is a registered trademark of Microsoft Corporation. INT6000, INT6300, INT6400, AR6410, QCA7000, AR7400 and AR7420 are powerline products from Qualcomm Atheros."><meta name="keywords" content="Intellon, Atheros, Qualcomm, HomePlug, powerline, communications, INT6000, INT6300, INT6400, AR7400, AR7420"><link rel="start" href="index.html" title="Qualcomm Atheros Open Powerline Toolkit"><link rel="next" href="ch01.html" title="Chapter 1.  Overview"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">
 			Qualcomm Atheros Open Powerline Toolkit 
-			</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ch01.html">Next</a></td></tr></table><hr></div><div class="book" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="idp160320"></a>
+			</th></tr><tr><td width="20%" align="left"> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ch01.html">Next</a></td></tr></table><hr></div><div class="book" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="idm4014856"></a>
 			Qualcomm Atheros Open Powerline Toolkit 
 			</h1></div><div><div class="authorgroup"><h3 class="corpauthor">
 				Qualcomm Atheros, Ocala FL USA
@@ -18,6 +18,8 @@
 					Nate Houghton &lt;nhoughto@qca.qualcomm.com&gt;
 					</span><br></span><span class="collab"><span class="collabname">
 					Mathieu Poullet &lt;m.poullet@avm.de&gt;
+					</span><br></span><span class="collab"><span class="collabname">
+					Stefan Wahren &lt;stefan.wahren@i2se.com&gt;
 					</span><br></span><span class="collab"><span class="collabname">
 					Bill Wike &lt;bwike@qca.qualcomm.com&gt;
 					</span><br></span><span class="collab"><span class="collabname">
@@ -38,31 +40,31 @@
 			Toolkit Distribution
 			</a></span></dt><dt><span class="section"><a href="ch01s04.html">
 			Toolkit Installation on Linux
-			</a></span></dt><dd><dl><dt><span class="section"><a href="ch01s04.html#idp7225504">
+			</a></span></dt><dd><dl><dt><span class="section"><a href="ch01s04.html#idp3065008">
 				Toolkit Installation on GNU/<span class="productname">Linux</span>™
-				</a></span></dt><dt><span class="section"><a href="ch01s04.html#idp7239464">
+				</a></span></dt><dt><span class="section"><a href="ch01s04.html#idp3078968">
 				Toolkit Documentation on GNU/Linux
-				</a></span></dt><dt><span class="section"><a href="ch01s04.html#idp7242152">
+				</a></span></dt><dt><span class="section"><a href="ch01s04.html#idp3081656">
 				Toolkit Removal on GNU/<span class="productname">Linux</span>™
 				</a></span></dt></dl></dd><dt><span class="section"><a href="ch01s05.html">
 			Toolkit Installation on Mac OS X
 			</a></span></dt><dt><span class="section"><a href="ch01s06.html">
 			Toolkit Installation on <span class="productname">Windows XP</span>™
-			</a></span></dt><dd><dl><dt><span class="section"><a href="ch01s06.html#idp7297296">
+			</a></span></dt><dd><dl><dt><span class="section"><a href="ch01s06.html#idp3136784">
 				Obtaining the Toolkit
-				</a></span></dt><dt><span class="section"><a href="ch01s06.html#idp7299000">
+				</a></span></dt><dt><span class="section"><a href="ch01s06.html#idp3138488">
 				Installing the Toolkit
-				</a></span></dt><dt><span class="section"><a href="ch01s06.html#idp7303592">
+				</a></span></dt><dt><span class="section"><a href="ch01s06.html#idp3143080">
 				Setting the PATH variable
 				</a></span></dt><dt><span class="section"><a href="ch01s06.html#removal-windows-xp">
 				Removing the Toolkit
 				</a></span></dt></dl></dd><dt><span class="section"><a href="ch01s07.html">
 			Toolkit Installation on <span class="productname">Windows 7</span>™
-			</a></span></dt><dd><dl><dt><span class="section"><a href="ch01s07.html#idp7371544">
+			</a></span></dt><dd><dl><dt><span class="section"><a href="ch01s07.html#idp3211032">
 				Obtaining the Toolkit
-				</a></span></dt><dt><span class="section"><a href="ch01s07.html#idp7373248">
+				</a></span></dt><dt><span class="section"><a href="ch01s07.html#idp3212736">
 				Installing the Toolkit
-				</a></span></dt><dt><span class="section"><a href="ch01s07.html#idp7376360">
+				</a></span></dt><dt><span class="section"><a href="ch01s07.html#idp3215848">
 				Setting the PATH variable
 				</a></span></dt><dt><span class="section"><a href="ch01s07.html#removal-windows-7">
 				Removing the Toolkit
@@ -544,145 +546,145 @@
 				qcaspi_netdev_close
 				</a></span></dt><dt><span class="section"><a href="ch08s10.html#qcaspi_mod_exit">
 				qcaspi_mod_exit
-				</a></span></dt></dl></dd></dl></dd></dl></div><div class="list-of-figures"><p><b>List of Figures</b></p><dl><dt>1.1. <a href="ch01s06.html#idp7301104">
+				</a></span></dt></dl></dd></dl></dd></dl></div><div class="list-of-figures"><p><b>List of Figures</b></p><dl><dt>1.1. <a href="ch01s06.html#idp3140592">
 					Windows Installer Dialogue
-					</a></dt><dt>1.2. <a href="ch01s06.html#idp7305640">
+					</a></dt><dt>1.2. <a href="ch01s06.html#idp3145128">
 					Control Panel System Dialogue
-					</a></dt><dt>1.3. <a href="ch01s06.html#idp7316376">
+					</a></dt><dt>1.3. <a href="ch01s06.html#idp3155864">
 					Control Panel Add/Remove Dialogue
-					</a></dt><dt>1.4. <a href="ch01s07.html#idp7374760">
+					</a></dt><dt>1.4. <a href="ch01s07.html#idp3214248">
 					Windows Installer Dialogue
-					</a></dt><dt>1.5. <a href="ch01s07.html#idp7378408">
+					</a></dt><dt>1.5. <a href="ch01s07.html#idp3217896">
 					Control Panel System Dialogue
-					</a></dt><dt>1.6. <a href="ch01s07.html#idp7389936">
+					</a></dt><dt>1.6. <a href="ch01s07.html#idp3229424">
 					Control Panel Add/Remove Dialogue
-					</a></dt><dt>4.1. <a href="ch04s03.html#idp9904136">
+					</a></dt><dt>4.1. <a href="ch04s03.html#idp5743736">
 				Simple Network
-				</a></dt><dt>4.2. <a href="ch04s10.html#idp10036072">
+				</a></dt><dt>4.2. <a href="ch04s10.html#idp5875656">
                 Upgrade Device (INT6000/INT6300/INT6400)
-                </a></dt><dt>4.3. <a href="ch04s11.html#idp10044536">
+                </a></dt><dt>4.3. <a href="ch04s11.html#idp5884056">
 				Update Local Host (INT6000/INT6300/INT6400)
-				</a></dt><dt>4.4. <a href="ch04s12.html#idp10132272">
+				</a></dt><dt>4.4. <a href="ch04s12.html#idp5971824">
 				Boot from Host (INT6000)
-				</a></dt><dt>4.5. <a href="ch04s13.html#idp10180312">
+				</a></dt><dt>4.5. <a href="ch04s13.html#idp6019904">
 				boot-from-host (INT6300)
-				</a></dt><dt>4.6. <a href="ch04s14.html#idp10175312">
+				</a></dt><dt>4.6. <a href="ch04s14.html#idp6014944">
 				Boot from Host (INT6400)
-				</a></dt><dt>4.7. <a href="ch04s15.html#idp10306984">
+				</a></dt><dt>4.7. <a href="ch04s15.html#idp6146616">
 				Boot from Host (AR7400)
-				</a></dt><dt>4.8. <a href="ch04s16.html#idp10362568">
+				</a></dt><dt>4.8. <a href="ch04s16.html#idp6202168">
 				Boot from Host (AR6410/AR7420)
-				</a></dt><dt>4.9. <a href="ch04s17.html#idp10487776">
+				</a></dt><dt>4.9. <a href="ch04s17.html#idp6289960">
 				Flashing the Softloader (AR7420)
-				</a></dt><dt>4.10. <a href="ch04s17.html#idp10503304">
+				</a></dt><dt>4.10. <a href="ch04s17.html#idp6342848">
 				Flash Parameters and Firmware (AR7420)
-				</a></dt></dl></div><div class="list-of-tables"><p><b>List of Tables</b></p><dl><dt>1.1. <a href="ch01s10.html#idp8033632">
+				</a></dt></dl></div><div class="list-of-tables"><p><b>List of Tables</b></p><dl><dt>1.1. <a href="ch01s10.html#idp3873136">
 		Program/Package Matrix
-		</a></dt><dt>4.1. <a href="ch04s06.html#idp9937064">
+		</a></dt><dt>4.1. <a href="ch04s06.html#idp5776696">
 				Softloader/Bootloader MMEs
-				</a></dt><dt>4.2. <a href="ch04s08.html#idp9979744">
+				</a></dt><dt>4.2. <a href="ch04s08.html#idp5819352">
 				Legacy Device Identification
-				</a></dt><dt>4.3. <a href="ch04s09.html#idp10019792">
+				</a></dt><dt>4.3. <a href="ch04s09.html#idp5859376">
 				Device Identification
-				</a></dt><dt>8.1. <a href="ch08s02.html#idp13396592">
+				</a></dt><dt>8.1. <a href="ch08s02.html#idp9235376">
 				SPI Transmit Frame
-				</a></dt><dt>8.2. <a href="ch08s02.html#idp13414432">
+				</a></dt><dt>8.2. <a href="ch08s02.html#idp9253192">
 				SPI Receive Frame
-				</a></dt></dl></div><div class="list-of-examples"><p><b>List of Examples</b></p><dl><dt>1.1. <a href="ch01s04.html#idp7226176">
+				</a></dt></dl></div><div class="list-of-examples"><p><b>List of Examples</b></p><dl><dt>1.1. <a href="ch01s04.html#idp3065680">
 					Toolkit Installation on GNU/<span class="productname">Linux</span>™
-					</a></dt><dt>1.2. <a href="ch01s04.html#idp7243440">
+					</a></dt><dt>1.2. <a href="ch01s04.html#idp3082944">
 					Toolkit Removal on GNU/<span class="productname">Linux</span>™
-					</a></dt><dt>1.3. <a href="ch01s05.html#idp7270264">
+					</a></dt><dt>1.3. <a href="ch01s05.html#idp3109752">
 				Setting the <code class="constant">PATH</code> variable on <span class="productname">OS X</span>™
-				</a></dt><dt>1.4. <a href="ch01s05.html#idp7272936">
+				</a></dt><dt>1.4. <a href="ch01s05.html#idp3112424">
 				Installing the Toolkit on <span class="productname">Mac OS X</span>™
-				</a></dt><dt>2.1. <a href="ch02s06.html#idp9306648">
+				</a></dt><dt>2.1. <a href="ch02s06.html#idp5146088">
 				“<span class="quote">send-to-self</span>” Patch Description
-				</a></dt><dt>2.2. <a href="ch02s06.html#idp9307816">
+				</a></dt><dt>2.2. <a href="ch02s06.html#idp5147232">
 					“<span class="quote">send-to-self</span>” Patch Application
-					</a></dt><dt>2.3. <a href="ch02s06.html#idp9325632">
+					</a></dt><dt>2.3. <a href="ch02s06.html#idp5165064">
 				“<span class="quote">send-to-self</span>” Patch Installation
-				</a></dt><dt>2.4. <a href="ch02s06.html#idp9358600">
+				</a></dt><dt>2.4. <a href="ch02s06.html#idp5197952">
 				“<span class="quote">send-to-self</span>” Patch Listing
-				</a></dt><dt>3.1. <a href="ch03s05.html#idp9528776">
+				</a></dt><dt>3.1. <a href="ch03s05.html#idp5368160">
 					The <code class="constant">MAKEFILE</code> constant
-					</a></dt><dt>3.2. <a href="ch03s05.html#idp9531848">
+					</a></dt><dt>3.2. <a href="ch03s05.html#idp5371232">
 					Stand-alone Compiling on GNU/Linux
-					</a></dt><dt>3.3. <a href="ch03s06.html#idp9536832">
+					</a></dt><dt>3.3. <a href="ch03s06.html#idp5376248">
 					Cross-compiling with make.def
-					</a></dt><dt>3.4. <a href="ch03s07.html#idp9544888">
+					</a></dt><dt>3.4. <a href="ch03s07.html#idp5384384">
 					Microsoft Visual Studio .NET 2003
-					</a></dt><dt>3.5. <a href="ch03s12.html#idp9476056">
+					</a></dt><dt>3.5. <a href="ch03s12.html#idp5315408">
 							Packing Structures with keyword “<span class="quote">__packed</span>” 
-							</a></dt><dt>3.6. <a href="ch03s12.html#idp9479232">
+							</a></dt><dt>3.6. <a href="ch03s12.html#idp5318608">
 							Packing Structures with Attribute “<span class="quote">packed</span>”
-							</a></dt><dt>3.7. <a href="ch03s12.html#idp9482504">
+							</a></dt><dt>3.7. <a href="ch03s12.html#idp5321880">
 							Packing Structures with the Pragma “<span class="quote">pack</span>”
-							</a></dt><dt>3.8. <a href="ch03s12.html#idp9652536">
+							</a></dt><dt>3.8. <a href="ch03s12.html#idp5492024">
 							Packing Structures the Atheros Way 
-							</a></dt><dt>3.9. <a href="ch03s15.html#idp9676000">
+							</a></dt><dt>3.9. <a href="ch03s15.html#idp5515616">
 				Frame Encoding by Offset
-				</a></dt><dt>3.10. <a href="ch03s15.html#idp9677040">
+				</a></dt><dt>3.10. <a href="ch03s15.html#idp5516656">
 			Frame Encoding by Address
-			</a></dt><dt>5.1. <a href="ch05s02.html#idp10953544">
+			</a></dt><dt>5.1. <a href="ch05s02.html#idp6793056">
 				Selecting another Interface on Linux
-				</a></dt><dt>5.2. <a href="ch05s02.html#idp10955592">
+				</a></dt><dt>5.2. <a href="ch05s02.html#idp6795104">
 				Changing the Default Interface on Linux
-				</a></dt><dt>5.3. <a href="ch05s02.html#idp10958808">
+				</a></dt><dt>5.3. <a href="ch05s02.html#idp6798320">
 				Finding Interfaces on Linux
-				</a></dt><dt>5.4. <a href="ch05s03.html#idp10965648">
+				</a></dt><dt>5.4. <a href="ch05s03.html#idp6805184">
 				Selecting another Interface on Windows
-				</a></dt><dt>5.5. <a href="ch05s03.html#idp10967440">
+				</a></dt><dt>5.5. <a href="ch05s03.html#idp6806976">
 				Finding Interfaces on Windows
 				</a></dt><dt>5.6. <a href="ch05s04.html#script-example-device-identification">
 				Device Identification
 				</a></dt><dt>5.7. <a href="ch05s04.html#script-example-device-configuration">
 				Inspecting Device Configuration
-				</a></dt><dt>5.8. <a href="ch05s05.html#idp10986864">
+				</a></dt><dt>5.8. <a href="ch05s05.html#idp6826488">
 				Display Network Information
-				</a></dt><dt>5.9. <a href="ch05s06.html#idp10993576">
+				</a></dt><dt>5.9. <a href="ch05s06.html#idp6833240">
 				Setting the Network Membership Key
-				</a></dt><dt>5.10. <a href="ch05s06.html#idp10997808">
+				</a></dt><dt>5.10. <a href="ch05s06.html#idp6837472">
 				Forming a Custom Network
-				</a></dt><dt>5.11. <a href="ch05s06.html#idp11001928">
+				</a></dt><dt>5.11. <a href="ch05s06.html#idp6841592">
 				Remote Network Configuration
-				</a></dt><dt>5.12. <a href="ch05s07.html#idp11009376">
+				</a></dt><dt>5.12. <a href="ch05s07.html#idp6849096">
 				Read a PIB File
-				</a></dt><dt>5.13. <a href="ch05s07.html#idp11011224">
+				</a></dt><dt>5.13. <a href="ch05s07.html#idp6850944">
 				Modify a PIB File
-				</a></dt><dt>5.14. <a href="ch05s07.html#idp11018008">
+				</a></dt><dt>5.14. <a href="ch05s07.html#idp6857776">
 				Save a PIB File
-				</a></dt><dt>5.15. <a href="ch05s08.html#idp11027248">
+				</a></dt><dt>5.15. <a href="ch05s08.html#idp6866920">
 				Upgrade Firmware and PIB
-				</a></dt><dt>5.16. <a href="ch05s09.html#idp11038608">
+				</a></dt><dt>5.16. <a href="ch05s09.html#idp6878288">
 				Upgrade local device PIB
-				</a></dt><dt>5.17. <a href="ch05s09.html#idp11042440">
+				</a></dt><dt>5.17. <a href="ch05s09.html#idp6882120">
 				Upgrade remote PIB
-				</a></dt><dt>5.18. <a href="ch05s10.html#idp11047368">
+				</a></dt><dt>5.18. <a href="ch05s10.html#idp6887048">
 				Start Firmware on <span class="productname">INT6000</span>™
-				</a></dt><dt>5.19. <a href="ch05s10.html#idp11052088">
+				</a></dt><dt>5.19. <a href="ch05s10.html#idp6891768">
 				Start Firmware on <span class="productname">INT6300</span>™ and <span class="productname">INT6400</span>™
-				</a></dt><dt>5.20. <a href="ch05s10.html#idp11056864">
+				</a></dt><dt>5.20. <a href="ch05s10.html#idp6896544">
 				Start Firmware on <span class="productname">AR7400</span>™
-				</a></dt><dt>5.21. <a href="ch05s10.html#idp11062264">
+				</a></dt><dt>5.21. <a href="ch05s10.html#idp6901944">
 				Start Firmware on <span class="productname">AR7420</span>™
-				</a></dt><dt>5.22. <a href="ch05s12.html#idp11082536">
+				</a></dt><dt>5.22. <a href="ch05s12.html#idp6922160">
 				Flash NVRAM with int6kf
-				</a></dt><dt>5.23. <a href="ch05s12.html#idp11087656">
+				</a></dt><dt>5.23. <a href="ch05s12.html#idp6927280">
 				Flash NVRAM with int6k
 				</a></dt><dt>6.1. <a href="ch06s03.html#scripting-hardware-definitions">
 				hardware.sh
 				</a></dt><dt>6.2. <a href="ch06s03.html#scripting-firmware-definitions">
 				firmware.sh
-				</a></dt><dt>7.1. <a href="ch07s04.html#idp11871576">
+				</a></dt><dt>7.1. <a href="ch07s04.html#idp7711168">
 				Enumerating Local Devices
-				</a></dt><dt>7.2. <a href="ch07s04.html#idp11884816">
+				</a></dt><dt>7.2. <a href="ch07s04.html#idp7724328">
 				Enumerating Network Devices
-				</a></dt><dt>7.3. <a href="ch07s07.html#idp12322824">
+				</a></dt><dt>7.3. <a href="ch07s07.html#idp8162128">
 				SHA256 Digest Computation
 				</a></dt><dt>7.4. <a href="ch07s08.html#nodes-example-1">
 			XML Source File
-			</a></dt><dt>7.5. <a href="ch07s08.html#idp12536880">
+			</a></dt><dt>7.5. <a href="ch07s08.html#idp8376128">
 				XML Edit Schema
 				</a></dt><dt>7.6. <a href="ch07s08.html#nodes-example-2">
 				XML Parse Tree 

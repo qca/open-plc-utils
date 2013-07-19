@@ -6,7 +6,7 @@
 			ParseRule.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.0 11:16:46 Jun 25 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -63,11 +63,8 @@
 #include &quot;../tools/memory.h&quot;
 #include &quot;../tools/number.h&quot;
 #include &quot;../tools/error.h&quot;
+#include &quot;../ether/ether.h&quot;
 #include &quot;../plc/rules.h&quot;
-
-#ifndef ETHER_ADDR_LEN
-#define ETHER_ADDR_LEN 6 
-#endif
 
 signed ParseRule (int * argcp, char const ** argvp [], struct MMERule * rule, struct cspec * cspec) 
 
@@ -83,35 +80,35 @@ signed ParseRule (int * argcp, char const ** argvp [], struct MMERule * rule, st
 	temp;
 	signed code;
 	struct MMEClassifier * classifier = (struct MMEClassifier *)(&amp;rule-&gt;CLASSIFIER);
-	if ((code = lookup (* argv++, actions, ACTIONS)) == -1) 
+	if ((code = lookup (* argv++, actions, SIZEOF (actions))) == -1) 
 	{
-		assist (*--argv, ACTION, actions, ACTIONS);
+		assist (*--argv, CLASSIFIER_ACTION_NAME, actions, SIZEOF (actions));
 	}
 	rule-&gt;MACTION = (uint8_t)(code);
 	argc--;
-	if ((code = lookup (* argv++, operands, OPERANDS)) == -1) 
+	if ((code = lookup (* argv++, operands, SIZEOF (operands))) == -1) 
 	{
-		assist (*--argv, OPERAND, operands, OPERANDS);
+		assist (*--argv, CLASSIFIER_OPERAND_NAME, operands, SIZEOF (operands));
 	}
 	rule-&gt;MOPERAND = (uint8_t)(code);
 	argc--;
-	while ((* argv) &amp;&amp; (lookup (* argv, controls, CONTROLS) == -1)) 
+	while ((* argv) &amp;&amp; (lookup (* argv, controls, SIZEOF (controls)) == -1)) 
 	{
-		if ((code = lookup (* argv++, fields, FIELDS)) == -1) 
+		if ((code = lookup (* argv++, fields, SIZEOF (fields))) == -1) 
 		{
-			assist (*--argv, FIELD, fields, FIELDS);
+			assist (*--argv, CLASSIFIER_FIELD_NAME, fields, SIZEOF (fields));
 		}
 		classifier-&gt;CR_PID = (uint8_t)(code);
 		argc--;
-		if ((code = lookup (* argv++, operators, OPERATORS)) == -1) 
+		if ((code = lookup (* argv++, operators, SIZEOF (operators))) == -1) 
 		{
-			assist (*--argv, OPERATOR, operators, OPERATORS);
+			assist (*--argv, CLASSIFIER_OPERATOR_NAME, operators, SIZEOF (operators));
 		}
 		classifier-&gt;CR_OPERAND = (uint8_t)(code);
 		argc--;
 		if (!argc || !* argv) 
 		{
-			error (1, ENOTSUP, &quot;I have %s '%s' but no value&quot;, OPERATOR, *--argv);
+			error (1, ENOTSUP, &quot;I have %s '%s' but no value&quot;, CLASSIFIER_OPERATOR_NAME, *--argv);
 		}
 		switch (classifier-&gt;CR_PID) 
 		{
@@ -161,16 +158,16 @@ signed ParseRule (int * argcp, char const ** argvp [], struct MMERule * rule, st
 			classifier-&gt;CR_VALUE [2] = temp.byte [0];
 			break;
 		case FIELD_TCP_ACK:
-			if ((code = lookup (* argv++, states, STATES)) == -1) 
+			if ((code = lookup (* argv++, states, SIZEOF (states))) == -1) 
 			{
-				assist (*--argv, STATE, states, STATES);
+				assist (*--argv, CLASSIFIER_STATE_NAME, states, SIZEOF (states));
 			}
 			memset (classifier-&gt;CR_VALUE, 0, sizeof (classifier-&gt;CR_VALUE));
 			break;
 		case FIELD_VLAN_TAG:
-			if ((code = lookup (* argv++, states, STATES)) == -1) 
+			if ((code = lookup (* argv++, states, SIZEOF (states))) == -1) 
 			{
-				assist (*--argv, STATE, states, STATES);
+				assist (*--argv, CLASSIFIER_STATE_NAME, states, SIZEOF (states));
 			}
 			memset (classifier-&gt;CR_VALUE, 0, sizeof (classifier-&gt;CR_VALUE));
 			classifier-&gt;CR_OPERAND ^= code;
@@ -184,15 +181,15 @@ signed ParseRule (int * argcp, char const ** argvp [], struct MMERule * rule, st
 		argc--;
 	}
 	memcpy (classifier, cspec, sizeof (* cspec));
-	if ((code = lookup (* argv++, controls, CONTROLS)) == -1) 
+	if ((code = lookup (* argv++, controls, SIZEOF (controls))) == -1) 
 	{
-		assist (*--argv, CONTROL, controls, CONTROLS);
+		assist (*--argv, CLASSIFIER_CONTROL_NAME, controls, SIZEOF (controls));
 	}
 	rule-&gt;MCONTROL = (uint8_t)(code);
 	argc--;
-	if ((code = lookup (* argv++, volatilities, VOLATILITIES)) == -1) 
+	if ((code = lookup (* argv++, volatilities, SIZEOF (volatilities))) == -1) 
 	{
-		assist (*--argv, VOLATILITY, volatilities, VOLATILITIES);
+		assist (*--argv, CLASSIFIER_VOLATILITY_NAME, volatilities, SIZEOF (volatilities));
 	}
 	rule-&gt;MVOLATILITY = (uint8_t)(code);
 	argc--;

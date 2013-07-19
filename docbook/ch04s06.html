@@ -5,7 +5,7 @@
 		</th><td width="20%" align="right"> <a accesskey="n" href="ch04s07.html">Next</a></td></tr></table><hr></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="bootload-rules"></a>
 			Things to Remember
 			</h2></div></div></div><p>
-			The Boot from Host configuration offers design flexibility but also increases the possibilities. Remember that the processes described here are based on simple rules that ultimatey dictate why each process step is needed. Readers may find it helpful to review these rules.
+			The Boot from Host configuration offers design flexibility but also increases the possibilities. Remember that the processes described here are based on simple rules that ultimately dictate why each process step is needed. Readers may find it helpful to review these rules.
 			</p><div class="orderedlist"><ol type="1"><li><p>
 					<span class="emphasis"><em>
 						The softloader and bootloader programs have limited vocabulary.
@@ -20,7 +20,7 @@
 					The <span class="productname">AR7400</span>™ bootloader recognizes only <code class="constant">VS_SW_VER</code>, <code class="constant">VS_WR_MEM</code>, <code class="constant">VS_ST_MAC</code>, <code class="constant">VS_RS_DEV</code> requests. It recognizes <code class="constant">VS_SET_SDRAM</code> and responds to it but ignores it. It does not recognize <code class="constant">VS_WR_MOD</code>.
 					</p><p>
 					The <span class="productname">AR7420</span>™ bootloader recognizes only <code class="constant">VS_SW_VER</code>, <code class="constant">VS_RS_DEV</code>, <code class="constant">VS_WRITE_AND_EXECUTE</code> and <code class="constant">VS_RAND_MAC_ADDRESS</code> requests. Early versions recognize <code class="constant">VS_WRITE_MEM</code> and <code class="constant">VS_ST_MAC</code> requests but they must not be used. 
-					</p><div class="table"><a name="idp9937064"></a><p class="title"><b>Table 4.1. 
+					</p><div class="table"><a name="idp5776696"></a><p class="title"><b>Table 4.1. 
 				Softloader/Bootloader MMEs
 				</b></p><div class="table-contents"><table summary="
 				Softloader/Bootloader MMEs
@@ -167,7 +167,7 @@
 						</td></tr></tbody></table></div></div><br class="table-break"></li><li><p>
 					<span class="emphasis"><em>The Softloader, Bootloader and runtime firmware may treat the same MME differently</em></span> because each is a different program. A notorious obvious example is the <code class="constant">VS_SW_VER</code> message type. This means that one may need to be aware of the device state when anticipating device behaviour or interpreting device response.
 					</p></li><li><p>
-					<span class="emphasis"><em>The local host is surrogate flash memory</em></span>. When dedicated flash memory is not available to a device, the device will request firmware and parameter storage services from the local host using <code class="constant">VS_HST_ACTION</code> messages. The local host must be programmed to detect and respond to these messages or the firmware will appear to hang. See program <a class="link" href="ch01s08.html#program-int6khost">int6khost</a>, <a class="link" href="ch01s08.html#program-int64host">int64host</a>, <a class="link" href="ch01s08.html#program-amphost">amphost</a> or <a class="link" href="ch01s08.html#program-plchost">plchost</a> to demonstrate and experiment with this iteraction.
+					<span class="emphasis"><em>The local host is surrogate flash memory</em></span>. When dedicated flash memory is not available to a device, the device will request firmware and parameter storage services from the local host using <code class="constant">VS_HST_ACTION</code> messages. The local host must be programmed to detect and respond to these messages or the firmware will appear to hang. See program <a class="link" href="ch01s08.html#program-int6khost">int6khost</a>, <a class="link" href="ch01s08.html#program-int64host">int64host</a>, <a class="link" href="ch01s08.html#program-amphost">amphost</a> or <a class="link" href="ch01s08.html#program-plchost">plchost</a> to demonstrate and experiment with this interaction.
 					</p></li><li><p>
 					<span class="emphasis"><em>Only runtime firmware can write flash memory</em></span>. Runtime firmware must be executing in order to write flash memory or upload to the local host. The Softloader and Bootloader cannot perform either operation.
 					</p></li><li><p>

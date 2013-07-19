@@ -10,7 +10,7 @@
 			The firmware may initiate this operation after a remote host has downloaded new firmware or <acronym class="acronym">PIB</acronym> and issued a <code class="constant">VS_MOD_NVM.REQ</code> to the device,  the device has been asked to restore factory default settings or the firmware has dynamically altered the runtime <acronym class="acronym">PIB</acronym> in some way. Consequently, the device will be reset by the host in each case.
 			</p><p>
 			The device initiates this operation to complete an Upgrade Device operation when the device has no dedicated flash memory onboard. This operation requires running Atheros firmware on the device and custom software on the local host.
-			</p><div class="figure"><a name="idp10044536"></a><p class="title"><b>Figure 4.3. 
+			</p><div class="figure"><a name="idp5884056"></a><p class="title"><b>Figure 4.3. 
 				Update Local Host (INT6000/INT6300/INT6400)
 				</b></p><div class="figure-contents"><pre class="programlisting">
 
@@ -32,7 +32,7 @@
         [07] |-------- VS_RS_DEV.CNF ------------&gt;| [07]
 
 </pre></div></div><br class="figure-break"><div class="orderedlist"><ol type="1"><li><p>
-					The runtime firmware initiates this operation by broadcasting <code class="constant">VS_HOST_ACTION.IND</code> messages every 500 milliseconds. The <code class="constant">HOST_ACTION_REQ</code> field of the message can be either <code class="constant">0x01</code>, <code class="constant">0x02</code> or <code class="constant">0x03</code> to indicate that a firmware image, a paramter block image or both are ready for upload by the local host. 
+					The runtime firmware initiates this operation by broadcasting <code class="constant">VS_HOST_ACTION.IND</code> messages every 500 milliseconds. The <code class="constant">HOST_ACTION_REQ</code> field of the message can be either <code class="constant">0x01</code>, <code class="constant">0x02</code> or <code class="constant">0x03</code> to indicate that a firmware image, a parameter block image or both are ready for upload by the local host. 
 					</p></li><li><p>
 					The local host sends a <code class="constant">VS_HOST_ACTION.RSP</code> message to the device to indicate the ability and willingness to upload the information. The <code class="varname">MSTATUS</code> field is set to <code class="constant">0x00</code> for affirmative and <code class="constant">0x01</code> for negative. 
 					</p></li><li><p>

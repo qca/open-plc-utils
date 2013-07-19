@@ -6,7 +6,7 @@
 			MMEPeek.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.0 11:16:46 Jun 25 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -74,7 +74,7 @@ void MMEPeek (void const * memory, size_t extent, FILE *fp)
 	fprintf (fp, &quot;ODA=%s &quot;, hexstring (address, sizeof (address), message-&gt;ethernet.ODA, sizeof (message-&gt;ethernet.ODA)));
 	fprintf (fp, &quot;OSA=%s &quot;, hexstring (address, sizeof (address), message-&gt;ethernet.OSA, sizeof (message-&gt;ethernet.OSA)));
 	fprintf (fp, &quot;MTYPE=%04X &quot;, ntohs (message-&gt;ethernet.MTYPE));
-	if (ntohs (message-&gt;ethernet.MTYPE) == HOMEPLUG_MTYPE) 
+	if (ntohs (message-&gt;ethernet.MTYPE) == ETH_P_HPAV) 
 	{
 		struct homeplug_std * homeplug = (struct homeplug_std *)(&amp;message-&gt;content);
 		uint16_t mmtype = LE16TOH (homeplug-&gt;MMTYPE);
