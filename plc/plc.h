@@ -85,6 +85,7 @@
 
 #define INT_CARRIERS 1155
 #define AMP_CARRIERS 2880
+#define PLC_CARRIERS 1345
 #define AMP_BITS 9
 
 /*====================================================================*
