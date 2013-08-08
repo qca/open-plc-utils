@@ -26,9 +26,10 @@
  *   stored in a .pib file; this function is a fix so that older
  *   toolkit programs will work with newer chipsets;
  *
- *   old chipsets support 1155 carriers; new chipsets support 2880
- *   carriers; 
- *   
+ *   chipsets with the following carriers are supported:
+ *     - 1155 carriers
+ *     - 1345 carriers
+ *     - 2880 carriers
  *
  *--------------------------------------------------------------------*/
 
@@ -45,10 +46,17 @@
 uint16_t pibscalers (struct _file_ * pib) 
 
 {
+	// TODO: improve chipset detection
+	
 	struct pib_header pib_header;
 	if (read (pib->file, &pib_header, sizeof (pib_header)) != sizeof (pib_header)) 
 	{
 		error (1, errno, "%s", pib->name);
+	}
+	if ((pib_header.FWVERSION  == 0x01) &&
+		(pib_header.PIBVERSION == 0x00))
+	{
+		return (PLC_CARRIERS);
 	}
 	if (pib_header.FWVERSION < 0x05) 
 	{
