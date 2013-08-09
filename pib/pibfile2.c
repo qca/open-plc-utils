@@ -89,6 +89,10 @@ signed pibfile2 (struct _file_ const * file)
 			{
 				error (1, errno, NVM_IMG_CHECKSUM, file->name, module);
 			}
+			if (lseek (file->file, 0, SEEK_SET)) 
+			{
+				error (1, errno, FILE_CANTHOME, file->name);
+			}
 			return (0);
 		}
 		if (fdchecksum32 (file->file, LE32TOH (nvm_header.ImageLength), nvm_header.ImageChecksum)) 
@@ -100,6 +104,10 @@ signed pibfile2 (struct _file_ const * file)
 		module++;
 	}
 	while (~nvm_header.NextHeader);
+	if (lseek (file->file, 0, SEEK_SET)) 
+	{
+		error (1, errno, FILE_CANTHOME, file->name);
+	}
 	return (-1);
 }
 

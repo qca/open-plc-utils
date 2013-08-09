@@ -61,12 +61,15 @@
 #include "../tools/getoptv.c"
 #include "../tools/putoptv.c"
 #include "../tools/version.c"
+#include "../tools/checksum32.c"
 #include "../tools/fdchecksum32.c"
 #include "../tools/error.c"
 #endif
 
 #ifndef MAKEFILE
+#include "../pib/pibfile.c"
 #include "../pib/pibfile1.c"
+#include "../pib/pibfile2.c"
 #include "../pib/pibscalers.c"
 #endif
 
@@ -237,6 +240,32 @@ static void int6x00Prescalers (struct _file_ * pib)
 	return;
 }
 
+/*====================================================================*
+ *
+ *   void qca7x00Prescalers (struct _file_ * pib);
+ *
+ *--------------------------------------------------------------------*/
+
+static void qca7x00Prescalers (struct _file_ * pib) 
+{
+	unsigned index = 0;
+	byte buffer [QCA_PRESCALER_LENGTH];
+	byte * p = buffer;
+	if (lseek (pib->file, QCA_PRESCALER_OFFSET, SEEK_SET) != QCA_PRESCALER_OFFSET) 
+	{
+		error (1, errno, FILE_CANTSEEK, pib->name);
+	}
+	if (read (pib->file, buffer, sizeof (buffer)) != sizeof (buffer)) 
+	{
+		error (1, errno, FILE_CANTREAD, pib->name);
+	}
+	
+	while (index < PLC_CARRIERS) 
+	{
+		printf ("%08d %08x\n", index++, *p++);
+	}
+}
+
 
 /*====================================================================*
  *   
@@ -280,12 +309,16 @@ int main (int argc, char const * argv [])
 		{
 			error (1, errno, "Can't open %s", pib.name);
 		}
-		if (pibfile1 (&pib)) 
+		if (pibfile (&pib)) 
 		{
 			error (1, errno, "Bad PIB file: %s", pib.name);
 		}
 		scalers = pibscalers (&pib);
-		if (scalers == AMP_CARRIERS) 
+		if (scalers == PLC_CARRIERS)
+		{
+			qca7x00Prescalers (&pib);
+		}
+		else if (scalers == AMP_CARRIERS) 
 		{
 			ar7x00Prescalers (&pib);
 		}
