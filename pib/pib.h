@@ -93,6 +93,8 @@
 #define AMP_PRESCALER_LENGTH ((2880 * 5) / sizeof (uint32_t))
 #define PLC_PRESCALER_OFFSET 0x0F2B
 #define PLC_PRESCALER_LENGTH (1345 / sizeof (uint32_t))
+#define QCA_PRESCALER_OFFSET 0x12E8
+#define QCA_PRESCALER_LENGTH 1345
 
 #define INDEX_TO_FREQ(index) ((float)((index)+74)/40.96) 
 #define FREQ_TO_INDEX(freq)  ((unsigned)(40.96*(freq))-74)
