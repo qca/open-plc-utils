@@ -8,19 +8,9 @@
 		<para>
 			The version of the Windows Installer used here needs Microsoft <productname>.NET Framework 1.1</productname> to work correctly. Newer versions of the <productname>.NET Framework</productname> will not work. The <productname>.NET Framework</productname> must be installed before the toolkit is installed or the <productname>Windows Installer</productname> will report dependency errors and refuse to complete installation. Multiple versions of the <productname>.NET Framework</productname> can coexist under <productname>Windows 7</productname>. The <productname>.NET Framework</productname> needed is included in the toolkit <filename>support</filename> folder. 
 			</para>
-		<tip>
-			<para>
-				 Users on the QCA corporate network may be able to download installer <ulink url='ftp://appslinux01.qca.qualcomm.com/windows/dotnetfx.exe'>ftp://appslinux01.qca.qualcomm.com/windows/dotnetfx.exe</ulink> then execute it by right-clicking on the file and and selecting option Run As Administrator. 
-				</para>
-			</tip>
 		<para>
 			Windows versions of toolkit programs that communicate with powerline devices all need <productname>WinPcap</productname> from <ulink url="http://www.winpcap.org/install/default.htm">winpcap.org</ulink> to read and write Ethernet frames. <productname>WinPcap</productname> may be installed before or after toolkit installation but tools that access powerline devices will not run without it. You may want to install <productname>WinPcap</productname> before starting toolkit installation. If you have <productname>Wireshark</productname> installed then you probably already have <productname>WinPcap</productname> installed. A recent copy of <productname>WinPcap</productname> is included in the toolkit <filename>support</filename> folder.
 			</para>
-		<tip>
-			<para>
-				Users on the QCA corporate network may be able to download installer <ulink url='ftp://appslinux01.qca.qualcomm.com/windows/WinPcap_4_1_2.exe'>ftp://appslinux01.qca.qualcomm.com/windows/WinPcap_4_1_2.exe</ulink> then execute it by right-clicking on the file and selecting option Run As Administrator.
-				</para>
-			</tip>
 		<para>
 			Failure to <link linkend='removal-windows-xp'>remove previous toolkit versions</link> on some systems may result in the message &quot;Another version of this product is already installed&quot; when trying to install a new version. You may want to remove prior version before starting toolkit installation.
 			</para>
