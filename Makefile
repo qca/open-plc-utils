@@ -26,7 +26,7 @@ EXCLUDE=--exclude=.git --exclude=.#* --exclude=*.[0-9][0-9][0-9]
 .PHONY: all compile compact scripts manuals install uninstall check fresh clean ignore
 
 all compile compact scripts manuals install uninstall check fresh clean ignore:
-	@for folder in ${FOLDERS}; do ${MAKE} -C $${folder} ${@}; if [ $${?} -ne 0 ]; then exit 1; fi; done
+	@for folder in ${FOLDERS}; do ${MAKE} -C $${folder} ${@} || exit 1; done
 
 # ====================================================================
 # releasetargets;
