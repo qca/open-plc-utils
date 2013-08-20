@@ -45,6 +45,7 @@
  *   custom header files;
  *--------------------------------------------------------------------*/
 
+#include "../plc/plc.h"
 #include "../tools/symbol.h"
 
 /*====================================================================*
@@ -53,7 +54,7 @@
 
 #define CLASSIFIER_CONTROLS 3
 #define CLASSIFIER_VOLATILITIES 2
-#define CLASSIFIER_ACTIONS 12
+#define CLASSIFIER_ACTIONS 13
 #define CLASSIFIER_OPERANDS 3
 #define CLASSIFIER_OPERATORS 2
 #define CLASSIFIER_STATES 8
@@ -82,6 +83,7 @@
 #define ACTION_DROPTX ACTION_DROP
 #define ACTION_BOOST 0x05
 #define ACTION_DROPRX 0x06
+#define ACTION_AUTOCONNECT 0x06
 #define ACTION_STRIPTX 0x20
 #define ACTION_STRIPRX 0x21
 #define ACTION_TAGTX 0x22
@@ -236,6 +238,8 @@ PIBClassifiers;
  *--------------------------------------------------------------------*/
 
 signed ParseRule (int * argcp, char const ** argvp [], struct MMERule *, struct cspec *);
+signed PrintRule (uint32_t CR_PID, uint32_t CR_OPERAND, uint8_t CR_VALUE []);
+signed ReadRules (struct plc * plc);
 void cspec_dump (struct cspec *);
 void classifier_priority_map_dump (struct classifier_priority_map *);
 void auto_connection_dump (struct auto_connection *);

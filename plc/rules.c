@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 Qualcomm Atheros Inc.
+ *   Copyright (c) 2013 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -26,7 +26,6 @@
  *
  *   QoS related symbol tables used by function ParseRule;
  *
- *
  *   Contributor(s): 
  *	Charles Maier <cmaier@qca.qualcomm.com>
  *	Nathaniel Houghton <nhoughto@qca.qualcomm.com>
@@ -38,7 +37,7 @@
 
 #include "../plc/rules.h"
 
-struct _code_ const controls [CLASSIFIER_CONTROLS] = 
+struct _code_ const controls [] = 
 
 {
 	{
@@ -55,7 +54,7 @@ struct _code_ const controls [CLASSIFIER_CONTROLS] =
 	}
 };
 
-struct _code_ const volatilities [CLASSIFIER_VOLATILITIES] = 
+struct _code_ const volatilities [] = 
 
 {
 	{
@@ -68,7 +67,7 @@ struct _code_ const volatilities [CLASSIFIER_VOLATILITIES] =
 	}
 };
 
-struct _code_ const actions [CLASSIFIER_ACTIONS] = 
+struct _code_ const actions [] = 
 
 {
 	{
@@ -104,6 +103,10 @@ struct _code_ const actions [CLASSIFIER_ACTIONS] =
 		"DropRX"
 	},
 	{
+		ACTION_AUTOCONNECT,
+		"AutoConnect"
+	},
+	{
 		ACTION_STRIPTX,
 		"StripTX"
 	},
@@ -121,7 +124,7 @@ struct _code_ const actions [CLASSIFIER_ACTIONS] =
 	}
 };
 
-struct _code_ const operands [CLASSIFIER_OPERANDS] = 
+struct _code_ const operands [] = 
 
 {
 	{
@@ -138,7 +141,7 @@ struct _code_ const operands [CLASSIFIER_OPERANDS] =
 	}
 };
 
-struct _code_ const fields [CLASSIFIER_FIELDS] = 
+struct _code_ const fields [] = 
 
 {
 	{
@@ -231,7 +234,7 @@ struct _code_ const fields [CLASSIFIER_FIELDS] =
 	}
 };
 
-struct _code_ const operators [CLASSIFIER_OPERATORS] = 
+struct _code_ const operators [] = 
 
 {
 	{
@@ -244,7 +247,7 @@ struct _code_ const operators [CLASSIFIER_OPERATORS] =
 	}
 };
 
-struct _code_ const states [CLASSIFIER_STATES] = 
+struct _code_ const states [] = 
 
 {
 	{
@@ -280,7 +283,6 @@ struct _code_ const states [CLASSIFIER_STATES] =
 		"Missing"
 	}
 };
-
 
 #endif
 

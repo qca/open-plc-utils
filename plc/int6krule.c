@@ -1,6 +1,6 @@
 /*====================================================================*
  *   
- *   Copyright (c) 2011 Qualcomm Atheros Inc.
+ *   Copyright (c) 2013 Qualcomm Atheros Inc.
  *   
  *   Permission to use, copy, modify, and/or distribute this software 
  *   for any purpose with or without fee is hereby granted, provided 
@@ -20,15 +20,12 @@
 
 /*====================================================================*
  *
- *   int6krule.c - Qualcomm Atheros Message Classification Utility;
- *
- *
+ *   int6krule.c - Qualcomm Atheros Message MakeRule Utility;
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
-
 
 /*====================================================================*"
  *   system header files;
@@ -71,12 +68,15 @@
 #include "../tools/ipv6spec.c"
 #include "../tools/uintspec.c"
 #include "../tools/hexdecode.c"
+#include "../tools/hexstring.c"
 #include "../tools/todigit.c"
 #include "../tools/error.c"
 #include "../tools/synonym.c"
 #include "../tools/assist.c"
 #include "../tools/lookup.c"
 #include "../tools/codelist.c"
+#include "../tools/memout.c"
+#include "../tools/reword.c"
 #endif
 
 #ifndef MAKEFILE
@@ -87,11 +87,11 @@
 #include "../plc/Request.c"
 #include "../plc/SendMME.c"
 #include "../plc/Devices.c"
-#include "../mme/EthernetHeader.c"
-#include "../mme/QualcommHeader.c"
-#include "../mme/UnwantedMessage.c"
 #include "../plc/rules.c"
 #include "../plc/ParseRule.c"
+#include "../plc/PrintRule.c"
+#include "../plc/MakeRule.c"
+#include "../plc/ReadRules.c"
 #endif
 
 #ifndef MAKEFILE
@@ -104,6 +104,9 @@
 
 #ifndef MAKEFILE
 #include "../mme/MMECode.c"
+#include "../mme/EthernetHeader.c"
+#include "../mme/QualcommHeader.c"
+#include "../mme/UnwantedMessage.c"
 #endif
 
 /*====================================================================*
@@ -114,77 +117,6 @@
 #define INT6KRULE_VLAN_TAG 0x00000000
 #define COMMA ","
 #define QUOTE "''"
-
-/*====================================================================*
- *
- *   signed Classification (struct plc * plc, struct MMERule * rule);
- *
- *   plc.h
- *
- *   This plugin for program plcrule adds or removes a temporary
- *   or permanent network classification rule to a device using a
- *   VS_CLASSIFICATION message;
- *
- *
- *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
- *
- *--------------------------------------------------------------------*/
-
-signed Classification (struct plc * plc, struct MMERule * rule) 
-
-{
-	struct channel * channel = (struct channel *)(plc->channel);
-	struct message * message = (struct message *)(plc->message);
-
-#ifndef __GNUC__
-#pragma pack (push,1)
-#endif
-
-	struct __packed vs_classification_request 
-	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
-		struct MMERule rule;
-	}
-	* request = (struct vs_classification_request *)(message);
-	struct __packed vs_classification_confirm 
-	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
-		uint8_t MSTATUS;
-	}
-	* confirm = (struct vs_classification_confirm *)(message);
-
-#ifndef __GNUC__
-#pragma pack (pop)
-#endif
-
-	Request (plc, "Set Classification Rules");
-	memset (message, 0, sizeof (* message));
-	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
-	QualcommHeader (&request->qualcomm, 0, (VS_CLASSIFICATION | MMTYPE_REQ));
-	plc->packetsize = sizeof (struct vs_classification_request);
-	memcpy (&request->rule, rule, sizeof (request->rule));
-	if (SendMME (plc) <= 0) 
-	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
-		return (-1);
-	}
-	if (ReadMME (plc, 0, (VS_CLASSIFICATION | MMTYPE_CNF)) <= 0) 
-	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
-		return (-1);
-	}
-	if (confirm->MSTATUS) 
-	{
-		Failure (plc, PLC_WONTDOIT);
-		return (-1);
-	}
-	Confirm (plc, "Setting ...");
-	return (0);
-}
-
 
 /*====================================================================*
  *   
@@ -199,9 +131,9 @@ int main (int argc, char const * argv [])
 	extern struct channel channel;
 	static char const * optv [] = 
 	{
-		"ei:qst:T:vV:",
+		"ei:qrst:T:vV:",
 		"action operand condition [...] control volatility [device] [...]\n\n          where a condition is: field operator value",
-		"Qualcomm Atheros Stream Classification Utility",
+		"Qualcomm Atheros Stream MakeRule Utility",
 		"e\tredirect stderr to stdout",
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -215,6 +147,7 @@ int main (int argc, char const * argv [])
 #endif
 
 		"q\tquiet mode",
+		"r\tread rules from device",
 		"s\tdisplay symbol tables",
 		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
 		"T x\tinserted vlan tag is x [" LITERAL (INT6KRULE_VLAN_TAG) "]",
@@ -228,8 +161,8 @@ int main (int argc, char const * argv [])
 	struct cspec cspec;
 	struct MMERule rule;
 	signed c;
-	memset (&rule, 0, sizeof (rule));
-	memset (&cspec, 0, sizeof (cspec));
+	memset (& rule, 0, sizeof (rule));
+	memset (& cspec, 0, sizeof (cspec));
 	cspec.VLAN_TAG = INT6KRULE_VLAN_TAG;
 	cspec.CSPEC_VERSION = INT6KRULE_CSPEC_VERSION;
 	if (getenv (PLCDEVICE)) 
@@ -271,6 +204,9 @@ int main (int argc, char const * argv [])
 			_setbits (channel.flags, CHANNEL_SILENCE);
 			_setbits (plc.flags, PLC_SILENCE);
 			break;
+		case 'r':
+			_setbits (plc.flags, PLC_ANALYSE);
+			break;
 		case 's':
 			printf ("\n");
 			printf (" Controls are ");
@@ -291,7 +227,7 @@ int main (int argc, char const * argv [])
 			printf (" Operators are ");
 			codelist (operators, SIZEOF (operators), COMMA, QUOTE, stdout);
 			printf (".\n");
-			printf (" States  are ");
+			printf (" States are ");
 			codelist (states, SIZEOF (states), COMMA, QUOTE, stdout);
 			printf (".\n");
 			printf ("\n");
@@ -317,18 +253,28 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (ParseRule (&argc, &argv, &rule, &cspec) == -1) 
+	if (_allclr (plc.flags, PLC_ANALYSE)) 
 	{
-		error (1, 0, "invalid rule");
+		if (ParseRule (& argc, & argv, & rule, & cspec) == -1) 
+		{
+			error (1, 0, "invalid rule");
+		}
 	}
-	openchannel (&channel);
+	openchannel (& channel);
 	if (!(plc.message = malloc (sizeof (* plc.message)))) 
 	{
 		error (1, errno, PLC_NOMEMORY);
 	}
 	if (!argc) 
 	{
-		Classification (&plc, &rule);
+		if (_anyset (plc.flags, PLC_ANALYSE)) 
+		{
+			ReadRules (& plc);
+		}
+		else 
+		{
+			MakeRule (& plc, & rule);
+		}
 	}
 	while ((argc) && (* argv)) 
 	{
@@ -336,12 +282,19 @@ int main (int argc, char const * argv [])
 		{
 			error (1, errno, PLC_BAD_MAC, * argv);
 		}
-		Classification (&plc, &rule);
+		if (_anyset (plc.flags, PLC_ANALYSE)) 
+		{
+			ReadRules (& plc);
+		}
+		else 
+		{
+			MakeRule (& plc, & rule);
+		}
 		argc--;
 		argv++;
 	}
 	free (plc.message);
-	closechannel (&channel);
+	closechannel (& channel);
 	exit (0);
 }
 

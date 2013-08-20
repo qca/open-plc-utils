@@ -11,6 +11,7 @@ gcc -Wall -Wextra -Wno-unused-parameter -o ampID ampID.c
 gcc -Wall -Wextra -Wno-unused-parameter -o amplist amplist.c 
 gcc -Wall -Wextra -Wno-unused-parameter -o amptest amptest.c
 gcc -Wall -Wextra -Wno-unused-parameter -o amprate amprate.c 
+gcc -Wall -Wextra -Wno-unused-parameter -o amprate amprule.c 
 gcc -Wall -Wextra -Wno-unused-parameter -o ampstat ampstat.c 
 gcc -Wall -Wextra -Wno-unused-parameter -o amptool amptool.c 
 gcc -Wall -Wextra -Wno-unused-parameter -o amptone amptone.c
