@@ -492,8 +492,8 @@ int main (int argc, char const * argv [])
 		switch ((char) (c)) 
 		{
 		case 'C':
-			sample_pib.CCoSelection = (uint8_t)(uintspec (optarg, 0, 3));
 			_setbits (flags, PIB_CCO_MODE);
+			sample_pib.CCoSelection = (uint8_t)(uintspec (optarg, 0, 4));
 			break;
 		case 'D':
 			_setbits (flags, PIB_DAK);
