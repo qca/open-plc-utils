@@ -39,7 +39,6 @@ gcc -Wall -Wextra -Wno-unused-parameter -c memout.c
 gcc -Wall -Wextra -Wno-unused-parameter -c putoptv.c
 gcc -Wall -Wextra -Wno-unused-parameter -c regview32.c
 gcc -Wall -Wextra -Wno-unused-parameter -c reword.c
-gcc -Wall -Wextra -Wno-unused-parameter -c reverse.c
 gcc -Wall -Wextra -Wno-unused-parameter -c set32bitmap.c
 gcc -Wall -Wextra -Wno-unused-parameter -c synonym.c
 gcc -Wall -Wextra -Wno-unused-parameter -c todigit.c
