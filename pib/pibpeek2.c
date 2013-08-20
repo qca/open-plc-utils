@@ -50,7 +50,9 @@ static char const * CCoMode2 [] =
 	"Auto",
 	"Never",
 	"Always",
-	"User"
+	"User",
+	"Covert",
+	"Unknown"
 };
 
 static char const * MDURole2 [] = 
@@ -95,7 +97,7 @@ signed pibpeek2 (void const * memory)
 	printf ("\tNET %s\n", PIB->LocalDeviceConfig.NET);
 	printf ("\tMFG %s\n", PIB->LocalDeviceConfig.MFG);
 	printf ("\tUSR %s\n", PIB->LocalDeviceConfig.USR);
-	printf ("\tCCo %s\n", CCoMode2 [PIB->LocalDeviceConfig.CCoSelection]);
+	printf ("\tCCo %s\n", CCoMode2 [PIB->LocalDeviceConfig.CCoSelection > SIZEOF (CCoMode2)-1?SIZEOF (CCoMode2)-1:PIB->LocalDeviceConfig.CCoSelection]);
 	printf ("\tMDU %s\n", PIB->LocalDeviceConfig.MDUConfiguration? MDURole2 [PIB->LocalDeviceConfig.MDURole & 1]: "N/A");
 	return (0);
 }
