@@ -1,0 +1,66 @@
+.TH pad 1 "April 2013" "open-plc-utils-0.0.2" "Qualcomm Atheros Open Powerline Toolkit"
+
+.SH NAME
+pad - file pad utility
+
+.SH SYNOPSIS
+.BR pad
+.RI [ options ]
+.IR file 
+.RI [ file ]
+.RI [ ... ]
+
+.PP
+.BR pad
+.RI [ options ]
+.RI [< stdin ]
+.RI [> stdout ]
+
+.SH DESCRIPTION
+
+.SH OPTIONS
+
+.TP
+-\fBb \fIblocksize\fR
+The blocksize in bytes.
+Each input file is padded to an even multiple of bytes and appended to stdout.
+The effect is stdout will be a multiple of blocksize bytes.
+The default blocksize is \fB4\fR bytes.
+
+.TP
+.BR -q
+Enable quiet mode which has no effect.
+
+.TP
+.RB - v
+Append the input filename to each line of program output.
+
+.TP
+.RB - ? ,-- help
+Print program help summary on stdout.
+This option takes precedence over other options on the command line.
+
+.TP
+.RB - ! ,-- version
+Print program version information on stdout.
+This option takes precedence over other options on the command line.
+Use this option when sending screen dumps to Atheros Technical Support so that they know exactly which version of the Linux Toolkit you are using.
+
+.SH ARGUMENTS
+
+.TP
+.IR file
+A filename.
+No assumptions are made based on filename and no filename conventions are enforced.
+More than one filename may appear on the command line.
+If no filename appears then input is read from stdin.
+
+.SH EXAMPLES
+None.
+
+.SH SEE ALSO
+.BR pad ( 7 )
+
+.SH CREDITS
+ Charles Maier <cmaier@qca.qualcomm.com>
+

@@ -1,0 +1,87 @@
+.TH grab 1 "April 2013" "open-plc-utils-0.0.2" "Qualcomm Atheros Open Powerline Toolkit"
+
+.SH NAME
+grab - byte grabber
+
+.SH SYNOPSIS
+.BR grab
+.RI [ options ]
+.IR file 
+.RI [ file ]
+.RI [ ... ]
+
+.PP
+.BR grab
+.RI [ options ]
+.RI [< stdin ]
+.RI [> stdout ]
+
+.SH DESCRIPTION
+Extract a range of bytes from a file and print them as an undelimited hexadecimal character string.
+
+.SH OPTIONS
+
+.TP
+-\fBl\fR \fIlength\fR
+The number of consective bytes to read.
+The \fIlength\fR may be expressed in decimal, hexadecimal or binary.
+Decimal is the default.
+Hexadecimal values start with \fB0x\fR.
+Binary values start with \fB0b\fR.
+If \fBoffset\fR plus \fIlength\fR exceeds the file size then an error will occur.
+
+.TP
+.RB - n
+Append a newline to each line of program output.
+The newline is suppressed by default.
+
+.TP
+-\fBo\fR \fIoffset\fR
+The \fBfile\fR offset of the first byte read.
+The offset may be expressed in hexadecimal or binary.
+Hexadecimal is the default.
+Binary values start with \fB0b\fR.
+If \fBoffset\fR plus \fIlength\fR exceeds the file size then an error will occur.
+
+.TP
+.BR -q
+Enable quiet mode which has no effect.
+
+.TP
+.RB - s
+Display the output as a text string instead of a hexadecimal character stream.
+If the selected data contains control characters then output may be unreadable or cause unwanted console behavior.
+
+.TP
+.RB - v
+Append the input filename to each line of program output.
+
+.TP
+.RB - ? ,-- help
+Print program help summary on stdout.
+This option takes precedence over other options on the command line.
+
+.TP
+.RB - ! ,-- version
+Print program version information on stdout.
+This option takes precedence over other options on the command line.
+Use this option when sending screen dumps to Atheros Technical Support so that they know exactly which version of the Linux Toolkit you are using.
+
+.SH ARGUMENTS
+
+.TP
+.IR file
+A filename.
+No assumptions are made based on filename and no filename conventions are enforced.
+More than one filename may appear on the command line.
+If no filename appears then input is read from stdin.
+
+.SH EXAMPLES
+None.
+
+.SH SEE ALSO
+.BR pad ( 7 )
+
+.SH CREDITS
+ Charles Maier <cmaier@qca.qualcomm.com>
+

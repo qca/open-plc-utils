@@ -1,10 +1,10 @@
-.TH plcrule 1 "April 2013" "open-plc-utils-0.0.2" "Qualcomm Atheros Open Powerline Toolkit"
+.TH amprule 1 "April 2013" "open-plc-utils-0.0.2" "Qualcomm Atheros Open Powerline Toolkit"
 
 .SH NAME
-plcrule - Stream Classification Utility
+amprule - Stream Classification Utility
 
 .SH SYNOPSIS
-.BR plcrule
+.BR amprule
 .RI [ options ] 
 .IR action    
 .IR operand 
@@ -60,8 +60,7 @@ This option then takes precedence over either default.
 .TP
 .RB - q
 Suppresses status messages on stderr.
-
-.TP
+.RP
 .RB - r
 Read rules from a device and display them on stdout.
 
@@ -458,7 +457,7 @@ The first condition states that the IPv4 source address is 192.168.99.2.
 The second conditon states that the IPv4 destination address is 192.168.99.100.
 
 .PP
-   # plcrule drop any IPv4SA is 192.168.99.2 IPv4DA is 192.168.99.100 add temp 00:B0:52:BA:BE:01
+   # amprule drop any IPv4SA is 192.168.99.2 IPv4DA is 192.168.99.100 add temp 00:B0:52:BA:BE:01
 
 .PP
 Observe that the \fIaction\fR, \fIoperand\fR and \fIconditions\fR come first then the \fIcontrol\fR and \fIvolatility\fR then the affected \fIdevices\fR.
@@ -471,7 +470,7 @@ The following example prints a list of programmed keywords on stdout for referen
 The example shown here has been abbreviate due to formatting limitations.
 
 .PP
-   # plcrule -t
+   # amprule -t
     
      Controls are 'Add'|'Rem'|'Remove'
      Volatilities are 'Temp'|'Perm'
@@ -501,7 +500,7 @@ For example, instruct device 00:B0:52:BA:BE:FF to temporarily add a rule to forw
 Observe Ethernet hardware addresses are used both in the condition and for the affected powerline devices.
 
 .PP 
-   # plcrule cap3 any ethsa is 00:2b:fe:ca:fe:ba add temp 00:b0;52:ba:be:ff
+   # amprule cap3 any ethsa is 00:2b:fe:ca:fe:ba add temp 00:b0;52:ba:be:ff
 
 .PP
 .B IP Address Rules
@@ -524,7 +523,7 @@ Dotted decimal format permits empty and variable length octets but octet delimit
 Hexadecimal octet format requires fixed length octets but octet delimiters are optional.
 
 .PP 
-   # plcrule drop any ipv4sa is 192.168.99.1 remove perm 00:b0:52:ba:be:ff
+   # amprule drop any ipv4sa is 192.168.99.1 remove perm 00:b0:52:ba:be:ff
 
 .PP
 .B IP Protocol Rules
@@ -544,13 +543,13 @@ For example, to instruct device 00:B0:52:BA:BE:FF to permanently add a rule to f
 In this example, delmiters have been omitted from the device Ethernet address.
 
 .PP 
-   # plcrule CAP2 all ipv4prot not 0x0800 add perm 00b052babeff
+   # amprule CAP2 all ipv4prot not 0x0800 add perm 00b052babeff
 
 .SH SEE ALSO
 .BR plc ( 7 ),
-.BR plcrate ( 7 ),
-.BR plcstat ( 7 ),
-.BR plctone ( 7)
+.BR amprate ( 7 ),
+.BR ampstat ( 7 ),
+.BR amptone ( 7)
 
 .SH CREDITS
  Charles Maier <cmaier@qca.qualcomm.com>
