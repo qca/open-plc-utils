@@ -52,6 +52,7 @@
  *   constants;
  *--------------------------------------------------------------------*/
 
+#define CLASSIFIER_STRING 64
 #define CLASSIFIER_CONTROLS 3
 #define CLASSIFIER_VOLATILITIES 2
 #define CLASSIFIER_ACTIONS 13

@@ -27,7 +27,7 @@
 signed PrintRule (uint32_t CR_PID, uint32_t CR_OPERAND, uint8_t CR_VALUE []) 
 
 {
-	char buffer [sizeof (CR_VALUE) * 3];
+	char buffer [CLASSIFIER_STRING];
 	uint32_t val32;
 	uint16_t val16;
 	uint8_t val8;
