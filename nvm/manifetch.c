@@ -42,7 +42,7 @@
 #include <stdint.h>
 
 #include "../tools/endian.h"
-#include "../nvm/nvm.h"
+#include "../tools/tlv.h"
 
 void * manifetch (void const * memory, size_t extent, uint32_t type) 
 

@@ -43,6 +43,7 @@
 #include "../tools/endian.h"
 #include "../tools/error.h"
 #include "../tools/files.h"
+#include "../tools/tlv.h"
 #include "../nvm/nvm.h"
 
 /*

@@ -22,10 +22,6 @@
  *
  *   nvm.h - nvm file format definitions and declarations;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
- *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
  *
@@ -154,28 +150,6 @@
 #define NVM_IMG_CANTREAD "%s can't read image in %s module %d", __func__
 #define NVM_IMG_CANTSAVE "%s can't save image in %s module %d", __func__
 #define NVM_IMG_RUN "%s applet %d is still running"
-
-/*====================================================================*
- *
- *--------------------------------------------------------------------*/
-
-#ifndef __GNUC__
-#pragma pack (push,1)
-#endif
-
-struct TLVNode 
-
-{
-	uint32_t type;
-	uint32_t size;
-	uint32_t data;
-}
-
-TLVNode;
-
-#ifndef __GNUC__
-#pragma pack (pop)
-#endif
 
 /*====================================================================*
  *   old nvm image header (44 bytes); 
