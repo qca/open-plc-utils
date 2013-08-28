@@ -30,6 +30,7 @@ all compile:
 install:
 scripts:
 manuals:
+	test -d ${MAN} || install -m ${DIR_PERM} -o ${OWNER} -g ${GROUP} -d ${MAN}
 	install -m ${MAN_PERM} -o ${OWNER} -g ${GROUP} ${PAGES} ${MAN}
 library:
 uninstall:
