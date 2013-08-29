@@ -9,7 +9,11 @@ open-plc-utils-0.0.3
 
 4. Replaced const HOMEPLUG_MTYPE with constant ETH_P_HPAV throughout.
 
-5. Correct endianess of FIRLD_ETH_TYPE in module coqos_add.c.
+5. Correct endianess of FIELD_ETH_TYPE in module coqos_add.c.
+
+6. Updated chipset codes and implemented table-driven chipset detection algorithm.
+
+7. Moved TLVNode structure definition from nvm/nvm.h to tools/tlv.h to prepare for exanded use of TLV structures in future MMEs.
 
 
 open-plc-utils-0.0.2
