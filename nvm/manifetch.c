@@ -46,21 +46,22 @@
 
 void * manifetch (void const * memory, size_t extent, uint32_t type) 
 
-{
-	uint8_t * offset = (uint8_t *)(memory);
+{ 
+	uint8_t * offset = (uint8_t *) (memory); 
 	while (extent) 
-	{
-		struct TLVNode * node = (struct TLVNode *)(offset);
+	{ 
+		struct TLVNode * node = (struct TLVNode *) (offset); 
 		if (LE32TOH (node->type) == type) 
-		{
-			return ((void *)(&node->data));
-		}
-		extent -= sizeof (* node) - sizeof (node->size) + LE32TOH (node->size);
-		offset += sizeof (* node) - sizeof (node->size) + LE32TOH (node->size);
-	}
-	return ((void *)(0));
-}
-
+		{ 
+			return ((void *) (& node->data)); 
+		} 
+		extent -= sizeof (* node) - sizeof (node->size) +  LE32TOH (node->size); 
+		offset += sizeof (* node) - sizeof (node->size) +  LE32TOH (node->size); 
+	} 
+	return ((void *) (0)); 
+} 
 
 #endif
+
+
 

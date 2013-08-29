@@ -40,13 +40,13 @@
 
 typedef struct __packed TLVNode 
 
-{
-	uint32_t type;
-	uint32_t size;
-	uint32_t data;
-}
+{ 
+	uint32_t type; 
+	uint32_t size; 
+	uint32_t data; 
+} 
 
-TLVNode;
+TLVNode; 
 
 #ifndef __GNUC__
 #pragma pack (pop)
@@ -57,4 +57,6 @@ TLVNode;
  *--------------------------------------------------------------------*/
 
 #endif
+
+
 

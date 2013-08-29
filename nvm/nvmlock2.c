@@ -23,9 +23,8 @@
  *   void nvmlock2 (struct nvm_header2 * header);
  *
  *   example function to update an NVM image header after the image
- *   had been modified; this assumes that image immediately follows
+ *   had been modified; this assumes that the updated image follows
  *   the header in memory. 
- *
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
