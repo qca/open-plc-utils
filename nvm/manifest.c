@@ -163,112 +163,6 @@ signed manifest (void const * memory, size_t extent)
 		uint32_t size = LE32TOH (node->size);
 		uint32_t data = LE32TOH (node->data);
 
-#if 0
-
-		if (type == NVM_FIELD_SIGNATURE)
-		{
-			printf ("\t%s: %08X\n", nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_HARDWARE_COMPAT)
-		{
-			strfbits (string, sizeof (string), compatibility, "|", data);
-			printf ("\t%s: %s\n", nvm_fields [type], string);
-		}
-		else if (type == NVM_FIELD_CHAIN_MAJOR_VERSION)
-		{
-			printf ("\t%s: %d\n", nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_CHAIN_MINOR_VERSION)
-		{
-			printf ("\t%s: %d\n", nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_CHAIN_TYPE)
-		{
-			printf ("\t%s: %s\n", nvm_fields [type], data < SIZEOF (nvm_chains)? nvm_chains [data]: myitoa (data, string, sizeof (string)));
-		}
-		else if (type == NVM_FIELD_BUILD_MAJOR_VERSION)
-		{
-			printf ("\t%s: %d\n", nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_BUILD_MINOR_VERSION)
-		{
-			printf ("\t%s: %d\n", nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_BUILD_TYPE)
-		{
-			printf ("\t%s: %s\n", nvm_fields [type], (char const *) (& node->data));
-		}
-		else if (type == NVM_FIELD_MANIFEST_VERSION)
-		{
-			printf ("\t%s: %d\n", nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_BUILD_NUMBER)
-		{
-			printf ("\t%s: %d\n", nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_BUILD_DATE)
-		{
-			printf ("\t%s: %08X\n", nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_BUILD_TIME)
-		{
-			printf ("\t%s: %06X\n", nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_DEVICE_TYPE)
-		{
-			printf ("\t%s: %04X\n", nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_BUILD_HOSTNAME)
-		{
-			printf ("\t%s: %s\n", nvm_fields [type], (char const *) (& node->data));
-		}
-		else if (type == NVM_FIELD_BUILD_USERNAME)
-		{
-			printf ("\t%s: %s\n", nvm_fields [type], (char const *) (& node->data));
-		}
-		else if (type == NVM_FIELD_BUILD_DESCRIPTION)
-		{
-			printf ("\t%s: %s\n", nvm_fields [type], (char const *) (& node->data));
-		}
-		else if (type == NVM_FIELD_BUILD_VERSION_STRING)
-		{
-			printf ("\t%s: %s\n", nvm_fields [type], (char const *) (& node->data));
-		}
-		else if (type == NVM_FIELD_BUILD_SUSTAINING_RELEASE)
-		{
-			printf ("\t%s: %d\n", nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_BUILD_MAJOR_SUBVERSION)
-		{
-			printf ("\t%s: %d\n", nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_GENERIC_ID0)
-		{
-			printf ("\t%s: %d\n", nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_GENERIC_ID1)
-		{
-			printf ("\t%s: %d\n", nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_SL_MAJOR_VERSION)
-		{
-			printf ("\t%s: %d\n", nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_SL_MINOR_VERSION)
-		{
-			printf ("\t%s: %d\n", nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_FREE_SPACE)
-		{
-			printf ("\t%s: %d/%d bytes\n", nvm_fields [type], size, extent);
-		}
-		else
-		{
-			error (0, 0, "%s: %d", nvm_fields [sizeof (nvm_fields) / sizeof (const char *) - 1], type);
-		}
-
-#else
-
 		switch (type)
 		{
 		case NVM_FIELD_SIGNATURE:
@@ -316,8 +210,6 @@ signed manifest (void const * memory, size_t extent)
 			error (0, 0, "%s: %d", nvm_fields [sizeof (nvm_fields) / sizeof (const char *) - 1], type);
 			break;
 		}
-
-#endif
 
 		length -= sizeof (* node) - sizeof (node->size) +  LE32TOH (node->size);
 		offset += sizeof (* node) - sizeof (node->size) +  LE32TOH (node->size);

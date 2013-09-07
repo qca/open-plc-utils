@@ -96,19 +96,8 @@ typedef struct __packed homeplug_fmi
 {
 	uint8_t MMV;
 	uint16_t MMTYPE;
-
-#if 0
-
-	uint8_t FMID;
-	uint8_t FMSN;
-
-#else
-
 	uint8_t FMSN;
 	uint8_t FMID;
-
-#endif
-
 }
 
 homeplug_fmi;
@@ -126,19 +115,8 @@ typedef struct __packed qualcomm_fmi
 {
 	uint8_t MMV;
 	uint16_t MMTYPE;
-
-#if 0
-
-	uint8_t FMID;
-	uint8_t FMSN;
-
-#else
-
 	uint8_t FMSN;
 	uint8_t FMID;
-
-#endif
-
 	uint8_t OUI [ETHER_ADDR_LEN >> 1];
 }
 
