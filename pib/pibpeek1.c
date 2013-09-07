@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -24,7 +24,7 @@
  *
  *   pib.h
  *
- *   print PIB identity information on stdout; 
+ *   print PIB identity information on stdout;
  *
  *
  *   Contributor(s):
@@ -44,7 +44,7 @@
 #include "../key/keys.h"
 #include "../pib/pib.h"
 
-static char const * CCoMode [] = 
+static char const * CCoMode [] =
 
 {
 	"Auto",
@@ -55,14 +55,14 @@ static char const * CCoMode [] =
 	"Unknown"
 };
 
-static char const * MDURole [] = 
+static char const * MDURole [] =
 
 {
 	"Slave",
 	"Master"
 };
 
-signed pibpeek1 (void const * memory) 
+signed pibpeek1 (void const * memory)
 
 {
 	extern const struct key keys [KEYS];
@@ -71,17 +71,17 @@ signed pibpeek1 (void const * memory)
 	struct PIB1 * PIB = (struct PIB1 *)(memory);
 	char buffer [HPAVKEY_SHA_LEN * 3];
 	size_t key;
-	if (PIB->FWVersion == 1) 
+	if (PIB->FWVersion == 1)
 	{
-		if (PIB->PIBVersion == 2) 
+		if (PIB->PIBVersion == 2)
 		{
 			struct PIB1_2 * PIB = (struct PIB1_2 *)(memory);
 			printf ("\tPIB %d-%d\n", PIB->FWVersion, PIB->PIBVersion);
 			printf ("\tMAC %s\n", hexstring (buffer, sizeof (buffer), PIB->MAC, sizeof (PIB->MAC)));
 			printf ("\tDAK %s", hexstring (buffer, sizeof (buffer), PIB->DAK, sizeof (PIB->DAK)));
-			for (key = 0; key < KEYS; key++) 
+			for (key = 0; key < KEYS; key++)
 			{
-				if (!memcmp (keys [key].DAK, PIB->DAK, HPAVKEY_DAK_LEN)) 
+				if (!memcmp (keys [key].DAK, PIB->DAK, HPAVKEY_DAK_LEN))
 				{
 					printf (" (%s)", keys [key].phrase);
 					break;
@@ -89,9 +89,9 @@ signed pibpeek1 (void const * memory)
 			}
 			printf ("\n");
 			printf ("\tNMK %s", hexstring (buffer, sizeof (buffer), PIB->NMK, sizeof (PIB->NMK)));
-			for (key = 0; key < KEYS; key++) 
+			for (key = 0; key < KEYS; key++)
 			{
-				if (!memcmp (keys [key].NMK, PIB->NMK, HPAVKEY_NMK_LEN)) 
+				if (!memcmp (keys [key].NMK, PIB->NMK, HPAVKEY_NMK_LEN))
 				{
 					printf (" (%s)", keys [key].phrase);
 					break;
@@ -101,15 +101,15 @@ signed pibpeek1 (void const * memory)
 			printf ("\tFLG %s\n", hexstring (buffer, sizeof (buffer), (uint8_t *)(&PIB->FLG), sizeof (PIB->FLG)));
 			return (0);
 		}
-		else if (PIB->PIBVersion == 3) 
+		else if (PIB->PIBVersion == 3)
 		{
 			struct PIB1_3 * PIB = (struct PIB1_3 *)(memory);
 			printf ("\tPIB %d-%d\n", PIB->FWVersion, PIB->PIBVersion);
 			printf ("\tMAC %s\n", hexstring (buffer, sizeof (buffer), PIB->MAC, sizeof (PIB->MAC)));
 			printf ("\tDAK %s", hexstring (buffer, sizeof (buffer), PIB->DAK, sizeof (PIB->DAK)));
-			for (key = 0; key < KEYS; key++) 
+			for (key = 0; key < KEYS; key++)
 			{
-				if (!memcmp (keys [key].DAK, PIB->DAK, HPAVKEY_DAK_LEN)) 
+				if (!memcmp (keys [key].DAK, PIB->DAK, HPAVKEY_DAK_LEN))
 				{
 					printf (" (%s)", keys [key].phrase);
 					break;
@@ -117,9 +117,9 @@ signed pibpeek1 (void const * memory)
 			}
 			printf ("\n");
 			printf ("\tNMK %s", hexstring (buffer, sizeof (buffer), PIB->NMK, sizeof (PIB->NMK)));
-			for (key = 0; key < KEYS; key++) 
+			for (key = 0; key < KEYS; key++)
 			{
-				if (!memcmp (keys [key].NMK, PIB->NMK, HPAVKEY_NMK_LEN)) 
+				if (!memcmp (keys [key].NMK, PIB->NMK, HPAVKEY_NMK_LEN))
 				{
 					printf (" (%s)", keys [key].phrase);
 					break;
@@ -131,15 +131,15 @@ signed pibpeek1 (void const * memory)
 			printf ("\tUSR \"%s\"\n", PIB->USR);
 			return (0);
 		}
-		else if (PIB->PIBVersion >= 4) 
+		else if (PIB->PIBVersion >= 4)
 		{
 			struct PIB1_4 * PIB = (struct PIB1_4 *)(memory);
 			printf ("\tPIB %d-%d %d bytes\n", PIB->VersionHeader.FWVersion, PIB->VersionHeader.PIBVersion, LE16TOH (PIB->VersionHeader.PIBLength));
 			printf ("\tMAC %s\n", hexstring (buffer, sizeof (buffer), PIB->LocalDeviceConfig.MAC, sizeof (PIB->LocalDeviceConfig.MAC)));
 			printf ("\tDAK %s", hexstring (buffer, sizeof (buffer), PIB->LocalDeviceConfig.DAK, sizeof (PIB->LocalDeviceConfig.DAK)));
-			for (key = 0; key < KEYS; key++) 
+			for (key = 0; key < KEYS; key++)
 			{
-				if (!memcmp (keys [key].DAK, PIB->LocalDeviceConfig.DAK, HPAVKEY_DAK_LEN)) 
+				if (!memcmp (keys [key].DAK, PIB->LocalDeviceConfig.DAK, HPAVKEY_DAK_LEN))
 				{
 					printf (" (%s)", keys [key].phrase);
 					break;
@@ -147,9 +147,9 @@ signed pibpeek1 (void const * memory)
 			}
 			printf ("\n");
 			printf ("\tNMK %s", hexstring (buffer, sizeof (buffer), PIB->LocalDeviceConfig.NMK, sizeof (PIB->LocalDeviceConfig.NMK)));
-			for (key = 0; key < KEYS; key++) 
+			for (key = 0; key < KEYS; key++)
 			{
-				if (!memcmp (keys [key].NMK, PIB->LocalDeviceConfig.NMK, HPAVKEY_NMK_LEN)) 
+				if (!memcmp (keys [key].NMK, PIB->LocalDeviceConfig.NMK, HPAVKEY_NMK_LEN))
 				{
 					printf (" (%s)", keys [key].phrase);
 					break;
@@ -162,15 +162,15 @@ signed pibpeek1 (void const * memory)
 			return (0);
 		}
 	}
-	else if (PIB->FWVersion == 2) 
+	else if (PIB->FWVersion == 2)
 	{
 		struct PIB2_0 * PIB = (struct PIB2_0 *)(memory);
 		printf ("\tPIB %d-%d %d bytes\n", PIB->VersionHeader.FWVersion, PIB->VersionHeader.PIBVersion, LE16TOH (PIB->VersionHeader.PIBLength));
 		printf ("\tMAC %s\n", hexstring (buffer, sizeof (buffer), PIB->LocalDeviceConfig.MAC, sizeof (PIB->LocalDeviceConfig.MAC)));
 		printf ("\tDAK %s", hexstring (buffer, sizeof (buffer), PIB->LocalDeviceConfig.DAK, sizeof (PIB->LocalDeviceConfig.DAK)));
-		for (key = 0; key < KEYS; key++) 
+		for (key = 0; key < KEYS; key++)
 		{
-			if (!memcmp (keys [key].DAK, PIB->LocalDeviceConfig.DAK, HPAVKEY_DAK_LEN)) 
+			if (!memcmp (keys [key].DAK, PIB->LocalDeviceConfig.DAK, HPAVKEY_DAK_LEN))
 			{
 				printf (" (%s)", keys [key].phrase);
 				break;
@@ -178,9 +178,9 @@ signed pibpeek1 (void const * memory)
 		}
 		printf ("\n");
 		printf ("\tNMK %s", hexstring (buffer, sizeof (buffer), PIB->LocalDeviceConfig.NMK, sizeof (PIB->LocalDeviceConfig.NMK)));
-		for (key = 0; key < KEYS; key++) 
+		for (key = 0; key < KEYS; key++)
 		{
-			if (!memcmp (keys [key].NMK, PIB->LocalDeviceConfig.NMK, HPAVKEY_NMK_LEN)) 
+			if (!memcmp (keys [key].NMK, PIB->LocalDeviceConfig.NMK, HPAVKEY_NMK_LEN))
 			{
 				printf (" (%s)", keys [key].phrase);
 				break;
@@ -193,15 +193,15 @@ signed pibpeek1 (void const * memory)
 		printf ("\tUSR %s\n", PIB->LocalDeviceConfig.USR);
 		return (0);
 	}
-	else if (PIB->FWVersion < 8) 
+	else if (PIB->FWVersion < 8)
 	{
 		struct PIB3_0 * PIB = (struct PIB3_0 *)(memory);
 		printf ("\tPIB %d-%d %d bytes\n", PIB->VersionHeader.FWVersion, PIB->VersionHeader.PIBVersion, LE16TOH (PIB->VersionHeader.PIBLength));
 		printf ("\tMAC %s\n", hexstring (buffer, sizeof (buffer), PIB->LocalDeviceConfig.MAC, sizeof (PIB->LocalDeviceConfig.MAC)));
 		printf ("\tDAK %s", hexstring (buffer, sizeof (buffer), PIB->LocalDeviceConfig.DAK, sizeof (PIB->LocalDeviceConfig.DAK)));
-		for (key = 0; key < KEYS; key++) 
+		for (key = 0; key < KEYS; key++)
 		{
-			if (!memcmp (keys [key].DAK, PIB->LocalDeviceConfig.DAK, HPAVKEY_DAK_LEN)) 
+			if (!memcmp (keys [key].DAK, PIB->LocalDeviceConfig.DAK, HPAVKEY_DAK_LEN))
 			{
 				printf (" (%s)", keys [key].phrase);
 				break;
@@ -209,9 +209,9 @@ signed pibpeek1 (void const * memory)
 		}
 		printf ("\n");
 		printf ("\tNMK %s", hexstring (buffer, sizeof (buffer), PIB->LocalDeviceConfig.NMK, sizeof (PIB->LocalDeviceConfig.NMK)));
-		for (key = 0; key < KEYS; key++) 
+		for (key = 0; key < KEYS; key++)
 		{
-			if (!memcmp (keys [key].NMK, PIB->LocalDeviceConfig.NMK, HPAVKEY_NMK_LEN)) 
+			if (!memcmp (keys [key].NMK, PIB->LocalDeviceConfig.NMK, HPAVKEY_NMK_LEN))
 			{
 				printf (" (%s)", keys [key].phrase);
 				break;

@@ -1,31 +1,31 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *   
+ *
  *   signed NetworkInfoStats (struct plc * plc);
  *
  *   plc.h
  *
  *   Request network membership information from the peer device using
- *   the VS_NW_INFO_STATS message; 
+ *   the VS_NW_INFO_STATS message;
  *
  *   This function is similar to function NetworkInformation() but the
  *   output format is different;
@@ -47,7 +47,7 @@
 #include "../tools/number.h"
 #include "../tools/error.h"
 
-signed NetworkInfoStats (struct plc * plc) 
+signed NetworkInfoStats (struct plc * plc)
 
 {
 	extern char const * StationRole [STATIONROLES];
@@ -60,14 +60,14 @@ signed NetworkInfoStats (struct plc * plc)
 
 #if defined(INT6x00)
 
-	struct __packed vs_ns_info_stats_request 
+	struct __packed vs_ns_info_stats_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
 		uint8_t FIRST_TEI;
 	}
 	* request = (struct vs_ns_info_stats_request *)(message);
-	struct __packed station 
+	struct __packed station
 	{
 		uint8_t MAC [ETHER_ADDR_LEN];
 		uint8_t TEI;
@@ -76,7 +76,7 @@ signed NetworkInfoStats (struct plc * plc)
 		uint8_t AVGRX;
 	}
 	* station;
-	struct __packed network 
+	struct __packed network
 	{
 		uint8_t NID [7];
 		uint8_t SNID;
@@ -89,7 +89,7 @@ signed NetworkInfoStats (struct plc * plc)
 		struct station stations [1];
 	}
 	* network;
-	struct __packed vs_ns_info_stats_confirm 
+	struct __packed vs_ns_info_stats_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -101,7 +101,7 @@ signed NetworkInfoStats (struct plc * plc)
 
 #elif defined (AR7x00)
 
-	struct __packed vs_ns_info_stats_request 
+	struct __packed vs_ns_info_stats_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_fmi qualcomm;
@@ -111,7 +111,7 @@ signed NetworkInfoStats (struct plc * plc)
 		UINT8_6 NUM_STAS;
 	}
 	* request = (struct vs_ns_info_stats_request *)(message);
-	struct __packed station 
+	struct __packed station
 	{
 		uint8_t MAC [ETHER_ADDR_LEN];
 		uint8_t TEI;
@@ -124,7 +124,7 @@ signed NetworkInfoStats (struct plc * plc)
 		uint16_t Reserved4;
 	}
 	* station;
-	struct __packed network 
+	struct __packed network
 	{
 		uint8_t NID [7];
 		uint8_t Reserved1;
@@ -142,7 +142,7 @@ signed NetworkInfoStats (struct plc * plc)
 		struct station stations [1];
 	}
 	* network;
-	struct __packed vs_ns_info_stats_confirm 
+	struct __packed vs_ns_info_stats_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_fmi qualcomm;
@@ -183,7 +183,7 @@ signed NetworkInfoStats (struct plc * plc)
 #endif
 
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
@@ -191,11 +191,11 @@ signed NetworkInfoStats (struct plc * plc)
 
 #if defined (INT6x00)
 
-	while (ReadMME (plc, 0, (VS_NW_INFO_STATS | MMTYPE_CNF)) > 0) 
+	while (ReadMME (plc, 0, (VS_NW_INFO_STATS | MMTYPE_CNF)) > 0)
 
 #elif defined (AR7x00)
 
-	while (ReadMME (plc, 1, (VS_NW_INFO_STATS | MMTYPE_CNF)) > 0) 
+	while (ReadMME (plc, 1, (VS_NW_INFO_STATS | MMTYPE_CNF)) > 0)
 
 #else
 #error "Unspecified Atheros chipset"
@@ -205,7 +205,7 @@ signed NetworkInfoStats (struct plc * plc)
 		char string [24];
 		Confirm (plc, "Found %d Network(s)\n", networks->NUMAVLNS);
 		network = (struct network *)(&networks->networks);
-		while (networks->NUMAVLNS--) 
+		while (networks->NUMAVLNS--)
 		{
 			printf ("\tnetwork->NID = %s\n", hexstring (string, sizeof (string), network->NID, sizeof (network->NID)));
 			printf ("\tnetwork->SNID = %d\n", network->SNID);
@@ -216,7 +216,7 @@ signed NetworkInfoStats (struct plc * plc)
 			printf ("\tnetwork->STATIONS = %d\n", network->NUMSTAS);
 			printf ("\n");
 			station = (struct station *)(&network->stations);
-			while (network->NUMSTAS--) 
+			while (network->NUMSTAS--)
 			{
 				char * TX = "";
 				char * RX = "";

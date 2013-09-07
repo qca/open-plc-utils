@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -27,9 +27,9 @@
  *   write parameters to SDRAM using VS_WRITE_AND_EXECUTE_APPLET;
  *
  *   we pass in the PIB image header because that is how the caller
- *   located the PIB image in the file but we must write the entire 
- *   file into SDRAM at the address found in the PIB image header; 
- *   consequenctly, we have to rewind the file position and compute 
+ *   located the PIB image in the file but we must write the entire
+ *   file into SDRAM at the address found in the PIB image header;
+ *   consequenctly, we have to rewind the file position and compute
  *   the actual file size;
  *
  *   this implementeation will probably never be used because we do
@@ -49,7 +49,7 @@
 #include "../tools/error.h"
 #include "../plc/plc.h"
 
-signed WriteExecuteParameters1 (struct plc * plc, unsigned module, const struct nvm_header1 * nvm_header) 
+signed WriteExecuteParameters1 (struct plc * plc, unsigned module, const struct nvm_header1 * nvm_header)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -60,7 +60,7 @@ signed WriteExecuteParameters1 (struct plc * plc, unsigned module, const struct 
 #endif
 
 	struct nvm_header1 nvm_manifest;
-	struct __packed vs_write_execute_request 
+	struct __packed vs_write_execute_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -77,7 +77,7 @@ signed WriteExecuteParameters1 (struct plc * plc, unsigned module, const struct 
 		uint8_t IMAGE [PLC_MODULE_SIZE];
 	}
 	* request = (struct vs_write_execute_request *) (message);
-	struct __packed vs_write_execute_confirm 
+	struct __packed vs_write_execute_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -114,14 +114,14 @@ signed WriteExecuteParameters1 (struct plc * plc, unsigned module, const struct 
 /*
  *	adjust the file extent to include the the manifest image header, the manifest image, the PIB
  *	image header and the PIB image; this should in principle, equal the PIB filesize for Panther
- *	and Lynx .pib files; 
+ *	and Lynx .pib files;
  */
 
-	if (lseek (plc->PIB.file, 0, SEEK_SET)) 
+	if (lseek (plc->PIB.file, 0, SEEK_SET))
 	{
 		error (1, errno, FILE_CANTHOME, plc->PIB.name);
 	}
-	if (read (plc->PIB.file, &nvm_manifest, sizeof (nvm_manifest)) != sizeof (nvm_manifest)) 
+	if (read (plc->PIB.file, &nvm_manifest, sizeof (nvm_manifest)) != sizeof (nvm_manifest))
 	{
 		error (1, errno, FILE_CANTREAD, plc->PIB.name);
 	}
@@ -132,16 +132,16 @@ signed WriteExecuteParameters1 (struct plc * plc, unsigned module, const struct 
 
 #endif
 
-	while (extent) 
+	while (extent)
 	{
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 		QualcommHeader (&request->qualcomm, 0, (VS_WRITE_AND_EXECUTE_APPLET | MMTYPE_REQ));
-		if (length > extent) 
+		if (length > extent)
 		{
 			length = extent;
 		}
-		if (read (plc->PIB.file, request->IMAGE, length) != (signed)(length)) 
+		if (read (plc->PIB.file, request->IMAGE, length) != (signed)(length))
 		{
 			error (1, errno, FILE_CANTREAD, plc->PIB.name);
 		}
@@ -155,27 +155,27 @@ signed WriteExecuteParameters1 (struct plc * plc, unsigned module, const struct 
 		request->START_ADDR = nvm_header->ENTRYPOINT;
 		request->CHECKSUM = nvm_header->IMAGECHECKSUM;
 		plc->packetsize = sizeof (* request);
-		if (SendMME (plc) <= 0) 
+		if (SendMME (plc) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		if (ReadMME (plc, 0, (VS_WRITE_AND_EXECUTE_APPLET | MMTYPE_CNF)) <= 0) 
+		if (ReadMME (plc, 0, (VS_WRITE_AND_EXECUTE_APPLET | MMTYPE_CNF)) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
-		if (confirm->MSTATUS) 
+		if (confirm->MSTATUS)
 		{
 			Failure (plc, PLC_WONTDOIT);
 			return (-1);
 		}
-		if (LE32TOH (confirm->CURR_PART_LENGTH) != length) 
+		if (LE32TOH (confirm->CURR_PART_LENGTH) != length)
 		{
 			error ((plc->flags & PLC_BAILOUT), 0, PLC_ERR_LENGTH);
 			return (-1);
 		}
-		if (LE32TOH (confirm->CURR_PART_OFFSET) != offset) 
+		if (LE32TOH (confirm->CURR_PART_OFFSET) != offset)
 		{
 			error ((plc->flags & PLC_BAILOUT), 0, PLC_ERR_OFFSET);
 			return (-1);

@@ -26,23 +26,23 @@
 
 #ifdef __GNUC__
 
-__attribute__ ((format (printf, 3, 4))) 
+__attribute__ ((format (printf, 3, 4)))
 
 #endif
 
-signed debug (signed status, char const * string, char const * format, ...) 
+signed debug (signed status, char const * string, char const * format, ...)
 
 {
 	extern char const * program_name;
-	if ((program_name) && (* program_name)) 
+	if ((program_name) && (* program_name))
 	{
 		fprintf (stderr, "%s: ", program_name);
 	}
-	if ((string) && (* string)) 
+	if ((string) && (* string))
 	{
 		fprintf (stderr, "%s: ", string);
 	}
-	if ((format) && (*format)) 
+	if ((format) && (*format))
 	{
 		va_list arglist;
 		va_start (arglist, format);
@@ -51,7 +51,7 @@ signed debug (signed status, char const * string, char const * format, ...)
 	}
 	fprintf (stderr, "\n");
 	fflush (stderr);
-	if (status) 
+	if (status)
 	{
 		exit (status);
 	}

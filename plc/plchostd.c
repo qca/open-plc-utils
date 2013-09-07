@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*"
@@ -196,7 +196,7 @@
 static bool done = false;
 
 /*====================================================================*
- *  
+ *
  *   void terminate (signo_t signal);
  *
  *
@@ -206,7 +206,7 @@ static bool done = false;
  *
  *--------------------------------------------------------------------*/
 
-static void terminate (signo_t signal) 
+static void terminate (signo_t signal)
 
 {
 	done = true;
@@ -215,7 +215,7 @@ static void terminate (signo_t signal)
 
 
 /*====================================================================*
- *  
+ *
  *   signed opensocket (char const * socketname);
  *
  *
@@ -225,11 +225,11 @@ static void terminate (signo_t signal)
  *
  *--------------------------------------------------------------------*/
 
-static signed opensocket (char const * socketname) 
+static signed opensocket (char const * socketname)
 
 {
 	signed fd;
-	struct sockaddr_un sockaddr_un = 
+	struct sockaddr_un sockaddr_un =
 	{
 
 #if defined (__OpenBSD__) || defined (__APPLE__)
@@ -249,22 +249,22 @@ static signed opensocket (char const * socketname)
 
 #endif
 
-	if (unlink (sockaddr_un.sun_path)) 
+	if (unlink (sockaddr_un.sun_path))
 	{
-		if (errno != ENOENT) 
+		if (errno != ENOENT)
 		{
 			error (1, errno, "%s", sockaddr_un.sun_path);
 		}
 	}
-	if ((fd = socket (AF_UNIX, SOCK_DGRAM, 0)) == -1) 
+	if ((fd = socket (AF_UNIX, SOCK_DGRAM, 0)) == -1)
 	{
 		error (1, errno, "%s", sockaddr_un.sun_path);
 	}
-	if (bind (fd, (struct sockaddr *)(&sockaddr_un), sizeof (sockaddr_un)) == -1) 
+	if (bind (fd, (struct sockaddr *)(&sockaddr_un), sizeof (sockaddr_un)) == -1)
 	{
 		error (1, errno, "%s", sockaddr_un.sun_path);
 	}
-	if (chmod (sockaddr_un.sun_path, 0666) == -1) 
+	if (chmod (sockaddr_un.sun_path, 0666) == -1)
 	{
 		error (1, errno, "%s", sockaddr_un.sun_path);
 	}
@@ -273,19 +273,19 @@ static signed opensocket (char const * socketname)
 
 
 /*====================================================================*
- *  
+ *
  *   signed function (struct plc * plc, char const * socket);
- *  
- *   wait indefinitely for VS_HOST_ACTION messages; service the device 
+ *
+ *   wait indefinitely for VS_HOST_ACTION messages; service the device
  *   only; it will stop dead - like a bug! - on error;
- *   
+ *
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-signed function (struct plc * plc, char const * socket) 
+signed function (struct plc * plc, char const * socket)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -295,7 +295,7 @@ signed function (struct plc * plc, char const * socket)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_host_action_ind 
+	struct __packed vs_host_action_ind
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -318,14 +318,14 @@ signed function (struct plc * plc, char const * socket)
 	signed status;
 	memset (buffer, 0, sizeof (buffer));
 	write (fd, MESSAGE, strlen (MESSAGE));
-	while (!done) 
+	while (!done)
 	{
 		status = ReadMME (plc, 0, (VS_HOST_ACTION | MMTYPE_IND));
-		if (status < 0) 
+		if (status < 0)
 		{
 			break;
 		}
-		if (status < 1) 
+		if (status < 1)
 		{
 			PLCTopology (channel, message, plctopology);
 			PLCTopologyPrint (plctopology);
@@ -333,103 +333,103 @@ signed function (struct plc * plc, char const * socket)
 		}
 		action = indicate->MACTION;
 		memcpy (channel->peer, indicate->ethernet.OSA, sizeof (channel->peer));
-		if (HostActionResponse (plc)) 
+		if (HostActionResponse (plc))
 		{
 			return (-1);
 		}
-		if (action == 0x00) 
+		if (action == 0x00)
 		{
-			if (BootDevice2 (plc)) 
+			if (BootDevice2 (plc))
 			{
 				return (-1);
 			}
-			if (_anyset (plc->flags, PLC_FLASH_DEVICE)) 
+			if (_anyset (plc->flags, PLC_FLASH_DEVICE))
 			{
 				FlashDevice2 (plc);
 			}
 			continue;
 		}
-		if (action == 0x01) 
+		if (action == 0x01)
 		{
 			close (plc->NVM.file);
-			if (ReadFirmware1 (plc)) 
+			if (ReadFirmware1 (plc))
 			{
 				return (-1);
 			}
-			if ((plc->NVM.file = open (plc->NVM.name = plc->nvm.name, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc->NVM.file = open (plc->NVM.name = plc->nvm.name, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", plc->NVM.name);
 			}
-			if (ResetDevice (plc)) 
+			if (ResetDevice (plc))
 			{
 				return (-1);
 			}
 			continue;
 		}
-		if (action == 0x02) 
+		if (action == 0x02)
 		{
 			close (plc->PIB.file);
-			if (ReadParameters (plc)) 
+			if (ReadParameters (plc))
 			{
 				return (-1);
 			}
-			if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", plc->PIB.name);
 			}
-			if (ResetDevice (plc)) 
+			if (ResetDevice (plc))
 			{
 				return (-1);
 			}
 			continue;
 		}
-		if (action == 0x03) 
+		if (action == 0x03)
 		{
 			close (plc->PIB.file);
-			if (ReadParameters (plc)) 
+			if (ReadParameters (plc))
 			{
 				return (-1);
 			}
-			if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", plc->PIB.name);
 			}
 			close (plc->NVM.file);
-			if (ReadFirmware1 (plc)) 
+			if (ReadFirmware1 (plc))
 			{
 				return (-1);
 			}
-			if ((plc->NVM.file = open (plc->NVM.name = plc->nvm.name, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc->NVM.file = open (plc->NVM.name = plc->nvm.name, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", plc->NVM.name);
 			}
-			if (ResetDevice (plc)) 
+			if (ResetDevice (plc))
 			{
 				return (-1);
 			}
 			continue;
 		}
-		if (action == 0x04) 
+		if (action == 0x04)
 		{
-			if (InitDevice (plc)) 
+			if (InitDevice (plc))
 			{
 				return (-1);
 			}
 			continue;
 		}
-		if (action == 0x05) 
+		if (action == 0x05)
 		{
 			close (plc->NVM.file);
-			if ((plc->NVM.file = open (plc->NVM.name = FactoryNVM, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc->NVM.file = open (plc->NVM.name = FactoryNVM, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", plc->NVM.name);
 			}
 			close (plc->PIB.file);
-			if ((plc->PIB.file = open (plc->PIB.name = FactoryPIB, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc->PIB.file = open (plc->PIB.name = FactoryPIB, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", plc->PIB.name);
 			}
-			if (ResetDevice (plc)) 
+			if (ResetDevice (plc))
 			{
 				return (-1);
 			}
@@ -438,11 +438,11 @@ signed function (struct plc * plc, char const * socket)
 		if (action == 0x06)
 		{
 			close (plc->PIB.file);
-			if (ReadParameters (plc)) 
+			if (ReadParameters (plc))
 			{
 				return (-1);
 			}
-			if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", plc->PIB.name);
 			}
@@ -456,23 +456,23 @@ signed function (struct plc * plc, char const * socket)
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv[]);
- *   
- *   parse command line, populate plc structure and perform selected 
+ *
+ *   parse command line, populate plc structure and perform selected
  *   operations; show help summary when asked; see getoptv and putoptv
  *   to understand command line parsing and help summary display; see
- *   plc.h for the definition of struct plc; 
+ *   plc.h for the definition of struct plc;
  *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
 	extern void terminate (signo_t);
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"dFi:n:N:p:P:qs:t:vw:x",
 		"-N file -P file [-S file] [-n file] [-p file]",
@@ -508,7 +508,7 @@ int main (int argc, char const * argv [])
 	struct sigaction sa;
 	char const * socketname = SOCKETNAME;
 	signed c;
-	if (getenv (PLCDEVICE)) 
+	if (getenv (PLCDEVICE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -524,9 +524,9 @@ int main (int argc, char const * argv [])
 	}
 	optind = 1;
 	plc.timer = PLC_LONGTIME;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'd':
 			_setbits (plc.flags, PLC_DAEMON);
@@ -545,51 +545,51 @@ int main (int argc, char const * argv [])
 
 			break;
 		case 'N':
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, "%s", optarg);
 			}
-			if ((plc.NVM.file = open (plc.NVM.name = optarg, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc.NVM.file = open (plc.NVM.name = optarg, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", plc.NVM.name);
 			}
-			if (nvmfile (&plc.NVM)) 
+			if (nvmfile (&plc.NVM))
 			{
 				error (1, errno, "Bad NVM file: %s", plc.NVM.name);
 			}
 			_setbits (plc.flags, PLC_WRITE_MAC);
 			break;
 		case 'n':
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, "%s", optarg);
 			}
-			if ((plc.nvm.file = open (plc.nvm.name = optarg, O_BINARY|O_CREAT|O_RDWR|O_TRUNC, FILE_FILEMODE)) == -1) 
+			if ((plc.nvm.file = open (plc.nvm.name = optarg, O_BINARY|O_CREAT|O_RDWR|O_TRUNC, FILE_FILEMODE)) == -1)
 			{
 				error (1, errno, "%s", plc.nvm.name);
 			}
 			break;
 		case 'P':
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, "%s", optarg);
 			}
-			if ((plc.PIB.file = open (plc.PIB.name = optarg, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc.PIB.file = open (plc.PIB.name = optarg, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", plc.PIB.name);
 			}
-			if (pibfile (&plc.PIB)) 
+			if (pibfile (&plc.PIB))
 			{
 				error (1, errno, "Bad PIB file: %s", plc.PIB.name);
 			}
 			_setbits (plc.flags, PLC_WRITE_PIB);
 			break;
 		case 'p':
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, "%s", optarg);
 			}
-			if ((plc.pib.file = open (plc.pib.name = optarg, O_BINARY|O_CREAT|O_RDWR|O_TRUNC, FILE_FILEMODE)) == -1) 
+			if ((plc.pib.file = open (plc.pib.name = optarg, O_BINARY|O_CREAT|O_RDWR|O_TRUNC, FILE_FILEMODE)) == -1)
 			{
 				error (1, errno, "%s", plc.pib.name);
 			}
@@ -601,15 +601,15 @@ int main (int argc, char const * argv [])
 		case 's':
 			break;
 		case 'S':
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, "%s", optarg);
 			}
-			if ((plc.CFG.file = open (plc.CFG.name = optarg, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc.CFG.file = open (plc.CFG.name = optarg, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", plc.CFG.name);
 			}
-			if (nvmfile (&plc.CFG)) 
+			if (nvmfile (&plc.CFG))
 			{
 				error (1, errno, "Bad NVM file: %s", plc.CFG.name);
 			}
@@ -634,29 +634,29 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (argc) 
+	if (argc)
 	{
 		error (1, ENOTSUP, ERROR_TOOMANY);
 	}
-	if (plc.NVM.file == -1) 
+	if (plc.NVM.file == -1)
 	{
 		error (1, ECANCELED, "No host NVM file named");
 	}
-	if (plc.PIB.file == -1) 
+	if (plc.PIB.file == -1)
 	{
 		error (1, ECANCELED, "No host PIB file named");
 	}
-	if (plc.nvm.file == -1) 
+	if (plc.nvm.file == -1)
 	{
 		error (1, ECANCELED, "No user NVM file named");
 	}
-	if (plc.pib.file == -1) 
+	if (plc.pib.file == -1)
 	{
 		error (1, ECANCELED, "No user PIB file named");
 	}
-	if (plc.CFG.file == -1) 
+	if (plc.CFG.file == -1)
 	{
-		if (_anyset (plc.flags, PLC_FLASH_DEVICE)) 
+		if (_anyset (plc.flags, PLC_FLASH_DEVICE))
 		{
 			error (1, ECANCELED, "No Softloader file named");
 		}
@@ -664,14 +664,14 @@ int main (int argc, char const * argv [])
 
 #ifndef WIN32
 
-	if (_anyset (plc.flags, PLC_DAEMON)) 
+	if (_anyset (plc.flags, PLC_DAEMON))
 	{
 		pid_t pid = fork ();
-		if (pid < 0) 
+		if (pid < 0)
 		{
 			error (1, errno, "Can't start daemon");
 		}
-		if (pid > 0) 
+		if (pid > 0)
 		{
 			exit (0);
 		}
@@ -687,7 +687,7 @@ int main (int argc, char const * argv [])
 #endif
 
 	openchannel (&channel);
-	if (!(plc.message = malloc (sizeof (* plc.message)))) 
+	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);
 	}

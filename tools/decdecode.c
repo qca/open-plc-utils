@@ -12,7 +12,7 @@
  *   allow three string characters for each memory byte; this means
  *   that the buffer must have at least three characters or nothing
  *   will be decoded; the maximum number of bytes is the lesser of
- *   chars/3 and bytes;; 
+ *   chars/3 and bytes;;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
@@ -26,25 +26,25 @@
 #include "../tools/memory.h"
 #include "../tools/number.h"
 
-size_t decdecode (void const * memory, register size_t extent, char buffer [], register size_t length) 
+size_t decdecode (void const * memory, register size_t extent, char buffer [], register size_t length)
 
 {
 	register char * string = (char *)(buffer);
 	register byte * offset = (byte *)(memory);
-	if (length) 
+	if (length)
 	{
 		length /= DEC_DIGITS + 1;
-		while ((length--) && (extent--)) 
+		while ((length--) && (extent--))
 		{
 			unsigned octet = *offset;
 			unsigned digit = DEC_DIGITS;
-			while (digit--) 
+			while (digit--)
 			{
 				string [digit] = '0' + octet % RADIX_DEC;
 				octet /= RADIX_DEC;
 			}
 			string += DEC_DIGITS;
-			if ((length) && (extent)) 
+			if ((length) && (extent))
 			{
 				*string++ = DEC_EXTENDER;
 			}

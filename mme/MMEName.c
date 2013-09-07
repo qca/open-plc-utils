@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -24,7 +24,7 @@
  *
  *   mme.h
  *
- *   Return HomePlug or Atheros Management Message name for a given 
+ *   Return HomePlug or Atheros Management Message name for a given
  *   MMTYPE; this function is not needed but it could be useful when
  *   developing and debugging applications;
  *
@@ -42,14 +42,14 @@
 
 #include "../mme/mme.h"
 
-static const struct mme_name 
+static const struct mme_name
 
 {
 	uint16_t type;
 	char const * name;
 }
 
-mme_names [] = 
+mme_names [] =
 
 {
 
@@ -549,22 +549,22 @@ mme_names [] =
 
 };
 
-char const * MMEName (uint16_t MMTYPE) 
+char const * MMEName (uint16_t MMTYPE)
 
 {
 	size_t lower = 0;
 	size_t upper = SIZEOF (mme_names);
 	MMTYPE &= MMTYPE_MASK;
-	while (lower < upper) 
+	while (lower < upper)
 	{
 		size_t index = (lower + upper) >> 1;
 		signed order = MMTYPE - mme_names [index].type;
-		if (order < 0) 
+		if (order < 0)
 		{
 			upper = index - 0;
 			continue;
 		}
-		if (order > 0) 
+		if (order > 0)
 		{
 			lower = index + 1;
 			continue;
@@ -585,16 +585,16 @@ char const * MMEName (uint16_t MMTYPE)
 #define COLS 4
 #define WIDTH 20
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	unsigned cols = COLS;
 	unsigned rows = ((SIZEOF (mme_names) + (COLS - 1)) / cols);
 	unsigned row = 0;
 	unsigned mme = 0;
-	for (row = 0; row < rows; row++) 
+	for (row = 0; row < rows; row++)
 	{
-		for (mme = row; mme < SIZEOF (mme_names); mme += rows) 
+		for (mme = row; mme < SIZEOF (mme_names); mme += rows)
 		{
 			printf ("%04X %-*.*s ", mme_names [mme].type, WIDTH, WIDTH, mme_names [mme].name);
 		}
@@ -613,11 +613,11 @@ int main (int argc, char const * argv [])
 #if 0
 #include <stdio.h>
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	unsigned mme = 0;
-	for (mme = 0; mme < SIZEOF (mme_names); mme++) 
+	for (mme = 0; mme < SIZEOF (mme_names); mme++)
 	{
 		printf ("{ %s, \"%s\" },",  mme_names [mme].name, mme_names [mme].name);
 //		printf ("0x%04X;%s;yes;yes;yes\n", mme_names [mme].type, mme_names [mme].name);
@@ -629,7 +629,7 @@ int main (int argc, char const * argv [])
 #endif
 
 /*====================================================================*
- * 
+ *
  *--------------------------------------------------------------------*/
 
 #endif

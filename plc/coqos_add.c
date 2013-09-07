@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -119,7 +119,7 @@
  *
  *--------------------------------------------------------------------*/
 
-static signed add_conn (struct plc * plc, struct connection * connection) 
+static signed add_conn (struct plc * plc, struct connection * connection)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -129,14 +129,14 @@ static signed add_conn (struct plc * plc, struct connection * connection)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_add_conn_req 
+	struct __packed vs_add_conn_req
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
 		struct connection connection;
 	}
 	* request = (struct vs_add_conn_req *)(message);
-	struct __packed vs_add_conn_cnf 
+	struct __packed vs_add_conn_cnf
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -165,14 +165,14 @@ static signed add_conn (struct plc * plc, struct connection * connection)
 	memcpy (&request->connection, connection, sizeof (struct connection));
 	memcpy (&request->connection.rule.CLASSIFIERS [request->connection.rule.NUM_CLASSIFIERS], &request->connection.cspec, sizeof (request->connection.cspec));
 	plc->packetsize = sizeof (struct vs_add_conn_req);
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	while (ReadMME (plc, 0, (VS_CONN_ADD | MMTYPE_CNF)) <= 0) 
+	while (ReadMME (plc, 0, (VS_CONN_ADD | MMTYPE_CNF)) <= 0)
 	{
-		if (confirm->MSTATUS) 
+		if (confirm->MSTATUS)
 		{
 			Failure (plc, "Device won't add connection");
 			return (-1);
@@ -184,17 +184,17 @@ static signed add_conn (struct plc * plc, struct connection * connection)
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv[]);
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"ei:qv",
 		"action priority destination rate ttl operand condition [...] [device] [...]\n\n          where condition is field operator value",
@@ -224,7 +224,7 @@ int main (int argc, char const * argv [])
 	uint8_t * byte;
 	signed code;
 	signed c;
-	if (getenv (PLCDEVICE)) 
+	if (getenv (PLCDEVICE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -239,9 +239,9 @@ int main (int argc, char const * argv [])
 
 	}
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'e':
 			dup2 (STDOUT_FILENO, STDERR_FILENO);
@@ -274,64 +274,64 @@ int main (int argc, char const * argv [])
 	argc -= optind;
 	argv += optind;
 	memset (&connection, 0, sizeof (connection));
-	if ((code = lookup (* argv++, actions, SIZEOF (actions))) == -1) 
+	if ((code = lookup (* argv++, actions, SIZEOF (actions))) == -1)
 	{
 		assist (*--argv, CLASSIFIER_ACTION_NAME, actions, SIZEOF (actions));
 	}
 	connection.cspec.CONN_CAP = (uint8_t)(code);
 	argc--;
-	if (!argc) 
+	if (!argc)
 	{
 		error (1, ECANCELED, "Expected Priority: 0-15");
 	}
 	connection.cspec.CONN_COQOS_PRIO = (uint8_t)(uintspec (* argv++, 0, 15));
 	argc--;
-	if (!argc) 
+	if (!argc)
 	{
 		error (1, ECANCELED, "Expected Destination MAC Address");
 	}
-	if (!hexencode (connection.APP_DA, sizeof (connection.APP_DA), synonym (* argv++, devices, SIZEOF (devices)))) 
+	if (!hexencode (connection.APP_DA, sizeof (connection.APP_DA), synonym (* argv++, devices, SIZEOF (devices))))
 	{
 		error (1, errno, "Invalid MAC=[%s]", *--argv);
 	}
 	argc--;
-	if (!argc) 
+	if (!argc)
 	{
 		error (1, ECANCELED, "Expected Data Rate: 10-9000 (kbps)");
 	}
 	connection.cspec.CONN_RATE = (uint16_t)(uintspec (* argv++, 1, 9000));
 	argc--;
-	if (!argc) 
+	if (!argc)
 	{
 		error (1, ECANCELED, "Expected TTL: 10000-2000000 (microseconds)");
 	}
 	connection.cspec.CONN_TTL = (uint32_t)(uintspec (* argv++, 10000, 2000000));
 	argc--;
-	if ((code = lookup (* argv++, operands, SIZEOF (operands))) == -1) 
+	if ((code = lookup (* argv++, operands, SIZEOF (operands))) == -1)
 	{
 		assist (*--argv, CLASSIFIER_OPERAND_NAME, operands, SIZEOF (operands));
 	}
 	connection.rule.MOPERAND = (uint8_t)(code);
 	argc--;
-	while ((* argv) && (lookup (* argv, controls, SIZEOF (controls)) == -1)) 
+	while ((* argv) && (lookup (* argv, controls, SIZEOF (controls)) == -1))
 	{
-		if ((code = lookup (* argv++, fields, SIZEOF (fields))) == -1) 
+		if ((code = lookup (* argv++, fields, SIZEOF (fields))) == -1)
 		{
 			assist (*--argv, CLASSIFIER_FIELD_NAME, fields, SIZEOF (fields));
 		}
 		rule->CR_PID = (uint8_t)(code);
 		argc--;
-		if ((code = lookup (* argv++, operators, SIZEOF (operators))) == -1) 
+		if ((code = lookup (* argv++, operators, SIZEOF (operators))) == -1)
 		{
 			assist (*--argv, CLASSIFIER_OPERATOR_NAME, operators, SIZEOF (operators));
 		}
 		rule->CR_OPERAND = (uint8_t)(code);
 		argc--;
-		if (!argc || !* argv) 
+		if (!argc || !* argv)
 		{
 			error (1, ENOTSUP, "Have %s '%s' without any value", CLASSIFIER_OPERATOR_NAME, *--argv);
 		}
-		switch (rule->CR_PID) 
+		switch (rule->CR_PID)
 		{
 		case FIELD_ETH_SA:
 		case FIELD_ETH_DA:
@@ -380,7 +380,7 @@ int main (int argc, char const * argv [])
 			break;
 		}
 		connection.rule.NUM_CLASSIFIERS++;
-		if (connection.rule.NUM_CLASSIFIERS > RULE_MAX_CLASSIFIERS) 
+		if (connection.rule.NUM_CLASSIFIERS > RULE_MAX_CLASSIFIERS)
 		{
 			error (1, ENOTSUP, "More than %d classifiers in rule", RULE_MAX_CLASSIFIERS);
 		}
@@ -389,17 +389,17 @@ int main (int argc, char const * argv [])
 	}
 	connection.cspec.CSPEC_VERSION = 0x0001;
 	openchannel (&channel);
-	if (!(plc.message = malloc (sizeof (* plc.message)))) 
+	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);
 	}
-	if (!argc) 
+	if (!argc)
 	{
 		add_conn (&plc, &connection);
 	}
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
-		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices)))) 
+		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices))))
 		{
 			error (1, errno, PLC_BAD_MAC, * argv);
 		}

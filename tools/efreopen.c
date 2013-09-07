@@ -23,10 +23,10 @@
 #include "../tools/files.h"
 #include "../tools/error.h"
 
-FILE *efreopen (char const *filename, char const *openmode, FILE *fp) 
+FILE *efreopen (char const *filename, char const *openmode, FILE *fp)
 
 {
-	if ((fp = freopen (filename, openmode, fp)) == (FILE *)(0)) 
+	if ((fp = freopen (filename, openmode, fp)) == (FILE *)(0))
 	{
 		error (0, errno, "%s", filename);
 	}

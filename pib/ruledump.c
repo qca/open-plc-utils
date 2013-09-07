@@ -1,25 +1,25 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2012 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *   
+ *
  *   void ruledump (struct rule * rule, FILE * fp);
  *
  *
@@ -30,8 +30,8 @@
 
 #include <stdio.h>
 
-#include "../tools/memory.h"    
-#include "../plc/rules.h"    
+#include "../tools/memory.h"
+#include "../plc/rules.h"
 
 /*====================================================================*
  *
@@ -40,7 +40,7 @@
  *
  *--------------------------------------------------------------------*/
 
-void cspec_dump (struct cspec * cspec) 
+void cspec_dump (struct cspec * cspec)
 
 {
 	printf ("cspec->CSPEC_VERSION=%d\n", LE16TOH (cspec->CSPEC_VERSION));
@@ -56,7 +56,7 @@ void cspec_dump (struct cspec * cspec)
  *
  *--------------------------------------------------------------------*/
 
-void MMEClassifierDump (struct MMEClassifier * classifier) 
+void MMEClassifierDump (struct MMEClassifier * classifier)
 
 {
 	char string [48];
@@ -75,7 +75,7 @@ void MMEClassifierDump (struct MMEClassifier * classifier)
  *
  *--------------------------------------------------------------------*/
 
-void PIBClassifierDump (struct PIBClassifier * classifier) 
+void PIBClassifierDump (struct PIBClassifier * classifier)
 
 {
 	char string [48];
@@ -94,7 +94,7 @@ void PIBClassifierDump (struct PIBClassifier * classifier)
  *
  *--------------------------------------------------------------------*/
 
-void MMERuleDump (struct MMERule * rule) 
+void MMERuleDump (struct MMERule * rule)
 
 {
 	unsigned count;
@@ -103,7 +103,7 @@ void MMERuleDump (struct MMERule * rule)
 	printf ("rule->MACTION=%d\n", rule->MACTION);
 	printf ("rule->MOPERAND=%d\n", rule->MOPERAND);
 	printf ("rule->NUM_CLASSIFIERS=%d\n", rule->NUM_CLASSIFIERS);
-	for (count = 0; count < rule->NUM_CLASSIFIERS; count++) 
+	for (count = 0; count < rule->NUM_CLASSIFIERS; count++)
 	{
 		MMEClassifierDump (&rule->CLASSIFIER [count]);
 	}
@@ -120,7 +120,7 @@ void MMERuleDump (struct MMERule * rule)
  *
  *--------------------------------------------------------------------*/
 
-void PIBRuleDump (struct PIBRule * rule) 
+void PIBRuleDump (struct PIBRule * rule)
 
 {
 	unsigned count;
@@ -129,7 +129,7 @@ void PIBRuleDump (struct PIBRule * rule)
 	printf ("rule->MACTION=%d\n", rule->MACTION);
 	printf ("rule->MOPERAND=%d\n", rule->MOPERAND);
 	printf ("rule->NUM_CLASSIFIERS=%d\n", LE32TOH (rule->NUM_CLASSIFIERS));
-	for (count = 0; count < LE32TOH (rule->NUM_CLASSIFIERS); count++) 
+	for (count = 0; count < LE32TOH (rule->NUM_CLASSIFIERS); count++)
 	{
 		PIBClassifierDump (&rule->CLASSIFIER [count]);
 	}
@@ -146,7 +146,7 @@ void PIBRuleDump (struct PIBRule * rule)
  *
  *--------------------------------------------------------------------*/
 
-void classifier_priority_map_dump (struct classifier_priority_map * classifier_priority_map) 
+void classifier_priority_map_dump (struct classifier_priority_map * classifier_priority_map)
 
 {
 	printf ("classifier_priority_map->Priority=%d\n", LE32TOH (classifier_priority_map->Priority));
@@ -162,14 +162,14 @@ void classifier_priority_map_dump (struct classifier_priority_map * classifier_p
  *
  *--------------------------------------------------------------------*/
 
-void auto_connection_dump (struct auto_connection * auto_connection) 
+void auto_connection_dump (struct auto_connection * auto_connection)
 
 {
 	unsigned count;
 	printf ("auto_connection->MACTION=%d\n", auto_connection->MACTION);
 	printf ("auto_connection->MOPERAND=%d\n", auto_connection->MOPERAND);
 	printf ("auto_connection->NUM_CLASSIFIERS=%d\n", LE16TOH (auto_connection->NUM_CLASSIFIERS));
-	for (count = 0; count < LE16TOH (auto_connection->NUM_CLASSIFIERS); count++) 
+	for (count = 0; count < LE16TOH (auto_connection->NUM_CLASSIFIERS); count++)
 	{
 		PIBClassifierDump (&auto_connection->CLASSIFIER [count]);
 	}
@@ -185,7 +185,7 @@ void auto_connection_dump (struct auto_connection * auto_connection)
  *
  *--------------------------------------------------------------------*/
 
-void PIBClassifiersDump (struct PIBClassifiers * classifiers) 
+void PIBClassifiersDump (struct PIBClassifiers * classifiers)
 
 {
 	unsigned count;
@@ -193,13 +193,13 @@ void PIBClassifiersDump (struct PIBClassifiers * classifiers)
 	printf ("classifiers->autoconn_count=%d\n", LE32TOH (classifiers->autoconn_count));
 	printf ("\n");
 	printf ("-------- PRIORITY MAPS --------\n\n");
-	for (count = 0; count < LE32TOH (classifiers->priority_count); count++) 
+	for (count = 0; count < LE32TOH (classifiers->priority_count); count++)
 	{
 		classifier_priority_map_dump (&classifiers->classifier_priority_map [count]);
 	}
 	printf ("\n");
 	printf ("-------- AUTO CONNECTIONS --------\n\n");
-	for (count = 0; count < LE32TOH (classifiers->autoconn_count); count++) 
+	for (count = 0; count < LE32TOH (classifiers->autoconn_count); count++)
 	{
 		auto_connection_dump (&classifiers->auto_connection [count]);
 	}

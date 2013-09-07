@@ -4,7 +4,7 @@
  *
  *   memory.h
  *
- *   increment a multi-byte memory region; start at 0x00 and reset 
+ *   increment a multi-byte memory region; start at 0x00 and reset
  *   at 0xFF; return -1 if all bytes are 0xFF;
  *
  *   for example,
@@ -23,13 +23,13 @@
 
 #include "../tools/memory.h"
 
-signed memincr (void * memory, register size_t extent) 
+signed memincr (void * memory, register size_t extent)
 
 {
 	register byte * offset = (byte *)(memory);
-	while (extent--) 
+	while (extent--)
 	{
-		if (++ offset [extent] != 0x00) 
+		if (++ offset [extent] != 0x00)
 		{
 			return (0);
 		}

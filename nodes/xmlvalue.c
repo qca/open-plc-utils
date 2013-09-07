@@ -20,16 +20,16 @@
 
 #include "../nodes/node.h"
 
-struct node const * xmlvalue (struct node const * node) 
+struct node const * xmlvalue (struct node const * node)
 
 {
-	if (node) 
+	if (node)
 	{
 		node = node->below;
 	}
-	while (node) 
+	while (node)
 	{
-		if (node->type == NODE_VALU) 
+		if (node->type == NODE_VALU)
 		{
 			break;
 		}

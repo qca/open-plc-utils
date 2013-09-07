@@ -4,12 +4,12 @@
  *
  *   memory.h
  *
- *   decode a memory region into a hexadecimal character buffer and 
+ *   decode a memory region into a hexadecimal character buffer and
  *   return the buffer address;
  *
  *   allow three string characters for each memory byte; this means
  *   that the buffer must hold at least three characters or nothing
- *   will be decoded; 
+ *   will be decoded;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
@@ -24,7 +24,7 @@
 
 #include "../tools/memory.h"
 
-char * hexstring (char buffer [], size_t length, void const * memory, size_t extent) 
+char * hexstring (char buffer [], size_t length, void const * memory, size_t extent)
 
 {
 	hexdecode (memory, extent, buffer, length);

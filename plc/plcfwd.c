@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -122,14 +122,14 @@
 /*
  *   this structure is only used in the VS_FORWARD_CONFIG message but
  *   it is common to several variations of the message and is used in
- *   arrays; 
+ *   arrays;
  */
 
 #ifndef __GNUC__
 #pragma pack (push,1)
 #endif
 
-typedef struct item 
+typedef struct item
 
 {
 	uint8_t MAC_ADDR [ETHER_ADDR_LEN];
@@ -149,7 +149,7 @@ item;
 
 #define STATES (sizeof (states) / sizeof (struct _term_))
 
-static const struct _term_ states [] = 
+static const struct _term_ states [] =
 
 {
 	{
@@ -175,7 +175,7 @@ static const struct _term_ states [] =
  *
  *   void readitem (struct item * item, char const * string);
  *
- *   encode a slave structure with infomation specified by a string 
+ *   encode a slave structure with infomation specified by a string
  *   specification has the following production:
  *
  *   <spec> := <mac_addr>
@@ -192,26 +192,26 @@ static const struct _term_ states [] =
  *
  *--------------------------------------------------------------------*/
 
-static void readitem (struct item * item, char const * string) 
+static void readitem (struct item * item, char const * string)
 
 {
 	register uint8_t * origin = (uint8_t *)(item->MAC_ADDR);
 	register uint8_t * offset = (uint8_t *)(item->MAC_ADDR);
 	size_t extent = sizeof (item->MAC_ADDR);
 	memset (item, 0, sizeof (* item));
-	while ((extent) && (*string)) 
+	while ((extent) && (*string))
 	{
 		unsigned radix = RADIX_HEX;
 		unsigned field = sizeof (uint8_t) + sizeof (uint8_t);
 		unsigned value = 0;
 		unsigned digit = 0;
-		if ((offset != origin) && (*string == HEX_EXTENDER)) 
+		if ((offset != origin) && (*string == HEX_EXTENDER))
 		{
 			string++;
 		}
-		while (field--) 
+		while (field--)
 		{
-			if ((digit = todigit (*string)) < radix) 
+			if ((digit = todigit (*string)) < radix)
 			{
 				value *= radix;
 				value += digit;
@@ -224,48 +224,48 @@ static void readitem (struct item * item, char const * string)
 		offset++;
 		extent--;
 	}
-	if (extent) 
+	if (extent)
 	{
 		error (1, EINVAL, "bad MAC address: ...[%s] (2)", string);
 	}
-	while (isspace (*string)) 
+	while (isspace (*string))
 	{
 		string++;
 	}
-	if ((*string) && (*string != ',')) 
+	if ((*string) && (*string != ','))
 	{
 		error (1, EINVAL, "bad MAC address: ...[%s] (3)", string);
 	}
-	while (*string == ',') 
+	while (*string == ',')
 	{
 		unsigned radix = RADIX_DEC;
 		unsigned digit = 0;
 		unsigned value = 0;
-		do 
+		do
 		{
 			string++;
 		}
 		while (isspace (*string));
-		while ((digit = todigit (*string)) < radix) 
+		while ((digit = todigit (*string)) < radix)
 		{
 			value *= radix;
 			value += digit;
 			string++;
 		}
-		while (isspace (*string)) 
+		while (isspace (*string))
 		{
 			string++;
 		}
-		if (item->NUM_VLANIDS < (sizeof (item->VLANID) / sizeof (uint16_t))) 
+		if (item->NUM_VLANIDS < (sizeof (item->VLANID) / sizeof (uint16_t)))
 		{
 			item->VLANID [item->NUM_VLANIDS++] = value;
 		}
 	}
-	while (isspace (*string)) 
+	while (isspace (*string))
 	{
 		string++;
 	}
-	if (*string) 
+	if (*string)
 	{
 		error (1, EINVAL, "bad VLAN ID: ...[%s]", string);
 	}
@@ -276,43 +276,43 @@ static void readitem (struct item * item, char const * string)
 /*====================================================================*
  *
  *   unsigned readlist (struct item list [], unsigned size);
- *   
- *   read one or more items from stdin; discard comments; assume one 
- *   item per line; permit multiple items on one line when separated 
+ *
+ *   read one or more items from stdin; discard comments; assume one
+ *   item per line; permit multiple items on one line when separated
  *   by semicolon; items cannot straddle lines; readitem () controls
  *   what consitutes one item;
- *   
+ *
  *--------------------------------------------------------------------*/
 
-static unsigned readlist (struct item list [], unsigned size) 
+static unsigned readlist (struct item list [], unsigned size)
 
 {
 	struct item * item = list;
 	char string [1024];
 	char * sp = string;
 	signed c;
-	for (c = getc (stdin); c != EOF; c = getc (stdin)) 
+	for (c = getc (stdin); c != EOF; c = getc (stdin))
 	{
-		if (isspace (c)) 
+		if (isspace (c))
 		{
 			continue;
 		}
-		if (c == '#') 
+		if (c == '#')
 		{
-			while ((c != '\n') && (c != EOF)) 
+			while ((c != '\n') && (c != EOF))
 			{
 				c = getc (stdin);
 			}
 			continue;
 		}
 		sp = string;
-		while ((c != ';') && (c != '\n') && (c != EOF)) 
+		while ((c != ';') && (c != '\n') && (c != EOF))
 		{
 			*sp++ = (char)(c);
 			c = getc (stdin);
 		}
 		*sp = (char)(0);
-		if (size) 
+		if (size)
 		{
 			readitem (item++, string);
 			size--;
@@ -323,26 +323,26 @@ static unsigned readlist (struct item list [], unsigned size)
 
 
 /*====================================================================*
- *   
- *   void showlist (struct item list [], unsigned items) 
- *   
+ *
+ *   void showlist (struct item list [], unsigned items)
+ *
  *   print item list on stdout in a format suitable for input using
  *   readlist (); this function may be commented out if it not used;
- *   
- *   
+ *
+ *
  *--------------------------------------------------------------------*/
 
 #if 0
 
-static void showlist (struct item list [], unsigned items) 
+static void showlist (struct item list [], unsigned items)
 
 {
-	while (items--) 
+	while (items--)
 	{
 		uint16_t fields = list->NUM_VLANIDS;
 		uint16_t * field = list->VLANID;
 		hexout (list->MAC_ADDR, sizeof (list->MAC_ADDR), 0, 0, stdout);
-		while (fields--) 
+		while (fields--)
 		{
 			printf (", %d", *field);
 			field++;
@@ -357,13 +357,13 @@ static void showlist (struct item list [], unsigned items)
 #endif
 
 /*====================================================================*
- *   
+ *
  *   signed ReadVLANIDs (struct plc * plc, uint32_t offset, uint32_t length);
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-static signed ReadVLANIDs (struct plc * plc, uint32_t offset, uint32_t length) 
+static signed ReadVLANIDs (struct plc * plc, uint32_t offset, uint32_t length)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -373,7 +373,7 @@ static signed ReadVLANIDs (struct plc * plc, uint32_t offset, uint32_t length)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_forward_config_request 
+	struct __packed vs_forward_config_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -386,7 +386,7 @@ static signed ReadVLANIDs (struct plc * plc, uint32_t offset, uint32_t length)
 		uint16_t RESERVED3;
 	}
 	* request = (struct vs_forward_config_request *) (message);
-	struct __packed vs_forward_config_confirm 
+	struct __packed vs_forward_config_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -413,14 +413,14 @@ static signed ReadVLANIDs (struct plc * plc, uint32_t offset, uint32_t length)
 	request->DATA_OFFSET = HTOLE32 (offset);
 	request->DATA_LENGTH = HTOLE32 (length);
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) > 0) 
+	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) > 0)
 	{
-		if (confirm->RESULTCODE) 
+		if (confirm->RESULTCODE)
 		{
 			Failure (plc, PLC_WONTDOIT);
 			continue;
@@ -432,13 +432,13 @@ static signed ReadVLANIDs (struct plc * plc, uint32_t offset, uint32_t length)
 
 
 /*====================================================================*
- *   
+ *
  *   signed AddVLANIDs (struct plc * plc, struct item list [], unsigned items);
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-static signed AddVLANIDs (struct plc * plc, struct item list [], unsigned items) 
+static signed AddVLANIDs (struct plc * plc, struct item list [], unsigned items)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -448,7 +448,7 @@ static signed AddVLANIDs (struct plc * plc, struct item list [], unsigned items)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_forward_config_request 
+	struct __packed vs_forward_config_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -460,7 +460,7 @@ static signed AddVLANIDs (struct plc * plc, struct item list [], unsigned items)
 		struct item LIST [1];
 	}
 	* request = (struct vs_forward_config_request *) (message);
-	struct __packed vs_forward_config_confirm 
+	struct __packed vs_forward_config_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -483,12 +483,12 @@ static signed AddVLANIDs (struct plc * plc, struct item list [], unsigned items)
 	request->MREQUEST = PLCFWD_ADD;
 	request->MVERSION = PLCFWD_VER;
 	request->ITEMS = HTOLE16 (items);
-	while (items--) 
+	while (items--)
 	{
 		unsigned count;
 		memcpy (item->MAC_ADDR, list->MAC_ADDR, sizeof (item->MAC_ADDR));
 		item->NUM_VLANIDS = HTOLE16 (list->NUM_VLANIDS);
-		for (count = 0; count < list->NUM_VLANIDS; count++) 
+		for (count = 0; count < list->NUM_VLANIDS; count++)
 		{
 			item->VLANID [count] = HTOLE16 (list->VLANID [count]);
 		}
@@ -499,14 +499,14 @@ static signed AddVLANIDs (struct plc * plc, struct item list [], unsigned items)
 		list++;
 	}
 	plc->packetsize = (signed)((uint8_t *)(item) - (uint8_t *)(request));
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) > 0) 
+	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) > 0)
 	{
-		if (confirm->RESULTCODE) 
+		if (confirm->RESULTCODE)
 		{
 			Failure (plc, PLC_WONTDOIT);
 			continue;
@@ -517,13 +517,13 @@ static signed AddVLANIDs (struct plc * plc, struct item list [], unsigned items)
 
 
 /*====================================================================*
- *   
+ *
  *   signed RemoveVLANIDs (struct plc * plc, struct item list [], unsigned items);
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-static signed RemoveVLANIDs (struct plc * plc, struct item list [], unsigned items) 
+static signed RemoveVLANIDs (struct plc * plc, struct item list [], unsigned items)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -533,7 +533,7 @@ static signed RemoveVLANIDs (struct plc * plc, struct item list [], unsigned ite
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_forward_config_request 
+	struct __packed vs_forward_config_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -545,7 +545,7 @@ static signed RemoveVLANIDs (struct plc * plc, struct item list [], unsigned ite
 		struct item LIST [1];
 	}
 	* request = (struct vs_forward_config_request *) (message);
-	struct __packed vs_forward_config_confirm 
+	struct __packed vs_forward_config_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -568,12 +568,12 @@ static signed RemoveVLANIDs (struct plc * plc, struct item list [], unsigned ite
 	request->MREQUEST = PLCFWD_REM;
 	request->MVERSION = PLCFWD_VER;
 	request->ITEMS = HTOLE16 (items);
-	while (items--) 
+	while (items--)
 	{
 		unsigned count;
 		memcpy (item->MAC_ADDR, list->MAC_ADDR, sizeof (item->MAC_ADDR));
 		item->NUM_VLANIDS = HTOLE16 (list->NUM_VLANIDS);
-		for (count = 0; count < list->NUM_VLANIDS; count++) 
+		for (count = 0; count < list->NUM_VLANIDS; count++)
 		{
 			item->VLANID [count] = HTOLE16 (list->VLANID [count]);
 		}
@@ -584,14 +584,14 @@ static signed RemoveVLANIDs (struct plc * plc, struct item list [], unsigned ite
 		list++;
 	}
 	plc->packetsize = (signed)((uint8_t *)(item) - (uint8_t *)(request));
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) > 0) 
+	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) > 0)
 	{
-		if (confirm->RESULTCODE) 
+		if (confirm->RESULTCODE)
 		{
 			Failure (plc, PLC_WONTDOIT);
 			continue;
@@ -602,13 +602,13 @@ static signed RemoveVLANIDs (struct plc * plc, struct item list [], unsigned ite
 
 
 /*====================================================================*
- *   
+ *
  *   signed CommitVLANIDs (struct plc * plc);
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-static signed CommitVLANIDs (struct plc * plc) 
+static signed CommitVLANIDs (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -618,7 +618,7 @@ static signed CommitVLANIDs (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_forward_config_request 
+	struct __packed vs_forward_config_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -628,7 +628,7 @@ static signed CommitVLANIDs (struct plc * plc)
 		uint32_t RESERVED2;
 	}
 	* request = (struct vs_forward_config_request *) (message);
-	struct __packed vs_forward_config_confirm 
+	struct __packed vs_forward_config_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -650,14 +650,14 @@ static signed CommitVLANIDs (struct plc * plc)
 	request->MREQUEST = PLCFWD_STO;
 	request->MVERSION = PLCFWD_VER;
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) > 0) 
+	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) > 0)
 	{
-		if (confirm->RESULTCODE) 
+		if (confirm->RESULTCODE)
 		{
 			Failure (plc, PLC_WONTDOIT);
 			continue;
@@ -668,13 +668,13 @@ static signed CommitVLANIDs (struct plc * plc)
 
 
 /*====================================================================*
- *   
+ *
  *   signed ControlVLANIDs (struct plc * plc);
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-static signed ControlVLANIDs (struct plc * plc) 
+static signed ControlVLANIDs (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -684,7 +684,7 @@ static signed ControlVLANIDs (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_forward_config_request 
+	struct __packed vs_forward_config_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -697,7 +697,7 @@ static signed ControlVLANIDs (struct plc * plc)
 		uint8_t RESERVED3;
 	}
 	* request = (struct vs_forward_config_request *) (message);
-	struct __packed vs_forward_config_confirm 
+	struct __packed vs_forward_config_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -721,14 +721,14 @@ static signed ControlVLANIDs (struct plc * plc)
 	request->ENABLE = plc->module;
 	request->UPSTREAMCHECK = plc->pushbutton;
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) > 0) 
+	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) > 0)
 	{
-		if (confirm->RESULTCODE) 
+		if (confirm->RESULTCODE)
 		{
 			Failure (plc, PLC_WONTDOIT);
 			continue;
@@ -739,13 +739,13 @@ static signed ControlVLANIDs (struct plc * plc)
 
 
 /*====================================================================*
- *   
+ *
  *   signed DefaultVLANIDs (struct plc * plc);
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-static signed DefaultVLANIDs (struct plc * plc, struct item list [], unsigned items) 
+static signed DefaultVLANIDs (struct plc * plc, struct item list [], unsigned items)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -755,7 +755,7 @@ static signed DefaultVLANIDs (struct plc * plc, struct item list [], unsigned it
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_forward_config_request 
+	struct __packed vs_forward_config_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -767,7 +767,7 @@ static signed DefaultVLANIDs (struct plc * plc, struct item list [], unsigned it
 		uint16_t RESERVED3;
 	}
 	* request = (struct vs_forward_config_request *) (message);
-	struct __packed vs_forward_config_confirm 
+	struct __packed vs_forward_config_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -790,14 +790,14 @@ static signed DefaultVLANIDs (struct plc * plc, struct item list [], unsigned it
 	request->MVERSION = PLCFWD_VER;
 	request->VLANID = HTOLE16 (list [0].VLANID [0]);
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) > 0) 
+	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) > 0)
 	{
-		if (confirm->RESULTCODE) 
+		if (confirm->RESULTCODE)
 		{
 			Failure (plc, PLC_WONTDOIT);
 			continue;
@@ -808,13 +808,13 @@ static signed DefaultVLANIDs (struct plc * plc, struct item list [], unsigned it
 
 
 /*====================================================================*
- *   
+ *
  *   signed ForwardVLANIDs (struct plc * plc);
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-static signed ForwardVLANIDs (struct plc * plc) 
+static signed ForwardVLANIDs (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -824,7 +824,7 @@ static signed ForwardVLANIDs (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_forward_config_request 
+	struct __packed vs_forward_config_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -838,7 +838,7 @@ static signed ForwardVLANIDs (struct plc * plc)
 		struct item ITEM;
 	}
 	* request = (struct vs_forward_config_request *) (message);
-	struct __packed vs_forward_config_confirm 
+	struct __packed vs_forward_config_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -860,14 +860,14 @@ static signed ForwardVLANIDs (struct plc * plc)
 	request->MREQUEST = PLCFWD_FWD;
 	request->MVERSION = PLCFWD_VER;
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) > 0) 
+	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) > 0)
 	{
-		if (confirm->RESULTCODE) 
+		if (confirm->RESULTCODE)
 		{
 			Failure (plc, PLC_WONTDOIT);
 			continue;
@@ -881,47 +881,47 @@ static signed ForwardVLANIDs (struct plc * plc)
  *
  *   void function (struct plc * plc, struct item list [], unsigned items);
  *
- *   perform the VLANID action specified by the action member 
+ *   perform the VLANID action specified by the action member
  *   in struct plc as set in the main program; only one action
  *   is performed;
  *
  *
  *--------------------------------------------------------------------*/
 
-static void function (struct plc * plc, uint32_t offset, uint32_t length, struct item * list, unsigned items) 
+static void function (struct plc * plc, uint32_t offset, uint32_t length, struct item * list, unsigned items)
 
 {
-	if (plc->action == PLCFWD_GET) 
+	if (plc->action == PLCFWD_GET)
 	{
 		ReadVLANIDs (plc, offset, length);
 		return;
 	}
-	if (plc->action == PLCFWD_ADD) 
+	if (plc->action == PLCFWD_ADD)
 	{
 		AddVLANIDs (plc, list, items);
 		return;
 	}
-	if (plc->action == PLCFWD_REM) 
+	if (plc->action == PLCFWD_REM)
 	{
 		RemoveVLANIDs (plc, list, items);
 		return;
 	}
-	if (plc->action == PLCFWD_STO) 
+	if (plc->action == PLCFWD_STO)
 	{
 		CommitVLANIDs (plc);
 		return;
 	}
-	if (plc->action == PLCFWD_CTL) 
+	if (plc->action == PLCFWD_CTL)
 	{
 		ControlVLANIDs (plc);
 		return;
 	}
-	if (plc->action == PLCFWD_SET) 
+	if (plc->action == PLCFWD_SET)
 	{
 		DefaultVLANIDs (plc, list, items);
 		return;
 	}
-	if (plc->action == PLCFWD_FWD) 
+	if (plc->action == PLCFWD_FWD)
 	{
 		ForwardVLANIDs (plc);
 		return;
@@ -931,17 +931,17 @@ static void function (struct plc * plc, uint32_t offset, uint32_t length, struct
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv[]);
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"ACD:ef:i:l:M:o:qRS:t:vxz:",
 		"device [device] [...] [> stdout]",
@@ -984,14 +984,14 @@ int main (int argc, char const * argv [])
 	uint32_t length = 0;
 	signed c;
 	memset (&list, 0, sizeof (list));
-	if (getenv (PLCDEVICE)) 
+	if (getenv (PLCDEVICE))
 	{
 		channel.ifname = strdup (getenv (PLCDEVICE));
 	}
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'A':
 			plc.action = PLCFWD_ADD;
@@ -1007,7 +1007,7 @@ int main (int argc, char const * argv [])
 			dup2 (STDOUT_FILENO, STDERR_FILENO);
 			break;
 		case 'f':
-			if (!freopen (optarg, "rb", stdin)) 
+			if (!freopen (optarg, "rb", stdin))
 			{
 				error (1, errno, "%s", optarg);
 			}
@@ -1074,17 +1074,17 @@ int main (int argc, char const * argv [])
 #endif
 
 	openchannel (&channel);
-	if (!(plc.message = malloc (sizeof (* plc.message)))) 
+	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);
 	}
-	if (!argc) 
+	if (!argc)
 	{
 		function (&plc, offset, length, list, items);
 	}
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
-		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices)))) 
+		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices))))
 		{
 			error (1, errno, PLC_BAD_MAC, * argv);
 		}

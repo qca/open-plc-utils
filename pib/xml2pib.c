@@ -1,26 +1,26 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*"
  *
- *   xml2pib.c - 
+ *   xml2pib.c -
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
@@ -97,7 +97,7 @@
  *
  *--------------------------------------------------------------------*/
 
-static signed pibedit1 (struct node const * node, void * memory, size_t extent) 
+static signed pibedit1 (struct node const * node, void * memory, size_t extent)
 
 {
 	struct simple_pib * simple_pib = (struct simple_pib *)(memory);
@@ -117,13 +117,13 @@ static signed pibedit1 (struct node const * node, void * memory, size_t extent)
  *
  *   this implementation reads the parameter block from file into
  *   into memory and checks it there;
- *   
+ *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-static signed pibedit2 (char const * filename, struct node const * node, char * memory, size_t extent) 
+static signed pibedit2 (char const * filename, struct node const * node, char * memory, size_t extent)
 
 {
 	struct nvm_header2 * nvm_header;
@@ -131,22 +131,22 @@ static signed pibedit2 (char const * filename, struct node const * node, char * 
 	uint32_t offset = 0;
 	unsigned length = 0;
 	unsigned module = 0;
-	do 
+	do
 	{
 		nvm_header = (struct nvm_header2 *)(memory + offset);
-		if (LE16TOH (nvm_header->MajorVersion) != 1) 
+		if (LE16TOH (nvm_header->MajorVersion) != 1)
 		{
 			error (1, 0, NVM_HDR_VERSION, filename, module);
 		}
-		if (LE16TOH (nvm_header->MinorVersion) != 1) 
+		if (LE16TOH (nvm_header->MinorVersion) != 1)
 		{
 			error (1, 0, NVM_HDR_VERSION, filename, module);
 		}
-		if (LE32TOH (nvm_header->PrevHeader) != origin) 
+		if (LE32TOH (nvm_header->PrevHeader) != origin)
 		{
 			error (1, 0, NVM_HDR_LINK, filename, module);
 		}
-		if (checksum32 (nvm_header, sizeof (* nvm_header), 0)) 
+		if (checksum32 (nvm_header, sizeof (* nvm_header), 0))
 		{
 			error (1, 0, NVM_HDR_CHECKSUM, filename, module);
 		}
@@ -154,11 +154,11 @@ static signed pibedit2 (char const * filename, struct node const * node, char * 
 		offset += sizeof (* nvm_header);
 		extent -= sizeof (* nvm_header);
 		length = LE32TOH (nvm_header->ImageLength);
-		if (checksum32 (memory + offset, length, nvm_header->ImageChecksum)) 
+		if (checksum32 (memory + offset, length, nvm_header->ImageChecksum))
 		{
 			error (1, 0, NVM_IMG_CHECKSUM, filename, module);
 		}
-		if (LE32TOH (nvm_header->ImageType) == NVM_IMAGE_PIB) 
+		if (LE32TOH (nvm_header->ImageType) == NVM_IMAGE_PIB)
 		{
 			xmledit (node, memory + offset, length);
 			nvm_header->ImageChecksum = checksum32 (memory + offset, length, 0);
@@ -178,56 +178,56 @@ static signed pibedit2 (char const * filename, struct node const * node, char * 
  *
  *   signed function (char const * filename);
  *
- *   determine the type of file and call appropriate functions;            
- *   
+ *   determine the type of file and call appropriate functions;
+ *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-static signed function (char const * filename, struct node const * node) 
+static signed function (char const * filename, struct node const * node)
 
 {
 	char * memory = 0;
 	signed extent = 0;
 	signed fd;
-	if ((fd = open (filename, O_BINARY | O_RDWR)) == -1) 
+	if ((fd = open (filename, O_BINARY | O_RDWR)) == -1)
 	{
 		error (1, errno, FILE_CANTOPEN, filename);
 	}
-	if ((extent = lseek (fd, 0, SEEK_END)) == -1) 
+	if ((extent = lseek (fd, 0, SEEK_END)) == -1)
 	{
 		error (1, errno, FILE_CANTSIZE, filename);
 	}
-	if (!(memory = (char *)(malloc (extent)))) 
+	if (!(memory = (char *)(malloc (extent))))
 	{
 		error (1, errno, FILE_CANTLOAD, filename);
 	}
-	if (lseek (fd, 0, SEEK_SET)) 
+	if (lseek (fd, 0, SEEK_SET))
 	{
 		error (1, errno, FILE_CANTHOME, filename);
 	}
-	if (read (fd, memory, extent) != extent) 
+	if (read (fd, memory, extent) != extent)
 	{
 		error (1, errno, FILE_CANTREAD, filename);
 	}
-	if (LE32TOH (* (uint32_t *)(memory)) == 0x60000000) 
+	if (LE32TOH (* (uint32_t *)(memory)) == 0x60000000)
 	{
 		error (1, 0, FILE_WONTREAD, filename);
 	}
-	if (LE32TOH (* (uint32_t *)(memory)) == 0x00010001) 
+	if (LE32TOH (* (uint32_t *)(memory)) == 0x00010001)
 	{
 		pibedit2 (filename, node, memory, extent);
 	}
-	else 
+	else
 	{
 		pibedit1 (node, memory, extent);
 	}
-	if (lseek (fd, 0, SEEK_SET)) 
+	if (lseek (fd, 0, SEEK_SET))
 	{
 		error (1, errno, FILE_CANTHOME, filename);
 	}
-	if (write (fd, memory, extent) != extent) 
+	if (write (fd, memory, extent) != extent)
 	{
 		error (1, errno, FILE_CANTSAVE, filename);
 	}
@@ -237,19 +237,19 @@ static signed function (char const * filename, struct node const * node)
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv []);
  *
- *   
+ *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"f:qv",
 		"pib-file [pib-file] [...]",
@@ -263,9 +263,9 @@ int main (int argc, char const * argv [])
 	flag_t flags = (flag_t)(0);
 	signed c;
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'f':
 			node = xmlopen (optarg);
@@ -285,13 +285,13 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
 		function (* argv, node);
 		argc--;
 		argv++;
 	}
-	if (_anyset (flags, PIB_VERBOSE)) 
+	if (_anyset (flags, PIB_VERBOSE))
 	{
 		xmltree (node);
 	}

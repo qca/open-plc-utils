@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -24,10 +24,10 @@
  *
  *   plc.h
  *
- *   instruct one powerline device to send trash frames to another 
- *   for a given period (in seconds) to establish source device RX 
+ *   instruct one powerline device to send trash frames to another
+ *   for a given period (in seconds) to establish source device RX
  *   PHY rate and target device TX PHY rate; this does not work if
- *   the source device is also the local device, for some reason; 
+ *   the source device is also the local device, for some reason;
  *
  *
  *   Contributor(s):
@@ -45,7 +45,7 @@
 #include "../tools/flags.h"
 #include "../plc/plc.h"
 
-signed Antiphon (struct plc * plc, byte source [], byte target []) 
+signed Antiphon (struct plc * plc, byte source [], byte target [])
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -55,7 +55,7 @@ signed Antiphon (struct plc * plc, byte source [], byte target [])
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_fr_lbk_request 
+	struct __packed vs_fr_lbk_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -70,7 +70,7 @@ signed Antiphon (struct plc * plc, byte source [], byte target [])
 #pragma pack (pop)
 #endif
 
-	if (_allclr (plc->flags, PLC_SILENCE)) 
+	if (_allclr (plc->flags, PLC_SILENCE))
 	{
 		char sourcename [ETHER_ADDR_LEN * 3];
 		char targetname [ETHER_ADDR_LEN * 3];
@@ -86,7 +86,7 @@ signed Antiphon (struct plc * plc, byte source [], byte target [])
 	memset (request->PACKET, 0xA5, sizeof (request->PACKET));
 	EthernetHeader (request->PACKET, target, source, ETHERTYPE_IP);
 	plc->packetsize = sizeof (* request);
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error (1, errno, CHANNEL_CANTSEND);
 	}
@@ -100,7 +100,7 @@ signed Antiphon (struct plc * plc, byte source [], byte target [])
  *	traffic;
  */
 
-	if (ReadMME (plc, 0, 41037) <= 0) 
+	if (ReadMME (plc, 0, 41037) <= 0)
 	{
 		error (1, errno, CHANNEL_CANTREAD);
 	}

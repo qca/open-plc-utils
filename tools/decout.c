@@ -4,9 +4,9 @@
  *
  *   memory.h
  *
- *   print a memory region as a series of decimal octets separated  
- *   by character c; normally, c will be DEC_EXTENDER as defined in 
- *   number.h; 
+ *   print a memory region as a series of decimal octets separated
+ *   by character c; normally, c will be DEC_EXTENDER as defined in
+ *   number.h;
  *
  *   for example, decout (memory, 4, '.', stdout) would print
  *
@@ -27,25 +27,25 @@
 #include "../tools/memory.h"
 #include "../tools/number.h"
 
-void decout (void const * memory, size_t extent, char c, char e, FILE * fp) 
+void decout (void const * memory, size_t extent, char c, char e, FILE * fp)
 
 {
 	byte * offset = (byte *)(memory);
-	while (extent--) 
+	while (extent--)
 	{
 		unsigned order = 100;
-		while (order) 
+		while (order)
 		{
 			putc (DIGITS_DEC [(* offset / order) % RADIX_DEC], fp);
 			order /= RADIX_DEC;
 		}
-		if ((extent) && (c)) 
+		if ((extent) && (c))
 		{
 			putc (c, fp);
 		}
 		offset++;
 	}
-	if (e) 
+	if (e)
 	{
 		putc (e, fp);
 	}

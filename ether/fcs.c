@@ -25,7 +25,7 @@
  * variables;
  *--------------------------------------------------------------------*/
 
-static uint32_t CRCTable [256] = 
+static uint32_t CRCTable [256] =
 
 {
 	0x00000000,
@@ -301,14 +301,14 @@ static uint32_t CRCTable [256] =
 
 #if 0
 
-static uint32_t ReflectBits (uint32_t value, uint32_t bits) 
+static uint32_t ReflectBits (uint32_t value, uint32_t bits)
 
 {
 	uint32_t image = 0;
 	uint32_t bit;
-	for (bit = 0; bit < bits; bit++) 
+	for (bit = 0; bit < bits; bit++)
 	{
-		if (value & 1) 
+		if (value & 1)
 		{
 			image |= 1 << (bits - bit - 1);
 		}
@@ -335,16 +335,16 @@ static uint32_t ReflectBits (uint32_t value, uint32_t bits)
 
 #if 0
 
-static void InitCRCTable (uint32_t CRCTable []) 
+static void InitCRCTable (uint32_t CRCTable [])
 
 {
 	extern uint32_t CRCTable [];
 	uint32_t word;
 	uint32_t bit;
-	for (word = 0; word < 256; word++) 
+	for (word = 0; word < 256; word++)
 	{
 		uint32_t crc = ReflectBits (word, 8) << 24;
-		for (bit = 0; bit < 8; bit++) 
+		for (bit = 0; bit < 8; bit++)
 		{
 			crc = (crc << 1) ^ ((crc & 0x80000000)? 0x04c11db7: 0);
 		}
@@ -368,12 +368,12 @@ static void InitCRCTable (uint32_t CRCTable [])
  *
  *--------------------------------------------------------------------*/
 
-uint32_t ComputeCRC (uint8_t buffer [], uint32_t length) 
+uint32_t ComputeCRC (uint8_t buffer [], uint32_t length)
 
 {
 	extern uint32_t CRCTable [];
 	uint32_t crc = ~0;
-	while (length--) 
+	while (length--)
 	{
 		crc = (crc >> 8) ^ CRCTable [(crc & 0xff) ^ *buffer++];
 	}
@@ -386,14 +386,14 @@ uint32_t ComputeCRC (uint8_t buffer [], uint32_t length)
  *   int VerifyCRC (uint8_t buffer [], uint32_t length, uint32_t crc);
  *
  *
- * 
+ *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 
-int VerifyCRC (uint8_t buffer [], uint32_t length, uint32_t crc) 
+int VerifyCRC (uint8_t buffer [], uint32_t length, uint32_t crc)
 
 {
 	return (crc = ComputeCRC (buffer, length));
@@ -402,9 +402,9 @@ int VerifyCRC (uint8_t buffer [], uint32_t length, uint32_t crc)
 
 /*====================================================================*
  *
- *   int main (int argc, const char * argv []) 
- *   
- *   
+ *   int main (int argc, const char * argv [])
+ *
+ *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
@@ -414,7 +414,7 @@ int VerifyCRC (uint8_t buffer [], uint32_t length, uint32_t crc)
 #if 0
 #include <stdio.h>
 
-static uint8_t frame [192]= 
+static uint8_t frame [192]=
 
 {
 	0x00,
@@ -611,12 +611,12 @@ static uint8_t frame [192]=
 	0x00
 };
 
-int main (int argc, const char * argv []) 
+int main (int argc, const char * argv [])
 
 {
 	uint32_t size = sizeof (frame);
 	uint32_t word;
-	uint8_t blah [] = 
+	uint8_t blah [] =
 	{
 		0x00,
 		0xB0,
@@ -640,7 +640,7 @@ int main (int argc, const char * argv [])
 		0x52,
 		0x02
 	};
-	while (size > 160) 
+	while (size > 160)
 	{
 		word = ComputeCRC (frame, size);
 		printf ("%d %08X\n", size, word);

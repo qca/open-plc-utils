@@ -1,30 +1,30 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *   
+ *
  *   signed LinkStatistics (struct plc * plc);
- *   
+ *
  *   plc.h
- * 
- *   this plugin for plcstat reads device link statistics using a 
+ *
+ *   this plugin for plcstat reads device link statistics using a
  *   VS_LNK_STATS message and displays information on stdout; since
  *   the output may not suite all requirements, users are encouraged
  *   to modify as needed; there is way too much data displayed here;
@@ -64,7 +64,7 @@
 #pragma pack (push,1)
 #endif
 
-typedef struct __packed transmit 
+typedef struct __packed transmit
 
 {
 	uint64_t NUMTXMPDU_ACKD;
@@ -75,7 +75,7 @@ typedef struct __packed transmit
 }
 
 transmit;
-typedef struct __packed receive 
+typedef struct __packed receive
 
 {
 	uint64_t NUMRXMPDU_ACKD;
@@ -89,7 +89,7 @@ typedef struct __packed receive
 }
 
 receive;
-typedef struct __packed interval 
+typedef struct __packed interval
 
 {
 	uint8_t RXPHYRATE_MBPS_0;
@@ -114,10 +114,10 @@ interval;
  *
  *--------------------------------------------------------------------*/
 
-static float error_rate (uint64_t passed, uint64_t failed) 
+static float error_rate (uint64_t passed, uint64_t failed)
 
 {
-	if ((passed) || (failed)) 
+	if ((passed) || (failed))
 	{
 		return ((float)(failed * 100) / (float)(passed + failed));
 	}
@@ -134,11 +134,11 @@ static float error_rate (uint64_t passed, uint64_t failed)
  *
  *--------------------------------------------------------------------*/
 
-static float fec_bit_error_rate (struct receive * receive) 
+static float fec_bit_error_rate (struct receive * receive)
 
 {
 	float FECBitErrorRate = 0;
-	if (receive->SUMTURBOBER_PASS || receive->SUMTURBOBER_FAIL) 
+	if (receive->SUMTURBOBER_PASS || receive->SUMTURBOBER_FAIL)
 	{
 		float TotalSumOfBitError = 100 * (float)(receive->SUMTURBOBER_PASS + receive->SUMTURBOBER_FAIL);
 		float TotalSumOfBits = 8 * 520 * (float)(receive->NUMRXPBS_PASS + receive->NUMRXPBS_FAIL);
@@ -156,7 +156,7 @@ static float fec_bit_error_rate (struct receive * receive)
  *
  *--------------------------------------------------------------------*/
 
-static void TransmitStatistics (struct transmit * transmit) 
+static void TransmitStatistics (struct transmit * transmit)
 
 {
 	printf ("    TX");
@@ -180,7 +180,7 @@ static void TransmitStatistics (struct transmit * transmit)
  *
  *--------------------------------------------------------------------*/
 
-static void ReceiveStatistics (struct receive * receive) 
+static void ReceiveStatistics (struct receive * receive)
 
 {
 	printf ("    RX");
@@ -204,12 +204,12 @@ static void ReceiveStatistics (struct receive * receive)
  *
  *--------------------------------------------------------------------*/
 
-static void Receive2 (struct receive * receive) 
+static void Receive2 (struct receive * receive)
 
 {
 	struct interval * interval = (struct interval *)(receive->RXINTERVALSTATS);
 	uint8_t slot = 0;
-	while (slot < receive->NUMRXINTERVALS) 
+	while (slot < receive->NUMRXINTERVALS)
 	{
 		printf (" %1d", slot);
 		printf (" %3d", interval->RXPHYRATE_MBPS_0);
@@ -243,7 +243,7 @@ static void Receive2 (struct receive * receive)
  *
  *--------------------------------------------------------------------*/
 
-signed LinkStatistics (struct plc * plc) 
+signed LinkStatistics (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -253,7 +253,7 @@ signed LinkStatistics (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_lnk_stats_request 
+	struct __packed vs_lnk_stats_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -263,7 +263,7 @@ signed LinkStatistics (struct plc * plc)
 		uint8_t MACADDRESS [ETHER_ADDR_LEN];
 	}
 	* request = (struct vs_lnk_stats_request *) (message);
-	struct __packed vs_lnk_stats_confirm 
+	struct __packed vs_lnk_stats_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -287,22 +287,22 @@ signed LinkStatistics (struct plc * plc)
 	request->DIRECTION = plc->module;
 	request->LID = plc->action;
 	memcpy (request->MACADDRESS, plc->RDA, sizeof (request->MACADDRESS));
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	if (ReadMME (plc, 0, (VS_LNK_STATS | MMTYPE_CNF)) <= 0) 
+	if (ReadMME (plc, 0, (VS_LNK_STATS | MMTYPE_CNF)) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 		return (-1);
 	}
-	if (confirm->MSTATUS) 
+	if (confirm->MSTATUS)
 	{
 		Failure (plc, PLC_WONTDOIT);
 		return (-1);
 	}
-	if (confirm->DIRECTION == 0) 
+	if (confirm->DIRECTION == 0)
 	{
 		printf ("   DIR");
 		printf (" ----------- PBs PASS");
@@ -314,7 +314,7 @@ signed LinkStatistics (struct plc * plc)
 		TransmitStatistics ((struct transmit *)(confirm->LSTATS));
 		printf ("\n");
 	}
-	if (confirm->DIRECTION == 1) 
+	if (confirm->DIRECTION == 1)
 	{
 		printf ("   DIR");
 		printf (" ----------- PBs PASS");
@@ -336,7 +336,7 @@ signed LinkStatistics (struct plc * plc)
 		Receive2 ((struct receive *)(confirm->LSTATS));
 		printf ("\n");
 	}
-	if (confirm->DIRECTION == 2) 
+	if (confirm->DIRECTION == 2)
 	{
 		printf ("   DIR");
 		printf (" ----------- PBs PASS");

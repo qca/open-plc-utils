@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -24,7 +24,7 @@
  *
  *   convert hexadecimal text files to ethernet frames and transmit
  *   them over the network; basically, it is a 'send your own frame'
- *   utility; 
+ *   utility;
  *
  *   the program works like cat, sending file after file to a given
  *   interface; as each file is read, all hexadecimal octets in the
@@ -103,7 +103,7 @@
  *   program variables;
  *--------------------------------------------------------------------*/
 
-static const struct _term_ protocols [] = 
+static const struct _term_ protocols [] =
 
 {
 	{
@@ -118,41 +118,41 @@ static const struct _term_ protocols [] =
 
 
 /*====================================================================*
- *   
+ *
  *   void function (struct channel * channel, void * memory, ssize_t extent);
  *
- *   read Ethernet frame descriptions from stdin and transmit them 
+ *   read Ethernet frame descriptions from stdin and transmit them
  *   as raw ethernet frames; wait for a response if CHANNEL_LISTEN
  *   flagword bit is set;
  *
  *
  *--------------------------------------------------------------------*/
 
-static void function (struct channel * channel, void * memory, ssize_t extent) 
+static void function (struct channel * channel, void * memory, ssize_t extent)
 
 {
 	struct ether_header * frame = (struct ether_header *)(memory);
 	unsigned length;
-	while ((length = (unsigned)(hexload (memory, extent, stdin))) > 0) 
+	while ((length = (unsigned)(hexload (memory, extent, stdin))) > 0)
 	{
-		if (length < (ETHER_MIN_LEN - ETHER_CRC_LEN)) 
+		if (length < (ETHER_MIN_LEN - ETHER_CRC_LEN))
 		{
 			error (1, ENOTSUP, "Frame size of %d is less than %d bytes", length, (ETHER_MIN_LEN - ETHER_CRC_LEN));
 		}
-		if (length > (ETHER_MAX_LEN - ETHER_CRC_LEN)) 
+		if (length > (ETHER_MAX_LEN - ETHER_CRC_LEN))
 		{
 			error (1, ENOTSUP, "Frame size of %d is more than %d bytes", length, (ETHER_MAX_LEN - ETHER_CRC_LEN));
 		}
-		if (_anyset (channel->flags, CHANNEL_UPDATE_TARGET)) 
+		if (_anyset (channel->flags, CHANNEL_UPDATE_TARGET))
 		{
 			memcpy (frame->ether_dhost, channel->peer, sizeof (frame->ether_dhost));
 		}
-		if (_anyset (channel->flags, CHANNEL_UPDATE_SOURCE)) 
+		if (_anyset (channel->flags, CHANNEL_UPDATE_SOURCE))
 		{
 			memcpy (frame->ether_shost, channel->host, sizeof (frame->ether_shost));
 		}
 		sendpacket (channel, memory, length);
-		if (_anyset (channel->flags, CHANNEL_LISTEN)) 
+		if (_anyset (channel->flags, CHANNEL_LISTEN))
 		{
 			while (readpacket (channel, memory, extent) > 0);
 		}
@@ -162,31 +162,31 @@ static void function (struct channel * channel, void * memory, ssize_t extent)
 
 
 /*====================================================================*
- *   
+ *
  *   void iterate (int argc, char const * argv [], void * memory, ssize_t extent, unsigned pause);
  *
  *
  *
  *--------------------------------------------------------------------*/
 
-static void iterate (int argc, char const * argv [], struct channel * channel, unsigned pause) 
+static void iterate (int argc, char const * argv [], struct channel * channel, unsigned pause)
 
 {
 	byte buffer [ETHER_MAX_LEN];
-	if (!argc) 
+	if (!argc)
 	{
 		function (channel, buffer, sizeof (buffer));
 	}
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
-		if (!freopen (* argv, "rb", stdin)) 
+		if (!freopen (* argv, "rb", stdin))
 		{
 			error (1, errno, "Can't open %s", * argv);
 		}
 		function (channel, buffer, sizeof (buffer));
 		argc--;
 		argv++;
-		if ((argc) && (* argv)) 
+		if ((argc) && (* argv))
 		{
 			sleep (pause);
 		}
@@ -196,18 +196,18 @@ static void iterate (int argc, char const * argv [], struct channel * channel, u
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv []);
  *
  *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"d:e:hi:l:p:t:vw:",
 		PUTOPTV_S_FUNNEL,
@@ -238,7 +238,7 @@ int main (int argc, char const * argv [])
 	unsigned loop = EFSU_LOOP;
 	signed c;
 	channel.type = EFSU_ETHERTYPE;
-	if (getenv (EFSU_INTERFACE)) 
+	if (getenv (EFSU_INTERFACE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -253,13 +253,13 @@ int main (int argc, char const * argv [])
 
 	}
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'd':
 			_setbits (channel.flags, CHANNEL_UPDATE_TARGET);
-			if (!hexencode (channel.peer, sizeof (channel.peer), optarg)) 
+			if (!hexencode (channel.peer, sizeof (channel.peer), optarg))
 			{
 				error (1, errno, "%s", optarg);
 			}
@@ -309,10 +309,10 @@ int main (int argc, char const * argv [])
 	argc -= optind;
 	argv += optind;
 	openchannel (&channel);
-	while (loop--) 
+	while (loop--)
 	{
 		iterate (argc, argv, &channel, pause);
-		if (loop) 
+		if (loop)
 		{
 			sleep (delay);
 		}

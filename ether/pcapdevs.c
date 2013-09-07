@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -26,7 +26,7 @@
  *   Contributor(s):
  *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
  *	Charles Maier <cmaier@qca.qualcomm.com>
- *      
+ *
  *--------------------------------------------------------------------*/
 
 
@@ -90,16 +90,16 @@
 /*====================================================================*
  *
  *   void pcap_enum (flag_t flags);
- *   
+ *
  *   pcap_enum available pcap devices on stdout;
  *
  *
  *   Contributor(s):
  *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
- *      
+ *
  *--------------------------------------------------------------------*/
 
-void pcap_enum (flag_t flags) 
+void pcap_enum (flag_t flags)
 
 {
 	char report [PCAP_ERRBUF_SIZE];
@@ -108,31 +108,31 @@ void pcap_enum (flag_t flags)
 	pcap_if_t * device;
 	pcap_if_t * devices = (pcap_if_t *)(0);
 	unsigned index;
-	if (pcap_findalldevs (&devices, report) == -1) 
+	if (pcap_findalldevs (&devices, report) == -1)
 	{
 		error (1, 0, "Can't enumerate interfaces");
 	}
-	if (!devices) 
+	if (!devices)
 	{
 		error (1, 0, "No interfaces available");
 	}
-	if (_anyset (flags, PCAP_DEVICES)) 
+	if (_anyset (flags, PCAP_DEVICES))
 	{
-		for (device = devices, index = 1; device; device = device->next, index++) 
+		for (device = devices, index = 1; device; device = device->next, index++)
 		{
 			gethwaddr (number, device->name);
 			hexdecode (number, sizeof (number), string, sizeof (string));
 			printf ("%2d %s %s", index, string, device->name);
-			if (device->description) 
+			if (device->description)
 			{
 				printf ("\t(%s)", device->description);
 			}
 			printf ("\n");
 		}
 	}
-	if (_anyset (flags, PCAP_NICS)) 
+	if (_anyset (flags, PCAP_NICS))
 	{
-		for (device = devices, index = 1; device; device = device->next, index++) 
+		for (device = devices, index = 1; device; device = device->next, index++)
 		{
 
 #if defined (WIN32)
@@ -145,7 +145,7 @@ void pcap_enum (flag_t flags)
 
 #endif
 
-			if (device->description) 
+			if (device->description)
 			{
 				printf ("\t# %s", device->description);
 			}
@@ -153,14 +153,14 @@ void pcap_enum (flag_t flags)
 		}
 		printf ("\n");
 	}
-	if (_anyset (flags, PCAP_MACS)) 
+	if (_anyset (flags, PCAP_MACS))
 	{
-		for (device = devices, index = 1; device; device = device->next, index++) 
+		for (device = devices, index = 1; device; device = device->next, index++)
 		{
 			gethwaddr (number, device->name);
 			hexdecode (number, sizeof (number), string, sizeof (string));
 			printf ("NIC%d=%s", index, string);
-			if (device->description) 
+			if (device->description)
 			{
 				printf ("\t# %s", device->description);
 			}
@@ -174,16 +174,16 @@ void pcap_enum (flag_t flags)
 
 
 /*====================================================================*
- *   
- *   int main (int argc, char const * argv []) 
+ *
+ *   int main (int argc, char const * argv [])
  *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"hqv",
 		"",
@@ -196,9 +196,9 @@ int main (int argc, char const * argv [])
 	flag_t flags = PCAP_DEVICES;
 	signed c;
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch ((char) (c)) 
+		switch ((char) (c))
 		{
 		case 'h':
 			_clrbits (flags, (PCAP_DEVICES));
@@ -216,7 +216,7 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (argc) 
+	if (argc)
 	{
 		error (1, ECANCELED, ERROR_TOOMANY);
 	}

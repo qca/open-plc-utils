@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -78,23 +78,23 @@
  *
  *--------------------------------------------------------------------*/
 
-static void enumerate () 
+static void enumerate ()
 
 {
 	struct nic nics [16];
 	struct nic * nic;
 	unsigned count = hostnics (nics, sizeof (nics) / sizeof (struct nic));
-	for (nic = nics; count--; nic++) 
+	for (nic = nics; count--; nic++)
 	{
 		byte memory [ETHER_ADDR_LEN];
 		char string [ETHER_ADDR_LEN * 3];
 		memset (memory, 0x00, sizeof (memory));
-		if (!memcmp (memory, nic->ethernet, sizeof (memory))) 
+		if (!memcmp (memory, nic->ethernet, sizeof (memory)))
 		{
 			continue;
 		}
 		memset (memory, 0xFF, sizeof (memory));
-		if (!memcmp (memory, nic->ethernet, sizeof (memory))) 
+		if (!memcmp (memory, nic->ethernet, sizeof (memory)))
 		{
 			continue;
 		}
@@ -119,10 +119,10 @@ static void enumerate ()
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"",
 		PUTOPTV_S_DIVINE,
@@ -130,9 +130,9 @@ int main (int argc, char const * argv [])
 		(char const *) (0)
 	};
 	signed c;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		default:
 			break;
@@ -140,7 +140,7 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (argc) 
+	if (argc)
 	{
 		error (1, ECANCELED, ERROR_TOOMANY);
 	}

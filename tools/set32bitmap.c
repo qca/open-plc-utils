@@ -4,7 +4,7 @@
  *
  *   flags.h
  *
- *   set a given bit in a 32-bit flagword array; macro _bits () is 
+ *   set a given bit in a 32-bit flagword array; macro _bits () is
  *   defined in flags.h;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
@@ -19,7 +19,7 @@
 #include "../tools/flags.h"
 #include "../tools/endian.h"
 
-void set32bitmap (uint32_t * map, unsigned bit) 
+void set32bitmap (uint32_t * map, unsigned bit)
 
 {
 	map [bit / _bits (* map)] |= HTOLE32 (1 << (bit % _bits (* map)));

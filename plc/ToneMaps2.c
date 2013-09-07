@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -44,7 +44,7 @@
 
 #ifndef SIGNALTONOISE2_SOURCE
 
-static uint8_t const mod2bits [AMP_BITS] = 
+static uint8_t const mod2bits [AMP_BITS] =
 
 {
 	0,
@@ -63,7 +63,7 @@ static uint8_t const mod2bits [AMP_BITS] =
 
 #ifndef SIGNALTONOISE2_SOURCE
 
-static uint8_t const mod2db [AMP_BITS] = 
+static uint8_t const mod2db [AMP_BITS] =
 
 {
 	0,
@@ -80,7 +80,7 @@ static uint8_t const mod2db [AMP_BITS] =
 
 #endif
 
-signed ToneMaps2 (struct plc * plc) 
+signed ToneMaps2 (struct plc * plc)
 
 {
 	uint8_t tonemap [PLC_SLOTS + 1][AMP_CARRIERS >> 1];
@@ -96,7 +96,7 @@ signed ToneMaps2 (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_tonemap_char_request 
+	struct __packed vs_tonemap_char_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_fmi qualcomm;
@@ -107,14 +107,14 @@ signed ToneMaps2 (struct plc * plc)
 		uint8_t COUPLING;
 	}
 	* request = (struct vs_tonemap_char_request *) (message);
-	struct __packed vs_tonemap_char_confirm 
+	struct __packed vs_tonemap_char_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_fmi qualcomm;
 		uint8_t MSTATUS;
 		uint8_t Reserved1;
 		uint16_t MME_LEN;
-		struct __packed vs_tonemap_char_header 
+		struct __packed vs_tonemap_char_header
 		{
 			uint8_t MME_SUBVER;
 			uint8_t Reserved2;
@@ -133,7 +133,7 @@ signed ToneMaps2 (struct plc * plc)
 		uint8_t MOD_CARRIER [1];
 	}
 	* confirm = (struct vs_tonemap_char_confirm *) (message);
-	struct __packed vs_tonemap_char_fragment 
+	struct __packed vs_tonemap_char_fragment
 	{
 		struct ethernet_std ethernet;
 		struct homeplug_fmi qualcomm;
@@ -146,7 +146,7 @@ signed ToneMaps2 (struct plc * plc)
 #endif
 
 	memset (tonemap, 0, sizeof (tonemap));
-	for (carrier = slot = 0; slot < slots; carrier = 0, slot++) 
+	for (carrier = slot = 0; slot < slots; carrier = 0, slot++)
 	{
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
@@ -155,45 +155,45 @@ signed ToneMaps2 (struct plc * plc)
 		memcpy (request->MACADDRESS, plc->RDA, sizeof (request->MACADDRESS));
 		request->TMSLOT = slot;
 		request->COUPLING = plc->action;
-		if (SendMME (plc) <= 0) 
+		if (SendMME (plc) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		if (ReadMME (plc, 1, (VS_TONE_MAP_CHAR | MMTYPE_CNF)) <= 0) 
+		if (ReadMME (plc, 1, (VS_TONE_MAP_CHAR | MMTYPE_CNF)) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
-		if (confirm->MSTATUS) 
+		if (confirm->MSTATUS)
 		{
 			error (1, 0, "Device refused request for slot %d: %s", slot, MMECode (VS_TONE_MAP_CHAR | MMTYPE_CNF, confirm->MSTATUS));
 		}
 		carriers = LE16TOH (confirm->header.TMNUMACTCARRIERS);
 		slots = confirm->header.NUMTMS;
 		extent = LE16TOH (confirm->MME_LEN) - sizeof (struct vs_tonemap_char_header);
-		if (extent > (AMP_CARRIERS >> 1)) 
+		if (extent > (AMP_CARRIERS >> 1))
 		{
 			error (1, EOVERFLOW, "Too many carriers");
 		}
 		plc->packetsize -= sizeof (struct vs_tonemap_char_confirm);
 		plc->packetsize += sizeof (confirm->MOD_CARRIER);
-		if (plc->packetsize > extent) 
+		if (plc->packetsize > extent)
 		{
 			plc->packetsize = extent;
 		}
 		memcpy (&tonemap [slot] [carrier], &confirm->MOD_CARRIER, plc->packetsize);
 		carrier += plc->packetsize;
 		extent -= plc->packetsize;
-		while (extent) 
+		while (extent)
 		{
-			if (ReadMME (plc, 1, (VS_TONE_MAP_CHAR | MMTYPE_CNF)) <= 0) 
+			if (ReadMME (plc, 1, (VS_TONE_MAP_CHAR | MMTYPE_CNF)) <= 0)
 			{
 				error (1, errno, CHANNEL_CANTREAD);
 			}
 			plc->packetsize -= sizeof (struct vs_tonemap_char_fragment);
 			plc->packetsize += sizeof (fragment->MOD_CARRIER);
-			if (plc->packetsize > extent) 
+			if (plc->packetsize > extent)
 			{
 				plc->packetsize = extent;
 			}
@@ -202,16 +202,16 @@ signed ToneMaps2 (struct plc * plc)
 			extent -= plc->packetsize;
 		}
 	}
-	for (carrier = 0; carrier < carriers; carrier++) 
+	for (carrier = 0; carrier < carriers; carrier++)
 	{
 		uint16_t scale = 0;
 		uint16_t value = 0;
 		uint16_t index = carrier >> 1;
 		printf ("%04d", carrier);
-		for (slot = 0; slot < slots; slot++) 
+		for (slot = 0; slot < slots; slot++)
 		{
 			value = tonemap [slot][index];
-			if ((carrier & 1)) 
+			if ((carrier & 1))
 			{
 				value >>= 4;
 			}
@@ -220,14 +220,14 @@ signed ToneMaps2 (struct plc * plc)
 			value *= value;
 			scale += value;
 		}
-		if (slots) 
+		if (slots)
 		{
 			scale /= slots;
 		}
 		printf (" %03d ", scale);
-		if (_anyset (plc->flags, PLC_GRAPH)) 
+		if (_anyset (plc->flags, PLC_GRAPH))
 		{
-			while (scale--) 
+			while (scale--)
 			{
 				printf ("#");
 			}

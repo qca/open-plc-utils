@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -29,7 +29,7 @@
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *   system header files;  
+ *   system header files;
  *--------------------------------------------------------------------*/
 
 #include <fcntl.h>
@@ -46,7 +46,7 @@
 #endif
 
 /*====================================================================*
- *   custom header files;  
+ *   custom header files;
  *--------------------------------------------------------------------*/
 
 #include "../tools/error.h"
@@ -57,7 +57,7 @@
 #include "../serial/serial.h"
 
 /*====================================================================*
- *   custom source files;  
+ *   custom source files;
  *--------------------------------------------------------------------*/
 
 #ifndef MAKEFILE
@@ -72,7 +72,7 @@
 #endif
 
 /*====================================================================*
- *   program constants;    
+ *   program constants;
  *--------------------------------------------------------------------*/
 
 #define SERIAL_PORT "/dev/ttyS0"
@@ -80,7 +80,7 @@
 #define INT6KDETECT_QUIET    (1 << 0)
 #define INT6KDETECT_CMD_MODE (1 << 1)
 
-struct serial 
+struct serial
 
 {
 
@@ -101,7 +101,7 @@ struct serial
 #define UART_EVENPARITY 1
 #define UART_ODDPARITY  2
 
-struct serial_mode 
+struct serial_mode
 
 {
 	int baud_rate;
@@ -110,7 +110,7 @@ struct serial_mode
 	int stop_bits;
 };
 
-ssize_t read_serial (struct serial *s, void *buf, size_t nbytes) 
+ssize_t read_serial (struct serial *s, void *buf, size_t nbytes)
 
 {
 
@@ -130,7 +130,7 @@ ssize_t read_serial (struct serial *s, void *buf, size_t nbytes)
 
 }
 
-ssize_t write_serial (struct serial *s, void *buf, size_t nbytes) 
+ssize_t write_serial (struct serial *s, void *buf, size_t nbytes)
 
 {
 
@@ -150,21 +150,21 @@ ssize_t write_serial (struct serial *s, void *buf, size_t nbytes)
 
 }
 
-int open_serial (char const *file, struct serial *s) 
+int open_serial (char const *file, struct serial *s)
 
 {
 
 #ifdef WIN32
 
 	s->h = CreateFile (file, GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-	if (s->h == INVALID_HANDLE_VALUE) 
+	if (s->h == INVALID_HANDLE_VALUE)
 	{
 		return (-1);
 	}
 
 #else
 
-	if ((s->fd = open (file, O_RDWR)) == -1) 
+	if ((s->fd = open (file, O_RDWR)) == -1)
 	{
 		return (-1);
 	}
@@ -174,7 +174,7 @@ int open_serial (char const *file, struct serial *s)
 	return (0);
 }
 
-int close_serial (struct serial *s) 
+int close_serial (struct serial *s)
 
 {
 
@@ -191,7 +191,7 @@ int close_serial (struct serial *s)
 
 }
 
-int set_serial (struct serial *s, struct serial_mode *serial_mode) 
+int set_serial (struct serial *s, struct serial_mode *serial_mode)
 
 {
 
@@ -201,13 +201,13 @@ int set_serial (struct serial *s, struct serial_mode *serial_mode)
 	DCB dcbSerial;
 	memset (&dcbSerial, 0, sizeof (dcbSerial));
 	dcbSerial.DCBlength = sizeof (dcbSerial);
-	if (!GetCommState (s->h, &dcbSerial)) 
+	if (!GetCommState (s->h, &dcbSerial))
 	{
 		return (-1);
 	}
 	dcbSerial.BaudRate = serial_mode->baud_rate;
 	dcbSerial.ByteSize = serial_mode->data_bits;
-	switch (serial_mode->stop_bits) 
+	switch (serial_mode->stop_bits)
 	{
 	case 1:
 		dcbSerial.StopBits = ONESTOPBIT;
@@ -218,7 +218,7 @@ int set_serial (struct serial *s, struct serial_mode *serial_mode)
 	default:
 		error (1, 0, "invalid stop bit setting");
 	}
-	switch (serial_mode->parity) 
+	switch (serial_mode->parity)
 	{
 	case UART_ODDPARITY:
 		dcbSerial.Parity = ODDPARITY;
@@ -235,7 +235,7 @@ int set_serial (struct serial *s, struct serial_mode *serial_mode)
 	default:
 		error (1, 0, "invalid parity serial_mode");
 	}
-	if (!SetCommState (s->h, &dcbSerial)) 
+	if (!SetCommState (s->h, &dcbSerial))
 	{
 		error (0, 0, "could not set serial port settings");
 		return (-1);
@@ -245,7 +245,7 @@ int set_serial (struct serial *s, struct serial_mode *serial_mode)
 	timeouts.ReadTotalTimeoutMultiplier = 0;
 	timeouts.WriteTotalTimeoutConstant = 10;
 	timeouts.WriteTotalTimeoutMultiplier = 10;
-	if (!SetCommTimeouts (s->h, &timeouts)) 
+	if (!SetCommTimeouts (s->h, &timeouts))
 	{
 		return (-1);
 	}
@@ -257,7 +257,7 @@ int set_serial (struct serial *s, struct serial_mode *serial_mode)
 	tcgetattr (s->fd, &termios);
 	cfmakeraw (&termios);
 	termios.c_cflag &= ~CSIZE;
-	switch (serial_mode->data_bits) 
+	switch (serial_mode->data_bits)
 	{
 	case 8:
 		termios.c_cflag |= CS8;
@@ -274,7 +274,7 @@ int set_serial (struct serial *s, struct serial_mode *serial_mode)
 	default:
 		error (1, 0, "invalid serial byte size");
 	}
-	switch (serial_mode->stop_bits) 
+	switch (serial_mode->stop_bits)
 	{
 	case 2:
 		termios.c_cflag |= CSTOPB;
@@ -285,7 +285,7 @@ int set_serial (struct serial *s, struct serial_mode *serial_mode)
 	default:
 		error (1, 0, "invalid number of stop bits");
 	}
-	switch (serial_mode->parity) 
+	switch (serial_mode->parity)
 	{
 	case UART_ODDPARITY:
 		termios.c_cflag |= PARENB;
@@ -301,7 +301,7 @@ int set_serial (struct serial *s, struct serial_mode *serial_mode)
 	default:
 		error (1, 0, "invalid parity serial_mode");
 	}
-	if (baudrate (serial_mode->baud_rate, &speed) == -1) 
+	if (baudrate (serial_mode->baud_rate, &speed) == -1)
 	{
 		error (0, 0, "warning: unsupported baud rate: %d", serial_mode->baud_rate);
 		return (-1);
@@ -316,7 +316,7 @@ int set_serial (struct serial *s, struct serial_mode *serial_mode)
 	return (0);
 }
 
-int at_cmd (struct serial *s) 
+int at_cmd (struct serial *s)
 
 {
 	char buf [32];
@@ -330,7 +330,7 @@ int at_cmd (struct serial *s)
 	return (-1);
 }
 
-void wakeup (struct serial *s) 
+void wakeup (struct serial *s)
 
 {
 	sleep (1);
@@ -338,7 +338,7 @@ void wakeup (struct serial *s)
 	sleep (1);
 }
 
-void dump_serial_mode (struct serial_mode *serial_mode) 
+void dump_serial_mode (struct serial_mode *serial_mode)
 
 {
 	printf ("baud_rate = %d\n", serial_mode->baud_rate);
@@ -347,10 +347,10 @@ void dump_serial_mode (struct serial_mode *serial_mode)
 	printf ("parity    = %d\n", serial_mode->parity);
 }
 
-int try_serial_mode (struct serial *s, struct serial_mode *serial_mode, flag_t flags) 
+int try_serial_mode (struct serial *s, struct serial_mode *serial_mode, flag_t flags)
 
 {
-	if (set_serial (s, serial_mode) == -1) 
+	if (set_serial (s, serial_mode) == -1)
 	{
 		error (0, 0, "could not set serial_mode");
 		return (-1);
@@ -360,10 +360,10 @@ int try_serial_mode (struct serial *s, struct serial_mode *serial_mode, flag_t f
 	return (at_cmd (s));
 }
 
-int detect (struct serial *s, struct serial_mode *serial_mode, flag_t flags) 
+int detect (struct serial *s, struct serial_mode *serial_mode, flag_t flags)
 
 {
-	static int rate [] = 
+	static int rate [] =
 	{
 		115200,
 		9600,
@@ -378,7 +378,7 @@ int detect (struct serial *s, struct serial_mode *serial_mode, flag_t flags)
 		300,
 		50
 	};
-	static int parity [] = 
+	static int parity [] =
 	{
 		UART_NOPARITY,
 		UART_EVENPARITY,
@@ -390,23 +390,23 @@ int detect (struct serial *s, struct serial_mode *serial_mode, flag_t flags)
 	unsigned total;
 	total = 2 * 2 * 3 * (sizeof (rate) / sizeof (int));
 	current = 0;
-	for (serial_mode->stop_bits = 1; serial_mode->stop_bits <= 2; ++serial_mode->stop_bits) 
+	for (serial_mode->stop_bits = 1; serial_mode->stop_bits <= 2; ++serial_mode->stop_bits)
 	{
-		for (serial_mode->data_bits = 8; serial_mode->data_bits >= 7; --serial_mode->data_bits) 
+		for (serial_mode->data_bits = 8; serial_mode->data_bits >= 7; --serial_mode->data_bits)
 		{
-			for (i = 0; i < sizeof (parity) / sizeof (int); ++i) 
+			for (i = 0; i < sizeof (parity) / sizeof (int); ++i)
 			{
 				serial_mode->parity = parity [i];
-				for (j = 0; j < sizeof (rate) / sizeof (int); ++j) 
+				for (j = 0; j < sizeof (rate) / sizeof (int); ++j)
 				{
 					serial_mode->baud_rate = rate [j];
 					++current;
-					if (!_anyset (flags, INT6KDETECT_QUIET)) 
+					if (!_anyset (flags, INT6KDETECT_QUIET))
 					{
 						printf ("\rTesting mode: %03d/%03d (%.01f%%)...", current, total, current * 100.0 / total);
 						fflush (stdout);
 					}
-					if (!try_serial_mode (s, serial_mode, flags)) 
+					if (!try_serial_mode (s, serial_mode, flags))
 					{
 						if (!_anyset (flags, INT6KDETECT_QUIET)) printf ("\n");
 						return (0);
@@ -419,10 +419,10 @@ int detect (struct serial *s, struct serial_mode *serial_mode, flag_t flags)
 	return (-1);
 }
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"cl:qv",
 		"",
@@ -439,9 +439,9 @@ int main (int argc, char const * argv [])
 	struct serial_mode serial_mode;
 	flag_t flags = 0;
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch ((char) (c)) 
+		switch ((char) (c))
 		{
 		case 'c':
 			_setbits (flags, INT6KDETECT_CMD_MODE);

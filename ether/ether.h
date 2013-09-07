@@ -2,7 +2,7 @@
  *
  *   ether.h - Ethernet definitions and declarations;
  *
- *   include or exclude various ethernet related definitions based 
+ *   include or exclude various ethernet related definitions based
  *   platform and environment;
  *
  *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
@@ -62,7 +62,7 @@
  *   variables;
  *--------------------------------------------------------------------*/
 
-typedef struct nic 
+typedef struct nic
 
 {
 	unsigned ifindex;
@@ -92,7 +92,7 @@ NIC;
 #pragma pack (push, 1)
 #endif
 
-typedef struct ethernet_frame 
+typedef struct ethernet_frame
 
 {
 	byte frame_dhost [ETHER_ADDR_LEN];

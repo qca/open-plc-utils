@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -74,7 +74,7 @@
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed ethernet_std 
+typedef struct __packed ethernet_std
 
 {
 	uint8_t ODA [ETHER_ADDR_LEN];
@@ -83,7 +83,7 @@ typedef struct __packed ethernet_std
 }
 
 ethernet_std;
-typedef struct __packed homeplug_std 
+typedef struct __packed homeplug_std
 
 {
 	uint8_t MMV;
@@ -91,13 +91,13 @@ typedef struct __packed homeplug_std
 }
 
 homeplug_std;
-typedef struct __packed homeplug_fmi 
+typedef struct __packed homeplug_fmi
 
 {
 	uint8_t MMV;
 	uint16_t MMTYPE;
 
-#if 0 
+#if 0
 
 	uint8_t FMID;
 	uint8_t FMSN;
@@ -112,7 +112,7 @@ typedef struct __packed homeplug_fmi
 }
 
 homeplug_fmi;
-typedef struct __packed qualcomm_std 
+typedef struct __packed qualcomm_std
 
 {
 	uint8_t MMV;
@@ -121,13 +121,13 @@ typedef struct __packed qualcomm_std
 }
 
 qualcomm_std;
-typedef struct __packed qualcomm_fmi 
+typedef struct __packed qualcomm_fmi
 
 {
 	uint8_t MMV;
 	uint16_t MMTYPE;
 
-#if 0 
+#if 0
 
 	uint8_t FMID;
 	uint8_t FMSN;
@@ -156,7 +156,7 @@ qualcomm_fmi;
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed message 
+typedef struct __packed message
 
 {
 	struct ethernet_std ethernet;
@@ -164,7 +164,7 @@ typedef struct __packed message
 }
 
 MESSAGE;
-typedef struct __packed homeplug 
+typedef struct __packed homeplug
 
 {
 	struct ethernet_std ethernet;
@@ -173,7 +173,7 @@ typedef struct __packed homeplug
 }
 
 HOMEPLUG;
-typedef struct __packed qualcomm 
+typedef struct __packed qualcomm
 
 {
 	struct ethernet_std ethernet;
@@ -222,7 +222,7 @@ signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_
 signed FirmwareMessage (void const * memory);
 
 /*====================================================================*
- *   intermmediate level Ethernet send/receive functions; 
+ *   intermmediate level Ethernet send/receive functions;
  *--------------------------------------------------------------------*/
 
 ssize_t sendmessage (struct channel const *, struct message *, ssize_t length);

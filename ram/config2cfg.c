@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -67,13 +67,13 @@
 #endif
 
 /*====================================================================*
- *   
+ *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"qv",
 		"file [file] [...]",
@@ -90,9 +90,9 @@ int main (int argc, char const * argv [])
 	signed fd;
 	signed c;
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch ((char) (c)) 
+		switch ((char) (c))
 		{
 		case 'q':
 			_setbits (flags, SDRAM_SILENCE);
@@ -106,7 +106,7 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	while ((argc-- > 0) && (* argv != (char const *)(0))) 
+	while ((argc-- > 0) && (* argv != (char const *)(0)))
 	{
 
 #if 0
@@ -114,46 +114,46 @@ int main (int argc, char const * argv [])
 		char const * pathname;
 		char const * filename;
 		char const * extender;
-		for (pathname = filename = * argv; *pathname; pathname++) 
+		for (pathname = filename = * argv; *pathname; pathname++)
 		{
-			if ((*pathname == '/') || (*pathname == '\\')) 
+			if ((*pathname == '/') || (*pathname == '\\'))
 			{
 				filename = pathname + 1;
 			}
 		}
-		for (pathname = extender = filename; *pathname; pathname++) 
+		for (pathname = extender = filename; *pathname; pathname++)
 		{
-			if (*pathname == '.') 
+			if (*pathname == '.')
 			{
 				extender = pathname;
 			}
 		}
-		if (extender == filename) 
+		if (extender == filename)
 		{
 			extender = pathname;
 		}
 
 #endif
 
-		if ((fd = open (* argv, O_BINARY|O_RDONLY)) == -1) 
+		if ((fd = open (* argv, O_BINARY|O_RDONLY)) == -1)
 		{
 			error (0, errno, "can't open %s for input", * argv);
 			state = 1;
 		}
-		else if (read (fd, &string, sizeof (string)) < (ssize_t) (sizeof (string) - 1)) 
+		else if (read (fd, &string, sizeof (string)) < (ssize_t) (sizeof (string) - 1))
 		{
 			error (0, errno, "can't read %s", * argv);
 			state = 1;
 		}
-		else 
+		else
 		{
 			close (fd);
-			if (hexencode ((uint8_t *) (&config_ram), sizeof (config_ram), string) == sizeof (config_ram)) 
+			if (hexencode ((uint8_t *) (&config_ram), sizeof (config_ram), string) == sizeof (config_ram))
 			{
 				error (1, errno, "%s is suspect", * argv);
 			}
 			checksum = checksum32 (&config_ram, sizeof (config_ram), 0);
-			if ((fd = open (* argv, O_BINARY|O_CREAT|O_RDWR|O_TRUNC, FILE_FILEMODE)) == -1) 
+			if ((fd = open (* argv, O_BINARY|O_CREAT|O_RDWR|O_TRUNC, FILE_FILEMODE)) == -1)
 			{
 				error (1, errno, "can't open %s for output", * argv);
 			}

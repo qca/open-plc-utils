@@ -3,7 +3,7 @@
  *   unsigned todigit (unsigned c);
  *
  *   number.h
- *   
+ *
  *   return the unsigned integer equivalent of an ASCII digit or the
  *   value UCHAR_MAX on error;
  *
@@ -20,18 +20,18 @@
 
 #include "../tools/number.h"
 
-unsigned todigit (unsigned c) 
+unsigned todigit (unsigned c)
 
 {
-	if ((c >= '0') && (c <= '9')) 
+	if ((c >= '0') && (c <= '9'))
 	{
 		return (c - '0');
 	}
-	if ((c >= 'A') && (c <= 'Z')) 
+	if ((c >= 'A') && (c <= 'Z'))
 	{
 		return (c - 'A' + 10);
 	}
-	if ((c >= 'a') && (c <= 'z')) 
+	if ((c >= 'a') && (c <= 'z'))
 	{
 		return (c - 'a' + 10);
 	}

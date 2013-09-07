@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -110,7 +110,7 @@
  *
  *--------------------------------------------------------------------*/
 
-signed con_man (struct plc * plc, uint16_t TOT_BW_USED) 
+signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -120,7 +120,7 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_con_info_req 
+	struct __packed vs_con_info_req
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -131,7 +131,7 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 		uint16_t TOT_BW_USED;
 	}
 	* request = (struct vs_con_info_req *)(message);
-	struct __packed vs_con_info_cnf 
+	struct __packed vs_con_info_cnf
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -145,7 +145,7 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 	* confirm = (struct vs_con_info_cnf *)(message);
 	struct conn_info * conn_info =(struct conn_info*)(confirm->CONN_INFO);
 	struct vs_con_info_cnf *indicate = (struct vs_con_info_cnf *)(message);
-	struct __packed vs_mod_conn_req 
+	struct __packed vs_mod_conn_req
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -155,7 +155,7 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 		uint8_t MOD_CTRL;
 	}
 	* mc_request = (struct vs_mod_conn_req *)(message);
-	struct __packed vs_mod_conn_cnf 
+	struct __packed vs_mod_conn_cnf
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -174,7 +174,7 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 	int bwused;
 	int lowest;
 	uint16_t lowcid;
-	while (1) 
+	while (1)
 	{
 		Request (plc, "COQOS connection information (requesting bandwidth notification)");
 		memset (message, 0, sizeof (* message));
@@ -185,24 +185,24 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 		request->CID = 0x00;
 		request->CSPEC_VER = 0x01;
 		request->TOT_BW_USED = TOT_BW_USED;
-		if (SendMME (plc) <= 0) 
+		if (SendMME (plc) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
 		while (ReadMME (plc, 0, (VS_CONN_INFO | MMTYPE_CNF)) <= 0);
-		if (confirm->MSTATUS) 
+		if (confirm->MSTATUS)
 		{
 			Failure (plc, "Could not set up bandwidth notification.");
 		}
-		else 
+		else
 		{
 			Confirm (plc, "Set up bandwidth monitoring.");
 			break;
 		}
 		sleep (1);
 	}
-	while (1) 
+	while (1)
 	{
 
 /*
@@ -210,11 +210,11 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
  * in use.
  */
 
-		while (ReadMME (plc, 0, (VS_CONN_INFO | MMTYPE_IND)) <= 0) 
+		while (ReadMME (plc, 0, (VS_CONN_INFO | MMTYPE_IND)) <= 0)
 		{
 			continue;
 		}
-		if (indicate->MSTATUS) 
+		if (indicate->MSTATUS)
 		{
 			Failure (plc, "Connection Info Indicate error");
 			continue;
@@ -224,10 +224,10 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 		bwused = 0;
 		lowest = conn_info->CONN_COQOS_PRIO;
 		lowcid = conn_info->CID;
-		for (i = 0; i < indicate->NUM_CONN; i++) 
+		for (i = 0; i < indicate->NUM_CONN; i++)
 		{
 			bwused += conn_info->BW_USED;
-			if (conn_info->CONN_COQOS_PRIO < lowest) 
+			if (conn_info->CONN_COQOS_PRIO < lowest)
 			{
 				lowest = conn_info->CONN_COQOS_PRIO;
 				lowcid = conn_info->CID;
@@ -235,7 +235,7 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 			conn_info++;
 		}
 		printf ("Total bandwidth used: %d\n", bwused);
-		if (bwused <= TOT_BW_USED) 
+		if (bwused <= TOT_BW_USED)
 		{
 			continue;
 		}
@@ -247,13 +247,13 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		mc_request->MOD_CTRL = 0x00;
 		mc_request->CID = lowcid;
-		if (SendMME (plc) <= 0) 
+		if (SendMME (plc) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
 		while (ReadMME (plc, 0, (VS_CONN_MOD | MMTYPE_CNF)) <= 0);
-		if (mc_confirm->MSTATUS) 
+		if (mc_confirm->MSTATUS)
 		{
 			Failure (plc, "Could not suspend stream.");
 			continue;
@@ -270,17 +270,17 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv[]);
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"ei:qv",
 		"limit [device] [...]",
@@ -306,7 +306,7 @@ int main (int argc, char const * argv [])
 
 	uint16_t limit;
 	signed c;
-	if (getenv (PLCDEVICE)) 
+	if (getenv (PLCDEVICE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -321,9 +321,9 @@ int main (int argc, char const * argv [])
 
 	}
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'e':
 			dup2 (STDOUT_FILENO, STDERR_FILENO);
@@ -355,24 +355,24 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (!argc) 
+	if (!argc)
 	{
 		error (1, ECANCELED, "No limit given");
 	}
 	limit = (uint16_t)(uintspec (* argv++, 10, 90000));
 	argc--;
 	openchannel (&channel);
-	if (!(plc.message = malloc (sizeof (* plc.message)))) 
+	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);
 	}
-	if (!argc) 
+	if (!argc)
 	{
 		con_man (&plc, limit);
 	}
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
-		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices)))) 
+		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices))))
 		{
 			error (1, errno, PLC_BAD_MAC, * argv);
 		}

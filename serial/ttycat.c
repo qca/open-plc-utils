@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -72,18 +72,18 @@
 
 /*====================================================================*
  *
- *   signed copy (signed ifd, signed ofd, void * memory, signed extent) 
+ *   signed copy (signed ifd, signed ofd, void * memory, signed extent)
  *
  *   copy ifd to ofd using a buffer of specified size;
  *
  *--------------------------------------------------------------------*/
 
-static signed copy (signed ifd, signed ofd, void * memory, signed extent) 
+static signed copy (signed ifd, signed ofd, void * memory, signed extent)
 
 {
-	while ((extent = read (ifd, memory, extent)) > 0) 
+	while ((extent = read (ifd, memory, extent)) > 0)
 	{
-		if (write (ofd, memory, extent) < extent) 
+		if (write (ofd, memory, extent) < extent)
 		{
 			return (-1);
 		}
@@ -98,10 +98,10 @@ static signed copy (signed ifd, signed ofd, void * memory, signed extent)
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"s:",
 		PUTOPTV_S_FUNNEL,
@@ -114,12 +114,12 @@ int main (int argc, char const * argv [])
 	speed_t speed = B115200;
 	byte buffer [512];
 	signed c;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 's':
-			if (baudrate (uintspec (optarg, 0, UINT_MAX), &speed)) 
+			if (baudrate (uintspec (optarg, 0, UINT_MAX), &speed))
 			{
 				error (1, 0, "could not set baud rate");
 			}
@@ -130,7 +130,7 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (!isatty (STDOUT_FILENO)) 
+	if (!isatty (STDOUT_FILENO))
 	{
 		error (1, ENOTSUP, "stdout must be a serial line device");
 	}
@@ -144,13 +144,13 @@ int main (int argc, char const * argv [])
 	current.c_cc [VTIME] = 0;
 	current.c_cc [VMIN] = 5;
 	tcsetattr (STDOUT_FILENO, TCSANOW, &current);
-	if (!argc) 
+	if (!argc)
 	{
 		copy (STDIN_FILENO, STDOUT_FILENO, buffer, sizeof (buffer));
 	}
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
-		if (efreopen (* argv, "rb", stdin)) 
+		if (efreopen (* argv, "rb", stdin))
 		{
 			copy (STDIN_FILENO, STDOUT_FILENO, buffer, sizeof (buffer));
 		}

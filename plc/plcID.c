@@ -1,26 +1,26 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *
- *   plcID.c - Qualcomm Atheros Powerline Device Identity 
+ *   plcID.c - Qualcomm Atheros Powerline Device Identity
  *
  *
  *   Contributor(s):
@@ -115,13 +115,13 @@
 #define PLCID_NET 5
 
 /*====================================================================*
- *   
+ *
  *   signed function (struct plc * plc, signed newline, signed key);
- *   
+ *
  *   plc.h
- *   
- *   read start of parameter chain from the device using a single 
- *   VS_MODULE_OPERATION message; search parameter chain for PIB and 
+ *
+ *   read start of parameter chain from the device using a single
+ *   VS_MODULE_OPERATION message; search parameter chain for PIB and
  *   print requested key on stdout;
  *
  *
@@ -130,7 +130,7 @@
  *
  *--------------------------------------------------------------------*/
 
-static signed function (struct plc * plc, signed newline, signed key) 
+static signed function (struct plc * plc, signed newline, signed key)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -145,13 +145,13 @@ static signed function (struct plc * plc, signed newline, signed key)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_module_operation_read_request 
+	struct __packed vs_module_operation_read_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
 		uint32_t RESERVED;
 		uint8_t NUM_OP_DATA;
-		struct __packed 
+		struct __packed
 		{
 			uint16_t MOD_OP;
 			uint16_t MOD_OP_DATA_LEN;
@@ -164,7 +164,7 @@ static signed function (struct plc * plc, signed newline, signed key)
 		MODULE_SPEC;
 	}
 	* request = (struct vs_module_operation_read_request *)(message);
-	struct __packed vs_module_operation_read_confirm 
+	struct __packed vs_module_operation_read_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -172,7 +172,7 @@ static signed function (struct plc * plc, signed newline, signed key)
 		uint16_t ERR_REC_CODE;
 		uint32_t RESERVED;
 		uint8_t NUM_OP_DATA;
-		struct __packed 
+		struct __packed
 		{
 			uint16_t MOD_OP;
 			uint16_t MOD_OP_DATA_LEN;
@@ -203,94 +203,94 @@ static signed function (struct plc * plc, signed newline, signed key)
 	request->MODULE_SPEC.MODULE_SUB_ID = HTOLE16 (0);
 	request->MODULE_SPEC.MODULE_LENGTH = HTOLE16 (PLC_MODULE_SIZE);
 	request->MODULE_SPEC.MODULE_OFFSET = HTOLE32 (0);
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0) 
+	if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 		return (-1);
 	}
-	if (confirm->MSTATUS) 
+	if (confirm->MSTATUS)
 	{
 		Failure (plc, PLC_WONTDOIT);
 		return (-1);
 	}
-	do 
+	do
 	{
 		nvm_header = (struct nvm_header2 *)(&confirm->MODULE_DATA [offset]);
-		if (LE16TOH (nvm_header->MajorVersion) != 1) 
+		if (LE16TOH (nvm_header->MajorVersion) != 1)
 		{
-			if (_allclr (plc->flags, PLC_SILENCE)) 
+			if (_allclr (plc->flags, PLC_SILENCE))
 			{
 				error (0, errno, NVM_HDR_VERSION, filename, module);
 			}
 			return (-1);
 		}
-		if (LE16TOH (nvm_header->MinorVersion) != 1) 
+		if (LE16TOH (nvm_header->MinorVersion) != 1)
 		{
-			if (_allclr (plc->flags, PLC_SILENCE)) 
+			if (_allclr (plc->flags, PLC_SILENCE))
 			{
 				error (0, errno, NVM_HDR_VERSION, filename, module);
 			}
 			return (-1);
 		}
-		if (LE32TOH (nvm_header->PrevHeader) != origin) 
+		if (LE32TOH (nvm_header->PrevHeader) != origin)
 		{
-			if (_allclr (plc->flags, PLC_SILENCE)) 
+			if (_allclr (plc->flags, PLC_SILENCE))
 			{
 				error (0, errno, NVM_HDR_LINK, filename, module);
 			}
 			return (-1);
 		}
-		if (checksum32 (nvm_header, sizeof (* nvm_header), 0)) 
+		if (checksum32 (nvm_header, sizeof (* nvm_header), 0))
 		{
 			error (0, 0, NVM_HDR_CHECKSUM, filename, module);
 			return (-1);
 		}
 		origin = offset;
 		offset += sizeof (* nvm_header);
-		if (LE32TOH (nvm_header->ImageType) == NVM_IMAGE_PIB) 
+		if (LE32TOH (nvm_header->ImageType) == NVM_IMAGE_PIB)
 		{
 			struct simple_pib * pib = (struct simple_pib *)(&confirm->MODULE_DATA [offset]);
-			if (key == PLCID_MAC) 
+			if (key == PLCID_MAC)
 			{
 				hexout (pib->MAC, sizeof (pib->MAC), HEX_EXTENDER, 0, stdout);
 			}
-			else if (key == PLCID_DAK) 
+			else if (key == PLCID_DAK)
 			{
 				hexout (pib->DAK, sizeof (pib->DAK), HEX_EXTENDER, 0, stdout);
 			}
-			else if (key == PLCID_NMK) 
+			else if (key == PLCID_NMK)
 			{
 				hexout (pib->NMK, sizeof (pib->NMK), HEX_EXTENDER, 0, stdout);
 			}
-			else if (key == PLCID_MFG) 
+			else if (key == PLCID_MFG)
 			{
 				pib->MFG [PIB_HFID_LEN - 1] = (char)(0);
 				printf ("%s", pib->MFG);
 			}
-			else if (key == PLCID_USR) 
+			else if (key == PLCID_USR)
 			{
 				pib->USR [PIB_HFID_LEN - 1] = (char)(0);
 				printf ("%s", pib->USR);
 			}
-			else if (key == PLCID_NET) 
+			else if (key == PLCID_NET)
 			{
 				pib->NET [PIB_HFID_LEN - 1] = (char)(0);
 				printf ("%s", pib->NET);
 			}
-			if (_anyset (plc->flags, PLC_NEWLINE)) 
+			if (_anyset (plc->flags, PLC_NEWLINE))
 			{
 				putc (newline, stdout);
 			}
 			break;
 		}
-		if (checksum32 (&confirm->MODULE_DATA [offset], LE32TOH (nvm_header->ImageLength), nvm_header->ImageChecksum)) 
+		if (checksum32 (&confirm->MODULE_DATA [offset], LE32TOH (nvm_header->ImageLength), nvm_header->ImageChecksum))
 		{
-			if (_allclr (plc->flags, PLC_SILENCE)) 
+			if (_allclr (plc->flags, PLC_SILENCE))
 			{
 				error (0, errno, NVM_IMG_CHECKSUM, filename, module);
 			}
@@ -307,16 +307,16 @@ static signed function (struct plc * plc, signed newline, signed key)
 /*====================================================================*
  *
  *   int main (int argc, char const * argv []);
- *   
- *   
+ *
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"Ac:Dei:MnNqSUv",
 		"device",
@@ -351,7 +351,7 @@ int main (int argc, char const * argv [])
 	signed newline = '\n';
 	signed key = PLCID_DAK;
 	signed c;
-	if (getenv (PLCDEVICE)) 
+	if (getenv (PLCDEVICE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -366,9 +366,9 @@ int main (int argc, char const * argv [])
 
 	}
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'A':
 			key = PLCID_MAC;
@@ -425,17 +425,17 @@ int main (int argc, char const * argv [])
 	argc -= optind;
 	argv += optind;
 	openchannel (&channel);
-	if (!(plc.message = malloc (sizeof (* plc.message)))) 
+	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);
 	}
-	if (!argc) 
+	if (!argc)
 	{
 		function (&plc, newline, key);
 	}
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
-		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices)))) 
+		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices))))
 		{
 			error (1, errno, PLC_BAD_MAC, * argv);
 		}

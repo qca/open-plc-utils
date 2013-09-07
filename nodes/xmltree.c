@@ -20,14 +20,14 @@
 #include "../nodes/node.h"
 #include "../tools/format.h"
 
-void xmltree (NODE const * node) 
+void xmltree (NODE const * node)
 
 {
-	if (node) 
+	if (node)
 	{
 		node = node->below;
 	}
-	while (node) 
+	while (node)
 	{
 		static unsigned level = 0;
 		printf ("%03d ", node->line);

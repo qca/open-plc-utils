@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -23,12 +23,12 @@
  *   int6kf.c - Atheros Powerline Device Flash Utility;
  *
  *   this program sends and receives raw ethernet frames and so needs
- *   root priviledges; if you install it using "chmod 555" and "chown 
- *   root:root" then you must login as root to run it; otherwise, you 
- *   can install it using "chmod 4555" and "chown root:root" so that 
+ *   root priviledges; if you install it using "chmod 555" and "chown
+ *   root:root" then you must login as root to run it; otherwise, you
+ *   can install it using "chmod 4555" and "chown root:root" so that
  *   anyone can run it; the program will refuse to run until you get
  *   things right;
- *   
+ *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
  *
@@ -144,26 +144,26 @@
 #endif
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, const char * argv[]);
- *   
- *   parse command line, populate int6k structure and perform selected 
+ *
+ *   parse command line, populate int6k structure and perform selected
  *   operations; show help summary when asked; see getoptv and putoptv
  *   to understand command line parsing and help summary display; see
- *   int6k.h for the definition of struct int6k; 
+ *   int6k.h for the definition of struct int6k;
  *
- *   the default interface is eth1 because most people use eth0 as 
- *   their principle network connection; you can specify another 
+ *   the default interface is eth1 because most people use eth0 as
+ *   their principle network connection; you can specify another
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
- *   
+ *
  *--------------------------------------------------------------------*/
 
-int main (int argc, const char * argv []) 
+int main (int argc, const char * argv [])
 
 {
 	extern struct channel channel;
-	static const char *optv [] = 
+	static const char *optv [] =
 	{
 		"C:i:eFN:p:P:qt:vx",
 		"-C file -P file -N file",
@@ -198,14 +198,14 @@ int main (int argc, const char * argv [])
 
 		"v\tverbose mode",
 		"x\texit on error",
-		(const char *) (0) 
+		(const char *) (0)
 	};
 
 #include "../plc/plc.c"
 
 	char firmware [PLC_VERSION_STRING];
 	signed c;
-	if (getenv (PLCDEVICE)) 
+	if (getenv (PLCDEVICE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -221,20 +221,20 @@ int main (int argc, const char * argv [])
 	}
 	optind = 1;
 	opterr = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch ((char) (c)) 
+		switch ((char) (c))
 		{
 		case 'C':
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, "%s", optarg);
 			}
-			if ((plc.CFG.file = open (optarg, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc.CFG.file = open (optarg, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", optarg);
 			}
-			if (sdramfile (plc.CFG.file, optarg, plc.flags)) 
+			if (sdramfile (plc.CFG.file, optarg, plc.flags))
 			{
 				error (1, ECANCELED, "CFG file %s is corrupt", optarg);
 			}
@@ -259,39 +259,39 @@ int main (int argc, const char * argv [])
 			break;
 		case 'F':
 			_setbits (plc.module, PLC_MODULE_NVM_PIB);
-			if (_anyset (plc.flags, PLC_FLASH_DEVICE)) 
+			if (_anyset (plc.flags, PLC_FLASH_DEVICE))
 			{
 				_setbits (plc.module, VS_MODULE_FORCE);
 			}
 			_setbits (plc.flags, PLC_FLASH_DEVICE);
 			break;
 		case 'N':
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, "%s", optarg);
 			}
-			if ((plc.NVM.file = open (optarg, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc.NVM.file = open (optarg, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", optarg);
 			}
 			plc.NVM.name = optarg;
-			if (nvmfile1 (&plc.NVM)) 
+			if (nvmfile1 (&plc.NVM))
 			{
 				error (1, errno, "Bad NVM file: %s", plc.NVM.name);
 			}
 			_setbits (plc.flags, PLC_WRITE_MAC);
 			break;
 		case 'P':
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, "%s", optarg);
 			}
-			if ((plc.PIB.file = open (optarg, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc.PIB.file = open (optarg, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", optarg);
 			}
 			plc.PIB.name = optarg;
-			if (pibfile1 (&plc.PIB)) 
+			if (pibfile1 (&plc.PIB))
 			{
 				error (1, errno, "Bad PIB file: %s", plc.PIB.name);
 			}
@@ -317,45 +317,45 @@ int main (int argc, const char * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (argc) 
+	if (argc)
 	{
 		error (1, ECANCELED, "Too many arguments");
 	}
-	if (plc.CFG.file == -1) 
+	if (plc.CFG.file == -1)
 	{
 		error (1, ECANCELED, "No CFG file specified");
 	}
-	if (plc.PIB.file == -1) 
+	if (plc.PIB.file == -1)
 	{
 		error (1, ECANCELED, "No PIB file specified");
 	}
-	if (plc.NVM.file == -1) 
+	if (plc.NVM.file == -1)
 	{
 		error (1, ECANCELED, "No NVM file specified");
 	}
 	openchannel (&channel);
-	if (!(plc.message = malloc (sizeof (struct message)))) 
+	if (!(plc.message = malloc (sizeof (struct message))))
 	{
 		error (1, errno, PLC_NOMEMORY);
 	}
-	if (WaitForStart (&plc, firmware, sizeof (firmware))) 
+	if (WaitForStart (&plc, firmware, sizeof (firmware)))
 	{
 		Failure (&plc, "Device must be connected");
 		return (-1);
 	}
-	if (plc.hardwareID > CHIPSET_INT6300) 
+	if (plc.hardwareID > CHIPSET_INT6300)
 	{
 		Failure (&plc, "Device must be %s or earlier; try using int6kboot.", chipsetname (CHIPSET_INT6300));
 		return (-1);
 	}
-	if (strcmp (firmware, "BootLoader")) 
+	if (strcmp (firmware, "BootLoader"))
 	{
 		Failure (&plc, "Bootloader must be running");
 		return (-1);
 	}
-	if (!StartDevice1 (&plc)) 
+	if (!StartDevice1 (&plc))
 	{
-		if (_anyset (plc.flags, PLC_FLASH_DEVICE)) 
+		if (_anyset (plc.flags, PLC_FLASH_DEVICE))
 		{
 			UpgradeDevice1 (&plc);
 		}

@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -98,7 +98,7 @@
 #endif
 
 /*====================================================================*
- *   
+ *
  *   void function (struct channel * channel, void * memory, unsigned extent, unsigned timer, unsigned pause);
  *
  *   transmit an IP broadcast frame of given length at maximum rate
@@ -107,13 +107,13 @@
  *
  *--------------------------------------------------------------------*/
 
-static void function (struct channel * channel, void * memory, ssize_t extent, byte binary, unsigned timer, unsigned pause) 
+static void function (struct channel * channel, void * memory, ssize_t extent, byte binary, unsigned timer, unsigned pause)
 
 {
 
 #if EFBU_VLAN_TAG
 
-	struct ether_header 
+	struct ether_header
 	{
 		uint8_t ether_dhost [ETH_ALEN];
 		uint8_t ether_shost [ETH_ALEN];
@@ -130,9 +130,9 @@ static void function (struct channel * channel, void * memory, ssize_t extent, b
 
 	struct timeval ts;
 	struct timeval tc;
-	unsigned since;   
+	unsigned since;
 	memset (memory, binary, extent);
-	if (extent > (ETHER_MAX_LEN - ETHER_CRC_LEN)) 
+	if (extent > (ETHER_MAX_LEN - ETHER_CRC_LEN))
 	{
 		extent = ETHER_MAX_LEN - ETHER_CRC_LEN;
 	}
@@ -146,14 +146,14 @@ static void function (struct channel * channel, void * memory, ssize_t extent, b
 #endif
 
 	frame->ether_type = htons (channel->type);
-	if (gettimeofday (&ts, NULL) == -1) 
+	if (gettimeofday (&ts, NULL) == -1)
 	{
 		error (1, errno, CANT_START_TIMER);
 	}
-	for (since = 0; since < timer; since = (tc.tv_sec - ts.tv_sec) * 1000 + ((tc.tv_usec - ts.tv_usec) / 1000)) 
+	for (since = 0; since < timer; since = (tc.tv_sec - ts.tv_sec) * 1000 + ((tc.tv_usec - ts.tv_usec) / 1000))
 	{
 		sendpacket (channel, memory, extent);
-		if (gettimeofday (&tc, NULL) == -1) 
+		if (gettimeofday (&tc, NULL) == -1)
 		{
 			error (1, errno, CANT_RESET_TIMER);
 		}
@@ -164,18 +164,18 @@ static void function (struct channel * channel, void * memory, ssize_t extent, b
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv []);
  *
  *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"b:d:e:hi:p:t:v",
 		"",
@@ -205,7 +205,7 @@ int main (int argc, char const * argv [])
 	unsigned timer = EFBU_TIMER;
 	unsigned pause = EFBU_PAUSE;
 	signed c;
-	if (getenv (EFBU_INTERFACE)) 
+	if (getenv (EFBU_INTERFACE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -223,16 +223,16 @@ int main (int argc, char const * argv [])
 	memset (channel.peer, 0xFF, sizeof (channel.peer));
 	memset (channel.host, 0xFF, sizeof (channel.host));
 	channel.type = EFBU_ETHERTYPE;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'b':
 			binary = (uint8_t)(uintspec (optarg, 0, 255));
 			break;
 		case 'd':
 			_setbits (channel.flags, CHANNEL_UPDATE_TARGET);
-			if (!hexencode (channel.peer, sizeof (channel.peer), optarg)) 
+			if (!hexencode (channel.peer, sizeof (channel.peer), optarg))
 			{
 				error (1, errno, "%s", optarg);
 			}
@@ -274,7 +274,7 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (argc) 
+	if (argc)
 	{
 		error (1, ECANCELED, ERROR_TOOMANY);
 	}

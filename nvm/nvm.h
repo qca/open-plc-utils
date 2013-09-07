@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -46,8 +46,8 @@
  *   nvm program constants;
  *--------------------------------------------------------------------*/
 
-#define NVM_IMAGETYPES 18 
-#define NVM_PLATFORMS 5 
+#define NVM_IMAGETYPES 18
+#define NVM_PLATFORMS 5
 
 /*====================================================================*
  *   nvm program flags;
@@ -159,25 +159,25 @@
 #pragma pack (push,1)
 #endif
 
-typedef struct __packed nvm_header1 
+typedef struct __packed nvm_header1
 
-{ 
-	uint32_t HEADERVERSION; 
-	uint32_t IMAGEROMADDR; 
-	uint32_t IMAGEADDRESS; 
-	uint32_t IMAGELENGTH; 
-	uint32_t IMAGECHECKSUM; 
-	uint32_t ENTRYPOINT; 
-	uint8_t HEADERMINORVERSION; 
-	uint8_t IMAGETYPE; 
-	uint16_t IGNOREMASK; 
-	uint32_t MODULEID; 
-	uint32_t MODULESUBID; 
-	uint32_t NEXTHEADER; 
-	uint32_t HEADERCHECKSUM; 
-} 
+{
+	uint32_t HEADERVERSION;
+	uint32_t IMAGEROMADDR;
+	uint32_t IMAGEADDRESS;
+	uint32_t IMAGELENGTH;
+	uint32_t IMAGECHECKSUM;
+	uint32_t ENTRYPOINT;
+	uint8_t HEADERMINORVERSION;
+	uint8_t IMAGETYPE;
+	uint16_t IGNOREMASK;
+	uint32_t MODULEID;
+	uint32_t MODULESUBID;
+	uint32_t NEXTHEADER;
+	uint32_t HEADERCHECKSUM;
+}
 
-nvm_header1; 
+nvm_header1;
 
 #ifndef __GNUC__
 #pragma pack (pop)
@@ -191,39 +191,39 @@ nvm_header1;
 #pragma pack (push,1)
 #endif
 
-typedef struct __packed nvm_header2 
+typedef struct __packed nvm_header2
 
-{ 
-	uint16_t MajorVersion; 
-	uint16_t MinorVersion; 
-	uint32_t ExecuteMask; 
-	uint32_t ImageNvmAddress; 
-	uint32_t ImageAddress; 
-	uint32_t ImageLength; 
-	uint32_t ImageChecksum; 
-	uint32_t EntryPoint; 
-	uint32_t NextHeader; 
-	uint32_t PrevHeader; 
-	uint32_t ImageType; 
-	uint16_t ModuleID; 
-	uint16_t ModuleSubID; 
-	uint16_t AppletEntryVersion; 
-	uint16_t Reserved0; 
-	uint32_t Reserved1; 
-	uint32_t Reserved2; 
-	uint32_t Reserved3; 
-	uint32_t Reserved4; 
-	uint32_t Reserved5; 
-	uint32_t Reserved6; 
-	uint32_t Reserved7; 
-	uint32_t Reserved8; 
-	uint32_t Reserved9; 
-	uint32_t Reserved10; 
-	uint32_t Reserved11; 
-	uint32_t HeaderChecksum; 
-} 
+{
+	uint16_t MajorVersion;
+	uint16_t MinorVersion;
+	uint32_t ExecuteMask;
+	uint32_t ImageNvmAddress;
+	uint32_t ImageAddress;
+	uint32_t ImageLength;
+	uint32_t ImageChecksum;
+	uint32_t EntryPoint;
+	uint32_t NextHeader;
+	uint32_t PrevHeader;
+	uint32_t ImageType;
+	uint16_t ModuleID;
+	uint16_t ModuleSubID;
+	uint16_t AppletEntryVersion;
+	uint16_t Reserved0;
+	uint32_t Reserved1;
+	uint32_t Reserved2;
+	uint32_t Reserved3;
+	uint32_t Reserved4;
+	uint32_t Reserved5;
+	uint32_t Reserved6;
+	uint32_t Reserved7;
+	uint32_t Reserved8;
+	uint32_t Reserved9;
+	uint32_t Reserved10;
+	uint32_t Reserved11;
+	uint32_t HeaderChecksum;
+}
 
-nvm_header2; 
+nvm_header2;
 
 #ifndef __GNUC__
 #pragma pack (pop)
@@ -233,20 +233,20 @@ nvm_header2;
  *   nvm functions;
  *--------------------------------------------------------------------*/
 
-signed manifest (void const * memory, size_t extent); 
-void * manifetch (void const * memory, size_t extent, uint32_t type); 
-signed nvmfile (struct _file_ const *); 
-signed nvmfile1 (struct _file_ const *); 
-signed nvmfile2 (struct _file_ const *); 
-signed fdmanifest (signed fd, char const * filename, struct nvm_header2 *, unsigned module); 
-signed nvmseek1 (signed fd, char const * filename, struct nvm_header1 *, uint32_t imagetype); 
-signed nvmseek2 (signed fd, char const * filename, struct nvm_header2 *, uint32_t imagetype); 
-void nvmpeek (void const *); 
-void nvmpeek1 (void const *); 
-void nvmpeek2 (void const *); 
+signed manifest (void const * memory, size_t extent);
+void * manifetch (void const * memory, size_t extent, uint32_t type);
+signed nvmfile (struct _file_ const *);
+signed nvmfile1 (struct _file_ const *);
+signed nvmfile2 (struct _file_ const *);
+signed fdmanifest (signed fd, char const * filename, struct nvm_header2 *, unsigned module);
+signed nvmseek1 (signed fd, char const * filename, struct nvm_header1 *, uint32_t imagetype);
+signed nvmseek2 (signed fd, char const * filename, struct nvm_header2 *, uint32_t imagetype);
+void nvmpeek (void const *);
+void nvmpeek1 (void const *);
+void nvmpeek2 (void const *);
 
 /*====================================================================*
- *   
+ *
  *--------------------------------------------------------------------*/
 
 #endif

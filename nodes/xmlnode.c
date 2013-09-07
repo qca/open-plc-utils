@@ -3,7 +3,7 @@
  *   NODE * xmlnode (NODE * root);
  *
  *   node.h
- *   
+ *
  *   create an empty node and attach it as the last child below the
  *   root node;
  *
@@ -21,19 +21,19 @@
 #include "../nodes/node.h"
 #include "../tools/memory.h"
 
-NODE * xmlnode (NODE * root) 
+NODE * xmlnode (NODE * root)
 
 {
 	NODE * node = NEW (NODE);
 	memset (node, 0, sizeof (NODE));
-	if (!root) 
+	if (!root)
 	{
 		return (node);
 	}
-	if (root->below) 
+	if (root->below)
 	{
 		NODE * temp = root->below;
-		while (temp->after) 
+		while (temp->after)
 		{
 			temp = temp->after;
 		}

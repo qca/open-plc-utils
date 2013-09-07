@@ -4,7 +4,7 @@
  *
  *   this file is an alterantive to GNU header file of the same
  *   name; in addition to standard GNU error function declarations,
- *   some additional functions are declared; 
+ *   some additional functions are declared;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
  *   Copyright 2001-2006 by Charles Maier Associates;
@@ -16,19 +16,19 @@
 #define ERROR_HEADER
 
 /*====================================================================*
- *   system header files; 
+ *   system header files;
  *--------------------------------------------------------------------*/
 
 #include <errno.h>
 
 /*====================================================================*
- *   custom header files; 
+ *   custom header files;
  *--------------------------------------------------------------------*/
 
 #include "../tools/types.h"
 
 /*====================================================================*
- *    
+ *
  *--------------------------------------------------------------------*/
 
 #if defined (WIN32)
@@ -59,7 +59,7 @@
 #endif
 
 /*====================================================================*
- *   define common error message strings; 
+ *   define common error message strings;
  *--------------------------------------------------------------------*/
 
 #define ERROR_NOTROOT "This program needs root privileges"
@@ -69,18 +69,18 @@
 #define CANT_RESET_TIMER "function %s can't reset timer", __func__
 
 /*====================================================================*
- *    
+ *
  *--------------------------------------------------------------------*/
 
 #define TRACE error (0, 0, "%s (%d)", __FILE__, __LINE__);
 
 /*====================================================================*
- *   declare GNU error() and error_at_line() functions;  
+ *   declare GNU error() and error_at_line() functions;
  *--------------------------------------------------------------------*/
 
 #ifdef __GNUC__
 
-__attribute__ ((format (printf, 3, 4))) 
+__attribute__ ((format (printf, 3, 4)))
 
 #endif
 
@@ -88,7 +88,7 @@ signed error (signed status, errno_t number, char const * format, ...);
 
 #ifdef __GNUC__
 
-__attribute__ ((format (printf, 3, 4))) 
+__attribute__ ((format (printf, 3, 4)))
 
 #endif
 

@@ -4,7 +4,7 @@
  *
  *   version.h
  *
- *   print program and package version information on stdout; 
+ *   print program and package version information on stdout;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
@@ -20,7 +20,7 @@
 
 #include "../tools/version.h"
 
-void version () 
+void version ()
 
 {
 	extern char const * program_name;

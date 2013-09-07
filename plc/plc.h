@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 #ifndef PLC_HEADER
@@ -39,8 +39,8 @@
 #include "../pib/pib.h"
 
 /*====================================================================*
- *   constants; these codes are returned in the DEVICEID field of the 
- *   firmware VS_SW_VER message; 
+ *   constants; these codes are returned in the DEVICEID field of the
+ *   firmware VS_SW_VER message;
  *--------------------------------------------------------------------*/
 
 #define CHIPSET_UNKNOWN 0x00
@@ -72,13 +72,13 @@
 #define PLC_MODULE_FORCE_SECTION        (1 << 7)
 
 /*====================================================================*
- *   constants;                
+ *   constants;
  *--------------------------------------------------------------------*/
 
 #define PLC_VERSION_STRING 0xFF
 #define PLC_RECORD_SIZE 1024
 #define PLC_MODULE_SIZE 1400
-#define PLC_SLOTS 6    
+#define PLC_SLOTS 6
 
 #define LEGACY_PIBOFFSET 0x01F00000
 #define INT6x00_PIBOFFSET 0x01000000
@@ -90,7 +90,7 @@
 #define AMP_BITS 9
 
 /*====================================================================*
- *   device manager flagword bits; 
+ *   device manager flagword bits;
  *--------------------------------------------------------------------*/
 
 /*
@@ -108,7 +108,7 @@
 #define PLC_WAITFORRESET      (1 << 4)
 #define PLC_WAITFORSTART      (1 << 5)
 #define PLC_WAITFORASSOC      (1 << 6)
-#define PLC_REMOTEHOSTS       PLC_WAITFORASSOC 
+#define PLC_REMOTEHOSTS       PLC_WAITFORASSOC
 #define PLC_RESET_DEVICE      (1 << 7)
 #define PLC_RANDOM_ADDR       PLC_RESET_DEVICE
 #define PLC_TIM_GARGRAVE      PLC_RESET_DEVICE
@@ -134,7 +134,7 @@
 #define PLC_READ_PIB          (1 << 13)
 #define PLC_NETWORK_TRAFFIC   PLC_READ_PIB /* plcrate */
 #define PLC_READ_IDENTITY     (1 << 14)
-#define PLC_UNCODED_RATES     PLC_READ_IDENTITY /* plcrate */  
+#define PLC_UNCODED_RATES     PLC_READ_IDENTITY /* plcrate */
 #define PLC_WRITE_MAC         (1 << 15)
 #define PLC_LINK_STATS        PLC_WRITE_MAC /* plcstat */
 #define PLC_WRITE_PIB         (1 << 16)
@@ -184,7 +184,7 @@
 #define PLC_BAD_NMK "Have '%s' instead of NMK"
 
 /*====================================================================*
- *    program constants; 
+ *    program constants;
  *--------------------------------------------------------------------*/
 
 #define PLCDEVICE "PLC"
@@ -228,16 +228,16 @@ extern struct _term_ const devices [PLCDEVICES];
  *   the plc structure holds everything needed to perform powerline
  *   device management operations including a channel structure for
  *   Ethernet interface management and a message structure for data
- *   buffer management;   
+ *   buffer management;
  *
  *   the channel structure holds information needed to open, read,
  *   write and close a raw socket; it differs in detail depending
- *   on constants WINPCAP and LIBPCAP; 
+ *   on constants WINPCAP and LIBPCAP;
  *
- *   character array address[] holds a decoded ethernet address for 
- *   display purposes because humans cannot read; 
+ *   character array address[] holds a decoded ethernet address for
+ *   display purposes because humans cannot read;
  *
- *   byte array LMA[] holds the Qualcomm Local Broadcast Address 
+ *   byte array LMA[] holds the Qualcomm Local Broadcast Address
  *   because it is used in so many places;
  *
  *   byte arrays NMK[] and DAK[] hold encryption keys used by some
@@ -247,14 +247,14 @@ extern struct _term_ const devices [PLCDEVICES];
  *   name of the host NIC where the name is eth0, eth1, ... or ethn;
  *
  *   the three _file_ structures, CFG, NVM, and PIB hold descriptors
- *   and filenames for files written to the device; 
+ *   and filenames for files written to the device;
  *
- *   the three _file_ structures cfg, nvm and pib hold 
+ *   the three _file_ structures cfg, nvm and pib hold
  *   descriptors and filenames of files read from the device;
  *
  *   integers retry and timer are used by program plcwait;
  *
- *   integers index, count and pause control command line looping 
+ *   integers index, count and pause control command line looping
  *   and waiting;
  *
  *   flag_t flags contains bits that define program operations and
@@ -262,7 +262,7 @@ extern struct _term_ const devices [PLCDEVICES];
  *
  *--------------------------------------------------------------------*/
 
-typedef struct plc 
+typedef struct plc
 
 {
 	struct channel * channel;
@@ -309,7 +309,7 @@ void chipset (void const * memory);
 char const * chipsetname (uint8_t chipset);
 
 /*====================================================================*
- *   functions; 
+ *   functions;
  *--------------------------------------------------------------------*/
 
 signed Attributes (struct plc *);
@@ -461,7 +461,7 @@ signed WriteParameters1 (struct plc *, unsigned module, const struct nvm_header1
 signed WriteParameters2 (struct plc *, unsigned module, const struct nvm_header2 *);
 
 /*====================================================================*
- *   
+ *
  *--------------------------------------------------------------------*/
 
 #define PLC_FORMAT_HEX 0
@@ -473,7 +473,7 @@ signed WriteParameters2 (struct plc *, unsigned module, const struct nvm_header2
 #pragma pack (push,1)
 #endif
 
-struct __packed plcproperty 
+struct __packed plcproperty
 
 {
 	uint8_t PROP_OPTION;
@@ -494,7 +494,7 @@ plcproperty;
 #endif
 
 /*====================================================================*
- *   
+ *
  *--------------------------------------------------------------------*/
 
 signed GetProperty (struct plc *, struct plcproperty *);
@@ -504,7 +504,7 @@ signed SetProperty (struct plc *, struct plcproperty *);
  *
  *--------------------------------------------------------------------*/
 
-typedef struct __packed plcstation 
+typedef struct __packed plcstation
 
 {
 	uint8_t LOC;
@@ -520,7 +520,7 @@ typedef struct __packed plcstation
 }
 
 plcstation;
-typedef struct __packed plcnetwork 
+typedef struct __packed plcnetwork
 
 {
 	signed ifname;
@@ -529,7 +529,7 @@ typedef struct __packed plcnetwork
 }
 
 plcnetwork;
-typedef struct __packed plctopology 
+typedef struct __packed plctopology
 
 {
 	signed plcnetworks;
@@ -540,7 +540,7 @@ pcltopology;
 
 /*====================================================================*
  *   functions that use struct channel and struct message directly
- *   instead of struct plc; 
+ *   instead of struct plc;
  *--------------------------------------------------------------------*/
 
 signed FlashMOD (struct channel *, uint8_t module);
@@ -587,7 +587,7 @@ signed PLCTopologyPrint (struct plctopology *);
 #define PLC_MODULEID_PIBMERGE   0x7005
 #define PLC_MODULEID_RESERVED2  0x7006
 
-typedef struct __packed vs_module_spec 
+typedef struct __packed vs_module_spec
 
 {
 	uint16_t MODULE_ID;
@@ -619,7 +619,7 @@ signed ModuleCommit (struct plc *, uint32_t flags);
 
 #ifdef __GNUC__
 
-__attribute__ ((format (printf, 2, 3))) 
+__attribute__ ((format (printf, 2, 3)))
 
 #endif
 
@@ -627,7 +627,7 @@ void Request (struct plc *, char const * format, ...);
 
 #ifdef __GNUC__
 
-__attribute__ ((format (printf, 2, 3))) 
+__attribute__ ((format (printf, 2, 3)))
 
 #endif
 
@@ -635,7 +635,7 @@ void Confirm (struct plc *, char const * format, ...);
 
 #ifdef __GNUC__
 
-__attribute__ ((format (printf, 2, 3))) 
+__attribute__ ((format (printf, 2, 3)))
 
 #endif
 
@@ -643,7 +643,7 @@ void Display (struct plc *, char const * format, ...);
 
 #ifdef __GNUC__
 
-__attribute__ ((format (printf, 2, 3))) 
+__attribute__ ((format (printf, 2, 3)))
 
 #endif
 

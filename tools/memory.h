@@ -31,7 +31,7 @@
 #include "../tools/endian.h"
 
 /*====================================================================*
- *   
+ *
  *--------------------------------------------------------------------*/
 
 #define IPv4_LEN 4
@@ -58,8 +58,8 @@
  *   macro expansions;
  *--------------------------------------------------------------------*/
 
-#define NEW(object) (object *)(emalloc(sizeof(object))) 
-#define STR(length) (char *)(emalloc((length)+1)) 
+#define NEW(object) (object *)(emalloc(sizeof(object)))
+#define STR(length) (char *)(emalloc((length)+1))
 
 /*====================================================================*
  *   memory increment/decrement functions;
@@ -71,7 +71,7 @@ signed memincr (void * memory, size_t extent);
 signed memdecr (void * memory, size_t extent);
 
 /*====================================================================*
- *   
+ *
  *--------------------------------------------------------------------*/
 
 bool memseek (void const * memory, size_t extent, void const * buffer, size_t length);

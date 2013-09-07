@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -116,7 +116,7 @@
 #pragma pack (push,1)
 #endif
 
-typedef struct __packed selftest 
+typedef struct __packed selftest
 
 {
 	uint8_t MVERSION;
@@ -134,13 +134,13 @@ selftest;
 #endif
 
 /*====================================================================*
- *   
+ *
  *   signed configure (struct plc * plc, struct selftest * selftest);
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-static signed configure (struct plc * plc, struct selftest * selftest) 
+static signed configure (struct plc * plc, struct selftest * selftest)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -150,7 +150,7 @@ static signed configure (struct plc * plc, struct selftest * selftest)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_selftest_onetime_config_request 
+	struct __packed vs_selftest_onetime_config_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -162,7 +162,7 @@ static signed configure (struct plc * plc, struct selftest * selftest)
 		uint8_t RESETONDONE;
 	}
 	* request = (struct vs_selftest_onetime_config_request *) (message);
-	struct __packed vs_selftest_onetime_config_confirm 
+	struct __packed vs_selftest_onetime_config_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -185,14 +185,14 @@ static signed configure (struct plc * plc, struct selftest * selftest)
 	request->FLASHRUNS = HTOLE32 (selftest->FLASHRUNS);
 	request->RESETONDONE = selftest->RESETONDONE;
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	while (ReadMME (plc, 0, (VS_SELFTEST_ONETIME_CONFIG | MMTYPE_CNF)) > 0) 
+	while (ReadMME (plc, 0, (VS_SELFTEST_ONETIME_CONFIG | MMTYPE_CNF)) > 0)
 	{
-		if (confirm->MSTATUS) 
+		if (confirm->MSTATUS)
 		{
 			Failure (plc, PLC_WONTDOIT);
 			continue;
@@ -204,13 +204,13 @@ static signed configure (struct plc * plc, struct selftest * selftest)
 
 
 /*====================================================================*
- *   
+ *
  *   signed retrieve (struct plc * plc, struct selftest * selftest);
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-static signed retrieve (struct plc * plc, struct selftest * selftest) 
+static signed retrieve (struct plc * plc, struct selftest * selftest)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -220,7 +220,7 @@ static signed retrieve (struct plc * plc, struct selftest * selftest)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_selftest_results_request 
+	struct __packed vs_selftest_results_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -228,7 +228,7 @@ static signed retrieve (struct plc * plc, struct selftest * selftest)
 		uint8_t MACTION;
 	}
 	* request = (struct vs_selftest_results_request *) (message);
-	struct __packed vs_selftest_results_confirm 
+	struct __packed vs_selftest_results_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -249,24 +249,24 @@ static signed retrieve (struct plc * plc, struct selftest * selftest)
 	request->MVERSION = selftest->MVERSION;
 	request->MACTION = plc->action;
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	while (ReadMME (plc, 0, (VS_SELFTEST_RESULTS | MMTYPE_CNF)) > 0) 
+	while (ReadMME (plc, 0, (VS_SELFTEST_RESULTS | MMTYPE_CNF)) > 0)
 	{
-		if ((confirm->MSTATUS == 2) || (confirm->MSTATUS == 4) || (confirm->MSTATUS == 6)) 
+		if ((confirm->MSTATUS == 2) || (confirm->MSTATUS == 4) || (confirm->MSTATUS == 6))
 		{
 			Display (plc, "Memory test %d Passed %d Failed %d  Flash test %d Passed %d Failed %d", LE32TOH (confirm->NUMBER [0]), LE32TOH (confirm->NUMBER [1]), LE32TOH (confirm->NUMBER [2]), LE32TOH (confirm->NUMBER [3]), LE32TOH (confirm->NUMBER [4]), LE32TOH (confirm->NUMBER [5]));
 			continue;
 		}
-		if (confirm->MSTATUS == 3) 
+		if (confirm->MSTATUS == 3)
 		{
 			Failure (plc, "%d seconds remaining", LE32TOH (confirm->NUMBER [0]));
 			continue;
 		}
-		if (confirm->MSTATUS) 
+		if (confirm->MSTATUS)
 		{
 			Failure (plc, PLC_WONTDOIT);
 			continue;
@@ -284,14 +284,14 @@ static signed retrieve (struct plc * plc, struct selftest * selftest)
  *
  *--------------------------------------------------------------------*/
 
-static signed manager (struct plc * plc, struct selftest * selftest) 
+static signed manager (struct plc * plc, struct selftest * selftest)
 
 {
-	if (_anyset (plc->flags, PLC_CONFIGURE)) 
+	if (_anyset (plc->flags, PLC_CONFIGURE))
 	{
 		configure (plc, selftest);
 	}
-	if (_anyset (plc->flags, PLC_RESULTS)) 
+	if (_anyset (plc->flags, PLC_RESULTS))
 	{
 		retrieve (plc, selftest);
 	}
@@ -300,17 +300,17 @@ static signed manager (struct plc * plc, struct selftest * selftest)
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv[]);
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"c:Cd:ef:i:m:qr:R:t:vx",
 		"device [device] [...] [> stdout]",
@@ -343,7 +343,7 @@ int main (int argc, char const * argv [])
 
 #include "../plc/plc.c"
 
-	struct selftest selftest = 
+	struct selftest selftest =
 	{
 		PLCOTST_MVERSION,
 		PLCOTST_RUNAFTERRESET,
@@ -353,14 +353,14 @@ int main (int argc, char const * argv [])
 		PLCOTST_RESETONDONE
 	};
 	signed c;
-	if (getenv (PLCDEVICE)) 
+	if (getenv (PLCDEVICE))
 	{
 		channel.ifname = strdup (getenv (PLCDEVICE));
 	}
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'c':
 			selftest.MVERSION = (uint8_t)(uintspec (optarg, 0, UCHAR_MAX));
@@ -425,22 +425,22 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (_allclr (plc.flags, (PLC_CONFIGURE | PLC_RESULTS))) 
+	if (_allclr (plc.flags, (PLC_CONFIGURE | PLC_RESULTS)))
 	{
 		_setbits (plc.flags, PLC_RESULTS);
 	}
 	openchannel (&channel);
-	if (!(plc.message = malloc (sizeof (* plc.message)))) 
+	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);
 	}
-	if (!argc) 
+	if (!argc)
 	{
 		manager (&plc, &selftest);
 	}
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
-		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices)))) 
+		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices))))
 		{
 			error (1, errno, PLC_BAD_MAC, * argv);
 		}

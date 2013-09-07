@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -55,7 +55,7 @@
 #	include <sys/types.h>
 #	include <fcntl.h>
 #	include <stdlib.h>
-#elif defined (WINPCAP) 
+#elif defined (WINPCAP)
 #	include <string.h>
 #else
 #error "Unknown environment"
@@ -70,14 +70,14 @@
 #	include "../ether/gethwaddr.c"
 #endif
 
-signed openchannel (struct channel * channel) 
+signed openchannel (struct channel * channel)
 
 {
 
-#if defined (__linux__) 
+#if defined (__linux__)
 
 	struct ifreq ifreq;
-	struct sockaddr_ll sockaddr_ll = 
+	struct sockaddr_ll sockaddr_ll =
 	{
 		PF_PACKET,
 		0x0000,
@@ -99,45 +99,45 @@ signed openchannel (struct channel * channel)
 
 /*
  *      raw packets require root privileges on linux; one does not have to be
- *      root when this program is installed setuid using 'chown root:root' and 
+ *      root when this program is installed setuid using 'chown root:root' and
  *      'chmod 4555';
  */
 
-	if (geteuid ()) 
+	if (geteuid ())
 	{
 		error (1, EPERM, ERROR_NOTROOT);
 	}
 
 	memset (&ifreq, 0, sizeof (ifreq));
 	sockaddr_ll.sll_protocol = htons (channel->type);
-	if ((channel->fd = socket (sockaddr_ll.sll_family, SOCK_RAW, sockaddr_ll.sll_protocol)) == -1) 
+	if ((channel->fd = socket (sockaddr_ll.sll_family, SOCK_RAW, sockaddr_ll.sll_protocol)) == -1)
 	{
 		error (1, errno, "%s", channel->ifname);
 	}
 	memcpy (ifreq.ifr_name, channel->ifname, sizeof (ifreq.ifr_name));
-	if (ioctl (channel->fd, SIOCGIFINDEX, &ifreq) == -1) 
+	if (ioctl (channel->fd, SIOCGIFINDEX, &ifreq) == -1)
 	{
 		error (1, errno, "%s", ifreq.ifr_name);
 	}
 	channel->ifindex = sockaddr_ll.sll_ifindex = ifreq.ifr_ifindex;
-	if (ioctl (channel->fd, SIOCGIFHWADDR, &ifreq) == -1) 
+	if (ioctl (channel->fd, SIOCGIFHWADDR, &ifreq) == -1)
 	{
 		error (1, errno, "%s", ifreq.ifr_name);
 	}
 	memcpy (sockaddr_ll.sll_addr, ifreq.ifr_ifru.ifru_hwaddr.sa_data, sizeof (sockaddr_ll.sll_addr));
-	if (bind (channel->fd, (struct sockaddr *) (&sockaddr_ll), sizeof (sockaddr_ll)) == -1) 
+	if (bind (channel->fd, (struct sockaddr *) (&sockaddr_ll), sizeof (sockaddr_ll)) == -1)
 	{
 		error (1, errno, "%s", ifreq.ifr_name);
 	}
 	memcpy (channel->host, sockaddr_ll.sll_addr, sizeof (channel->host));
-	if (ioctl (channel->fd, SIOCGIFFLAGS, &ifreq) == -1) 
+	if (ioctl (channel->fd, SIOCGIFFLAGS, &ifreq) == -1)
 	{
 		error (1, errno, "%s", ifreq.ifr_name);
 	}
 	channel->ifstate = ifreq.ifr_flags;
 	_setbits (ifreq.ifr_flags, (IFF_UP | IFF_BROADCAST | IFF_MULTICAST));
 	_clrbits (ifreq.ifr_flags, (IFF_ALLMULTI | IFF_PROMISC));
-	if (ioctl (channel->fd, SIOCSIFFLAGS, &ifreq) == -1) 
+	if (ioctl (channel->fd, SIOCSIFFLAGS, &ifreq) == -1)
 	{
 		error (1, errno, "%s", ifreq.ifr_name);
 	}
@@ -145,7 +145,7 @@ signed openchannel (struct channel * channel)
 #else
 
 	struct bpf_program bpf_program;
-	static struct bpf_insn bpf_insn [] = 
+	static struct bpf_insn bpf_insn [] =
 	{
 		{
 			BPF_LD + BPF_H + BPF_ABS,
@@ -285,7 +285,7 @@ signed openchannel (struct channel * channel)
 	unsigned state;
 	int stat_errno = 0;
 	int open_errno = 0;
-	for (count = 0; count < 100; count++) 
+	for (count = 0; count < 100; count++)
 	{
 		struct stat st;
 		snprintf (filename, sizeof (filename), CHANNEL_BPFDEVICE, count);
@@ -294,7 +294,7 @@ signed openchannel (struct channel * channel)
 			stat_errno = errno;
 			continue;
 		}
-		if ((channel->fd = open (filename, O_RDWR)) != -1) 
+		if ((channel->fd = open (filename, O_RDWR)) != -1)
 		{
 			break;
 		}
@@ -303,7 +303,7 @@ signed openchannel (struct channel * channel)
 			open_errno = errno;
 		}
 	}
-	if (channel->fd == -1) 
+	if (channel->fd == -1)
 	{
 		if (open_errno)
 		{
@@ -315,17 +315,17 @@ signed openchannel (struct channel * channel)
 		}
 	}
 	memcpy (ifreq.ifr_name, channel->ifname, sizeof (ifreq.ifr_name));
-	if (ioctl (channel->fd, BIOCSETIF, &ifreq) == -1) 
+	if (ioctl (channel->fd, BIOCSETIF, &ifreq) == -1)
 	{
 		error (1, errno, "%s", ifreq.ifr_name);
 	}
 	channel->bpf = bpf = malloc (sizeof (* bpf));
-	if (ioctl (channel->fd, BIOCGBLEN, &bpf->bpf_length) == -1) 
+	if (ioctl (channel->fd, BIOCGBLEN, &bpf->bpf_length) == -1)
 	{
 		error (1, errno, "Can't determine buffer length: %s", ifreq.ifr_name);
 	}
 	bpf->bpf_bp = bpf->bpf_buffer = malloc (bpf->bpf_length);
-	if (bpf->bpf_buffer == NULL) 
+	if (bpf->bpf_buffer == NULL)
 	{
 		error (1, errno, "Can't allocate receive buffer");
 	}
@@ -333,7 +333,7 @@ signed openchannel (struct channel * channel)
 #if defined (__APPLE__)
 
 	state = 0;
-	if (ioctl (channel->fd, BIOCSSEESENT, &state) == -1) 
+	if (ioctl (channel->fd, BIOCSSEESENT, &state) == -1)
 	{
 		error (1, errno, "Can't hide outgoing frames: %s", ifreq.ifr_name);
 	}
@@ -341,7 +341,7 @@ signed openchannel (struct channel * channel)
 #elif defined (__OpenBSD__)
 
 	state = BPF_DIRECTION_OUT;
-	if (ioctl (channel->fd, BIOCSDIRFILT, &state) == -1) 
+	if (ioctl (channel->fd, BIOCSDIRFILT, &state) == -1)
 	{
 		error (0, errno, "Can't hide outgoing frames");
 	}
@@ -350,15 +350,15 @@ signed openchannel (struct channel * channel)
 #error "Abandon all hope"
 #endif
 
-	if (channel->capture > 1000) 
+	if (channel->capture > 1000)
 	{
 		timeval.tv_sec = channel->capture / 1000;
 		timeval.tv_usec = 0;
 	}
-	else 
+	else
 	{
 
-#if defined (__MAC_10_6) 
+#if defined (__MAC_10_6)
 
 /*
  *	accommodate known bug in BPF on MAC OS X 10.6; shorter times cause socket read
@@ -377,12 +377,12 @@ signed openchannel (struct channel * channel)
 #endif
 
 	}
-	if (ioctl (channel->fd, BIOCSRTIMEOUT, &timeval) == -1) 
+	if (ioctl (channel->fd, BIOCSRTIMEOUT, &timeval) == -1)
 	{
 		error (1, errno, "Can't set channel timeout: %s", ifreq.ifr_name);
 	}
 	state = 1;
-	if (ioctl (channel->fd, BIOCIMMEDIATE, &state) == -1) 
+	if (ioctl (channel->fd, BIOCIMMEDIATE, &state) == -1)
 	{
 		error (1, errno, "Can't set immediate mode: %s", ifreq.ifr_name);
 	}
@@ -390,7 +390,7 @@ signed openchannel (struct channel * channel)
 #if 1
 
 	state = 1;
-	if (ioctl (channel->fd, BIOCSHDRCMPLT, &state) == -1) 
+	if (ioctl (channel->fd, BIOCSHDRCMPLT, &state) == -1)
 	{
 		error (1, errno, "Can't set header complete mode: %s", ifreq.ifr_name);
 	}
@@ -403,7 +403,7 @@ signed openchannel (struct channel * channel)
 
 #else
 
-	if (ioctl (channel->fd, SIOCGIFADDR, &ifreq) > 0) 
+	if (ioctl (channel->fd, SIOCGIFADDR, &ifreq) > 0)
 	{
 		error (1, errno, "%s", ifreq.ifr_name);
 	}
@@ -413,14 +413,14 @@ signed openchannel (struct channel * channel)
 
 	bpf_program.bf_len = sizeof (bpf_insn) / sizeof (struct bpf_insn);
 	bpf_program.bf_insns = bpf_insn;
-	if (channel->type == ETH_P_802_2) 
+	if (channel->type == ETH_P_802_2)
 	{
 		bpf_insn [1].code = BPF_JMP + BPF_JGT + BPF_K;
 		bpf_insn [1].jt = 18;
 		bpf_insn [1].jf = 0;
 		bpf_insn [1].k = ETHERMTU;
 	}
-	else 
+	else
 	{
 		bpf_insn [1].code = BPF_JMP + BPF_JEQ + BPF_K;
 		bpf_insn [1].jt = 0;
@@ -433,7 +433,7 @@ signed openchannel (struct channel * channel)
 	bpf_insn [9].k = channel->host [3];
 	bpf_insn [11].k = channel->host [4];
 	bpf_insn [13].k = channel->host [5];
-	if (ioctl (channel->fd, BIOCSETF, &bpf_program) == -1) 
+	if (ioctl (channel->fd, BIOCSETF, &bpf_program) == -1)
 	{
 		error (1, errno, "Can't store filter: %s", channel->ifname);
 	}
@@ -444,20 +444,20 @@ signed openchannel (struct channel * channel)
 	gethwaddr (channel->host, channel->ifname);
 	channel->socket = pcap_open_live (channel->ifname, 65536, 0, channel->capture, channel->errbuf);
 	snprintf ((char *)(channel->ifname), strlen (channel->ifname), "nic%d", channel->ifindex);
-	if (!channel->socket) 
+	if (!channel->socket)
 	{
 		error (1, errno, "Can't open interface: %s", channel->ifname);
 	}
 	bpf_program.bf_len = sizeof (bpf_insn)/sizeof (struct bpf_insn);
 	bpf_program.bf_insns = bpf_insn;
-	if (channel->type == ETH_P_802_2) 
+	if (channel->type == ETH_P_802_2)
 	{
 		bpf_insn [1].code = BPF_JMP + BPF_JGT + BPF_K;
 		bpf_insn [1].jt = 18;
 		bpf_insn [1].jf = 0;
 		bpf_insn [1].k = ETHERMTU;
 	}
-	else 
+	else
 	{
 		bpf_insn [1].code = BPF_JMP + BPF_JEQ + BPF_K;
 		bpf_insn [1].jt = 0;
@@ -470,11 +470,11 @@ signed openchannel (struct channel * channel)
 	bpf_insn [9].k = channel->host [3];
 	bpf_insn [11].k = channel->host [4];
 	bpf_insn [13].k = channel->host [5];
-	if (pcap_setfilter (channel->socket, &bpf_program) < 0) 
+	if (pcap_setfilter (channel->socket, &bpf_program) < 0)
 	{
 		error (1, errno, "Can't store filter: %s", channel->ifname);
 	}
-	if (pcap_setmintocopy (channel->socket, ETHER_MIN_LEN) < 0) 
+	if (pcap_setmintocopy (channel->socket, ETHER_MIN_LEN) < 0)
 	{
 		error (1, errno, "Can't set pcap mintocopy: %s", channel->ifname);
 	}

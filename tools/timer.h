@@ -1,6 +1,6 @@
 /*====================================================================*
  *
- *   timer.h - custom data type definitions and declarations; 
+ *   timer.h - custom data type definitions and declarations;
  *
  *   this file is a subset of the original that includes only those
  *   definitions and declaration needed for toolkit programs;
@@ -15,7 +15,7 @@
 #define TIMER_HEADER
 
 /*====================================================================*
- *   system header files; 
+ *   system header files;
  *--------------------------------------------------------------------*/
 
 #include <stdint.h>

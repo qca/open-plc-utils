@@ -20,7 +20,7 @@
 #define PROJECT "open-plc-utils"
 #define VERSION "0.0.2"
 #define RELEASE "OSR-6599"
-#define COMPILE __TIME__ " " __DATE__ 
+#define COMPILE __TIME__ " " __DATE__
 #define CONTACT "cmaier@qca.qualcomm.com"
 #define LICENSE "Internet Software Concortium (ISC)"
 

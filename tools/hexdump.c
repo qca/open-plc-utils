@@ -24,7 +24,7 @@
 #include "../tools/memory.h"
 #include "../tools/number.h"
 
-void hexdump (void const * memory, size_t offset, size_t extent, FILE * fp) 
+void hexdump (void const * memory, size_t offset, size_t extent, FILE * fp)
 
 {
 	byte * origin = (byte *)(memory);
@@ -34,46 +34,46 @@ void hexdump (void const * memory, size_t offset, size_t extent, FILE * fp)
 	size_t index = 0;
 	char buffer [ADDRSIZE + 72];
 	char * output;
-	while (lower < extent) 
+	while (lower < extent)
 	{
 		output = buffer + ADDRSIZE;
-		for (index = lower; output-- > buffer; index >>= 4) 
+		for (index = lower; output-- > buffer; index >>= 4)
 		{
 			*output = DIGITS_HEX [index & 0x0F];
 		}
 		output = buffer + ADDRSIZE;
-		for (index = lower; index < upper; index++) 
+		for (index = lower; index < upper; index++)
 		{
 			*output++ = ' ';
-			if (index < offset) 
+			if (index < offset)
 			{
 				*output++ = ' ';
 				*output++ = ' ';
 			}
-			else if (index < extent) 
+			else if (index < extent)
 			{
 				*output++ = DIGITS_HEX [(origin [index] >> 4) & 0x0F];
 				*output++ = DIGITS_HEX [(origin [index] >> 0) & 0x0F];
 			}
-			else 
+			else
 			{
 				*output++ = ' ';
 				*output++ = ' ';
 			}
 		}
 		*output++ = ' ';
-		for (index = lower; index < upper; index++) 
+		for (index = lower; index < upper; index++)
 		{
-			if (index < offset) 
+			if (index < offset)
 			{
 				*output++ = ' ';
 			}
-			else if (index < extent) 
+			else if (index < extent)
 			{
 				unsigned c = origin [index];
 				*output++ = isprint (c)? c: '.';
 			}
-			else 
+			else
 			{
 				*output++ = ' ';
 			}
@@ -84,7 +84,7 @@ void hexdump (void const * memory, size_t offset, size_t extent, FILE * fp)
 		lower += block;
 		upper += block;
 	}
-	if (extent) 
+	if (extent)
 	{
 		output = buffer;
 		*output++ = '\n';

@@ -1,25 +1,25 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *   
+ *
  *   uint16_t pibscalers (struct _file_ * pib);
  *
  *   return the number of scalers (carriers) based on the FWVERSION
@@ -43,13 +43,13 @@
 #include "../pib/pib.h"
 #include "../tools/error.h"
 
-uint16_t pibscalers (struct _file_ * pib) 
+uint16_t pibscalers (struct _file_ * pib)
 
 {
 	// TODO: improve chipset detection
-	
+
 	struct pib_header pib_header;
-	if (read (pib->file, &pib_header, sizeof (pib_header)) != sizeof (pib_header)) 
+	if (read (pib->file, &pib_header, sizeof (pib_header)) != sizeof (pib_header))
 	{
 		error (1, errno, "%s", pib->name);
 	}
@@ -58,7 +58,7 @@ uint16_t pibscalers (struct _file_ * pib)
 	{
 		return (PLC_CARRIERS);
 	}
-	if (pib_header.FWVERSION < 0x05) 
+	if (pib_header.FWVERSION < 0x05)
 	{
 		return (INT_CARRIERS);
 	}

@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -35,7 +35,7 @@
 #include "../tools/error.h"
 #include "../plc/plc.h"
 
-signed ModuleCommit (struct plc * plc, uint32_t options) 
+signed ModuleCommit (struct plc * plc, uint32_t options)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -45,13 +45,13 @@ signed ModuleCommit (struct plc * plc, uint32_t options)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_module_operation_commit_request 
+	struct __packed vs_module_operation_commit_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
 		uint32_t RESERVED;
 		uint8_t NUM_OP_DATA;
-		struct __packed 
+		struct __packed
 		{
 			uint16_t MOD_OP;
 			uint16_t MOD_OP_DATA_LEN;
@@ -63,7 +63,7 @@ signed ModuleCommit (struct plc * plc, uint32_t options)
 		uint8_t RSVD [20];
 	}
 	* request = (struct vs_module_operation_commit_request *)(message);
-	struct __packed vs_module_operation_commit_confirm 
+	struct __packed vs_module_operation_commit_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -71,7 +71,7 @@ signed ModuleCommit (struct plc * plc, uint32_t options)
 		uint16_t ERR_REC_CODE;
 		uint32_t RESERVED1;
 		uint8_t NUM_OP_DATA;
-		struct __packed 
+		struct __packed
 		{
 			uint16_t MOD_OP;
 			uint16_t MOD_OP_DATA_LEN;
@@ -81,7 +81,7 @@ signed ModuleCommit (struct plc * plc, uint32_t options)
 			uint8_t NUM_MODULES;
 		}
 		request;
-		struct __packed 
+		struct __packed
 		{
 			uint16_t MOD_STATUS;
 			uint16_t ERR_REC_CODE;
@@ -105,20 +105,20 @@ signed ModuleCommit (struct plc * plc, uint32_t options)
 	request->request.MOD_OP_DATA_LEN = HTOLE16 (sizeof (request->request) + sizeof (request->RSVD));
 	request->request.MOD_OP_SESSION_ID = HTOLE32 (plc->cookie);
 	request->request.COMMIT_CODE = HTOLE32 (options);
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	channel->timeout = PLC_MODULE_WRITE_TIMEOUT;
-	if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0) 
+	if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 		channel->timeout = timer;
 		return (-1);
 	}
 	channel->timeout = timer;
-	if (confirm->MSTATUS) 
+	if (confirm->MSTATUS)
 	{
 		Failure (plc, PLC_WONTDOIT);
 		return (-1);

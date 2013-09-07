@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -23,7 +23,7 @@
  *   signed Identity1 (struct plc * plc);
  *
  *   plc.h
- *   
+ *
  *   Read the first block of the PIB image from a powerline device
  *   using VA_RD_MOD; print identity information on stdout;
  *
@@ -38,12 +38,12 @@
 
 #include <string.h>
 
-#include "../plc/plc.h" 
+#include "../plc/plc.h"
 #include "../tools/error.h"
 #include "../tools/memory.h"
 #include "../pib/pib.h"
 
-signed Identity1 (struct plc * plc) 
+signed Identity1 (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -53,7 +53,7 @@ signed Identity1 (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_rd_mod_request 
+	struct __packed vs_rd_mod_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -64,7 +64,7 @@ signed Identity1 (struct plc * plc)
 		uint8_t MSECRET [16];
 	}
 	* request = (struct vs_rd_mod_request *) (message);
-	struct __packed vs_rd_mod_confirm 
+	struct __packed vs_rd_mod_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -91,14 +91,14 @@ signed Identity1 (struct plc * plc)
 	request->MODULEID = VS_MODULE_PIB;
 	request->MLENGTH = HTOLE16 (sizeof (confirm->BUFFER));
 	request->MOFFSET = HTOLE32 (0);
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	while (ReadMME (plc, 0, (VS_RD_MOD | MMTYPE_CNF)) > 0) 
+	while (ReadMME (plc, 0, (VS_RD_MOD | MMTYPE_CNF)) > 0)
 	{
-		if (confirm->MSTATUS) 
+		if (confirm->MSTATUS)
 		{
 			Failure (plc, PLC_WONTDOIT);
 			continue;

@@ -3,32 +3,32 @@
  *   endian.h - integer byte order declarations and definitions;
  *
  *   this header is included to support recent moves to expand and
- *   standardize endian conversion functions on Linux, FreeBSD and 
+ *   standardize endian conversion functions on Linux, FreeBSD and
  *   NetBSD; Linux has implemented the following functions but OSX
  *   and Microsoft have not yet done so;
  *
  *   These functions are similar to network byteorder functions.
  *   For example, be32toh() is identical to ntohl().
- *   
+ *
  *   #define _BSD_SOURCE
  *   #include <endian.h>
- *   
+ *
  *   uint16_t htobe16(uint16_t x);
  *   uint16_t htole16(uint16_t x);
  *   uint16_t be16toh(uint16_t x);
  *   uint16_t le16toh(uint16_t x);
- *   
+ *
  *   uint32_t htobe32(uint32_t x);
  *   uint32_t htole32(uint32_t x);
  *   uint32_t be32toh(uint32_t x);
  *   uint32_t le32toh(uint32_t x);
- *   
+ *
  *   uint64_t htobe64(uint64_t x);
  *   uint64_t htole64(uint64_t x);
  *   uint64_t be64toh(uint64_t x);
  *   uint64_t le64toh(uint64_t x);
- *   
- *   The advantage of network byteorder functions is that they are 
+ *
+ *   The advantage of network byteorder functions is that they are
  *   available on all Unix systems but they were meant for network
  *   applications and lack little-endian and 64-bit variants;
  *
@@ -116,7 +116,7 @@
 #               define HTOLE64(x) (x)
 #       elif _BYTE_ORDER == _BIG_ENDIAN
 #               define __bswap_32(x)    ((((x) & 0x000000ff) << 24) | (((x) & 0x0000ff00) <<  8) | (((x) & 0x00ff0000) >>  8) | (((x) & 0xff000000) >> 24))
-#               define __bswap_16(x)    ((((x) & 0x00ff) << 8) | (((x) & 0xff00) >> 8)) 
+#               define __bswap_16(x)    ((((x) & 0x00ff) << 8) | (((x) & 0xff00) >> 8))
 #               define BE16TOH(x) (x)
 #               define BE32TOH(x) (x)
 #               define BE64TOH(x) (x)
@@ -165,7 +165,7 @@ uint64_t __bswap_64 (uint64_t x);
 #endif
 
 /*====================================================================*
- *  
+ *
  *--------------------------------------------------------------------*/
 
 #endif

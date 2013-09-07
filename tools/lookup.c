@@ -3,7 +3,7 @@
  *   signed lookup (char const * name, struct _code_ const list [], size_t size);
  *
  *   symbol.h
- *   
+ *
  *   search a name list and return the associated name; return the
  *   corresponding code on success or -1 on failure; the search is
  *   case insensitive;
@@ -22,13 +22,13 @@
 
 #include "../tools/symbol.h"
 
-signed lookup (char const * name, struct _code_ const list [], size_t size) 
+signed lookup (char const * name, struct _code_ const list [], size_t size)
 
 {
 	struct _code_ const * item = list;
-	if ((name) && (*name)) while ((unsigned)(item - list) < size) 
+	if ((name) && (*name)) while ((unsigned)(item - list) < size)
 	{
-		if (!strcasecmp (item->name, name)) 
+		if (!strcasecmp (item->name, name))
 		{
 			return (item->code);
 		}
