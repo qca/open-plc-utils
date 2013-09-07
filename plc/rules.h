@@ -238,6 +238,7 @@ PIBClassifiers;
  *   functions;
  *--------------------------------------------------------------------*/
 
+signed MakeRule (struct plc * plc, struct MMERule * rule);
 signed ParseRule (int * argcp, char const ** argvp [], struct MMERule *, struct cspec *);
 signed PrintRule (uint32_t CR_PID, uint32_t CR_OPERAND, uint8_t CR_VALUE []);
 signed ReadRules (struct plc * plc);
