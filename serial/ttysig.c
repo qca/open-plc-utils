@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -83,7 +83,7 @@
 #define TTYSIG_INTERACTIVE   (1 << 3)
 #define TTYSIG_NOPROMPT      (1 << 4)
 
-void set_status (int fd, int flag, int value) 
+void set_status (int fd, int flag, int value)
 
 {
 	int status;
@@ -93,7 +93,7 @@ void set_status (int fd, int flag, int value)
 	if (ioctl (fd, TIOCMSET, &status) == -1) error (1, errno, "TIOCMSET failed");
 }
 
-void print_status (int fd) 
+void print_status (int fd)
 
 {
 	int status;
@@ -106,13 +106,13 @@ void print_status (int fd)
 	printf ("<-- RI : %s\n", (status & TIOCM_RI)? "+V": "-V");
 }
 
-void comment (void) 
+void comment (void)
 
 {
 	int c;
-	while ((c = getchar ()) != EOF) 
+	while ((c = getchar ()) != EOF)
 	{
-		if (c == '\n') 
+		if (c == '\n')
 		{
 			ungetc (c, stdin);
 			break;
@@ -120,12 +120,12 @@ void comment (void)
 	}
 }
 
-int number (char *buf, int *val) 
+int number (char *buf, int *val)
 
 {
 	char *p;
 	while (isspace (*buf)) ++buf;
-	if (!isdigit (*buf)) 
+	if (!isdigit (*buf))
 	{
 		error (0, 0, "\"%s\" is not a number", buf);
 		return (-1);
@@ -133,7 +133,7 @@ int number (char *buf, int *val)
 	*val = atoi (buf);
 	p = buf;
 	while (isdigit (*buf)) ++buf;
-	if (*buf != '\0') 
+	if (*buf != '\0')
 	{
 		error (0, 0, "\"%s\" is not a number", p);
 		return (-1);
@@ -141,7 +141,7 @@ int number (char *buf, int *val)
 	return (0);
 }
 
-void interactive (int fd, flag_t flags) 
+void interactive (int fd, flag_t flags)
 
 {
 	char buf [32];
@@ -149,17 +149,17 @@ void interactive (int fd, flag_t flags)
 	c;
 	int value;
 	char *p;
-	for (; ; ) 
+	for (; ; )
 	{
-		if (!_anyset (flags, TTYSIG_NOPROMPT)) 
+		if (!_anyset (flags, TTYSIG_NOPROMPT))
 		{
 			printf ("command (D #, R #, e, r, s, q): ");
 			fflush (stdout);
 		}
 		i = 0;
-		while ((c = getchar ()) != EOF) 
+		while ((c = getchar ()) != EOF)
 		{
-			if (c == '#') 
+			if (c == '#')
 			{
 				comment ();
 				continue;
@@ -171,7 +171,7 @@ void interactive (int fd, flag_t flags)
 		if (c == EOF) return;
 		if (i == 0) continue;
 		buf [i] = '\0';
-		switch (buf [0]) 
+		switch (buf [0])
 		{
 		case 'D':
 			if (number (buf + 1, &value)) break;
@@ -206,11 +206,11 @@ void interactive (int fd, flag_t flags)
 	}
 }
 
-int main (int argc, char const ** argv) 
+int main (int argc, char const ** argv)
 
 {
 	int fd;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"s:D:IR:rqv",
 		"[ttysig script filename]",
@@ -231,9 +231,9 @@ int main (int argc, char const ** argv)
 	uint8_t rts_value;
 	char *device = SERIAL_PORT;
 	int input = -1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch ((char) (c)) 
+		switch ((char) (c))
 		{
 		case 'D':
 			dtr_value = uintspec (optarg, 0, 1);
@@ -258,7 +258,7 @@ int main (int argc, char const ** argv)
 	}
 	argc -= optind;
 	argv += optind;
-	if (argc == 1) 
+	if (argc == 1)
 	{
 		input = open (* argv, O_RDONLY);
 		if (input == -1) error (1, errno, "%s", * argv);

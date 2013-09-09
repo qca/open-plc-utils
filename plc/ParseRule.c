@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -31,7 +31,7 @@
  *   This module is currently used by plcrule and pibruin;
  *
  *
- *   Contributor(s): 
+ *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
  *	Nathaniel Houghton <nhoughto@qca.qualcomm.com>
  *
@@ -46,12 +46,12 @@
 #include "../ether/ether.h"
 #include "../plc/rules.h"
 
-signed ParseRule (int * argcp, char const ** argvp [], struct MMERule * rule, struct cspec * cspec) 
+signed ParseRule (int * argcp, char const ** argvp [], struct MMERule * rule, struct cspec * cspec)
 
 {
 	int argc = * argcp;
 	char const ** argv = * argvp;
-	union 
+	union
 	{
 		uint32_t wide;
 		uint16_t word;
@@ -60,37 +60,37 @@ signed ParseRule (int * argcp, char const ** argvp [], struct MMERule * rule, st
 	temp;
 	signed code;
 	struct MMEClassifier * classifier = (struct MMEClassifier *)(&rule->CLASSIFIER);
-	if ((code = lookup (* argv++, actions, SIZEOF (actions))) == -1) 
+	if ((code = lookup (* argv++, actions, SIZEOF (actions))) == -1)
 	{
 		assist (*--argv, CLASSIFIER_ACTION_NAME, actions, SIZEOF (actions));
 	}
 	rule->MACTION = (uint8_t)(code);
 	argc--;
-	if ((code = lookup (* argv++, operands, SIZEOF (operands))) == -1) 
+	if ((code = lookup (* argv++, operands, SIZEOF (operands))) == -1)
 	{
 		assist (*--argv, CLASSIFIER_OPERAND_NAME, operands, SIZEOF (operands));
 	}
 	rule->MOPERAND = (uint8_t)(code);
 	argc--;
-	while ((* argv) && (lookup (* argv, controls, SIZEOF (controls)) == -1)) 
+	while ((* argv) && (lookup (* argv, controls, SIZEOF (controls)) == -1))
 	{
-		if ((code = lookup (* argv++, fields, SIZEOF (fields))) == -1) 
+		if ((code = lookup (* argv++, fields, SIZEOF (fields))) == -1)
 		{
 			assist (*--argv, CLASSIFIER_FIELD_NAME, fields, SIZEOF (fields));
 		}
 		classifier->CR_PID = (uint8_t)(code);
 		argc--;
-		if ((code = lookup (* argv++, operators, SIZEOF (operators))) == -1) 
+		if ((code = lookup (* argv++, operators, SIZEOF (operators))) == -1)
 		{
 			assist (*--argv, CLASSIFIER_OPERATOR_NAME, operators, SIZEOF (operators));
 		}
 		classifier->CR_OPERAND = (uint8_t)(code);
 		argc--;
-		if (!argc || !* argv) 
+		if (!argc || !* argv)
 		{
 			error (1, ENOTSUP, "I have %s '%s' but no value", CLASSIFIER_OPERATOR_NAME, *--argv);
 		}
-		switch (classifier->CR_PID) 
+		switch (classifier->CR_PID)
 		{
 		case FIELD_ETH_SA:
 		case FIELD_ETH_DA:
@@ -138,14 +138,14 @@ signed ParseRule (int * argcp, char const ** argvp [], struct MMERule * rule, st
 			classifier->CR_VALUE [2] = temp.byte [0];
 			break;
 		case FIELD_TCP_ACK:
-			if ((code = lookup (* argv++, states, SIZEOF (states))) == -1) 
+			if ((code = lookup (* argv++, states, SIZEOF (states))) == -1)
 			{
 				assist (*--argv, CLASSIFIER_STATE_NAME, states, SIZEOF (states));
 			}
 			memset (classifier->CR_VALUE, 0, sizeof (classifier->CR_VALUE));
 			break;
 		case FIELD_VLAN_TAG:
-			if ((code = lookup (* argv++, states, SIZEOF (states))) == -1) 
+			if ((code = lookup (* argv++, states, SIZEOF (states))) == -1)
 			{
 				assist (*--argv, CLASSIFIER_STATE_NAME, states, SIZEOF (states));
 			}
@@ -161,13 +161,13 @@ signed ParseRule (int * argcp, char const ** argvp [], struct MMERule * rule, st
 		argc--;
 	}
 	memcpy (classifier, cspec, sizeof (* cspec));
-	if ((code = lookup (* argv++, controls, SIZEOF (controls))) == -1) 
+	if ((code = lookup (* argv++, controls, SIZEOF (controls))) == -1)
 	{
 		assist (*--argv, CLASSIFIER_CONTROL_NAME, controls, SIZEOF (controls));
 	}
 	rule->MCONTROL = (uint8_t)(code);
 	argc--;
-	if ((code = lookup (* argv++, volatilities, SIZEOF (volatilities))) == -1) 
+	if ((code = lookup (* argv++, volatilities, SIZEOF (volatilities))) == -1)
 	{
 		assist (*--argv, CLASSIFIER_VOLATILITY_NAME, volatilities, SIZEOF (volatilities));
 	}

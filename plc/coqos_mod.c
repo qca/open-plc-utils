@@ -1,26 +1,26 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *
- *   coqos_mod.c - Modify MCMSA stream 
+ *   coqos_mod.c - Modify MCMSA stream
  *
  *
  *   Contributor(s):
@@ -104,7 +104,7 @@
 #endif
 
 /*====================================================================*
- *   constants;    
+ *   constants;
  *--------------------------------------------------------------------*/
 
 #define ACTION "action"
@@ -116,7 +116,7 @@
 #define ACTION_SPND 0x00
 #define ACTION_RES 0x01
 
-static struct _code_ const actions [] = 
+static struct _code_ const actions [] =
 
 {
 	{
@@ -141,7 +141,7 @@ static struct _code_ const actions [] =
  *
  *--------------------------------------------------------------------*/
 
-static signed mod_conn (struct plc * plc, uint8_t TYPE, uint16_t CID) 
+static signed mod_conn (struct plc * plc, uint8_t TYPE, uint16_t CID)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -151,7 +151,7 @@ static signed mod_conn (struct plc * plc, uint8_t TYPE, uint16_t CID)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_mod_conn_req 
+	struct __packed vs_mod_conn_req
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -161,7 +161,7 @@ static signed mod_conn (struct plc * plc, uint8_t TYPE, uint16_t CID)
 		uint8_t MOD_CTRL;
 	}
 	* request = (struct vs_mod_conn_req *)(message);
-	struct __packed vs_mod_conn_cnf 
+	struct __packed vs_mod_conn_cnf
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -184,14 +184,14 @@ static signed mod_conn (struct plc * plc, uint8_t TYPE, uint16_t CID)
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	request->MOD_CTRL = TYPE;
 	request->CID = CID;
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	while (ReadMME (plc, 0, (VS_CONN_MOD | MMTYPE_CNF)) > 0) 
+	while (ReadMME (plc, 0, (VS_CONN_MOD | MMTYPE_CNF)) > 0)
 	{
-		if (confirm->MSTATUS) 
+		if (confirm->MSTATUS)
 		{
 			Failure (plc, PLC_WONTDOIT);
 			return (-1);
@@ -203,17 +203,17 @@ static signed mod_conn (struct plc * plc, uint8_t TYPE, uint16_t CID)
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv[]);
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"ei:qv",
 		"spnd,res cid",
@@ -241,7 +241,7 @@ int main (int argc, char const * argv [])
 	uint8_t type;
 	signed code;
 	signed c;
-	if (getenv (PLCDEVICE)) 
+	if (getenv (PLCDEVICE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -256,9 +256,9 @@ int main (int argc, char const * argv [])
 
 	}
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'e':
 			dup2 (STDOUT_FILENO, STDERR_FILENO);
@@ -290,34 +290,34 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if ((code = lookup (* argv++, actions, SIZEOF (actions))) == -1) 
+	if ((code = lookup (* argv++, actions, SIZEOF (actions))) == -1)
 	{
 		assist (*--argv, ACTION, actions, SIZEOF (actions));
 	}
 	type = (uint8_t)(code);
 	argc--;
-	if (argc == 0) 
+	if (argc == 0)
 	{
 		error (1, ECANCELED, "Missing CID");
 	}
-	if (!hexencode ((uint8_t *)(&cid), sizeof (cid), * argv++)) 
+	if (!hexencode ((uint8_t *)(&cid), sizeof (cid), * argv++))
 	{
 		error (1, errno, "Invalid CID");
 	}
 	cid = htons (cid);
 	argc--;
 	openchannel (&channel);
-	if (!(plc.message = malloc (sizeof (* plc.message)))) 
+	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);
 	}
-	if (!argc) 
+	if (!argc)
 	{
 		mod_conn (&plc, type, cid);
 	}
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
-		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices)))) 
+		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices))))
 		{
 			error (1, errno, PLC_BAD_MAC, * argv);
 		}

@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -26,8 +26,8 @@
  *   network identifier keys using a seed file;
  *
  *   read the seed file, increment the seed for each key generated
- *   then save the seed when done; exit the loop in an orderly way 
- *   on keyboard interrupt;          
+ *   then save the seed when done; exit the loop in an orderly way
+ *   on keyboard interrupt;
  *
  *
  *   Contributor(s);
@@ -102,18 +102,18 @@
 static unsigned count = DEFAULT_COUNT;
 
 /*====================================================================*
- *   
+ *
  *   void stop (signo_t signal);
- *   
- *   terminate the program; we want to ensure an organized program 
+ *
+ *   terminate the program; we want to ensure an organized program
  *   exit such that the current pass phrase is saved;
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
 #if defined (__linux__)
 
-static void stop (signo_t signal) 
+static void stop (signo_t signal)
 
 {
 	count = 0;
@@ -124,17 +124,17 @@ static void stop (signo_t signal)
 #endif
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, const char * argv []);
  *
  *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, const char * argv []) 
+int main (int argc, const char * argv [])
 
 {
-	static const char * optv [] = 
+	static const char * optv [] =
 	{
 		"DL:MNn:oqv",
 		"seedfile",
@@ -164,9 +164,9 @@ int main (int argc, const char * argv [])
 	signed fd;
 	flag_t flags = (flag_t)(0);
 	signed c;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch ((char)(c)) 
+		switch ((char)(c))
 		{
 		case 'D':
 			type = HPAVKEY_DAK;
@@ -198,27 +198,27 @@ int main (int argc, const char * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (argc != 1) 
+	if (argc != 1)
 	{
 		error (1, ECANCELED, "No secret file given");
 	}
 	memset (phrase, 0, sizeof (phrase));
-	if ((fd = open (* argv, O_BINARY|O_CREAT|O_RDWR, FILE_FILEMODE)) == -1) 
+	if ((fd = open (* argv, O_BINARY|O_CREAT|O_RDWR, FILE_FILEMODE)) == -1)
 	{
 		error (1, errno, "Can't open %s", * argv);
 	}
-	if (read (fd, phrase, sizeof (phrase) - 1) == -1) 
+	if (read (fd, phrase, sizeof (phrase) - 1) == -1)
 	{
 		error (1, errno, "Can't read seedfile");
 	}
-	for (c = 0; c < (signed)(sizeof (phrase) - 1); c++) 
+	for (c = 0; c < (signed)(sizeof (phrase) - 1); c++)
 	{
-		if (phrase [c] < HPAVKEY_CHAR_MIN) 
+		if (phrase [c] < HPAVKEY_CHAR_MIN)
 		{
 			phrase [c] = HPAVKEY_CHAR_MIN;
 			continue;
 		}
-		if (phrase [c] > HPAVKEY_CHAR_MAX) 
+		if (phrase [c] > HPAVKEY_CHAR_MAX)
 		{
 			phrase [c] = HPAVKEY_CHAR_MAX;
 			continue;
@@ -237,26 +237,26 @@ int main (int argc, const char * argv [])
 
 #endif
 
-	while (count-- > 0) 
+	while (count-- > 0)
 	{
 		memset (digest, 0, sizeof (digest));
-		if (next && strincr ((uint8_t *)(phrase), (size_t) (sizeof (phrase) - 1), HPAVKEY_CHAR_MIN, HPAVKEY_CHAR_MAX)) 
+		if (next && strincr ((uint8_t *)(phrase), (size_t) (sizeof (phrase) - 1), HPAVKEY_CHAR_MIN, HPAVKEY_CHAR_MAX))
 		{
 			error (1, errno, "Can't increment seedfile");
 		}
-		if (type == HPAVKEY_DAK) 
+		if (type == HPAVKEY_DAK)
 		{
 			HPAVKeyDAK (digest, phrase);
 			HPAVKeyOut (digest, HPAVKEY_DAK_LEN, phrase, flags);
 			continue;
 		}
-		if (type == HPAVKEY_NMK) 
+		if (type == HPAVKEY_NMK)
 		{
 			HPAVKeyNMK (digest, phrase);
 			HPAVKeyOut (digest, HPAVKEY_NMK_LEN, phrase, flags);
 			continue;
 		}
-		if (type == HPAVKEY_NID) 
+		if (type == HPAVKEY_NID)
 		{
 			HPAVKeyNMK (digest, phrase);
 			HPAVKeyNID (digest, digest, level);
@@ -266,11 +266,11 @@ int main (int argc, const char * argv [])
 		HPAVKeySHA (digest, phrase);
 		HPAVKeyOut (digest, HPAVKEY_SHA_LEN, phrase, flags);
 	}
-	if (lseek (fd, 0, SEEK_SET) == -1) 
+	if (lseek (fd, 0, SEEK_SET) == -1)
 	{
 		error (1, errno, "Can't rewind seedfile");
 	}
-	if (write (fd, phrase, sizeof (phrase) - 1) == -1) 
+	if (write (fd, phrase, sizeof (phrase) - 1) == -1)
 	{
 		error (1, errno, "Can't update seedfile");
 	}

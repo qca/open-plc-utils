@@ -1,29 +1,29 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *   
+ *
  *   signed SetProperty (struct plc * plc);
- *   
+ *
  *   plc.h
- * 
+ *
  *
  *--------------------------------------------------------------------*/
 
@@ -37,7 +37,7 @@
 #include "../tools/error.h"
 #include "../tools/memory.h"
 
-signed SetProperty (struct plc * plc, struct plcproperty * plcproperty) 
+signed SetProperty (struct plc * plc, struct plcproperty * plcproperty)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -47,7 +47,7 @@ signed SetProperty (struct plc * plc, struct plcproperty * plcproperty)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_set_property_request 
+	struct __packed vs_set_property_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -60,7 +60,7 @@ signed SetProperty (struct plc * plc, struct plcproperty * plcproperty)
 		uint8_t DATA_BUFFER [256];
 	}
 	* request = (struct vs_set_property_request *) (message);
-	struct __packed vs_set_property_confirm 
+	struct __packed vs_set_property_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -84,14 +84,14 @@ signed SetProperty (struct plc * plc, struct plcproperty * plcproperty)
 	request->DATA_LENGTH = HTOLE32 (plcproperty->DATA_LENGTH);
 	memcpy (&request->DATA_BUFFER, &plcproperty->DATA_BUFFER, plcproperty->DATA_LENGTH);
 	plc->packetsize = sizeof (* request);
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	while (ReadMME (plc, 0, (VS_SET_PROPERTY | MMTYPE_CNF)) > 0) 
+	while (ReadMME (plc, 0, (VS_SET_PROPERTY | MMTYPE_CNF)) > 0)
 	{
-		if (confirm->MSTATUS) 
+		if (confirm->MSTATUS)
 		{
 			Failure (plc, PLC_WONTDOIT);
 			continue;

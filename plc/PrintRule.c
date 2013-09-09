@@ -4,11 +4,11 @@
  *
  *   rules.h
  *
- *   print one classifier rule on stdout; 
+ *   print one classifier rule on stdout;
  *
- *   some classifier rule structures have an 8-bit PID and OPERAND 
- *   while others have a 32-bit PID and OPERAND; this function is 
- *   the common demominator;    
+ *   some classifier rule structures have an 8-bit PID and OPERAND
+ *   while others have a 32-bit PID and OPERAND; this function is
+ *   the common demominator;
  *
  *   Contributor(s):
  *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
@@ -24,7 +24,7 @@
 #include "../plc/rules.h"
 #include "../tools/error.h"
 
-signed PrintRule (uint32_t CR_PID, uint32_t CR_OPERAND, uint8_t CR_VALUE []) 
+signed PrintRule (uint32_t CR_PID, uint32_t CR_OPERAND, uint8_t CR_VALUE [])
 
 {
 	char buffer [CLASSIFIER_STRING];
@@ -34,17 +34,17 @@ signed PrintRule (uint32_t CR_PID, uint32_t CR_OPERAND, uint8_t CR_VALUE [])
 	const char * p1;
 	const char * p2;
 	p1 = reword (CR_PID, fields, SIZEOF (fields));
-	if (p1 == NULL) 
+	if (p1 == NULL)
 	{
 		error (1, 0, "invalid classifier PID");
 	}
 	p2 = reword (CR_OPERAND, operators, SIZEOF (operators));
-	if (p2 == NULL) 
+	if (p2 == NULL)
 	{
 		error (1, 0, "invalid classifier operand");
 	}
 	printf ("%s %s", p1, p2);
-	switch (CR_PID) 
+	switch (CR_PID)
 	{
 	case FIELD_ETH_SA:
 	case FIELD_ETH_DA:
@@ -99,7 +99,7 @@ signed PrintRule (uint32_t CR_PID, uint32_t CR_OPERAND, uint8_t CR_VALUE [])
 			const char * p;
 			memcpy (& val, CR_VALUE, sizeof (val));
 			p = reword (val, states, SIZEOF (states));
-			if (p == NULL) 
+			if (p == NULL)
 			{
 				error (1, 0, "invalid TCP ACK flag");
 			}
@@ -112,7 +112,7 @@ signed PrintRule (uint32_t CR_PID, uint32_t CR_OPERAND, uint8_t CR_VALUE [])
 			const char * p;
 			memcpy (& val, CR_VALUE, sizeof (val));
 			p = reword (val, states, SIZEOF (states));
-			if (p == NULL) 
+			if (p == NULL)
 			{
 				error (1, 0, "invalid VLAN tag flag");
 			}

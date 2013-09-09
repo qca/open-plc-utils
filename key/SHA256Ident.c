@@ -5,7 +5,7 @@
  *   SHA256.h
  *
  *   compute the SHA256 digest of file content; the digest becomes
- *   the fingerprint that can be used to identify the file despite 
+ *   the fingerprint that can be used to identify the file despite
  *   filename changes;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
@@ -21,14 +21,14 @@
 
 #include "../key/SHA256.h"
 
-void SHA256Ident (signed fd, uint8_t digest []) 
+void SHA256Ident (signed fd, uint8_t digest [])
 
 {
 	struct sha256 sha256;
 	uint8_t buffer [1024];
 	signed length;
 	SHA256Reset (&sha256);
-	while ((length = read (fd, buffer, sizeof (buffer))) > 0) 
+	while ((length = read (fd, buffer, sizeof (buffer))) > 0)
 	{
 		SHA256Write (&sha256, buffer, length);
 	}

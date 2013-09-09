@@ -1,32 +1,32 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *  
+ *
  *   int EmulateHost64 (struct plc * plc);
- *  
+ *
  *   plc.h
  *
- *   wait indefinitely for VS_HOST_ACTION messages; service the device 
+ *   wait indefinitely for VS_HOST_ACTION messages; service the device
  *   only; it will stop dead - like a bug! - on error;
- *   
+ *
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
@@ -48,12 +48,12 @@
 #include "../nvm/nvm.h"
 #include "../pib/pib.h"
 
-signed EmulateHost64 (struct plc * plc) 
+signed EmulateHost64 (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
 	struct message * message = (struct message *)(plc->message);
-	static char const * actions [] = 
+	static char const * actions [] =
 	{
 		"start device",
 		"store firmware",
@@ -68,7 +68,7 @@ signed EmulateHost64 (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_host_action_ind 
+	struct __packed vs_host_action_ind
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -80,7 +80,7 @@ signed EmulateHost64 (struct plc * plc)
 
 #if 0
 
-	struct __packed vs_host_action_rsp 
+	struct __packed vs_host_action_rsp
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -99,135 +99,135 @@ signed EmulateHost64 (struct plc * plc)
 	signed status;
 	signed action;
 	Request (plc, "Waiting for Host Action");
-	while (1) 
+	while (1)
 	{
 		status = ReadMME (plc, 0, (VS_HOST_ACTION | MMTYPE_IND));
-		if (status < 0) 
+		if (status < 0)
 		{
 			break;
 		}
-		if (status > 0) 
+		if (status > 0)
 		{
 			printf ("\n");
-			if (indicate->MACTION < (sizeof (actions) / sizeof (char const *))) 
+			if (indicate->MACTION < (sizeof (actions) / sizeof (char const *)))
 			{
 				Confirm (plc, "Host Action Request is (%d) %s.", indicate->MACTION, actions [indicate->MACTION]);
 			}
-			else 
+			else
 			{
 				error (0, ENOTSUP, "Host Action 0x%0X", indicate->MACTION);
 				continue;
 			}
 			action = indicate->MACTION;
 			memcpy (channel->peer, indicate->ethernet.OSA, sizeof (channel->peer));
-			if (HostActionResponse (plc)) 
+			if (HostActionResponse (plc))
 			{
 				return (-1);
 			}
-			if (action == 0x00) 
+			if (action == 0x00)
 			{
-				if (BootDevice1 (plc)) 
+				if (BootDevice1 (plc))
 				{
 					return (-1);
 				}
-				if (_anyset (plc->flags, PLC_FLASH_DEVICE)) 
+				if (_anyset (plc->flags, PLC_FLASH_DEVICE))
 				{
-					if (WriteNVM (plc)) 
+					if (WriteNVM (plc))
 					{
 						return (-1);
 					}
-					if (WritePIB (plc)) 
+					if (WritePIB (plc))
 					{
 						return (-1);
 					}
-					if (FlashNVM (plc)) 
+					if (FlashNVM (plc))
 					{
 						return (-1);
 					}
 				}
 				continue;
 			}
-			if (action == 0x01) 
+			if (action == 0x01)
 			{
 				close (plc->NVM.file);
-				if (ReadFirmware1 (plc)) 
+				if (ReadFirmware1 (plc))
 				{
 					return (-1);
 				}
-				if ((plc->NVM.file = open (plc->NVM.name = plc->nvm.name, O_BINARY|O_RDONLY)) == -1) 
+				if ((plc->NVM.file = open (plc->NVM.name = plc->nvm.name, O_BINARY|O_RDONLY)) == -1)
 				{
 					error (1, errno, "%s", plc->NVM.name);
 				}
-				if (ResetDevice (plc)) 
+				if (ResetDevice (plc))
 				{
 					return (-1);
 				}
 				continue;
 			}
-			if (action == 0x02) 
+			if (action == 0x02)
 			{
 				close (plc->PIB.file);
-				if (ReadParameters1 (plc)) 
+				if (ReadParameters1 (plc))
 				{
 					return (-1);
 				}
-				if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1) 
+				if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1)
 				{
 					error (1, errno, "%s", plc->PIB.name);
 				}
-				if (ResetDevice (plc)) 
+				if (ResetDevice (plc))
 				{
 					return (-1);
 				}
 				continue;
 			}
-			if (action == 0x03) 
+			if (action == 0x03)
 			{
 				close (plc->PIB.file);
-				if (ReadParameters1 (plc)) 
+				if (ReadParameters1 (plc))
 				{
 					return (-1);
 				}
-				if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1) 
+				if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1)
 				{
 					error (1, errno, "%s", plc->PIB.name);
 				}
 				close (plc->NVM.file);
-				if (ReadFirmware1 (plc)) 
+				if (ReadFirmware1 (plc))
 				{
 					return (-1);
 				}
-				if ((plc->NVM.file = open (plc->NVM.name = plc->nvm.name, O_BINARY|O_RDONLY)) == -1) 
+				if ((plc->NVM.file = open (plc->NVM.name = plc->nvm.name, O_BINARY|O_RDONLY)) == -1)
 				{
 					error (1, errno, "%s", plc->NVM.name);
 				}
-				if (ResetDevice (plc)) 
+				if (ResetDevice (plc))
 				{
 					return (-1);
 				}
 				continue;
 			}
-			if (action == 0x04) 
+			if (action == 0x04)
 			{
-				if (InitDevice1 (plc)) 
+				if (InitDevice1 (plc))
 				{
 					return (-1);
 				}
 				continue;
 			}
-			if (action == 0x05) 
+			if (action == 0x05)
 			{
 				close (plc->NVM.file);
-				if ((plc->NVM.file = open (plc->NVM.name = NVM, O_BINARY|O_RDONLY)) == -1) 
+				if ((plc->NVM.file = open (plc->NVM.name = NVM, O_BINARY|O_RDONLY)) == -1)
 				{
 					error (1, errno, "%s", plc->NVM.name);
 				}
 				close (plc->PIB.file);
-				if ((plc->PIB.file = open (plc->PIB.name = PIB, O_BINARY|O_RDONLY)) == -1) 
+				if ((plc->PIB.file = open (plc->PIB.name = PIB, O_BINARY|O_RDONLY)) == -1)
 				{
 					error (1, errno, "%s", plc->PIB.name);
 				}
-				if (ResetDevice (plc)) 
+				if (ResetDevice (plc))
 				{
 					return (-1);
 				}
@@ -236,11 +236,11 @@ signed EmulateHost64 (struct plc * plc)
 			if (action == 0x06)
 			{
 				close (plc->PIB.file);
-				if (ReadParameters1 (plc)) 
+				if (ReadParameters1 (plc))
 				{
 					return (-1);
 				}
-				if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1) 
+				if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1)
 				{
 					error (1, errno, "%s", plc->PIB.name);
 				}

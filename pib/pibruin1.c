@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -24,7 +24,7 @@
  *
  *   This inserts classification rules into pib files from a rule
  *   description file;
- *   
+ *
  *
  *   Contributor(s):
  *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
@@ -102,7 +102,7 @@
 #pragma pack (push,1)
 #endif
 
-typedef struct __packed classifier_pib 
+typedef struct __packed classifier_pib
 
 {
 	uint32_t CR_PID;
@@ -111,7 +111,7 @@ typedef struct __packed classifier_pib
 }
 
 classifier_pib;
-struct __packed auto_connection 
+struct __packed auto_connection
 
 {
 	uint8_t MACTION;
@@ -123,7 +123,7 @@ struct __packed auto_connection
 }
 
 auto_connection;
-struct __packed classifier_priority_map 
+struct __packed classifier_priority_map
 
 {
 	uint32_t Priority;
@@ -156,7 +156,7 @@ classifier_priority_map;
  *
  *--------------------------------------------------------------------*/
 
-static signed handle_rule (char * str, int argc, struct auto_connection * autoconn, struct classifier_priority_map * priority_map, int * autoconn_count, int * priority_count) 
+static signed handle_rule (char * str, int argc, struct auto_connection * autoconn, struct classifier_priority_map * priority_map, int * autoconn_count, int * priority_count)
 
 {
 	char const ** argv;
@@ -166,7 +166,7 @@ static signed handle_rule (char * str, int argc, struct auto_connection * autoco
 	size_t len;
 	struct rule rule;
 	struct cspec cspec;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"T:V:",
 		"",
@@ -183,9 +183,9 @@ static signed handle_rule (char * str, int argc, struct auto_connection * autoco
 	* argv = str;
 	++argv;
 	len = strlen (str);
-	for (i = 1; i < len; ++i) 
+	for (i = 1; i < len; ++i)
 	{
-		if (str [i] == ' ') 
+		if (str [i] == ' ')
 		{
 			str [i] = '\0';
 			* argv = &str [i + 1];
@@ -197,9 +197,9 @@ static signed handle_rule (char * str, int argc, struct auto_connection * autoco
 	argv = (char const **)(mem);
 	memset (&rule, 0, sizeof (rule));
 	memset (&cspec, 0, sizeof (cspec));
-	while ((c = getoptv (argc, (char const **)(argv), optv)) != -1) 
+	while ((c = getoptv (argc, (char const **)(argv), optv)) != -1)
 	{
-		switch ((char) (c)) 
+		switch ((char) (c))
 		{
 		case 'T':
 			cspec.VLAN_TAG = (uint32_t)(basespec (optarg, 16, sizeof (cspec.VLAN_TAG)));
@@ -218,9 +218,9 @@ static signed handle_rule (char * str, int argc, struct auto_connection * autoco
 
 /* Now migrate the rule into the correct PIB structure. */
 
-	if (rule.NUM_CLASSIFIERS > 1 || rule.MACTION == ACTION_STRIPTX || rule.MACTION == ACTION_STRIPRX || rule.MACTION == ACTION_TAGTX || *priority_count >= PIB_MAX_PRIORITY_MAPS) 
+	if (rule.NUM_CLASSIFIERS > 1 || rule.MACTION == ACTION_STRIPTX || rule.MACTION == ACTION_STRIPRX || rule.MACTION == ACTION_TAGTX || *priority_count >= PIB_MAX_PRIORITY_MAPS)
 	{
-		if (*autoconn_count >= PIB_MAX_AUTOCONN) 
+		if (*autoconn_count >= PIB_MAX_AUTOCONN)
 		{
 			error (1, 0, "too many rules");
 		}
@@ -231,7 +231,7 @@ static signed handle_rule (char * str, int argc, struct auto_connection * autoco
 		autoconn->MACTION = rule.MACTION;
 		autoconn->MOPERAND = rule.MOPERAND;
 		autoconn->NUM_CLASSIFIERS = rule.NUM_CLASSIFIERS;
-		for (i = 0; i < rule.NUM_CLASSIFIERS; ++i) 
+		for (i = 0; i < rule.NUM_CLASSIFIERS; ++i)
 		{
 			autoconn->CLASSIFIER [i].CR_PID = rule.CLASSIFIER [i].CR_PID;
 			autoconn->CLASSIFIER [i].CR_OPERAND = rule.CLASSIFIER [i].CR_OPERAND;
@@ -240,9 +240,9 @@ static signed handle_rule (char * str, int argc, struct auto_connection * autoco
 		memcpy (&autoconn->cspec, &rule.cspec, sizeof (autoconn->cspec));
 		++(*autoconn_count);
 	}
-	else 
+	else
 	{
-		if (*priority_count >= PIB_MAX_PRIORITY_MAPS) 
+		if (*priority_count >= PIB_MAX_PRIORITY_MAPS)
 		{
 			error (1, 0, "too many rules");
 		}
@@ -257,20 +257,20 @@ static signed handle_rule (char * str, int argc, struct auto_connection * autoco
 	return (0);
 }
 
-static void read_rules (struct auto_connection auto_connection [], unsigned * autoconn_count, struct classifier_priority_map classifier_priority_map [], unsigned * priority_count) 
+static void read_rules (struct auto_connection auto_connection [], unsigned * autoconn_count, struct classifier_priority_map classifier_priority_map [], unsigned * priority_count)
 
 {
 	int len = 0;
 	int wc = 0;
-	while ((c = getc (stdin)) != EOF) 
+	while ((c = getc (stdin)) != EOF)
 	{
-		if (isspace (c)) 
+		if (isspace (c))
 		{
 			continue;
 		}
-		if (c == '#') 
+		if (c == '#')
 		{
-			do 
+			do
 			{
 				c = getc (stdin);
 			}
@@ -279,48 +279,48 @@ static void read_rules (struct auto_connection auto_connection [], unsigned * au
 		}
 		len = 0;
 		wc = 0;
-		do 
+		do
 		{
-			if (isspace (c)) 
+			if (isspace (c))
 			{
-				while (c != '\n' && (c = getc (stdin)) != EOF && isspace (c)) 
+				while (c != '\n' && (c = getc (stdin)) != EOF && isspace (c))
 				{
 					continue;
 				}
-				if (len > 0) 
+				if (len > 0)
 				{
 					++wc;
 				}
-				if (c != '\n' && c != '#') 
+				if (c != '\n' && c != '#')
 				{
 					line [len++] = ' ';
-					if (len == sizeof (line) - 1) 
+					if (len == sizeof (line) - 1)
 					{
 						error (1, 0, "rule too long");
 					}
 				}
 			}
-			if (c == '\n' || c == '#') 
+			if (c == '\n' || c == '#')
 			{
 				line [len] = '\0';
 				handle_rule (line, wc, auto_connection, classifier_priority_map, autoconn_count, priority_count);
 				len = 0;
 				wc = 0;
-				if (c == '#') 
+				if (c == '#')
 				{
 					ungetc (c, stdin);
 				}
 				break;
 			}
 			line [len++] = c;
-			if (len == sizeof (line) - 1) 
+			if (len == sizeof (line) - 1)
 			{
 				error (1, 0, "rule too long");
 			}
 		}
 		while ((c = getc (stdin)) != EOF);
 	}
-	if (len > 0) 
+	if (len > 0)
 	{
 		line [len] = '\0';
 		handle_rule (line, wc, auto_connection, classifier_priority_map, autoconn_count, priority_count);
@@ -329,16 +329,16 @@ static void read_rules (struct auto_connection auto_connection [], unsigned * au
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv[]);
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"eqv",
 		"pibfile < rules",
@@ -357,9 +357,9 @@ int main (int argc, char const * argv [])
 	char line [1024];
 	signed c;
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch ((char) (c)) 
+		switch ((char) (c))
 		{
 		case 'e':
 			dup2 (STDOUT_FILENO, STDERR_FILENO);
@@ -376,7 +376,7 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (!argc) 
+	if (!argc)
 	{
 		error (1, 0, "must specify PIB file");
 	}
@@ -384,43 +384,43 @@ int main (int argc, char const * argv [])
 	memset (&classifier_priority_map, 0, sizeof (classifier_priority_map));
 	read_rules (auto_connection, &autoconn_count, classifier_priority_map, &priority_count);
 	pib.name = * argv;
-	if ((pib.file = open (pib.name, O_BINARY|O_RDWR, FILE_FILEMODE)) == -1) 
+	if ((pib.file = open (pib.name, O_BINARY|O_RDWR, FILE_FILEMODE)) == -1)
 	{
 		error (1, errno, "%s", pib.name);
 	}
-	if (pibfile1 (&pib)) 
+	if (pibfile1 (&pib))
 	{
 		error (1, errno, "Bad PIB file: %s", pib.name);
 	}
-	if (lseek (pib.file, PIB_AUTOCONN_OFFSET, SEEK_SET) != PIB_AUTOCONN_OFFSET) 
+	if (lseek (pib.file, PIB_AUTOCONN_OFFSET, SEEK_SET) != PIB_AUTOCONN_OFFSET)
 	{
 		error (1, errno, "could not seek to AutoConnections");
 	}
-	if (write (pib.file, &auto_connection, sizeof (auto_connection)) != sizeof (auto_connection)) 
+	if (write (pib.file, &auto_connection, sizeof (auto_connection)) != sizeof (auto_connection))
 	{
 		error (1, errno, "could not write AutoConnections");
 	}
-	if (lseek (pib.file, PIB_AUTOCONN_COUNT_OFFSET, SEEK_SET) != PIB_AUTOCONN_COUNT_OFFSET) 
+	if (lseek (pib.file, PIB_AUTOCONN_COUNT_OFFSET, SEEK_SET) != PIB_AUTOCONN_COUNT_OFFSET)
 	{
 		error (1, errno, "could not seek to AutoConnection count");
 	}
-	if (write (pib.file, &autoconn_count, sizeof (autoconn_count)) != sizeof (autoconn_count)) 
+	if (write (pib.file, &autoconn_count, sizeof (autoconn_count)) != sizeof (autoconn_count))
 	{
 		error (1, errno, "could not write AutoConnection count");
 	}
-	if (lseek (pib.file, PIB_PRIORITY_MAPS_OFFSET, SEEK_SET) != PIB_PRIORITY_MAPS_OFFSET) 
+	if (lseek (pib.file, PIB_PRIORITY_MAPS_OFFSET, SEEK_SET) != PIB_PRIORITY_MAPS_OFFSET)
 	{
 		error (1, errno, "could not seek to Priority Map");
 	}
-	if (write (pib.file, &classifier_priority_map, sizeof (classifier_priority_map)) != sizeof (classifier_priority_map)) 
+	if (write (pib.file, &classifier_priority_map, sizeof (classifier_priority_map)) != sizeof (classifier_priority_map))
 	{
 		error (1, errno, "could not write Priority Map");
 	}
-	if (lseek (pib.file, PIB_PRIORITY_COUNT_OFFSET, SEEK_SET) != PIB_PRIORITY_COUNT_OFFSET) 
+	if (lseek (pib.file, PIB_PRIORITY_COUNT_OFFSET, SEEK_SET) != PIB_PRIORITY_COUNT_OFFSET)
 	{
 		error (1, errno, "could not seek to PriorityMaps count");
 	}
-	if (write (pib.file, &priority_count, sizeof (priority_count)) != sizeof (priority_count)) 
+	if (write (pib.file, &priority_count, sizeof (priority_count)) != sizeof (priority_count))
 	{
 		error (1, errno, "could not write PriorityMaps count");
 	}

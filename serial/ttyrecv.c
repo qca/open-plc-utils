@@ -1,26 +1,26 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *
- *   ttyrecv.c 
+ *   ttyrecv.c
  *
  *   Contributor(s):
  *	Nathaniel Houghton <nhoughto@qca.qualcomm.com>
@@ -72,7 +72,7 @@
 #endif
 
 /*====================================================================*
- *   program constants;   
+ *   program constants;
  *--------------------------------------------------------------------*/
 
 #define SERIAL_PORT "/dev/ttyS0"
@@ -85,7 +85,7 @@
  *
  *--------------------------------------------------------------------*/
 
-static double ttyrecv (int ifd, int ofd, size_t time, size_t chunk_size, flag_t flags) 
+static double ttyrecv (int ifd, int ofd, size_t time, size_t chunk_size, flag_t flags)
 
 {
 	char *buf;
@@ -100,7 +100,7 @@ static double ttyrecv (int ifd, int ofd, size_t time, size_t chunk_size, flag_t 
 	double bytes_sec;
 	fd_set rfd;
 	buf = malloc (chunk_size);
-	if (buf == NULL) 
+	if (buf == NULL)
 	{
 		error (1, errno, "could not allocate memory");
 	}
@@ -109,40 +109,40 @@ static double ttyrecv (int ifd, int ofd, size_t time, size_t chunk_size, flag_t 
 	FD_SET (ifd, &rfd);
 	tv_timeout.tv_sec = 5;
 	tv_timeout.tv_usec = 0;
-	if (select (ifd + 1, &rfd, NULL, NULL, &tv_timeout) != 1) 
+	if (select (ifd + 1, &rfd, NULL, NULL, &tv_timeout) != 1)
 	{
 		error (1, errno, "timed out waiting for data");
 	}
-	if (gettimeofday (&tv_start, NULL) == -1) 
+	if (gettimeofday (&tv_start, NULL) == -1)
 	{
 		error (1, errno, "could not get time");
 	}
-	if (_anyset (flags, TTYRECV_VERBOSE)) 
+	if (_anyset (flags, TTYRECV_VERBOSE))
 	{
 		fprintf (stderr, "Started receive timer.\n");
 	}
 	bytes_read = 0;
-	do 
+	do
 	{
 		FD_ZERO (&rfd);
 		FD_SET (ifd, &rfd);
 		tv_timeout.tv_sec = 1;
 		tv_timeout.tv_usec = 0;
-		if (select (ifd + 1, &rfd, NULL, NULL, &tv_timeout) == 1) 
+		if (select (ifd + 1, &rfd, NULL, NULL, &tv_timeout) == 1)
 		{
 			r = read (ifd, buf, chunk_size);
-			if (r == -1) 
+			if (r == -1)
 			{
 				error (1, 0, "could not read");
 			}
 			bytes_read += r;
-			if (ofd != -1) 
+			if (ofd != -1)
 			{
 				p = buf;
-				while (r) 
+				while (r)
 				{
 					w = write (ofd, p, r);
-					if (w == -1) 
+					if (w == -1)
 					{
 						error (1, errno, "could not write");
 					}
@@ -151,7 +151,7 @@ static double ttyrecv (int ifd, int ofd, size_t time, size_t chunk_size, flag_t 
 				}
 			}
 		}
-		if (gettimeofday (&tv_now, NULL) == -1) 
+		if (gettimeofday (&tv_now, NULL) == -1)
 		{
 			error (1, errno, "could not get time");
 		}
@@ -171,10 +171,10 @@ static double ttyrecv (int ifd, int ofd, size_t time, size_t chunk_size, flag_t 
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"cl:rs:t:qv",
 		"",
@@ -200,9 +200,9 @@ int main (int argc, char const * argv [])
 	signed fd;
 	signed c;
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch ((char) (c)) 
+		switch ((char) (c))
 		{
 		case 'c':
 			consume = 1;
@@ -214,7 +214,7 @@ int main (int argc, char const * argv [])
 			line = optarg;
 			break;
 		case 's':
-			if (baudrate (uintspec (optarg, 0, UINT_MAX), &speed)) 
+			if (baudrate (uintspec (optarg, 0, UINT_MAX), &speed))
 			{
 				error (1, 0, "could not set baud rate");
 			}
@@ -232,32 +232,32 @@ int main (int argc, char const * argv [])
 	argc -= optind;
 	argv += optind;
 	fd = open (line, O_RDWR | O_NONBLOCK);
-	if (fd == -1) 
+	if (fd == -1)
 	{
 		error (1, errno, "could not open %s", line);
 	}
-	if (tcgetattr (fd, &termios) == -1) 
+	if (tcgetattr (fd, &termios) == -1)
 	{
 		error (1, errno, "could not get tty attributes");
 	}
 	cfmakeraw (&termios);
-	if (cfsetspeed (&termios, speed) == -1) 
+	if (cfsetspeed (&termios, speed) == -1)
 	{
 		error (1, errno, "could not set tty speed");
 	}
-	if (tcsetattr (fd, TCSANOW, &termios) == -1) 
+	if (tcsetattr (fd, TCSANOW, &termios) == -1)
 	{
 		error (1, errno, "could not set tty attributes");
 	}
-	if (!consume) 
+	if (!consume)
 	{
 		rate = ttyrecv (fd, STDOUT_FILENO, time, chunk_size, flags);
 	}
-	else 
+	else
 	{
 		rate = ttyrecv (fd, -1, time, chunk_size, flags);
 	}
-	if (rflag) 
+	if (rflag)
 	{
 		fprintf (stderr, "%.02f Kbps\n", rate);
 	}

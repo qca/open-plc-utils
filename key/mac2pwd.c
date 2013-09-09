@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 #define _GETOPT_H
@@ -60,11 +60,11 @@
 #endif
 
 /*====================================================================*
- *   program constants;  
+ *   program constants;
  *--------------------------------------------------------------------*/
 
 #ifndef ETHER_ADDR_LEN
-#define ETHER_ADDR_LEN 6 
+#define ETHER_ADDR_LEN 6
 #endif
 
 /*====================================================================*
@@ -75,7 +75,7 @@
  *
  *--------------------------------------------------------------------*/
 
-static void function (const char * file, unsigned count, unsigned group, unsigned space, flag_t flags) 
+static void function (const char * file, unsigned count, unsigned group, unsigned space, flag_t flags)
 
 {
 	unsigned line = 1;
@@ -83,30 +83,30 @@ static void function (const char * file, unsigned count, unsigned group, unsigne
 	unsigned width;
 	unsigned digit;
 	signed c = getc (stdin);
-	while (c != EOF) 
+	while (c != EOF)
 	{
 		uint32_t vendor = 0;
 		uint32_t device = 0;
-		while (isspace (c)) 
+		while (isspace (c))
 		{
-			if (c == '\n') 
+			if (c == '\n')
 			{
 				line++;
 			}
 			c = getc (stdin);
 		}
-		if ((c == '#') || (c == ';')) 
+		if ((c == '#') || (c == ';'))
 		{
-			do 
+			do
 			{
 				c = getc (stdin);
 			}
 			while ((c != '\n') && (c != EOF));
 			continue;
 		}
-		for (width = 0; width < ETHER_ADDR_LEN; width++) 
+		for (width = 0; width < ETHER_ADDR_LEN; width++)
 		{
-			if ((digit = todigit (c)) < radix) 
+			if ((digit = todigit (c)) < radix)
 			{
 				vendor *= radix;
 				vendor += digit;
@@ -115,13 +115,13 @@ static void function (const char * file, unsigned count, unsigned group, unsigne
 			}
 			error (1, EINVAL, "%s: line %d: Illegal vendor", file, line);
 		}
-		if (!vendor) 
+		if (!vendor)
 		{
 			error (1, EPERM, "%s: line %d: Vendor can't be zero", file, line);
 		}
-		for (width = 0; width < ETHER_ADDR_LEN; width++) 
+		for (width = 0; width < ETHER_ADDR_LEN; width++)
 		{
-			if ((digit = todigit (c)) < radix) 
+			if ((digit = todigit (c)) < radix)
 			{
 				device *= radix;
 				device += digit;
@@ -130,13 +130,13 @@ static void function (const char * file, unsigned count, unsigned group, unsigne
 			}
 			error (1, EINVAL, "%s: line %d: Illegal device", file, line);
 		}
-		if (!device) 
+		if (!device)
 		{
 			error (1, EPERM, "%s: line %d: Device can't be zero", file, line);
 		}
-		while (isspace (c)) 
+		while (isspace (c))
 		{
-			if (c == '\n') 
+			if (c == '\n')
 			{
 				line++;
 			}
@@ -149,12 +149,12 @@ static void function (const char * file, unsigned count, unsigned group, unsigne
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, const char * argv []);
  *
- *   read one or more text files containing device address strings 
- *   and print a stream of address/password pairs; device addresses 
- *   must be separated by white space; 
+ *   read one or more text files containing device address strings
+ *   and print a stream of address/password pairs; device addresses
+ *   must be separated by white space;
  *
  *
  *   Contributor(s):
@@ -165,10 +165,10 @@ static void function (const char * file, unsigned count, unsigned group, unsigne
 #define DEFAULT_COUNT 16
 #define DEFAULT_GROUP 4
 
-int main (int argc, const char * argv []) 
+int main (int argc, const char * argv [])
 
 {
-	static const char * optv [] = 
+	static const char * optv [] =
 	{
 		"b:l:qs:uv",
 		PUTOPTV_S_FUNNEL,
@@ -185,9 +185,9 @@ int main (int argc, const char * argv [])
 	flag_t flags = (flag_t)(0);
 	signed c;
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch ((char)(c)) 
+		switch ((char)(c))
 		{
 		case 'b':
 			group = (unsigned)(uintspec (optarg, 0, UCHAR_MAX));
@@ -208,13 +208,13 @@ int main (int argc, const char * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (!argc) 
+	if (!argc)
 	{
 		function ("stdin", count, group, space, flags);
 	}
-	while ((argv) && (* argv)) 
+	while ((argv) && (* argv))
 	{
-		if (!freopen (* argv, "rb", stdin)) 
+		if (!freopen (* argv, "rb", stdin))
 		{
 			error (1, EINVAL, "Can't open %s", * argv);
 		}

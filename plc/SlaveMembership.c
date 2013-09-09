@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -43,7 +43,7 @@
 
 #define VS_SLAVE_MEM 0xA078
 
-signed SlaveMembership (struct plc * plc) 
+signed SlaveMembership (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -53,7 +53,7 @@ signed SlaveMembership (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_slave_mem_request 
+	struct __packed vs_slave_mem_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -62,7 +62,7 @@ signed SlaveMembership (struct plc * plc)
 		uint8_t ASSOC_RETRY_TIME;
 	}
 	* request = (struct vs_slave_mem_request *) (message);
-	struct __packed vs_slave_mem_confirm 
+	struct __packed vs_slave_mem_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -82,17 +82,17 @@ signed SlaveMembership (struct plc * plc)
 	memcpy (request->SLAVE_ADDR, plc->RDA, sizeof (request->SLAVE_ADDR));
 	request->AUTHORIZATION_MODE = plc->pushbutton;
 	request->ASSOC_RETRY_TIME = plc->module;
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	if (ReadMME (plc, 0, (VS_SLAVE_MEM | MMTYPE_CNF)) <= 0) 
+	if (ReadMME (plc, 0, (VS_SLAVE_MEM | MMTYPE_CNF)) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 		return (-1);
 	}
-	if (confirm->MSTATUS) 
+	if (confirm->MSTATUS)
 	{
 		Failure (plc, PLC_WONTDOIT);
 		return (-1);

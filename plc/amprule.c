@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2013 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -119,182 +119,182 @@
 #define QUOTE "''"
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv[]);
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
-{ 
-	extern struct channel channel; 
-	static char const * optv [] = 
-	{ 
-		"ei:qrst:T:vV:", 
-		"action operand condition [...] control volatility [device] [...]\n\n          where a condition is: field operator value", 
-		"Qualcomm Atheros Stream MakeRule Utility", 
-		"e\tredirect stderr to stdout", 
+{
+	extern struct channel channel;
+	static char const * optv [] =
+	{
+		"ei:qrst:T:vV:",
+		"action operand condition [...] control volatility [device] [...]\n\n          where a condition is: field operator value",
+		"Qualcomm Atheros Stream MakeRule Utility",
+		"e\tredirect stderr to stdout",
 
 #if defined (WINPCAP) || defined (LIBPCAP)
 
-		"i n\thost interface is (n) [" LITERAL (CHANNEL_ETHNUMBER) "]", 
+		"i n\thost interface is (n) [" LITERAL (CHANNEL_ETHNUMBER) "]",
 
 #else
 
-		"i s\thost interface is (s) [" LITERAL (CHANNEL_ETHDEVICE) "]", 
+		"i s\thost interface is (s) [" LITERAL (CHANNEL_ETHDEVICE) "]",
 
 #endif
 
-		"q\tquiet mode", 
-		"r\tread rules from device", 
-		"s\tdisplay symbol tables", 
-		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]", 
-		"T x\tinserted vlan tag is x [" LITERAL (AMPRULE_VLAN_TAG) "]", 
-		"v\tverbose mode", 
-		"V n\tcspec version is n [" LITERAL (AMPRULE_CSPEC_VERSION) "]", 
+		"q\tquiet mode",
+		"r\tread rules from device",
+		"s\tdisplay symbol tables",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
+		"T x\tinserted vlan tag is x [" LITERAL (AMPRULE_VLAN_TAG) "]",
+		"v\tverbose mode",
+		"V n\tcspec version is n [" LITERAL (AMPRULE_CSPEC_VERSION) "]",
 		(char const *) (0)
-	}; 
+	};
 
 #include "../plc/plc.c"
 
-	struct cspec cspec; 
-	struct MMERule rule; 
-	signed c; 
-	memset (& rule, 0, sizeof (rule)); 
-	memset (& cspec, 0, sizeof (cspec)); 
-	cspec.VLAN_TAG = AMPRULE_VLAN_TAG; 
-	cspec.CSPEC_VERSION = AMPRULE_CSPEC_VERSION; 
-	if (getenv (PLCDEVICE)) 
-	{ 
+	struct cspec cspec;
+	struct MMERule rule;
+	signed c;
+	memset (& rule, 0, sizeof (rule));
+	memset (& cspec, 0, sizeof (cspec));
+	cspec.VLAN_TAG = AMPRULE_VLAN_TAG;
+	cspec.CSPEC_VERSION = AMPRULE_CSPEC_VERSION;
+	if (getenv (PLCDEVICE))
+	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
 
-		channel.ifindex = atoi (getenv (PLCDEVICE)); 
+		channel.ifindex = atoi (getenv (PLCDEVICE));
 
 #else
 
-		channel.ifname = strdup (getenv (PLCDEVICE)); 
+		channel.ifname = strdup (getenv (PLCDEVICE));
 
 #endif
 
-	} 
-	optind = 1; 
-	while ((c = getoptv (argc, argv, optv)) != - 1) 
-	{ 
-		switch (c) 
-		{ 
-		case 'e': 
-			dup2 (STDOUT_FILENO, STDERR_FILENO); 
-			break; 
-		case 'i': 
+	}
+	optind = 1;
+	while ((c = getoptv (argc, argv, optv)) != - 1)
+	{
+		switch (c)
+		{
+		case 'e':
+			dup2 (STDOUT_FILENO, STDERR_FILENO);
+			break;
+		case 'i':
 
 #if defined (WINPCAP) || defined (LIBPCAP)
 
-			channel.ifindex = atoi (optarg); 
+			channel.ifindex = atoi (optarg);
 
 #else
 
-			channel.ifname = optarg; 
+			channel.ifname = optarg;
 
 #endif
 
-			break; 
-		case 'q': 
-			_setbits (channel.flags, CHANNEL_SILENCE); 
-			_setbits (plc.flags, PLC_SILENCE); 
-			break; 
-		case 'r': 
-			_setbits (plc.flags, PLC_ANALYSE); 
-			break; 
-		case 's': 
-			printf ("\n"); 
-			printf (" Controls are "); 
-			codelist (controls, SIZEOF (controls), COMMA, QUOTE, stdout); 
-			printf (".\n"); 
-			printf (" Volatilities are "); 
-			codelist (volatilities, SIZEOF (volatilities), COMMA, QUOTE, stdout); 
-			printf (".\n"); 
-			printf (" Actions are "); 
-			codelist (actions, SIZEOF (actions), COMMA, QUOTE, stdout); 
-			printf (".\n"); 
-			printf (" Operands are "); 
-			codelist (operands, SIZEOF (operands), COMMA, QUOTE, stdout); 
-			printf (".\n"); 
-			printf (" Fields are "); 
-			codelist (fields, SIZEOF (fields), COMMA, QUOTE, stdout); 
-			printf (".\n"); 
-			printf (" Operators are "); 
-			codelist (operators, SIZEOF (operators), COMMA, QUOTE, stdout); 
-			printf (".\n"); 
-			printf (" States are "); 
-			codelist (states, SIZEOF (states), COMMA, QUOTE, stdout); 
-			printf (".\n"); 
-			printf ("\n"); 
-			return (0); 
-		case 't': 
-			channel.timeout = (signed) (uintspec (optarg, 0, UINT_MAX)); 
-			break; 
-		case 'T': 
-			cspec.VLAN_TAG = (uint32_t) (basespec (optarg, 16, sizeof (cspec.VLAN_TAG))); 
-			cspec.VLAN_TAG = htonl (cspec.VLAN_TAG); 
-			break; 
-		case 'v': 
-			_setbits (channel.flags, CHANNEL_VERBOSE); 
-			_setbits (plc.flags, PLC_VERBOSE); 
-			break; 
-		case 'V': 
-			cspec.CSPEC_VERSION = (uint16_t) (basespec (optarg, 10, sizeof (cspec.CSPEC_VERSION))); 
-			cspec.CSPEC_VERSION = HTOLE16 (cspec.CSPEC_VERSION); 
-			break; 
-		default: 
-			break; 
-		} 
-	} 
-	argc -= optind; 
-	argv += optind; 
-	if (_allclr (plc.flags, PLC_ANALYSE)) 
-	{ 
-		if (ParseRule (& argc, & argv, & rule, & cspec) == - 1) 
-		{ 
-			error (1, 0, "invalid rule"); 
-		} 
-	} 
-	openchannel (& channel); 
-	if (!(plc.message = malloc (sizeof (* plc.message)))) 
-	{ 
-		error (1, errno, PLC_NOMEMORY); 
-	} 
-	if (!argc) 
-	{ 
-		if (_anyset (plc.flags, PLC_ANALYSE)) 
-		{ 
-			ReadRules (& plc); 
-		} 
-		else 
-		{ 
-			MakeRule (& plc, & rule); 
-		} 
-	} 
-	while ((argc) && (* argv)) 
-	{ 
-		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices)))) 
-		{ 
-			error (1, errno, PLC_BAD_MAC, * argv); 
-		} 
-		if (_anyset (plc.flags, PLC_ANALYSE)) 
-		{ 
-			ReadRules (& plc); 
-		} 
-		else 
-		{ 
-			MakeRule (& plc, & rule); 
-		} 
-		argc--; 
-		argv++; 
-	} 
-	free (plc.message); 
-	closechannel (& channel); 
-	exit (0); 
-} 
+			break;
+		case 'q':
+			_setbits (channel.flags, CHANNEL_SILENCE);
+			_setbits (plc.flags, PLC_SILENCE);
+			break;
+		case 'r':
+			_setbits (plc.flags, PLC_ANALYSE);
+			break;
+		case 's':
+			printf ("\n");
+			printf (" Controls are ");
+			codelist (controls, SIZEOF (controls), COMMA, QUOTE, stdout);
+			printf (".\n");
+			printf (" Volatilities are ");
+			codelist (volatilities, SIZEOF (volatilities), COMMA, QUOTE, stdout);
+			printf (".\n");
+			printf (" Actions are ");
+			codelist (actions, SIZEOF (actions), COMMA, QUOTE, stdout);
+			printf (".\n");
+			printf (" Operands are ");
+			codelist (operands, SIZEOF (operands), COMMA, QUOTE, stdout);
+			printf (".\n");
+			printf (" Fields are ");
+			codelist (fields, SIZEOF (fields), COMMA, QUOTE, stdout);
+			printf (".\n");
+			printf (" Operators are ");
+			codelist (operators, SIZEOF (operators), COMMA, QUOTE, stdout);
+			printf (".\n");
+			printf (" States are ");
+			codelist (states, SIZEOF (states), COMMA, QUOTE, stdout);
+			printf (".\n");
+			printf ("\n");
+			return (0);
+		case 't':
+			channel.timeout = (signed) (uintspec (optarg, 0, UINT_MAX));
+			break;
+		case 'T':
+			cspec.VLAN_TAG = (uint32_t) (basespec (optarg, 16, sizeof (cspec.VLAN_TAG)));
+			cspec.VLAN_TAG = htonl (cspec.VLAN_TAG);
+			break;
+		case 'v':
+			_setbits (channel.flags, CHANNEL_VERBOSE);
+			_setbits (plc.flags, PLC_VERBOSE);
+			break;
+		case 'V':
+			cspec.CSPEC_VERSION = (uint16_t) (basespec (optarg, 10, sizeof (cspec.CSPEC_VERSION)));
+			cspec.CSPEC_VERSION = HTOLE16 (cspec.CSPEC_VERSION);
+			break;
+		default:
+			break;
+		}
+	}
+	argc -= optind;
+	argv += optind;
+	if (_allclr (plc.flags, PLC_ANALYSE))
+	{
+		if (ParseRule (& argc, & argv, & rule, & cspec) == - 1)
+		{
+			error (1, 0, "invalid rule");
+		}
+	}
+	openchannel (& channel);
+	if (!(plc.message = malloc (sizeof (* plc.message))))
+	{
+		error (1, errno, PLC_NOMEMORY);
+	}
+	if (!argc)
+	{
+		if (_anyset (plc.flags, PLC_ANALYSE))
+		{
+			ReadRules (& plc);
+		}
+		else
+		{
+			MakeRule (& plc, & rule);
+		}
+	}
+	while ((argc) && (* argv))
+	{
+		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices))))
+		{
+			error (1, errno, PLC_BAD_MAC, * argv);
+		}
+		if (_anyset (plc.flags, PLC_ANALYSE))
+		{
+			ReadRules (& plc);
+		}
+		else
+		{
+			MakeRule (& plc, & rule);
+		}
+		argc--;
+		argv++;
+	}
+	free (plc.message);
+	closechannel (& channel);
+	exit (0);
+}
 

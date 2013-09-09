@@ -1,10 +1,10 @@
 /*====================================================================*
  *
  *   main.c - template program;
- *	
- *.  
- *:  
- *;  
+ *
+ *.
+ *:
+ *;
  *
  *--------------------------------------------------------------------*/
 
@@ -42,7 +42,7 @@
  *
  *--------------------------------------------------------------------*/
 
-void function (void) 
+void function (void)
 
 {
 	return;
@@ -50,16 +50,16 @@ void function (void)
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv []);
- *   
- *   
+ *
+ *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"",
 		"",
@@ -67,9 +67,9 @@ int main (int argc, char const * argv [])
 		(char const *) (0)
 	};
 	signed c;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		default:
 			break;
@@ -77,11 +77,11 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (!argc) 
+	if (!argc)
 	{
 		function ();
 	}
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
 		function ();
 		argc--;

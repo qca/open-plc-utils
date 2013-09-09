@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -97,7 +97,7 @@
  *   program variables;
  *--------------------------------------------------------------------*/
 
-typedef struct uart 
+typedef struct uart
 
 {
 	struct _file_ port;
@@ -117,7 +117,7 @@ uart;
  *   program variables;
  *--------------------------------------------------------------------*/
 
-static const struct _term_ modes [] = 
+static const struct _term_ modes [] =
 
 {
 	{
@@ -130,7 +130,7 @@ static const struct _term_ modes [] =
 	}
 };
 
-static const struct _term_ paritybits [] = 
+static const struct _term_ paritybits [] =
 
 {
 	{
@@ -147,7 +147,7 @@ static const struct _term_ paritybits [] =
 	}
 };
 
-static const struct _term_ flowctrls [] = 
+static const struct _term_ flowctrls [] =
 
 {
 	{
@@ -170,8 +170,8 @@ static const struct _term_ flowctrls [] =
  *--------------------------------------------------------------------*/
 
 #define MODES 		(sizeof (modes) / sizeof (struct _term_))
-#define PARITYBITS 	(sizeof (paritybits) / sizeof (struct _term_)) 
-#define FLOWCTRLS 	(sizeof (flowctrls) / sizeof (struct _term_)) 
+#define PARITYBITS 	(sizeof (paritybits) / sizeof (struct _term_))
+#define FLOWCTRLS 	(sizeof (flowctrls) / sizeof (struct _term_))
 
 /*====================================================================*
  *
@@ -179,11 +179,11 @@ static const struct _term_ flowctrls [] =
  *
  *--------------------------------------------------------------------*/
 
-static void at_command (struct uart * uart) 
+static void at_command (struct uart * uart)
 
 {
 	clearcommand ();
-	while (*uart->string) 
+	while (*uart->string)
 	{
 		insert (*uart->string++);
 	}
@@ -198,11 +198,11 @@ static void at_command (struct uart * uart)
  *
  *   void at_wake (struct uart * uart);
  *
- *   send wake command "+++" to enter command mode; 
+ *   send wake command "+++" to enter command mode;
  *
  *--------------------------------------------------------------------*/
 
-static void at_wake (struct uart * uart) 
+static void at_wake (struct uart * uart)
 
 {
 	clearcommand ();
@@ -226,7 +226,7 @@ static void at_wake (struct uart * uart)
  *
  *--------------------------------------------------------------------*/
 
-static void atbr (struct uart * uart) 
+static void atbr (struct uart * uart)
 
 {
 	clearcommand ();
@@ -267,18 +267,18 @@ static void atbr (struct uart * uart)
  *
  *--------------------------------------------------------------------*/
 
-static void manager (struct uart * uart) 
+static void manager (struct uart * uart)
 
 {
-	if (_anyset (uart->flags, UART_WAKE)) 
+	if (_anyset (uart->flags, UART_WAKE))
 	{
 		at_wake (uart);
 	}
-	if (_anyset (uart->flags, UART_COMMAND)) 
+	if (_anyset (uart->flags, UART_COMMAND))
 	{
 		at_command (uart);
 	}
-	if (_anyset (uart->flags, UART_ATBR)) 
+	if (_anyset (uart->flags, UART_ATBR))
 	{
 		atbr (uart);
 	}
@@ -295,10 +295,10 @@ static void manager (struct uart * uart)
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"B:c:D:F:m:p:P:q:S:uvw",
 		"",
@@ -317,7 +317,7 @@ int main (int argc, char const * argv [])
 		"w\twake device [+++]",
 		(char const *) (0)
 	};
-	struct uart uart = 
+	struct uart uart =
 	{
 		{
 			0,
@@ -333,13 +333,13 @@ int main (int argc, char const * argv [])
 		0
 	};
 	signed c;
-	if (getenv (UART_PORT)) 
+	if (getenv (UART_PORT))
 	{
 		uart.port.name = strdup (getenv (UART_PORT));
 	}
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'B':
 			_setbits (uart.flags, UART_ATBR);
@@ -389,7 +389,7 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (argc) 
+	if (argc)
 	{
 		error (1, ENOTSUP, ERROR_TOOMANY);
 	}

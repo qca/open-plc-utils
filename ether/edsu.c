@@ -1,28 +1,28 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *
  *   edsu.c - Qualcomm Atheros Ethernet II Data Send Utility
  *
- *   send one or more files over Ethernet using IEEE 802.2 Ethernet 
+ *   send one or more files over Ethernet using IEEE 802.2 Ethernet
  *   Frames;
  *
  *   this program can be used as a data source when testing AR6405
@@ -97,29 +97,29 @@
  *
  *   signed function (struct channel * channel, unsigned pause, signed fd);
  *
- *   read a file and transmit it over network as a stream of Ethernet 
- *   frames; pause between frames to prevent over-loading the remote 
- *   host;                              
+ *   read a file and transmit it over network as a stream of Ethernet
+ *   frames; pause between frames to prevent over-loading the remote
+ *   host;
  *
  *
  *--------------------------------------------------------------------*/
 
-signed function (struct channel * channel, unsigned pause, signed fd) 
+signed function (struct channel * channel, unsigned pause, signed fd)
 
 {
 	struct ethernet_frame frame;
 	signed length = sizeof (frame.frame_data);
 	memcpy (frame.frame_dhost, channel->peer, sizeof (frame.frame_dhost));
 	memcpy (frame.frame_shost, channel->host, sizeof (frame.frame_shost));
-	while ((length = read (fd, frame.frame_data, sizeof (frame.frame_data))) > 0) 
+	while ((length = read (fd, frame.frame_data, sizeof (frame.frame_data))) > 0)
 	{
 		frame.frame_type = htons (length);
-		if (length < ETHERMIN) 
+		if (length < ETHERMIN)
 		{
 			length = ETHERMIN;
 		}
 		length += ETHER_HDR_LEN;
-		if (sendpacket (channel, &frame, length) < 0) 
+		if (sendpacket (channel, &frame, length) < 0)
 		{
 			error (1, errno, CHANNEL_CANTSEND);
 		}
@@ -137,11 +137,11 @@ signed function (struct channel * channel, unsigned pause, signed fd)
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"e:d:i:p:qv",
 		"file [file] [...]",
@@ -166,7 +166,7 @@ int main (int argc, char const * argv [])
 	};
 	unsigned pause = EDSU_PAUSE;
 	signed c;
-	if (getenv (EDSU_INTERFACE)) 
+	if (getenv (EDSU_INTERFACE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -181,15 +181,15 @@ int main (int argc, char const * argv [])
 
 	}
 	channel.type = EDSU_ETHERTYPE;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'e':
 			channel.type = (uint16_t)(basespec (optarg, 16, sizeof (channel.type)));
 			break;
 		case 'd':
-			if (!hexencode (channel.peer, sizeof (channel.peer), optarg)) 
+			if (!hexencode (channel.peer, sizeof (channel.peer), optarg))
 			{
 				error (1, errno, "%s", optarg);
 			}
@@ -223,13 +223,13 @@ int main (int argc, char const * argv [])
 	argc -= optind;
 	argv += optind;
 	openchannel (&channel);
-	if (!argc) 
+	if (!argc)
 	{
 		function (&channel, pause, STDIN_FILENO);
 	}
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
-		if (efreopen (* argv, "rb", stdin)) 
+		if (efreopen (* argv, "rb", stdin))
 		{
 			function (&channel, pause, fileno (stdin));
 		}

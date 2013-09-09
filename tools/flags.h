@@ -18,7 +18,7 @@
 #include <stdint.h>
 
 /*====================================================================*
- *   define macros for common, but error prone, bitmap operations; 
+ *   define macros for common, but error prone, bitmap operations;
  *--------------------------------------------------------------------*/
 
 #define _bits(object) (sizeof (object) << 3)
@@ -44,7 +44,7 @@
 #define _dirty(flag,mask) ((flag) & ~(mask)) != (0)
 
 /*====================================================================*
- *   
+ *
  *--------------------------------------------------------------------*/
 
 void set32bitmap (uint32_t * map, unsigned bit);

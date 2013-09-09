@@ -15,13 +15,13 @@
 #include <windows.h>
 #include <sys/time.h>
 
-int gettimeofday (struct timeval *tv, struct timezone *tz) 
+int gettimeofday (struct timeval *tv, struct timezone *tz)
 
 {
 	FILETIME ft;
 	unsigned __int64 tmpres = 0;
 	static int tzflag = 0;
-	if (NULL != tv) 
+	if (NULL != tv)
 	{
 		GetSystemTimeAsFileTime (&ft);
 		tmpres |= ft.dwHighDateTime;
@@ -32,9 +32,9 @@ int gettimeofday (struct timeval *tv, struct timezone *tz)
 		tv->tv_sec = (long)(tmpres / 1000000UL);
 		tv->tv_usec = (long)(tmpres % 1000000UL);
 	}
-	if (NULL != tz) 
+	if (NULL != tz)
 	{
-		if (!tzflag) 
+		if (!tzflag)
 		{
 			_tzset ();
 			tzflag++;

@@ -26,40 +26,40 @@
 
 #ifdef __GNUC__
 
-__attribute__ ((format (printf, 3, 4))) 
+__attribute__ ((format (printf, 3, 4)))
 
 #endif
 
-signed error (signed status, errno_t number, char const * format, ...) 
+signed error (signed status, errno_t number, char const * format, ...)
 
 {
 	extern char const *program_name;
-	if ((program_name) && (*program_name)) 
+	if ((program_name) && (*program_name))
 	{
 		fprintf (stderr, "%s: ", program_name);
 	}
 
 #if 1
 
-	if ((format) && (*format)) 
+	if ((format) && (*format))
 	{
 		va_list arglist;
 		va_start (arglist, format);
 		vfprintf (stderr, format, arglist);
 		va_end (arglist);
 	}
-	if (number) 
+	if (number)
 	{
 		fprintf (stderr, ": %s", strerror (number));
 	}
 
 #else
 
-	if (number) 
+	if (number)
 	{
 		fprintf (stderr, "%s: ", strerror (number));
 	}
-	if ((format) && (*format)) 
+	if ((format) && (*format))
 	{
 		va_list arglist;
 		va_start (arglist, format);
@@ -71,7 +71,7 @@ signed error (signed status, errno_t number, char const * format, ...)
 
 	fprintf (stderr, "\n");
 	fflush (stderr);
-	if (status) 
+	if (status)
 	{
 		exit (status);
 	}

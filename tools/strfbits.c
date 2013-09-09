@@ -4,7 +4,7 @@
  *
  *   format.h
  *
- *   format buffer with an enumerated list of the bits in a flagword; 
+ *   format buffer with an enumerated list of the bits in a flagword;
  *   each flagword bit position corresponds to a string in operands[]
  *   and operator is the string separating formatted operands;
  *
@@ -16,20 +16,20 @@
  *
  *   char buffer[100];
  *   char const operator = ", ";
- *   char const *operands[] = 
- *   { 
- *      "zero", 
- *      "one", 
- *      "two", 
- *      "three", 
- *      "four", 
- *      "five", 
- *      "six", 
- *      "seven", 
+ *   char const *operands[] =
+ *   {
+ *      "zero",
+ *      "one",
+ *      "two",
+ *      "three",
+ *      "four",
+ *      "five",
+ *      "six",
+ *      "seven",
  *      "eight",
  *      "nine",
  *      "ten",
- *      (char *)(0) 
+ *      (char *)(0)
  *   };
  *   flag_t flags = 0x006C;
  *
@@ -38,8 +38,8 @@
  *   we decrement length before starting to reserve room for the NUL
  *   terminator; not room ... no write; we then add length to buffer
  *   before to compute the terminator address then subtract it after
- *   to compute the buffer start; this minimizes indexing and offset 
- *   calculations within the loop; 
+ *   to compute the buffer start; this minimizes indexing and offset
+ *   calculations within the loop;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
@@ -55,24 +55,24 @@
 #include "../tools/memory.h"
 #include "../tools/flags.h"
 
-size_t strfbits (char buffer [], size_t length, char const * operands [], char const * operator, unsigned flagword) 
+size_t strfbits (char buffer [], size_t length, char const * operands [], char const * operator, unsigned flagword)
 
 {
 	char * string = (char *)(buffer);
 	char const *separator = "";
-	if (length--) 
+	if (length--)
 	{
 		buffer += length;
-		while ((*operands) && (flagword)) 
+		while ((*operands) && (flagword))
 		{
-			if (flagword & 1) 
+			if (flagword & 1)
 			{
 				char const *symbol;
-				for (symbol = separator; (*symbol) && (string < buffer); symbol++) 
+				for (symbol = separator; (*symbol) && (string < buffer); symbol++)
 				{
 					*string++ = *symbol;
 				}
-				for (symbol = *operands; (*symbol) && (string < buffer); symbol++) 
+				for (symbol = *operands; (*symbol) && (string < buffer); symbol++)
 				{
 					*string++ = *symbol;
 				}

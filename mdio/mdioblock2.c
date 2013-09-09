@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*"
@@ -75,20 +75,20 @@ static uint32_t data;
 static uint32_t mask;
 
 /*====================================================================*
- *   
+ *
  *   signed mygetc ();
- *   
+ *
  *   return next input character after updating the cursor position;
  *
  *--------------------------------------------------------------------*/
 
-static signed mygetc () 
+static signed mygetc ()
 
 {
 	extern unsigned row;
 	extern unsigned col;
 	signed c = getc (stdin);
-	if (c == '\n') 
+	if (c == '\n')
 	{
 		row++;
 		col = 0;
@@ -108,18 +108,18 @@ static signed mygetc ()
  *
  *--------------------------------------------------------------------*/
 
-static uint32_t integer (unsigned radix) 
+static uint32_t integer (unsigned radix)
 
 {
 	uint32_t value = 0;
 	unsigned digit = 0;
-	while ((digit = todigit (c)) < radix) 
+	while ((digit = todigit (c)) < radix)
 	{
 		value *= radix;
 		value += digit;
 		c = mygetc ();
 	}
-	while (isspace (c)) 
+	while (isspace (c))
 	{
 		c = mygetc ();
 	}
@@ -137,33 +137,33 @@ static uint32_t integer (unsigned radix)
  *   the input file consists of zero or more hexadecimal instructions
  *   consisting of register address, register data and register mask;
  *   instructions are terminated with semicolon; fields are separated
- *   by white space; scriptstyle comments are permitted between 
+ *   by white space; scriptstyle comments are permitted between
  *   instructions but not between instruction fields;
  *
- *   the output file will consist of one 16-bit program header plus 
+ *   the output file will consist of one 16-bit program header plus
  *   nine 16-bit MDIO instructions for each input instruction; the
  *   output is padded to the nearest multiple of 32-bits;
  *
  *--------------------------------------------------------------------*/
 
-static void assemble (flag_t flags) 
+static void assemble (flag_t flags)
 
 {
 	c = mygetc ();
-	while (c != EOF) 
+	while (c != EOF)
 	{
-		if (isspace (c)) 
+		if (isspace (c))
 		{
-			do 
+			do
 			{
 				c = mygetc ();
 			}
 			while (isspace (c));
 			continue;
 		}
-		if ((c == '#') || (c == ';')) 
+		if ((c == '#') || (c == ';'))
 		{
-			do 
+			do
 			{
 				c = mygetc ();
 			}
@@ -194,16 +194,16 @@ static void assemble (flag_t flags)
 		instr = HTOLE16 ((mask >> 16) & 0xFFFF);
 		write (STDOUT_FILENO, &instr, sizeof (instr));
 		count++;
-		if (_anyset (flags, MDIO_VERBOSE)) 
+		if (_anyset (flags, MDIO_VERBOSE))
 		{
 			fprintf (stderr, "REG=0x%08X DATA=0x%08X MASK=0x%08X\n", addr, data, mask);
 		}
-		if ((c == ';') || (c == EOF)) 
+		if ((c == ';') || (c == EOF))
 		{
 			c = mygetc ();
 			continue;
 		}
-		if (_allclr (flags, MDIO_SILENCE)) 
+		if (_allclr (flags, MDIO_SILENCE))
 		{
 			error (1, 0, "Illegal character or missing terminator: line %d col %d", row, col);
 		}
@@ -215,15 +215,15 @@ static void assemble (flag_t flags)
 /*====================================================================*
  *
  *   int main (int argc, const char * argv []);
- *   
- *   
+ *
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, const char * argv []) 
+int main (int argc, const char * argv [])
 
 {
-	static const char * optv [] = 
+	static const char * optv [] =
 	{
 		"qv",
 		"file [ file ] [ ...] > file",
@@ -234,9 +234,9 @@ int main (int argc, const char * argv [])
 	};
 	flag_t flags = (flag_t)(0);
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'q':
 			_setbits (flags, MDIO_SILENCE);
@@ -250,7 +250,7 @@ int main (int argc, const char * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (isatty (STDOUT_FILENO)) 
+	if (isatty (STDOUT_FILENO))
 	{
 		error (1, ECANCELED, "stdout must be a file or pipe");
 	}
@@ -263,13 +263,13 @@ int main (int argc, const char * argv [])
 
 	instr = MDIO16_START (1, 0, count);
 	write (STDOUT_FILENO, &instr, sizeof (instr));
-	if (!argc) 
+	if (!argc)
 	{
 		assemble (flags);
 	}
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
-		if (!freopen (* argv, "rb", stdin)) 
+		if (!freopen (* argv, "rb", stdin))
 		{
 			error (1, errno, "%s", * argv);
 		}
@@ -279,16 +279,16 @@ int main (int argc, const char * argv [])
 	}
 	instr = MDIO16_START (1, 0, count);
 	addr = count * sizeof (instr) + sizeof (instr);
-	if ((addr % sizeof (uint32_t))) 
+	if ((addr % sizeof (uint32_t)))
 	{
 		uint32_t pad = 0;
 		write (STDOUT_FILENO, &pad, sizeof (pad) - addr % sizeof (pad));
 	}
-	if (!lseek (STDOUT_FILENO, 0, SEEK_SET)) 
+	if (!lseek (STDOUT_FILENO, 0, SEEK_SET))
 	{
 		write (STDOUT_FILENO, &instr, sizeof (instr));
 	}
-	if (_anyset (flags, MDIO_VERBOSE)) 
+	if (_anyset (flags, MDIO_VERBOSE))
 	{
 		fprintf (stderr, "%d instructions\n", count);
 	}

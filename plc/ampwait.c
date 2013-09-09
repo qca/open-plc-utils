@@ -1,26 +1,26 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*"
  *
- *   ampwait.c - 
+ *   ampwait.c -
  *
  *
  *   Contributor(s):
@@ -104,17 +104,17 @@
 /*====================================================================*
  *
  *   signed ResetAndWait (struct plc * plc);
- * 
+ *
  *   plc.h
  *
  *   send VS_RS_DEV.REQ messages every channel->timeout milliseconds
  *   until the device responds to indicate that it is ready to reset;
- *   return 0 if the device eventually responds within plc->timer 
+ *   return 0 if the device eventually responds within plc->timer
  *   seconds or -1 if not;
  *
  *--------------------------------------------------------------------*/
 
-signed ResetAndWait (struct plc * plc) 
+signed ResetAndWait (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -127,13 +127,13 @@ signed ResetAndWait (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_rs_dev_request 
+	struct __packed vs_rs_dev_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
 	}
 	* request = (struct vs_rs_dev_request *) (message);
-	struct __packed vs_rs_dev_confirm 
+	struct __packed vs_rs_dev_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -146,33 +146,33 @@ signed ResetAndWait (struct plc * plc)
 #endif
 
 	Request (plc, "Reset when Ready");
-	if (gettimeofday (&ts, NULL) == -1) 
+	if (gettimeofday (&ts, NULL) == -1)
 	{
 		error (1, errno, CANT_START_TIMER);
 	}
-	for (timer = 0; timer < plc->timer; timer = SECONDS (ts, tc)) 
+	for (timer = 0; timer < plc->timer; timer = SECONDS (ts, tc))
 	{
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 		QualcommHeader (&request->qualcomm, 0, (VS_RS_DEV | MMTYPE_REQ));
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
-		if (SendMME (plc) <= 0) 
+		if (SendMME (plc) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		if (ReadMME (plc, 0, (VS_RS_DEV | MMTYPE_CNF)) < 0) 
+		if (ReadMME (plc, 0, (VS_RS_DEV | MMTYPE_CNF)) < 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
-		if (gettimeofday (&tc, NULL) == -1) 
+		if (gettimeofday (&tc, NULL) == -1)
 		{
 			error (1, errno, CANT_RESET_TIMER);
 		}
-		if (plc->packetsize) 
+		if (plc->packetsize)
 		{
-			if (!confirm->MSTATUS) 
+			if (!confirm->MSTATUS)
 			{
 				Confirm (plc, "Resetting ...");
 				return (0);
@@ -191,15 +191,15 @@ signed ResetAndWait (struct plc * plc)
  *
  *   send VS_SW_VER.REQ  messages every channel->timeout milliseconds
  *   until the device stops responding to indicate that it is inactive;
- *   return 0 if the device eventually stops responding within 
+ *   return 0 if the device eventually stops responding within
  *   plc->timer seconds or -1 if not;
  *
- *   this function cannot distinguish between a software reset and 
+ *   this function cannot distinguish between a software reset and
  *   hardware reset;
  *
  *--------------------------------------------------------------------*/
 
-signed WaitForReset (struct plc * plc, char string [], size_t length) 
+signed WaitForReset (struct plc * plc, char string [], size_t length)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -212,7 +212,7 @@ signed WaitForReset (struct plc * plc, char string [], size_t length)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_sw_ver_request 
+	struct __packed vs_sw_ver_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -222,7 +222,7 @@ signed WaitForReset (struct plc * plc, char string [], size_t length)
 		char MVERSION [PLC_VERSION_STRING];
 	}
 	* request = (struct vs_sw_ver_request *) (message);
-	struct __packed vs_sw_ver_confirm 
+	struct __packed vs_sw_ver_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -239,33 +239,33 @@ signed WaitForReset (struct plc * plc, char string [], size_t length)
 
 	memset (string, 0, length);
 	Request (plc, "Allow %d seconds for Reset", plc->timer);
-	if (gettimeofday (&ts, NULL) == -1) 
+	if (gettimeofday (&ts, NULL) == -1)
 	{
 		error (1, errno, CANT_START_TIMER);
 	}
-	for (timer = 0; timer < plc->timer; timer = SECONDS (ts, tc)) 
+	for (timer = 0; timer < plc->timer; timer = SECONDS (ts, tc))
 	{
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 		QualcommHeader (&request->qualcomm, 0, (VS_SW_VER | MMTYPE_REQ));
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
-		if (SendMME (plc) <= 0) 
+		if (SendMME (plc) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		if (ReadMME (plc, 0, (VS_SW_VER | MMTYPE_CNF)) < 0) 
+		if (ReadMME (plc, 0, (VS_SW_VER | MMTYPE_CNF)) < 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
-		if (gettimeofday (&tc, NULL) == -1) 
+		if (gettimeofday (&tc, NULL) == -1)
 		{
 			error (1, errno, CANT_RESET_TIMER);
 		}
-		if (!plc->packetsize) 
+		if (!plc->packetsize)
 		{
-			if (_allset (plc->flags, (PLC_WAITFORRESET | PLC_ANALYSE))) 
+			if (_allset (plc->flags, (PLC_WAITFORRESET | PLC_ANALYSE)))
 			{
 				Confirm (plc, "Waited %d seconds for Reset", timer);
 			}
@@ -273,7 +273,7 @@ signed WaitForReset (struct plc * plc, char string [], size_t length)
 			return (0);
 		}
 	}
-	if (_allset (plc->flags, (PLC_WAITFORRESET | PLC_ANALYSE))) 
+	if (_allset (plc->flags, (PLC_WAITFORRESET | PLC_ANALYSE)))
 	{
 		Confirm (plc, "Waited %d seconds for Reset", timer);
 	}
@@ -289,12 +289,12 @@ signed WaitForReset (struct plc * plc, char string [], size_t length)
  *
  *   send VS_SW_VER.REQ messages every channel->timeout milliseconds
  *   until the device responds to indicate that it is active; return
- *   0 if the device eventually responds within plc->timer seconds 
- *   or -1 if not; 
+ *   0 if the device eventually responds within plc->timer seconds
+ *   or -1 if not;
  *
  *--------------------------------------------------------------------*/
 
-signed WaitForStart (struct plc * plc, char string [], size_t length) 
+signed WaitForStart (struct plc * plc, char string [], size_t length)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -307,7 +307,7 @@ signed WaitForStart (struct plc * plc, char string [], size_t length)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_sw_ver_request 
+	struct __packed vs_sw_ver_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -317,7 +317,7 @@ signed WaitForStart (struct plc * plc, char string [], size_t length)
 		char MVERSION [PLC_VERSION_STRING];
 	}
 	* request = (struct vs_sw_ver_request *) (message);
-	struct __packed vs_sw_ver_confirm 
+	struct __packed vs_sw_ver_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -333,38 +333,38 @@ signed WaitForStart (struct plc * plc, char string [], size_t length)
 #endif
 
 	Request (plc, "Allow %d seconds for Start", plc->timer);
-	if (gettimeofday (&ts, NULL) == -1) 
+	if (gettimeofday (&ts, NULL) == -1)
 	{
 		error (1, errno, CANT_START_TIMER);
 	}
-	for (timer = 0; timer < plc->timer; timer = SECONDS (ts, tc)) 
+	for (timer = 0; timer < plc->timer; timer = SECONDS (ts, tc))
 	{
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 		QualcommHeader (&request->qualcomm, 0, (VS_SW_VER | MMTYPE_REQ));
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
-		if (SendMME (plc) <= 0) 
+		if (SendMME (plc) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		if (ReadMME (plc, 0, (VS_SW_VER | MMTYPE_CNF)) < 0) 
+		if (ReadMME (plc, 0, (VS_SW_VER | MMTYPE_CNF)) < 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
-		if (gettimeofday (&tc, NULL) == -1) 
+		if (gettimeofday (&tc, NULL) == -1)
 		{
 			error (1, errno, CANT_RESET_TIMER);
 		}
-		if (plc->packetsize) 
+		if (plc->packetsize)
 		{
-			if (confirm->MSTATUS) 
+			if (confirm->MSTATUS)
 			{
 				Failure (plc, PLC_WONTDOIT);
 				return (-1);
 			}
-			if (_allset (plc->flags, (PLC_WAITFORSTART | PLC_ANALYSE))) 
+			if (_allset (plc->flags, (PLC_WAITFORSTART | PLC_ANALYSE)))
 			{
 				Confirm (plc, "Waited %d seconds for Start", timer);
 			}
@@ -372,7 +372,7 @@ signed WaitForStart (struct plc * plc, char string [], size_t length)
 			return (0);
 		}
 	}
-	if (_allset (plc->flags, (PLC_WAITFORSTART | PLC_ANALYSE))) 
+	if (_allset (plc->flags, (PLC_WAITFORSTART | PLC_ANALYSE)))
 	{
 		Confirm (plc, "Waited %d seconds for Start", timer);
 	}
@@ -381,7 +381,7 @@ signed WaitForStart (struct plc * plc, char string [], size_t length)
 
 
 /*====================================================================*
- *   
+ *
  *   signed WaitForAssoc (struct plc * plc);
  *
  *   plc.h
@@ -392,7 +392,7 @@ signed WaitForStart (struct plc * plc, char string [], size_t length)
  *
  *--------------------------------------------------------------------*/
 
-signed WaitForAssoc (struct plc * plc) 
+signed WaitForAssoc (struct plc * plc)
 
 {
 	extern const uint8_t broadcast [ETHER_ADDR_LEN];
@@ -406,13 +406,13 @@ signed WaitForAssoc (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_nw_info_request 
+	struct __packed vs_nw_info_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_fmi qualcomm;
 	}
 	* request = (struct vs_nw_info_request *)(message);
-	struct __packed vs_nw_info_confirm 
+	struct __packed vs_nw_info_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_fmi qualcomm;
@@ -422,7 +422,7 @@ signed WaitForAssoc (struct plc * plc)
 		uint8_t DATA [1];
 	}
 	* confirm = (struct vs_nw_info_confirm *)(message);
-	struct __packed station 
+	struct __packed station
 	{
 		uint8_t MAC [ETHER_ADDR_LEN];
 		uint8_t TEI;
@@ -435,7 +435,7 @@ signed WaitForAssoc (struct plc * plc)
 		uint16_t Reserved4;
 	}
 	* station;
-	struct __packed network 
+	struct __packed network
 	{
 		uint8_t NID [7];
 		uint8_t Reserved1 [2];
@@ -451,7 +451,7 @@ signed WaitForAssoc (struct plc * plc)
 		struct station stations [1];
 	}
 	* network;
-	struct __packed networks 
+	struct __packed networks
 	{
 		uint8_t Reserved;
 		uint8_t NUMAVLNS;
@@ -464,41 +464,41 @@ signed WaitForAssoc (struct plc * plc)
 #endif
 
 	Request (plc, "Allow %d seconds for Assoc", plc->timer);
-	if (gettimeofday (&ts, NULL) == -1) 
+	if (gettimeofday (&ts, NULL) == -1)
 	{
 		error (1, errno, CANT_START_TIMER);
 	}
-	for (timer = 0; timer < plc->timer; timer = SECONDS (ts, tc)) 
+	for (timer = 0; timer < plc->timer; timer = SECONDS (ts, tc))
 	{
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 		QualcommHeader1 (&request->qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
-		if (SendMME (plc) <= 0) 
+		if (SendMME (plc) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		if (ReadMME (plc, 1, (VS_NW_INFO | MMTYPE_CNF)) < 0) 
+		if (ReadMME (plc, 1, (VS_NW_INFO | MMTYPE_CNF)) < 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
-		if (gettimeofday (&tc, NULL) == -1) 
+		if (gettimeofday (&tc, NULL) == -1)
 		{
 			error (1, errno, CANT_RESET_TIMER);
 		}
-		if (plc->packetsize) 
+		if (plc->packetsize)
 		{
 			network = (struct network *)(&networks->networks);
-			while (networks->NUMAVLNS--) 
+			while (networks->NUMAVLNS--)
 			{
 				station = (struct station *)(&network->stations);
-				while (network->NUMSTAS--) 
+				while (network->NUMSTAS--)
 				{
-					if (memcmp (station->MAC, broadcast, sizeof (broadcast))) 
+					if (memcmp (station->MAC, broadcast, sizeof (broadcast)))
 					{
-						if (_allset (plc->flags, (PLC_WAITFORASSOC | PLC_ANALYSE))) 
+						if (_allset (plc->flags, (PLC_WAITFORASSOC | PLC_ANALYSE)))
 						{
 							Confirm (plc, "Waited %d seconds for Assoc", timer);
 						}
@@ -510,7 +510,7 @@ signed WaitForAssoc (struct plc * plc)
 			}
 		}
 	}
-	if (_allset (plc->flags, (PLC_WAITFORASSOC | PLC_ANALYSE))) 
+	if (_allset (plc->flags, (PLC_WAITFORASSOC | PLC_ANALYSE)))
 	{
 		Confirm (plc, "Waited %d seconds for Assoc", timer);
 	}
@@ -519,51 +519,51 @@ signed WaitForAssoc (struct plc * plc)
 
 
 /*====================================================================*
- *   
+ *
  *   void function (struct plc * plc, char const * firmware);
  *
  *   perform operations in a logical order;
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-static void function (struct plc * plc, char const * firmware) 
+static void function (struct plc * plc, char const * firmware)
 
 {
 	char string [PLC_VERSION_STRING];
-	if (_anyset (plc->flags, PLC_RESET_DEVICE)) 
+	if (_anyset (plc->flags, PLC_RESET_DEVICE))
 	{
-		if (ResetAndWait (plc)) 
+		if (ResetAndWait (plc))
 		{
 			Failure (plc, "Device did not Reset.");
 		}
 	}
-	if (_anyset (plc->flags, PLC_WAITFORRESET)) 
+	if (_anyset (plc->flags, PLC_WAITFORRESET))
 	{
-		if (WaitForReset (plc, string, sizeof (string))) 
+		if (WaitForReset (plc, string, sizeof (string)))
 		{
 			Failure (plc, "Device did not Reset.");
 		}
 	}
-	if (_anyset (plc->flags, PLC_WAITFORSTART)) 
+	if (_anyset (plc->flags, PLC_WAITFORSTART))
 	{
-		if (WaitForStart (plc, string, sizeof (string))) 
+		if (WaitForStart (plc, string, sizeof (string)))
 		{
 			Failure (plc, "Device did not Start.");
 		}
-		if ((firmware) && (*firmware) && strcmp (firmware, string)) 
+		if ((firmware) && (*firmware) && strcmp (firmware, string))
 		{
 			Failure (plc, "Started wrong firmware");
 		}
 	}
-	if (_anyset (plc->flags, PLC_WAITFORASSOC)) 
+	if (_anyset (plc->flags, PLC_WAITFORASSOC))
 	{
-		if (WaitForAssoc (plc)) 
+		if (WaitForAssoc (plc))
 		{
 			Failure (plc, "Device did not Assoc.");
 		}
 	}
-	if (plc->sleep) 
+	if (plc->sleep)
 	{
 		Request (plc, "Pause %d seconds", plc->sleep);
 		sleep (plc->sleep);
@@ -573,15 +573,15 @@ static void function (struct plc * plc, char const * firmware)
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv[]);
- *   
- *   parse command line, populate plc structure and perform selected 
+ *
+ *   parse command line, populate plc structure and perform selected
  *   operations; show help summary if asked; see getoptv and putoptv
  *   to understand command line parsing and help summary display; see
- *   plc.h for the definition of struct plc; 
+ *   plc.h for the definition of struct plc;
  *
- *   the command line accepts multiple MAC addresses and the program 
+ *   the command line accepts multiple MAC addresses and the program
  *   performs the specified operations on each address, in turn; the
  *   address order is significant but the option order is not; the
  *   default address is a local broadcast that causes all devices on
@@ -592,19 +592,19 @@ static void function (struct plc * plc, char const * firmware)
  *   will automatically address the local device; some options will
  *   cancel themselves if this makes no sense;
  *
- *   the default interface is eth1 because most people use eth0 as 
- *   their principle network connection; you can specify another 
+ *   the default interface is eth1 because most people use eth0 as
+ *   their principle network connection; you can specify another
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"aef:i:p:qrRstvw:xy",
 		"device [device] [...] [> stdout]",
@@ -640,7 +640,7 @@ int main (int argc, char const * argv [])
 
 	char const * firmware = "";
 	signed c;
-	if (getenv (PLCDEVICE)) 
+	if (getenv (PLCDEVICE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -655,9 +655,9 @@ int main (int argc, char const * argv [])
 
 	}
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'a':
 			_setbits (plc.flags, PLC_WAITFORASSOC);
@@ -720,17 +720,17 @@ int main (int argc, char const * argv [])
 	argc -= optind;
 	argv += optind;
 	openchannel (&channel);
-	if (!(plc.message = malloc (sizeof (* plc.message)))) 
+	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);
 	}
-	if (!argc) 
+	if (!argc)
 	{
 		function (&plc, firmware);
 	}
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
-		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices)))) 
+		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices))))
 		{
 			error (1, errno, PLC_BAD_MAC, * argv);
 		}

@@ -1,6 +1,6 @@
 /*====================================================================*
  *
- *   chars.h - character selection and matcing macros; 
+ *   chars.h - character selection and matcing macros;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
  *   Copyright 2001-2006 by Charles Maier Associates;

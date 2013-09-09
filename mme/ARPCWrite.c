@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -24,10 +24,10 @@
  *
  *   mme.h
  *
- *   write an unformatted VS_ARPC payload on the specified output 
- *   stream; this implementation is generic; memory is the start 
- *   address of the message data (&RDATA [RDATAOFFSET]) and extent 
- *   is the data length (RDATALENGTH); the call might look like 
+ *   write an unformatted VS_ARPC payload on the specified output
+ *   stream; this implementation is generic; memory is the start
+ *   address of the message data (&RDATA [RDATAOFFSET]) and extent
+ *   is the data length (RDATALENGTH); the call might look like
  *   this ...
  *
  *   ARPCWrite (fd, &ARPC->RDATA [ARPC->RDATAOFFSET], LE16TOH (ARPC->RDATALENGTH - ARPC->RDATAOFFSET));
@@ -51,7 +51,7 @@
 #include "../tools/number.h"
 #include "../mme/mme.h"
 
-void ARPCWrite (signed fd, void const * memory, size_t extent) 
+void ARPCWrite (signed fd, void const * memory, size_t extent)
 
 {
 
@@ -61,7 +61,7 @@ void ARPCWrite (signed fd, void const * memory, size_t extent)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_arpc_data 
+	struct __packed vs_arpc_data
 	{
 		uint32_t BYPASS;
 		uint16_t ARPCID;
@@ -82,7 +82,7 @@ void ARPCWrite (signed fd, void const * memory, size_t extent)
 
 #endif
     uint16_t length = (uint16_t)(extent);
-	if (isatty (fd)) 
+	if (isatty (fd))
 	{
 		hexwrite (fd, &length, sizeof (length));
 		hexwrite (fd, memory, length);
@@ -95,7 +95,7 @@ void ARPCWrite (signed fd, void const * memory, size_t extent)
 
 		write (fd, "\n", sizeof (char));
 	}
-	else 
+	else
 	{
 		write (fd, &length, sizeof (length));
 		write (fd, memory, length);

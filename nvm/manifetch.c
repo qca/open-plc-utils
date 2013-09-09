@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -23,9 +23,9 @@
  *   void * manifetch (void const * memory, size_t extent);
  *
  *   nvm.h
- *   
- *   search an nvm manifest for a given variable type and return a 
- *   void pointer to the value, if present, or NULL if not; users 
+ *
+ *   search an nvm manifest for a given variable type and return a
+ *   void pointer to the value, if present, or NULL if not; users
  *   must apply the correct type cast to the pointer to access the
  *   value;
  *
@@ -44,22 +44,22 @@
 #include "../tools/endian.h"
 #include "../tools/tlv.h"
 
-void * manifetch (void const * memory, size_t extent, uint32_t type) 
+void * manifetch (void const * memory, size_t extent, uint32_t type)
 
-{ 
-	uint8_t * offset = (uint8_t *) (memory); 
-	while (extent) 
-	{ 
-		struct TLVNode * node = (struct TLVNode *) (offset); 
-		if (LE32TOH (node->type) == type) 
-		{ 
-			return ((void *) (& node->data)); 
-		} 
-		extent -= sizeof (* node) - sizeof (node->size) +  LE32TOH (node->size); 
-		offset += sizeof (* node) - sizeof (node->size) +  LE32TOH (node->size); 
-	} 
-	return ((void *) (0)); 
-} 
+{
+	uint8_t * offset = (uint8_t *) (memory);
+	while (extent)
+	{
+		struct TLVNode * node = (struct TLVNode *) (offset);
+		if (LE32TOH (node->type) == type)
+		{
+			return ((void *) (& node->data));
+		}
+		extent -= sizeof (* node) - sizeof (node->size) +  LE32TOH (node->size);
+		offset += sizeof (* node) - sizeof (node->size) +  LE32TOH (node->size);
+	}
+	return ((void *) (0));
+}
 
 #endif
 

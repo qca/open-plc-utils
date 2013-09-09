@@ -1,31 +1,31 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *
  *   hpav.c - Atheros HomePlug AV Packet Monitor;
- *   
+ *
  *   print message header and/or full message content on stdout for
  *   each HomePlugAV or Atheros Vendor Specific message received by
  *   the host;
- *   
+ *
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
@@ -109,24 +109,24 @@
 #define PLCDEVICE "PLC"
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char * argv[]);
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
 	struct message message;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"i:qt:v",
 		PUTOPTV_S_DIVINE,
 		"Qualcomm Atheros HomePlug AV Packet Monitor",
 
-#if defined (WINPCAP) 
+#if defined (WINPCAP)
 
 		"i s\thost interface is (s) [" CHANNEL_ETHDEVICE "]",
 
@@ -144,10 +144,10 @@ int main (int argc, char const * argv [])
 	flag_t flags = (flag_t)(0);
 	signed length;
 	signed c;
-	if (getenv (PLCDEVICE)) 
+	if (getenv (PLCDEVICE))
 	{
 
-#if defined (WINPCAP) 
+#if defined (WINPCAP)
 
 		channel.ifindex = atoi (getenv (PLCDEVICE));
 
@@ -159,9 +159,9 @@ int main (int argc, char const * argv [])
 
 	}
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'i':
 
@@ -192,15 +192,15 @@ int main (int argc, char const * argv [])
 	argc -= optind;
 	argv += optind;
 	openchannel (&channel);
-	while ((length = readpacket (&channel, &message, sizeof (message))) >= 0) 
+	while ((length = readpacket (&channel, &message, sizeof (message))) >= 0)
 	{
-		if (length > 0) 
+		if (length > 0)
 		{
-			if (_allclr (flags, HPAV_SILENCE)) 
+			if (_allclr (flags, HPAV_SILENCE))
 			{
 				MMEPeek (&message, length, stdout);
 			}
-			if (_anyset (flags, HPAV_VERBOSE)) 
+			if (_anyset (flags, HPAV_VERBOSE))
 			{
 				hexdump (&message, 0, length, stdout);
 			}

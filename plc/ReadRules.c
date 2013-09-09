@@ -22,7 +22,7 @@
 #include "../plc/rules.h"
 #include "../tools/error.h"
 
-signed ReadRules (struct plc * plc) 
+signed ReadRules (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -32,7 +32,7 @@ signed ReadRules (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_classification_request 
+	struct __packed vs_classification_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -42,7 +42,7 @@ signed ReadRules (struct plc * plc)
 		uint8_t COUNT;
 	}
 	* request = (struct vs_classification_request *)(message);
-	struct __packed vs_classification_confirm 
+	struct __packed vs_classification_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -50,7 +50,7 @@ signed ReadRules (struct plc * plc)
 		uint8_t TOTAL_CLASSIFIERS;
 		uint8_t OFFSET;
 		uint8_t COUNT;
-		struct __packed MMEReadRule 
+		struct __packed MMEReadRule
 		{
 			uint8_t MACTION;
 			uint8_t MOPERAND;
@@ -69,7 +69,7 @@ signed ReadRules (struct plc * plc)
 	unsigned index = 0;
 	unsigned total = UINT_MAX;
 	Request (plc, "Read Classifier Rules");
-	while (index < total) 
+	while (index < total)
 	{
 		struct MMEReadRule * rule;
 		memset (message, 0, sizeof (* message));
@@ -79,17 +79,17 @@ signed ReadRules (struct plc * plc)
 		request->MCONTROL = 0x02;
 		request->OFFSET = index;
 		request->COUNT = SIZEOF (confirm->RULESET);
-		if (SendMME (plc) <= 0) 
+		if (SendMME (plc) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		if (ReadMME (plc, 0, (VS_CLASSIFICATION | MMTYPE_CNF)) <= 0) 
+		if (ReadMME (plc, 0, (VS_CLASSIFICATION | MMTYPE_CNF)) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
-		if (confirm->MSTATUS) 
+		if (confirm->MSTATUS)
 		{
 			Failure (plc, PLC_WONTDOIT);
 			return (-1);
@@ -97,34 +97,34 @@ signed ReadRules (struct plc * plc)
 		total = confirm->TOTAL_CLASSIFIERS;
 		index += confirm->COUNT;
 		rule = confirm->RULESET;
-		while (confirm->COUNT--) 
+		while (confirm->COUNT--)
 		{
 			int i;
 			int rule_len;
 			const char * p1;
 			const char * p2;
 			struct cspec * cspec;
-			if (rule->NUM_CLASSIFIERS > RULE_MAX_CLASSIFIERS) 
+			if (rule->NUM_CLASSIFIERS > RULE_MAX_CLASSIFIERS)
 			{
 				error (1, 0, "too many classifiers in rule (%d, expecting <= %d)", rule->NUM_CLASSIFIERS, RULE_MAX_CLASSIFIERS);
 			}
 			rule_len = sizeof (* rule) - (RULE_MAX_CLASSIFIERS - rule->NUM_CLASSIFIERS) * sizeof (struct MMEReadRule) - sizeof (struct cspec);
-			if (rule->MACTION == ACTION_AUTOCONNECT || rule->MACTION == ACTION_TAGTX || rule->MACTION == ACTION_TAGRX) 
+			if (rule->MACTION == ACTION_AUTOCONNECT || rule->MACTION == ACTION_TAGTX || rule->MACTION == ACTION_TAGRX)
 			{
 				cspec = (struct cspec *)((uint8_t *) rule + rule_len);
 				rule_len += sizeof (struct cspec);
 			}
-			if (rule->MACTION == ACTION_TAGTX) 
+			if (rule->MACTION == ACTION_TAGTX)
 			{
 				printf ("-T 0x%08X -V %d ", ntohl (cspec->VLAN_TAG), cspec->CSPEC_VERSION);
 			}
 			p1 = reword (rule->MACTION, actions, CLASSIFIER_ACTIONS);
-			if (p1 == NULL) 
+			if (p1 == NULL)
 			{
 				error (1, 0, "invalid classifier action");
 			}
 			p2 = reword (rule->MOPERAND, operands, CLASSIFIER_OPERANDS);
-			if (p2 == NULL) 
+			if (p2 == NULL)
 			{
 				error (1, 0, "invalid classifier operand");
 			}
@@ -133,7 +133,7 @@ signed ReadRules (struct plc * plc)
 
 /* need to dump out the actual conditions here */
 
-			for (i = 0; i < rule->NUM_CLASSIFIERS; ++i) 
+			for (i = 0; i < rule->NUM_CLASSIFIERS; ++i)
 			{
 				struct MMEClassifier * classifier = & rule->CLASSIFIER [i];
 				PrintRule (classifier->CR_PID, classifier->CR_OPERAND, classifier->CR_VALUE);

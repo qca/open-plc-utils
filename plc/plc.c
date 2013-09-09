@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -23,9 +23,9 @@
  *   plc.c - Qualcomm Atheros Powerline Data Structure;
  *
  *   this structure contains information needed to perform various
- *   operations on Qualcomm Atheros powerline devices; it represents 
- *   one instance of a device and could easily be converted to an 
- *   object in the future;  
+ *   operations on Qualcomm Atheros powerline devices; it represents
+ *   one instance of a device and could easily be converted to an
+ *   object in the future;
  *
  *   this structure points to a channel and a message structure;
  *
@@ -42,7 +42,7 @@
 #include "../plc/plc.h"
 #include "../ether/channel.h"
 
-struct plc plc = 
+struct plc plc =
 
 {
 	(struct channel *) (&channel),
@@ -125,7 +125,7 @@ struct plc plc =
 	},
 
 /*
- * struct _file_ CFG; MAC software will be read from this file and 
+ * struct _file_ CFG; MAC software will be read from this file and
  * written to RAM for each device specified on the command line;
  * some tools use this file for the panther/lynx softloader;
  */
@@ -136,8 +136,8 @@ struct plc plc =
 	},
 
 /*
- * struct _file_ cfg; SDRAM configuration will be read from flash 
- * on the specified device and written to this file; 
+ * struct _file_ cfg; SDRAM configuration will be read from flash
+ * on the specified device and written to this file;
  */
 
 	{
@@ -146,7 +146,7 @@ struct plc plc =
 	},
 
 /*
- * struct _file_ NVM; runtime firmware will be read from this file 
+ * struct _file_ NVM; runtime firmware will be read from this file
  * and written to RAM for each device specified on the command line;
  */
 
@@ -156,10 +156,10 @@ struct plc plc =
 	},
 
 /*
- * struct _file_ nvm; MAC software will be read from SDRAM on the 
- * specified device and written to this file; interlocks elsewhere 
- * in the code should prevent this file from being overwritten 
- * multiple times, by accident, and ensure that it is created before 
+ * struct _file_ nvm; MAC software will be read from SDRAM on the
+ * specified device and written to this file; interlocks elsewhere
+ * in the code should prevent this file from being overwritten
+ * multiple times, by accident, and ensure that it is created before
  * and new MAC software is written to device RAM;
  */
 
@@ -169,7 +169,7 @@ struct plc plc =
 	},
 
 /*
- * struct _file_ PIB; PIB information will be read from this file 
+ * struct _file_ PIB; PIB information will be read from this file
  * and written to RAM for each device specified on the command line;
  */
 
@@ -179,10 +179,10 @@ struct plc plc =
 	},
 
 /*
- * struct _file_ pib; PIB information will be read from SDRAM on 
- * the specified device and written to this file; interlocks elsewhere 
- * in the code should prevent this file from being overwritten 
- * multiple times, by accident, and ensure that it is created before 
+ * struct _file_ pib; PIB information will be read from SDRAM on
+ * the specified device and written to this file; interlocks elsewhere
+ * in the code should prevent this file from being overwritten
+ * multiple times, by accident, and ensure that it is created before
  * any new PIB software is written to device RAM;
  */
 
@@ -212,7 +212,7 @@ struct plc plc =
 	},
 
 /*
- * struct _file_ socket; 
+ * struct _file_ socket;
  */
 
 	{
@@ -221,8 +221,8 @@ struct plc plc =
 	},
 
 /*
- *   miscellaneous small integers used as needed when arguments 
- *   are required for an MME; 
+ *   miscellaneous small integers used as needed when arguments
+ *   are required for an MME;
  */
 
 	HARDWAREID,

@@ -1,35 +1,35 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *  
+ *
  *   signed FlashDevice1 (struct plc * plc);
  *
  *   plc.h
  *
- *   permanently write parameters and firmware to flash memory using 
+ *   permanently write parameters and firmware to flash memory using
  *   VS_WR_MOD messagesand VS_MOD_NVM messages;
  *
  *   paramters and firmware are written to device SDRAM and stored
  *   until commited to flash memory;
- *  
+ *
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
@@ -43,30 +43,30 @@
 #include "../tools/error.h"
 #include "../plc/plc.h"
 
-signed FlashDevice1 (struct plc * plc) 
+signed FlashDevice1 (struct plc * plc)
 
 {
-	if (WritePIB (plc)) 
+	if (WritePIB (plc))
 	{
 		return (-1);
 	}
-	if (WriteNVM (plc)) 
+	if (WriteNVM (plc))
 	{
 		return (-1);
 	}
-	if (FlashNVM (plc)) 
+	if (FlashNVM (plc))
 	{
 		return (-1);
 	}
-	if (_allclr (plc->flags, PLC_QUICK_FLASH)) 
+	if (_allclr (plc->flags, PLC_QUICK_FLASH))
 	{
 		char firmware [PLC_VERSION_STRING];
-		if (WaitForReset (plc, firmware, sizeof (firmware))) 
+		if (WaitForReset (plc, firmware, sizeof (firmware)))
 		{
 			error ((plc->flags & PLC_BAILOUT), 0, "Device did not Reset");
 			return (-1);
 		}
-		if (WaitForStart (plc, firmware, sizeof (firmware))) 
+		if (WaitForStart (plc, firmware, sizeof (firmware)))
 		{
 			error ((plc->flags & PLC_BAILOUT), 0, "Device did not Start");
 			return (-1);

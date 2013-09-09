@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2012 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -77,18 +77,18 @@
 #endif
 
 /*====================================================================*
- *   
+ *
  *   void pibdump (char const * filename, flag_t flags);
  *
  *   open the named file and determine if it is a Qualcomm Atheros
  *   parameter information block based on file header information;
- *   read object definitions from stdin and print an object driven 
+ *   read object definitions from stdin and print an object driven
  *   dump on stdout;
- *   
- *   
+ *
+ *
  *--------------------------------------------------------------------*/
 
-static void pibdump (char const * filename, flag_t flags) 
+static void pibdump (char const * filename, flag_t flags)
 
 {
 	uint32_t version;
@@ -104,49 +104,49 @@ static void pibdump (char const * filename, flag_t flags)
 	char * sp;
 	signed fd;
 	signed c;
-	if ((fd = open (filename, O_BINARY|O_RDONLY)) == -1) 
+	if ((fd = open (filename, O_BINARY|O_RDONLY)) == -1)
 	{
 		error (1, errno, "%s", filename);
 	}
-	if (read (fd, &version, sizeof (version)) != sizeof (version)) 
+	if (read (fd, &version, sizeof (version)) != sizeof (version))
 	{
 		error (1, errno, FILE_CANTREAD, filename);
 	}
-	if (lseek (fd, 0, SEEK_SET)) 
+	if (lseek (fd, 0, SEEK_SET))
 	{
 		error (1, errno, FILE_CANTHOME, filename);
 	}
-	if (LE32TOH (version) == 0x60000000) 
+	if (LE32TOH (version) == 0x60000000)
 	{
 		error (1, 0, "%s is not a PIB file", filename);
 	}
-	else if (LE32TOH (version) == 0x00010001) 
+	else if (LE32TOH (version) == 0x00010001)
 	{
 		struct nvm_header2 nvm_header;
-		if (nvmseek2 (fd, filename, &nvm_header, NVM_IMAGE_PIB)) 
+		if (nvmseek2 (fd, filename, &nvm_header, NVM_IMAGE_PIB))
 		{
 			error (1, 0, "%s is not a PIB file", filename);
 		}
 		extent = LE32TOH (nvm_header.ImageLength);
 	}
-	else 
+	else
 	{
 		struct simple_pib pib_header;
-		if (read (fd, &pib_header, sizeof (pib_header)) != sizeof (pib_header)) 
+		if (read (fd, &pib_header, sizeof (pib_header)) != sizeof (pib_header))
 		{
 			error (1, errno, FILE_CANTREAD, filename);
 		}
-		if (lseek (fd, 0, SEEK_SET)) 
+		if (lseek (fd, 0, SEEK_SET))
 		{
 			error (1, errno, FILE_CANTHOME, filename);
 		}
 		extent = LE16TOH (pib_header.PIBLENGTH);
 	}
-	while ((c = getc (stdin)) != EOF) 
+	while ((c = getc (stdin)) != EOF)
 	{
-		if ((c == '#') || (c == ';')) 
+		if ((c == '#') || (c == ';'))
 		{
-			do 
+			do
 			{
 				c = getc (stdin);
 			}
@@ -154,9 +154,9 @@ static void pibdump (char const * filename, flag_t flags)
 			lineno++;
 			continue;
 		}
-		if (isspace (c)) 
+		if (isspace (c))
 		{
-			if (c == '\n') 
+			if (c == '\n')
 			{
 				lineno++;
 			}
@@ -167,49 +167,49 @@ static void pibdump (char const * filename, flag_t flags)
 			do { c = getc (stdin); } while (isblank (c));
 		}
 		length = 0;
-		while (isdigit (c)) 
+		while (isdigit (c))
 		{
 			length *= 10;
 			length += c - '0';
 			c = getc (stdin);
 		}
-		while (isblank (c)) 
+		while (isblank (c))
 		{
 			c = getc (stdin);
 		}
 		sp = symbol;
-		if (isalpha (c) || (c == '_')) 
+		if (isalpha (c) || (c == '_'))
 		{
-			do 
+			do
 			{
 				*sp++ = (char)(c);
 				c = getc (stdin);
 			}
 			while (isident (c));
 		}
-		while (isblank (c)) 
+		while (isblank (c))
 		{
 			c = getc (stdin);
 		}
-		if (c == '[') 
+		if (c == '[')
 		{
 			*sp++ = (char)(c);
 			c = getc (stdin);
-			while (isblank (c)) 
+			while (isblank (c))
 			{
 				c = getc (stdin);
 			}
-			while (isdigit (c)) 
+			while (isdigit (c))
 			{
 				*sp++ = (char)(c);
 				c = getc (stdin);
 			}
-			while (isblank (c)) 
+			while (isblank (c))
 			{
 				c = getc (stdin);
 			}
 			*sp = (char)(0);
-			if (c != ']') 
+			if (c != ']')
 			{
 				error (1, EINVAL, "Have '%s' without ']' on line %d", symbol, lineno);
 			}
@@ -217,18 +217,18 @@ static void pibdump (char const * filename, flag_t flags)
 			c = getc (stdin);
 		}
 		*sp = (char)(0);
-		while (isblank (c)) 
+		while (isblank (c))
 		{
 			c = getc (stdin);
 		}
 		sp = string;
-		while (nobreak (c)) 
+		while (nobreak (c))
 		{
 			*sp++ = (char)(c);
 			c = getc (stdin);
 		}
 		*sp = (char)(0);
-		if (length) 
+		if (length)
 		{
 
 #if defined (WIN32)
@@ -241,11 +241,11 @@ static void pibdump (char const * filename, flag_t flags)
 
 #endif
 
-			if (read (fd, buffer, length) == (signed)(length)) 
+			if (read (fd, buffer, length) == (signed)(length))
 			{
-				if (!object++) 
+				if (!object++)
 				{
-					for (c = 0; c < _ADDRSIZE + 65; c++) 
+					for (c = 0; c < _ADDRSIZE + 65; c++)
 					{
 						putc ('-', stdout);
 					}
@@ -253,7 +253,7 @@ static void pibdump (char const * filename, flag_t flags)
 				}
 				printf ("%s %u %s\n", hexoffset (memory, sizeof (memory), offset), length, symbol);
 				hexview (buffer, offset, length, stdout);
-				for (c = 0; c < _ADDRSIZE + 65; c++) 
+				for (c = 0; c < _ADDRSIZE + 65; c++)
 				{
 					putc ('-', stdout);
 				}
@@ -271,17 +271,17 @@ static void pibdump (char const * filename, flag_t flags)
 		lineno++;
 	}
 	offset += origin;
-	if (_allclr (flags, PIB_SILENCE)) 
+	if (_allclr (flags, PIB_SILENCE))
 	{
-		if (offset < extent) 
+		if (offset < extent)
 		{
 			error (0, 0, "file %s exceeds definition by " OFF_T_SPEC " bytes", filename, extent - offset);
 		}
-		if (offset > extent) 
+		if (offset > extent)
 		{
 			error (0, 0, "definition exceeds file %s by " OFF_T_SPEC " bytes", filename, offset - extent);
 		}
-		if (offset != extent) 
+		if (offset != extent)
 		{
 			error (0, 0, "file %s is " OFF_T_SPEC " bytes not " OFF_T_SPEC " bytes", filename, extent, offset);
 		}
@@ -292,16 +292,16 @@ static void pibdump (char const * filename, flag_t flags)
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv []);
- *   
- *   
+ *
+ *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"f:qv",
 		"file",
@@ -314,12 +314,12 @@ int main (int argc, char const * argv [])
 	flag_t flags = (flag_t)(0);
 	signed c;
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'f':
-			if (!freopen (optarg, "rb", stdin)) 
+			if (!freopen (optarg, "rb", stdin))
 			{
 				error (1, errno, "%s", optarg);
 			}
@@ -336,11 +336,11 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (argc > 1) 
+	if (argc > 1)
 	{
 		error (1, ENOTSUP, ERROR_TOOMANY);
 	}
-	if ((argc) && (* argv)) 
+	if ((argc) && (* argv))
 	{
 		pibdump (*argv, flags);
 	}

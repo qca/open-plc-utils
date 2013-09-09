@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -122,12 +122,12 @@
 /*====================================================================*
  *
  *   signed mdio (struct channel * channel, uint8_t mode, uint8_t phy, uint16_t * data);
- *   
- *   
+ *
+ *
  *
  *--------------------------------------------------------------------*/
 
-static signed mdio (struct channel * channel, uint8_t mode, uint8_t phy, uint8_t reg, uint16_t * data) 
+static signed mdio (struct channel * channel, uint8_t mode, uint8_t phy, uint8_t reg, uint16_t * data)
 
 {
 	struct message message;
@@ -137,7 +137,7 @@ static signed mdio (struct channel * channel, uint8_t mode, uint8_t phy, uint8_t
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_mdio_command_request 
+	struct __packed vs_mdio_command_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -147,7 +147,7 @@ static signed mdio (struct channel * channel, uint8_t mode, uint8_t phy, uint8_t
 		uint16_t DATA;
 	}
 	* request = (struct vs_mdio_command_request *)(&message);
-	struct __packed vs_mdio_command_confirm 
+	struct __packed vs_mdio_command_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -179,17 +179,17 @@ static signed mdio (struct channel * channel, uint8_t mode, uint8_t phy, uint8_t
 
 #endif
 
-	if (sendpacket (channel, &message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) == -1) 
+	if (sendpacket (channel, &message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) == -1)
 	{
 		error (1, errno, CHANNEL_CANTSEND);
 	}
-	while ((packetsize = readpacket (channel, &message, sizeof (message))) > 0) 
+	while ((packetsize = readpacket (channel, &message, sizeof (message))) > 0)
 	{
-		if (UnwantedMessage (&message, packetsize, 0, (VS_MDIO_COMMAND | MMTYPE_CNF))) 
+		if (UnwantedMessage (&message, packetsize, 0, (VS_MDIO_COMMAND | MMTYPE_CNF)))
 		{
 			continue;
 		}
-		if (confirm->MSTATUS) 
+		if (confirm->MSTATUS)
 		{
 			error (0, 0, "%s (%0X): %s", MMECode (confirm->qualcomm.MMTYPE, confirm->MSTATUS), confirm->MSTATUS, PLC_WONTDOIT);
 			continue;
@@ -209,7 +209,7 @@ static signed mdio (struct channel * channel, uint8_t mode, uint8_t phy, uint8_t
  *
  *--------------------------------------------------------------------*/
 
-static void function (struct channel * channel, uint8_t mode, uint32_t address, uint32_t content, flag_t flags) 
+static void function (struct channel * channel, uint8_t mode, uint32_t address, uint32_t content, flag_t flags)
 
 {
 	uint8_t phy;
@@ -218,88 +218,88 @@ static void function (struct channel * channel, uint8_t mode, uint32_t address, 
 	uint16_t high_addr = (address & HIGH_ADDR_MASK) >> HIGH_ADDR_SHIFT;
 	uint16_t low_addr = (address & LOW_ADDR_MASK) >> LOW_ADDR_SHIFT;
 
-/* 
- *   supply chip with high address bytes 
+/*
+ *   supply chip with high address bytes
  */
 
 	phy = CODE_HIGH_ADDR << CODE_SHIFT;
 	reg = 0;
 	mdio_data = high_addr;
-	if (mdio (channel, MDIO_MODE_WRITE, phy, reg, &mdio_data)) 
+	if (mdio (channel, MDIO_MODE_WRITE, phy, reg, &mdio_data))
 	{
 		error (1, 0, "could not set high address bits");
 	}
-	if (_allclr (flags, MDIO_FLAG_REVERSE)) 
+	if (_allclr (flags, MDIO_FLAG_REVERSE))
 	{
 
-/* 
- *   supply chip with first low address bytes and first data chunk 
+/*
+ *   supply chip with first low address bytes and first data chunk
  */
 
 		phy = CODE_LOW_ADDR << CODE_SHIFT;
 		phy |= (low_addr & 0xE0) >> 5;
 		reg = (low_addr & 0x1F);
 		mdio_data = (content & 0x0000FFFF);
-		if (mdio (channel, mode, phy, reg, &mdio_data)) 
+		if (mdio (channel, mode, phy, reg, &mdio_data))
 		{
 			error (1, 0, "could not read low 16bits");
 		}
-		if (mode == MDIO_MODE_READ) 
+		if (mode == MDIO_MODE_READ)
 		{
 			content = mdio_data;
 		}
 
-/* 
- *   supply chip with second low address bytes and second data chunk 
+/*
+ *   supply chip with second low address bytes and second data chunk
  */
 
 		phy = CODE_LOW_ADDR << CODE_SHIFT;
 		phy |= (low_addr & 0xE0) >> 5;
 		reg = (low_addr & 0x1F) | 0x01;
 		mdio_data = (content & 0xFFFF0000) >> 16;
-		if (mdio (channel, mode, phy, reg, &mdio_data)) 
+		if (mdio (channel, mode, phy, reg, &mdio_data))
 		{
 			error (1, 0, "could not read high 16bits");
 		}
-		if (mode == MDIO_MODE_READ) 
+		if (mode == MDIO_MODE_READ)
 		{
 			content |= (mdio_data << 16);
 			printf ("0x%08x: 0x%08x\n", address, content);
 		}
 	}
-	else 
+	else
 	{
 
-/* 
- *   supply chip with second low address bytes and second data chunk 
+/*
+ *   supply chip with second low address bytes and second data chunk
  */
 
 		phy = CODE_LOW_ADDR << CODE_SHIFT;
 		phy |= (low_addr & 0xE0) >> 5;
 		reg = (low_addr & 0x1F) | 0x01;
 		mdio_data = (content & 0xFFFF0000) >> 16;
-		if (mdio (channel, mode, phy, reg, &mdio_data)) 
+		if (mdio (channel, mode, phy, reg, &mdio_data))
 		{
 			error (1, 0, "could not read high 16bits");
 		}
-		if (mode == MDIO_MODE_READ) 
+		if (mode == MDIO_MODE_READ)
 		{
 			content = (mdio_data << 16);
 		}
 
-/* 
- *   supply chip with first low address bytes and first data chunk 
+/*
+ *   supply chip with first low address bytes and first data chunk
  */
 
 		phy = CODE_LOW_ADDR << CODE_SHIFT;
 		phy |= (low_addr & 0xE0) >> 5;
 		reg = (low_addr & 0x1F);
 		mdio_data = (content & 0x0000FFFF);
-		if (mdio (channel, mode, phy, reg, &mdio_data)) 
+		if (mdio (channel, mode, phy, reg, &mdio_data))
 		{
 			error (1, 0, "could not read low 16bits");
 		}
-		if (mode == MDIO_MODE_READ) 
+		if (mode == MDIO_MODE_READ)
 		{
 			content |= mdio_data;
 			printf ("0x%08x: 0x%08x\n", address, content);
@@ -312,16 +312,16 @@ static void function (struct channel * channel, uint8_t mode, uint32_t address, 
 /*====================================================================*
  *
  *   int main (int argc, char const * argv []);
- *   
- *   
+ *
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"a:d:ehi:qv",
 		"[device] [...]",
@@ -350,7 +350,7 @@ int main (int argc, char const * argv [])
 	uint32_t address = 0;
 	uint32_t content = 0;
 	signed c;
-	if (getenv (PLCDEVICE)) 
+	if (getenv (PLCDEVICE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -365,13 +365,13 @@ int main (int argc, char const * argv [])
 
 	}
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'a':
 			address = (uint32_t)(uintspec (optarg, 0, 0x0007FFFF));
-			if (address & 0x03) 
+			if (address & 0x03)
 			{
 				error (1, 0, "address must be on an even 4 byte boundary");
 			}
@@ -412,13 +412,13 @@ int main (int argc, char const * argv [])
 	argc -= optind;
 	argv += optind;
 	openchannel (&channel);
-	if (!argc) 
+	if (!argc)
 	{
 		function (&channel, mode, address, content, flags);
 	}
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
-		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices)))) 
+		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices))))
 		{
 			error (1, errno, PLC_BAD_MAC, * argv);
 		}

@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 #define _GETOPT_H
@@ -67,7 +67,7 @@
 #endif
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, const char * argv []);
  *
  *
@@ -76,10 +76,10 @@
 
 #define DEFAULT_LEVEL 0
 
-int main (int argc, const char * argv []) 
+int main (int argc, const char * argv [])
 
 {
-	static const char * optv [] = 
+	static const char * optv [] =
 	{
 		"DeL:MNqv",
 		"phrase [phrase] [...]",
@@ -101,9 +101,9 @@ int main (int argc, const char * argv [])
 	flag_t flags = (flag_t)(0);
 	signed c;
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch ((char) (c)) 
+		switch ((char) (c))
 		{
 		case 'D':
 			type = HPAVKEY_DAK;
@@ -132,44 +132,44 @@ int main (int argc, const char * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	while ((argc--) && (* argv)) 
+	while ((argc--) && (* argv))
 	{
 		sp = phrase = * argv++;
-		while (isprint (*sp)) 
+		while (isprint (*sp))
 		{
 			sp++;
 		}
-		if (_anyset (flags, HPAVKEY_ENFORCE)) 
+		if (_anyset (flags, HPAVKEY_ENFORCE))
 		{
-			if (*sp) 
+			if (*sp)
 			{
 				error (0, ENOTSUP, "Phrase \"%s\" contains illegal characters", phrase);
 				continue;
 			}
-			if ((sp - phrase) < HPAVKEY_PHRASE_MIN) 
+			if ((sp - phrase) < HPAVKEY_PHRASE_MIN)
 			{
 				error (0, ENOTSUP, "Phrase \"%s\" less than %d characters", phrase, HPAVKEY_PHRASE_MIN);
 				continue;
 			}
-			if ((sp - phrase) > HPAVKEY_PHRASE_MAX) 
+			if ((sp - phrase) > HPAVKEY_PHRASE_MAX)
 			{
 				error (0, ENOTSUP, "Phrase \"%s\" more than %d characters", phrase, HPAVKEY_PHRASE_MAX);
 				continue;
 			}
 		}
-		if (type == HPAVKEY_DAK) 
+		if (type == HPAVKEY_DAK)
 		{
 			HPAVKeyDAK (digest, phrase);
 			HPAVKeyOut (digest, HPAVKEY_DAK_LEN, phrase, flags);
 			continue;
 		}
-		if (type == HPAVKEY_NMK) 
+		if (type == HPAVKEY_NMK)
 		{
 			HPAVKeyNMK (digest, phrase);
 			HPAVKeyOut (digest, HPAVKEY_NMK_LEN, phrase, flags);
 			continue;
 		}
-		if (type == HPAVKEY_NID) 
+		if (type == HPAVKEY_NID)
 		{
 			HPAVKeyNMK (digest, phrase);
 			HPAVKeyNID (digest, digest, level);

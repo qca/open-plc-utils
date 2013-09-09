@@ -1,31 +1,31 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *
  *   signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, struct vs_module_spec * vs_module_spec);
- *   
+ *
  *   plc.h
  *
  *   write an entire file to flash memory as a single module; write
- *   the file in 1400 byte records; allow up to 80 seconds for each 
+ *   the file in 1400 byte records; allow up to 80 seconds for each
  *   write to complete; extra time is needed because memory must be
  *   erased;
  *
@@ -46,9 +46,9 @@
 
 #include "../tools/error.h"
 #include "../tools/files.h"
-#include "../plc/plc.h" 
+#include "../plc/plc.h"
 
-signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, struct vs_module_spec * vs_module_spec) 
+signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, struct vs_module_spec * vs_module_spec)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -58,13 +58,13 @@ signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, stru
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_module_operation_write_request 
+	struct __packed vs_module_operation_write_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
 		uint32_t RESERVED;
 		uint8_t NUM_OP_DATA;
-		struct __packed 
+		struct __packed
 		{
 			uint16_t MOD_OP;
 			uint16_t MOD_OP_DATA_LEN;
@@ -80,7 +80,7 @@ signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, stru
 		uint8_t MODULE_DATA [PLC_MODULE_SIZE];
 	}
 	* request = (struct vs_module_operation_write_request *)(message);
-	struct __packed vs_module_operation_write_confirm 
+	struct __packed vs_module_operation_write_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -88,7 +88,7 @@ signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, stru
 		uint16_t ERR_REC_CODE;
 		uint32_t RESERVED;
 		uint8_t NUM_OP_DATA;
-		struct __packed 
+		struct __packed
 		{
 			uint16_t MOD_OP;
 			uint16_t MOD_OP_DATA_LEN;
@@ -113,17 +113,17 @@ signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, stru
 	uint32_t extent = vs_module_spec->MODULE_LENGTH;
 	uint32_t offset = 0;
 	Request (plc, "Flash %s", file->name);
-	while (extent) 
+	while (extent)
 	{
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 		QualcommHeader (&request->qualcomm, 0, (VS_MODULE_OPERATION | MMTYPE_REQ));
 		plc->packetsize = sizeof (struct vs_module_operation_write_request);
-		if (length > extent) 
+		if (length > extent)
 		{
 			length = extent;
 		}
-		if (read (file->file, request->MODULE_DATA, length) != length) 
+		if (read (file->file, request->MODULE_DATA, length) != length)
 		{
 			error (1, errno, FILE_CANTREAD, file->name);
 		}
@@ -151,13 +151,13 @@ signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, stru
 
 #endif
 
-		if (SendMME (plc) <= 0) 
+		if (SendMME (plc) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
 		channel->timeout = PLC_MODULE_WRITE_TIMEOUT;
-		if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0) 
+		if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			channel->timeout = timer;
@@ -181,17 +181,17 @@ signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, stru
 
 #endif
 
-		if (confirm->MSTATUS) 
+		if (confirm->MSTATUS)
 		{
 			Failure (plc, PLC_WONTDOIT);
 			return (-1);
 		}
-		if (LE16TOH (confirm->MODULE_SPEC.MODULE_LENGTH) != length) 
+		if (LE16TOH (confirm->MODULE_SPEC.MODULE_LENGTH) != length)
 		{
 			error ((plc->flags & PLC_BAILOUT), 0, PLC_ERR_LENGTH);
 			return (-1);
 		}
-		if (LE32TOH (confirm->MODULE_SPEC.MODULE_OFFSET) != offset) 
+		if (LE32TOH (confirm->MODULE_SPEC.MODULE_OFFSET) != offset)
 		{
 			error ((plc->flags & PLC_BAILOUT), 0, PLC_ERR_OFFSET);
 			return (-1);

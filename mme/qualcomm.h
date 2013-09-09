@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -26,7 +26,7 @@
  *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
  *;  For demonstration and evaluation only; Not for production use.
  *
- *   Contributor(s): 
+ *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
@@ -107,11 +107,11 @@
 #define VS_CONN_REL 0xA0C8
 #define VS_CONN_INFO 0xA0CC
 #define VS_MULTIPORT_LNK_STA 0xA0D0
-#define VS_EM_ID_TABLE 0xA0DC 
+#define VS_EM_ID_TABLE 0xA0DC
 #define VS_STANDBY 0xA0E0
-#define VS_SLEEPSCHEDULE 0xA0E4 
-#define VS_SLEEPSCHEDULE_NOTIFICATION 0xA0E8 
-#define VS_MICROCONTROLLER_DIAG 0xA0F0 
+#define VS_SLEEPSCHEDULE 0xA0E4
+#define VS_SLEEPSCHEDULE_NOTIFICATION 0xA0E8
+#define VS_MICROCONTROLLER_DIAG 0xA0F0
 #define VS_GET_PROPERTY 0xA0F8
 #define VS_SET_PROPERTY 0xA100
 #define VS_PHYSWITCH_MDIO 0xA104

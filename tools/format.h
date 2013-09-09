@@ -1,7 +1,7 @@
 /*====================================================================*
  *
  *   format.h - format function definitions and declarations;;
- *   
+ *
  *   this file is a subset of the original that includes only those
  *   definitions and declaration needed for toolkit programs;
  *
@@ -32,7 +32,7 @@ size_t strfbits (char buffer [], size_t length, char const * operands [], char c
 
 #ifdef __GNUC__
 
-__attribute__ ((format (printf, 2, 3))) 
+__attribute__ ((format (printf, 2, 3)))
 
 #endif
 
@@ -40,7 +40,7 @@ void output (signed indent, char const * format, ...);
 
 #ifdef __GNUC__
 
-__attribute__ ((format (printf, 3, 4))) 
+__attribute__ ((format (printf, 3, 4)))
 
 #endif
 

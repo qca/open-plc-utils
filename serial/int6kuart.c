@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -107,7 +107,7 @@
  *   program variables;
  *--------------------------------------------------------------------*/
 
-typedef struct uart 
+typedef struct uart
 
 {
 	struct _file_ port;
@@ -133,12 +133,12 @@ uart;
  *
  *   void at_writenvm (struct uart * uart);
  *
- *   read firmware image from file and send to device using command 
+ *   read firmware image from file and send to device using command
  *   "ATWPF"; the file descriptor is "nvm" member of struct uart;
  *
  *--------------------------------------------------------------------*/
 
-static void at_writenvm (struct uart * uart) 
+static void at_writenvm (struct uart * uart)
 
 {
 	extern struct command command;
@@ -150,7 +150,7 @@ static void at_writenvm (struct uart * uart)
 	uint16_t olength = 0;
 	uint32_t ooffset = 0;
 	uint32_t ochksum;
-	while ((mblock = read (uart->nvm.file, memory, mblock)) > 0) 
+	while ((mblock = read (uart->nvm.file, memory, mblock)) > 0)
 	{
 		clearcommand ();
 		insert ('A');
@@ -183,21 +183,21 @@ static void at_writenvm (struct uart * uart)
 		mustbe ('1');
 		mustbe (',');
 		olength = (uint16_t)(hextoint (sizeof (olength)));
-		if (olength != mlength) 
+		if (olength != mlength)
 		{
 			command.buffer [command.offset] = (char)(0);
 			error (1, EINVAL, "[%s]: expected length %X", command.buffer, mlength);
 		}
 		mustbe (',');
 		ooffset = (uint32_t)(hextoint (sizeof (ooffset)));
-		if (ooffset != moffset) 
+		if (ooffset != moffset)
 		{
 			command.buffer [command.offset] = (char)(0);
 			error (1, EINVAL, "[%s]: expected offset %X", command.buffer, moffset);
 		}
 		mustbe (',');
 		ochksum = (uint32_t)(hextoint (sizeof (ochksum)));
-		if (ochksum != mchksum) 
+		if (ochksum != mchksum)
 		{
 			command.buffer [command.offset] = (char)(0);
 			error (1, EINVAL, "[%s]: expected checksum %X (%X)", command.buffer, mchksum, ochksum);
@@ -206,15 +206,15 @@ static void at_writenvm (struct uart * uart)
 		encode (memory, mblock);
 		mustbe ('\r');
 		moffset += mlength;
-		if (_allclr (uart->flags, (UART_VERBOSE | UART_SILENCE))) 
+		if (_allclr (uart->flags, (UART_VERBOSE | UART_SILENCE)))
 		{
 			write (STDOUT_FILENO, ".", 1);
 		}
 	}
 
-#ifndef WIN32	
+#ifndef WIN32
 
-	if (_allclr (uart->flags, (UART_VERBOSE | UART_SILENCE))) 
+	if (_allclr (uart->flags, (UART_VERBOSE | UART_SILENCE)))
 	{
 		write (STDOUT_FILENO, "\n", 1);
 	}
@@ -229,12 +229,12 @@ static void at_writenvm (struct uart * uart)
  *
  *   void at_writepib (struct uart * uart);
  *
- *   read parameter block file and send to device using command 
+ *   read parameter block file and send to device using command
  *   "ATWPF"; the file descriptor is "pib" member of struct uart;
  *
  *--------------------------------------------------------------------*/
 
-static void at_writepib (struct uart * uart) 
+static void at_writepib (struct uart * uart)
 
 {
 	extern struct command command;
@@ -246,7 +246,7 @@ static void at_writepib (struct uart * uart)
 	uint16_t olength = 0;
 	uint16_t ooffset = 0;
 	uint32_t ochksum;
-	while ((mblock = read (uart->pib.file, memory, mblock)) > 0) 
+	while ((mblock = read (uart->pib.file, memory, mblock)) > 0)
 	{
 		clearcommand ();
 		insert ('A');
@@ -279,21 +279,21 @@ static void at_writepib (struct uart * uart)
 		mustbe ('2');
 		mustbe (',');
 		olength = (uint16_t)(hextoint (sizeof (olength)));
-		if (olength != mlength) 
+		if (olength != mlength)
 		{
 			command.buffer [command.offset] = (char)(0);
 			error (1, EINVAL, "[%s]: expected length %X", command.buffer, mlength);
 		}
 		mustbe (',');
 		ooffset = (uint16_t)(hextoint (sizeof (ooffset)));
-		if (ooffset != moffset) 
+		if (ooffset != moffset)
 		{
 			command.buffer [command.offset] = (char)(0);
 			error (1, EINVAL, "[%s]: expected offset %X", command.buffer, moffset);
 		}
 		mustbe (',');
 		ochksum = (uint32_t)(hextoint (sizeof (ochksum)));
-		if (ochksum != mchksum) 
+		if (ochksum != mchksum)
 		{
 			command.buffer [command.offset] = (char)(0);
 			error (1, EINVAL, "[%s]: expected checksum %X (%X)", command.buffer, mchksum, ochksum);
@@ -302,7 +302,7 @@ static void at_writepib (struct uart * uart)
 		encode (memory, mblock);
 		mustbe ('\r');
 		moffset += mlength;
-		if (_allclr (uart->flags, (UART_VERBOSE | UART_SILENCE))) 
+		if (_allclr (uart->flags, (UART_VERBOSE | UART_SILENCE)))
 		{
 			write (STDOUT_FILENO, ".", 1);
 		}
@@ -310,7 +310,7 @@ static void at_writepib (struct uart * uart)
 
 #ifndef WIN32
 
-	if (_allclr (uart->flags, (UART_VERBOSE | UART_SILENCE))) 
+	if (_allclr (uart->flags, (UART_VERBOSE | UART_SILENCE)))
 	{
 		write (STDOUT_FILENO, "\n", 1);
 	}
@@ -325,12 +325,12 @@ static void at_writepib (struct uart * uart)
  *
  *   void at_readpib (struct uart * uart);
  *
- *   read parameter block from device and save to file using command 
+ *   read parameter block from device and save to file using command
  *   "ATRP"; the file descriptor is "pib" member of struct uart;
  *
  *--------------------------------------------------------------------*/
 
-static void at_readpib (struct uart * uart) 
+static void at_readpib (struct uart * uart)
 
 {
 	extern struct command command;
@@ -361,14 +361,14 @@ static void at_readpib (struct uart * uart)
 	encode (&mextent, sizeof (mextent));
 	mextent = LE16TOH (mextent);
 	mustbe ('\r');
-	while (mextent) 
+	while (mextent)
 	{
 		clearcommand ();
 		insert ('A');
 		insert ('T');
 		insert ('R');
 		insert ('P');
-		if (mblock > mextent) 
+		if (mblock > mextent)
 		{
 			mblock = mextent;
 		}
@@ -386,21 +386,21 @@ static void at_readpib (struct uart * uart)
 		mustbe ('O');
 		mustbe ('K');
 		olength = (uint16_t)(hextoint (sizeof (olength)));
-		if (olength != mlength) 
+		if (olength != mlength)
 		{
 			command.buffer [command.offset] = (char)(0);
 			error (1, EINVAL, "[%s]: have %d bytes but wanted %d", command.buffer, olength, mlength);
 		}
 		mustbe (',');
 		ooffset = (uint16_t)(hextoint (sizeof (ooffset)));
-		if (ooffset != moffset) 
+		if (ooffset != moffset)
 		{
 			command.buffer [command.offset] = (char)(0);
 			error (1, EINVAL, "[%s]: expected offset %X", command.buffer, moffset);
 		}
 		mustbe (',');
 		encode (memory, mblock);
-		if (write (uart->pib.file, memory, mblock) < mblock) 
+		if (write (uart->pib.file, memory, mblock) < mblock)
 		{
 			command.buffer [command.offset] = (char)(0);
 			error (1, errno, "[%s]: expected length %d", command.buffer, mblock);
@@ -408,7 +408,7 @@ static void at_readpib (struct uart * uart)
 		mustbe ('\r');
 		moffset += mblock;
 		mextent -= mblock;
-		if (_allclr (uart->flags, (UART_VERBOSE | UART_SILENCE))) 
+		if (_allclr (uart->flags, (UART_VERBOSE | UART_SILENCE)))
 		{
 			write (STDOUT_FILENO, ".", 1);
 		}
@@ -416,7 +416,7 @@ static void at_readpib (struct uart * uart)
 
 #ifndef WIN32
 
-	if (_allclr (uart->flags, (UART_VERBOSE | UART_SILENCE))) 
+	if (_allclr (uart->flags, (UART_VERBOSE | UART_SILENCE)))
 	{
 		write (STDOUT_FILENO, "\n", 1);
 	}
@@ -431,11 +431,11 @@ static void at_readpib (struct uart * uart)
  *
  *   void at_wake (struct uart * uart);
  *
- *   send wake command "+++" to enter command mode; 
+ *   send wake command "+++" to enter command mode;
  *
  *--------------------------------------------------------------------*/
 
-static void at_wake (struct uart * uart) 
+static void at_wake (struct uart * uart)
 
 {
 	clearcommand ();
@@ -460,11 +460,11 @@ static void at_wake (struct uart * uart)
  *
  *--------------------------------------------------------------------*/
 
-static void at_command (struct uart * uart) 
+static void at_command (struct uart * uart)
 
 {
 	clearcommand ();
-	while (*uart->string) 
+	while (*uart->string)
 	{
 		insert (*uart->string++);
 	}
@@ -485,7 +485,7 @@ static void at_command (struct uart * uart)
  *
  *--------------------------------------------------------------------*/
 
-static void at_respond (struct uart * uart) 
+static void at_respond (struct uart * uart)
 
 {
 	clearcommand ();
@@ -509,7 +509,7 @@ static void at_respond (struct uart * uart)
  *
  *--------------------------------------------------------------------*/
 
-static void atz (struct uart * uart) 
+static void atz (struct uart * uart)
 
 {
 	clearcommand ();
@@ -531,7 +531,7 @@ static void atz (struct uart * uart)
  *
  *--------------------------------------------------------------------*/
 
-static void atrv (struct uart * uart) 
+static void atrv (struct uart * uart)
 
 {
 	clearcommand ();
@@ -557,14 +557,14 @@ static void atrv (struct uart * uart)
  *
  *   void atrpm (struct uart * uart);
  *
- *   read and display the PIB version and MAC address using command 
+ *   read and display the PIB version and MAC address using command
  *   "ATRPM"; return version string in PIBVersion member and address
  *   string in MACAddress member of struct
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-static void atrpm (struct uart * uart) 
+static void atrpm (struct uart * uart)
 
 {
 	char mac [ETHER_ADDR_LEN * 3];
@@ -599,7 +599,7 @@ static void atrpm (struct uart * uart)
  *
  *--------------------------------------------------------------------*/
 
-static void atsk1 (struct uart * uart) 
+static void atsk1 (struct uart * uart)
 
 {
 	char key [48];
@@ -625,11 +625,11 @@ static void atsk1 (struct uart * uart)
  *
  *   void atsk2 (struct uart * uart);
  *
- *   send Set Key command "ATSK"; send device the NMK; encode returned 
+ *   send Set Key command "ATSK"; send device the NMK; encode returned
  *
  *--------------------------------------------------------------------*/
 
-static void atsk2 (struct uart * uart) 
+static void atsk2 (struct uart * uart)
 
 {
 	char key [48];
@@ -659,7 +659,7 @@ static void atsk2 (struct uart * uart)
  *
  *--------------------------------------------------------------------*/
 
-static void atdst1 (struct uart * uart) 
+static void atdst1 (struct uart * uart)
 
 {
 	char mac [ETHER_ADDR_LEN * 3];
@@ -690,7 +690,7 @@ static void atdst1 (struct uart * uart)
  *
  *--------------------------------------------------------------------*/
 
-static void atdst2 (struct uart * uart) 
+static void atdst2 (struct uart * uart)
 
 {
 	char mac [ETHER_ADDR_LEN * 3];
@@ -721,7 +721,7 @@ static void atdst2 (struct uart * uart)
  *
  *--------------------------------------------------------------------*/
 
-static void atni (struct uart * uart) 
+static void atni (struct uart * uart)
 
 {
 	unsigned count;
@@ -742,7 +742,7 @@ static void atni (struct uart * uart)
 	mustbe ('O');
 	mustbe ('K');
 	count = (unsigned)(hextoint (sizeof (unsigned)));
-	while (count--) 
+	while (count--)
 	{
 		mustbe (',');
 		index = (unsigned)(hextoint (sizeof (index)));
@@ -767,7 +767,7 @@ static void atni (struct uart * uart)
  *
  *--------------------------------------------------------------------*/
 
-static void atfd (struct uart * uart) 
+static void atfd (struct uart * uart)
 
 {
 	clearcommand ();
@@ -793,7 +793,7 @@ static void atfd (struct uart * uart)
  *
  *--------------------------------------------------------------------*/
 
-static void atps (struct uart * uart) 
+static void atps (struct uart * uart)
 
 {
 	extern struct command command;
@@ -812,7 +812,7 @@ static void atps (struct uart * uart)
 	mustbe ('O');
 	mustbe ('K');
 	result = (uint16_t)(hextoint (sizeof (result)));
-	if (result != uart->snooze) 
+	if (result != uart->snooze)
 	{
 		error (1, EINVAL, "[%s]: expected timeout %04X", command.buffer, uart->snooze);
 	}
@@ -829,7 +829,7 @@ static void atps (struct uart * uart)
  *
  *--------------------------------------------------------------------*/
 
-static void ato (struct uart * uart) 
+static void ato (struct uart * uart)
 
 {
 	clearcommand ();
@@ -854,7 +854,7 @@ static void ato (struct uart * uart)
  *
  *--------------------------------------------------------------------*/
 
-static void athsc (struct uart * uart) 
+static void athsc (struct uart * uart)
 
 {
 	clearcommand ();
@@ -881,7 +881,7 @@ static void athsc (struct uart * uart)
  *
  *--------------------------------------------------------------------*/
 
-static void atwnv (struct uart * uart) 
+static void atwnv (struct uart * uart)
 
 {
 	extern struct command command;
@@ -899,7 +899,7 @@ static void atwnv (struct uart * uart)
 	mustbe ('O');
 	mustbe ('K');
 	result = (byte)(hextoint (sizeof (result)));
-	if (result != uart->module) 
+	if (result != uart->module)
 	{
 		error (1, EINVAL, "[%s]: expected module %d", command.buffer, uart->module);
 	}
@@ -916,7 +916,7 @@ static void atwnv (struct uart * uart)
  *
  *--------------------------------------------------------------------*/
 
-static void atbsz1 (struct uart * uart) 
+static void atbsz1 (struct uart * uart)
 
 {
 	clearcommand ();
@@ -946,7 +946,7 @@ static void atbsz1 (struct uart * uart)
  *
  *--------------------------------------------------------------------*/
 
-static void atbsz2 (struct uart * uart) 
+static void atbsz2 (struct uart * uart)
 
 {
 	extern struct command command;
@@ -966,7 +966,7 @@ static void atbsz2 (struct uart * uart)
 	mustbe ('O');
 	mustbe ('K');
 	result = (uint16_t)(hextoint (sizeof (result)));
-	if (result != uart->bfsize) 
+	if (result != uart->bfsize)
 	{
 		error (1, EINVAL, "[%s]: expected buffer size %04X", command.buffer, uart->bfsize);
 	}
@@ -984,7 +984,7 @@ static void atbsz2 (struct uart * uart)
  *
  *--------------------------------------------------------------------*/
 
-static void atto (struct uart * uart) 
+static void atto (struct uart * uart)
 
 {
 	extern struct command command;
@@ -1003,7 +1003,7 @@ static void atto (struct uart * uart)
 	mustbe ('O');
 	mustbe ('K');
 	result = (uint16_t)(hextoint (sizeof (result)));
-	if (result != uart->timeout) 
+	if (result != uart->timeout)
 	{
 		error (1, EINVAL, "[%s]: expected timeout %04X", command.buffer, uart->timeout);
 	}
@@ -1019,17 +1019,17 @@ static void atto (struct uart * uart)
  *
  *--------------------------------------------------------------------*/
 
-static void atm (struct uart * uart) 
+static void atm (struct uart * uart)
 
 {
 	extern struct command command;
 	uint8_t buffer [ETHER_MAX_LEN + ETHER_MAX_LEN + 512];
 	unsigned length = (unsigned)(readframe (uart->eth.file, buffer, sizeof (buffer)));
-	if (length < FRAME_MIN_CHAR) 
+	if (length < FRAME_MIN_CHAR)
 	{
 		error (1, ENOTSUP, "Frame specification of %d bytes less than %d minimum", (length >> 1), (FRAME_MIN_CHAR >> 1));
 	}
-	if (length > FRAME_MAX_CHAR) 
+	if (length > FRAME_MAX_CHAR)
 	{
 		error (1, ENOTSUP, "Frame specification of %d bytes more than %d maximum", (length >> 1), (FRAME_MAX_CHAR >> 1));
 	}
@@ -1058,98 +1058,98 @@ static void atm (struct uart * uart)
  *
  *--------------------------------------------------------------------*/
 
-static void manager (struct uart * uart) 
+static void manager (struct uart * uart)
 
 {
-	if (_anyset (uart->flags, UART_WAKE)) 
+	if (_anyset (uart->flags, UART_WAKE))
 	{
 		at_wake (uart);
 	}
-	if (_anyset (uart->flags, UART_COMMAND)) 
+	if (_anyset (uart->flags, UART_COMMAND))
 	{
 		at_command (uart);
 	}
-	if (_anyset (uart->flags, UART_RESPOND)) 
+	if (_anyset (uart->flags, UART_RESPOND))
 	{
 		at_respond (uart);
 	}
-	if (_anyset (uart->flags, UART_ATRV)) 
+	if (_anyset (uart->flags, UART_ATRV))
 	{
 		atrv (uart);
 	}
-	if (_anyset (uart->flags, UART_ATRPM)) 
+	if (_anyset (uart->flags, UART_ATRPM))
 	{
 		atrpm (uart);
 	}
-	if (_anyset (uart->flags, UART_ATDST1)) 
+	if (_anyset (uart->flags, UART_ATDST1))
 	{
 		atdst1 (uart);
 	}
-	if (_anyset (uart->flags, UART_ATDST2)) 
+	if (_anyset (uart->flags, UART_ATDST2))
 	{
 		atdst2 (uart);
 	}
-	if (_anyset (uart->flags, UART_ATZ)) 
+	if (_anyset (uart->flags, UART_ATZ))
 	{
 		atz (uart);
 	}
-	if (_anyset (uart->flags, UART_ATFD)) 
+	if (_anyset (uart->flags, UART_ATFD))
 	{
 		atfd (uart);
 	}
-	if (_anyset (uart->flags, UART_ATPS)) 
+	if (_anyset (uart->flags, UART_ATPS))
 	{
 		atps (uart);
 	}
-	if (_anyset (uart->flags, UART_ATO)) 
+	if (_anyset (uart->flags, UART_ATO))
 	{
 		ato (uart);
 	}
-	if (_anyset (uart->flags, UART_ATNI)) 
+	if (_anyset (uart->flags, UART_ATNI))
 	{
 		atni (uart);
 	}
-	if (_anyset (uart->flags, UART_ATHSC)) 
+	if (_anyset (uart->flags, UART_ATHSC))
 	{
 		athsc (uart);
 	}
-	if (_anyset (uart->flags, UART_ATSK1)) 
+	if (_anyset (uart->flags, UART_ATSK1))
 	{
 		atsk1 (uart);
 	}
-	if (_anyset (uart->flags, UART_ATSK2)) 
+	if (_anyset (uart->flags, UART_ATSK2))
 	{
 		atsk2 (uart);
 	}
-	if (_anyset (uart->flags, UART_ATRP)) 
+	if (_anyset (uart->flags, UART_ATRP))
 	{
 		at_readpib (uart);
 	}
-	if (_anyset (uart->flags, UART_ATWPF1)) 
+	if (_anyset (uart->flags, UART_ATWPF1))
 	{
 		at_writenvm (uart);
 	}
-	if (_anyset (uart->flags, UART_ATWPF2)) 
+	if (_anyset (uart->flags, UART_ATWPF2))
 	{
 		at_writepib (uart);
 	}
-	if (_anyset (uart->flags, UART_ATWNV)) 
+	if (_anyset (uart->flags, UART_ATWNV))
 	{
 		atwnv (uart);
 	}
-	if (_anyset (uart->flags, UART_ATBSZ1)) 
+	if (_anyset (uart->flags, UART_ATBSZ1))
 	{
 		atbsz1 (uart);
 	}
-	if (_anyset (uart->flags, UART_ATBSZ2)) 
+	if (_anyset (uart->flags, UART_ATBSZ2))
 	{
 		atbsz2 (uart);
 	}
-	if (_anyset (uart->flags, UART_ATM)) 
+	if (_anyset (uart->flags, UART_ATM))
 	{
 		atm (uart);
 	}
-	if (_anyset (uart->flags, UART_ATTO)) 
+	if (_anyset (uart->flags, UART_ATTO))
 	{
 		atto (uart);
 	}
@@ -1166,10 +1166,10 @@ static void manager (struct uart * uart)
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"bc:C:dD:F:HiImM:n:N:Op:P:qrRS:s:tTvwW:zZ:",
 		"",
@@ -1203,7 +1203,7 @@ int main (int argc, char const * argv [])
 		"Z n\tset Transparent Mode buffer size [ATBSZn]",
 		(char const *) (0)
 	};
-	struct uart uart = 
+	struct uart uart =
 	{
 		{
 			0,
@@ -1242,13 +1242,13 @@ int main (int argc, char const * argv [])
 		(unsigned)(0)
 	};
 	signed c;
-	if (getenv (UART_PORT)) 
+	if (getenv (UART_PORT))
 	{
 		uart.port.name = strdup (getenv (UART_PORT));
 	}
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'b':
 			_setbits (uart.flags, UART_DEFAULT);
@@ -1266,13 +1266,13 @@ int main (int argc, char const * argv [])
 			break;
 		case 'D':
 			_setbits (uart.flags, UART_ATDST2);
-			if (!hexencode (uart.MACAddress, sizeof (uart.MACAddress), optarg)) 
+			if (!hexencode (uart.MACAddress, sizeof (uart.MACAddress), optarg))
 			{
 				error (1, errno, PLC_BAD_MAC, optarg);
 			}
 			break;
 		case 'F':
-			if ((uart.eth.file = open (uart.eth.name = optarg, O_BINARY | O_RDONLY)) == -1) 
+			if ((uart.eth.file = open (uart.eth.name = optarg, O_BINARY | O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", uart.eth.name);
 			}
@@ -1292,13 +1292,13 @@ int main (int argc, char const * argv [])
 			break;
 		case 'M':
 			_setbits (uart.flags, UART_ATSK2);
-			if (!hexencode (uart.NMKDigest, sizeof (uart.NMKDigest), optarg)) 
+			if (!hexencode (uart.NMKDigest, sizeof (uart.NMKDigest), optarg))
 			{
 				error (1, errno, PLC_BAD_NMK, optarg);
 			}
 			break;
 		case 'N':
-			if ((uart.nvm.file = open (uart.nvm.name = optarg, O_BINARY | O_RDONLY)) == -1) 
+			if ((uart.nvm.file = open (uart.nvm.name = optarg, O_BINARY | O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", uart.nvm.name);
 			}
@@ -1308,14 +1308,14 @@ int main (int argc, char const * argv [])
 			_setbits (uart.flags, UART_ATO);
 			break;
 		case 'P':
-			if ((uart.pib.file = open (uart.pib.name = optarg, O_BINARY | O_RDONLY)) == -1) 
+			if ((uart.pib.file = open (uart.pib.name = optarg, O_BINARY | O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", uart.pib.name);
 			}
 			_setbits (uart.flags, UART_ATWPF2);
 			break;
 		case 'p':
-			if ((uart.pib.file = open (uart.pib.name = optarg, O_BINARY|O_CREAT|O_RDWR|O_TRUNC, FILE_FILEMODE)) == -1) 
+			if ((uart.pib.file = open (uart.pib.name = optarg, O_BINARY|O_CREAT|O_RDWR|O_TRUNC, FILE_FILEMODE)) == -1)
 			{
 				error (1, errno, "%s", uart.pib.name);
 			}
@@ -1373,7 +1373,7 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (argc) 
+	if (argc)
 	{
 		error (1, ENOTSUP, ERROR_TOOMANY);
 	}

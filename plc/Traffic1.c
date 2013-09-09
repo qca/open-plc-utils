@@ -1,34 +1,34 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *
  *   signed Traffic1 (struct plc * plc);
- *   
+ *
  *   generate bi-directional traffic between a local device and all
  *   remote devices on a powerline network; remote devices need not
  *   be connected; no traffic is generated between remote devices;
  *
  *   this function is similar to NetworkTraffic but takes less time
  *   since not all powerline paths are exercised and those that are
- *   can be exercised in parallel; 
+ *   can be exercised in parallel;
  *
  *   this function is for INT6x00 chipsets only due to changes in chip
  *   design; use Traffic2 for AR7x00 chipsets;
@@ -52,7 +52,7 @@
 #include "../mme/mme.h"
 #include "../plc/plc.h"
 
-signed Traffic1 (struct plc * plc) 
+signed Traffic1 (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -62,20 +62,20 @@ signed Traffic1 (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_nw_info_request 
+	struct __packed vs_nw_info_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
 	}
 	* request = (struct vs_nw_info_request *)(message);
-	struct __packed vs_nw_info_confirm 
+	struct __packed vs_nw_info_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
 		uint8_t DATA [1];
 	}
 	* confirm = (struct vs_nw_info_confirm *)(message);
-	struct __packed station 
+	struct __packed station
 	{
 		uint8_t MAC [ETHER_ADDR_LEN];
 		uint8_t TEI;
@@ -84,7 +84,7 @@ signed Traffic1 (struct plc * plc)
 		uint8_t AVGRX;
 	}
 	* station;
-	struct __packed network 
+	struct __packed network
 	{
 		uint8_t NID [7];
 		uint8_t SNID;
@@ -96,7 +96,7 @@ signed Traffic1 (struct plc * plc)
 		struct station stations [1];
 	}
 	* network;
-	struct __packed networks 
+	struct __packed networks
 	{
 		uint8_t NUMAVLNS;
 		struct network networks [1];
@@ -109,7 +109,7 @@ signed Traffic1 (struct plc * plc)
 
 	byte bridgelist [255] [ETHER_ADDR_LEN];
 	unsigned bridges = LocalDevices (channel, message, bridgelist, sizeof (bridgelist));
-	while (bridges--) 
+	while (bridges--)
 	{
 		byte devicelist [255] [ETHER_ADDR_LEN];
 		unsigned devices = 0;
@@ -117,29 +117,29 @@ signed Traffic1 (struct plc * plc)
 		EthernetHeader (&request->ethernet, bridgelist [bridges], channel->host, channel->type);
 		QualcommHeader (&request->qualcomm, 0, (VS_NW_INFO | MMTYPE_REQ));
 		plc->packetsize = ETHER_MIN_LEN - ETHER_CRC_LEN;
-		if (SendMME (plc) <= 0) 
+		if (SendMME (plc) <= 0)
 		{
 			error (0, errno, CHANNEL_CANTSEND);
 			continue;
 		}
-		if (ReadMME (plc, 0, (VS_NW_INFO | MMTYPE_CNF)) <= 0) 
+		if (ReadMME (plc, 0, (VS_NW_INFO | MMTYPE_CNF)) <= 0)
 		{
 			error (0, errno, CHANNEL_CANTREAD);
 			continue;
 		}
 		memcpy (devicelist [devices++], request->ethernet.OSA, sizeof (devicelist [0]));
 		network = (struct network *)(&networks->networks);
-		while (networks->NUMAVLNS--) 
+		while (networks->NUMAVLNS--)
 		{
 			station = (struct station *)(&network->stations);
-			while (network->NUMSTAS--) 
+			while (network->NUMSTAS--)
 			{
 				memcpy (devicelist [devices++], station->MAC, sizeof (devicelist [0]));
 				station++;
 			}
 			network = (struct network *)(station);
 		}
-		while (devices-- > 1) 
+		while (devices-- > 1)
 		{
 			Transmit (plc, devicelist [0], devicelist [devices]);
 			Antiphon (plc, devicelist [devices], devicelist [0]);

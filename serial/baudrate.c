@@ -1,29 +1,29 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *
- *   baud_t baudrate (unsigned rate) 
+ *   baud_t baudrate (unsigned rate)
  *
  *   convert integer baud rate to system constant or bitmap;
- *   
+ *
  *
  *   Contributor(s):
  *	Nathaniel Houghton <nhoughto@qca.qualcomm.com>
@@ -39,15 +39,15 @@
 
 #include "../tools/error.h"
 
-signed baudrate (unsigned baud, speed_t * speed) 
+signed baudrate (unsigned baud, speed_t * speed)
 
 {
-	static struct baud 
+	static struct baud
 	{
 		unsigned baud;
 		speed_t code;
 	}
-	bauds [] = 
+	bauds [] =
 	{
 		{
 			0,
@@ -158,16 +158,16 @@ signed baudrate (unsigned baud, speed_t * speed)
 	};
 	signed lower = 0;
 	signed upper = sizeof (bauds) / sizeof (struct baud);
-	while (lower < upper) 
+	while (lower < upper)
 	{
 		signed index = (lower + upper) >> 1;
 		signed order = baud - bauds [index].baud;
-		if (order < 0) 
+		if (order < 0)
 		{
 			upper = index - 0;
 			continue;
 		}
-		if (order > 0) 
+		if (order > 0)
 		{
 			lower = index + 1;
 			continue;

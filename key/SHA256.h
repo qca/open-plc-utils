@@ -28,7 +28,7 @@
  *   variables;
  *--------------------------------------------------------------------*/
 
-typedef struct sha256 
+typedef struct sha256
 
 {
 	uint32_t count [2];
@@ -55,5 +55,5 @@ signed SHA256Match (signed fd, const uint8_t digest []);
  *
  *--------------------------------------------------------------------*/
 
-#endif 
+#endif
 

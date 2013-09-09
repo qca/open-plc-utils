@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -106,12 +106,12 @@
  *   constants
  *--------------------------------------------------------------------*/
 
-#define MSTATUS_STATUS (7 << 0) 
-#define MSTATUS_MAJORVERSION (1 << 3) 
-#define MSTATUS_BUFFERISLOCKED (1 << 4) 
-#define MSTATUS_AUTOLOCKONRESET (1 << 5) 
-#define MSTATUS_UNSOLICITEDUPDATES (1 << 6) 
-#define MSTATUS_UNSOLICITED (1 << 7) 
+#define MSTATUS_STATUS (7 << 0)
+#define MSTATUS_MAJORVERSION (1 << 3)
+#define MSTATUS_BUFFERISLOCKED (1 << 4)
+#define MSTATUS_AUTOLOCKONRESET (1 << 5)
+#define MSTATUS_UNSOLICITEDUPDATES (1 << 6)
+#define MSTATUS_UNSOLICITED (1 << 7)
 
 #define INT6KLOG_FMT_RAW  1
 #define INT6KLOG_FMT_XML  2
@@ -124,7 +124,7 @@
  * program variables;
  *--------------------------------------------------------------------*/
 
-static struct _code_ const formats [] = 
+static struct _code_ const formats [] =
 
 {
 	{
@@ -139,23 +139,23 @@ static struct _code_ const formats [] =
 
 
 /*====================================================================*
- *   
+ *
  *   static signed PrintRawWatchdogReport (struct plc * plc);
- *   
+ *
  *   Read the watchdog report using VS_WD_RPT and write to file in
- *   binary format; the output can be sent to Atheros Support for 
+ *   binary format; the output can be sent to Atheros Support for
  *   analysis;
- *   
+ *
  *   VS_WD_RPT request returns an indication instead of a confirmation
  *   message; this is unusual but so is life;
- *   
+ *
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-static signed PrintRawWatchdogReport (struct plc * plc) 
+static signed PrintRawWatchdogReport (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -165,7 +165,7 @@ static signed PrintRawWatchdogReport (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_wd_rpt_request 
+	struct __packed vs_wd_rpt_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -173,7 +173,7 @@ static signed PrintRawWatchdogReport (struct plc * plc)
 		uint8_t CLR;
 	}
 	* request = (struct vs_wd_rpt_request *) (message);
-	struct __packed vs_wd_rpt_indicate 
+	struct __packed vs_wd_rpt_indicate
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -197,21 +197,21 @@ static signed PrintRawWatchdogReport (struct plc * plc)
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	request->SESSIONID = HTOLE16 (plc->cookie);
 	request->CLR = plc->readaction;
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	do 
+	do
 	{
 		printf ("%d %d\n", LE16TOH (indicate->RDATALENGTH), indicate->RDATAOFFSET);
-		if (ReadMME (plc, 0, (VS_WD_RPT | MMTYPE_IND)) <= 0) 
+		if (ReadMME (plc, 0, (VS_WD_RPT | MMTYPE_IND)) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
 		printf ("%d %d\n", LE16TOH (indicate->RDATALENGTH), indicate->RDATAOFFSET);
-		if (indicate->MSTATUS) 
+		if (indicate->MSTATUS)
 		{
 			Failure (plc, PLC_WONTDOIT);
 			return (-1);
@@ -225,22 +225,22 @@ static signed PrintRawWatchdogReport (struct plc * plc)
 
 
 /*====================================================================*
- *   
+ *
  *   static signed PrintWatchdogReport (struct plc * plc, char const * version);
- *   
+ *
  *   Read the watchdog report using VS_WD_RPT and print to file in
  *   XML format; this file may be sent to QCA for analysis;
- *   
+ *
  *   VS_WD_RPT request returns an indication instead of a confirmation
  *   message; this is unusual but so is life;
- *   
+ *
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-static signed PrintWatchdogReport (struct plc * plc, char const * version) 
+static signed PrintWatchdogReport (struct plc * plc, char const * version)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -250,7 +250,7 @@ static signed PrintWatchdogReport (struct plc * plc, char const * version)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_wd_rpt_request 
+	struct __packed vs_wd_rpt_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -258,7 +258,7 @@ static signed PrintWatchdogReport (struct plc * plc, char const * version)
 		uint8_t CLR;
 	}
 	* request = (struct vs_wd_rpt_request *) (message);
-	struct __packed vs_wd_rpt_ind 
+	struct __packed vs_wd_rpt_ind
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -282,20 +282,20 @@ static signed PrintWatchdogReport (struct plc * plc, char const * version)
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	request->SESSIONID = HTOLE16 (plc->cookie);
 	request->CLR = plc->readaction;
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	printf ("<WatchdogReport>");
-	do 
+	do
 	{
-		if (ReadMME (plc, 0, (VS_WD_RPT | MMTYPE_IND)) < 0) 
+		if (ReadMME (plc, 0, (VS_WD_RPT | MMTYPE_IND)) < 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
-		if (indicate->MSTATUS) 
+		if (indicate->MSTATUS)
 		{
 			Failure (plc, PLC_WONTDOIT);
 			return (-1);
@@ -321,16 +321,16 @@ static signed PrintWatchdogReport (struct plc * plc, char const * version)
 
 
 /*====================================================================*
- *   
+ *
  *   static signed PrintCheckpointReport (struct plc * plc, char const * version);
- *   
+ *
  *   Read the watchdog reqport using VS_CP_RPT and write to file in
  *   binary or XML format; this file can be sent to Atheros Support
  *   for analysis;
- *   
+ *
  *   VS_CP_RPT request returns an indication instead of a confirmation
  *   message; this is unusual but so is life;
- *   
+ *
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
@@ -338,7 +338,7 @@ static signed PrintWatchdogReport (struct plc * plc, char const * version)
  *
  *--------------------------------------------------------------------*/
 
-static signed PrintCheckpointReport (struct plc * plc, char const * version) 
+static signed PrintCheckpointReport (struct plc * plc, char const * version)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -348,7 +348,7 @@ static signed PrintCheckpointReport (struct plc * plc, char const * version)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_cp_rpt_request 
+	struct __packed vs_cp_rpt_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -356,7 +356,7 @@ static signed PrintCheckpointReport (struct plc * plc, char const * version)
 		uint8_t CLR;
 	}
 	* request = (struct vs_cp_rpt_request *) (message);
-	struct __packed vs_cp_rpt_ind 
+	struct __packed vs_cp_rpt_ind
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -386,20 +386,20 @@ static signed PrintCheckpointReport (struct plc * plc, char const * version)
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	request->SESSIONID = HTOLE16 (plc->cookie);
 	request->CLR = plc->readaction;
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	printf ("<CheckpointReport>");
-	do 
+	do
 	{
-		if (ReadMME (plc, 0, (VS_CP_RPT | MMTYPE_IND)) <= 0) 
+		if (ReadMME (plc, 0, (VS_CP_RPT | MMTYPE_IND)) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
-		if (_anyset (indicate->MSTATUS, MSTATUS_STATUS)) 
+		if (_anyset (indicate->MSTATUS, MSTATUS_STATUS))
 		{
 			Failure (plc, PLC_WONTDOIT);
 			return (-1);
@@ -438,16 +438,16 @@ static signed PrintCheckpointReport (struct plc * plc, char const * version)
 
 
 /*====================================================================*
- *   
- *   static signed Diagnostics (struct plc * plc) 
- *   
+ *
+ *   static signed Diagnostics (struct plc * plc)
+ *
  *   read the firmware version string from a device before reading
  *   and writing the watchdog and checkpoint reports in XML format;
  *
  *
  *--------------------------------------------------------------------*/
 
-static signed Diagnostics (struct plc * plc) 
+static signed Diagnostics (struct plc * plc)
 
 {
 	char version [PLC_VERSION_STRING];
@@ -458,7 +458,7 @@ static signed Diagnostics (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_sw_ver_request 
+	struct __packed vs_sw_ver_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -468,7 +468,7 @@ static signed Diagnostics (struct plc * plc)
 		char MVERSION [PLC_VERSION_STRING];
 	}
 	* request = (struct vs_sw_ver_request *) (message);
-	struct __packed vs_sw_ver_confirm 
+	struct __packed vs_sw_ver_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -487,23 +487,23 @@ static signed Diagnostics (struct plc * plc)
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_SW_VER | MMTYPE_REQ));
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	if (ReadMME (plc, 0, (VS_SW_VER | MMTYPE_CNF)) <= 0) 
+	if (ReadMME (plc, 0, (VS_SW_VER | MMTYPE_CNF)) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 		return (-1);
 	}
-	if (confirm->MSTATUS) 
+	if (confirm->MSTATUS)
 	{
 		Failure (plc, PLC_WONTDOIT);
 		return (-1);
 	}
 	memcpy (version, confirm->MVERSION, sizeof (version));
-	if (plc->action == INT6KLOG_FMT_XML) 
+	if (plc->action == INT6KLOG_FMT_XML)
 	{
 		printf ("<?xml version='1.0' encoding='utf-8' standalone='yes'?>");
 		printf ("<Diagnostics>");
@@ -512,7 +512,7 @@ static signed Diagnostics (struct plc * plc)
 		printf ("</Diagnostics>\n");
 		return (0);
 	}
-	if (plc->action == INT6KLOG_FMT_RAW) 
+	if (plc->action == INT6KLOG_FMT_RAW)
 	{
 		PrintRawWatchdogReport (plc);
 		return (0);
@@ -522,15 +522,15 @@ static signed Diagnostics (struct plc * plc)
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv[]);
- *   
- *   parse command line, populate plc structure and perform selected 
+ *
+ *   parse command line, populate plc structure and perform selected
  *   operations; show help summary if asked; see getoptv and putoptv
  *   to understand command line parsing and help summary display; see
- *   plc.h for the definition of struct plc; 
+ *   plc.h for the definition of struct plc;
  *
- *   the command line accepts multiple MAC addresses and the program 
+ *   the command line accepts multiple MAC addresses and the program
  *   performs the specified operations on each address, in turn; the
  *   address order is significant but the option order is not; the
  *   default address is a local broadcast that causes all devices on
@@ -541,19 +541,19 @@ static signed Diagnostics (struct plc * plc)
  *   will automatically address the local device; some options will
  *   cancel themselves if this makes no sense;
  *
- *   the default interface is eth1 because most people use eth0 as 
- *   their principle network connection; you can specify another 
+ *   the default interface is eth1 because most people use eth0 as
+ *   their principle network connection; you can specify another
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"cCef:ri:qvz:",
 		"device [device] [...] [> stdout]",
@@ -582,7 +582,7 @@ int main (int argc, char const * argv [])
 #include "../plc/plc.c"
 
 	signed c;
-	if (getenv (PLCDEVICE)) 
+	if (getenv (PLCDEVICE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -599,9 +599,9 @@ int main (int argc, char const * argv [])
 	optind = 1;
 	plc.readaction = 0;
 	plc.action = INT6KLOG_FMT_XML;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'C':
 			_setbits (plc.readaction, WD_ACTION_CUSTOM);
@@ -613,7 +613,7 @@ int main (int argc, char const * argv [])
 			dup2 (STDOUT_FILENO, STDERR_FILENO);
 			break;
 		case 'f':
-			if ((c = lookup (optarg, formats, SIZEOF (formats))) == -1) 
+			if ((c = lookup (optarg, formats, SIZEOF (formats))) == -1)
 			{
 				assist (optarg, "format", formats, SIZEOF (formats));
 			}
@@ -652,35 +652,35 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (argc != 1) 
+	if (argc != 1)
 	{
-		if (plc.rpt.file != -1) 
+		if (plc.rpt.file != -1)
 		{
 			error (1, ECANCELED, PLC_NODEVICE);
 		}
 	}
 	openchannel (&channel);
-	if (!(plc.message = malloc (sizeof (* plc.message)))) 
+	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);
 	}
 
 #ifdef WIN32
 
-	if (plc.action == INT6KLOG_FMT_RAW) 
+	if (plc.action == INT6KLOG_FMT_RAW)
 	{
 		setmode (STDOUT_FILENO, O_BINARY);
 	}
 
 #endif
 
-	if (!argc) 
+	if (!argc)
 	{
 		Diagnostics (&plc);
 	}
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
-		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices)))) 
+		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices))))
 		{
 			error (1, errno, PLC_BAD_MAC, * argv);
 		}

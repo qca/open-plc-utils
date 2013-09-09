@@ -1,21 +1,21 @@
 /*====================================================================*
- *      
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*"
@@ -164,7 +164,7 @@
  *   program variables;
  *--------------------------------------------------------------------*/
 
-static struct _term_ const modules [] = 
+static struct _term_ const modules [] =
 
 {
 	{
@@ -181,7 +181,7 @@ static struct _term_ const modules [] =
 	}
 };
 
-static struct _term_ const buttons [] = 
+static struct _term_ const buttons [] =
 
 {
 	{
@@ -200,93 +200,93 @@ static struct _term_ const buttons [] =
 
 
 /*====================================================================*
- *   
- *   void manager (struct plc * plc, signed count, signed pause);
- *   
- *   perform operations in logical order despite any order specfied 
- *   on the command line; for example read PIB before writing PIB; 
  *
- *   operation order is controlled by the order of "if" statements 
+ *   void manager (struct plc * plc, signed count, signed pause);
+ *
+ *   perform operations in logical order despite any order specfied
+ *   on the command line; for example read PIB before writing PIB;
+ *
+ *   operation order is controlled by the order of "if" statements
  *   shown here; the entire operation sequence can be repeated with
  *   an optional pause between each iteration;
- * 
+ *
  *
  *--------------------------------------------------------------------*/
 
-static void manager (struct plc * plc, signed count, signed pause) 
+static void manager (struct plc * plc, signed count, signed pause)
 
 {
-	while (count--) 
+	while (count--)
 	{
-		if (_anyset (plc->flags, PLC_VERSION)) 
+		if (_anyset (plc->flags, PLC_VERSION))
 		{
 			VersionInfo1 (plc);
 		}
-		if (_anyset (plc->flags, PLC_ATTRIBUTES)) 
+		if (_anyset (plc->flags, PLC_ATTRIBUTES))
 		{
 			Attributes1 (plc);
 		}
-		if (_anyset (plc->flags, PLC_WATCHDOG_REPORT)) 
+		if (_anyset (plc->flags, PLC_WATCHDOG_REPORT))
 		{
 			WatchdogReport (plc);
 		}
-		if (_anyset (plc->flags, PLC_NVRAM_INFO)) 
+		if (_anyset (plc->flags, PLC_NVRAM_INFO))
 		{
 			NVRAMInfo (plc);
 		}
-		if (_anyset (plc->flags, PLC_SDRAM_INFO)) 
+		if (_anyset (plc->flags, PLC_SDRAM_INFO))
 		{
 			SDRAMInfo (plc);
 		}
-		if (_anyset (plc->flags, PLC_READ_IDENTITY)) 
+		if (_anyset (plc->flags, PLC_READ_IDENTITY))
 		{
 			Identity1 (plc);
 		}
-		if (_anyset (plc->flags, PLC_NETWORK)) 
+		if (_anyset (plc->flags, PLC_NETWORK))
 		{
 			NetInfo1 (plc);
 		}
-		if (_anyset (plc->flags, PLC_SDRAM_CONFIG)) 
+		if (_anyset (plc->flags, PLC_SDRAM_CONFIG))
 		{
 			WriteCFG (plc);
 		}
-		if (_anyset (plc->flags, PLC_WRITE_MAC)) 
+		if (_anyset (plc->flags, PLC_WRITE_MAC))
 		{
 			WriteNVM (plc);
 		}
-		if (_anyset (plc->flags, PLC_READ_MAC)) 
+		if (_anyset (plc->flags, PLC_READ_MAC))
 		{
 			ReadFirmware1 (plc);
 		}
-		if (_anyset (plc->flags, PLC_WRITE_PIB)) 
+		if (_anyset (plc->flags, PLC_WRITE_PIB))
 		{
 			WritePIB (plc);
 		}
-		if (_anyset (plc->flags, PLC_READ_PIB)) 
+		if (_anyset (plc->flags, PLC_READ_PIB))
 		{
 			ReadParameters1 (plc);
 		}
-		if (_anyset (plc->flags, PLC_HOST_ACTION)) 
+		if (_anyset (plc->flags, PLC_HOST_ACTION))
 		{
 			HostActionResponse (plc);
 		}
-		if (_anyset (plc->flags, PLC_PUSH_BUTTON)) 
+		if (_anyset (plc->flags, PLC_PUSH_BUTTON))
 		{
 			PushButton (plc);
 		}
-		if (_anyset (plc->flags, (PLC_SETLOCALKEY | PLC_SETREMOTEKEY))) 
+		if (_anyset (plc->flags, (PLC_SETLOCALKEY | PLC_SETREMOTEKEY)))
 		{
 			SetNMK (plc);
 		}
-		if (_anyset (plc->flags, PLC_FACTORY_DEFAULTS)) 
+		if (_anyset (plc->flags, PLC_FACTORY_DEFAULTS))
 		{
 			FactoryDefaults (plc);
 		}
-		if (_anyset (plc->flags, PLC_FLASH_DEVICE)) 
+		if (_anyset (plc->flags, PLC_FLASH_DEVICE))
 		{
 			FlashNVM (plc);
 		}
-		if (_anyset (plc->flags, PLC_RESET_DEVICE)) 
+		if (_anyset (plc->flags, PLC_RESET_DEVICE))
 		{
 			ResetDevice (plc);
 		}
@@ -297,15 +297,15 @@ static void manager (struct plc * plc, signed count, signed pause)
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv[]);
- *   
- *   parse command line, populate plc structure and perform selected 
+ *
+ *   parse command line, populate plc structure and perform selected
  *   operations; show help summary if asked; see getoptv and putoptv
  *   to understand command line parsing and help summary display; see
- *   plc.h for the definition of struct plc; 
+ *   plc.h for the definition of struct plc;
  *
- *   the command line accepts multiple MAC addresses and the program 
+ *   the command line accepts multiple MAC addresses and the program
  *   performs the specified operations on each address, in turn; the
  *   address order is significant but the option order is not; the
  *   default address is a local broadcast that causes all devices on
@@ -316,20 +316,20 @@ static void manager (struct plc * plc, signed count, signed pause)
  *   will automatically address the local device; some options will
  *   cancel themselves if this makes no sense;
  *
- *   the default interface is eth1 because most people use eth0 as 
- *   their principle network connection; you can specify another 
+ *   the default interface is eth1 because most people use eth0 as
+ *   their principle network connection; you can specify another
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
 	extern struct key const keys [];
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"aB:C:d:D:efFHi:IJ:K:l:mMn:N:p:P:QqrRS:st:Tvw:x",
 		"device [device] [...]",
@@ -383,7 +383,7 @@ int main (int argc, char const * argv [])
 	signed loop = INT6K_LOOP;
 	signed wait = INT6K_WAIT;
 	signed c;
-	if (getenv (PLCDEVICE)) 
+	if (getenv (PLCDEVICE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -398,9 +398,9 @@ int main (int argc, char const * argv [])
 
 	}
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'a':
 			_setbits (plc.flags, PLC_ATTRIBUTES);
@@ -415,11 +415,11 @@ int main (int argc, char const * argv [])
 			break;
 		case 'd':
 			_setbits (plc.flags, PLC_WATCHDOG_REPORT);
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, "%s", optarg);
 			}
-			if ((plc.rpt.file = open (plc.rpt.name = optarg, O_BINARY|O_CREAT|O_RDWR|O_TRUNC, FILE_FILEMODE)) == -1) 
+			if ((plc.rpt.file = open (plc.rpt.name = optarg, O_BINARY|O_CREAT|O_RDWR|O_TRUNC, FILE_FILEMODE)) == -1)
 			{
 				error (1, errno, "%s", plc.rpt.name);
 			}
@@ -433,22 +433,22 @@ int main (int argc, char const * argv [])
 			plc.readaction = 3;
 			break;
 		case 'D':
-			if (!strcmp (optarg, "none")) 
+			if (!strcmp (optarg, "none"))
 			{
 				memcpy (plc.DAK, keys [0].DAK, sizeof (plc.DAK));
 				break;
 			}
-			if (!strcmp (optarg, "key1")) 
+			if (!strcmp (optarg, "key1"))
 			{
 				memcpy (plc.DAK, keys [1].DAK, sizeof (plc.DAK));
 				break;
 			}
-			if (!strcmp (optarg, "key2")) 
+			if (!strcmp (optarg, "key2"))
 			{
 				memcpy (plc.DAK, keys [2].DAK, sizeof (plc.DAK));
 				break;
 			}
-			if (!hexencode (plc.DAK, sizeof (plc.DAK), (char const *)(optarg))) 
+			if (!hexencode (plc.DAK, sizeof (plc.DAK), (char const *)(optarg)))
 			{
 				error (1, errno, PLC_BAD_DAK, optarg);
 			}
@@ -461,7 +461,7 @@ int main (int argc, char const * argv [])
 			break;
 		case 'F':
 			_setbits (plc.module, (VS_MODULE_MAC | VS_MODULE_PIB));
-			if (_anyset (plc.flags, PLC_FLASH_DEVICE)) 
+			if (_anyset (plc.flags, PLC_FLASH_DEVICE))
 			{
 				_setbits (plc.module, VS_MODULE_FORCE);
 			}
@@ -487,29 +487,29 @@ int main (int argc, char const * argv [])
 
 			break;
 		case 'J':
-			if (!hexencode (plc.RDA, sizeof (plc.RDA), (char const *)(optarg))) 
+			if (!hexencode (plc.RDA, sizeof (plc.RDA), (char const *)(optarg)))
 			{
 				error (1, errno, PLC_BAD_MAC, optarg);
 			}
 			_setbits (plc.flags, PLC_SETREMOTEKEY);
 			break;
 		case 'K':
-			if (!strcmp (optarg, "none")) 
+			if (!strcmp (optarg, "none"))
 			{
 				memcpy (plc.NMK, keys [0].NMK, sizeof (plc.NMK));
 				break;
 			}
-			if (!strcmp (optarg, "key1")) 
+			if (!strcmp (optarg, "key1"))
 			{
 				memcpy (plc.NMK, keys [1].NMK, sizeof (plc.NMK));
 				break;
 			}
-			if (!strcmp (optarg, "key2")) 
+			if (!strcmp (optarg, "key2"))
 			{
 				memcpy (plc.NMK, keys [2].NMK, sizeof (plc.NMK));
 				break;
 			}
-			if (!hexencode (plc.NMK, sizeof (plc.NMK), (char const *)(optarg))) 
+			if (!hexencode (plc.NMK, sizeof (plc.NMK), (char const *)(optarg)))
 			{
 				error (1, errno, PLC_BAD_NMK, optarg);
 			}
@@ -524,26 +524,26 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_NETWORK);
 			break;
 		case 'N':
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, "%s", optarg);
 			}
-			if ((plc.NVM.file = open (plc.NVM.name = optarg, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc.NVM.file = open (plc.NVM.name = optarg, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", plc.NVM.name);
 			}
-			if (nvmfile1 (&plc.NVM)) 
+			if (nvmfile1 (&plc.NVM))
 			{
 				error (1, errno, "Bad NVM file: %s", plc.NVM.name);
 			}
 			_setbits (plc.flags, PLC_WRITE_MAC);
 			break;
 		case 'n':
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, "%s", optarg);
 			}
-			if ((plc.nvm.file = open (plc.nvm.name = optarg, O_BINARY|O_CREAT|O_RDWR|O_TRUNC, FILE_FILEMODE)) == -1) 
+			if ((plc.nvm.file = open (plc.nvm.name = optarg, O_BINARY|O_CREAT|O_RDWR|O_TRUNC, FILE_FILEMODE)) == -1)
 			{
 				error (1, errno, "%s", plc.nvm.name);
 			}
@@ -557,26 +557,26 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_READ_MAC);
 			break;
 		case 'P':
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, "%s", optarg);
 			}
-			if ((plc.PIB.file = open (plc.PIB.name = optarg, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc.PIB.file = open (plc.PIB.name = optarg, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", plc.PIB.name);
 			}
-			if (pibfile1 (&plc.PIB)) 
+			if (pibfile1 (&plc.PIB))
 			{
 				error (1, errno, "Bad PIB file: %s", plc.PIB.name);
 			}
 			_setbits (plc.flags, PLC_WRITE_PIB);
 			break;
 		case 'p':
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, "%s", optarg);
 			}
-			if ((plc.pib.file = open (plc.pib.name = optarg, O_BINARY|O_CREAT|O_RDWR|O_TRUNC, FILE_FILEMODE)) == -1) 
+			if ((plc.pib.file = open (plc.pib.name = optarg, O_BINARY|O_CREAT|O_RDWR|O_TRUNC, FILE_FILEMODE)) == -1)
 			{
 				error (1, errno, "%s", plc.pib.name);
 			}
@@ -603,15 +603,15 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_VERSION);
 			break;
 		case 'S':
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, "%s", optarg);
 			}
-			if ((plc.CFG.file = open (plc.CFG.name = optarg, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc.CFG.file = open (plc.CFG.name = optarg, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", plc.CFG.name);
 			}
-			if (sdramfile (plc.CFG.file, optarg, plc.flags)) 
+			if (sdramfile (plc.CFG.file, optarg, plc.flags))
 			{
 				error (1, ECANCELED, "SDRAM config file %s is corrupt", optarg);
 			}
@@ -646,33 +646,33 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (argc != 1) 
+	if (argc != 1)
 	{
-		if (plc.nvm.file != -1) 
+		if (plc.nvm.file != -1)
 		{
 			error (1, ECANCELED, PLC_NODEVICE);
 		}
-		if (plc.pib.file != -1) 
+		if (plc.pib.file != -1)
 		{
 			error (1, ECANCELED, PLC_NODEVICE);
 		}
-		if (plc.rpt.file != -1) 
+		if (plc.rpt.file != -1)
 		{
 			error (1, ECANCELED, PLC_NODEVICE);
 		}
 	}
 	openchannel (&channel);
-	if (!(plc.message = malloc (sizeof (* plc.message)))) 
+	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);
 	}
-	if (!argc) 
+	if (!argc)
 	{
 		manager (&plc, loop, wait);
 	}
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
-		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices)))) 
+		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices))))
 		{
 			error (1, errno, PLC_BAD_MAC, * argv);
 		}

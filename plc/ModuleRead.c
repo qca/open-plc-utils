@@ -1,29 +1,29 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *   
+ *
  *   signed ModuleRead (struct plc * plc, struct _file_ * file, uint16_t source, uint16_t module, uint16_t submodule);
- *   
+ *
  *   plc.h
- *   
+ *
  *   Read a module from volatile or non-volatile memory and write it
  *   to file;
  *
@@ -46,7 +46,7 @@
 #include "../tools/memory.h"
 #include "../plc/plc.h"
 
-signed ModuleRead (struct plc * plc, struct _file_ * file, uint16_t source, uint16_t module, uint16_t submodule) 
+signed ModuleRead (struct plc * plc, struct _file_ * file, uint16_t source, uint16_t module, uint16_t submodule)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -56,13 +56,13 @@ signed ModuleRead (struct plc * plc, struct _file_ * file, uint16_t source, uint
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_module_operation_read_request 
+	struct __packed vs_module_operation_read_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
 		uint32_t RESERVED;
 		uint8_t NUM_OP_DATA;
-		struct __packed 
+		struct __packed
 		{
 			uint16_t MOD_OP;
 			uint16_t MOD_OP_DATA_LEN;
@@ -75,7 +75,7 @@ signed ModuleRead (struct plc * plc, struct _file_ * file, uint16_t source, uint
 		MODULE_SPEC;
 	}
 	* request = (struct vs_module_operation_read_request *)(message);
-	struct __packed vs_module_operation_read_confirm 
+	struct __packed vs_module_operation_read_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -83,7 +83,7 @@ signed ModuleRead (struct plc * plc, struct _file_ * file, uint16_t source, uint
 		uint16_t ERR_REC_CODE;
 		uint32_t RESERVED;
 		uint8_t NUM_OP_DATA;
-		struct __packed 
+		struct __packed
 		{
 			uint16_t MOD_OP;
 			uint16_t MOD_OP_DATA_LEN;
@@ -106,12 +106,12 @@ signed ModuleRead (struct plc * plc, struct _file_ * file, uint16_t source, uint
 	uint16_t length = PLC_MODULE_SIZE;
 	uint32_t offset = 0;
 	Request (plc, "Read Module from %s", source? "Flash": "Memory");
-	if (lseek (file->file, 0, SEEK_SET) == -1) 
+	if (lseek (file->file, 0, SEEK_SET) == -1)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, FILE_CANTHOME, file->name);
 		return (-1);
 	}
-	while (length == PLC_MODULE_SIZE) 
+	while (length == PLC_MODULE_SIZE)
 	{
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
@@ -145,13 +145,13 @@ signed ModuleRead (struct plc * plc, struct _file_ * file, uint16_t source, uint
 
 #endif
 
-		if (SendMME (plc) <= 0) 
+		if (SendMME (plc) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
 		channel->timeout = PLC_MODULE_READ_TIMEOUT;
-		if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0) 
+		if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);
@@ -178,14 +178,14 @@ signed ModuleRead (struct plc * plc, struct _file_ * file, uint16_t source, uint
 
 #endif
 
-		if (LE16TOH (confirm->MSTATUS)) 
+		if (LE16TOH (confirm->MSTATUS))
 		{
 			Failure (plc, PLC_WONTDOIT);
 			return (-1);
 		}
 		length = LE16TOH (confirm->MODULE_SPEC.MODULE_LENGTH);
 		offset = LE32TOH (confirm->MODULE_SPEC.MODULE_OFFSET);
-		if (write (file->file, confirm->MODULE_DATA, length) != (signed)(length)) 
+		if (write (file->file, confirm->MODULE_DATA, length) != (signed)(length))
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, FILE_CANTSAVE, file->name);
 			return (-1);

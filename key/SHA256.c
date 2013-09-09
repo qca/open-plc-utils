@@ -1,6 +1,6 @@
 /*====================================================================*
  *
- *   SHA256.c - 
+ *   SHA256.c -
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;

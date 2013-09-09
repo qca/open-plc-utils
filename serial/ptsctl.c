@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -113,7 +113,7 @@
  *   program variables;
  *--------------------------------------------------------------------*/
 
-static const struct _term_ modes [] = 
+static const struct _term_ modes [] =
 
 {
 	{
@@ -135,14 +135,14 @@ static signed offset = 0;
  *
  *   void cycle (char * string, unsigned offset, unsigned length);
  *
- *   rotate a number of consecutive characters starting at a given 
+ *   rotate a number of consecutive characters starting at a given
  *   offset within a string; this is used to shift the character,
  *   that represents the power on/off bit, out of the way during
  *   data conversions from binary to ASCII and ASCII to binary;
  *
  *--------------------------------------------------------------------*/
 
-static void cycle (char * string, unsigned offset, unsigned length) 
+static void cycle (char * string, unsigned offset, unsigned length)
 
 {
 	signed c = string [offset];
@@ -161,19 +161,19 @@ static void cycle (char * string, unsigned offset, unsigned length)
  *
  *--------------------------------------------------------------------*/
 
-static void function1 (struct _file_ * port, char const * units, unsigned wait, unsigned echo) 
+static void function1 (struct _file_ * port, char const * units, unsigned wait, unsigned echo)
 
 {
 	extern char buffer [PTSCTL_BUFFER_SIZE];
 	extern signed length;
-	while (*units) 
+	while (*units)
 	{
 		length = 0;
 		buffer [length++] = *units++;
 		buffer [length++] = 'X';
 		buffer [length++] = '0' + (echo & 1);
 		buffer [length++] = '\r';
-		if (write (port->file, buffer, length) != length) 
+		if (write (port->file, buffer, length) != length)
 		{
 			error (1, errno, FILE_CANTSAVE, port->name);
 		}
@@ -192,7 +192,7 @@ static void function1 (struct _file_ * port, char const * units, unsigned wait, 
  *
  *--------------------------------------------------------------------*/
 
-static void function2 (struct _file_ * port, char const * units, unsigned wait, unsigned data) 
+static void function2 (struct _file_ * port, char const * units, unsigned wait, unsigned data)
 
 {
 	extern char buffer [PTSCTL_BUFFER_SIZE];
@@ -201,13 +201,13 @@ static void function2 (struct _file_ * port, char const * units, unsigned wait, 
 	extern signed offset;
 	memset (string, 0, sizeof (string));
 	memset (buffer, 0, sizeof (buffer));
-	for (offset = 0; offset < (signed)(sizeof (string)); offset++) 
+	for (offset = 0; offset < (signed)(sizeof (string)); offset++)
 	{
 		string [offset] = '0' + (data & 1);
 		data >>= 1;
 	}
 	cycle (string, 0, 5);
-	for (offset = 0; *units; offset += PTSCTL_LEDS) 
+	for (offset = 0; *units; offset += PTSCTL_LEDS)
 	{
 		length = 0;
 		buffer [length++] = *units++;
@@ -215,7 +215,7 @@ static void function2 (struct _file_ * port, char const * units, unsigned wait, 
 		memcpy (&buffer [length], &string [offset], PTSCTL_LEDS);
 		length += PTSCTL_LEDS;
 		buffer [length++] = '\r';
-		if (write (port->file, buffer, length) != length) 
+		if (write (port->file, buffer, length) != length)
 		{
 			error (1, errno, FILE_CANTSAVE, port->name);
 		}
@@ -234,7 +234,7 @@ static void function2 (struct _file_ * port, char const * units, unsigned wait, 
  *
  *--------------------------------------------------------------------*/
 
-static void function3 (struct _file_ * port, char const * units, unsigned wait) 
+static void function3 (struct _file_ * port, char const * units, unsigned wait)
 
 {
 	extern char buffer [PTSCTL_BUFFER_SIZE];
@@ -244,19 +244,19 @@ static void function3 (struct _file_ * port, char const * units, unsigned wait)
 	signed value1 = 0;
 	signed value2 = 0;
 	memset (string, 0, sizeof (string));
-	for (offset = 0; *units; offset += PTSCTL_LEDS) 
+	for (offset = 0; *units; offset += PTSCTL_LEDS)
 	{
 		length = 0;
 		buffer [length++] = *units++;
 		buffer [length++] = 'R';
 		buffer [length++] = '\r';
-		if (write (port->file, buffer, length) != length) 
+		if (write (port->file, buffer, length) != length)
 		{
 			error (1, errno, FILE_CANTSAVE, port->name);
 		}
 		SLEEP (wait);
 		memset (buffer, 0, sizeof (buffer));
-		if (read (port->file, buffer, PTSCTL_LEDS + 2) == -1) 
+		if (read (port->file, buffer, PTSCTL_LEDS + 2) == -1)
 		{
 			error (1, errno, FILE_CANTREAD, port->name);
 		}
@@ -264,17 +264,17 @@ static void function3 (struct _file_ * port, char const * units, unsigned wait)
 		SLEEP (wait);
 	}
 	cycle (string, PTSCTL_LEDS, 2);
-	while (--offset > PTSCTL_BITS) 
+	while (--offset > PTSCTL_BITS)
 	{
 		value1 <<= 1;
 		value1 |= string [offset] - '0';
 	}
-	while (offset-- > 0) 
+	while (offset-- > 0)
 	{
 		value2 <<= 1;
 		value2 |= string [offset] - '0';
 	}
-	if ((value1 >= 0) && (value2 >= 0)) 
+	if ((value1 >= 0) && (value2 >= 0))
 	{
 		printf ("%d %d\n", value1, value2);
 	}
@@ -291,11 +291,11 @@ static void function3 (struct _file_ * port, char const * units, unsigned wait)
  *
  *--------------------------------------------------------------------*/
 
-static void function4 (struct _file_ * port, char const * units, unsigned wait) 
+static void function4 (struct _file_ * port, char const * units, unsigned wait)
 
 {
 	signed value;
-	for (value = 0; value < 128; value++) 
+	for (value = 0; value < 128; value++)
 	{
 		function2 (port, units, wait, (value << 8) | (value << 1) | 1);
 		function3 (port, units, wait);
@@ -311,10 +311,10 @@ static void function4 (struct _file_ * port, char const * units, unsigned wait)
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"f:g:n:p:iqrvw:z",
 		"",
@@ -329,7 +329,7 @@ int main (int argc, char const * argv [])
 		"w n\twait (n) millseconds [" LITERAL (PTSCTL_WAIT) "]",
 		(char const *) (0)
 	};
-	struct _file_ port = 
+	struct _file_ port =
 	{
 		-1,
 		PTSCTL_PORT
@@ -338,7 +338,7 @@ int main (int argc, char const * argv [])
 #if defined (WIN32)
 
 	HANDLE hSerial;
-	DCB dcbSerial = 
+	DCB dcbSerial =
 	{
 		0
 	};
@@ -359,13 +359,13 @@ int main (int argc, char const * argv [])
 	flag_t flags = (flag_t)(0);
 	signed c;
 	optind = 1;
-	if (getenv ("PTSCTL")) 
+	if (getenv ("PTSCTL"))
 	{
 		port.name = strdup (getenv ("PTSCTL"));
 	}
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'f':
 			port.name = optarg;
@@ -403,7 +403,7 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (argc) 
+	if (argc)
 	{
 		error (1, ENOTSUP, ERROR_TOOMANY);
 	}
@@ -411,12 +411,12 @@ int main (int argc, char const * argv [])
 #if defined (WIN32)
 
 	hSerial = CreateFile (port.name, GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-	if (hSerial == INVALID_HANDLE_VALUE) 
+	if (hSerial == INVALID_HANDLE_VALUE)
 	{
 		error (1, errno, FILE_CANTOPEN, port.name);
 	}
 	dcbSerial.DCBlength = sizeof (dcbSerial);
-	if (!GetCommState (hSerial, &dcbSerial)) 
+	if (!GetCommState (hSerial, &dcbSerial))
 	{
 		error (1, 0, FILE_CANTREAD " state", port.name);
 	}
@@ -424,19 +424,19 @@ int main (int argc, char const * argv [])
 	dcbSerial.ByteSize = 8;
 	dcbSerial.StopBits = ONESTOPBIT;
 	dcbSerial.Parity = NOPARITY;
-	if (!SetCommState (hSerial, &dcbSerial)) 
+	if (!SetCommState (hSerial, &dcbSerial))
 	{
 		error (1, 0, FILE_CANTSAVE " state", port.name);
 	}
 	CloseHandle (hSerial);
-	if ((port.file = open (port.name, O_BINARY | O_RDWR)) == -1) 
+	if ((port.file = open (port.name, O_BINARY | O_RDWR)) == -1)
 	{
 		error (1, errno, FILE_CANTOPEN, port.name);
 	}
 
 #else
 
-	if ((port.file = open (port.name, O_RDWR|O_NOCTTY|O_NDELAY)) == -1) 
+	if ((port.file = open (port.name, O_RDWR|O_NOCTTY|O_NDELAY)) == -1)
 	{
 		error (1, 0, FILE_CANTOPEN, port.name);
 	}
@@ -448,16 +448,16 @@ int main (int argc, char const * argv [])
 #endif
 
 	function1 (&port, units, wait, echo);
-	if (_anyset (flags, PTSCTL_CHANGE)) 
+	if (_anyset (flags, PTSCTL_CHANGE))
 	{
 		data = line << 8 | grnd << 1 | mode;
 		function2 (&port, units, wait, data);
 	}
-	if (_anyset (flags, PTSCTL_DISPLAY)) 
+	if (_anyset (flags, PTSCTL_DISPLAY))
 	{
 		function3 (&port, units, wait);
 	}
-	if (_anyset (flags, PTSCTL_ITERATE)) 
+	if (_anyset (flags, PTSCTL_ITERATE))
 	{
 		function4 (&port, units, wait);
 	}

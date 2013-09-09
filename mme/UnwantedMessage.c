@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -24,7 +24,7 @@
  *
  *   mme.h
  *
- *   return true if memory does not contains a Qualcomm Atheros message 
+ *   return true if memory does not contains a Qualcomm Atheros message
  *   of the specified version and type; the message version determines
  *   the location of the OUI field; messages with MMV = 1 have an FMI
  *   used to track multi-part confirmation counts; out of order counts
@@ -59,17 +59,17 @@
 #include "../tools/error.h"
 #include "../mme/mme.h"
 
-signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_t MMTYPE) 
+signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_t MMTYPE)
 
 {
 	extern const byte localcast [ETHER_ADDR_LEN];
 //	struct message * message = (struct message *)(memory);
 	struct homeplug * homeplug = (struct homeplug *)(memory);
-	if (!extent) 
+	if (!extent)
 	{
 		return (-1);
 	}
-	if (extent < (ETHER_MIN_LEN - ETHER_CRC_LEN)) 
+	if (extent < (ETHER_MIN_LEN - ETHER_CRC_LEN))
 	{
 
 #if defined (__WHYNOT__)
@@ -80,7 +80,7 @@ signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_
 
 		return (-1);
 	}
-	if (extent > (ETHER_MAX_LEN)) 
+	if (extent > (ETHER_MAX_LEN))
 	{
 
 #if defined (__WHYNOT__)
@@ -91,7 +91,7 @@ signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_
 
 		return (-1);
 	}
-	if (ntohs (homeplug->ethernet.MTYPE) != ETH_P_HPAV) 
+	if (ntohs (homeplug->ethernet.MTYPE) != ETH_P_HPAV)
 	{
 
 #if defined (__WHYNOT__)
@@ -102,7 +102,7 @@ signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_
 
 		return (-1);
 	}
-	if (homeplug->homeplug.MMV != MMV) 
+	if (homeplug->homeplug.MMV != MMV)
 	{
 
 #if defined (__WHYNOT__)
@@ -113,10 +113,10 @@ signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_
 
 		return (-1);
 	}
-	if (homeplug->homeplug.MMV == 0) 
+	if (homeplug->homeplug.MMV == 0)
 	{
 		struct qualcomm_std * qualcomm = (struct qualcomm_std *)(&homeplug->homeplug);
-		if (LE16TOH (qualcomm->MMTYPE) != MMTYPE) 
+		if (LE16TOH (qualcomm->MMTYPE) != MMTYPE)
 		{
 
 #if defined (__WHYNOT__)
@@ -130,7 +130,7 @@ signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_
 		if ((MMTYPE < VS_MMTYPE_MIN) || (MMTYPE > VS_MMTYPE_MAX))
 		{
 		}
-		else if (memcmp (localcast, qualcomm->OUI, sizeof (qualcomm->OUI))) 
+		else if (memcmp (localcast, qualcomm->OUI, sizeof (qualcomm->OUI)))
 		{
 
 #if defined (__WHYNOT__)
@@ -142,7 +142,7 @@ signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_
 			return (-1);
 		}
 	}
-	if (homeplug->homeplug.MMV == 1) 
+	if (homeplug->homeplug.MMV == 1)
 	{
 		struct qualcomm_fmi * qualcomm = (struct qualcomm_fmi *)(&homeplug->homeplug);
 
@@ -154,7 +154,7 @@ signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_
 
 #endif
 
-		if (LE16TOH (qualcomm->MMTYPE) != MMTYPE) 
+		if (LE16TOH (qualcomm->MMTYPE) != MMTYPE)
 		{
 
 #if defined (__WHYNOT__)
@@ -169,11 +169,11 @@ signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_
 #if FMI
 
 		index = qualcomm->FMID >> 0 & 0x0F;
-		if (!index) 
+		if (!index)
 		{
 			total = qualcomm->FMID >> 4 & 0x0F;
 			count = qualcomm->FMID >> 0 & 0x0F;
-			if (memcmp (localcast, qualcomm->OUI, sizeof (qualcomm->OUI))) 
+			if (memcmp (localcast, qualcomm->OUI, sizeof (qualcomm->OUI)))
 			{
 
 #if defined (__WHYNOT__)
@@ -185,7 +185,7 @@ signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_
 				return (-1);
 			}
 		}
-		if (index != count) 
+		if (index != count)
 		{
 
 #if defined (__WHYNOT__)
@@ -196,7 +196,7 @@ signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_
 
 			return (-1);
 		}
-		if (count > total) 
+		if (count > total)
 		{
 
 #if defined (__WHYNOT__)

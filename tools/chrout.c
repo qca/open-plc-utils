@@ -1,11 +1,11 @@
 /*====================================================================*
  *
- *   void chrout (void const * memory, size_t extent, char c, char e, FILE * fp) 
+ *   void chrout (void const * memory, size_t extent, char c, char e, FILE * fp)
  *
  *   memory.h
  *
- *   print memory as an ASCII character string; replace non-printable 
- *   characters with (c) on output; terminate output with (e); 
+ *   print memory as an ASCII character string; replace non-printable
+ *   characters with (c) on output; terminate output with (e);
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
@@ -21,16 +21,16 @@
 
 #include "../tools/memory.h"
 
-void chrout (void const * memory, size_t extent, char c, char e, FILE * fp) 
+void chrout (void const * memory, size_t extent, char c, char e, FILE * fp)
 
 {
 	byte * offset = (byte *)(memory);
-	while (extent--) 
+	while (extent--)
 	{
 		putc (isprint (* offset)? * offset: c, fp);
 		offset++;
 	}
-	if (e) 
+	if (e)
 	{
 		putc (e, fp);
 	}

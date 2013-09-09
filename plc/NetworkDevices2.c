@@ -1,25 +1,25 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *   
+ *
  *   signed NetworkDevices2 (struct plc * plc, void * memory, size_t extent);
  *
  *   plc.h
@@ -51,7 +51,7 @@
 #include "../tools/error.h"
 #include "../plc/plc.h"
 
-signed NetworkDevices2 (struct plc * plc, void * memory, size_t extent) 
+signed NetworkDevices2 (struct plc * plc, void * memory, size_t extent)
 
 {
 	extern const byte broadcast [ETHER_ADDR_LEN];
@@ -65,13 +65,13 @@ signed NetworkDevices2 (struct plc * plc, void * memory, size_t extent)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_nw_info_request 
+	struct __packed vs_nw_info_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_fmi qualcomm;
 	}
 	* request = (struct vs_nw_info_request *)(message);
-	struct __packed vs_nw_info_confirm 
+	struct __packed vs_nw_info_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_fmi qualcomm;
@@ -81,7 +81,7 @@ signed NetworkDevices2 (struct plc * plc, void * memory, size_t extent)
 		uint8_t DATA [1];
 	}
 	* confirm = (struct vs_nw_info_confirm *)(message);
-	struct __packed station 
+	struct __packed station
 	{
 		uint8_t MAC [ETHER_ADDR_LEN];
 		uint8_t TEI;
@@ -94,7 +94,7 @@ signed NetworkDevices2 (struct plc * plc, void * memory, size_t extent)
 		uint16_t Reserved4;
 	}
 	* station;
-	struct __packed network 
+	struct __packed network
 	{
 		uint8_t NID [7];
 		uint8_t Reserved1 [2];
@@ -110,7 +110,7 @@ signed NetworkDevices2 (struct plc * plc, void * memory, size_t extent)
 		struct station stations [1];
 	}
 	* network;
-	struct __packed networks 
+	struct __packed networks
 	{
 		uint8_t Reserved;
 		uint8_t NUMAVLNS;
@@ -123,11 +123,11 @@ signed NetworkDevices2 (struct plc * plc, void * memory, size_t extent)
 #endif
 
 	ssize_t packetsize;
-	if (!memcmp (channel->peer, broadcast, sizeof (channel->peer))) 
+	if (!memcmp (channel->peer, broadcast, sizeof (channel->peer)))
 	{
 		error (1, EINVAL, "Can't use broadcast address");
 	}
-	if (!memcmp (channel->peer, localcast, sizeof (channel->peer))) 
+	if (!memcmp (channel->peer, localcast, sizeof (channel->peer)))
 	{
 		error (1, EINVAL, "Can't use localcast address");
 	}
@@ -136,20 +136,20 @@ signed NetworkDevices2 (struct plc * plc, void * memory, size_t extent)
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader1 (&request->qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
-	if (sendpacket (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) <= 0) 
+	if (sendpacket (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) <= 0)
 	{
 		error (1, errno, CHANNEL_CANTSEND);
 	}
-	while ((packetsize = readpacket (channel, message, sizeof (* message))) > 0) 
+	while ((packetsize = readpacket (channel, message, sizeof (* message))) > 0)
 	{
-		if (UnwantedMessage (message, packetsize, 0, (VS_NW_INFO | MMTYPE_CNF))) 
+		if (UnwantedMessage (message, packetsize, 0, (VS_NW_INFO | MMTYPE_CNF)))
 		{
 			continue;
 		}
 		network = (struct network *)(&networks->networks);
-		while (networks->NUMAVLNS--) 
+		while (networks->NUMAVLNS--)
 		{
-			if (extent < sizeof (request->ethernet.OSA)) 
+			if (extent < sizeof (request->ethernet.OSA))
 			{
 				break;
 			}
@@ -157,9 +157,9 @@ signed NetworkDevices2 (struct plc * plc, void * memory, size_t extent)
 			offset += sizeof (request->ethernet.OSA);
 			extent -= sizeof (request->ethernet.OSA);
 			station = (struct station *)(&network->stations);
-			while (network->NUMSTAS--) 
+			while (network->NUMSTAS--)
 			{
-				if (extent < sizeof (station->MAC)) 
+				if (extent < sizeof (station->MAC))
 				{
 					break;
 				}

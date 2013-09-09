@@ -3,11 +3,11 @@
  *   void assist (char const * name, char const * type, struct _code_ const list [], size_t size);
  *
  *   symbol.h
- *   
+ *
  *   print program name followed by an error message containing the
  *   type of name expected, the incorrect name and a list of correct
  *   name;
- *   
+ *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
@@ -24,13 +24,13 @@
 #include "../tools/symbol.h"
 #include "../tools/error.h"
 
-void assist (char const * name, char const * type, struct _code_ const list [], size_t size) 
+void assist (char const * name, char const * type, struct _code_ const list [], size_t size)
 
 {
 	extern char const * program_name;
 	fprintf (stderr, "%s: ", program_name);
 	fprintf (stderr, "%s: ", strerror (ENOTSUP));
-	if (name) 
+	if (name)
 	{
 
 #if 0
@@ -44,7 +44,7 @@ void assist (char const * name, char const * type, struct _code_ const list [], 
 #endif
 
 	}
-	else 
+	else
 	{
 		fprintf (stderr, "Want %s ", type);
 	}

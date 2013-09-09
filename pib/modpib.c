@@ -1,26 +1,26 @@
 /*===============>====================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*"
  *
- *   modpib.c - 
+ *   modpib.c -
  *
  *
  *   Contributor(s):
@@ -104,7 +104,7 @@
 /*====================================================================*
  *
  *   signed pibimage1 (struct _file_ * file, simple_pib *sample_pib, signed level, flag_t flags);
- * 
+ *
  *   modify selected PIB header values and compute a new checksum;
  *   this function assumes that the file is open and positioned to
  *   the start of the parameter block;
@@ -116,48 +116,48 @@
  *
  *--------------------------------------------------------------------*/
 
-static signed pibimage1 (struct _file_ * file, simple_pib * sample_pib, signed level, flag_t flags) 
+static signed pibimage1 (struct _file_ * file, simple_pib * sample_pib, signed level, flag_t flags)
 
 {
 	struct simple_pib simple_pib;
 	memset (&simple_pib, 0, sizeof (simple_pib));
-	if (read (file->file, &simple_pib, sizeof (simple_pib)) != sizeof (simple_pib)) 
+	if (read (file->file, &simple_pib, sizeof (simple_pib)) != sizeof (simple_pib))
 	{
 		error (1, errno, FILE_CANTREAD, file->name);
 	}
-	if (_anyset (flags, PIB_MAC)) 
+	if (_anyset (flags, PIB_MAC))
 	{
 		memcpy (simple_pib.MAC, sample_pib->MAC, sizeof (simple_pib.MAC));
 	}
-	if (_anyset (flags, PIB_MACINC)) 
+	if (_anyset (flags, PIB_MACINC))
 	{
 		memincr (simple_pib.MAC, sizeof (simple_pib.MAC));
 	}
-	if (_anyset (flags, PIB_DAK)) 
+	if (_anyset (flags, PIB_DAK))
 	{
 		memcpy (simple_pib.DAK, sample_pib->DAK, sizeof (simple_pib.DAK));
 	}
-	if (_anyset (flags, PIB_NMK)) 
+	if (_anyset (flags, PIB_NMK))
 	{
 		memcpy (simple_pib.NMK, sample_pib->NMK, sizeof (simple_pib.NMK));
 	}
-	if (_anyset (flags, PIB_NETWORK)) 
+	if (_anyset (flags, PIB_NETWORK))
 	{
 		memcpy (simple_pib.NET, sample_pib->NET, sizeof (simple_pib.NET));
 	}
-	if (_anyset (flags, PIB_MFGSTRING)) 
+	if (_anyset (flags, PIB_MFGSTRING))
 	{
 		memcpy (simple_pib.MFG, sample_pib->MFG, sizeof (simple_pib.MFG));
 	}
-	if (_anyset (flags, PIB_USER)) 
+	if (_anyset (flags, PIB_USER))
 	{
 		memcpy (simple_pib.USR, sample_pib->USR, sizeof (simple_pib.USR));
 	}
-	if (_anyset (flags, PIB_CCO_MODE)) 
+	if (_anyset (flags, PIB_CCO_MODE))
 	{
 		simple_pib.CCoSelection = sample_pib->CCoSelection;
 	}
-	if (_anyset (flags, PIB_NMK | PIB_NID)) 
+	if (_anyset (flags, PIB_NMK | PIB_NID))
 	{
 
 #if 0
@@ -167,14 +167,14 @@ static signed pibimage1 (struct _file_ * file, simple_pib * sample_pib, signed l
  *	step because it prevents false network association;
  */
 
-		if (BE16TOH (simple_pib.PIBVERSION) > 0x0200) 
+		if (BE16TOH (simple_pib.PIBVERSION) > 0x0200)
 		{
 			uint32_t membership = MEMBERSHIP_STATUS;
-			if (lseek (file->file, MEMBERSHIP_OFFSET, SEEK_SET) != MEMBERSHIP_OFFSET) 
+			if (lseek (file->file, MEMBERSHIP_OFFSET, SEEK_SET) != MEMBERSHIP_OFFSET)
 			{
 				error (1, errno, FILE_CANTHOME, file->name);
 			}
-			if (write (file->file, &membership, sizeof (membership)) != sizeof (membership)) 
+			if (write (file->file, &membership, sizeof (membership)) != sizeof (membership))
 			{
 				error (1, errno, FILE_CANTSAVE, file->name);
 			}
@@ -182,34 +182,34 @@ static signed pibimage1 (struct _file_ * file, simple_pib * sample_pib, signed l
 
 #endif
 
-		if (_allclr (flags, PIB_NID)) 
+		if (_allclr (flags, PIB_NID))
 		{
 			level = simple_pib.PreferredNID [HPAVKEY_NID_LEN-1] >> 4;
 		}
 		HPAVKeyNID (simple_pib.PreferredNID, simple_pib.NMK, level & 1);
 	}
-	if (lseek (file->file, (off_t)(0) - sizeof (simple_pib), SEEK_CUR) == -1) 
+	if (lseek (file->file, (off_t)(0) - sizeof (simple_pib), SEEK_CUR) == -1)
 	{
 		error (1, errno, FILE_CANTHOME, file->name);
 	}
-	if (write (file->file, &simple_pib, sizeof (simple_pib)) != sizeof (simple_pib)) 
+	if (write (file->file, &simple_pib, sizeof (simple_pib)) != sizeof (simple_pib))
 	{
 		error (1, errno, FILE_CANTSAVE, file->name);
 	}
-	if (lseek (file->file, (off_t)(0) - sizeof (simple_pib), SEEK_CUR) == -1) 
+	if (lseek (file->file, (off_t)(0) - sizeof (simple_pib), SEEK_CUR) == -1)
 	{
 		error (1, errno, FILE_CANTHOME, file->name);
 	}
 	simple_pib.CHECKSUM = fdchecksum32 (file->file, LE16TOH (simple_pib.PIBLENGTH), simple_pib.CHECKSUM);
-	if (lseek (file->file, (off_t)(0) - LE16TOH (simple_pib.PIBLENGTH), SEEK_CUR) == -1) 
+	if (lseek (file->file, (off_t)(0) - LE16TOH (simple_pib.PIBLENGTH), SEEK_CUR) == -1)
 	{
 		error (1, errno, FILE_CANTHOME, file->name);
 	}
-	if (write (file->file, &simple_pib, sizeof (simple_pib)) != sizeof (simple_pib)) 
+	if (write (file->file, &simple_pib, sizeof (simple_pib)) != sizeof (simple_pib))
 	{
 		error (1, errno, FILE_CANTSAVE, file->name);
 	}
-	if (_anyset (flags, PIB_VERBOSE)) 
+	if (_anyset (flags, PIB_VERBOSE))
 	{
 		pibpeek1 (&simple_pib);
 	}
@@ -220,7 +220,7 @@ static signed pibimage1 (struct _file_ * file, simple_pib * sample_pib, signed l
 /*====================================================================*
  *
  *   signed pibimage2 (struct _file_ * file, simple_pib *sample_pib, signed level, flag_t flags);
- * 
+ *
  *   modify selected PIB header values but do not compute a checksum;
  *
  *
@@ -229,48 +229,48 @@ static signed pibimage1 (struct _file_ * file, simple_pib * sample_pib, signed l
  *
  *--------------------------------------------------------------------*/
 
-static signed pibimage2 (struct _file_ * file, simple_pib * sample_pib, signed level, flag_t flags) 
+static signed pibimage2 (struct _file_ * file, simple_pib * sample_pib, signed level, flag_t flags)
 
 {
 	struct simple_pib simple_pib;
 	memset (&simple_pib, 0, sizeof (simple_pib));
-	if (read (file->file, &simple_pib, sizeof (simple_pib)) != sizeof (simple_pib)) 
+	if (read (file->file, &simple_pib, sizeof (simple_pib)) != sizeof (simple_pib))
 	{
 		error (1, errno, FILE_CANTREAD, file->name);
 	}
-	if (_anyset (flags, PIB_MAC)) 
+	if (_anyset (flags, PIB_MAC))
 	{
 		memcpy (simple_pib.MAC, sample_pib->MAC, sizeof (simple_pib.MAC));
 	}
-	if (_anyset (flags, PIB_MACINC)) 
+	if (_anyset (flags, PIB_MACINC))
 	{
 		memincr (simple_pib.MAC, sizeof (simple_pib.MAC));
 	}
-	if (_anyset (flags, PIB_DAK)) 
+	if (_anyset (flags, PIB_DAK))
 	{
 		memcpy (simple_pib.DAK, sample_pib->DAK, sizeof (simple_pib.DAK));
 	}
-	if (_anyset (flags, PIB_NMK)) 
+	if (_anyset (flags, PIB_NMK))
 	{
 		memcpy (simple_pib.NMK, sample_pib->NMK, sizeof (simple_pib.NMK));
 	}
-	if (_anyset (flags, PIB_NETWORK)) 
+	if (_anyset (flags, PIB_NETWORK))
 	{
 		memcpy (simple_pib.NET, sample_pib->NET, sizeof (simple_pib.NET));
 	}
-	if (_anyset (flags, PIB_MFGSTRING)) 
+	if (_anyset (flags, PIB_MFGSTRING))
 	{
 		memcpy (simple_pib.MFG, sample_pib->MFG, sizeof (simple_pib.MFG));
 	}
-	if (_anyset (flags, PIB_USER)) 
+	if (_anyset (flags, PIB_USER))
 	{
 		memcpy (simple_pib.USR, sample_pib->USR, sizeof (simple_pib.USR));
 	}
-	if (_anyset (flags, PIB_CCO_MODE)) 
+	if (_anyset (flags, PIB_CCO_MODE))
 	{
 		simple_pib.CCoSelection = sample_pib->CCoSelection;
 	}
-	if (_anyset (flags, PIB_NMK | PIB_NID)) 
+	if (_anyset (flags, PIB_NMK | PIB_NID))
 	{
 
 #if 0
@@ -280,14 +280,14 @@ static signed pibimage2 (struct _file_ * file, simple_pib * sample_pib, signed l
  *	step because it prevents false network association;
  */
 
-		if (BE16TOH (simple_pib.PIBVERSION) > 0x0200) 
+		if (BE16TOH (simple_pib.PIBVERSION) > 0x0200)
 		{
 			uint32_t membership = MEMBERSHIP_STATUS;
-			if (lseek (file->file, MEMBERSHIP_OFFSET, SEEK_SET) != MEMBERSHIP_OFFSET) 
+			if (lseek (file->file, MEMBERSHIP_OFFSET, SEEK_SET) != MEMBERSHIP_OFFSET)
 			{
 				error (1, errno, FILE_CANTHOME, file->name);
 			}
-			if (write (file->file, &membership, sizeof (membership)) != sizeof (membership)) 
+			if (write (file->file, &membership, sizeof (membership)) != sizeof (membership))
 			{
 				error (1, errno, FILE_CANTSAVE, file->name);
 			}
@@ -295,25 +295,25 @@ static signed pibimage2 (struct _file_ * file, simple_pib * sample_pib, signed l
 
 #endif
 
-		if (_allclr (flags, PIB_NID)) 
+		if (_allclr (flags, PIB_NID))
 		{
 			level = simple_pib.PreferredNID [HPAVKEY_NID_LEN-1] >> 4;
 		}
 		HPAVKeyNID (simple_pib.PreferredNID, simple_pib.NMK, level & 1);
 	}
-	if (lseek (file->file, (off_t)(0) - sizeof (simple_pib), SEEK_CUR) == -1) 
+	if (lseek (file->file, (off_t)(0) - sizeof (simple_pib), SEEK_CUR) == -1)
 	{
 		error (1, errno, FILE_CANTHOME, file->name);
 	}
-	if (write (file->file, &simple_pib, sizeof (simple_pib)) != sizeof (simple_pib)) 
+	if (write (file->file, &simple_pib, sizeof (simple_pib)) != sizeof (simple_pib))
 	{
 		error (1, errno, FILE_CANTSAVE, file->name);
 	}
-	if (lseek (file->file, (off_t)(0) - sizeof (simple_pib), SEEK_CUR) == -1) 
+	if (lseek (file->file, (off_t)(0) - sizeof (simple_pib), SEEK_CUR) == -1)
 	{
 		error (1, errno, FILE_CANTHOME, file->name);
 	}
-	if (_anyset (flags, PIB_VERBOSE)) 
+	if (_anyset (flags, PIB_VERBOSE))
 	{
 		pibpeek2 (&simple_pib);
 	}
@@ -332,63 +332,63 @@ static signed pibimage2 (struct _file_ * file, simple_pib * sample_pib, signed l
  *
  *--------------------------------------------------------------------*/
 
-static signed pibchain2 (struct _file_ * file, simple_pib * sample_pib, signed level, flag_t flags) 
+static signed pibchain2 (struct _file_ * file, simple_pib * sample_pib, signed level, flag_t flags)
 
 {
 	unsigned module = 0;
 	struct nvm_header2 nvm_header;
 	uint32_t prev = ~0;
 	uint32_t next = 0;
-	if (lseek (file->file, 0, SEEK_SET)) 
+	if (lseek (file->file, 0, SEEK_SET))
 	{
 		error (1, errno, NVM_IMG_CHECKSUM, file->name, module);
 	}
-	do 
+	do
 	{
-		if (read (file->file, &nvm_header, sizeof (nvm_header)) != sizeof (nvm_header)) 
+		if (read (file->file, &nvm_header, sizeof (nvm_header)) != sizeof (nvm_header))
 		{
 			error (1, errno, NVM_HDR_CANTREAD, file->name, module);
 		}
-		if (LE16TOH (nvm_header.MajorVersion) != 1) 
+		if (LE16TOH (nvm_header.MajorVersion) != 1)
 		{
 			error (1, errno, NVM_HDR_VERSION, file->name, module);
 		}
-		if (LE16TOH (nvm_header.MinorVersion) != 1) 
+		if (LE16TOH (nvm_header.MinorVersion) != 1)
 		{
 			error (1, errno, NVM_HDR_VERSION, file->name, module);
 		}
-		if (checksum32 (&nvm_header, sizeof (nvm_header), 0)) 
+		if (checksum32 (&nvm_header, sizeof (nvm_header), 0))
 		{
 			error (1, errno, NVM_HDR_CHECKSUM, file->name, module);
 		}
-		if (LE32TOH (nvm_header.PrevHeader) != prev) 
+		if (LE32TOH (nvm_header.PrevHeader) != prev)
 		{
 			error (1, errno, NVM_HDR_LINK, file->name, module);
 		}
-		if (LE32TOH (nvm_header.ImageType) == NVM_IMAGE_PIB) 
+		if (LE32TOH (nvm_header.ImageType) == NVM_IMAGE_PIB)
 		{
 			pibimage2 (file, sample_pib, level, flags);
 			nvm_header.ImageChecksum = fdchecksum32 (file->file, LE32TOH (nvm_header.ImageLength), 0);
-			if (lseek (file->file, (off_t)(0) - LE32TOH (nvm_header.ImageLength), SEEK_CUR) == -1) 
+			if (lseek (file->file, (off_t)(0) - LE32TOH (nvm_header.ImageLength), SEEK_CUR) == -1)
 			{
 				error (1, errno, FILE_CANTHOME, file->name);
 			}
 			nvm_header.HeaderChecksum = checksum32 (&nvm_header, sizeof (nvm_header), nvm_header.HeaderChecksum);
-			if (lseek (file->file, (off_t)(0) - sizeof (nvm_header), SEEK_CUR) == -1) 
+			if (lseek (file->file, (off_t)(0) - sizeof (nvm_header), SEEK_CUR) == -1)
 			{
 				error (1, errno, FILE_CANTHOME, file->name);
 			}
-			if (write (file->file, &nvm_header, sizeof (nvm_header)) != sizeof (nvm_header)) 
+			if (write (file->file, &nvm_header, sizeof (nvm_header)) != sizeof (nvm_header))
 			{
 				error (1, errno, FILE_CANTSAVE, file->name);
 			}
-			if (lseek (file->file, (off_t)(0) - sizeof (nvm_header), SEEK_CUR) == -1) 
+			if (lseek (file->file, (off_t)(0) - sizeof (nvm_header), SEEK_CUR) == -1)
 			{
 				error (1, errno, FILE_CANTHOME, file->name);
 			}
 			break;
 		}
-		if (fdchecksum32 (file->file, LE32TOH (nvm_header.ImageLength), nvm_header.ImageChecksum)) 
+		if (fdchecksum32 (file->file, LE32TOH (nvm_header.ImageLength), nvm_header.ImageChecksum))
 		{
 			error (1, errno, NVM_IMG_CHECKSUM, file->name, module);
 		}
@@ -412,38 +412,38 @@ static signed pibchain2 (struct _file_ * file, simple_pib * sample_pib, signed l
  *
  *--------------------------------------------------------------------*/
 
-static signed function (char const * filename, struct simple_pib * sample_pib, unsigned level, flag_t flags) 
+static signed function (char const * filename, struct simple_pib * sample_pib, unsigned level, flag_t flags)
 
 {
 	uint32_t version;
 	signed status;
 	struct _file_ file;
 	file.name = filename;
-	if ((file.file = open (file.name, O_BINARY|O_RDWR, FILE_FILEMODE)) == -1) 
+	if ((file.file = open (file.name, O_BINARY|O_RDWR, FILE_FILEMODE)) == -1)
 	{
-		if (_allclr (flags, PIB_SILENCE)) 
+		if (_allclr (flags, PIB_SILENCE))
 		{
 			error (0, errno, FILE_CANTOPEN, file.name);
 		}
 		return (-1);
 	}
-	if (read (file.file, &version, sizeof (version)) != sizeof (version)) 
+	if (read (file.file, &version, sizeof (version)) != sizeof (version))
 	{
-		if (_allclr (flags, PIB_SILENCE)) 
+		if (_allclr (flags, PIB_SILENCE))
 		{
 			error (0, errno, FILE_CANTREAD, file.name);
 		}
 		return (-1);
 	}
-	if (lseek (file.file, 0, SEEK_SET)) 
+	if (lseek (file.file, 0, SEEK_SET))
 	{
 		error (1, errno, FILE_CANTHOME, file.name);
 	}
-	if (LE32TOH (version) == 0x00010001) 
+	if (LE32TOH (version) == 0x00010001)
 	{
 		status = pibchain2 (&file, sample_pib, level, flags);
 	}
-	else 
+	else
 	{
 		status = pibimage1 (&file, sample_pib, level, flags);
 	}
@@ -453,17 +453,17 @@ static signed function (char const * filename, struct simple_pib * sample_pib, u
 
 
 /*====================================================================*
- *   
- *   int main (int argc, char const * argv []) 
- *   
+ *
+ *   int main (int argc, char const * argv [])
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern const struct key keys [];
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"C:D:L:M:N:S:T:U:v",
 		"file [file] [...]",
@@ -486,10 +486,10 @@ int main (int argc, char const * argv [])
 	signed c;
 	optind = 1;
 	memset (&sample_pib, 0, sizeof (sample_pib));
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
 		char const * sp;
-		switch ((char) (c)) 
+		switch ((char) (c))
 		{
 		case 'C':
 			_setbits (flags, PIB_CCO_MODE);
@@ -497,22 +497,22 @@ int main (int argc, char const * argv [])
 			break;
 		case 'D':
 			_setbits (flags, PIB_DAK);
-			if (!strcmp (optarg, "none")) 
+			if (!strcmp (optarg, "none"))
 			{
 				memcpy (sample_pib.DAK, keys [0].DAK, sizeof (sample_pib.DAK));
 				break;
 			}
-			if (!strcmp (optarg, "key1")) 
+			if (!strcmp (optarg, "key1"))
 			{
 				memcpy (sample_pib.DAK, keys [1].DAK, sizeof (sample_pib.DAK));
 				break;
 			}
-			if (!strcmp (optarg, "key2")) 
+			if (!strcmp (optarg, "key2"))
 			{
 				memcpy (sample_pib.DAK, keys [2].DAK, sizeof (sample_pib.DAK));
 				break;
 			}
-			if (!hexencode (sample_pib.DAK, sizeof (sample_pib.DAK), optarg)) 
+			if (!hexencode (sample_pib.DAK, sizeof (sample_pib.DAK), optarg))
 			{
 				error (1, errno, PLC_BAD_DAK, optarg);
 			}
@@ -522,22 +522,22 @@ int main (int argc, char const * argv [])
 			_setbits (flags, PIB_NID);
 			break;
 		case 'M':
-			if (!strcmp (optarg, "auto")) 
+			if (!strcmp (optarg, "auto"))
 			{
 				_setbits (flags, PIB_MACINC);
 				break;
 			}
-			if (!strcmp (optarg, "next")) 
+			if (!strcmp (optarg, "next"))
 			{
 				_setbits (flags, PIB_MACINC);
 				break;
 			}
-			if (!strcmp (optarg, "plus")) 
+			if (!strcmp (optarg, "plus"))
 			{
 				_setbits (flags, PIB_MACINC);
 				break;
 			}
-			if (!hexencode (sample_pib.MAC, sizeof (sample_pib.MAC), optarg)) 
+			if (!hexencode (sample_pib.MAC, sizeof (sample_pib.MAC), optarg))
 			{
 				error (1, errno, PLC_BAD_MAC, optarg);
 			}
@@ -545,33 +545,33 @@ int main (int argc, char const * argv [])
 			break;
 		case 'N':
 			_setbits (flags, PIB_NMK);
-			if (!strcmp (optarg, "key0")) 
+			if (!strcmp (optarg, "key0"))
 			{
 				memcpy (sample_pib.NMK, keys [0].NMK, sizeof (sample_pib.NMK));
 				break;
 			}
-			if (!strcmp (optarg, "key1")) 
+			if (!strcmp (optarg, "key1"))
 			{
 				memcpy (sample_pib.NMK, keys [1].NMK, sizeof (sample_pib.NMK));
 				break;
 			}
-			if (!strcmp (optarg, "key2")) 
+			if (!strcmp (optarg, "key2"))
 			{
 				memcpy (sample_pib.NMK, keys [2].NMK, sizeof (sample_pib.NMK));
 				break;
 			}
-			if (!hexencode (sample_pib.NMK, sizeof (sample_pib.NMK), optarg)) 
+			if (!hexencode (sample_pib.NMK, sizeof (sample_pib.NMK), optarg))
 			{
 				error (1, errno, PLC_BAD_NMK, optarg);
 			}
 			break;
 		case 'S':
 			for (sp = optarg; isprint (*sp); ++sp);
-			if (*sp) 
+			if (*sp)
 			{
 				error (1, EINVAL, "NMK contains illegal characters");
 			}
-			if ((sp - optarg) > (signed)(sizeof (sample_pib.MFG) - 1)) 
+			if ((sp - optarg) > (signed)(sizeof (sample_pib.MFG) - 1))
 			{
 				error (1, 0, "Manufacturing string is at most %u chars", (unsigned)(sizeof (sample_pib.MFG) - 1));
 			}
@@ -580,11 +580,11 @@ int main (int argc, char const * argv [])
 			break;
 		case 'T':
 			for (sp = optarg; isprint (*sp); ++sp);
-			if (*sp) 
+			if (*sp)
 			{
 				error (1, EINVAL, "NMK contains illegal characters");
 			}
-			if ((sp - optarg) > (signed)(sizeof (sample_pib.NET) - 1)) 
+			if ((sp - optarg) > (signed)(sizeof (sample_pib.NET) - 1))
 			{
 				error (1, 0, "NET string is at most %u chars", (unsigned)(sizeof (sample_pib.NET) - 1));
 			}
@@ -593,11 +593,11 @@ int main (int argc, char const * argv [])
 			break;
 		case 'U':
 			for (sp = optarg; isprint (*sp); ++sp);
-			if (*sp) 
+			if (*sp)
 			{
 				error (1, EINVAL, "NMK contains illegal characters");
 			}
-			if ((sp - optarg) > (signed)(sizeof (sample_pib.USR) - 1)) 
+			if ((sp - optarg) > (signed)(sizeof (sample_pib.USR) - 1))
 			{
 				error (1, 0, "USR string is at most %u chars", (unsigned)(sizeof (sample_pib.USR) - 1));
 			}
@@ -616,9 +616,9 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
-		if (function (* argv, &sample_pib, level, flags)) 
+		if (function (* argv, &sample_pib, level, flags))
 		{
 			state = 1;
 		}

@@ -1,5 +1,5 @@
 /*====================================================================*
- *   
+ *
  *   void SHA256Print (const uint8_t digest [], const char * string);
  *
  *   HPAVKey.h
@@ -21,17 +21,17 @@
 #include "../key/SHA256.h"
 #include "../tools/number.h"
 
-void SHA256Print (const uint8_t digest [], const char * string) 
+void SHA256Print (const uint8_t digest [], const char * string)
 
 {
 	unsigned length = SHA256_DIGEST_LENGTH;
-	while (length--) 
+	while (length--)
 	{
 		putc (DIGITS_HEX [(* digest >> 4) & 0x0F], stdout);
 		putc (DIGITS_HEX [(* digest >> 0) & 0x0F], stdout);
 		digest++;
 	}
-	if (string) for (putc (' ', stdout); *string; string++) 
+	if (string) for (putc (' ', stdout); *string; string++)
 	{
 		putc (*string, stdout);
 	}

@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -23,7 +23,7 @@
  *   mme.c - Atheros vendor-specific message code and name printer;
  *
  *   print vendor-specific mesage codes and names and with associated
- *   error codes and error text on stdout in various formats; options 
+ *   error codes and error text on stdout in various formats; options
  *   are HTML, CSV and plain text;
  *
  *
@@ -82,11 +82,11 @@
 #define MME_TOHTML	(1 << 3)
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char * argv[]);
- *   
+ *
  *   print vendor-specific message codes and names with associated
- *   error codes and text on stdout; output options are HTML, CSV 
+ *   error codes and text on stdout; output options are HTML, CSV
  *   and plain text;
  *
  *
@@ -94,10 +94,10 @@
 
 #define DEFAULT_COLUMN 40
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"cht:",
 		PUTOPTV_S_DIVINE,
@@ -113,9 +113,9 @@ int main (int argc, char const * argv [])
 	flag_t flags = (flag_t)(0);
 	signed c;
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch ((char) (c)) 
+		switch ((char) (c))
 		{
 		case 'c':
 			_setbits (flags, MME_TOCSV);
@@ -131,11 +131,11 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (argc) 
+	if (argc)
 	{
 		error (1, ENOTSUP, ERROR_TOOMANY);
 	}
-	if (_anyset (flags, MME_TOHTML)) 
+	if (_anyset (flags, MME_TOHTML))
 	{
 		signed margin = 2;
 		output (margin++, "<table class='mme'>");
@@ -145,7 +145,7 @@ int main (int argc, char const * argv [])
 		output (margin, "<th class='code'>Code</th>");
 		output (margin, "<th class='text'>Text</th>");
 		output (margin--, "</tr>");
-		for (index = 0; index < (signed)(SIZEOF (mme_codes)); index++) 
+		for (index = 0; index < (signed)(SIZEOF (mme_codes)); index++)
 		{
 			type = mme_codes [index].type;
 			output (margin++, "<tr class='mme'>");
@@ -158,10 +158,10 @@ int main (int argc, char const * argv [])
 		output (margin--, "</table>");
 		return (0);
 	}
-	if (_anyset (flags, MME_TOCSV)) 
+	if (_anyset (flags, MME_TOCSV))
 	{
 		printf ("Name,Type,Code,Text\n");
-		for (index = 0; index < (signed)(SIZEOF (mme_codes)); index++) 
+		for (index = 0; index < (signed)(SIZEOF (mme_codes)); index++)
 		{
 			type = mme_codes [index].type;
 			printf ("0x%04X,", type);
@@ -171,13 +171,13 @@ int main (int argc, char const * argv [])
 		}
 		return (0);
 	}
-	for (index = 0; index < (signed)(SIZEOF (mme_codes)); index++) 
+	for (index = 0; index < (signed)(SIZEOF (mme_codes)); index++)
 	{
 		signed indent = column;
 		type = mme_codes [index].type;
 		indent -= printf ("0x%04X ", type);
 		indent -= printf ("%s.%s ", MMEName (type), MMEMode (type));
-		while (indent-- > 0) 
+		while (indent-- > 0)
 		{
 			putc (' ', stdout);
 		}

@@ -1,27 +1,27 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *
  *   signed WritePIB (struct plc * plc);
- *   
+ *
  *   plc.h
  *
  *   write an entire .nvm file into PLC SDRAM using as many VS_WR_MEM
@@ -29,7 +29,7 @@
  *
  *   runtime firmware must be running for this to work; the NVM file
  *   in struct plc must be opened before calling this function;
- *   
+ *
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
@@ -48,9 +48,9 @@
 #include "../tools/memory.h"
 #include "../tools/error.h"
 #include "../tools/files.h"
-#include "../plc/plc.h" 
+#include "../plc/plc.h"
 
-signed WritePIB (struct plc * plc) 
+signed WritePIB (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -60,7 +60,7 @@ signed WritePIB (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_wr_mod_request 
+	struct __packed vs_wr_mod_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -72,7 +72,7 @@ signed WritePIB (struct plc * plc)
 		uint8_t MBUFFER [PLC_RECORD_SIZE];
 	}
 	* request = (struct vs_wr_mod_request *) (message);
-	struct __packed vs_wr_mod_confirm 
+	struct __packed vs_wr_mod_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -92,16 +92,16 @@ signed WritePIB (struct plc * plc)
 	uint32_t extent = lseek (plc->PIB.file, 0, SEEK_END);
 	uint32_t offset = lseek (plc->PIB.file, 0, SEEK_SET);
 	Request (plc, "Write %s to scratch", plc->PIB.name);
-	while (extent) 
+	while (extent)
 	{
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 		QualcommHeader (&request->qualcomm, 0, (VS_WR_MOD | MMTYPE_REQ));
-		if (length > extent) 
+		if (length > extent)
 		{
 			length = extent;
 		}
-		if (read (plc->PIB.file, request->MBUFFER, length) != length) 
+		if (read (plc->PIB.file, request->MBUFFER, length) != length)
 		{
 			error (1, errno, FILE_CANTREAD, plc->PIB.name);
 		}
@@ -111,29 +111,29 @@ signed WritePIB (struct plc * plc)
 		request->MOFFSET = HTOLE32 (offset);
 		request->MCHKSUM = checksum32 (request->MBUFFER, length, 0);
 		plc->packetsize = sizeof (* request);
-		if (SendMME (plc) <= 0) 
+		if (SendMME (plc) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		if (ReadMME (plc, 0, (VS_WR_MOD | MMTYPE_CNF)) <= 0) 
+		if (ReadMME (plc, 0, (VS_WR_MOD | MMTYPE_CNF)) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
-		if (confirm->MSTATUS) 
+		if (confirm->MSTATUS)
 		{
 			Failure (plc, PLC_WONTDOIT);
 			return (-1);
 		}
-		if (LE16TOH (confirm->MLENGTH) != length) 
+		if (LE16TOH (confirm->MLENGTH) != length)
 		{
 			error ((plc->flags & PLC_BAILOUT), 0, PLC_ERR_LENGTH);
 			length = PLC_RECORD_SIZE;
 			offset = 0;
 			continue;
 		}
-		if (LE32TOH (confirm->MOFFSET) != offset) 
+		if (LE32TOH (confirm->MOFFSET) != offset)
 		{
 			error ((plc->flags & PLC_BAILOUT), 0, PLC_ERR_OFFSET);
 			length = PLC_RECORD_SIZE;

@@ -7,12 +7,12 @@
  *   compute the 32 bit checksum of a memory segment; the calculated
  *   checksum is the one's complement of the XOR of all 32-bit words;
  *   this means that extent should be an even multiple of 4-bytes or
- *   trailing bytes will be excluded from the calculation; 
+ *   trailing bytes will be excluded from the calculation;
  *
- *   set checksum argument to 0 when the memory region does not 
+ *   set checksum argument to 0 when the memory region does not
  *   include the previous checksum value;
  *
- *   set checksum argument to the previous checksum value when the 
+ *   set checksum argument to the previous checksum value when the
  *   memory region includes the previous checksum value; this will
  *   effectively cancel-out the previous checksum value;
  *
@@ -30,13 +30,13 @@
 
 #include "../tools/memory.h"
 
-uint32_t checksum32 (register void const * memory, register size_t extent, register uint32_t checksum) 
+uint32_t checksum32 (register void const * memory, register size_t extent, register uint32_t checksum)
 
 {
 
 #ifdef __GNUC__
 
-	while (extent >= sizeof (checksum)) 
+	while (extent >= sizeof (checksum))
 	{
 		checksum ^= *(typeof (checksum) *)(memory);
 		memory += sizeof (checksum);
@@ -46,7 +46,7 @@ uint32_t checksum32 (register void const * memory, register size_t extent, regis
 #else
 
 	uint32_t * offset = (uint32_t *)(memory);
-	while (extent >= sizeof (* offset)) 
+	while (extent >= sizeof (* offset))
 	{
 		checksum ^= *offset++;
 		extent -= sizeof (* offset);
@@ -65,7 +65,7 @@ uint32_t checksum32 (register void const * memory, register size_t extent, regis
 #if 0
 #include <stdio.h>
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	uint32_t data [100];

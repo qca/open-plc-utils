@@ -1,46 +1,46 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================r
  *
  *   psnotch.c - Atheros Prescaler Notching Utility
  *
- *   Atheros Powerline Toolkit; 
+ *   Atheros Powerline Toolkit;
  *
  *   this program is the Atheros INT6000 Dynamic Notching Utility
  *
  *   this program inspects the following frequency bands for SW signals:
  *
- *       120 m 2,300 - 2,495 kHz tropic band 
- *        90 m 3,200 - 3,400 kHz tropic band 
- *        75 m 3,900 - 4,000 kHz shared with the amateur radio 75/80 meter band 
- *        60 m 4,750 - 5,060 kHz tropic band 
- *        49 m 5,900 - 6,200 kHz   
- *        40 m/41m 7,100 - 7,350 kHz shared with the amateur radio 40 meter band 
- *        31 m 9,400 - 9,900 kHz Currently most heavily used band 
- *        25 m 11,600 - 12,100 kHz   
- *        22 m 13,570 - 13,870 kHz substantially used only in Eurasia 
- *        19 m 15,100 - 15,800 kHz   
- *        16 m 17,480 - 17,900 kHz   
- *        15 m 18,900 - 19,020 kHz almost unused, could become a DRM band 
- *        13 m 21,450 - 21,850 kHz   
+ *       120 m 2,300 - 2,495 kHz tropic band
+ *        90 m 3,200 - 3,400 kHz tropic band
+ *        75 m 3,900 - 4,000 kHz shared with the amateur radio 75/80 meter band
+ *        60 m 4,750 - 5,060 kHz tropic band
+ *        49 m 5,900 - 6,200 kHz
+ *        40 m/41m 7,100 - 7,350 kHz shared with the amateur radio 40 meter band
+ *        31 m 9,400 - 9,900 kHz Currently most heavily used band
+ *        25 m 11,600 - 12,100 kHz
+ *        22 m 13,570 - 13,870 kHz substantially used only in Eurasia
+ *        19 m 15,100 - 15,800 kHz
+ *        16 m 17,480 - 17,900 kHz
+ *        15 m 18,900 - 19,020 kHz almost unused, could become a DRM band
+ *        13 m 21,450 - 21,850 kHz
  *        11 m 25,600 - 26,100 kHz may be used for local DRM broadcasting
  *
  *
@@ -100,14 +100,14 @@
 #define TONES 917
 #define SLOTS 6
 
-#define INDEX_TO_FREQ(index) ((float)(index + 74)/40.96) 
+#define INDEX_TO_FREQ(index) ((float)(index + 74)/40.96)
 #define FREQ_TO_INDEX(freq)  ((unsigned)(40.96 * freq)-74)
 
 /*====================================================================*
  *   program variables;
  *--------------------------------------------------------------------*/
 
-typedef struct carrier 
+typedef struct carrier
 
 {
 	uint16_t amplitude;
@@ -115,7 +115,7 @@ typedef struct carrier
 }
 
 carrier;
-typedef struct map 
+typedef struct map
 
 {
 	unsigned slots;
@@ -123,7 +123,7 @@ typedef struct map
 }
 
 map;
-uint8_t hambands [CARRIERS] = 
+uint8_t hambands [CARRIERS] =
 
 {
 	0,
@@ -1285,10 +1285,10 @@ uint8_t hambands [CARRIERS] =
 
 
 /*====================================================================*
- *   
+ *
  *   int read_scalers (struct map * map);
  *
- *   read a prescaler file from stdin; permit comments and blank 
+ *   read a prescaler file from stdin; permit comments and blank
  *   input lines; the set of prescalers are technically known as
  *   an amplitude map;
  *
@@ -1298,7 +1298,7 @@ uint8_t hambands [CARRIERS] =
  *
  *--------------------------------------------------------------------*/
 
-void read_scalers (struct map * map) 
+void read_scalers (struct map * map)
 
 {
 	unsigned carriers = 0;
@@ -1306,15 +1306,15 @@ void read_scalers (struct map * map)
 	uint32_t carrier;
 	uint32_t amplitude;
 	signed c;
-	while ((c = getc (stdin)) != EOF) 
+	while ((c = getc (stdin)) != EOF)
 	{
-		if (isspace (c)) 
+		if (isspace (c))
 		{
 			continue;
 		}
-		if ((c == '#') || (c == ';')) 
+		if ((c == '#') || (c == ';'))
 		{
-			do 
+			do
 			{
 				c = getc (stdin);
 			}
@@ -1322,47 +1322,47 @@ void read_scalers (struct map * map)
 			continue;
 		}
 		carrier = 0;
-		while (isdigit (c)) 
+		while (isdigit (c))
 		{
 			carrier *= 10;
 			carrier += c - '0';
 			c = getc (stdin);
 		}
-		if (carrier != carriers) 
+		if (carrier != carriers)
 		{
 			error (1, 0, "Prescaler %d/%d out of order", carrier, carriers);
 		}
-		if (carrier >= CARRIERS) 
+		if (carrier >= CARRIERS)
 		{
 			break;
 		}
-		while (isblank (c)) 
+		while (isblank (c))
 		{
 			c = getc (stdin);
 		}
 		amplitude = 0;
-		while (isxdigit (c)) 
+		while (isxdigit (c))
 		{
 			amplitude *= 16;
 			amplitude += todigit (c);
 			c = getc (stdin);
 		}
 		map->carriers [carrier].amplitude = amplitude;
-		if (amplitude) 
+		if (amplitude)
 		{
 			tones++;
 		}
-		while ((c != EOF) && (c != '\n')) 
+		while ((c != EOF) && (c != '\n'))
 		{
 			c = getc (stdin);
 		}
 		carriers++;
 	}
-	if (carriers != CARRIERS) 
+	if (carriers != CARRIERS)
 	{
 		error (1, 0, "Have %d amplitude map carriers but need %d", carriers, CARRIERS);
 	}
-	if (tones != TONES) 
+	if (tones != TONES)
 	{
 		error (1, 0, "Expected %d amplitude map scalers but read %d", TONES, tones);
 	}
@@ -1371,20 +1371,20 @@ void read_scalers (struct map * map)
 
 
 /*====================================================================*
- *   
+ *
  *   void write_scalers (struct map * map);
- *   
+ *
  *   print amplitude map on stdout in a format suitabl for input to
- *   program psin or the Windows Device Manager; 
+ *   program psin or the Windows Device Manager;
  *
  *
  *--------------------------------------------------------------------*/
 
-void write_scalers (struct map * map) 
+void write_scalers (struct map * map)
 
 {
 	unsigned carrier = 0;
-	for (carrier = 0; carrier < CARRIERS; carrier++) 
+	for (carrier = 0; carrier < CARRIERS; carrier++)
 	{
 		printf ("%.8u %.8hX\n", carrier, map->carriers [carrier].amplitude);
 	}
@@ -1393,9 +1393,9 @@ void write_scalers (struct map * map)
 
 
 /*====================================================================*
- *   
+ *
  *   void read_tonemaps (struct map * map, FILE *fp);
- *   
+ *
  *   read tone map from a file; a tonemap file can be created using
  *   program int6ktone;
  *
@@ -1413,7 +1413,7 @@ void write_scalers (struct map * map)
  *
  *--------------------------------------------------------------------*/
 
-void read_tonemaps (struct map * map, FILE *fp) 
+void read_tonemaps (struct map * map, FILE *fp)
 
 {
 	uint8_t slots [SLOTS];
@@ -1423,53 +1423,53 @@ void read_tonemaps (struct map * map, FILE *fp)
 	signed c;
 	map->slots = SLOTS;
 	memset (slots, 0, sizeof (slots));
-	while ((c = getc (fp)) != EOF) 
+	while ((c = getc (fp)) != EOF)
 	{
-		if (c == '#') 
+		if (c == '#')
 		{
 			while (((c = getc (fp)) != EOF) && (c != '\n'));
 		}
-		if (isspace (c)) 
+		if (isspace (c))
 		{
 			continue;
 		}
 		tone = 0;
-		while (isdigit (c)) 
+		while (isdigit (c))
 		{
 			tone *= 10;
 			tone += c - '0';
 			c = getc (fp);
 		}
-		if (tone != tones) 
+		if (tone != tones)
 		{
 			error (1, ECANCELED, "Tonemap %d/%d is out of order", tone, tones);
 		}
-		while (isblank (c)) 
+		while (isblank (c))
 		{
 			c = getc (fp);
 		}
-		for (slot = 0; slot < SLOTS; slot++) 
+		for (slot = 0; slot < SLOTS; slot++)
 		{
 			unsigned value = 0;
-			while (isdigit (c)) 
+			while (isdigit (c))
 			{
 				value *= 10;
 				value += c - '0';
 				c = getc (fp);
 			}
 			map->carriers [tone].slots [slot] = value;
-			while (isblank (c)) 
+			while (isblank (c))
 			{
 				c = getc (fp);
 			}
 		}
-		while ((c != EOF) && (c != '\n')) 
+		while ((c != EOF) && (c != '\n'))
 		{
 			c = getc (fp);
 		}
 		tones++;
 	}
-	if (tones != TONES) 
+	if (tones != TONES)
 	{
 		error (0, 0, "Have %d tone map carriers but need %d", tones, TONES);
 	}
@@ -1481,8 +1481,8 @@ void read_tonemaps (struct map * map, FILE *fp)
  *
  *   void align_tones (struct map * map);
  *
- *   the tonemap consists of 917 consecutive carriers the amplitude 
- *   map consists of 1155 carriers having 917 non-zero values; this 
+ *   the tonemap consists of 917 consecutive carriers the amplitude
+ *   map consists of 1155 carriers having 917 non-zero values; this
  *   function distributes the tonemap entries so that they align to
  *   corresponding amplitude map entries;
  *
@@ -1492,16 +1492,16 @@ void read_tonemaps (struct map * map, FILE *fp)
  *
  *--------------------------------------------------------------------*/
 
-void align_tones (struct map * map) 
+void align_tones (struct map * map)
 
 {
 	unsigned carriers = CARRIERS;
 	unsigned tones = TONES;
-	while (carriers--) 
+	while (carriers--)
 	{
-		if (map->carriers [carriers].amplitude) 
+		if (map->carriers [carriers].amplitude)
 		{
-			if (tones) 
+			if (tones)
 			{
 				tones--;
 				memcpy (&map->carriers [carriers].slots, &map->carriers [tones].slots, SLOTS);
@@ -1517,13 +1517,13 @@ void align_tones (struct map * map)
  *
  *   unsigned notch_tones (struct map * scalers, unsigned lower, unsigned upper);
  *
- *   scan a range of tones for signals; signals are indicated by low 
+ *   scan a range of tones for signals; signals are indicated by low
  *   mean-square values computed across all slots for a given tone;
  *
  *   there may not be much change from one carrier to the next; we
  *   accentuate changes by squaring then summing slot values; this
  *   produces a reasonably clean parabolic dip in the map where the
- *   signal occurs; 
+ *   signal occurs;
  *
  *   function watch_tones can be used to observe tone map values and
  *   signal dips over a given range of map values; generally, it is
@@ -1532,26 +1532,26 @@ void align_tones (struct map * map)
  *
  *--------------------------------------------------------------------*/
 
-unsigned notch_tones (struct map * map, unsigned lower, unsigned upper, unsigned limit) 
+unsigned notch_tones (struct map * map, unsigned lower, unsigned upper, unsigned limit)
 
 {
 	unsigned slot;
 	unsigned notch = 0;
-	while (lower < upper) 
+	while (lower < upper)
 	{
 		unsigned total = 0;
-		for (slot = 0; slot < map->slots; slot++) 
+		for (slot = 0; slot < map->slots; slot++)
 		{
 			unsigned value = 0;
 			value = map->carriers [lower].slots [slot];
 			value *= value;
 			total += value;
 		}
-		if (slot) 
+		if (slot)
 		{
 			total /= slot;
 		}
-		if (total < limit) 
+		if (total < limit)
 		{
 			map->carriers [lower].amplitude = 0;
 			notch = 2;
@@ -1568,21 +1568,21 @@ unsigned notch_tones (struct map * map, unsigned lower, unsigned upper, unsigned
  *
  *   print amplitude and tone values over a given range along with a
  *   plot of the values used to detect signal dips; for best effect,
- *   the range used here should exceed the notching range to provide 
+ *   the range used here should exceed the notching range to provide
  *   context information;
  *
  *
  *--------------------------------------------------------------------*/
 
-void watch_tones (struct map * map, unsigned lower, unsigned upper) 
+void watch_tones (struct map * map, unsigned lower, unsigned upper)
 
 {
 	unsigned slot;
-	while (lower < upper) 
+	while (lower < upper)
 	{
 		unsigned total = 0;
 		fprintf (stderr, "%04d %04X", lower, map->carriers [lower].amplitude);
-		for (slot = 0; slot < map->slots; slot++) 
+		for (slot = 0; slot < map->slots; slot++)
 		{
 			unsigned value = 0;
 			value = map->carriers [lower].slots [slot];
@@ -1590,12 +1590,12 @@ void watch_tones (struct map * map, unsigned lower, unsigned upper)
 			value *= value;
 			total += value;
 		}
-		if (slot) 
+		if (slot)
 		{
 			total /= slot;
 		}
 		fprintf (stderr, " %6.3f ", INDEX_TO_FREQ (lower));
-		while (total--) 
+		while (total--)
 		{
 			fprintf (stderr, "#");
 		}
@@ -1612,21 +1612,21 @@ void watch_tones (struct map * map, unsigned lower, unsigned upper)
  *
  *   print amplitude and tone values over a given range along with a
  *   plot of the values used to detect signal dips; for best effect,
- *   the range used here should exceed the notching range to provide 
+ *   the range used here should exceed the notching range to provide
  *   context information;
  *
  *
  *--------------------------------------------------------------------*/
 
-void watch_tone2 (struct map * map, unsigned lower, unsigned upper) 
+void watch_tone2 (struct map * map, unsigned lower, unsigned upper)
 
 {
 	unsigned slot;
-	while (lower < upper) 
+	while (lower < upper)
 	{
 		unsigned total = 0;
 		fprintf (stderr, "%d,%d", lower, map->carriers [lower].amplitude);
-		for (slot = 0; slot < map->slots; slot++) 
+		for (slot = 0; slot < map->slots; slot++)
 		{
 			unsigned value = 0;
 			value = map->carriers [lower].slots [slot];
@@ -1634,7 +1634,7 @@ void watch_tone2 (struct map * map, unsigned lower, unsigned upper)
 			value *= value;
 			total += value;
 		}
-		if (slot) 
+		if (slot)
 		{
 			total /= slot;
 		}
@@ -1648,10 +1648,10 @@ void watch_tone2 (struct map * map, unsigned lower, unsigned upper)
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv[]);
- *   
- *   read an amplitude map from stdin and print a notched amplitude 
+ *
+ *   read an amplitude map from stdin and print a notched amplitude
  *   map on stdout; use a tone map file to determine if a signal is
  *   present where notching chould occur; notching ranges are input
  *   as map offsets, not carrier frequencies;
@@ -1659,10 +1659,10 @@ void watch_tone2 (struct map * map, unsigned lower, unsigned upper)
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	char const * optv [] = 
+	char const * optv [] =
 	{
 		"cf:l:L:t:u:U:qv",
 		PUTOPTV_S_FILTER,
@@ -1688,15 +1688,15 @@ int main (int argc, char const * argv [])
 	flag_t flags = (flag_t)(0);
 	signed c;
 	memset (&map, 0, sizeof (map));
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'c':
 			_setbits (flags, PSNOTCH_COMMA);
 			break;
 		case 'f':
-			if ((fp = fopen (optarg, "rb")) == (FILE *)(0)) 
+			if ((fp = fopen (optarg, "rb")) == (FILE *)(0))
 			{
 				error (1, errno, "Can't open %s", optarg);
 			}
@@ -1732,15 +1732,15 @@ int main (int argc, char const * argv [])
 	argc -= optind;
 	read_scalers (&map);
 	align_tones (&map);
-	if (_anyset (flags, PSNOTCH_COMMA)) 
+	if (_anyset (flags, PSNOTCH_COMMA))
 	{
 		watch_tone2 (&map, LOWER, UPPER);
 	}
-	else if (_anyset (flags, PSNOTCH_VERBOSE)) 
+	else if (_anyset (flags, PSNOTCH_VERBOSE))
 	{
 		watch_tones (&map, LOWER, UPPER);
 	}
-	if (fp) 
+	if (fp)
 	{
 		status = notch_tones (&map, lower, upper, limit);
 	}
