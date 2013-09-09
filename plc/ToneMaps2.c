@@ -154,7 +154,7 @@ signed ToneMaps2 (struct plc * plc)
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		memcpy (request->MACADDRESS, plc->RDA, sizeof (request->MACADDRESS));
 		request->TMSLOT = slot;
-		request->COUPLING = plc->action;
+		request->COUPLING = plc->coupling;
 		if (SendMME (plc) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);

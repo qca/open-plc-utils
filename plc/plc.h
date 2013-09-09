@@ -198,6 +198,7 @@
 #define MODULECODE (VS_MODULE_MAC | VS_MODULE_PIB)
 #define READACTION 0
 #define FLASH_SIZE 0x200000
+#define PLCOUPLING 0
 
 #define PLC_STATE 0
 #define PLC_TIMER 60
@@ -290,6 +291,7 @@ typedef struct plc
 	uint8_t module;
 	uint8_t pushbutton;
 	uint8_t readaction;
+	uint8_t coupling;
 	unsigned flash_size;
 	unsigned state;
 	unsigned timer;

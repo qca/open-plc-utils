@@ -158,7 +158,7 @@ signed SignalToNoise2 (struct plc * plc)
 		QualcommHeader1 (&request->qualcomm, 1, (VS_RX_TONE_MAP_CHAR | MMTYPE_REQ));
 		memcpy (request->MACADDRESS, plc->RDA, sizeof (request->MACADDRESS));
 		request->TMSLOT = slot;
-		request->COUPLING = plc->action;
+		request->COUPLING = plc->coupling;
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		if (SendMME (plc) <= 0)
 		{

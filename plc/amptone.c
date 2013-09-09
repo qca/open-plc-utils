@@ -96,12 +96,6 @@
 #endif
 
 /*====================================================================*
- *   program constants;
- *--------------------------------------------------------------------*/
-
-#define AMPTONE_COUPLING 0
-
-/*====================================================================*
  *   program variables;
  *--------------------------------------------------------------------*/
 
@@ -169,7 +163,7 @@ int main (int argc, char const * argv [])
 
 #endif
 
-		"p n\tcoupling [" LITERAL (AMPTONE_COUPLING) "]",
+		"p n\tcoupling [" LITERAL (PLCOUPLING) "]",
 		"q\tquiet mode",
 		"s\tcompute signal-to-noise and bits-per-carrier ratios",
 		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
@@ -203,7 +197,7 @@ int main (int argc, char const * argv [])
 		switch (c)
 		{
 		case 'p':
-			plc.action = (unsigned)(uintspec (synonym (optarg, couple, SIZEOF (couple)), 0, UCHAR_MAX));
+			plc.coupling = (unsigned)(uintspec (synonym (optarg, couple, SIZEOF (couple)), 0, UCHAR_MAX));
 			break;
 		case 'e':
 			dup2 (STDOUT_FILENO, STDERR_FILENO);
