@@ -319,8 +319,8 @@ signed manifest (void const * memory, size_t extent)
 
 #endif
 
-		length -= sizeof (* node) - sizeof (node->size) +  LE32TOH (node->size); 
-		offset += sizeof (* node) - sizeof (node->size) +  LE32TOH (node->size); 
+		length -= TLVSPAN (node);
+		offset += TLVSPAN (node);
 	} 
 	return (0); 
 } 
