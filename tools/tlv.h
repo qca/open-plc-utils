@@ -34,8 +34,8 @@
  *   macros;
  *--------------------------------------------------------------------*/
 
-#define TLVSPAN(node) (sizeof (* node) - sizeof (node->data) +  LE32TOH (node->size)) 
-#define TLVDUMP(node) hexdump (&node->data, 0, node->size, stderr) 
+#define TLVSPAN(node) (sizeof(*(node))-sizeof((node)->data)+ LE32TOH((node)->size)) 
+#define TLVDUMP(node) hexdump(&(node)->data,0,(node)->size,stderr) 
 
 /*====================================================================*
  *   variables;
