@@ -84,7 +84,6 @@
 #include "../plc/PLCSelect.c"
 #include "../plc/ReadFirmware1.c"
 #include "../plc/ReadMME.c"
-#include "../plc/ReadFMI.c"
 #include "../plc/ReadMFG.c"
 #include "../plc/ReadParameters1.c"
 #include "../plc/RemoteHosts.c"
