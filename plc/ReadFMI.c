@@ -51,33 +51,16 @@
 signed ReadFMI (struct plc * plc, uint8_t MMV, uint16_t MMTYPE) 
 
 { 
-	struct message * message = (struct message *) (plc->message); 
-
-#ifndef __GNUC__
-#pragma pack (push,1)
-#endif
-
-	struct __packed frame 
-	{ 
-		struct ethernet_std ethernet; 
-		struct homeplug_fmi homeplug; 
-		uint8_t content [ETHERMTU - sizeof (struct homeplug_fmi)]; 
-	} 
-	* frame = (struct frame *) (message); 
-
-#ifndef __GNUC__
-#pragma pack (pop)
-#endif
-
 	if (ReadMME (plc, MMV, MMTYPE) > 0) 
 	{ 
-		unsigned count = ((frame->homeplug.FMID >> 0) & 0x0F); 
-		unsigned extra = ((frame->homeplug.FMID >> 4) & 0x0F); 
-		unsigned length = sizeof (* frame) + extra * sizeof (frame->content); 
+		struct homeplug * homeplug = (struct homeplug *)(plc->message);
+		unsigned count = ((homeplug->homeplug.FMID >> 0) & 0x0F); 
+		unsigned extra = ((homeplug->homeplug.FMID >> 4) & 0x0F); 
+		unsigned length = sizeof (* homeplug) + extra * sizeof (homeplug->content); 
 		if ((plc->content = malloc (length))) 
 		{ 
 			signed offset = plc->packetsize; 
-			memcpy (plc->content, frame, offset); 
+			memcpy (plc->content, homeplug, offset); 
 			while (count < extra) 
 			{ 
 				if (ReadMME (plc, MMV, MMTYPE) <= 0) 
@@ -86,11 +69,11 @@ signed ReadFMI (struct plc * plc, uint8_t MMV, uint16_t MMTYPE)
 					plc->content = NULL; 
 					return (- 1); 
 				} 
-				count = ((frame->homeplug.FMID >> 0) & 0x0F); 
-				extra = ((frame->homeplug.FMID >> 4) & 0x0F); 
-				plc->packetsize -= sizeof (struct ethernet_std);
+				count = ((homeplug->homeplug.FMID >> 0) & 0x0F); 
+				extra = ((homeplug->homeplug.FMID >> 4) & 0x0F); 
+				plc->packetsize -= sizeof (struct ethernet_hdr);
 				plc->packetsize -= sizeof (struct homeplug_fmi);
-				memcpy ((byte *)(plc->content) +  offset, frame->content, plc->packetsize); 
+				memcpy ((byte *)(plc->content) +  offset, homeplug->content, plc->packetsize); 
 				offset += plc->packetsize; 
 			} 
 			plc->packetsize = offset; 
