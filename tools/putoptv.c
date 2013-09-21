@@ -25,10 +25,10 @@
 void putoptv (char const * optv []) 
 
 {
-	extern char const *program_name;
+	extern char const * program_name;
 	size_t index;
 	printf ("\n");
-	printf (" program: %s\n\n", optv [PUTOPTV_I_PURPOSE]);
+	printf (" program: %s\n\n", optv [PUTOPTV_I_PROGRAM]);
 	printf (" command: %s [options] %s\n\n", program_name, optv [PUTOPTV_I_COMMAND]);
 	printf (" options: [%s%c%c]\n\n", optv [PUTOPTV_I_OPTIONS], GETOPTV_C_VERSION, GETOPTV_C_SUMMARY);
 	for (index = PUTOPTV_I_DETAILS; optv [index] != (char *) (0); index++) 

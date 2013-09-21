@@ -17,7 +17,7 @@
 
 #define PUTOPTV_I_OPTIONS 0
 #define PUTOPTV_I_COMMAND 1
-#define PUTOPTV_I_PURPOSE 2
+#define PUTOPTV_I_PROGRAM 2
 #define PUTOPTV_I_DETAILS 3
 
 #define PUTOPTV_S_FILTER "file [file] [...] or [< stdin][> stdout]"
