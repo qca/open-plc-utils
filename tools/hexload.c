@@ -4,12 +4,12 @@
  *
  *   memory.h
  *
- *   read a file and convert hexadecimal octets to binary bytes then 
- *   store them in consecutive memory locations up to a given length; 
+ *   read a file and convert hexadecimal octets to binary bytes then
+ *   store them in consecutive memory locations up to a given length;
  *   return the actual number of bytes stored;
  *
  *   digits may be consecutive or separated by white space or comment
- *   text; a colon terminates a frame, to allow multiple frames in a  
+ *   text; a colon terminates a frame, to allow multiple frames in a
  *   on one file;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
@@ -39,7 +39,7 @@ static unsigned col = 1;
 
 /*====================================================================*
  *
- *   signed fpgetc (FILE * fp) 
+ *   signed fpgetc (FILE * fp)
  *
  *   return the next input character after updating the file cursor
  *   position;
@@ -50,18 +50,18 @@ static unsigned col = 1;
  *
  *--------------------------------------------------------------------*/
 
-static signed fpgetc (FILE * fp) 
+static signed fpgetc (FILE * fp)
 
 {
 	extern unsigned row;
 	extern unsigned col;
 	signed c = getc (fp);
-	if (c == '\n') 
+	if (c == '\n')
 	{
 		row++;
 		col = 0;
 	}
-	else 
+	else
 	{
 		col++;
 	}
@@ -75,12 +75,12 @@ static signed fpgetc (FILE * fp)
  *
  *   memory.h
  *
- *   read a file and convert hexadecimal octets to binary bytes then 
- *   store them in consecutive memory locations up to a given length; 
+ *   read a file and convert hexadecimal octets to binary bytes then
+ *   store them in consecutive memory locations up to a given length;
  *   return the actual number of bytes stored;
  *
  *   digits may be consecutive or separated by white space or comment
- *   text; a colon terminates a frame, to allow multiple frames in a  
+ *   text; a colon terminates a frame, to allow multiple frames in a
  *   on one file;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
@@ -89,7 +89,7 @@ static signed fpgetc (FILE * fp)
  *
  *--------------------------------------------------------------------*/
 
-size_t hexload (void * memory, size_t extent, FILE * fp) 
+size_t hexload (void * memory, size_t extent, FILE * fp)
 
 {
 	extern unsigned row;
@@ -99,38 +99,38 @@ size_t hexload (void * memory, size_t extent, FILE * fp)
 	unsigned digits = sizeof (* offset) << 1;
 	unsigned digit = 0;
 	signed c = EOF;
-	while ((extent) && ((c = fpgetc (fp)) != EOF) && (c != ';')) 
+	while ((extent) && ((c = fpgetc (fp)) != EOF) && (c != ';'))
 	{
-		if (isspace (c)) 
+		if (isspace (c))
 		{
 			continue;
 		}
-		if (c == '#') 
+		if (c == '#')
 		{
-			do 
+			do
 			{
 				c = fpgetc (fp);
 			}
 			while (nobreak (c));
 			continue;
 		}
-		if (c == '/') 
+		if (c == '/')
 		{
 			c = fpgetc (fp);
-			if (c == '/') 
+			if (c == '/')
 			{
-				do 
+				do
 				{
 					c = fpgetc (fp);
 				}
 				while (nobreak (c));
 				continue;
 			}
-			if (c == '*') 
+			if (c == '*')
 			{
-				while ((c != '/') && (c != EOF)) 
+				while ((c != '/') && (c != EOF))
 				{
-					while ((c != '*') && (c != EOF)) 
+					while ((c != '*') && (c != EOF))
 					{
 						c = fpgetc (fp);
 					}
@@ -140,35 +140,35 @@ size_t hexload (void * memory, size_t extent, FILE * fp)
 			}
 			continue;
 		}
-		if ((c >= '0') && (c <= '9')) 
+		if ((c >= '0') && (c <= '9'))
 		{
 			*offset *= 16;
 			*offset += c - '0';
-			if (!(++digit % digits)) 
+			if (!(++digit % digits))
 			{
 				offset++;
 				extent--;
 			}
 			continue;
 		}
-		if ((c >= 'A') && (c <= 'F')) 
+		if ((c >= 'A') && (c <= 'F'))
 		{
 			*offset *= 16;
 			*offset += 10;
 			*offset += c - 'A';
-			if (!(++digit % digits)) 
+			if (!(++digit % digits))
 			{
 				offset++;
 				extent--;
 			}
 			continue;
 		}
-		if ((c >= 'a') && (c <= 'f')) 
+		if ((c >= 'a') && (c <= 'f'))
 		{
 			*offset *= 16;
 			*offset += 10;
 			*offset += c - 'a';
-			if (!(++digit % digits)) 
+			if (!(++digit % digits))
 			{
 				offset++;
 				extent--;
@@ -187,7 +187,7 @@ size_t hexload (void * memory, size_t extent, FILE * fp)
 #endif
 
 	}
-	if (digit & 1) 
+	if (digit & 1)
 	{
 
 #if 1

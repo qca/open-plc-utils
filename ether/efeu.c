@@ -1,34 +1,34 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *
  *   edeu.c - Ethernet Frame Echo Utility
- *   
- *   Listen for incoming Ethernet II frames and write frame data to 
- *   stdout as a continuous binary data stream. Since frame data can 
- *   contain anything, users should send program output to a file or 
- *   pipe it through a filter program to prevent corruption of the 
- *   terminal session. If all incoming data is ASCII then directing 
+ *
+ *   Listen for incoming Ethernet II frames and write frame data to
+ *   stdout as a continuous binary data stream. Since frame data can
+ *   contain anything, users should send program output to a file or
+ *   pipe it through a filter program to prevent corruption of the
+ *   terminal session. If all incoming data is ASCII then directing
  *   stdout to the console should not cause any problems.
- *   
+ *
  *   this program can be used as a data target when testing AR6405
  *   UART applications; use program edsu to send files from a remote
  *   host and this program to display or save them;
@@ -107,19 +107,19 @@
 #define EFEU_ETHERTYPE ETH_P_802_2
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char * argv[]);
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
 	struct ethernet_frame frame;
 	signed length;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"e:i:qt:v",
 		PUTOPTV_S_DIVINE,
@@ -144,7 +144,7 @@ int main (int argc, char const * argv [])
 	signed c;
 	channel.type = EFEU_ETHERTYPE;
 	channel.timeout = CHANNEL_FOREVER;
-	if (getenv (EFEU_INTERFACE)) 
+	if (getenv (EFEU_INTERFACE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -159,9 +159,9 @@ int main (int argc, char const * argv [])
 
 	}
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'e':
 			channel.type = (uint16_t)(basespec (optarg, 16, sizeof (channel.type)));
@@ -194,12 +194,12 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (argc) 
+	if (argc)
 	{
 		error (1, ECANCELED, ERROR_TOOMANY);
 	}
 	openchannel (&channel);
-	while ((length = readpacket (&channel, &frame, sizeof (frame))) > 0) 
+	while ((length = readpacket (&channel, &frame, sizeof (frame))) > 0)
 	{
 		memswap (&frame.frame_dhost, &frame.frame_shost, sizeof (frame.frame_dhost));
 		if (sendpacket (&channel, &frame, length) != length)

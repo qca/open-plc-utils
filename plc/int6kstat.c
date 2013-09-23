@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -114,7 +114,7 @@
  *   program constants;
  *--------------------------------------------------------------------*/
 
-static const struct _term_ linkids [] = 
+static const struct _term_ linkids [] =
 
 {
 	{
@@ -143,7 +143,7 @@ static const struct _term_ linkids [] =
 	},
 };
 
-static const struct _term_ directions [] = 
+static const struct _term_ directions [] =
 
 {
 	{
@@ -169,33 +169,33 @@ static const struct _term_ directions [] =
 #define DIRECTIONS 	(sizeof (directions) / sizeof (struct _term_))
 
 /*====================================================================*
- *   
- *   void manager (struct plc * plc);
- *   
- *   perform operations in logical order despite any order specfied 
- *   on the command line; for example read PIB before writing PIB; 
  *
- *   operation order is controlled by the order of "if" statements 
+ *   void manager (struct plc * plc);
+ *
+ *   perform operations in logical order despite any order specfied
+ *   on the command line; for example read PIB before writing PIB;
+ *
+ *   operation order is controlled by the order of "if" statements
  *   shown here; the entire operation sequence can be repeated with
  *   an optional pause between each iteration;
- * 
+ *
  *
  *--------------------------------------------------------------------*/
 
-void manager (struct plc * plc, signed count, signed pause) 
+void manager (struct plc * plc, signed count, signed pause)
 
 {
-	while (count--) 
+	while (count--)
 	{
-		if (_anyset (plc->flags, PLC_ANALYSE)) 
+		if (_anyset (plc->flags, PLC_ANALYSE))
 		{
 			Topology1 (plc);
 		}
-		if (_anyset (plc->flags, PLC_NETWORK)) 
+		if (_anyset (plc->flags, PLC_NETWORK))
 		{
 			NetworkInformation1 (plc);
 		}
-		if (_anyset (plc->flags, PLC_LINK_STATS)) 
+		if (_anyset (plc->flags, PLC_LINK_STATS))
 		{
 			LinkStatistics (plc);
 		}
@@ -206,15 +206,15 @@ void manager (struct plc * plc, signed count, signed pause)
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv[]);
- *   
- *   parse command line, populate plc structure and perform selected 
+ *
+ *   parse command line, populate plc structure and perform selected
  *   operations; show help summary if asked; see getoptv and putoptv
  *   to understand command line parsing and help summary display; see
- *   plc.h for the definition of struct plc; 
+ *   plc.h for the definition of struct plc;
  *
- *   the command line accepts multiple MAC addresses and the program 
+ *   the command line accepts multiple MAC addresses and the program
  *   performs the specified operations on each address, in turn; the
  *   address order is significant but the option order is not; the
  *   default address is a local broadcast that causes all devices on
@@ -225,19 +225,19 @@ void manager (struct plc * plc, signed count, signed pause)
  *   will automatically address the local device; some options will
  *   cancel themselves if this makes no sense;
  *
- *   the default interface is eth1 because most people use eth0 as 
- *   their principle network connection; you can specify another 
+ *   the default interface is eth1 because most people use eth0 as
+ *   their principle network connection; you can specify another
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"Cd:ei:l:mp:qs:tvw:",
 		"device [device] [...] [> stdout]",
@@ -272,7 +272,7 @@ int main (int argc, char const * argv [])
 	signed loop = INT6KSTAT_LOOP;
 	signed wait = INT6KSTAT_WAIT;
 	signed c;
-	if (getenv (PLCDEVICE)) 
+	if (getenv (PLCDEVICE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -288,9 +288,9 @@ int main (int argc, char const * argv [])
 	}
 	optind = 1;
 	plc.pushbutton = 0;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'C':
 			_setbits (plc.flags, PLC_LINK_STATS);
@@ -321,7 +321,7 @@ int main (int argc, char const * argv [])
 			break;
 		case 'p':
 			_setbits (plc.flags, PLC_LINK_STATS);
-			if (!hexencode (plc.RDA, sizeof (plc.RDA), (char const *)(optarg))) 
+			if (!hexencode (plc.RDA, sizeof (plc.RDA), (char const *)(optarg)))
 			{
 				error (1, errno, PLC_BAD_MAC, optarg);
 			}
@@ -354,17 +354,17 @@ int main (int argc, char const * argv [])
 	argc -= optind;
 	argv += optind;
 	openchannel (&channel);
-	if (!(plc.message = malloc (sizeof (* plc.message)))) 
+	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);
 	}
-	if (!argc) 
+	if (!argc)
 	{
 		manager (&plc, loop, wait);
 	}
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
-		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices)))) 
+		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices))))
 		{
 			error (1, errno, PLC_BAD_MAC, * argv);
 		}

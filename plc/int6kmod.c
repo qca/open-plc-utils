@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*"
@@ -114,30 +114,30 @@
  *
  *   void Manager (struct plc * plc, uint16_t ModuleID, uint16_t ModuleSubID);
  *
- *   read a custom modul from flash memory or write a suceom module 
- *   to flash memory using the VS_MODULE_OPERATION message; read and 
+ *   read a custom modul from flash memory or write a suceom module
+ *   to flash memory using the VS_MODULE_OPERATION message; read and
  *   save the old module before writing and commiting the new module;
  *
  *   ModuleDump () and ModuleRead () are called with argument source
  *   set to VS_MODULE_FLASH because this function operates on modules
- *   in flash memory only; 
+ *   in flash memory only;
  *
  *
  *--------------------------------------------------------------------*/
 
-static void Manager (struct plc * plc, uint16_t ModuleID, uint16_t ModuleSubID) 
+static void Manager (struct plc * plc, uint16_t ModuleID, uint16_t ModuleSubID)
 
 {
-	if (_anyset (plc->flags, PLC_DUMP_MODULE)) 
+	if (_anyset (plc->flags, PLC_DUMP_MODULE))
 	{
 		ModuleDump (plc, PLC_MOD_OP_READ_FLASH, ModuleID, ModuleSubID);
 		return;
 	}
-	if (_anyset (plc->flags, PLC_READ_MODULE)) 
+	if (_anyset (plc->flags, PLC_READ_MODULE))
 	{
 		ModuleRead (plc, &plc->nvm, PLC_MOD_OP_READ_FLASH, ModuleID, ModuleSubID);
 	}
-	if (_anyset (plc->flags, PLC_WRITE_MODULE)) 
+	if (_anyset (plc->flags, PLC_WRITE_MODULE))
 	{
 		struct vs_module_spec vs_module_spec;
 		vs_module_spec.MODULE_ID = ModuleID;
@@ -153,15 +153,15 @@ static void Manager (struct plc * plc, uint16_t ModuleID, uint16_t ModuleSubID)
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv[]);
- *   
- *   parse command line, populate plc structure and perform selected 
+ *
+ *   parse command line, populate plc structure and perform selected
  *   operations; show help summary if asked; see getoptv and putoptv
  *   to understand command line parsing and help summary display; see
- *   plc.h for the definition of struct plc; 
+ *   plc.h for the definition of struct plc;
  *
- *   the command line accepts multiple MAC addresses and the program 
+ *   the command line accepts multiple MAC addresses and the program
  *   performs the specified operations on each address, in turn; the
  *   address order is significant but the option order is not; the
  *   default address is a local broadcast that causes all devices on
@@ -172,19 +172,19 @@ static void Manager (struct plc * plc, uint16_t ModuleID, uint16_t ModuleSubID)
  *   will automatically address the local device; some options will
  *   cancel themselves if this makes no sense;
  *
- *   the default interface is eth1 because most people use eth0 as 
- *   their principle network connection; you can specify another 
+ *   the default interface is eth1 because most people use eth0 as
+ *   their principle network connection; you can specify another
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"dei:m:M:qs:S:t:vx",
 		"device [device] [...]",
@@ -219,7 +219,7 @@ int main (int argc, char const * argv [])
 	uint16_t ModuleSubID = 0;
 	signed c;
 	memset (&vs_module_spec, 0, sizeof (vs_module_spec));
-	if (getenv (PLCDEVICE)) 
+	if (getenv (PLCDEVICE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -234,9 +234,9 @@ int main (int argc, char const * argv [])
 
 	}
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'e':
 			dup2 (STDOUT_FILENO, STDERR_FILENO);
@@ -245,7 +245,7 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_COMMIT_MODULE);
 			break;
 		case 'd':
-			if (_anyset (plc.flags, PLC_READ_MODULE)) 
+			if (_anyset (plc.flags, PLC_READ_MODULE))
 			{
 				error (1, EINVAL, "Options -d and -m are mutually exclusive");
 			}
@@ -266,30 +266,30 @@ int main (int argc, char const * argv [])
 			break;
 		case 'M':
 			_setbits (plc.flags, PLC_WRITE_MODULE);
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, "%s", optarg);
 			}
-			if ((plc.NVM.file = open (plc.NVM.name = optarg, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc.NVM.file = open (plc.NVM.name = optarg, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", plc.NVM.name);
 			}
-			if (ModuleSpec (&plc.NVM, &vs_module_spec) == -1) 
+			if (ModuleSpec (&plc.NVM, &vs_module_spec) == -1)
 			{
 				error (1, errno, "%s", optarg);
 			}
 			break;
 		case 'm':
-			if (_anyset (plc.flags, PLC_DUMP_MODULE)) 
+			if (_anyset (plc.flags, PLC_DUMP_MODULE))
 			{
 				error (1, EINVAL, "Options -d and -m are mutually exclusive");
 			}
 			_setbits (plc.flags, PLC_READ_MODULE);
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, "%s", optarg);
 			}
-			if ((plc.nvm.file = open (plc.nvm.name = optarg, O_BINARY|O_CREAT|O_RDWR|O_TRUNC, FILE_FILEMODE)) == -1) 
+			if ((plc.nvm.file = open (plc.nvm.name = optarg, O_BINARY|O_CREAT|O_RDWR|O_TRUNC, FILE_FILEMODE)) == -1)
 			{
 				error (1, errno, "%s", plc.nvm.name);
 			}
@@ -327,25 +327,25 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (argc != 1) 
+	if (argc != 1)
 	{
-		if (plc.nvm.file != -1) 
+		if (plc.nvm.file != -1)
 		{
 			error (1, ECANCELED, PLC_NODEVICE);
 		}
 	}
 	openchannel (&channel);
-	if (!(plc.message = malloc (sizeof (* plc.message)))) 
+	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);
 	}
-	if (!argc) 
+	if (!argc)
 	{
 		Manager (&plc, ModuleID, ModuleSubID);
 	}
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
-		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices)))) 
+		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices))))
 		{
 			error (1, errno, PLC_BAD_MAC, * argv);
 		}

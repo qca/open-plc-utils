@@ -1,26 +1,26 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *
- *   pib2xml.c 
+ *   pib2xml.c
  *
  *
  *--------------------------------------------------------------------*/
@@ -76,14 +76,14 @@
 #endif
 
 /*====================================================================*
- *   
+ *
  *   void pibdump (signed fd, char const * filename, char const * schema, unsigned extent, flag_t flags);
- *   
- *   
+ *
+ *
  *
  *--------------------------------------------------------------------*/
 
-static void pibdump (signed fd, char const * filename, char const * schema, unsigned extent, flag_t flags) 
+static void pibdump (signed fd, char const * filename, char const * schema, unsigned extent, flag_t flags)
 
 {
 	unsigned offset = 0;
@@ -95,19 +95,19 @@ static void pibdump (signed fd, char const * filename, char const * schema, unsi
 	char * sp;
 	signed c;
 	output (indent++, "<%s xmlns:xsi='%s' xsi:noNamespaceSchemaLocation='%s'>", DATA_OBJECT, XML_NAMESPACE, schema);
-	while ((c = getc (stdin)) != EOF) 
+	while ((c = getc (stdin)) != EOF)
 	{
-		if ((c == '#') || (c == ';')) 
+		if ((c == '#') || (c == ';'))
 		{
-			do 
+			do
 			{
 				c = getc (stdin);
 			}
 			while (nobreak (c));
 		}
-		if (isspace (c)) 
+		if (isspace (c))
 		{
-			if (c == '\n') 
+			if (c == '\n')
 			{
 				lineno++;
 			}
@@ -118,20 +118,20 @@ static void pibdump (signed fd, char const * filename, char const * schema, unsi
 			do { c = getc (stdin); } while (isblank (c));
 		}
 		length = 0;
-		while (isdigit (c)) 
+		while (isdigit (c))
 		{
 			length *= 10;
 			length += c - '0';
 			c = getc (stdin);
 		}
-		while (isblank (c)) 
+		while (isblank (c))
 		{
 			c = getc (stdin);
 		}
 		sp = symbol;
-		if (isalpha (c) || (c == '_')) 
+		if (isalpha (c) || (c == '_'))
 		{
-			do 
+			do
 			{
 				*sp++ = (char)(c);
 				c = getc (stdin);
@@ -139,11 +139,11 @@ static void pibdump (signed fd, char const * filename, char const * schema, unsi
 			while (isident (c));
 		}
 		*sp = (char)(0);
-		while (isblank (c)) 
+		while (isblank (c))
 		{
 			c = getc (stdin);
 		}
-		if (c == '[') 
+		if (c == '[')
 		{
 
 #if 0
@@ -153,11 +153,11 @@ static void pibdump (signed fd, char const * filename, char const * schema, unsi
 #endif
 
 			c = getc (stdin);
-			while (isblank (c)) 
+			while (isblank (c))
 			{
 				c = getc (stdin);
 			}
-			while (isdigit (c)) 
+			while (isdigit (c))
 			{
 
 #if 0
@@ -168,11 +168,11 @@ static void pibdump (signed fd, char const * filename, char const * schema, unsi
 
 				c = getc (stdin);
 			}
-			while (isblank (c)) 
+			while (isblank (c))
 			{
 				c = getc (stdin);
 			}
-			if (c != ']') 
+			if (c != ']')
 			{
 				error (1, EINVAL, "Have '%c' but need ']'", c);
 			}
@@ -186,18 +186,18 @@ static void pibdump (signed fd, char const * filename, char const * schema, unsi
 			c = getc (stdin);
 		}
 		*sp = (char)(0);
-		while (isblank (c)) 
+		while (isblank (c))
 		{
 			c = getc (stdin);
 		}
 		sp = string;
-		while (nobreak (c)) 
+		while (nobreak (c))
 		{
 			*sp++ = (char)(c);
 			c = getc (stdin);
 		}
 		*sp = (char)(0);
-		if (length > 0) 
+		if (length > 0)
 		{
 
 #if defined (WIN32)
@@ -210,13 +210,13 @@ static void pibdump (signed fd, char const * filename, char const * schema, unsi
 
 #endif
 
-			if (read (fd, buffer, length) == length) 
+			if (read (fd, buffer, length) == length)
 			{
 				output (indent++, "<%s name='%s'>", DATA_MEMBER, symbol);
 
 #if 0
 
-				if (*string) 
+				if (*string)
 				{
 					output (indent++, "<text>");
 					output (indent, "%s", string);
@@ -232,11 +232,11 @@ static void pibdump (signed fd, char const * filename, char const * schema, unsi
 				output (indent, "%d", length);
 				output (indent--, "</%s>", DATA_LENGTH);
 				output (indent++, "<%s>", DATA_MEMORY);
-				for (c = 0; c < indent; c++) 
+				for (c = 0; c < indent; c++)
 				{
 					printf ("\t");
 				}
-				for (c = 0; c < length; c++) 
+				for (c = 0; c < length; c++)
 				{
 					printf ("%02X", buffer [c]);
 				}
@@ -255,9 +255,9 @@ static void pibdump (signed fd, char const * filename, char const * schema, unsi
 		offset += length;
 	}
 	output (indent--, "</%s>", DATA_OBJECT);
-	if (_allclr (flags, PIB_SILENCE)) 
+	if (_allclr (flags, PIB_SILENCE))
 	{
-		if (offset != extent) 
+		if (offset != extent)
 		{
 			error (0, 0, "file %s is %d not %d bytes", filename, extent, offset);
 		}
@@ -267,17 +267,17 @@ static void pibdump (signed fd, char const * filename, char const * schema, unsi
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv []);
- *   
- *   
+ *
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"f:x",
 		"file [file] [...]",
@@ -290,12 +290,12 @@ int main (int argc, char const * argv [])
 	flag_t flags = (flag_t)(0);
 	signed c;
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'f':
-			if (!freopen (optarg, "rb", stdin)) 
+			if (!freopen (optarg, "rb", stdin))
 			{
 				error (1, errno, "Can't open %s", optarg);
 			}
@@ -315,7 +315,7 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (argc > 1) 
+	if (argc > 1)
 	{
 		error (1, ENOTSUP, ERROR_TOOMANY);
 	}
@@ -326,42 +326,42 @@ int main (int argc, char const * argv [])
 
 #endif
 
-	if ((argc) && (* argv)) 
+	if ((argc) && (* argv))
 	{
 		signed fd;
 		uint32_t version;
-		if ((fd = open (*argv, O_BINARY | O_RDONLY)) == -1) 
+		if ((fd = open (*argv, O_BINARY | O_RDONLY)) == -1)
 		{
 			error (1, errno, "%s", *argv);
 		}
-		else if (read (fd, &version, sizeof (version)) != sizeof (version)) 
+		else if (read (fd, &version, sizeof (version)) != sizeof (version))
 		{
 			error (1, errno, "Can't read %s", *argv);
 		}
-		else if (lseek (fd, 0, SEEK_SET)) 
+		else if (lseek (fd, 0, SEEK_SET))
 		{
 			error (1, errno, "Can't home %s", *argv);
 		}
-		else if (LE32TOH (version) == 0x60000000) 
+		else if (LE32TOH (version) == 0x60000000)
 		{
 			error (1, errno, "Won't read %s", *argv);
 		}
-		else if (LE32TOH (version) == 0x00010001) 
+		else if (LE32TOH (version) == 0x00010001)
 		{
 			struct nvm_header2 nvm_header;
-			if (!nvmseek2 (fd, *argv, &nvm_header, NVM_IMAGE_PIB)) 
+			if (!nvmseek2 (fd, *argv, &nvm_header, NVM_IMAGE_PIB))
 			{
 				pibdump (fd, *argv, schema, LE32TOH (nvm_header.ImageLength), flags);
 			}
 		}
-		else 
+		else
 		{
 			struct simple_pib pib_header;
-			if (read (fd, &pib_header, sizeof (pib_header)) != sizeof (pib_header)) 
+			if (read (fd, &pib_header, sizeof (pib_header)) != sizeof (pib_header))
 			{
 				error (1, errno, "Can't read %s", *argv);
 			}
-			if (lseek (fd, 0, SEEK_SET)) 
+			if (lseek (fd, 0, SEEK_SET))
 			{
 				error (1, errno, "Can't home %s", *argv);
 			}

@@ -4,8 +4,8 @@
  *
  *   memory.h
  *
- *   print memory as a series of hexadecimal octets seperated by 
- *   character c; normally, character c will be HEX_EXTENDER as 
+ *   print memory as a series of hexadecimal octets seperated by
+ *   character c; normally, character c will be HEX_EXTENDER as
  *   defined in number.h;
  *
  *   for example, hexout (memory, 6, ':', ';', stdout) would print:
@@ -27,21 +27,21 @@
 #include "../tools/memory.h"
 #include "../tools/number.h"
 
-void hexout (void const * memory, size_t extent, char c, char e, FILE * fp) 
+void hexout (void const * memory, size_t extent, char c, char e, FILE * fp)
 
 {
 	byte * offset = (byte *)(memory);
-	while (extent--) 
+	while (extent--)
 	{
 		putc (DIGITS_HEX [(* offset >> 4) & 0x0F], fp);
 		putc (DIGITS_HEX [(* offset >> 0) & 0x0F], fp);
-		if ((extent) && (c)) 
+		if ((extent) && (c))
 		{
 			putc (c, fp);
 		}
 		offset++;
 	}
-	if (e) 
+	if (e)
 	{
 		putc (e, fp);
 	}

@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*"
@@ -92,19 +92,19 @@
  *   convert string to a vector and return vector count; split string
  *   on characer (c);
  *
- *   
+ *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-static unsigned string2vector (char ** vector, char * string, char c) 
+static unsigned string2vector (char ** vector, char * string, char c)
 
 {
 	char ** origin = vector;
-	for (*vector++ = string; *string; string++) 
+	for (*vector++ = string; *string; string++)
 	{
-		if (*string == c) 
+		if (*string == c)
 		{
 			*string++ = (char)(0);
 			*vector++ = string--;
@@ -120,38 +120,38 @@ static unsigned string2vector (char ** vector, char * string, char c)
  *   void firmware (char const * filename, unsigned module, char const * memory, unsigned offset, flag_t flags);
  *
  *   locate and display information stored in a firmware image; this
- *   is magic that may change in future firmware releases;            
+ *   is magic that may change in future firmware releases;
  *
- *   
+ *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-static void firmware (char const * filename, unsigned module, char const * memory, unsigned offset, flag_t flags) 
+static void firmware (char const * filename, unsigned module, char const * memory, unsigned offset, flag_t flags)
 
 {
-	if (_anyset (flags, NVM_FIRMWARE)) 
+	if (_anyset (flags, NVM_FIRMWARE))
 	{
-		if ((* memory > 0x20) && (* memory < 0x7f)) 
+		if ((* memory > 0x20) && (* memory < 0x7f))
 		{
 			printf ("%s (%d) %s\n", filename, module, memory);
 		}
-		else 
+		else
 		{
 			printf ("%s (%d) %s\n", filename, module, memory + offset);
 		}
 		return;
 	}
-	if (_anyset (flags, NVM_IDENTITY)) 
+	if (_anyset (flags, NVM_IDENTITY))
 	{
 		char * vector [16];
 		char buffer [256];
-		if ((* memory > 0x20) && (* memory < 0x7f)) 
+		if ((* memory > 0x20) && (* memory < 0x7f))
 		{
 			strncpy (buffer, memory, sizeof (buffer));
 		}
-		else 
+		else
 		{
 			strncpy (buffer, memory + offset, sizeof (buffer));
 		}
@@ -170,37 +170,37 @@ static void firmware (char const * filename, unsigned module, char const * memor
 
 /*====================================================================*
  *
- *   signed nvmimage2 (void const * memory, size_t extent, char const * filename, flag_t flags) 
+ *   signed nvmimage2 (void const * memory, size_t extent, char const * filename, flag_t flags)
  *
- *   verify a firmware image chain stored in memory; return 0 on 
+ *   verify a firmware image chain stored in memory; return 0 on
  *   success or -1 on error;
  *
- *   
+ *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-static signed nvmimage2 (void const * memory, size_t extent, char const * filename, flag_t flags) 
+static signed nvmimage2 (void const * memory, size_t extent, char const * filename, flag_t flags)
 
 {
 	struct nvm_header1 * nvm_header;
 	unsigned module = 0;
 	uint32_t offset = 0;
-	do 
+	do
 	{
 		nvm_header = (struct nvm_header1 *)((char *)(memory) + offset);
-		if (LE32TOH (nvm_header->HEADERVERSION) != 0x60000000) 
+		if (LE32TOH (nvm_header->HEADERVERSION) != 0x60000000)
 		{
-			if (_allclr (flags, NVM_SILENCE)) 
+			if (_allclr (flags, NVM_SILENCE))
 			{
 				error (0, errno, NVM_HDR_VERSION, filename, module);
 			}
 			return (-1);
 		}
-		if (checksum32 (nvm_header, sizeof (* nvm_header), 0)) 
+		if (checksum32 (nvm_header, sizeof (* nvm_header), 0))
 		{
-			if (_allclr (flags, NVM_SILENCE)) 
+			if (_allclr (flags, NVM_SILENCE))
 			{
 				error (0, errno, NVM_HDR_CHECKSUM, filename, module);
 			}
@@ -208,18 +208,18 @@ static signed nvmimage2 (void const * memory, size_t extent, char const * filena
 		}
 		offset += sizeof (* nvm_header);
 		extent -= sizeof (* nvm_header);
-		if (_anyset (flags, NVM_VERBOSE)) 
+		if (_anyset (flags, NVM_VERBOSE))
 		{
 			printf ("------- %s (%d) -------\n", filename, module);
 			nvmpeek1 (nvm_header);
 		}
-		if (LE32TOH (nvm_header->IMAGETYPE) == NVM_IMAGE_FIRMWARE) 
+		if (LE32TOH (nvm_header->IMAGETYPE) == NVM_IMAGE_FIRMWARE)
 		{
 			firmware (filename, module, (char *)(memory) + offset, 0x70, flags);
 		}
-		if (checksum32 ((char *)(memory) + offset, LE32TOH (nvm_header->IMAGELENGTH), nvm_header->IMAGECHECKSUM)) 
+		if (checksum32 ((char *)(memory) + offset, LE32TOH (nvm_header->IMAGELENGTH), nvm_header->IMAGECHECKSUM))
 		{
-			if (_allclr (flags, NVM_SILENCE)) 
+			if (_allclr (flags, NVM_SILENCE))
 			{
 				error (0, errno, NVM_IMG_CHECKSUM, filename, module);
 			}
@@ -232,7 +232,7 @@ static signed nvmimage2 (void const * memory, size_t extent, char const * filena
 	while (nvm_header->NEXTHEADER);
 	if (extent)
 	{
-		if (_allclr (flags, NVM_SILENCE)) 
+		if (_allclr (flags, NVM_SILENCE))
 		{
 			error (0, errno, NVM_HDR_LINK, filename, module);
 		}
@@ -243,18 +243,18 @@ static signed nvmimage2 (void const * memory, size_t extent, char const * filena
 
 /*====================================================================*
  *
- *   signed nvmchain2 (void const * memory, size_t extent, char const * filename, flag_t flags) 
+ *   signed nvmchain2 (void const * memory, size_t extent, char const * filename, flag_t flags)
  *
- *   verify a firmware image chain stored in memory; return 0 on 
+ *   verify a firmware image chain stored in memory; return 0 on
  *   success or -1 on error;
  *
- *   
+ *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-static signed nvmchain2 (void const * memory, size_t extent, char const * filename, flag_t flags) 
+static signed nvmchain2 (void const * memory, size_t extent, char const * filename, flag_t flags)
 
 {
 	struct nvm_header2 * nvm_header;
@@ -262,36 +262,36 @@ static signed nvmchain2 (void const * memory, size_t extent, char const * filena
 	uint32_t origin = ~0;
 	uint32_t offset = 0;
 	uint32_t length = 0;
-	do 
+	do
 	{
 		nvm_header = (struct nvm_header2 *)((char *)(memory) + offset);
-		if (LE16TOH (nvm_header->MajorVersion) != 1) 
+		if (LE16TOH (nvm_header->MajorVersion) != 1)
 		{
-			if (_allclr (flags, NVM_SILENCE)) 
+			if (_allclr (flags, NVM_SILENCE))
 			{
 				error (0, errno, NVM_HDR_VERSION, filename, module);
 			}
 			return (-1);
 		}
-		if (LE16TOH (nvm_header->MinorVersion) != 1) 
+		if (LE16TOH (nvm_header->MinorVersion) != 1)
 		{
-			if (_allclr (flags, NVM_SILENCE)) 
+			if (_allclr (flags, NVM_SILENCE))
 			{
 				error (0, errno, NVM_HDR_VERSION, filename, module);
 			}
 			return (-1);
 		}
-		if (LE32TOH (nvm_header->PrevHeader) != origin) 
+		if (LE32TOH (nvm_header->PrevHeader) != origin)
 		{
-			if (_allclr (flags, NVM_SILENCE)) 
+			if (_allclr (flags, NVM_SILENCE))
 			{
 				error (0, errno, NVM_HDR_LINK, filename, module);
 			}
 			return (-1);
 		}
-		if (checksum32 (nvm_header, sizeof (* nvm_header), 0)) 
+		if (checksum32 (nvm_header, sizeof (* nvm_header), 0))
 		{
-			if (_allclr (flags, NVM_SILENCE)) 
+			if (_allclr (flags, NVM_SILENCE))
 			{
 				error (0, 0, NVM_HDR_CHECKSUM, filename, module);
 			}
@@ -301,23 +301,23 @@ static signed nvmchain2 (void const * memory, size_t extent, char const * filena
 		offset += sizeof (* nvm_header);
 		extent -= sizeof (* nvm_header);
 		length = LE32TOH (nvm_header->ImageLength);
-		if (_anyset (flags, NVM_VERBOSE)) 
+		if (_anyset (flags, NVM_VERBOSE))
 		{
 			printf ("------- %s (%d) -------\n", filename, module);
 			nvmpeek2 (nvm_header);
 		}
-		if (LE32TOH (nvm_header->ImageType) == NVM_IMAGE_MANIFEST) 
+		if (LE32TOH (nvm_header->ImageType) == NVM_IMAGE_MANIFEST)
 		{
-			if (_anyset (flags, NVM_MANIFEST)) 
+			if (_anyset (flags, NVM_MANIFEST))
 			{
 				printf ("------- %s (%d) -------\n", filename, module);
 				manifest ((char *)(memory) + offset, length);
 				return (0);
 			}
 		}
-		if (checksum32 ((char *)(memory) + offset, length, nvm_header->ImageChecksum)) 
+		if (checksum32 ((char *)(memory) + offset, length, nvm_header->ImageChecksum))
 		{
-			if (_allclr (flags, NVM_SILENCE)) 
+			if (_allclr (flags, NVM_SILENCE))
 			{
 				error (0, errno, NVM_IMG_CHECKSUM, filename, module);
 			}
@@ -330,7 +330,7 @@ static signed nvmchain2 (void const * memory, size_t extent, char const * filena
 	while (~nvm_header->NextHeader);
 	if (extent)
 	{
-		if (_allclr (flags, NVM_SILENCE)) 
+		if (_allclr (flags, NVM_SILENCE))
 		{
 			error (0, errno, NVM_HDR_LINK, filename, module);
 		}
@@ -343,67 +343,67 @@ static signed nvmchain2 (void const * memory, size_t extent, char const * filena
  *
  *   signed chknvm (char const * filename, flag_t flags);
  *
- *   read .nvm file into memory and validate it; 
+ *   read .nvm file into memory and validate it;
  *
- *   
+ *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-static signed chknvm (char const * filename, flag_t flags) 
+static signed chknvm (char const * filename, flag_t flags)
 
 {
 	void * memory = (void *)(0);
 	signed extent = 0;
 	signed status = 0;
 	signed fd;
-	if ((fd = open (filename, O_BINARY|O_RDONLY)) == -1) 
+	if ((fd = open (filename, O_BINARY|O_RDONLY)) == -1)
 	{
-		if (_allclr (flags, NVM_SILENCE)) 
+		if (_allclr (flags, NVM_SILENCE))
 		{
 			error (0, errno, FILE_CANTOPEN, filename);
 		}
 		return (-1);
 	}
-	if ((extent = lseek (fd, 0, SEEK_END)) == -1) 
+	if ((extent = lseek (fd, 0, SEEK_END)) == -1)
 	{
-		if (_allclr (flags, NVM_SILENCE)) 
+		if (_allclr (flags, NVM_SILENCE))
 		{
 			error (0, errno, FILE_CANTSIZE, filename);
 		}
 		return (-1);
 	}
-	if (!(memory = malloc (extent))) 
+	if (!(memory = malloc (extent)))
 	{
-		if (_allclr (flags, NVM_SILENCE)) 
+		if (_allclr (flags, NVM_SILENCE))
 		{
 			error (0, errno, FILE_CANTLOAD, filename);
 		}
 		return (-1);
 	}
-	if (lseek (fd, 0, SEEK_SET)) 
+	if (lseek (fd, 0, SEEK_SET))
 	{
-		if (_allclr (flags, NVM_SILENCE)) 
+		if (_allclr (flags, NVM_SILENCE))
 		{
 			error (0, errno, FILE_CANTLOAD, filename);
 		}
 		return (-1);
 	}
-	if (read (fd, memory, extent) != extent) 
+	if (read (fd, memory, extent) != extent)
 	{
-		if (_allclr (flags, NVM_SILENCE)) 
+		if (_allclr (flags, NVM_SILENCE))
 		{
 			error (0, errno, FILE_CANTREAD, filename);
 		}
 		return (-1);
 	}
 	close (fd);
-	if (LE32TOH (* (uint32_t *)(memory)) == 0x60000000) 
+	if (LE32TOH (* (uint32_t *)(memory)) == 0x60000000)
 	{
 		status = nvmimage2 (memory, extent, filename, flags);
 	}
-	else 
+	else
 	{
 		status = nvmchain2 (memory, extent, filename, flags);
 	}
@@ -413,20 +413,20 @@ static signed chknvm (char const * filename, flag_t flags)
 
 
 /*====================================================================*
- *   
- *   int main (int argc, char const * argv []);
- *   
  *
- *   
+ *   int main (int argc, char const * argv []);
+ *
+ *
+ *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"imqrv",
 		"file [file] [...]",
@@ -442,9 +442,9 @@ int main (int argc, char const * argv [])
 	signed state = 0;
 	signed c;
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch ((char) (c)) 
+		switch ((char) (c))
 		{
 		case 'i':
 			_setbits (flags, NVM_IDENTITY);
@@ -467,13 +467,13 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
-		if (chknvm (* argv, flags)) 
+		if (chknvm (* argv, flags))
 		{
 			state = 1;
 		}
-		else if (_allclr (flags, (NVM_VERBOSE|NVM_SILENCE|NVM_MANIFEST|NVM_FIRMWARE|NVM_IDENTITY))) 
+		else if (_allclr (flags, (NVM_VERBOSE|NVM_SILENCE|NVM_MANIFEST|NVM_FIRMWARE|NVM_IDENTITY)))
 		{
 			printf ("%s looks good\n", * argv);
 		}

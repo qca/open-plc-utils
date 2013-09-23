@@ -1,21 +1,21 @@
 /*====================================================================*"
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*"
@@ -161,19 +161,19 @@
 #define NEWNVM "user.nvm"
 
 /*====================================================================*
- *  
+ *
  *   signed function (struct plc * plc);
- *  
- *   wait indefinitely for VS_HOST_ACTION messages; service the device 
+ *
+ *   wait indefinitely for VS_HOST_ACTION messages; service the device
  *   only; it will stop dead - like a bug! - on error;
- *   
+ *
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-signed function (struct plc * plc) 
+signed function (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -183,7 +183,7 @@ signed function (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_host_action_ind 
+	struct __packed vs_host_action_ind
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -201,114 +201,114 @@ signed function (struct plc * plc)
 	char const * FactoryNVM = plc->NVM.name;
 	char const * FactoryPIB = plc->PIB.name;
 	signed status;
-	while (true) 
+	while (true)
 	{
 		status = ReadMME (plc, 0, (VS_HOST_ACTION | MMTYPE_IND));
-		if (status < 0) 
+		if (status < 0)
 		{
 			break;
 		}
-		if (status > 0) 
+		if (status > 0)
 		{
 			signed action = indicate->MACTION;
 			memcpy (channel->peer, indicate->ethernet.OSA, sizeof (channel->peer));
-			if (HostActionResponse (plc)) 
+			if (HostActionResponse (plc))
 			{
 				return (-1);
 			}
-			if (action == 0x00) 
+			if (action == 0x00)
 			{
-				if (BootDevice2 (plc)) 
+				if (BootDevice2 (plc))
 				{
 					return (-1);
 				}
-				if (WaitForStart (plc, firmware, sizeof (firmware))) 
+				if (WaitForStart (plc, firmware, sizeof (firmware)))
 				{
 					return (-1);
 				}
-				if (_anyset (plc->flags, PLC_FLASH_DEVICE)) 
+				if (_anyset (plc->flags, PLC_FLASH_DEVICE))
 				{
 					FlashDevice2 (plc);
 				}
 				continue;
 			}
-			if (action == 0x01) 
+			if (action == 0x01)
 			{
 				close (plc->NVM.file);
-				if (ReadFirmware2 (plc)) 
+				if (ReadFirmware2 (plc))
 				{
 					return (-1);
 				}
-				if ((plc->NVM.file = open (plc->NVM.name = plc->nvm.name, O_BINARY|O_RDONLY)) == -1) 
+				if ((plc->NVM.file = open (plc->NVM.name = plc->nvm.name, O_BINARY|O_RDONLY)) == -1)
 				{
 					error (1, errno, "%s", plc->NVM.name);
 				}
 				continue;
 			}
-			if (action == 0x02) 
+			if (action == 0x02)
 			{
 				close (plc->PIB.file);
-				if (ReadParameters2 (plc)) 
+				if (ReadParameters2 (plc))
 				{
 					return (-1);
 				}
-				if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1) 
+				if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1)
 				{
 					error (1, errno, "%s", plc->PIB.name);
 				}
-				if (ResetDevice (plc)) 
+				if (ResetDevice (plc))
 				{
 					return (-1);
 				}
 				continue;
 			}
-			if (action == 0x03) 
+			if (action == 0x03)
 			{
 				close (plc->PIB.file);
-				if (ReadParameters2 (plc)) 
+				if (ReadParameters2 (plc))
 				{
 					return (-1);
 				}
-				if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1) 
+				if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1)
 				{
 					error (1, errno, "%s", plc->PIB.name);
 				}
 				close (plc->NVM.file);
-				if (ReadFirmware2 (plc)) 
+				if (ReadFirmware2 (plc))
 				{
 					return (-1);
 				}
-				if ((plc->NVM.file = open (plc->NVM.name = plc->nvm.name, O_BINARY|O_RDONLY)) == -1) 
+				if ((plc->NVM.file = open (plc->NVM.name = plc->nvm.name, O_BINARY|O_RDONLY)) == -1)
 				{
 					error (1, errno, "%s", plc->NVM.name);
 				}
-				if (ResetDevice (plc)) 
+				if (ResetDevice (plc))
 				{
 					return (-1);
 				}
 				continue;
 			}
-			if (action == 0x04) 
+			if (action == 0x04)
 			{
-				if (InitDevice2 (plc)) 
+				if (InitDevice2 (plc))
 				{
 					return (-1);
 				}
 				continue;
 			}
-			if (action == 0x05) 
+			if (action == 0x05)
 			{
 				close (plc->NVM.file);
-				if ((plc->NVM.file = open (plc->NVM.name = FactoryNVM, O_BINARY|O_RDONLY)) == -1) 
+				if ((plc->NVM.file = open (plc->NVM.name = FactoryNVM, O_BINARY|O_RDONLY)) == -1)
 				{
 					error (1, errno, "%s", plc->NVM.name);
 				}
 				close (plc->PIB.file);
-				if ((plc->PIB.file = open (plc->PIB.name = FactoryPIB, O_BINARY|O_RDONLY)) == -1) 
+				if ((plc->PIB.file = open (plc->PIB.name = FactoryPIB, O_BINARY|O_RDONLY)) == -1)
 				{
 					error (1, errno, "%s", plc->PIB.name);
 				}
-				if (ResetDevice (plc)) 
+				if (ResetDevice (plc))
 				{
 					return (-1);
 				}
@@ -317,11 +317,11 @@ signed function (struct plc * plc)
 			if (action == 0x06)
 			{
 				close (plc->PIB.file);
-				if (ReadParameters2 (plc)) 
+				if (ReadParameters2 (plc))
 				{
 					return (-1);
 				}
-				if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1) 
+				if ((plc->PIB.file = open (plc->PIB.name = plc->pib.name, O_BINARY|O_RDONLY)) == -1)
 				{
 					error (1, errno, "%s", plc->PIB.name);
 				}
@@ -335,23 +335,23 @@ signed function (struct plc * plc)
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv[]);
- *   
- *   parse command line, populate plc structure and perform selected 
+ *
+ *   parse command line, populate plc structure and perform selected
  *   operations; show help summary when asked; see getoptv and putoptv
  *   to understand command line parsing and help summary display; see
- *   plc.h for the definition of struct plc; 
+ *   plc.h for the definition of struct plc;
  *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
 	extern void terminate (signo_t);
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"Fi:n:N:p:P:qS:t:vw:x",
 		"-N file -P file [-S file]",
@@ -384,7 +384,7 @@ int main (int argc, char const * argv [])
 #include "../plc/plc.c"
 
 	signed c;
-	if (getenv (PLCDEVICE)) 
+	if (getenv (PLCDEVICE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -400,16 +400,16 @@ int main (int argc, char const * argv [])
 	}
 	optind = 1;
 	plc.timer = PLC_LONGTIME;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'd':
 			_setbits (plc.flags, PLC_DAEMON);
 			break;
 		case 'F':
 			_setbits (plc.module, (VS_MODULE_MAC | VS_MODULE_PIB));
-			if (_anyset (plc.flags, PLC_FLASH_DEVICE)) 
+			if (_anyset (plc.flags, PLC_FLASH_DEVICE))
 			{
 				_setbits (plc.module, VS_MODULE_FORCE);
 			}
@@ -429,51 +429,51 @@ int main (int argc, char const * argv [])
 
 			break;
 		case 'N':
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, "%s", optarg);
 			}
-			if ((plc.NVM.file = open (plc.NVM.name = optarg, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc.NVM.file = open (plc.NVM.name = optarg, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", plc.NVM.name);
 			}
-			if (nvmfile2 (&plc.NVM)) 
+			if (nvmfile2 (&plc.NVM))
 			{
 				error (1, errno, "Bad NVM file: %s", plc.NVM.name);
 			}
 			_setbits (plc.flags, PLC_WRITE_MAC);
 			break;
 		case 'n':
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, "%s", optarg);
 			}
-			if ((plc.nvm.file = open (plc.nvm.name = optarg, O_BINARY|O_CREAT|O_RDWR|O_TRUNC, FILE_FILEMODE)) == -1) 
+			if ((plc.nvm.file = open (plc.nvm.name = optarg, O_BINARY|O_CREAT|O_RDWR|O_TRUNC, FILE_FILEMODE)) == -1)
 			{
 				error (1, errno, "%s", plc.nvm.name);
 			}
 			break;
 		case 'P':
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, "%s", optarg);
 			}
-			if ((plc.PIB.file = open (plc.PIB.name = optarg, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc.PIB.file = open (plc.PIB.name = optarg, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", plc.PIB.name);
 			}
-			if (pibfile2 (&plc.PIB)) 
+			if (pibfile2 (&plc.PIB))
 			{
 				error (1, errno, "Bad PIB file: %s", plc.PIB.name);
 			}
 			_setbits (plc.flags, PLC_WRITE_PIB);
 			break;
 		case 'p':
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, "%s", optarg);
 			}
-			if ((plc.pib.file = open (plc.pib.name = optarg, O_BINARY|O_CREAT|O_RDWR|O_TRUNC, FILE_FILEMODE)) == -1) 
+			if ((plc.pib.file = open (plc.pib.name = optarg, O_BINARY|O_CREAT|O_RDWR|O_TRUNC, FILE_FILEMODE)) == -1)
 			{
 				error (1, errno, "%s", plc.pib.name);
 			}
@@ -483,15 +483,15 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_SILENCE);
 			break;
 		case 'S':
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, "%s", optarg);
 			}
-			if ((plc.CFG.file = open (plc.CFG.name = optarg, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc.CFG.file = open (plc.CFG.name = optarg, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", plc.CFG.name);
 			}
-			if (nvmfile2 (&plc.CFG)) 
+			if (nvmfile2 (&plc.CFG))
 			{
 				error (1, errno, "Bad NVM file: %s", plc.CFG.name);
 			}
@@ -515,41 +515,41 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (argc) 
+	if (argc)
 	{
 		error (1, ENOTSUP, ERROR_TOOMANY);
 	}
-	if (plc.NVM.file == -1) 
+	if (plc.NVM.file == -1)
 	{
 		error (1, ECANCELED, "No host NVM file named");
 	}
-	if (plc.PIB.file == -1) 
+	if (plc.PIB.file == -1)
 	{
 		error (1, ECANCELED, "No host PIB file named");
 	}
-	if (plc.CFG.file == -1) 
+	if (plc.CFG.file == -1)
 	{
-		if (_anyset (plc.flags, PLC_FLASH_DEVICE)) 
+		if (_anyset (plc.flags, PLC_FLASH_DEVICE))
 		{
 			error (1, ECANCELED, "No Softloader file named");
 		}
 	}
-	if (plc.nvm.file == -1) 
+	if (plc.nvm.file == -1)
 	{
-		if ((plc.nvm.file = open (plc.nvm.name = NEWNVM, O_BINARY|O_CREAT|O_RDWR|O_TRUNC, FILE_FILEMODE)) == -1) 
+		if ((plc.nvm.file = open (plc.nvm.name = NEWNVM, O_BINARY|O_CREAT|O_RDWR|O_TRUNC, FILE_FILEMODE)) == -1)
 		{
 			error (1, errno, "%s", plc.nvm.name);
 		}
 	}
-	if (plc.pib.file == -1) 
+	if (plc.pib.file == -1)
 	{
-		if ((plc.pib.file = open (plc.pib.name = NEWPIB, O_BINARY|O_CREAT|O_RDWR|O_TRUNC, FILE_FILEMODE)) == -1) 
+		if ((plc.pib.file = open (plc.pib.name = NEWPIB, O_BINARY|O_CREAT|O_RDWR|O_TRUNC, FILE_FILEMODE)) == -1)
 		{
 			error (1, errno, "%s", plc.pib.name);
 		}
 	}
 	openchannel (&channel);
-	if (!(plc.message = malloc (sizeof (* plc.message)))) 
+	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);
 	}

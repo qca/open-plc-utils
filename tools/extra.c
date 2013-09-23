@@ -23,20 +23,20 @@
 #include "../tools/types.h"
 #include "../tools/error.h"
 
-signed extra (signed status, errno_t number, int argc, char const * argv []) 
+signed extra (signed status, errno_t number, int argc, char const * argv [])
 
 {
 	extern char const *program_name;
-	if ((program_name) && (*program_name)) 
+	if ((program_name) && (*program_name))
 	{
 		fprintf (stderr, "%s: ", program_name);
 	}
-	if (number) 
+	if (number)
 	{
 		fprintf (stderr, "%s: ", strerror (number));
 	}
 	fprintf (stderr, "Excess data: ");
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
 		fprintf (stderr, "%s ", * argv);
 		argv++;
@@ -44,7 +44,7 @@ signed extra (signed status, errno_t number, int argc, char const * argv [])
 	}
 	fprintf (stderr, "\n");
 	fflush (stderr);
-	if (status) 
+	if (status)
 	{
 		exit (status);
 	}

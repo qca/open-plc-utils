@@ -1,38 +1,38 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *   
+ *
  *   pib.h - PIB version definitions and declarations;
  *
- *   The PIB undergoes periodic revision as new features are added; 
+ *   The PIB undergoes periodic revision as new features are added;
  *   versions are distiguished from one another by the first two bytes;
  *
- *   this file declares PIB header structure for PIBs released to 
+ *   this file declares PIB header structure for PIBs released to
  *   date; it does not define the position of all PIB information
  *   because there must be some mystery to life;
  *
- *   call function pibpeek() to display a buffer holding an unkown 
+ *   call function pibpeek() to display a buffer holding an unkown
  *   PIB structure;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit; 
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit;
  *:  Copyright (c) 2006-2010 by Intellon Corporation; ALL RIGHTS RESERVED;
  *;  For demonstration and evaluation only; Not for production use.
  *
@@ -87,8 +87,8 @@
 #define PIB_NID         (1 << 11)
 #define PIB_CHECKED     (1 << 12)
 
-#define INT_PRESCALER_OFFSET 0x0A10 
-#define INT_PRESCALER_LENGTH (1155 * sizeof (uint32_t))  
+#define INT_PRESCALER_OFFSET 0x0A10
+#define INT_PRESCALER_LENGTH (1155 * sizeof (uint32_t))
 #define AMP_PRESCALER_OFFSET 0x0A30
 #define AMP_PRESCALER_LENGTH ((2880 * 5) / sizeof (uint32_t))
 #define PLC_PRESCALER_OFFSET 0x0F2B
@@ -96,7 +96,7 @@
 #define QCA_PRESCALER_OFFSET 0x12E8
 #define QCA_PRESCALER_LENGTH 1345
 
-#define INDEX_TO_FREQ(index) ((float)((index)+74)/40.96) 
+#define INDEX_TO_FREQ(index) ((float)((index)+74)/40.96)
 #define FREQ_TO_INDEX(freq)  ((unsigned)(40.96*(freq))-74)
 
 /*====================================================================*
@@ -117,7 +117,7 @@
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed pib_header 
+typedef struct __packed pib_header
 
 {
 	uint8_t FWVERSION;
@@ -142,7 +142,7 @@ pib_header;
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed simple_pib 
+typedef struct __packed simple_pib
 
 {
 	uint16_t PIBVERSION;
@@ -177,14 +177,14 @@ simple_pib;
 #endif
 
 /*====================================================================*
- *   
+ *
  *--------------------------------------------------------------------*/
 
 #ifndef __GNUC__
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed PIB1 
+typedef struct __packed PIB1
 
 {
 	uint8_t FWVersion;
@@ -200,14 +200,14 @@ PIB1;
 #endif
 
 /*====================================================================*
- *   PIB structure as of v1.2; this is deprecated; 
+ *   PIB structure as of v1.2; this is deprecated;
  *--------------------------------------------------------------------*/
 
 #ifndef __GNUC__
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed PIB1_2 
+typedef struct __packed PIB1_2
 
 {
 	uint8_t FWVersion;
@@ -233,7 +233,7 @@ PIB1_2;
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed PIB1_3 
+typedef struct __packed PIB1_3
 
 {
 	uint8_t FWVersion;
@@ -262,7 +262,7 @@ PIB1_3;
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed VersionHeader 
+typedef struct __packed VersionHeader
 
 {
 	uint8_t FWVersion;
@@ -287,11 +287,11 @@ VersionHeader;
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed PIB1_4 
+typedef struct __packed PIB1_4
 
 {
 	struct VersionHeader VersionHeader;
-	struct __packed 
+	struct __packed
 	{
 		uint8_t MAC [ETHER_ADDR_LEN];
 		uint8_t DAK [HPAVKEY_DAK_LEN];
@@ -322,7 +322,7 @@ PIB1_4;
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed LocalDeviceConfig 
+typedef struct __packed LocalDeviceConfig
 
 {
 	uint8_t MAC [ETHER_ADDR_LEN];
@@ -344,28 +344,28 @@ typedef struct __packed LocalDeviceConfig
 }
 
 LocalDeviceConfig;
-typedef struct __packed StaticNetworkConfig 
+typedef struct __packed StaticNetworkConfig
 
 {
 	uint8_t Reserved [128];
 }
 
 StaticNetworkConfig;
-typedef struct __packed InterfaceConfig 
+typedef struct __packed InterfaceConfig
 
 {
 	uint8_t Reserved [96];
 }
 
 InterfaceConfig;
-typedef struct __packed IGMPConfig 
+typedef struct __packed IGMPConfig
 
 {
 	uint8_t Reserved [32];
 }
 
 IGMPConfig;
-typedef struct __packed QoSParameters 
+typedef struct __packed QoSParameters
 
 {
 	uint8_t UnicastPriority;
@@ -381,7 +381,7 @@ typedef struct __packed QoSParameters
 }
 
 QoSParameters;
-typedef struct __packed ToneNotchParameters 
+typedef struct __packed ToneNotchParameters
 
 {
 	uint8_t Reserved [5120];
@@ -401,7 +401,7 @@ ToneNotchParameters;
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed PIB1_5 
+typedef struct __packed PIB1_5
 
 {
 	struct VersionHeader VersionHeader;
@@ -427,7 +427,7 @@ PIB1_5;
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed FeatureConfiguration 
+typedef struct __packed FeatureConfiguration
 
 {
 	uint8_t Reserved [128];
@@ -447,7 +447,7 @@ FeatureConfiguration;
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed PIB2_0 
+typedef struct __packed PIB2_0
 
 {
 	struct VersionHeader VersionHeader;
@@ -474,7 +474,7 @@ PIB2_0;
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed V3_0Configuration 
+typedef struct __packed V3_0Configuration
 
 {
 	uint32_t AVLNMembership;
@@ -504,7 +504,7 @@ V3_0Configuration;
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed PIB3_0 
+typedef struct __packed PIB3_0
 
 {
 	struct VersionHeader VersionHeader;
@@ -532,7 +532,7 @@ PIB3_0;
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed V3_1Configuration 
+typedef struct __packed V3_1Configuration
 
 {
 	uint8_t Reserved [128];
@@ -552,7 +552,7 @@ V3_1Configuration;
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed PIB3_1 
+typedef struct __packed PIB3_1
 
 {
 	struct VersionHeader VersionHeader;
@@ -581,7 +581,7 @@ PIB3_1;
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed PIB3_2 
+typedef struct __packed PIB3_2
 
 {
 	struct VersionHeader VersionHeader;
@@ -610,7 +610,7 @@ PIB3_2;
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed V3_3Configuration 
+typedef struct __packed V3_3Configuration
 
 {
 	uint8_t Reserved [64];
@@ -630,7 +630,7 @@ V3_3Configuration;
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed PIB3_3 
+typedef struct __packed PIB3_3
 
 {
 	struct VersionHeader VersionHeader;
@@ -660,7 +660,7 @@ PIB3_3;
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed PIB3_4 
+typedef struct __packed PIB3_4
 
 {
 	struct VersionHeader VersionHeader;
@@ -690,7 +690,7 @@ PIB3_4;
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed FeatureGroupEnablement 
+typedef struct __packed FeatureGroupEnablement
 
 {
 	uint8_t Reserved [16];
@@ -710,7 +710,7 @@ FeatureGroupEnablement;
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed PIB3_5 
+typedef struct __packed PIB3_5
 
 {
 	struct VersionHeader VersionHeader;
@@ -741,7 +741,7 @@ PIB3_5;
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed PIB3_6 
+typedef struct __packed PIB3_6
 
 {
 	struct VersionHeader VersionHeader;
@@ -779,7 +779,7 @@ uint16_t pibscalers (struct _file_ * pib);
 uint16_t psread (uint16_t values [], uint16_t limit, FILE * fp);
 
 /*====================================================================*
- *   
+ *
  *--------------------------------------------------------------------*/
 
 #endif

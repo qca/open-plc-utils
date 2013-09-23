@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -109,13 +109,13 @@
 #define MCONTROL_WRITE 	0x01
 #define ETH_PORT 0
 
-#define NEGOTIATE 	SIZEOF (negotiate) 
+#define NEGOTIATE 	SIZEOF (negotiate)
 #define SPEEDS  	SIZEOF (speeds)
 #define DUPLEX 		SIZEOF (duplex)
 #define CONTROL 	SIZEOF (control)
 #define ADVCAP 		SIZEOF (advcap)
 
-static struct _code_ const negotiate [] = 
+static struct _code_ const negotiate [] =
 
 {
 	{
@@ -128,7 +128,7 @@ static struct _code_ const negotiate [] =
 	}
 };
 
-static struct _code_ const speeds [] = 
+static struct _code_ const speeds [] =
 
 {
 	{
@@ -145,7 +145,7 @@ static struct _code_ const speeds [] =
 	}
 };
 
-static struct _code_ const duplex [] = 
+static struct _code_ const duplex [] =
 
 {
 	{
@@ -158,7 +158,7 @@ static struct _code_ const duplex [] =
 	}
 };
 
-static struct _code_ const control [] = 
+static struct _code_ const control [] =
 
 {
 	{
@@ -179,7 +179,7 @@ static struct _code_ const control [] =
 	}
 };
 
-static struct _code_ const advcap [] = 
+static struct _code_ const advcap [] =
 
 {
 	{
@@ -210,7 +210,7 @@ static struct _code_ const advcap [] =
 #define LINKS SIZEOF (links)
 #define FLOWS SIZEOF (flows)
 
-static char const * rates [] = 
+static char const * rates [] =
 
 {
 	"10",
@@ -218,14 +218,14 @@ static char const * rates [] =
 	"1000"
 };
 
-static char const * modes [] = 
+static char const * modes [] =
 
 {
 	"Half",
 	"Full"
 };
 
-static char const * links [] = 
+static char const * links [] =
 
 {
 	"Unknown",
@@ -233,7 +233,7 @@ static char const * links [] =
 	"On"
 };
 
-static char const * flows [] = 
+static char const * flows [] =
 
 {
 	"Off",
@@ -251,7 +251,7 @@ static char const * flows [] =
 #pragma pack (push,1)
 #endif
 
-typedef struct __packed phy_settings 
+typedef struct __packed phy_settings
 
 {
 	uint8_t MCONTROL;
@@ -263,7 +263,7 @@ typedef struct __packed phy_settings
 }
 
 phy_settings;
-typedef struct __packed phy_readings 
+typedef struct __packed phy_readings
 
 {
 	uint8_t MSTATUS;
@@ -294,7 +294,7 @@ phy_readings;
  *
  *--------------------------------------------------------------------*/
 
-signed PHYSettings (struct channel * channel, struct phy_settings * settings, flag_t flags) 
+signed PHYSettings (struct channel * channel, struct phy_settings * settings, flag_t flags)
 
 {
 	struct message message;
@@ -304,7 +304,7 @@ signed PHYSettings (struct channel * channel, struct phy_settings * settings, fl
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_enet_settings_request 
+	struct __packed vs_enet_settings_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -316,7 +316,7 @@ signed PHYSettings (struct channel * channel, struct phy_settings * settings, fl
 		uint8_t EFLOWCONTROL;
 	}
 	* request = (struct vs_enet_settings_request *) (&message);
-	struct __packed vs_enet_settings_confirm 
+	struct __packed vs_enet_settings_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -342,22 +342,22 @@ signed PHYSettings (struct channel * channel, struct phy_settings * settings, fl
 	request->ESPEED = settings->ESPEED;
 	request->EDUPLEX = settings->EDUPLEX;
 	request->EFLOWCONTROL = settings->EFLOWCONTROL;
-	if (sendpacket (channel, &message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) < 0) 
+	if (sendpacket (channel, &message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) < 0)
 	{
 		error (1, errno, CHANNEL_CANTSEND);
 	}
-	while ((packetsize = readpacket (channel, &message, sizeof (message))) > 0) 
+	while ((packetsize = readpacket (channel, &message, sizeof (message))) > 0)
 	{
-		if (UnwantedMessage (&message, packetsize, 0, (VS_ENET_SETTINGS | MMTYPE_CNF))) 
+		if (UnwantedMessage (&message, packetsize, 0, (VS_ENET_SETTINGS | MMTYPE_CNF)))
 		{
 			continue;
 		}
-		if ((confirm->MSTATUS == 1) || (confirm->MSTATUS == 3)) 
+		if ((confirm->MSTATUS == 1) || (confirm->MSTATUS == 3))
 		{
 			error (0, 0, "%s: %s (0x%0X): ", PLC_WONTDOIT, MMECode (confirm->qualcomm.MMTYPE, confirm->MSTATUS), confirm->MSTATUS);
 			continue;
 		}
-		if (_anyset (flags, PLC_ANALYSE)) 
+		if (_anyset (flags, PLC_ANALYSE))
 		{
 			printf ("Bits Mode Link Flow\n");
 			printf ("%4d ", confirm->ESPEED);
@@ -365,7 +365,7 @@ signed PHYSettings (struct channel * channel, struct phy_settings * settings, fl
 			printf ("%4d ", confirm->ELINKSTATUS);
 			printf ("%4d\n", confirm->EFLOWCONTROL);
 		}
-		else 
+		else
 		{
 			printf ("%s %s ", channel->ifname, hexstring (address, sizeof (address), channel->host, sizeof (channel->host)));
 			printf ("Speed=%s ", rates [confirm->ESPEED]);
@@ -374,7 +374,7 @@ signed PHYSettings (struct channel * channel, struct phy_settings * settings, fl
 			printf ("FlowControl=%s\n", flows [confirm->EFLOWCONTROL]);
 		}
 	}
-	if (packetsize < 0) 
+	if (packetsize < 0)
 	{
 		error (1, errno, CHANNEL_CANTREAD);
 	}
@@ -383,15 +383,15 @@ signed PHYSettings (struct channel * channel, struct phy_settings * settings, fl
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv[]);
- *   
- *   parse command line, populate plc structure and perform selected 
+ *
+ *   parse command line, populate plc structure and perform selected
  *   operations; show help summary if asked; see getoptv and putoptv
  *   to understand command line parsing and help summary display; see
- *   plc.h for the definition of struct plc; 
+ *   plc.h for the definition of struct plc;
  *
- *   the command line accepts multiple MAC addresses and the program 
+ *   the command line accepts multiple MAC addresses and the program
  *   performs the specified operations on each address, in turn; the
  *   address order is significant but the option order is not; the
  *   default address is a local broadcast that causes all devices on
@@ -402,19 +402,19 @@ signed PHYSettings (struct channel * channel, struct phy_settings * settings, fl
  *   will automatically address the local device; some options will
  *   cancel themselves if this makes no sense;
  *
- *   the default interface is eth1 because most people use eth0 as 
- *   their principle network connection; you can specify another 
+ *   the default interface is eth1 because most people use eth0 as
+ *   their principle network connection; you can specify another
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"a:d:ef:i:n:p:qrs:tvw",
 		"device [device] [...] [> stdout]",
@@ -443,7 +443,7 @@ int main (int argc, char const * argv [])
 		"w\twrite settings instead of read settings",
 		(char const *) (0)
 	};
-	struct phy_settings settings = 
+	struct phy_settings settings =
 	{
 		0,
 		1,
@@ -454,7 +454,7 @@ int main (int argc, char const * argv [])
 	};
 	flag_t flags = (flag_t)(0);
 	signed c;
-	if (getenv (PLCDEVICE)) 
+	if (getenv (PLCDEVICE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -469,19 +469,19 @@ int main (int argc, char const * argv [])
 
 	}
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'a':
-			if ((c = lookup (optarg, advcap, ADVCAP)) == -1) 
+			if ((c = lookup (optarg, advcap, ADVCAP)) == -1)
 			{
 				assist (optarg, "capability", advcap, ADVCAP);
 			}
 			settings.ADVCAPS |= (uint8_t)(c);
 			break;
 		case 'd':
-			if ((c = lookup (optarg, duplex, DUPLEX)) == -1) 
+			if ((c = lookup (optarg, duplex, DUPLEX)) == -1)
 			{
 				assist (optarg, "duplex", duplex, DUPLEX);
 			}
@@ -491,21 +491,21 @@ int main (int argc, char const * argv [])
 			dup2 (STDOUT_FILENO, STDERR_FILENO);
 			break;
 		case 'f':
-			if ((c = lookup (optarg, control, CONTROL)) == -1) 
+			if ((c = lookup (optarg, control, CONTROL)) == -1)
 			{
 				assist (optarg, "control", control, CONTROL);
 			}
 			settings.EFLOWCONTROL = (uint8_t)(c);
 			break;
 		case 'n':
-			if ((c = lookup (optarg, negotiate, NEGOTIATE)) == -1) 
+			if ((c = lookup (optarg, negotiate, NEGOTIATE)) == -1)
 			{
 				assist (optarg, "auto-negotiate", negotiate, NEGOTIATE);
 			}
 			settings.AUTONEGOTIATE = (uint8_t)(c);
 			break;
 		case 's':
-			if ((c = lookup (optarg, speeds, SPEEDS)) == -1) 
+			if ((c = lookup (optarg, speeds, SPEEDS)) == -1)
 			{
 				assist (optarg, "speed", speeds, SPEEDS);
 			}
@@ -552,13 +552,13 @@ int main (int argc, char const * argv [])
 	argc -= optind;
 	argv += optind;
 	openchannel (&channel);
-	if (!argc) 
+	if (!argc)
 	{
 		PHYSettings (&channel, &settings, flags);
 	}
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
-		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices)))) 
+		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices))))
 		{
 			error (1, errno, PLC_BAD_MAC, * argv);
 		}

@@ -4,7 +4,7 @@
  *
  *   endian.h
  *
- *   alternative byte-swap functions for systems without them (such 
+ *   alternative byte-swap functions for systems without them (such
  *   as Microsoft Windows);
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
@@ -20,21 +20,21 @@
 
 #include "../tools/endian.h"
 
-uint16_t __bswap_16 (uint16_t x) 
+uint16_t __bswap_16 (uint16_t x)
 
 {
 	reverse (&x, sizeof (x));
 	return (x);
 }
 
-uint32_t __bswap_32 (uint32_t x) 
+uint32_t __bswap_32 (uint32_t x)
 
 {
 	reverse (&x, sizeof (x));
 	return (x);
 }
 
-uint64_t __bswap_64 (uint64_t x) 
+uint64_t __bswap_64 (uint64_t x)
 
 {
 	reverse (&x, sizeof (x));

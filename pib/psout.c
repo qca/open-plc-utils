@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -86,7 +86,7 @@
  *
  *--------------------------------------------------------------------*/
 
-static void ar7x00Prescalers (struct _file_ * pib) 
+static void ar7x00Prescalers (struct _file_ * pib)
 
 {
 
@@ -97,34 +97,34 @@ static void ar7x00Prescalers (struct _file_ * pib)
 	uint32_t buffer = 0;
 	unsigned bits = 0;
 	unsigned index = 0;
-	if (lseek (pib->file, AMP_PRESCALER_OFFSET, SEEK_SET) != AMP_PRESCALER_OFFSET) 
+	if (lseek (pib->file, AMP_PRESCALER_OFFSET, SEEK_SET) != AMP_PRESCALER_OFFSET)
 	{
 		error (1, errno, FILE_CANTSEEK, pib->name);
 	}
 
 /* no dependency on math lib */
 
-	while (index < AMP_CARRIERS) 
+	while (index < AMP_CARRIERS)
 	{
-		if (read (pib->file, &temp, sizeof (temp)) != sizeof (temp)) 
+		if (read (pib->file, &temp, sizeof (temp)) != sizeof (temp))
 		{
 			error (1, errno, FILE_CANTREAD, pib->name);
 		}
 		temp = LE32TOH (temp);
 		buffer |= (temp << bits);
-		if (bits == 0) 
+		if (bits == 0)
 		{
 			bits = 8 * sizeof (buffer);
 		}
-		else 
+		else
 		{
-			if (lseek (pib->file, -1, SEEK_CUR) == -1) 
+			if (lseek (pib->file, -1, SEEK_CUR) == -1)
 			{
 				error (1, errno, "could not seek backwards");
 			}
 			bits += 8 * (sizeof (buffer) - 1);
 		}
-		while (bits >= 10) 
+		while (bits >= 10)
 		{
 			value = (buffer & 0x000003FF);
 			printf ("%08d %08X\n", index, value);
@@ -141,27 +141,27 @@ static void ar7x00Prescalers (struct _file_ * pib)
 	uint32_t buffer = 0;
 	unsigned bits = 0;
 	unsigned index = 0;
-	if (lseek (pib->file, AMP_PRESCALER_OFFSET, SEEK_SET) != AMP_PRESCALER_OFFSET) 
+	if (lseek (pib->file, AMP_PRESCALER_OFFSET, SEEK_SET) != AMP_PRESCALER_OFFSET)
 	{
 		error (1, errno, FILE_CANTSEEK, pib->name);
 	}
 
 /* more generic code, but requires math lib, add -lm to LFLAGS */
 
-	while (index < AMP_CARRIERS) 
+	while (index < AMP_CARRIERS)
 	{
-		if (read (pib->file, &temp, sizeof (temp)) != sizeof (temp)) 
+		if (read (pib->file, &temp, sizeof (temp)) != sizeof (temp))
 		{
 			error (1, errno, FILE_CANTREAD, pib->name);
 		}
 		temp = LE32TOH (temp);
 		buffer |= (temp << bits);
-		if (lseek (pib->file, (off_t)(-ceil (bits / 8.0)), SEEK_CUR) == -1) 
+		if (lseek (pib->file, (off_t)(-ceil (bits / 8.0)), SEEK_CUR) == -1)
 		{
 			error (1, errno, "could not seek backwards");
 		}
 		bits += 8 * (sizeof (buffer) - (unsigned)(ceil (bits / 8.0)));
-		while (bits >= 10) 
+		while (bits >= 10)
 		{
 			value = (buffer & 0x000003FF);
 			printf ("%08d %08X\n", index, value);
@@ -178,11 +178,11 @@ static void ar7x00Prescalers (struct _file_ * pib)
 	unsigned index = 0;
 	byte buffer [AMP_PRESCALER_LENGTH];
 	byte * p = buffer;
-	if (lseek (pib->file, AMP_PRESCALER_OFFSET, SEEK_SET) != AMP_PRESCALER_OFFSET) 
+	if (lseek (pib->file, AMP_PRESCALER_OFFSET, SEEK_SET) != AMP_PRESCALER_OFFSET)
 	{
 		error (1, errno, FILE_CANTSEEK, pib->name);
 	}
-	if (read (pib->file, buffer, sizeof (buffer)) != sizeof (buffer)) 
+	if (read (pib->file, buffer, sizeof (buffer)) != sizeof (buffer))
 	{
 		error (1, errno, FILE_CANTREAD, pib->name);
 	}
@@ -192,7 +192,7 @@ static void ar7x00Prescalers (struct _file_ * pib)
  * |01234567|89012345|67890123|45678901|23456789|
  */
 
-	while (index < AMP_CARRIERS) 
+	while (index < AMP_CARRIERS)
 	{
 		lower = (*p++ & 0xFF) >> 0;
 		upper = (*p & 0x03) << 8;
@@ -220,18 +220,18 @@ static void ar7x00Prescalers (struct _file_ * pib)
  *
  *--------------------------------------------------------------------*/
 
-static void int6x00Prescalers (struct _file_ * pib) 
+static void int6x00Prescalers (struct _file_ * pib)
 
 {
 	unsigned index = 0;
-	if (lseek (pib->file, INT_PRESCALER_OFFSET, SEEK_SET) != INT_PRESCALER_OFFSET) 
+	if (lseek (pib->file, INT_PRESCALER_OFFSET, SEEK_SET) != INT_PRESCALER_OFFSET)
 	{
 		error (1, errno, FILE_CANTSEEK, pib->name);
 	}
-	while (index < INT_CARRIERS) 
+	while (index < INT_CARRIERS)
 	{
 		uint32_t value;
-		if (read (pib->file, &value, sizeof (value)) != sizeof (value)) 
+		if (read (pib->file, &value, sizeof (value)) != sizeof (value))
 		{
 			error (1, errno, FILE_CANTREAD, pib->name);
 		}
@@ -246,21 +246,21 @@ static void int6x00Prescalers (struct _file_ * pib)
  *
  *--------------------------------------------------------------------*/
 
-static void qca7x00Prescalers (struct _file_ * pib) 
+static void qca7x00Prescalers (struct _file_ * pib)
 {
 	unsigned index = 0;
 	byte buffer [QCA_PRESCALER_LENGTH];
 	byte * p = buffer;
-	if (lseek (pib->file, QCA_PRESCALER_OFFSET, SEEK_SET) != QCA_PRESCALER_OFFSET) 
+	if (lseek (pib->file, QCA_PRESCALER_OFFSET, SEEK_SET) != QCA_PRESCALER_OFFSET)
 	{
 		error (1, errno, FILE_CANTSEEK, pib->name);
 	}
-	if (read (pib->file, buffer, sizeof (buffer)) != sizeof (buffer)) 
+	if (read (pib->file, buffer, sizeof (buffer)) != sizeof (buffer))
 	{
 		error (1, errno, FILE_CANTREAD, pib->name);
 	}
-	
-	while (index < PLC_CARRIERS) 
+
+	while (index < PLC_CARRIERS)
 	{
 		printf ("%08d %08x\n", index++, *p++);
 	}
@@ -268,16 +268,16 @@ static void qca7x00Prescalers (struct _file_ * pib)
 
 
 /*====================================================================*
- *   
- *   int main (int argc, char const * argv []) 
- *   
+ *
+ *   int main (int argc, char const * argv [])
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"",
 		"pibfile [> scalers]",
@@ -288,9 +288,9 @@ int main (int argc, char const * argv [])
 	unsigned scalers;
 	signed c;
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch ((char) (c)) 
+		switch ((char) (c))
 		{
 		default:
 			break;
@@ -298,18 +298,18 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (argc > 1) 
+	if (argc > 1)
 	{
 		error (1, ENOTSUP, "Only one file is permitted");
 	}
-	if ((argc) && (* argv)) 
+	if ((argc) && (* argv))
 	{
 		pib.name = * argv;
-		if ((pib.file = open (pib.name, O_BINARY|O_RDONLY)) == -1) 
+		if ((pib.file = open (pib.name, O_BINARY|O_RDONLY)) == -1)
 		{
 			error (1, errno, "Can't open %s", pib.name);
 		}
-		if (pibfile (&pib)) 
+		if (pibfile (&pib))
 		{
 			error (1, errno, "Bad PIB file: %s", pib.name);
 		}
@@ -318,15 +318,15 @@ int main (int argc, char const * argv [])
 		{
 			qca7x00Prescalers (&pib);
 		}
-		else if (scalers == AMP_CARRIERS) 
+		else if (scalers == AMP_CARRIERS)
 		{
 			ar7x00Prescalers (&pib);
 		}
-		else if (scalers == INT_CARRIERS) 
+		else if (scalers == INT_CARRIERS)
 		{
 			int6x00Prescalers (&pib);
 		}
-		else 
+		else
 		{
 			error (1, ENOTSUP, "Unexpected number of carriers");
 		}

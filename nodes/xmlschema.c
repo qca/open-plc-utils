@@ -20,7 +20,7 @@
 #include "../nodes/node.h"
 #include "../tools/format.h"
 
-void xmlschema () 
+void xmlschema ()
 
 {
 	unsigned margin = 0;

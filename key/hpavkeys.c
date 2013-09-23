@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 #define _GETOPT_H
@@ -67,27 +67,27 @@
 #endif
 
 /*====================================================================*
- *   
+ *
  *   void generate (signed type, signed level, flag_t flags);
- *   
- *   read pass phrases from stdin, compute the digest for each and 
+ *
+ *   read pass phrases from stdin, compute the digest for each and
  *   print both on stdout; ignore illegal pass phrases;
  *
- *   a pass phrase consists of consecutive ASCII characters in the 
+ *   a pass phrase consists of consecutive ASCII characters in the
  *   range 0x20 through 0x7F; other characters are noise and serve
  *   to delimit the phrase; phrases less than HPAVKEY_PHRASE_MIN characters
  *   or more than HPAVKEY_PHRASE_MAX characters are also illegal;
  *
  *   effectively, each text line is a candidate phrase where spaces
  *   are legal and significant; tabs characters are illegal and act
- *   as line breaks; 
+ *   as line breaks;
  *
  *   detected errors are reported along with the input line number;
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-void generate (signed class, signed level, flag_t flags) 
+void generate (signed class, signed level, flag_t flags)
 
 {
 	uint8_t digest [SHA256_DIGEST_LENGTH];
@@ -95,11 +95,11 @@ void generate (signed class, signed level, flag_t flags)
 	char * sp = phrase;
 	unsigned line = 1;
 	signed c = getc (stdin);
-	while (c != EOF) 
+	while (c != EOF)
 	{
-		if (!isprint (c)) 
+		if (!isprint (c))
 		{
-			if (c == '\n') 
+			if (c == '\n')
 			{
 				line++;
 			}
@@ -107,46 +107,46 @@ void generate (signed class, signed level, flag_t flags)
 			continue;
 		}
 		sp = phrase;
-		while (isprint (c)) 
+		while (isprint (c))
 		{
-			if ((sp - phrase) < (signed)(sizeof (phrase) - 1)) 
+			if ((sp - phrase) < (signed)(sizeof (phrase) - 1))
 			{
 				*sp++ = c;
 			}
 			c = getc (stdin);
 		}
-		if ((c != '\r') && (c != '\n') && (c != EOF)) 
+		if ((c != '\r') && (c != '\n') && (c != EOF))
 		{
 			error (0, ENOTSUP, "Illegal characters on line %d", line);
 			continue;
 		}
 		*sp = (char)(0);
-		if (_anyset (flags, HPAVKEY_ENFORCE)) 
+		if (_anyset (flags, HPAVKEY_ENFORCE))
 		{
-			if ((sp - phrase) < HPAVKEY_PHRASE_MIN) 
+			if ((sp - phrase) < HPAVKEY_PHRASE_MIN)
 			{
 				error (0, ENOTSUP, "Less than %d characters on line %d", HPAVKEY_PHRASE_MIN, line);
 				continue;
 			}
-			if ((sp - phrase) > HPAVKEY_PHRASE_MAX) 
+			if ((sp - phrase) > HPAVKEY_PHRASE_MAX)
 			{
 				error (0, ENOTSUP, "More than %d characters on line %d", HPAVKEY_PHRASE_MAX, line);
 				continue;
 			}
 		}
-		if (class == HPAVKEY_DAK) 
+		if (class == HPAVKEY_DAK)
 		{
 			HPAVKeyDAK (digest, phrase);
 			HPAVKeyOut (digest, HPAVKEY_DAK_LEN, phrase, flags);
 			continue;
 		}
-		if (class == HPAVKEY_NMK) 
+		if (class == HPAVKEY_NMK)
 		{
 			HPAVKeyNMK (digest, phrase);
 			HPAVKeyOut (digest, HPAVKEY_NMK_LEN, phrase, flags);
 			continue;
 		}
-		if (class == HPAVKEY_NID) 
+		if (class == HPAVKEY_NID)
 		{
 			HPAVKeyNMK (digest, phrase);
 			HPAVKeyNID (digest, digest, level);
@@ -161,7 +161,7 @@ void generate (signed class, signed level, flag_t flags)
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, const char * argv []);
  *
  *
@@ -169,10 +169,10 @@ void generate (signed class, signed level, flag_t flags)
 
 #define DEFAULT_LEVEL 0
 
-int main (int argc, const char * argv []) 
+int main (int argc, const char * argv [])
 
 {
-	static const char * optv [] = 
+	static const char * optv [] =
 	{
 		"DeL:MNqv",
 		"file [file] [...]",
@@ -191,9 +191,9 @@ int main (int argc, const char * argv [])
 	signed level = DEFAULT_LEVEL;
 	signed c;
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch ((char) (c)) 
+		switch ((char) (c))
 		{
 		case 'D':
 			type = HPAVKEY_DAK;
@@ -222,17 +222,17 @@ int main (int argc, const char * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (!argc) 
+	if (!argc)
 	{
 		generate (type, level, flags);
 	}
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
-		if (!freopen (* argv, "r", stdin)) 
+		if (!freopen (* argv, "r", stdin))
 		{
 			error (0, errno, "%s", * argv);
 		}
-		else 
+		else
 		{
 			generate (type, level, flags);
 		}

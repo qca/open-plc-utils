@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -25,7 +25,7 @@
  *   the first section if an NVM file contains SDRAM parameters used
  *   by the bootloader;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit; 
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit;
  *:  Copyright (c) 2006-2010 by Intellon Corporation; ALL RIGHTS RESERVED;
  *;  For demonstration and evaluation only; Not for production use.
  *
@@ -51,7 +51,7 @@
 #include "../tools/flags.h"
 
 /*====================================================================*
- *   constants; 
+ *   constants;
  *--------------------------------------------------------------------*/
 
 #define SDRAM_SILENCE (1 << 0)
@@ -59,14 +59,14 @@
 #define SDRAM_BASENAME (1 << 2)
 
 /*====================================================================*
- *   variables; 
+ *   variables;
  *--------------------------------------------------------------------*/
 
 #ifndef __GNUC__
 #pragma pack (push,1)
 #endif
 
-typedef struct __packed config_ram 
+typedef struct __packed config_ram
 
 {
 	uint32_t SDRAMSIZE;
@@ -95,7 +95,7 @@ int sdramfile (int fd, char const *title, flag_t flags);
 int sdramfileA (int fd, char const *title, flag_t flags);
 
 /*====================================================================*
- *   
+ *
  *--------------------------------------------------------------------*/
 
 #endif

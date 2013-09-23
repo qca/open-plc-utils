@@ -1,21 +1,21 @@
 /*====================================================================*
  *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -85,7 +85,7 @@
 #define WEEDER_UNITS "BA"
 #define WEEDER_LEDS 5
 #define WEEDER_BITS 7
-#define WEEDER_WAIT 25 
+#define WEEDER_WAIT 25
 #define WEEDER_ECHO 0
 #define WEEDER_MODE 1
 
@@ -107,7 +107,7 @@
  *   program variables;
  *--------------------------------------------------------------------*/
 
-static struct _term_ const modes [] = 
+static struct _term_ const modes [] =
 
 {
 	{
@@ -130,24 +130,24 @@ static signed offset = 0;
  *   void function1 (struct _file_ * port, char const * units, unsigned wait, unsigned echo);
  *
  *   send echo command to Weeder Solid State Relay modules B then A;
- *   Standard Atheros relay modules were wired in reverse order for 
+ *   Standard Atheros relay modules were wired in reverse order for
  *   some reason;
  *
  *--------------------------------------------------------------------*/
 
-static void function1 (struct _file_ * port, char const * units, unsigned wait, unsigned echo) 
+static void function1 (struct _file_ * port, char const * units, unsigned wait, unsigned echo)
 
 {
 	extern char buffer [];
 	extern signed length;
-	while (*units) 
+	while (*units)
 	{
 		length = 0;
 		buffer [length++] = *units++;
 		buffer [length++] = 'X';
 		buffer [length++] = '0' + (echo & 1);
 		buffer [length++] = '\r';
-		if (write (port->file, buffer, length) != length) 
+		if (write (port->file, buffer, length) != length)
 		{
 			error (1, errno, FILE_CANTSAVE, port->name);
 		}
@@ -162,12 +162,12 @@ static void function1 (struct _file_ * port, char const * units, unsigned wait, 
  *   void function2 (struct _file_ * port, char const * units, unsigned wait, unsigned mode, unsigned data);
  *
  *   send write command to Weeder Solid State Relay modules B then A
- *   because Qualcomm Atheros relay modules are wired in reverse order 
+ *   because Qualcomm Atheros relay modules are wired in reverse order
  *   for some reason;
  *
  *--------------------------------------------------------------------*/
 
-static void function2 (struct _file_ * port, char const * units, unsigned wait, unsigned mode, unsigned data) 
+static void function2 (struct _file_ * port, char const * units, unsigned wait, unsigned mode, unsigned data)
 
 {
 	extern char buffer [WEEDER_BUFFER_LENGTH];
@@ -178,13 +178,13 @@ static void function2 (struct _file_ * port, char const * units, unsigned wait, 
 	buffer [length++] = '0' + (mode & 1);
 	buffer [length++] = '0';
 	buffer [length++] = '0';
-	while (length < WEEDER_BITS) 
+	while (length < WEEDER_BITS)
 	{
 		buffer [length++] = '0' + (data & 1);
 		data >>= 1;
 	}
 	buffer [length++] = '\r';
-	if (write (port->file, buffer, length) != length) 
+	if (write (port->file, buffer, length) != length)
 	{
 		error (1, errno, FILE_CANTSAVE, port->name);
 	}
@@ -192,13 +192,13 @@ static void function2 (struct _file_ * port, char const * units, unsigned wait, 
 	length = 0;
 	buffer [length++] = *units++;
 	buffer [length++] = 'W';
-	while (length < WEEDER_BITS) 
+	while (length < WEEDER_BITS)
 	{
 		buffer [length++] = '0' + (data & 1);
 		data >>= 1;
 	}
 	buffer [length++] = '\r';
-	if (write (port->file, buffer, length) != length) 
+	if (write (port->file, buffer, length) != length)
 	{
 		error (1, errno, FILE_CANTSAVE, port->name);
 	}
@@ -216,7 +216,7 @@ static void function2 (struct _file_ * port, char const * units, unsigned wait, 
  *
  *--------------------------------------------------------------------*/
 
-static void function3 (struct _file_ * port, char const * units, unsigned wait) 
+static void function3 (struct _file_ * port, char const * units, unsigned wait)
 
 {
 	extern char buffer [WEEDER_BUFFER_LENGTH];
@@ -225,26 +225,26 @@ static void function3 (struct _file_ * port, char const * units, unsigned wait)
 	extern signed offset;
 	unsigned number = 0;
 	memset (string, 0, sizeof (string));
-	for (offset = 0; *units; offset += WEEDER_LEDS) 
+	for (offset = 0; *units; offset += WEEDER_LEDS)
 	{
 		length = 0;
 		buffer [length++] = *units++;
 		buffer [length++] = 'R';
 		buffer [length++] = '\r';
-		if (write (port->file, buffer, length) != length) 
+		if (write (port->file, buffer, length) != length)
 		{
 			error (1, errno, FILE_CANTSAVE, port->name);
 		}
 		SLEEP (wait);
 		memset (buffer, 0, sizeof (buffer));
-		if (read (port->file, buffer, WEEDER_LEDS + 2) == -1) 
+		if (read (port->file, buffer, WEEDER_LEDS + 2) == -1)
 		{
 			error (1, errno, FILE_CANTREAD, port->name);
 		}
 		SLEEP (wait);
 		memcpy (&string [offset], &buffer [1], WEEDER_LEDS);
 	}
-	while (offset-- > 3) 
+	while (offset-- > 3)
 	{
 		number <<= 1;
 		number |= string [offset] - '0';
@@ -260,10 +260,10 @@ static void function3 (struct _file_ * port, char const * units, unsigned wait)
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"e:m:o:p:iqrvw:",
 		"",
@@ -278,7 +278,7 @@ int main (int argc, char const * argv [])
 		"w n\twait (n) millseconds [" LITERAL (WEEDER_WAIT) "]",
 		(char const *) (0)
 	};
-	struct _file_ port = 
+	struct _file_ port =
 	{
 		-1,
 		WEEDER_PORT
@@ -287,7 +287,7 @@ int main (int argc, char const * argv [])
 #if defined (WIN32)
 
 	HANDLE hSerial;
-	DCB dcbSerial = 
+	DCB dcbSerial =
 	{
 		0
 	};
@@ -306,13 +306,13 @@ int main (int argc, char const * argv [])
 	flag_t flags = (flag_t)(0);
 	signed c;
 	optind = 1;
-	if (getenv ("WEEDER")) 
+	if (getenv ("WEEDER"))
 	{
 		port.name = strdup (getenv ("WEEDER"));
 	}
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'e':
 			echo = (unsigned)(uintspec (synonym (optarg, modes, SIZEOF (modes)), 0, 1));
@@ -347,7 +347,7 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if ((argc) && (* argv)) 
+	if ((argc) && (* argv))
 	{
 		data = (unsigned)(uintspec (* argv, 0, 0x7F));
 	}
@@ -355,12 +355,12 @@ int main (int argc, char const * argv [])
 #if defined (WIN32)
 
 	hSerial = CreateFile (port.name, GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-	if (hSerial == INVALID_HANDLE_VALUE) 
+	if (hSerial == INVALID_HANDLE_VALUE)
 	{
 		error (1, errno, FILE_CANTOPEN, port.name);
 	}
 	dcbSerial.DCBlength = sizeof (dcbSerial);
-	if (!GetCommState (hSerial, &dcbSerial)) 
+	if (!GetCommState (hSerial, &dcbSerial))
 	{
 		error (1, 0, FILE_CANTREAD " state", port.name);
 	}
@@ -368,19 +368,19 @@ int main (int argc, char const * argv [])
 	dcbSerial.ByteSize = 8;
 	dcbSerial.StopBits = ONESTOPBIT;
 	dcbSerial.Parity = NOPARITY;
-	if (!SetCommState (hSerial, &dcbSerial)) 
+	if (!SetCommState (hSerial, &dcbSerial))
 	{
 		error (1, 0, FILE_CANTSAVE, port.name);
 	}
 	CloseHandle (hSerial);
-	if ((port.file = open (port.name, O_BINARY | O_RDWR)) == -1) 
+	if ((port.file = open (port.name, O_BINARY | O_RDWR)) == -1)
 	{
 		error (1, errno, FILE_CANTOPEN " state", port.name);
 	}
 
 #else
 
-	if ((port.file = open (port.name, O_RDWR|O_NOCTTY|O_NDELAY)) == -1) 
+	if ((port.file = open (port.name, O_RDWR|O_NOCTTY|O_NDELAY)) == -1)
 	{
 		error (1, 0, FILE_CANTOPEN, port.name);
 	}
@@ -392,11 +392,11 @@ int main (int argc, char const * argv [])
 #endif
 
 	function1 (&port, units, wait, echo);
-	if ((argc) && (* argv)) 
+	if ((argc) && (* argv))
 	{
 		function2 (&port, units, wait, mode, data);
 	}
-	if (_anyset (flags, WEEDER_DISPLAY)) 
+	if (_anyset (flags, WEEDER_DISPLAY))
 	{
 		function3 (&port, units, wait);
 	}

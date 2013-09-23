@@ -43,11 +43,11 @@
  *   numeric conversion strings;
  *--------------------------------------------------------------------*/
 
-#define DIGITS_BIN "01" 
-#define DIGITS_OCT "01234567" 
-#define DIGITS_DEC "0123456789" 
-#define DIGITS_HEX "0123456789ABCDEF" 
-#define DIGITS_ALL "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ" 
+#define DIGITS_BIN "01"
+#define DIGITS_OCT "01234567"
+#define DIGITS_DEC "0123456789"
+#define DIGITS_HEX "0123456789ABCDEF"
+#define DIGITS_ALL "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 /*====================================================================*
  *   numeric string extenders;

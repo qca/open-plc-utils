@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -24,8 +24,8 @@
  *
  *   mme.h
  *
- *   intercept and print Qualcomm Atheros vendor-specific VS_ARPC 
- *   messages on stdout; this message type is used for diagnostic 
+ *   intercept and print Qualcomm Atheros vendor-specific VS_ARPC
+ *   messages on stdout; this message type is used for diagnostic
  *   reporting and should not appear in released firmware;
  *
  *
@@ -41,11 +41,11 @@
 #include <memory.h>
 
 #include "../plc/plc.h"
-#include "../tools/memory.h" 
-#include "../tools/endian.h" 
+#include "../tools/memory.h"
+#include "../tools/endian.h"
 #include "../mme/mme.h"
 
-signed FirmwareMessage (void const * memory) 
+signed FirmwareMessage (void const * memory)
 
 {
 	const struct message * message = (const struct message *)(memory);
@@ -54,7 +54,7 @@ signed FirmwareMessage (void const * memory)
 #pragma pack (push,1)
 #endif
 
-	static struct qualcomm_std header_arpc = 
+	static struct qualcomm_std header_arpc =
 	{
 		0,
 		0,
@@ -64,7 +64,7 @@ signed FirmwareMessage (void const * memory)
 			0x52
 		}
 	};
-	struct __packed vs_arpc_indicate 
+	struct __packed vs_arpc_indicate
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -79,7 +79,7 @@ signed FirmwareMessage (void const * memory)
 #endif
 
 	header_arpc.MMTYPE = HTOLE16 (VS_ARPC | MMTYPE_IND);
-	if (!memcmp (&indicate->qualcomm, &header_arpc, sizeof (header_arpc))) 
+	if (!memcmp (&indicate->qualcomm, &header_arpc, sizeof (header_arpc)))
 	{
 		ARPCPrint (stderr, &indicate->RDATA [indicate->RDATAOFFSET], LE16TOH (indicate->RDATALENGTH) - indicate->RDATAOFFSET);
 		return (-1);

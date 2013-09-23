@@ -4,12 +4,12 @@
  *
  *   memory.h
  *
- *   encode a hexadecimal string into a fixed length memory region; 
+ *   encode a hexadecimal string into a fixed length memory region;
  *   return the number of bytes encoded or 0 on error; an error will
  *   occur of the entire region cannot be encoded or the entire
  *   string cannot be converted due to illegal or excessive digits;
  *
- *   permit an optional HEX_EXTENDER character between successive 
+ *   permit an optional HEX_EXTENDER character between successive
  *   octets; constant character HEX_EXTENDER is defined in number.h;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
@@ -27,24 +27,24 @@
 #include "../tools/memory.h"
 #include "../tools/number.h"
 
-size_t hexencode (void * memory, register size_t extent, register char const * string) 
+size_t hexencode (void * memory, register size_t extent, register char const * string)
 
 {
 	register byte * origin = (byte *)(memory);
 	register byte * offset = (byte *)(memory);
 	unsigned radix = RADIX_HEX;
 	unsigned digit = 0;
-	while ((extent) && (*string)) 
+	while ((extent) && (*string))
 	{
 		unsigned field = HEX_DIGITS;
 		unsigned value = 0;
-		if ((offset > origin) && (*string == HEX_EXTENDER)) 
+		if ((offset > origin) && (*string == HEX_EXTENDER))
 		{
 			string++;
 		}
-		while (field--) 
+		while (field--)
 		{
-			if ((digit = todigit (*string)) < radix) 
+			if ((digit = todigit (*string)) < radix)
 			{
 				value *= radix;
 				value += digit;
@@ -61,14 +61,14 @@ size_t hexencode (void * memory, register size_t extent, register char const * s
 
 #if defined (WIN32)
 
-	while (isspace (*string)) 
+	while (isspace (*string))
 	{
 		string++;
 	}
 
 #endif
 
-	if ((extent) || (*string)) 
+	if ((extent) || (*string))
 	{
 		errno = EINVAL;
 		return (0);

@@ -3,8 +3,8 @@
  *   size_t b64dump (void const * memory, size_t extent, size_t column, FILE *fp);
  *
  *   base64.h
- * 
- *   base64 encode a memory region and write to a text file; wrap 
+ *
+ *   base64 encode a memory region and write to a text file; wrap
  *   the output at a given column; do not wrap when column is 0;
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
@@ -22,17 +22,17 @@
 #include "../tools/base64.h"
 #include "../tools/types.h"
 
-void b64dump (void const * memory, size_t extent, size_t column, FILE *fp) 
+void b64dump (void const * memory, size_t extent, size_t column, FILE *fp)
 
 {
 	byte * offset = (byte *)(memory);
 	unsigned encode = 0;
-	while (extent) 
+	while (extent)
 	{
 		uint32_t word = 0;
 		unsigned byte = 0;
 		unsigned bits = BASE64_WORDSIZE - BASE64_BYTESIZE;
-		while ((bits) && (extent)) 
+		while ((bits) && (extent))
 		{
 			bits -= BASE64_BYTESIZE;
 			word |= *offset << bits;
@@ -40,23 +40,23 @@ void b64dump (void const * memory, size_t extent, size_t column, FILE *fp)
 			extent--;
 			byte++;
 		}
-		if (byte++) 
+		if (byte++)
 		{
 			bits = BASE64_WORDSIZE - BASE64_BYTESIZE;
-			while ((bits) && (byte)) 
+			while ((bits) && (byte))
 			{
 				bits -= BASE64_CHARSIZE;
 				putc (BASE64_CHARSET [(word >> bits) & BASE64_CHARMASK], fp);
 				byte--;
 				encode++;
 			}
-			while (bits) 
+			while (bits)
 			{
 				bits -= BASE64_CHARSIZE;
 				putc ('=', fp);
 				encode++;
 			}
-			if ((column) && !(encode%column)) 
+			if ((column) && !(encode%column))
 			{
 				putc ('\n', fp);
 			}

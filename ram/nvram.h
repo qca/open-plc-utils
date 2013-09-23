@@ -1,36 +1,36 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *
  *   nvnvm.h - nvram definitions and declarations;
  *
- *   The Boot ROM reads a linked list of NVM headers containing 
- *   information about the size, location and execution address 
+ *   The Boot ROM reads a linked list of NVM headers containing
+ *   information about the size, location and execution address
  *   of various software images;
  *
- *   See INT6300 Boot ROM Software Design Specification for more 
+ *   See INT6300 Boot ROM Software Design Specification for more
  *   information; the document may not be available to some
  *   customers so don't push it;
  *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit; 
+ *.  Qualcomm Atheros HomePlug AV Powerline Toolkit;
  *:  Copyright (c) 2006-2010 by Intellon Corporation; ALL RIGHTS RESERVED;
  *;  For demonstration and evaluation only; Not for production use.
  *
@@ -86,14 +86,14 @@
 #define NVRAM_SST25VF016B = 0x00004125;
 
 /*====================================================================*
- *   variables; 
+ *   variables;
  *--------------------------------------------------------------------*/
 
 #ifndef __GNUC__
 #pragma pack (push,1)
 #endif
 
-typedef struct __packed config_nvram 
+typedef struct __packed config_nvram
 
 {
 	uint32_t NVRAMTYPE;
@@ -116,7 +116,7 @@ void nvrampeek (struct config_nvram *);
 char const * NVRAMName (uint16_t nvramtype);
 
 /*====================================================================*
- *   
+ *
  *--------------------------------------------------------------------*/
 
 #endif

@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -26,7 +26,7 @@
  *   port->file; datatype struct _file_ is define in tools/types.h;
  *
  *   this function no longer initializes port settings because there
- *   are too many differences in constants, variables and functions 
+ *   are too many differences in constants, variables and functions
  *   between Linux, OpenBSD, MacOSX and Windows to cleanly implement
  *   a single approach to serial port configuration; this means that
  *   users should manually configure a port and then leave it alone;
@@ -70,7 +70,7 @@
 #include "../tools/error.h"
 #include "../serial/serial.h"
 
-void openport (struct _file_ * port, flag_t flags) 
+void openport (struct _file_ * port, flag_t flags)
 
 {
 
@@ -79,22 +79,22 @@ void openport (struct _file_ * port, flag_t flags)
 	HANDLE hSerial;
 	COMMTIMEOUTS timeouts;
 	hSerial = CreateFile (port->name, GENERIC_READ | GENERIC_WRITE, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
-	if (hSerial == INVALID_HANDLE_VALUE) 
+	if (hSerial == INVALID_HANDLE_VALUE)
 	{
 		error (1, errno, "%s", port->name);
 	}
-	if (_anyset (flags, UART_DEFAULT)) 
+	if (_anyset (flags, UART_DEFAULT))
 	{
-		DCB dcbSerial = 
+		DCB dcbSerial =
 		{
 			0
 		};
 		dcbSerial.DCBlength = sizeof (dcbSerial);
-		if (!GetCommState (hSerial, &dcbSerial)) 
+		if (!GetCommState (hSerial, &dcbSerial))
 		{
 			error (1, errno, "Can't read state: %s", port->name);
 		}
-		if (_anyset (flags, UART_VERBOSE)) 
+		if (_anyset (flags, UART_VERBOSE))
 		{
 			printf ("getting %s ", port->name);
 			printf ("Baud %6d ", dcbSerial.BaudRate);
@@ -106,7 +106,7 @@ void openport (struct _file_ * port, flag_t flags)
 		dcbSerial.ByteSize = DATABITS_8;
 		dcbSerial.StopBits = ONESTOPBIT;
 		dcbSerial.Parity = NOPARITY;
-		if (_anyset (flags, UART_VERBOSE)) 
+		if (_anyset (flags, UART_VERBOSE))
 		{
 			printf ("setting %s ", port->name);
 			printf ("Baud %6d ", dcbSerial.BaudRate);
@@ -114,7 +114,7 @@ void openport (struct _file_ * port, flag_t flags)
 			printf ("Stop %d ", dcbSerial.StopBits);
 			printf ("Parity %d\n", dcbSerial.Parity);
 		}
-		if (!SetCommState (hSerial, &dcbSerial)) 
+		if (!SetCommState (hSerial, &dcbSerial))
 		{
 			error (1, errno, "Can't save state: %s", port->name);
 		}
@@ -124,23 +124,23 @@ void openport (struct _file_ * port, flag_t flags)
 	timeouts.ReadTotalTimeoutMultiplier = 10;
 	timeouts.WriteTotalTimeoutConstant = 50;
 	timeouts.WriteTotalTimeoutMultiplier = 10;
-	if (!SetCommTimeouts (hSerial, &timeouts)) 
+	if (!SetCommTimeouts (hSerial, &timeouts))
 	{
 		error (1, errno, "Can't set timeouts: %s", port->name);
 	}
 	CloseHandle (hSerial);
-	if ((port->file = open (port->name, O_BINARY|O_RDWR)) == -1) 
+	if ((port->file = open (port->name, O_BINARY|O_RDWR)) == -1)
 	{
 		error (1, errno, "%s", port->name);
 	}
 
 #else
 
-	if ((port->file = open (port->name, O_BINARY|O_RDWR)) == -1) 
+	if ((port->file = open (port->name, O_BINARY|O_RDWR)) == -1)
 	{
 		error (1, errno, "%s", port->name);
 	}
-	if (_anyset (flags, UART_DEFAULT)) 
+	if (_anyset (flags, UART_DEFAULT))
 	{
 		struct termios termios;
 

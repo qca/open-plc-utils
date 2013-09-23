@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -74,10 +74,10 @@
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"",
 		"file [file] [...] [> stdout]",
@@ -89,7 +89,7 @@ int main (int argc, char const * argv [])
 #pragma pack (push, 1)
 #endif
 
-	struct __packed QoS 
+	struct __packed QoS
 	{
 		uint8_t UniCastPriority;
 		uint8_t McastPriority;
@@ -102,7 +102,7 @@ int main (int argc, char const * argv [])
 		uint16_t VLANPrioMatrix;
 		uint16_t TOSPrecMatrix;
 		uint8_t NumberOfConfigEntries;
-		struct 
+		struct
 		{
 			uint8_t one;
 			uint8_t two;
@@ -120,9 +120,9 @@ int main (int argc, char const * argv [])
 	file_t fd;
 	signed c;
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		default:
 			break;
@@ -130,35 +130,35 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
-		if ((fd = open (* argv, O_BINARY|O_RDONLY)) == -1) 
+		if ((fd = open (* argv, O_BINARY|O_RDONLY)) == -1)
 		{
 			error (0, errno, "Can't open %s", * argv);
 		}
-		else if (lseek (fd, OFFSET, SEEK_SET) != OFFSET) 
+		else if (lseek (fd, OFFSET, SEEK_SET) != OFFSET)
 		{
 			error (0, errno, "Can't seek %s", * argv);
 			close (fd);
 		}
-		else if (read (fd, &QoS, sizeof (QoS)) != sizeof (QoS)) 
+		else if (read (fd, &QoS, sizeof (QoS)) != sizeof (QoS))
 		{
 			error (0, errno, "Can't read %s", * argv);
 			close (fd);
 		}
-		else 
+		else
 		{
-			for (c = 0; c < 8; c++) 
+			for (c = 0; c < 8; c++)
 			{
 				unsigned VLAN = (QoS.VLANPrioMatrix >> (c * 2)) & 0x03;
 				unsigned TOS = (QoS.TOSPrecMatrix >> (c * 2)) & 0x03;
 				printf ("VLAN %d TOS %d\n", VLAN, TOS);
 			}
-			for (c = 0; c < 4; c++) 
+			for (c = 0; c < 4; c++)
 			{
 				printf ("TTL [%d]=%d\n", c, QoS.PriorityTTL [c]);
 			}
-			for (c = 0; c < 8; c++) 
+			for (c = 0; c < 8; c++)
 			{
 				printf ("AggregateConfigEntries [%d] %02x %02X\n", c, QoS.AggregateConfigEntries [c].one, QoS.AggregateConfigEntries [c].two);
 			}

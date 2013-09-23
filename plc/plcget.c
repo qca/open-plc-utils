@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*"
@@ -99,15 +99,15 @@
 #endif
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv[]);
- *   
- *   parse command line, populate plc structure and perform selected 
+ *
+ *   parse command line, populate plc structure and perform selected
  *   operations; show help summary if asked; see getoptv and putoptv
  *   to understand command line parsing and help summary display; see
- *   plc.h for the definition of struct plc; 
+ *   plc.h for the definition of struct plc;
  *
- *   the command line accepts multiple MAC addresses and the program 
+ *   the command line accepts multiple MAC addresses and the program
  *   performs the specified operations on each address, in turn; the
  *   address order is significant but the option order is not; the
  *   default address is a local broadcast that causes all devices on
@@ -118,19 +118,19 @@
  *   will automatically address the local device; some options will
  *   cancel themselves if this makes no sense;
  *
- *   the default interface is eth1 because most people use eth0 as 
- *   their principle network connection; you can specify another 
+ *   the default interface is eth1 because most people use eth0 as
+ *   their principle network connection; you can specify another
  *   interface with -i or define environment string PLC to make
  *   that the default interface and save typing;
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"abdehi:n:qs:t:v",
 		"device [device] [...]",
@@ -163,7 +163,7 @@ int main (int argc, char const * argv [])
 
 	struct plcproperty plcproperty;
 	signed c;
-	if (getenv (PLCDEVICE)) 
+	if (getenv (PLCDEVICE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -179,9 +179,9 @@ int main (int argc, char const * argv [])
 	}
 	optind = 1;
 	memset (&plcproperty, 0, sizeof (plcproperty));
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'a':
 			plcproperty.DATA_FORMAT = PLC_FORMAT_ASC;
@@ -212,13 +212,13 @@ int main (int argc, char const * argv [])
 
 			break;
 		case 'n':
-			if (!plcproperty.PROP_NUMBER) 
+			if (!plcproperty.PROP_NUMBER)
 			{
 				plcproperty.PROP_FORMAT = 1;
 				plcproperty.PROP_LENGTH = sizeof (uint32_t);
 				plcproperty.PROP_NUMBER = (uint32_t)(uintspec (optarg, 0, UINT_MAX));
 			}
-			else 
+			else
 			{
 				plcproperty.PROP_VERSION = (uint32_t)(uintspec (optarg, 0, UINT_MAX));
 			}
@@ -244,17 +244,17 @@ int main (int argc, char const * argv [])
 	argc -= optind;
 	argv += optind;
 	openchannel (&channel);
-	if (!(plc.message = malloc (sizeof (* plc.message)))) 
+	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);
 	}
-	if (!argc) 
+	if (!argc)
 	{
 		GetProperty (&plc, &plcproperty);
 	}
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
-		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices)))) 
+		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices))))
 		{
 			error (1, errno, PLC_BAD_MAC, * argv);
 		}

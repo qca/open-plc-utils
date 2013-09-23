@@ -1,26 +1,26 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *
- *   int6kid.c - Atheros Powerline Device Identity 
+ *   int6kid.c - Atheros Powerline Device Identity
  *
  *
  *   Contributor(s):
@@ -116,19 +116,19 @@
 /*====================================================================*
  *
  *   void ReadKey1 (struct channel * channel, unsigned c, int key);
- *   
- *   read the first block of the PIB from a device then echo one of 
- *   several parameters on stdout as a string; program output can be 
+ *
+ *   read the first block of the PIB from a device then echo one of
+ *   several parameters on stdout as a string; program output can be
  *   used in scripts to define variables or compare strings;
  *
  *   this function is an abridged version of ReadParameters(); it reads only
  *   the first 1024 bytes of the PIB then stops; most parameters of
  *   general interest occur in that block;
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-static void ReadKey1 (struct channel * channel, unsigned c, int key) 
+static void ReadKey1 (struct channel * channel, unsigned c, int key)
 
 {
 	struct message message;
@@ -139,7 +139,7 @@ static void ReadKey1 (struct channel * channel, unsigned c, int key)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_rd_mod_request 
+	struct __packed vs_rd_mod_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -150,7 +150,7 @@ static void ReadKey1 (struct channel * channel, unsigned c, int key)
 		uint8_t DAK [16];
 	}
 	* request = (struct vs_rd_mod_request *)(&message);
-	struct __packed vs_rd_mod_confirm 
+	struct __packed vs_rd_mod_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -175,60 +175,60 @@ static void ReadKey1 (struct channel * channel, unsigned c, int key)
 	request->MODULEID = VS_MODULE_PIB;
 	request->MLENGTH = HTOLE16 (PLC_RECORD_SIZE);
 	request->MOFFSET = HTOLE32 (0);
-	if (sendpacket (channel, &message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) < 0) 
+	if (sendpacket (channel, &message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) < 0)
 	{
 		error (1, errno, CHANNEL_CANTSEND);
 	}
-	while ((packetsize = readpacket (channel, &message, sizeof (message))) > 0) 
+	while ((packetsize = readpacket (channel, &message, sizeof (message))) > 0)
 	{
-		if (UnwantedMessage (&message, packetsize, 0, (VS_RD_MOD | MMTYPE_CNF))) 
+		if (UnwantedMessage (&message, packetsize, 0, (VS_RD_MOD | MMTYPE_CNF)))
 		{
 			continue;
 		}
-		if (confirm->MSTATUS) 
+		if (confirm->MSTATUS)
 		{
 			error (0, 0, "%s (%0X): ", MMECode (confirm->qualcomm.MMTYPE, confirm->MSTATUS), confirm->MSTATUS);
 			continue;
 		}
-		if (count++ > 0) 
+		if (count++ > 0)
 		{
 			putc (c, stdout);
 		}
-		if (key == INT6KID_MAC) 
+		if (key == INT6KID_MAC)
 		{
 			hexout (confirm->pib.MAC, sizeof (confirm->pib.MAC), HEX_EXTENDER, 0, stdout);
 			continue;
 		}
-		if (key == INT6KID_DAK) 
+		if (key == INT6KID_DAK)
 		{
 			hexout (confirm->pib.DAK, sizeof (confirm->pib.DAK), HEX_EXTENDER, 0, stdout);
 			continue;
 		}
-		if (key == INT6KID_NMK) 
+		if (key == INT6KID_NMK)
 		{
 			hexout (confirm->pib.NMK, sizeof (confirm->pib.NMK), HEX_EXTENDER, 0, stdout);
 			continue;
 		}
-		if (key == INT6KID_MFG) 
+		if (key == INT6KID_MFG)
 		{
 			confirm->pib.MFG [PIB_HFID_LEN - 1] = (char)(0);
 			printf ("%s", confirm->pib.MFG);
 			continue;
 		}
-		if (key == INT6KID_USR) 
+		if (key == INT6KID_USR)
 		{
 			confirm->pib.USR [PIB_HFID_LEN - 1] = (char)(0);
 			printf ("%s", confirm->pib.USR);
 			continue;
 		}
-		if (key == INT6KID_NET) 
+		if (key == INT6KID_NET)
 		{
 			confirm->pib.NET [PIB_HFID_LEN - 1] = (char)(0);
 			printf ("%s", confirm->pib.NET);
 			continue;
 		}
 	}
-	if (packetsize < 0) 
+	if (packetsize < 0)
 	{
 		error (1, errno, CHANNEL_CANTREAD);
 	}
@@ -239,16 +239,16 @@ static void ReadKey1 (struct channel * channel, unsigned c, int key)
 /*====================================================================*
  *
  *   int main (int argc, char const * argv []);
- *   
- *   
+ *
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"Ac:Dei:MnNqSUv",
 		"device",
@@ -281,7 +281,7 @@ int main (int argc, char const * argv [])
 	signed key = INT6KID_DAK;
 	flag_t flags = (flag_t)(0);
 	signed c;
-	if (getenv (PLCDEVICE)) 
+	if (getenv (PLCDEVICE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -296,9 +296,9 @@ int main (int argc, char const * argv [])
 
 	}
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'A':
 			key = INT6KID_MAC;
@@ -355,22 +355,22 @@ int main (int argc, char const * argv [])
 	argc -= optind;
 	argv += optind;
 	openchannel (&channel);
-	if (!argc) 
+	if (!argc)
 	{
 		ReadKey1 (&channel, newline, key);
-		if (_anyset (flags, INT6KID_NEWLINE)) 
+		if (_anyset (flags, INT6KID_NEWLINE))
 		{
 			putc (newline, stdout);
 		}
 	}
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
-		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices)))) 
+		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices))))
 		{
 			error (1, errno, PLC_BAD_MAC, * argv);
 		}
 		ReadKey1 (&channel, newline, key);
-		if (_anyset (flags, INT6KID_NEWLINE)) 
+		if (_anyset (flags, INT6KID_NEWLINE))
 		{
 			putc (newline, stdout);
 		}

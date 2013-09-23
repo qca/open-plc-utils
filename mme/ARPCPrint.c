@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -26,7 +26,7 @@
  *
  *   print formatted VS_ARPC payload on the specified output stream;
  *   this implementation is generic; memory is the start address of
- *   the message data (&RDATA [RDATAOFFSET]) and extent is the data 
+ *   the message data (&RDATA [RDATAOFFSET]) and extent is the data
  *   length (RDATALENGTH); the call might look like this ...
  *
  *   ARPCPrint (fp, &ARPC->RDATA [ARPC->RDATAOFFSET], LE16TOH (ARPC->RDATALENGTH) - ARPC->RDATAOFFSET);
@@ -52,7 +52,7 @@
 #include "../tools/memory.h"
 #include "../mme/mme.h"
 
-void ARPCPrint (FILE * fp, void const * memory, size_t extent) 
+void ARPCPrint (FILE * fp, void const * memory, size_t extent)
 
 {
 
@@ -60,7 +60,7 @@ void ARPCPrint (FILE * fp, void const * memory, size_t extent)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_arpc_data 
+	struct __packed vs_arpc_data
 	{
 		uint32_t BYPASS;
 		uint16_t ARPCID;
@@ -81,13 +81,13 @@ void ARPCPrint (FILE * fp, void const * memory, size_t extent)
 
 	uint32_t * argp = (uint32_t *)(&data->LIST [LE16TOH (data->ARGOFFSET)]);
 	uint16_t argc = LE16TOH (data->ARGLENGTH) >> 2;
-	while (argc--) 
+	while (argc--)
 	{
 		*argp = LE32TOH (*argp);
 		argp++;
 	}
 
-#if defined (__UCLIBC__) || defined (__FREESCALE__) 
+#if defined (__UCLIBC__) || defined (__FREESCALE__)
 
 /*
  *	This is a temporary fix so that we can compile program plctest for the PL16; A better solution is needed;

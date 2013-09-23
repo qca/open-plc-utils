@@ -1,35 +1,35 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *
  *   signed Attributes1 (struct plc * plc);
- *   
+ *
  *   plc.h
  *
  *   This plugin for program plc requests device attributes using
  *   a VS_OP_ATTRIBUTES message; attributes are pre-parsed versions
- *   of information returned by VS_SW_VER and other messages; 
- * 
+ *   of information returned by VS_SW_VER and other messages;
+ *
  *   The VS_OP_ATTRIBUTES message structure changed between FW 3.3.4
- *   and 3.3.5 and fields are ocassionally appended to the end; you  
+ *   and 3.3.5 and fields are ocassionally appended to the end; you
  *   should not use this message for operational systems because the
  *   format may change again; it was originally intended for PTS use
  *   only;
@@ -56,7 +56,7 @@
 #define snprintf _snprintf
 #endif
 
-signed Attributes1 (struct plc * plc) 
+signed Attributes1 (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -66,7 +66,7 @@ signed Attributes1 (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_op_attributes_request 
+	struct __packed vs_op_attributes_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -74,7 +74,7 @@ signed Attributes1 (struct plc * plc)
 		uint8_t RTYPE;
 	}
 	* request = (struct vs_op_attributes_request *) (message);
-	struct __packed vs_op_attributes_confirm 
+	struct __packed vs_op_attributes_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -85,7 +85,7 @@ signed Attributes1 (struct plc * plc)
 		uint8_t MBUFFER [1024];
 	}
 	* confirm = (struct vs_op_attributes_confirm *) (message);
-	struct __packed attributes 
+	struct __packed attributes
 	{
 		uint8_t HARDWARE [16];
 		uint8_t SOFTWARE [16];
@@ -111,20 +111,20 @@ signed Attributes1 (struct plc * plc)
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	request->COOKIE = HTOLE32 (plc->cookie);
 	request->RTYPE = 0;
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	while (ReadMME (plc, 0, (VS_OP_ATTRIBUTES | MMTYPE_CNF)) > 0) 
+	while (ReadMME (plc, 0, (VS_OP_ATTRIBUTES | MMTYPE_CNF)) > 0)
 	{
-		static char const * frequency [] = 
+		static char const * frequency [] =
 		{
 			"Unknown frequency",
 			"50Hz",
 			"60Hz",
 		};
-		static char const * zero_cross [] = 
+		static char const * zero_cross [] =
 		{
 			"Not yet detected",
 			"Detected",
@@ -132,7 +132,7 @@ signed Attributes1 (struct plc * plc)
 		};
 		char string [512];
 		size_t length = 0;
-		if (confirm->MSTATUS) 
+		if (confirm->MSTATUS)
 		{
 			Failure (plc, PLC_WONTDOIT);
 			continue;

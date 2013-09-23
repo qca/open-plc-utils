@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 #ifndef IDENTITY2_SOURCE
@@ -40,54 +40,54 @@
  *   search panther/lynx image chain for the next PIB image; print
  *   information on stdout and return;
  *
- *   
+ *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-static signed pibchain2 (void const * memory, char const * filename, flag_t flags) 
+static signed pibchain2 (void const * memory, char const * filename, flag_t flags)
 
 {
 	struct nvm_header2 * nvm_header;
 	uint32_t origin = ~0;
 	uint32_t offset = 0;
 	signed module = 0;
-	do 
+	do
 	{
 		nvm_header = (struct nvm_header2 *)((char *)(memory) + offset);
-		if (LE16TOH (nvm_header->MajorVersion) != 1) 
+		if (LE16TOH (nvm_header->MajorVersion) != 1)
 		{
-			if (_allclr (flags, NVM_SILENCE)) 
+			if (_allclr (flags, NVM_SILENCE))
 			{
 				error (0, errno, NVM_HDR_VERSION, filename, module);
 			}
 			return (-1);
 		}
-		if (LE16TOH (nvm_header->MinorVersion) != 1) 
+		if (LE16TOH (nvm_header->MinorVersion) != 1)
 		{
-			if (_allclr (flags, NVM_SILENCE)) 
+			if (_allclr (flags, NVM_SILENCE))
 			{
 				error (0, errno, NVM_HDR_VERSION, filename, module);
 			}
 			return (-1);
 		}
-		if (LE32TOH (nvm_header->PrevHeader) != origin) 
+		if (LE32TOH (nvm_header->PrevHeader) != origin)
 		{
-			if (_allclr (flags, NVM_SILENCE)) 
+			if (_allclr (flags, NVM_SILENCE))
 			{
 				error (0, errno, NVM_HDR_LINK, filename, module);
 			}
 			return (-1);
 		}
-		if (checksum32 (nvm_header, sizeof (* nvm_header), 0)) 
+		if (checksum32 (nvm_header, sizeof (* nvm_header), 0))
 		{
 			error (0, 0, NVM_HDR_CHECKSUM, filename, module);
 			return (-1);
 		}
 		origin = offset;
 		offset += sizeof (* nvm_header);
-		if (LE32TOH (nvm_header->ImageType) == NVM_IMAGE_PIB) 
+		if (LE32TOH (nvm_header->ImageType) == NVM_IMAGE_PIB)
 		{
 			struct pib_header * pib_header = (struct pib_header *)((char *)(memory) + offset);
 			pib_header->PIBLENGTH = HTOLE16((uint16_t)(LE32TOH(nvm_header->ImageLength)));
@@ -95,9 +95,9 @@ static signed pibchain2 (void const * memory, char const * filename, flag_t flag
 			pib_header->PIBLENGTH = 0;
 			break;
 		}
-		if (checksum32 ((char *)(memory) + offset, LE32TOH (nvm_header->ImageLength), nvm_header->ImageChecksum)) 
+		if (checksum32 ((char *)(memory) + offset, LE32TOH (nvm_header->ImageLength), nvm_header->ImageChecksum))
 		{
-			if (_allclr (flags, NVM_SILENCE)) 
+			if (_allclr (flags, NVM_SILENCE))
 			{
 				error (0, errno, NVM_IMG_CHECKSUM, filename, module);
 			}
@@ -112,13 +112,13 @@ static signed pibchain2 (void const * memory, char const * filename, flag_t flag
 
 
 /*====================================================================*
- *   
+ *
  *   signed Identity2 (struct plc * plc);
- *   
+ *
  *   plc.h
- *   
- *   read start of parameter chain from flash memory using single 
- *   VS_MODULE_OPERATION message and print identity information on 
+ *
+ *   read start of parameter chain from flash memory using single
+ *   VS_MODULE_OPERATION message and print identity information on
  *   stdout;
  *
  *
@@ -127,7 +127,7 @@ static signed pibchain2 (void const * memory, char const * filename, flag_t flag
  *
  *--------------------------------------------------------------------*/
 
-signed Identity2 (struct plc * plc) 
+signed Identity2 (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -137,13 +137,13 @@ signed Identity2 (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_module_operation_read_request 
+	struct __packed vs_module_operation_read_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
 		uint32_t RESERVED;
 		uint8_t NUM_OP_DATA;
-		struct __packed 
+		struct __packed
 		{
 			uint16_t MOD_OP;
 			uint16_t MOD_OP_DATA_LEN;
@@ -156,7 +156,7 @@ signed Identity2 (struct plc * plc)
 		MODULE_SPEC;
 	}
 	* request = (struct vs_module_operation_read_request *)(message);
-	struct __packed vs_module_operation_read_confirm 
+	struct __packed vs_module_operation_read_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -164,7 +164,7 @@ signed Identity2 (struct plc * plc)
 		uint16_t ERR_REC_CODE;
 		uint32_t RESERVED;
 		uint8_t NUM_OP_DATA;
-		struct __packed 
+		struct __packed
 		{
 			uint16_t MOD_OP;
 			uint16_t MOD_OP_DATA_LEN;
@@ -195,17 +195,17 @@ signed Identity2 (struct plc * plc)
 	request->MODULE_SPEC.MODULE_SUB_ID = HTOLE16 (0);
 	request->MODULE_SPEC.MODULE_LENGTH = HTOLE16 (PLC_MODULE_SIZE);
 	request->MODULE_SPEC.MODULE_OFFSET = HTOLE32 (0);
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0) 
+	if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 		return (-1);
 	}
-	if (confirm->MSTATUS) 
+	if (confirm->MSTATUS)
 	{
 		Failure (plc, PLC_WONTDOIT);
 		return (-1);

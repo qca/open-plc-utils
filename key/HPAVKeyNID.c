@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -23,18 +23,18 @@
  *   void HPAVKeyNID (uint8_t NID [], const uint8_t NMK [], signed level);
  *
  *   HPAVKey.h
- *   
+ *
  *   compute the HomePlugAV compliant Network Identification Key (NID)
  *   for a given Network Membership Key (NMK); return the key in buffer
- *   NID []; the key will be HPAVKEY_NID_LEN bytes as defined in 
+ *   NID []; the key will be HPAVKEY_NID_LEN bytes as defined in
  *   HPAVKey.h;
  *
- *   unlike the NMK, the NID is 54-bits and includes a 2-bit security 
+ *   unlike the NMK, the NID is 54-bits and includes a 2-bit security
  *   level; See the HomePlug AV Specification for more info;
  *
  *   hash the NMK then rehash the digest 4 times per HomePlug AV
  *   Specification; no salt is used;
- *   
+ *
  *
  *   Contributor(s);
  *	Charles Maier <cmaier@qca.qualcomm.com>
@@ -49,7 +49,7 @@
 #include "../key/HPAVKey.h"
 #include "../key/SHA256.h"
 
-void HPAVKeyNID (uint8_t NID [], const uint8_t NMK [], uint8_t level) 
+void HPAVKeyNID (uint8_t NID [], const uint8_t NMK [], uint8_t level)
 
 {
 	struct sha256 sha256;
@@ -58,7 +58,7 @@ void HPAVKeyNID (uint8_t NID [], const uint8_t NMK [], uint8_t level)
 	SHA256Reset (&sha256);
 	SHA256Write (&sha256, NMK, HPAVKEY_NMK_LEN);
 	SHA256Fetch (&sha256, digest);
-	while (rehash--) 
+	while (rehash--)
 	{
 		SHA256Reset (&sha256);
 		SHA256Write (&sha256, digest, sizeof (digest));

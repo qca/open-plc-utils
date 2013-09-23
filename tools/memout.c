@@ -1,6 +1,6 @@
 /*====================================================================*
  *
- *   void memout (void const  * memory, size_t extent, char const * format, unsigned group, char c, char e, FILE * fp) 
+ *   void memout (void const  * memory, size_t extent, char const * format, unsigned group, char c, char e, FILE * fp)
  *
  *   memory.h
  *
@@ -13,7 +13,7 @@
  *
  *   another example, memout (memory, IPv6_LEN, "%02x", 2, ':', stdout) would print:
  *
- *     0032:0045:0000:0000:0000:0000:1123:4456 
+ *     0032:0045:0000:0000:0000:0000:1123:4456
  *
  *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
@@ -32,22 +32,22 @@
 
 #include "../tools/memory.h"
 
-void memout (void const * memory, size_t extent, char const * format, unsigned group, char c, char e, FILE * fp) 
+void memout (void const * memory, size_t extent, char const * format, unsigned group, char c, char e, FILE * fp)
 
 {
 	byte * origin = (byte *) (memory);
 	byte * offset = (byte *) (memory);
-	while (extent--) 
+	while (extent--)
 	{
 		ptrdiff_t count = (offset - origin) + 1;
 		fprintf (fp, format, * offset);
-		if ((count % group) == 0 && extent) 
+		if ((count % group) == 0 && extent)
 		{
 			putc (c, fp);
 		}
 		offset++;
 	}
-	if (e) 
+	if (e)
 	{
 		putc (c, fp);
 	}

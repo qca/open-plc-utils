@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -28,7 +28,7 @@
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *   system header files;  
+ *   system header files;
  *--------------------------------------------------------------------*/
 
 #include <sys/time.h>
@@ -43,7 +43,7 @@
 #include <termios.h>
 
 /*====================================================================*
- *   custom header files;  
+ *   custom header files;
  *--------------------------------------------------------------------*/
 
 #include "../tools/error.h"
@@ -54,7 +54,7 @@
 #include "../serial/serial.h"
 
 /*====================================================================*
- *   custom source files;  
+ *   custom source files;
  *--------------------------------------------------------------------*/
 
 #ifndef MAKEFILE
@@ -71,12 +71,12 @@
 #endif
 
 /*====================================================================*
- *   program constants;    
+ *   program constants;
  *--------------------------------------------------------------------*/
 
 #define SERIAL_PORT "/dev/ttyS0"
 
-void ttysend (int ifd, int ofd, size_t time, size_t chunk_size) 
+void ttysend (int ifd, int ofd, size_t time, size_t chunk_size)
 
 {
 	char *buf;
@@ -88,30 +88,30 @@ void ttysend (int ifd, int ofd, size_t time, size_t chunk_size)
 	tv_result;
 	buf = malloc (chunk_size);
 	if (buf == NULL) error (1, errno, "could not allocate memory");
-	if (ifd == -1) 
+	if (ifd == -1)
 	{
 		unsigned i;
 		for (i = 0; i < chunk_size; ++i) buf [i] = i % 256;
 	}
 	if (gettimeofday (&tv_start, NULL) == -1) error (1, errno, "could not get time");
-	do 
+	do
 	{
-		if (ifd == -1) 
+		if (ifd == -1)
 		{
 			r = chunk_size;
 		}
-		else 
+		else
 		{
 			r = read (ifd, buf, chunk_size);
 			if (r == -1) error (1, errno, "could not read");
-			if (r == 0) 
+			if (r == 0)
 			{
 				free (buf);
 				return;
 			}
 		}
 		p = buf;
-		while (r) 
+		while (r)
 		{
 			w = write (ofd, p, r);
 			if (w == -1) error (1, errno, "could not write");
@@ -125,10 +125,10 @@ void ttysend (int ifd, int ofd, size_t time, size_t chunk_size)
 	free (buf);
 }
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"f:l:s:t:qv",
 		"",
@@ -145,7 +145,7 @@ int main (int argc, char const * argv [])
 	signed c;
 	optind = 1;
 	char const *line = SERIAL_PORT;
-	struct _file_ file = 
+	struct _file_ file =
 	{
 		-1,
 		NULL
@@ -154,14 +154,14 @@ int main (int argc, char const * argv [])
 	size_t time = 15;
 	size_t chunk_size = 256;
 	struct termios termios;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch ((char) (c)) 
+		switch ((char) (c))
 		{
 		case 'f':
 			file.name = optarg;
 			if (!strcmp (file.name, "-")) file.file = STDIN_FILENO;
-			else 
+			else
 			{
 				file.file = open (file.name, O_BINARY | O_RDONLY);
 				if (file.file == -1) error (1, errno, "could not open %s", file.name);

@@ -23,11 +23,11 @@
 
 #include "../tools/error.h"
 
-void * emalloc (size_t length) 
+void * emalloc (size_t length)
 
 {
 	void * memory = malloc (length);
-	if (!memory) 
+	if (!memory)
 	{
 		error (1, errno, "need %lu bytes", (long)(length));
 	}

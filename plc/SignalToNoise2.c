@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -45,7 +45,7 @@
 
 #ifndef TONEMAPS2_SOURCE
 
-static uint8_t const mod2bits [AMP_BITS] = 
+static uint8_t const mod2bits [AMP_BITS] =
 
 {
 	0,
@@ -64,7 +64,7 @@ static uint8_t const mod2bits [AMP_BITS] =
 
 #ifndef TONEMAPS2_SOURCE
 
-static uint8_t const mod2db [AMP_BITS] = 
+static uint8_t const mod2db [AMP_BITS] =
 
 {
 	0,
@@ -81,7 +81,7 @@ static uint8_t const mod2db [AMP_BITS] =
 
 #endif
 
-signed SignalToNoise2 (struct plc * plc) 
+signed SignalToNoise2 (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -104,7 +104,7 @@ signed SignalToNoise2 (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_rx_tone_map_char_request 
+	struct __packed vs_rx_tone_map_char_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_fmi qualcomm;
@@ -115,7 +115,7 @@ signed SignalToNoise2 (struct plc * plc)
 		uint8_t COUPLING;
 	}
 	* request = (struct vs_rx_tone_map_char_request *) (message);
-	struct __packed vs_rx_tonemap_char_confirm 
+	struct __packed vs_rx_tonemap_char_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_fmi qualcomm;
@@ -138,7 +138,7 @@ signed SignalToNoise2 (struct plc * plc)
 		uint8_t MOD_CARRIER [1];
 	}
 	* confirm = (struct vs_rx_tonemap_char_confirm *) (message);
-	struct __packed vs_rx_tonemap_char_fragment 
+	struct __packed vs_rx_tonemap_char_fragment
 	{
 		struct ethernet_std ethernet;
 		struct homeplug_fmi qualcomm;
@@ -151,7 +151,7 @@ signed SignalToNoise2 (struct plc * plc)
 #endif
 
 	memset (tonemap, 0, sizeof (tonemap));
-	for (carrier = slot = 0; slot < slots; carrier = 0, slot++) 
+	for (carrier = slot = 0; slot < slots; carrier = 0, slot++)
 	{
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
@@ -160,17 +160,17 @@ signed SignalToNoise2 (struct plc * plc)
 		request->TMSLOT = slot;
 		request->COUPLING = plc->coupling;
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
-		if (SendMME (plc) <= 0) 
+		if (SendMME (plc) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		if (ReadMME (plc, 1, (VS_RX_TONE_MAP_CHAR | MMTYPE_CNF)) <= 0) 
+		if (ReadMME (plc, 1, (VS_RX_TONE_MAP_CHAR | MMTYPE_CNF)) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
-		if (confirm->MSTATUS) 
+		if (confirm->MSTATUS)
 		{
 			error (1, 0, "Device refused request for slot %d: %s", slot, MMECode (VS_RX_TONE_MAP_CHAR | MMTYPE_CNF, confirm->MSTATUS));
 		}
@@ -179,28 +179,28 @@ signed SignalToNoise2 (struct plc * plc)
 		carriers = LE16TOH (confirm->TMNUMACTCARRIERS);
 		slots = confirm->NUMTMS;
 		extent = LE16TOH (confirm->MME_LEN) - 22;
-		if (extent > (AMP_CARRIERS >> 1)) 
+		if (extent > (AMP_CARRIERS >> 1))
 		{
 			error (1, EOVERFLOW, "Too many carriers");
 		}
 		plc->packetsize -= sizeof (struct vs_rx_tonemap_char_confirm);
 		plc->packetsize += sizeof (confirm->MOD_CARRIER);
-		if (plc->packetsize > extent) 
+		if (plc->packetsize > extent)
 		{
 			plc->packetsize = extent;
 		}
 		memcpy (&tonemap [slot] [carrier], &confirm->MOD_CARRIER, plc->packetsize);
 		carrier += plc->packetsize;
 		extent -= plc->packetsize;
-		while (extent) 
+		while (extent)
 		{
-			if (ReadMME (plc, 1, (VS_RX_TONE_MAP_CHAR | MMTYPE_CNF)) <= 0) 
+			if (ReadMME (plc, 1, (VS_RX_TONE_MAP_CHAR | MMTYPE_CNF)) <= 0)
 			{
 				error (1, errno, CHANNEL_CANTREAD);
 			}
 			plc->packetsize -= sizeof (struct vs_rx_tonemap_char_fragment);
 			plc->packetsize += sizeof (fragment->MOD_CARRIER);
-			if (plc->packetsize > extent) 
+			if (plc->packetsize > extent)
 			{
 				plc->packetsize = extent;
 			}
@@ -219,21 +219,21 @@ signed SignalToNoise2 (struct plc * plc)
 	memset (SNR, 0, sizeof (SNR));
 	AvgBPC = 0;
 	AvgSNR = 0;
-	while (carrier < INT_CARRIERS) 
+	while (carrier < INT_CARRIERS)
 	{
 		unsigned value = 0;
 		unsigned scale = 0;
 		unsigned index = carrier >> 1;
 		printf ("%04d", carrier);
-		for (slot = 0; slot < slots; slot++) 
+		for (slot = 0; slot < slots; slot++)
 		{
 			value = tonemap [slot][index];
-			if ((carrier & 1)) 
+			if ((carrier & 1))
 			{
 				value >>= 4;
 			}
 			value &= 0x0F;
-			if (value > (AMP_BITS-1)) 
+			if (value > (AMP_BITS-1))
 			{
 				error (0, EINVAL, "Index %d Slot %d Value %d", carrier, slot, value);
 			}
@@ -245,13 +245,13 @@ signed SignalToNoise2 (struct plc * plc)
 			value *= value;
 			scale += value;
 		}
-		if (_anyset (plc->flags, PLC_GRAPH)) 
+		if (_anyset (plc->flags, PLC_GRAPH))
 		{
 			printf (" %03d ", scale);
-			if (scale) 
+			if (scale)
 			{
 				scale /= slots;
-				while (scale--) 
+				while (scale--)
 				{
 					printf ("#");
 				}
@@ -266,21 +266,21 @@ signed SignalToNoise2 (struct plc * plc)
 	AvgSNR /= active;
 	AvgSNR /= slots;
 	printf (" SNR");
-	for (slot = 0; slot < slots; slot++) 
+	for (slot = 0; slot < slots; slot++)
 	{
 		printf (",%8.3f", (float)(SNR [slot]) / active);
 	}
 	printf (",%8.3f", AvgSNR);
 	printf (" \n");
 	printf (" ATN");
-	for (slot = 0; slot < slots; slot++) 
+	for (slot = 0; slot < slots; slot++)
 	{
 		printf (",%8.3f", (float)(SNR [slot]) / active - 60);
 	}
 	printf (",%8.3f", AvgSNR - 60);
 	printf (" \n");
 	printf (" BPC");
-	for (slot = 0; slot < slots; slot++) 
+	for (slot = 0; slot < slots; slot++)
 	{
 		printf (",%8.3f", (float)(BPC [slot]) / active);
 	}
@@ -295,21 +295,21 @@ signed SignalToNoise2 (struct plc * plc)
 	memset (SNR, 0, sizeof (SNR));
 	AvgBPC = 0;
 	AvgSNR = 0;
-	while (carrier < carriers) 
+	while (carrier < carriers)
 	{
 		unsigned value = 0;
 		unsigned scale = 0;
 		unsigned index = carrier >> 1;
 		printf ("%04d", carrier);
-		for (slot = 0; slot < slots; slot++) 
+		for (slot = 0; slot < slots; slot++)
 		{
 			value = tonemap [slot][index];
-			if ((carrier & 1)) 
+			if ((carrier & 1))
 			{
 				value >>= 4;
 			}
 			value &= 0x0F;
-			if (value > (AMP_BITS-1)) 
+			if (value > (AMP_BITS-1))
 			{
 				error (0, EINVAL, "Index %d Slot %d Value %d", carrier, slot, value);
 			}
@@ -321,13 +321,13 @@ signed SignalToNoise2 (struct plc * plc)
 			value *= value;
 			scale += value;
 		}
-		if (_anyset (plc->flags, PLC_GRAPH)) 
+		if (_anyset (plc->flags, PLC_GRAPH))
 		{
 			printf (" %03d ", scale);
-			if (scale) 
+			if (scale)
 			{
 				scale /= slots;
-				while (scale--) 
+				while (scale--)
 				{
 					printf ("#");
 				}
@@ -342,34 +342,34 @@ signed SignalToNoise2 (struct plc * plc)
 	AvgSNR /= active;
 	AvgSNR /= slots;
 	printf (" SNR");
-	for (slot = 0; slot < slots; slot++) 
+	for (slot = 0; slot < slots; slot++)
 	{
 		printf (",%8.3f", (float)(SNR [slot]) / active);
 	}
 	printf (",%8.3f", AvgSNR);
 	printf (" \n");
 	printf (" ATN");
-	for (slot = 0; slot < slots; slot++) 
+	for (slot = 0; slot < slots; slot++)
 	{
 		printf (",%8.3f", (float)(SNR [slot]) / active - 60);
 	}
 	printf (",%8.3f", AvgSNR - 60);
 	printf (" \n");
 	printf (" BPC");
-	for (slot = 0; slot < slots; slot++) 
+	for (slot = 0; slot < slots; slot++)
 	{
 		printf (",%8.3f", (float)(BPC [slot]) / active);
 	}
 	printf (",%8.3f", AvgBPC);
 	printf (" \n");
 	printf (" AGC");
-	for (slot = 0; slot < slots; slot++) 
+	for (slot = 0; slot < slots; slot++)
 	{
 		printf (",%02d", AGC [slot]);
 	}
 	printf (" \n");
 	printf (" GIL");
-	for (slot = 0; slot < slots; slot++) 
+	for (slot = 0; slot < slots; slot++)
 	{
 		printf (",%02d", GIL [slot]);
 	}

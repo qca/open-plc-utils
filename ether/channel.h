@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -62,7 +62,7 @@
 #       ifdef LIBPCAP
 #               error "Don't enable libpcap on Linux. You don't need it."
 #               endif
-#elif defined (WIN32) 
+#elif defined (WIN32)
 #       ifndef WINPCAP
 #               error "Define preprocessor constant WINPCAP on Windows."
 #               endif
@@ -104,8 +104,8 @@
 #endif
 #define CHANNEL_FOREVER (unsigned)(-1)
 #define CHANNEL_BAILOUT 0
-#define CHANNEL_CAPTURE 15 
-#define CHANNEL_TIMEOUT 50 
+#define CHANNEL_CAPTURE 15
+#define CHANNEL_TIMEOUT 50
 #define CHANNEL_FLAGS 0
 
 /*====================================================================*
@@ -127,7 +127,7 @@
  *   communication channel structure;
  *--------------------------------------------------------------------*/
 
-typedef struct channel 
+typedef struct channel
 
 {
 	signed fd;
@@ -142,7 +142,7 @@ typedef struct channel
 
 #elif defined (__APPLE__) || defined (__OpenBSD__)
 
-	struct bpf 
+	struct bpf
 	{
 		signed bpf_length;
 		uint8_t * bpf_buffer;
@@ -177,7 +177,7 @@ ssize_t sendpacket (struct channel const *, void * memory, ssize_t extent);
 ssize_t readpacket (struct channel const *, void * memory, ssize_t extent);
 
 /*====================================================================*
- *   
+ *
  *--------------------------------------------------------------------*/
 
 #endif

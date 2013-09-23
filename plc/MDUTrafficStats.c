@@ -1,29 +1,29 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *   
+ *
  *   signed MDUTrafficStats (struct plc * plc);
- *   
+ *
  *   plc.h
- * 
+ *
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
@@ -108,7 +108,7 @@
 #pragma pack (push,1)
 #endif
 
-typedef struct __packed station_stats 
+typedef struct __packed station_stats
 
 {
 	uint8_t TEI;
@@ -143,7 +143,7 @@ statistics;
 #pragma pack (push,1)
 #endif
 
-typedef struct __packed ethernet_stats 
+typedef struct __packed ethernet_stats
 
 {
 	uint16_t HW_MODULE_TYPE;
@@ -210,7 +210,7 @@ ethernet_stats;
 #pragma pack (push,1)
 #endif
 
-typedef struct __packed class_counters 
+typedef struct __packed class_counters
 
 {
 	uint16_t HW_MODULE_TYPE;
@@ -242,7 +242,7 @@ class_counters;
  *
  *--------------------------------------------------------------------*/
 
-static void StationStats (struct plc * plc, struct station_stats * stats) 
+static void StationStats (struct plc * plc, struct station_stats * stats)
 
 {
 	fprintf (stderr, "TEI %d\n", stats->TEI);
@@ -273,7 +273,7 @@ static void StationStats (struct plc * plc, struct station_stats * stats)
  *
  *--------------------------------------------------------------------*/
 
-static void EthernetStats (struct plc * plc, struct ethernet_stats * stats) 
+static void EthernetStats (struct plc * plc, struct ethernet_stats * stats)
 
 {
 	return;
@@ -289,7 +289,7 @@ static void EthernetStats (struct plc * plc, struct ethernet_stats * stats)
 
 #if 0
 
-static void ClassificationCounters (struct plc * plc, struct class_counters * counters) 
+static void ClassificationCounters (struct plc * plc, struct class_counters * counters)
 
 {
 	return;
@@ -309,7 +309,7 @@ static void ClassificationCounters (struct plc * plc, struct class_counters * co
  *
  *--------------------------------------------------------------------*/
 
-signed MDUTrafficStats (struct plc * plc, uint8_t command, uint8_t session, uint8_t slave) 
+signed MDUTrafficStats (struct plc * plc, uint8_t command, uint8_t session, uint8_t slave)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -319,7 +319,7 @@ signed MDUTrafficStats (struct plc * plc, uint8_t command, uint8_t session, uint
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_mdu_station_stats_request 
+	struct __packed vs_mdu_station_stats_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -328,7 +328,7 @@ signed MDUTrafficStats (struct plc * plc, uint8_t command, uint8_t session, uint
 		uint32_t SLAVE_BITMAP [8];
 	}
 	* request = (struct vs_mdu_station_stats_request *) (message);
-	struct __packed vs_mdu_traffic_master_confirm 
+	struct __packed vs_mdu_traffic_master_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -341,7 +341,7 @@ signed MDUTrafficStats (struct plc * plc, uint8_t command, uint8_t session, uint
 		struct station_stats STATS [1];
 	}
 	* master_confirm = (struct vs_mdu_traffic_master_confirm *) (message);
-	struct __packed vs_mdu_traffic_slave_confirm 
+	struct __packed vs_mdu_traffic_slave_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -354,7 +354,7 @@ signed MDUTrafficStats (struct plc * plc, uint8_t command, uint8_t session, uint
 
 #if 1
 
-	struct __packed vs_eth_hardware_stats_confirm 
+	struct __packed vs_eth_hardware_stats_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -381,45 +381,45 @@ signed MDUTrafficStats (struct plc * plc, uint8_t command, uint8_t session, uint
 	request->SESSION = session;
 	set32bitmap (request->SLAVE_BITMAP, slave);
 	plc->packetsize = sizeof (* request);
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	while (ReadMME (plc, 0, (VS_MDU_TRAFFIC_STATS | MMTYPE_CNF)) > 0) 
+	while (ReadMME (plc, 0, (VS_MDU_TRAFFIC_STATS | MMTYPE_CNF)) > 0)
 	{
-		if ((request->COMMAND > 0x00) && (request->COMMAND < 0x0020)) 
+		if ((request->COMMAND > 0x00) && (request->COMMAND < 0x0020))
 		{
 			struct station_stats * stats;
 			unsigned count;
-			if (_anyset (request->COMMAND, MASTER_TX_RX | SLAVE_TX_RX)) 
+			if (_anyset (request->COMMAND, MASTER_TX_RX | SLAVE_TX_RX))
 			{
 				stats = master_confirm->STATS;
 				count = LE16TOH (master_confirm->STATS_LEN);
 			}
-			else 
+			else
 			{
 				stats = slave_confirm->STATS;
 				count = LE16TOH (slave_confirm->STATS_LEN);
 			}
-			while (count >= sizeof (struct station_stats)) 
+			while (count >= sizeof (struct station_stats))
 			{
 				StationStats (plc, stats++);
 				count -= sizeof (struct station_stats);
 			}
 			continue;
 		}
-		if ((request->COMMAND >= 0x20) && (request->COMMAND < 0x24)) 
+		if ((request->COMMAND >= 0x20) && (request->COMMAND < 0x24))
 		{
 			EthernetStats (plc, ether_confirm->STATS);
 			continue;
 		}
-		if ((request->COMMAND >= 0x24) && (request->COMMAND < 0x28)) 
+		if ((request->COMMAND >= 0x24) && (request->COMMAND < 0x28))
 		{
 			EthernetStats (plc, ether_confirm->STATS);
 			continue;
 		}
-		if ((request->COMMAND >= 0x28) && (request->COMMAND < 0x32)) 
+		if ((request->COMMAND >= 0x28) && (request->COMMAND < 0x32))
 		{
 			EthernetStats (plc, ether_confirm->STATS);
 			continue;

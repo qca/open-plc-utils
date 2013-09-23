@@ -19,10 +19,10 @@
 #define GETOPTV_SUMMARY 1
 
 #define GETOPTV_C_OPTION  ('-')
-#define GETOPTV_C_OPERAND (':') 
-#define GETOPTV_C_ILLEGAL ('?') 
-#define GETOPTV_C_VERSION ('!') 
-#define GETOPTV_C_SUMMARY ('?') 
+#define GETOPTV_C_OPERAND (':')
+#define GETOPTV_C_ILLEGAL ('?')
+#define GETOPTV_C_VERSION ('!')
+#define GETOPTV_C_SUMMARY ('?')
 
 /*====================================================================*
  *   variable declarations;

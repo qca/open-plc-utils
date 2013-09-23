@@ -27,7 +27,7 @@
 #include "../tools/types.h"
 
 /*====================================================================*
- *   functions;             
+ *   functions;
  *--------------------------------------------------------------------*/
 
 char const * synonym (char const * term, const struct _term_ list [], size_t size);
@@ -43,7 +43,7 @@ void termlist (const struct _term_ list [], size_t size, char const * comma, cha
 signed getargv (signed argc, char const * argv []);
 
 /*====================================================================*
- *   
+ *
  *--------------------------------------------------------------------*/
 
 #endif

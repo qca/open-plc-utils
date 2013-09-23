@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -26,7 +26,7 @@
  *:  Copyright (c) 2006-2010 by Intellon Corporation; ALL RIGHTS RESERVED;
  *;  For demonstration and evaluation only; Not for production use.
  *
- *   Contributor(s): 
+ *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
  *      Nathaniel Houghton <nathaniel.houghton@qca.qualcomm.com>
  *
@@ -141,12 +141,12 @@ extern struct _code_ const states [CLASSIFIER_STATES];
 #endif
 
 /*
- *	MME and PIB Classifier Rules are similar but differ in size 
- *      and so we declare structures for each use; observe that 
+ *	MME and PIB Classifier Rules are similar but differ in size
+ *      and so we declare structures for each use; observe that
  *	function ParseRule uses the compact MMERule structure;
  */
 
-typedef struct __packed cspec 
+typedef struct __packed cspec
 
 {
 	uint16_t CSPEC_VERSION;
@@ -155,7 +155,7 @@ typedef struct __packed cspec
 }
 
 cspec;
-typedef struct __packed MMEClassifier 
+typedef struct __packed MMEClassifier
 
 {
 	uint8_t CR_PID;
@@ -164,7 +164,7 @@ typedef struct __packed MMEClassifier
 }
 
 MMEClassifier;
-typedef struct __packed PIBClassifier 
+typedef struct __packed PIBClassifier
 
 {
 	uint32_t CR_PID;
@@ -173,7 +173,7 @@ typedef struct __packed PIBClassifier
 }
 
 PIBClassifier;
-typedef struct __packed MMERule 
+typedef struct __packed MMERule
 
 {
 	uint8_t MCONTROL;
@@ -199,7 +199,7 @@ typedef struct __packed PIBRule
 }
 
 PIBRule;
-typedef struct __packed classifier_priority_map 
+typedef struct __packed classifier_priority_map
 
 {
 	uint32_t Priority;
@@ -207,7 +207,7 @@ typedef struct __packed classifier_priority_map
 }
 
 classifier_priority_map;
-typedef struct __packed auto_connection 
+typedef struct __packed auto_connection
 
 {
 	uint8_t MACTION;
@@ -219,7 +219,7 @@ typedef struct __packed auto_connection
 }
 
 auto_connection;
-typedef struct __packed PIBClassifiers 
+typedef struct __packed PIBClassifiers
 
 {
 	uint32_t priority_count;
@@ -252,7 +252,7 @@ void PIBRuleDump (struct PIBRule *);
 void MMERuleDump (struct MMERule *);
 
 /*====================================================================*
- *   
+ *
  *--------------------------------------------------------------------*/
 
 #endif

@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*"
@@ -79,20 +79,20 @@
 #ifndef MAKEFILE
 #include "../pib/pibpeek1.c"
 #include "../pib/pibpeek2.c"
-#endif 
+#endif
 
 #ifndef MAKEFILE
 #include "../nvm/manifest.c"
 #include "../nvm/fdmanifest.c"
-#endif 
+#endif
 
 /*====================================================================*
  *
  *   signed pibimage1 (signed fd, char const * filename, flag_t flags);
  *
- *   validate a disk-resident lightning/thunderbolt PIB image; read 
- *   the header then verify the checksum and preferred Network 
- *   Identifier (NID); return 0 on success or -1 on error; 
+ *   validate a disk-resident lightning/thunderbolt PIB image; read
+ *   the header then verify the checksum and preferred Network
+ *   Identifier (NID); return 0 on success or -1 on error;
  *
  *   this is not a thorough check but it detects non-PIB images;
  *
@@ -102,51 +102,51 @@
  *
  *--------------------------------------------------------------------*/
 
-static signed pibimage1 (signed fd, char const * filename, flag_t flags) 
+static signed pibimage1 (signed fd, char const * filename, flag_t flags)
 
 {
 	struct simple_pib simple_pib;
 	uint8_t NID [HPAVKEY_NID_LEN];
-	if (read (fd, &simple_pib, sizeof (simple_pib)) != sizeof (simple_pib)) 
+	if (read (fd, &simple_pib, sizeof (simple_pib)) != sizeof (simple_pib))
 	{
-		if (_allclr (flags, PIB_SILENCE)) 
+		if (_allclr (flags, PIB_SILENCE))
 		{
 			error (0, errno, FILE_CANTREAD, filename);
 		}
 		return (-1);
 	}
-	if (_anyset (flags, PIB_VERBOSE)) 
+	if (_anyset (flags, PIB_VERBOSE))
 	{
 		printf ("------- %s -------\n", filename);
-		if (pibpeek1 (&simple_pib)) 
+		if (pibpeek1 (&simple_pib))
 		{
-			if (_allclr (flags, PIB_SILENCE)) 
+			if (_allclr (flags, PIB_SILENCE))
 			{
 				error (0, 0, PIB_BADVERSION, filename);
 			}
 			return (-1);
 		}
 	}
-	if (lseek (fd, (off_t)(0)-sizeof (simple_pib), SEEK_CUR) == -1) 
+	if (lseek (fd, (off_t)(0)-sizeof (simple_pib), SEEK_CUR) == -1)
 	{
-		if (_allclr (flags, PIB_SILENCE)) 
+		if (_allclr (flags, PIB_SILENCE))
 		{
 			error (0, errno, FILE_CANTSEEK, filename);
 		}
 		return (-1);
 	}
-	if (fdchecksum32 (fd, LE16TOH (simple_pib.PIBLENGTH), 0)) 
+	if (fdchecksum32 (fd, LE16TOH (simple_pib.PIBLENGTH), 0))
 	{
-		if (_allclr (flags, PIB_SILENCE)) 
+		if (_allclr (flags, PIB_SILENCE))
 		{
 			error (0, 0, PIB_BADCHECKSUM, filename);
 		}
 		return (-1);
 	}
 	HPAVKeyNID (NID, simple_pib.NMK, simple_pib.PreferredNID [HPAVKEY_NID_LEN-1] >> 4);
-	if (memcmp (NID, simple_pib.PreferredNID, sizeof (NID))) 
+	if (memcmp (NID, simple_pib.PreferredNID, sizeof (NID)))
 	{
-		if (_allclr (flags, PIB_SILENCE)) 
+		if (_allclr (flags, PIB_SILENCE))
 		{
 			error (0, 0, PIB_BADNID, filename);
 		}
@@ -160,9 +160,9 @@ static signed pibimage1 (signed fd, char const * filename, flag_t flags)
  *
  *   signed pibimage2 (signed fd, char const * filename, uint32_t length, uint32_t checksum, flag_t flags);
  *
- *   validate a disk-resident panther/lynxPIB image; read the header 
- *   then verify the checksum and preferred Network Identifuier (NID); 
- *   return 0 on success or -1 on error; 
+ *   validate a disk-resident panther/lynxPIB image; read the header
+ *   then verify the checksum and preferred Network Identifuier (NID);
+ *   return 0 on success or -1 on error;
  *
  *   this is not a thorough check but it detects non-PIB images;
  *
@@ -172,29 +172,29 @@ static signed pibimage1 (signed fd, char const * filename, flag_t flags)
  *
  *--------------------------------------------------------------------*/
 
-static signed pibimage2 (signed fd, char const * filename, uint32_t length, uint32_t checksum, flag_t flags) 
+static signed pibimage2 (signed fd, char const * filename, uint32_t length, uint32_t checksum, flag_t flags)
 
 {
 	struct simple_pib simple_pib;
 	struct pib_header pib_header;
 	uint8_t NID [HPAVKEY_NID_LEN];
 	memset (&pib_header, 0, sizeof (pib_header));
-	if (read (fd, &simple_pib, sizeof (simple_pib)) != sizeof (simple_pib)) 
+	if (read (fd, &simple_pib, sizeof (simple_pib)) != sizeof (simple_pib))
 	{
-		if (_allclr (flags, PIB_SILENCE)) 
+		if (_allclr (flags, PIB_SILENCE))
 		{
 			error (0, errno, FILE_CANTREAD, filename);
 		}
 		return (-1);
 	}
-	if (_anyset (flags, PIB_VERBOSE)) 
+	if (_anyset (flags, PIB_VERBOSE))
 	{
 		struct pib_header * pib_header = (struct pib_header *)(&simple_pib);
 		pib_header->PIBLENGTH = HTOLE16((uint16_t)(length));
 		printf ("------- %s -------\n", filename);
-		if (pibpeek2 (&simple_pib)) 
+		if (pibpeek2 (&simple_pib))
 		{
-			if (_allclr (flags, PIB_SILENCE)) 
+			if (_allclr (flags, PIB_SILENCE))
 			{
 				error (0, 0, PIB_BADVERSION, filename);
 			}
@@ -202,26 +202,26 @@ static signed pibimage2 (signed fd, char const * filename, uint32_t length, uint
 		}
 		memset (pib_header, 0, sizeof (* pib_header));
 	}
-	if (lseek (fd, (off_t)(0)-sizeof (simple_pib), SEEK_CUR) == -1) 
+	if (lseek (fd, (off_t)(0)-sizeof (simple_pib), SEEK_CUR) == -1)
 	{
-		if (_allclr (flags, PIB_SILENCE)) 
+		if (_allclr (flags, PIB_SILENCE))
 		{
 			error (0, errno, FILE_CANTHOME, filename);
 		}
 		return (-1);
 	}
-	if (fdchecksum32 (fd, length, checksum)) 
+	if (fdchecksum32 (fd, length, checksum))
 	{
-		if (_allclr (flags, PIB_SILENCE)) 
+		if (_allclr (flags, PIB_SILENCE))
 		{
 			error (0, 0, PIB_BADCHECKSUM, filename);
 		}
 		return (-1);
 	}
 	HPAVKeyNID (NID, simple_pib.NMK, simple_pib.PreferredNID [HPAVKEY_NID_LEN-1] >> 4);
-	if (memcmp (NID, simple_pib.PreferredNID, sizeof (NID))) 
+	if (memcmp (NID, simple_pib.PreferredNID, sizeof (NID)))
 	{
-		if (_allclr (flags, PIB_SILENCE)) 
+		if (_allclr (flags, PIB_SILENCE))
 		{
 			error (0, 0, PIB_BADNID, filename);
 		}
@@ -242,77 +242,77 @@ static signed pibimage2 (signed fd, char const * filename, uint32_t length, uint
  *   occur due to an invalid image chain or a bad parameter block;
  *
  *   this implementation checks the parameter block without reading
- *   the entire block into memory; 
+ *   the entire block into memory;
  *
- *   
+ *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-static signed pibchain2 (signed fd, char const * filename, flag_t flags) 
+static signed pibchain2 (signed fd, char const * filename, flag_t flags)
 
 {
 	struct nvm_header2 nvm_header;
 	uint32_t origin = ~0;
 	uint32_t offset = 0;
 	unsigned module = 0;
-	do 
+	do
 	{
-		if (read (fd, &nvm_header, sizeof (nvm_header)) != sizeof (nvm_header)) 
+		if (read (fd, &nvm_header, sizeof (nvm_header)) != sizeof (nvm_header))
 		{
-			if (_allclr (flags, PIB_SILENCE)) 
+			if (_allclr (flags, PIB_SILENCE))
 			{
 				error (0, errno, NVM_HDR_CANTREAD, filename, module);
 			}
 			return (-1);
 		}
-		if (LE16TOH (nvm_header.MajorVersion) != 1) 
+		if (LE16TOH (nvm_header.MajorVersion) != 1)
 		{
-			if (_allclr (flags, PIB_SILENCE)) 
+			if (_allclr (flags, PIB_SILENCE))
 			{
 				error (0, 0, NVM_HDR_VERSION, filename, module);
 			}
 			return (-1);
 		}
-		if (LE16TOH (nvm_header.MinorVersion) != 1) 
+		if (LE16TOH (nvm_header.MinorVersion) != 1)
 		{
-			if (_allclr (flags, PIB_SILENCE)) 
+			if (_allclr (flags, PIB_SILENCE))
 			{
 				error (0, 0, NVM_HDR_VERSION, filename, module);
 			}
 			return (-1);
 		}
-		if (checksum32 (&nvm_header, sizeof (nvm_header), 0)) 
+		if (checksum32 (&nvm_header, sizeof (nvm_header), 0))
 		{
-			if (_allclr (flags, PIB_SILENCE)) 
+			if (_allclr (flags, PIB_SILENCE))
 			{
 				error (0, 0, NVM_HDR_CHECKSUM, filename, module);
 			}
 			return (-1);
 		}
-		if (LE32TOH (nvm_header.PrevHeader) != origin) 
+		if (LE32TOH (nvm_header.PrevHeader) != origin)
 		{
-			if (_allclr (flags, PIB_SILENCE)) 
+			if (_allclr (flags, PIB_SILENCE))
 			{
 				error (0, 0, NVM_HDR_LINK, filename, module);
 			}
 			return (-1);
 		}
-		if (LE32TOH (nvm_header.ImageType) == NVM_IMAGE_PIB) 
+		if (LE32TOH (nvm_header.ImageType) == NVM_IMAGE_PIB)
 		{
 			return (pibimage2 (fd, filename, LE32TOH (nvm_header.ImageLength), nvm_header.ImageChecksum, flags));
 		}
-		if (LE32TOH (nvm_header.ImageType) == NVM_IMAGE_MANIFEST) 
+		if (LE32TOH (nvm_header.ImageType) == NVM_IMAGE_MANIFEST)
 		{
-			if (_anyset (flags, PIB_MANIFEST)) 
+			if (_anyset (flags, PIB_MANIFEST))
 			{
 				fdmanifest (fd, filename, &nvm_header, module);
 			}
 		}
-		if (fdchecksum32 (fd, LE32TOH (nvm_header.ImageLength), nvm_header.ImageChecksum)) 
+		if (fdchecksum32 (fd, LE32TOH (nvm_header.ImageLength), nvm_header.ImageChecksum))
 		{
-			if (_allclr (flags, PIB_SILENCE)) 
+			if (_allclr (flags, PIB_SILENCE))
 			{
 				error (0, 0, NVM_IMG_CHECKSUM, filename, module);
 			}
@@ -323,9 +323,9 @@ static signed pibchain2 (signed fd, char const * filename, flag_t flags)
 		module++;
 	}
 	while (~nvm_header.NextHeader);
-	if (lseek (fd, 0, SEEK_CUR) != lseek (fd, 0, SEEK_END)) 
+	if (lseek (fd, 0, SEEK_CUR) != lseek (fd, 0, SEEK_END))
 	{
-		if (_allclr (flags, NVM_SILENCE)) 
+		if (_allclr (flags, NVM_SILENCE))
 		{
 			error (0, errno, NVM_HDR_LINK, filename, module);
 		}
@@ -340,58 +340,58 @@ static signed pibchain2 (signed fd, char const * filename, flag_t flags)
  *
  *   signed chkpib (char const * filename, flag_t flags);
  *
- *   open a named file and determine if it is a valid thunderbolt, 
- *   lightning, panther or lynx PIB; 
+ *   open a named file and determine if it is a valid thunderbolt,
+ *   lightning, panther or lynx PIB;
  *
- *   
+ *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-static signed chkpib (char const * filename, flag_t flags) 
+static signed chkpib (char const * filename, flag_t flags)
 
 {
 	uint32_t version;
 	signed status = 0;
 	signed fd;
-	if ((fd = open (filename, O_BINARY|O_RDONLY)) == -1) 
+	if ((fd = open (filename, O_BINARY|O_RDONLY)) == -1)
 	{
-		if (_allclr (flags, PIB_SILENCE)) 
+		if (_allclr (flags, PIB_SILENCE))
 		{
 			error (0, errno, FILE_CANTOPEN, filename);
 		}
 		return (-1);
 	}
-	if (read (fd, &version, sizeof (version)) != sizeof (version)) 
+	if (read (fd, &version, sizeof (version)) != sizeof (version))
 	{
-		if (_allclr (flags, PIB_SILENCE)) 
+		if (_allclr (flags, PIB_SILENCE))
 		{
 			error (0, errno, FILE_CANTREAD, filename);
 		}
 		return (-1);
 	}
-	if (lseek (fd, 0, SEEK_SET)) 
+	if (lseek (fd, 0, SEEK_SET))
 	{
-		if (_allclr (flags, PIB_SILENCE)) 
+		if (_allclr (flags, PIB_SILENCE))
 		{
 			error (0, errno, FILE_CANTHOME, filename);
 		}
 		return (-1);
 	}
-	if (LE32TOH (version) == 0x60000000) 
+	if (LE32TOH (version) == 0x60000000)
 	{
-		if (_allclr (flags, PIB_SILENCE)) 
+		if (_allclr (flags, PIB_SILENCE))
 		{
 			error (0, errno, FILE_WONTREAD, filename);
 		}
 		status = -1;;
 	}
-	else if (LE32TOH (version) == 0x00010001) 
+	else if (LE32TOH (version) == 0x00010001)
 	{
 		status = pibchain2 (fd, filename, flags);
 	}
-	else 
+	else
 	{
 		status = pibimage1 (fd, filename, flags);
 	}
@@ -401,20 +401,20 @@ static signed chkpib (char const * filename, flag_t flags)
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv []);
  *
  *
- *   
+ *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"mqv",
 		"file [file] [...]",
@@ -428,9 +428,9 @@ int main (int argc, char const * argv [])
 	signed state = 0;
 	signed c;
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'm':
 			_setbits (flags, PIB_MANIFEST);
@@ -447,14 +447,14 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
 		errno = 0;
-		if (chkpib (* argv, flags)) 
+		if (chkpib (* argv, flags))
 		{
 			state = 1;
 		}
-		else if (_allclr (flags, (PIB_VERBOSE | PIB_SILENCE | PIB_MANIFEST))) 
+		else if (_allclr (flags, (PIB_VERBOSE | PIB_SILENCE | PIB_MANIFEST)))
 		{
 			printf ("%s looks good\n", * argv);
 		}

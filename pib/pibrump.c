@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -24,7 +24,7 @@
  *
  *   This program read classification rules stored in a PIB file and
  *   prints them on stdout in a format similar to int6krule commands;
- *   
+ *
  *
  *   Contributor(s):
  *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
@@ -107,7 +107,7 @@
  *
  *--------------------------------------------------------------------*/
 
-signed Classifier (struct PIBClassifier * classifier) 
+signed Classifier (struct PIBClassifier * classifier)
 
 {
 	char buffer [sizeof (classifier->CR_VALUE) * 3 + 1];
@@ -115,7 +115,7 @@ signed Classifier (struct PIBClassifier * classifier)
 	uint16_t val16;
 	uint8_t val8;
 	printf ("%s %s", reword (classifier->CR_PID, fields, SIZEOF (fields)), reword (classifier->CR_OPERAND, operators, SIZEOF (operators)));
-	switch (classifier->CR_PID) 
+	switch (classifier->CR_PID)
 	{
 	case FIELD_ETH_SA:
 	case FIELD_ETH_DA:
@@ -187,7 +187,7 @@ signed Classifier (struct PIBClassifier * classifier)
 
 /*====================================================================*
  *
- *   signed AutoConnection (struct auto_connection * auto_connection, flag_t flags) 
+ *   signed AutoConnection (struct auto_connection * auto_connection, flag_t flags)
  *
  *   plc.h
  *
@@ -199,17 +199,17 @@ signed Classifier (struct PIBClassifier * classifier)
  *
  *--------------------------------------------------------------------*/
 
-signed AutoConnection (struct auto_connection * auto_connection) 
+signed AutoConnection (struct auto_connection * auto_connection)
 
 {
 	int i;
-	if (auto_connection->MACTION == ACTION_TAGTX) 
+	if (auto_connection->MACTION == ACTION_TAGTX)
 	{
 		printf ("-T 0x%08X -V %d ", ntohl (auto_connection->cspec.VLAN_TAG), LE16TOH (auto_connection->cspec.CSPEC_VERSION));
 	}
 	printf ("%s", reword (auto_connection->MACTION, actions, SIZEOF (actions)));
 	printf (" %s ", reword (auto_connection->MOPERAND, operands, SIZEOF (operands)));
-	for (i = 0; i < LE16TOH (auto_connection->NUM_CLASSIFIERS); ++i) 
+	for (i = 0; i < LE16TOH (auto_connection->NUM_CLASSIFIERS); ++i)
 	{
 		Classifier (&auto_connection->CLASSIFIER [i]);
 		putchar (' ');
@@ -221,7 +221,7 @@ signed AutoConnection (struct auto_connection * auto_connection)
 
 /*====================================================================*
  *
- *   signed ClassifierPriorityMap (struct classifier_priority_map * map) 
+ *   signed ClassifierPriorityMap (struct classifier_priority_map * map)
  *
  *   plc.h
  *
@@ -233,7 +233,7 @@ signed AutoConnection (struct auto_connection * auto_connection)
  *
  *--------------------------------------------------------------------*/
 
-signed ClassifierPriorityMap (struct classifier_priority_map * map) 
+signed ClassifierPriorityMap (struct classifier_priority_map * map)
 
 {
 	printf ("%s Any ", reword (LE32TOH (map->Priority), actions, SIZEOF (actions)));
@@ -244,15 +244,15 @@ signed ClassifierPriorityMap (struct classifier_priority_map * map)
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv[]);
- *   
+ *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"eqv",
 		"pibfile",
@@ -271,9 +271,9 @@ int main (int argc, char const * argv [])
 	struct _file_ pib;
 	signed c;
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch ((char) (c)) 
+		switch ((char) (c))
 		{
 		case 'e':
 			dup2 (STDOUT_FILENO, STDERR_FILENO);
@@ -290,63 +290,63 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
 		pib.name = * argv;
-		if ((pib.file = open (pib.name, O_BINARY|O_RDONLY)) == -1) 
+		if ((pib.file = open (pib.name, O_BINARY|O_RDONLY)) == -1)
 		{
 			error (1, errno, "%s", pib.name);
 		}
-		if (pibfile1 (&pib)) 
+		if (pibfile1 (&pib))
 		{
 			error (1, errno, "Bad PIB file: %s", pib.name);
 		}
-		if (lseek (pib.file, PIB_AUTOCONN_COUNT_OFFSET, SEEK_SET) != PIB_AUTOCONN_COUNT_OFFSET) 
+		if (lseek (pib.file, PIB_AUTOCONN_COUNT_OFFSET, SEEK_SET) != PIB_AUTOCONN_COUNT_OFFSET)
 		{
 			error (1, errno, "could not seek to AutoConnection count");
 		}
-		if (read (pib.file, &AutoConnection_count, sizeof (AutoConnection_count)) != sizeof (AutoConnection_count)) 
+		if (read (pib.file, &AutoConnection_count, sizeof (AutoConnection_count)) != sizeof (AutoConnection_count))
 		{
 			error (1, errno, "could not read AutoConnection count");
 		}
-		if (lseek (pib.file, PIB_AUTOCONN_OFFSET, SEEK_SET) != PIB_AUTOCONN_OFFSET) 
+		if (lseek (pib.file, PIB_AUTOCONN_OFFSET, SEEK_SET) != PIB_AUTOCONN_OFFSET)
 		{
 			error (1, errno, "could not seek to AutoConnections");
 		}
-		if (read (pib.file, &auto_connection, sizeof (auto_connection)) != sizeof (auto_connection)) 
+		if (read (pib.file, &auto_connection, sizeof (auto_connection)) != sizeof (auto_connection))
 		{
 			error (1, errno, "could not read AutoConnections");
 		}
-		if (lseek (pib.file, PIB_PRIORITY_COUNT_OFFSET, SEEK_SET) != PIB_PRIORITY_COUNT_OFFSET) 
+		if (lseek (pib.file, PIB_PRIORITY_COUNT_OFFSET, SEEK_SET) != PIB_PRIORITY_COUNT_OFFSET)
 		{
 			error (1, errno, "could not seek to PriorityMaps count");
 		}
-		if (read (pib.file, &PriorityMaps_count, sizeof (PriorityMaps_count)) != sizeof (PriorityMaps_count)) 
+		if (read (pib.file, &PriorityMaps_count, sizeof (PriorityMaps_count)) != sizeof (PriorityMaps_count))
 		{
 			error (1, errno, "could not read PriorityMaps count");
 		}
-		if (lseek (pib.file, PIB_PRIORITY_MAPS_OFFSET, SEEK_SET) != PIB_PRIORITY_MAPS_OFFSET) 
+		if (lseek (pib.file, PIB_PRIORITY_MAPS_OFFSET, SEEK_SET) != PIB_PRIORITY_MAPS_OFFSET)
 		{
 			error (1, errno, "could not seek to Priority Map");
 		}
-		if (read (pib.file, &classifier_priority_map, sizeof (classifier_priority_map)) != sizeof (classifier_priority_map)) 
+		if (read (pib.file, &classifier_priority_map, sizeof (classifier_priority_map)) != sizeof (classifier_priority_map))
 		{
 			error (1, errno, "could not read Priority Map");
 		}
 		close (pib.file);
-		if (_allclr (flags, PIB_SILENCE)) 
+		if (_allclr (flags, PIB_SILENCE))
 		{
 			printf ("# auto connection rules:\n");
 		}
-		for (i = 0; i < AutoConnection_count; ++i) 
+		for (i = 0; i < AutoConnection_count; ++i)
 		{
 			AutoConnection (&auto_connection [i]);
 		}
-		if (_allclr (flags, PIB_SILENCE)) 
+		if (_allclr (flags, PIB_SILENCE))
 		{
 			printf ("# priority mapping rules:\n");
 		}
-		for (i = 0; i < PriorityMaps_count; ++i) 
+		for (i = 0; i < PriorityMaps_count; ++i)
 		{
 			ClassifierPriorityMap (&classifier_priority_map [i]);
 		}

@@ -1,26 +1,26 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*"
  *
- *   ampboot.c - 
+ *   ampboot.c -
  *
  *
  *   Contributor(s):
@@ -142,17 +142,17 @@
 #endif
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv[]);
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"ei:FN:p:P:qt:vx",
 		"-N file -P file [device] [device] [...]",
@@ -183,7 +183,7 @@ int main (int argc, char const * argv [])
 
 	char firmware [PLC_VERSION_STRING];
 	signed c;
-	if (getenv (PLCDEVICE)) 
+	if (getenv (PLCDEVICE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -198,9 +198,9 @@ int main (int argc, char const * argv [])
 
 	}
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'i':
 
@@ -220,37 +220,37 @@ int main (int argc, char const * argv [])
 			break;
 		case 'F':
 			_setbits (plc.module, (VS_MODULE_MAC | VS_MODULE_PIB));
-			if (_anyset (plc.flags, PLC_FLASH_DEVICE)) 
+			if (_anyset (plc.flags, PLC_FLASH_DEVICE))
 			{
 				_setbits (plc.module, VS_MODULE_FORCE);
 			}
 			_setbits (plc.flags, PLC_FLASH_DEVICE);
 			break;
 		case 'N':
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, "%s", optarg);
 			}
-			if ((plc.NVM.file = open (plc.NVM.name = optarg, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc.NVM.file = open (plc.NVM.name = optarg, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", plc.NVM.name);
 			}
-			if (nvmfile1 (&plc.NVM)) 
+			if (nvmfile1 (&plc.NVM))
 			{
 				error (1, errno, "Bad NVM file: %s", plc.NVM.name);
 			}
 			_setbits (plc.flags, PLC_WRITE_MAC);
 			break;
 		case 'P':
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, "%s", optarg);
 			}
-			if ((plc.PIB.file = open (plc.PIB.name = optarg, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc.PIB.file = open (plc.PIB.name = optarg, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", plc.PIB.name);
 			}
-			if (pibfile1 (&plc.PIB)) 
+			if (pibfile1 (&plc.PIB))
 			{
 				error (1, errno, "Bad PIB file: %s", plc.PIB.name);
 			}
@@ -276,48 +276,48 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (argc) 
+	if (argc)
 	{
 		error (1, ENOTSUP, ERROR_TOOMANY);
 	}
 	openchannel (&channel);
-	if (!(plc.message = malloc (sizeof (* plc.message)))) 
+	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);
 	}
-	if (WaitForStart (&plc, firmware, sizeof (firmware))) 
+	if (WaitForStart (&plc, firmware, sizeof (firmware)))
 	{
 		Failure (&plc, PLC_NODETECT);
 		exit (1);
 	}
-	if (plc.hardwareID < CHIPSET_AR7400) 
+	if (plc.hardwareID < CHIPSET_AR7400)
 	{
 		Failure (&plc, "Device must be %s or later; Use program int6kboot instead.", chipsetname (CHIPSET_AR7400));
 		exit (1);
 	}
-	if (plc.hardwareID >= CHIPSET_QCA7420) 
+	if (plc.hardwareID >= CHIPSET_QCA7420)
 	{
 		Failure (&plc, "Program does not support %s or later; Use program plcboot instead.", chipsetname (CHIPSET_QCA7420));
 		exit (1);
 	}
-	if (strcmp (firmware, "BootLoader")) 
+	if (strcmp (firmware, "BootLoader"))
 	{
 		Failure (&plc, "Bootloader must be running");
 		exit (1);
 	}
-	if (plc.PIB.file == -1) 
+	if (plc.PIB.file == -1)
 	{
 		error (1, ECANCELED, "No PIB file specified");
 	}
-	if (plc.NVM.file == -1) 
+	if (plc.NVM.file == -1)
 	{
 		error (1, ECANCELED, "No NVM file specified");
 	}
-	if (!InitDevice1 (&plc)) 
+	if (!InitDevice1 (&plc))
 	{
-		if (!BootDevice1 (&plc)) 
+		if (!BootDevice1 (&plc))
 		{
-			if (_anyset (plc.flags, PLC_FLASH_DEVICE)) 
+			if (_anyset (plc.flags, PLC_FLASH_DEVICE))
 			{
 				FlashDevice1 (&plc);
 			}

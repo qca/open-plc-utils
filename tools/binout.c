@@ -1,12 +1,12 @@
 /*====================================================================*
  *
- *   void binout (void const * memory, size_t extent, char c, char e, FILE * fp) 
+ *   void binout (void const * memory, size_t extent, char c, char e, FILE * fp)
  *
  *   memory.h
  *
  *   print memory as a series of binary bytes separated by character
- *   c; normally, character c will be BIN_EXTENDER as defined 
- *   in number.h; 
+ *   c; normally, character c will be BIN_EXTENDER as defined
+ *   in number.h;
  *
  *   for example, binout (memory, 6, '-', stdout) would print
  *
@@ -28,24 +28,24 @@
 #include "../tools/memory.h"
 #include "../tools/number.h"
 
-void binout (void const * memory, size_t extent, char c, char e, FILE * fp) 
+void binout (void const * memory, size_t extent, char c, char e, FILE * fp)
 
 {
 	byte * offset = (byte *)(memory);
-	while (extent--) 
+	while (extent--)
 	{
 		unsigned bits = 8;
-		while (bits--) 
+		while (bits--)
 		{
 			putc (DIGITS_BIN [(* offset >> bits) & 1], fp);
 		}
-		if ((extent) && (c)) 
+		if ((extent) && (c))
 		{
 			putc (c, fp);
 		}
 		offset++;
 	}
-	if (e) 
+	if (e)
 	{
 		putc (e, fp);
 	}

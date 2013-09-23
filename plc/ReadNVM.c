@@ -1,39 +1,39 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *   
+ *
  *   signed ReadNVM (struct plc * plc);
- *   
+ *
  *   plc.h
- *   
- *   Read MAC Software Image from the device using as many VS_RD_MOD 
- *   messages as needed; Write image blocks to file as as they are 
+ *
+ *   Read MAC Software Image from the device using as many VS_RD_MOD
+ *   messages as needed; Write image blocks to file as as they are
  *   read;
  *
- *   the object here here is to read NVM from RAM in 1024 byte blocks 
- *   until MOFFSET exceeds the image length; 
+ *   the object here here is to read NVM from RAM in 1024 byte blocks
+ *   until MOFFSET exceeds the image length;
  *
- *   MOFFSET and MLENGTH fields occupy different offsets in REQ and 
- *   CNF messages; we exploit that by initializing CNF message and 
- *   copying them into the REQ message before each read; 
+ *   MOFFSET and MLENGTH fields occupy different offsets in REQ and
+ *   CNF messages; we exploit that by initializing CNF message and
+ *   copying them into the REQ message before each read;
  *
  *
  *   Contributor(s):
@@ -56,7 +56,7 @@
 #include "../tools/memory.h"
 #include "../nvm/nvm.h"
 
-signed ReadNVM (struct plc * plc) 
+signed ReadNVM (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -66,7 +66,7 @@ signed ReadNVM (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_rd_mod_request 
+	struct __packed vs_rd_mod_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -77,7 +77,7 @@ signed ReadNVM (struct plc * plc)
 		uint8_t MSECRET [16];
 	}
 	* request = (struct vs_rd_mod_request *) (message);
-	struct __packed vs_rd_mod_confirm 
+	struct __packed vs_rd_mod_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -101,12 +101,12 @@ signed ReadNVM (struct plc * plc)
 	uint32_t offset = 0;
 	uint16_t length = PLC_RECORD_SIZE;
 	Request (plc, "Read Firmware from Device");
-	if (lseek (plc->nvm.file, 0, SEEK_SET)) 
+	if (lseek (plc->nvm.file, 0, SEEK_SET))
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, FILE_CANTHOME, plc->nvm.name);
 		return (1);
 	}
-	do 
+	do
 	{
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
@@ -115,47 +115,47 @@ signed ReadNVM (struct plc * plc)
 		request->MODULEID = VS_MODULE_MAC;
 		request->MLENGTH = HTOLE16 (length);
 		request->MOFFSET = HTOLE32 (offset);
-		if (SendMME (plc) <= 0) 
+		if (SendMME (plc) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		if (ReadMME (plc, 0, (VS_RD_MOD | MMTYPE_CNF)) <= 0) 
+		if (ReadMME (plc, 0, (VS_RD_MOD | MMTYPE_CNF)) <= 0)
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
-		if (confirm->MSTATUS) 
+		if (confirm->MSTATUS)
 		{
 			Failure (plc, PLC_WONTDOIT);
 			return (-1);
 		}
-		if (LE16TOH (confirm->MLENGTH) != length) 
+		if (LE16TOH (confirm->MLENGTH) != length)
 		{
 			error ((plc->flags & PLC_BAILOUT), 0, PLC_ERR_LENGTH);
 			return (-1);
 		}
-		if (LE32TOH (confirm->MOFFSET) != offset) 
+		if (LE32TOH (confirm->MOFFSET) != offset)
 		{
 			error ((plc->flags & PLC_BAILOUT), 0, PLC_ERR_OFFSET);
 			return (-1);
 		}
 		length = LE16TOH (confirm->MLENGTH);
 		offset = LE32TOH (confirm->MOFFSET);
-		if (checksum32 (confirm->BUFFER, length, confirm->CHKSUM)) 
+		if (checksum32 (confirm->BUFFER, length, confirm->CHKSUM))
 		{
 			error ((plc->flags & PLC_BAILOUT), ECANCELED, "Bad Packet Checksum");
 			return (-1);
 		}
-		if (offset == extent) 
+		if (offset == extent)
 		{
 			struct nvm_header1 * nvm_header = (struct nvm_header1 *)(confirm->BUFFER);
-			if (checksum32 (nvm_header, sizeof (* nvm_header), 0)) 
+			if (checksum32 (nvm_header, sizeof (* nvm_header), 0))
 			{
 				error ((plc->flags & PLC_BAILOUT), ECANCELED, "Bad Header Checksum");
 				return (-1);
 			}
-			if (LE32TOH (nvm_header->HEADERVERSION) != 0x60000000) 
+			if (LE32TOH (nvm_header->HEADERVERSION) != 0x60000000)
 			{
 				error ((plc->flags & PLC_BAILOUT), ECANCELED, "Bad Header Version");
 				return (-1);
@@ -164,16 +164,16 @@ signed ReadNVM (struct plc * plc)
 			extent += LE32TOH (nvm_header->IMAGELENGTH);
 			header = LE32TOH (nvm_header->NEXTHEADER);
 		}
-		if ((offset + length) > extent) 
+		if ((offset + length) > extent)
 		{
 			length = extent - offset;
 		}
-		if (lseek (plc->nvm.file, offset, SEEK_SET) != (off_t)(offset)) 
+		if (lseek (plc->nvm.file, offset, SEEK_SET) != (off_t)(offset))
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, FILE_CANTSEEK, plc->nvm.name);
 			return (-1);
 		}
-		if (write (plc->nvm.file, confirm->BUFFER, length) != (signed)(length)) 
+		if (write (plc->nvm.file, confirm->BUFFER, length) != (signed)(length))
 		{
 			error ((plc->flags & PLC_BAILOUT), errno, FILE_CANTSAVE, plc->nvm.name);
 			return (-1);

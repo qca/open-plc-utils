@@ -1,27 +1,27 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *   
+ *
  *   signed Topology2 (struct plc * plc);
- *   
+ *
  *   plc.h
  *
  *   display network topology on stdout; the topology shows bridges
@@ -31,8 +31,8 @@
  *   the first line and associated bridge are shown after;
  *
  *   this function is a variation on function NetworkInfo but shows
- *   more information in more compact form; 
- *   
+ *   more information in more compact form;
+ *
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
@@ -52,7 +52,7 @@
 #include "../tools/flags.h"
 #include "../plc/plc.h"
 
-signed Topology2 (struct plc * plc) 
+signed Topology2 (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -62,13 +62,13 @@ signed Topology2 (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_nw_info_request 
+	struct __packed vs_nw_info_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_fmi qualcomm;
 	}
 	* request = (struct vs_nw_info_request *)(message);
-	struct __packed vs_nw_info_confirm 
+	struct __packed vs_nw_info_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_fmi qualcomm;
@@ -78,7 +78,7 @@ signed Topology2 (struct plc * plc)
 		uint8_t DATA [1];
 	}
 	* confirm = (struct vs_nw_info_confirm *)(message);
-	struct __packed station 
+	struct __packed station
 	{
 		uint8_t MAC [ETHER_ADDR_LEN];
 		uint8_t TEI;
@@ -91,7 +91,7 @@ signed Topology2 (struct plc * plc)
 		uint16_t Reserved4;
 	}
 	* station;
-	struct __packed network 
+	struct __packed network
 	{
 		uint8_t NID [7];
 		uint8_t Reserved1 [2];
@@ -107,7 +107,7 @@ signed Topology2 (struct plc * plc)
 		struct station stations [1];
 	}
 	* network;
-	struct __packed networks 
+	struct __packed networks
 	{
 		uint8_t Reserved;
 		uint8_t NUMAVLNS;
@@ -121,24 +121,24 @@ signed Topology2 (struct plc * plc)
 
 	uint8_t list [255] [ETHER_ADDR_LEN];
 	signed bridges = LocalDevices (channel, message, list, sizeof (list));
-	while (bridges--) 
+	while (bridges--)
 	{
 		char address [ETHER_ADDR_LEN * 3];
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&request->ethernet, list [bridges], channel->host, channel->type);
 		QualcommHeader1 (&request->qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
-		if (SendMME (plc) <= 0) 
+		if (SendMME (plc) <= 0)
 		{
 			error (1, errno, CHANNEL_CANTSEND);
 		}
-		if (ReadMME (plc, 1, (VS_NW_INFO | MMTYPE_CNF)) <= 0) 
+		if (ReadMME (plc, 1, (VS_NW_INFO | MMTYPE_CNF)) <= 0)
 		{
 			error (0, errno, CHANNEL_CANTREAD);
 			continue;
 		}
 		network = (struct network *)(&networks->networks);
-		if (_allclr (channel->flags, PLC_SILENCE)) 
+		if (_allclr (channel->flags, PLC_SILENCE))
 		{
 			printf (" P/L NET TEI ------ MAC ------ ------ BDA ------  TX  RX CHIPSET FIRMWARE\n");
 		}
@@ -151,10 +151,10 @@ signed Topology2 (struct plc * plc)
 		printf (" n/a");
 		Platform (channel, confirm->ethernet.OSA);
 		printf ("\n");
-		while (networks->NUMAVLNS--) 
+		while (networks->NUMAVLNS--)
 		{
 			station = (struct station *)(&network->stations);
-			while (network->NUMSTAS--) 
+			while (network->NUMSTAS--)
 			{
 				printf (" REM");
 				printf (" %s", memcmp (station->MAC, network->CCO_MAC, sizeof (station->MAC))? "STA": "CCO");

@@ -1,32 +1,32 @@
 /*====================================================================*
  *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *
  *   config.c - configuration file reader;
  *
- *   configuration files contain named parts where each part may 
- *   contain one of more named items that have text definitions; 
+ *   configuration files contain named parts where each part may
+ *   contain one of more named items that have text definitions;
  *
  *   the named file can be searched for the first occurance of a
- *   named part then the first occurance of a named item; 
+ *   named part then the first occurance of a named item;
  *
  *   [part1]
  *   item1=text
@@ -70,7 +70,7 @@ static signed c;
  *   bool compare (FILE * fp, char const *sp);
  *
  *   compare file and text characters until they differ or until end
- *   of text, line or file occurs; a match is declared when the text 
+ *   of text, line or file occurs; a match is declared when the text
  *   ends before the line or file;
  *
  *   spaces and tabs within the argument string or file string are
@@ -78,25 +78,25 @@ static signed c;
  *
  *--------------------------------------------------------------------*/
 
-static bool compare (FILE * fp, char const * sp) 
+static bool compare (FILE * fp, char const * sp)
 
 {
-	while (isblank (*sp)) 
+	while (isblank (*sp))
 	{
 		sp++;
 	}
-	while ((*sp) && (c != '\n') && (c != EOF)) 
+	while ((*sp) && (c != '\n') && (c != EOF))
 	{
-		if (toupper (c) != toupper (*sp)) 
+		if (toupper (c) != toupper (*sp))
 		{
 			return (0);
 		}
-		do 
+		do
 		{
 			sp++;
 		}
 		while (isblank (*sp));
-		do 
+		do
 		{
 			c = getc (fp);
 		}
@@ -115,30 +115,30 @@ static bool compare (FILE * fp, char const * sp)
  *
  *--------------------------------------------------------------------*/
 
-static void collect (FILE * fp) 
+static void collect (FILE * fp)
 
 {
 	char *bp = buffer;
 	char *cp = buffer;
-	while ((c != ';') && (c != '\n') && (c != EOF)) 
+	while ((c != ';') && (c != '\n') && (c != EOF))
 	{
-		if (c == '\\') 
+		if (c == '\\')
 		{
 			c = getc (fp);
-			if (c == 'n') 
+			if (c == 'n')
 			{
 				c = '\n';
 			}
-			if (c == 't') 
+			if (c == 't')
 			{
 				c = '\t';
 			}
 		}
-		if ((cp - buffer) < (signed)(sizeof (buffer) - 1)) 
+		if ((cp - buffer) < (signed)(sizeof (buffer) - 1))
 		{
 			*cp++ = c;
 		}
-		if (!isblank (c)) 
+		if (!isblank (c))
 		{
 			bp = cp;
 		}
@@ -153,20 +153,20 @@ static void collect (FILE * fp)
  *
  *   void discard (FILE * fp);
  *
- *   read and discard characters until end-of-line or end-of-file 
- *   is detected; read the first character of next line if end of 
+ *   read and discard characters until end-of-line or end-of-file
+ *   is detected; read the first character of next line if end of
  *   file has not been detected;
  *
  *--------------------------------------------------------------------*/
 
-static void discard (FILE * fp) 
+static void discard (FILE * fp)
 
 {
-	while ((c != '\n') && (c != EOF)) 
+	while ((c != '\n') && (c != EOF))
 	{
 		c = getc (fp);
 	}
-	if (c != EOF) 
+	if (c != EOF)
 	{
 		c = getc (fp);
 	}
@@ -180,63 +180,63 @@ static void discard (FILE * fp)
  *
  *   open the named file, locate the named part and return the named
  *   item text, if present; return alternative text if the file part
- *   or item is missing; the calling function must preserve returned 
- *   text because it may be over-written on successive calls;            
+ *   or item is missing; the calling function must preserve returned
+ *   text because it may be over-written on successive calls;
  *
  *--------------------------------------------------------------------*/
 
-char const * configstring (char const * file, char const * part, char const * item, char const * text) 
+char const * configstring (char const * file, char const * part, char const * item, char const * text)
 
 {
 	FILE *fp;
-	if ((!file) || (!part) || (!item)) 
+	if ((!file) || (!part) || (!item))
 	{
 		return (text);
 	}
-	if ((fp = fopen (file, "rb"))) 
+	if ((fp = fopen (file, "rb")))
 	{
-		for (c = getc (fp); c != EOF; discard (fp)) 
+		for (c = getc (fp); c != EOF; discard (fp))
 		{
-			while (isblank (c)) 
+			while (isblank (c))
 			{
 				c = getc (fp);
 			}
-			if (c != '[') 
+			if (c != '[')
 			{
 				continue;
 			}
-			do 
+			do
 			{
 				c = getc (fp);
 			}
 			while (isblank (c));
-			if (!compare (fp, part)) 
+			if (!compare (fp, part))
 			{
 				continue;
 			}
-			if (c != ']') 
+			if (c != ']')
 			{
 				continue;
 			}
-			for (discard (fp); (c != '[') && (c != EOF); discard (fp)) 
+			for (discard (fp); (c != '[') && (c != EOF); discard (fp))
 			{
-				while (isblank (c)) 
+				while (isblank (c))
 				{
 					c = getc (fp);
 				}
-				if (c == ';') 
+				if (c == ';')
 				{
 					continue;
 				}
-				if (!compare (fp, item)) 
+				if (!compare (fp, item))
 				{
 					continue;
 				}
-				if (c != '=') 
+				if (c != '=')
 				{
 					continue;
 				}
-				do 
+				do
 				{
 					c = getc (fp);
 				}
@@ -257,9 +257,9 @@ char const * configstring (char const * file, char const * part, char const * it
  *
  *   int main (int argc, char const * argv []);
  *
- *   demo/test program; arguments are file, part, item and text in 
+ *   demo/test program; arguments are file, part, item and text in
  *   that order; you can construct your own configuration file and
- *   observe behaviour; 
+ *   observe behaviour;
  *
  *--------------------------------------------------------------------*/
 
@@ -267,7 +267,7 @@ char const * configstring (char const * file, char const * part, char const * it
 
 #include <stdio.h>
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	char const * text = configstring (argv [1], argv [2], argv [3], argv [4]);

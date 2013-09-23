@@ -39,29 +39,29 @@
 #define W3C_DTD "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
 
 /*====================================================================*
- *   
+ *
  *--------------------------------------------------------------------*/
 
 #define XML_VERSION "1.0"
-#define XML_NAMESPACE "http://www.w3.org/2001/XMLSchema-instance" 
+#define XML_NAMESPACE "http://www.w3.org/2001/XMLSchema-instance"
 #define XML_CHARSET ISO_CHARSET
 #define XML_LANGUAGE "en-us"
-#define XML_SCHEMA "http://www.w3.org/2001/XMLSchema" 
+#define XML_SCHEMA "http://www.w3.org/2001/XMLSchema"
 
 /*====================================================================*
- *   
+ *
  *--------------------------------------------------------------------*/
 
 #define NODE_ELEM '<'
-#define NODE_SGML '!' 
-#define NODE_INST '?' 
+#define NODE_SGML '!'
+#define NODE_INST '?'
 #define NODE_ATTR ' '
-#define NODE_VALU '=' 
-#define NODE_ETAG '/' 
-#define NODE_DATA '>' 
+#define NODE_VALU '='
+#define NODE_ETAG '/'
+#define NODE_DATA '>'
 
 /*====================================================================*
- *   
+ *
  *--------------------------------------------------------------------*/
 
 #define DATA_SCHEMA "piboffset.xsd"
@@ -83,7 +83,7 @@
  *   variables;
  *--------------------------------------------------------------------*/
 
-typedef struct node 
+typedef struct node
 
 {
 	struct node * above;

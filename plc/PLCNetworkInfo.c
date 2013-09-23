@@ -1,29 +1,29 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *
- *   signed PLCNetworkInfo (struct plc * plc) 
+ *   signed PLCNetworkInfo (struct plc * plc)
  *
  *   Request network membership information from the peer device using
- *   the VS_NW_INFO message; 
+ *   the VS_NW_INFO message;
  *
  *   This function is similar to function NetworkInformation() but the
  *   output format is different;
@@ -47,7 +47,7 @@
 #include "../tools/error.h"
 #include "../plc/plc.h"
 
-signed PLCNetworkInfo (struct plc * plc) 
+signed PLCNetworkInfo (struct plc * plc)
 
 {
 	signed status;
@@ -58,7 +58,7 @@ signed PLCNetworkInfo (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_sw_ver_request 
+	struct __packed vs_sw_ver_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -68,7 +68,7 @@ signed PLCNetworkInfo (struct plc * plc)
 		char MVERSION [PLC_VERSION_STRING];
 	}
 	* request = (struct vs_sw_ver_request *) (message);
-	struct __packed vs_sw_ver_confirm 
+	struct __packed vs_sw_ver_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_std qualcomm;
@@ -87,27 +87,27 @@ signed PLCNetworkInfo (struct plc * plc)
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_SW_VER | MMTYPE_REQ));
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	if (ReadMME (plc, 0, (VS_SW_VER | MMTYPE_CNF)) <= 0) 
+	if (ReadMME (plc, 0, (VS_SW_VER | MMTYPE_CNF)) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 		return (-1);
 	}
-	if (confirm->MSTATUS) 
+	if (confirm->MSTATUS)
 	{
 		Failure (plc, "Device will not start");
 		return (-1);
 	}
 	chipset (confirm);
-	if ((plc->hardwareID = confirm->MDEVICEID) < CHIPSET_AR7400) 
+	if ((plc->hardwareID = confirm->MDEVICEID) < CHIPSET_AR7400)
 	{
 		status = NetInfo1 (plc);
 	}
-	else 
+	else
 	{
 		status = NetInfo2 (plc);
 	}

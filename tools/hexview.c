@@ -24,7 +24,7 @@
 #include "../tools/memory.h"
 #include "../tools/number.h"
 
-void hexview (void const * memory, size_t offset, size_t extent, FILE *fp) 
+void hexview (void const * memory, size_t offset, size_t extent, FILE *fp)
 
 {
 	byte * origin = (byte *)(memory);
@@ -34,46 +34,46 @@ void hexview (void const * memory, size_t offset, size_t extent, FILE *fp)
 	size_t index = 0;
 	char buffer [ADDRSIZE + 72];
 	char * output;
-	while (lower < offset + extent) 
+	while (lower < offset + extent)
 	{
 		output = buffer + ADDRSIZE;
-		for (index = lower; output-- > buffer; index >>= 4) 
+		for (index = lower; output-- > buffer; index >>= 4)
 		{
 			*output = DIGITS_HEX [index & 0x0F];
 		}
 		output = buffer + ADDRSIZE;
-		for (index = lower; index < upper; index++) 
+		for (index = lower; index < upper; index++)
 		{
 			*output++ = ' ';
-			if (index < offset) 
+			if (index < offset)
 			{
 				*output++ = ' ';
 				*output++ = ' ';
 			}
-			else if (index < offset + extent) 
+			else if (index < offset + extent)
 			{
 				*output++ = DIGITS_HEX [(origin [index-offset] >> 4) & 0x0F];
 				*output++ = DIGITS_HEX [(origin [index-offset] >> 0) & 0x0F];
 			}
-			else 
+			else
 			{
 				*output++ = ' ';
 				*output++ = ' ';
 			}
 		}
 		*output++ = ' ';
-		for (index = lower; index < upper; index++) 
+		for (index = lower; index < upper; index++)
 		{
-			if (index < offset) 
+			if (index < offset)
 			{
 				*output++ = ' ';
 			}
-			else if (index < offset + extent) 
+			else if (index < offset + extent)
 			{
 				unsigned c = origin [index-offset];
 				*output++ = isprint (c)? c: '.';
 			}
-			else 
+			else
 			{
 				*output++ = ' ';
 			}

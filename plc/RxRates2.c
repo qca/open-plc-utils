@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -42,7 +42,7 @@
 #include "../tools/flags.h"
 #include "../plc/plc.h"
 
-signed RxRates2 (struct plc * plc) 
+signed RxRates2 (struct plc * plc)
 
 {
 	extern const byte broadcast [ETHER_ADDR_LEN];
@@ -53,13 +53,13 @@ signed RxRates2 (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_nw_info_request 
+	struct __packed vs_nw_info_request
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_fmi qualcomm;
 	}
 	* request = (struct vs_nw_info_request *)(message);
-	struct __packed vs_nw_info_confirm 
+	struct __packed vs_nw_info_confirm
 	{
 		struct ethernet_std ethernet;
 		struct qualcomm_fmi qualcomm;
@@ -69,7 +69,7 @@ signed RxRates2 (struct plc * plc)
 		uint8_t DATA [1];
 	}
 	* confirm = (struct vs_nw_info_confirm *)(message);
-	struct __packed station 
+	struct __packed station
 	{
 		uint8_t MAC [ETHER_ADDR_LEN];
 		uint8_t TEI;
@@ -82,7 +82,7 @@ signed RxRates2 (struct plc * plc)
 		uint16_t Reserved4;
 	}
 	* station;
-	struct __packed network 
+	struct __packed network
 	{
 		uint8_t NID [7];
 		uint8_t Reserved1 [2];
@@ -98,7 +98,7 @@ signed RxRates2 (struct plc * plc)
 		struct station stations [1];
 	}
 	* network;
-	struct __packed networks 
+	struct __packed networks
 	{
 		uint8_t Reserved;
 		uint8_t NUMAVLNS;
@@ -114,20 +114,20 @@ signed RxRates2 (struct plc * plc)
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader1 (&request->qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
-	if (SendMME (plc) <= 0) 
+	if (SendMME (plc) <= 0)
 	{
 		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	while (ReadMME (plc, 1, (VS_NW_INFO | MMTYPE_CNF)) > 0) 
+	while (ReadMME (plc, 1, (VS_NW_INFO | MMTYPE_CNF)) > 0)
 	{
 		network = (struct network *)(&networks->networks);
-		while (networks->NUMAVLNS--) 
+		while (networks->NUMAVLNS--)
 		{
 			station = (struct station *)(&network->stations);
-			while (network->NUMSTAS--) 
+			while (network->NUMSTAS--)
 			{
-				if (memcmp (station->MAC, broadcast, sizeof (broadcast))) 
+				if (memcmp (station->MAC, broadcast, sizeof (broadcast)))
 				{
 					station->AVGTX = LE16TOH (station->AVGTX);
 					station->AVGRX = LE16TOH (station->AVGRX);

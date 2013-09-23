@@ -1,26 +1,26 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*"
  *
- *   mdiogen.c - 
+ *   mdiogen.c -
  *
  *
  *   Contributor(s):
@@ -82,20 +82,20 @@ const char * program_name;
  *
  *--------------------------------------------------------------------*/
 
-static void regview (void const * memory, uint16_t offset, uint16_t extent, FILE *fp) 
+static void regview (void const * memory, uint16_t offset, uint16_t extent, FILE *fp)
 
 {
 	uint16_t * origin = (uint16_t *)(memory);
 	printf ("ADDR DATA 5432-1098-7654-3210\n");
-	while (extent >= sizeof (* origin)) 
+	while (extent >= sizeof (* origin))
 	{
 		signed bit = sizeof (* origin) << 3;
 		printf ("%04u ", offset);
 		printf ("%04X ", LE16TOH (*origin));
-		while (bit--) 
+		while (bit--)
 		{
 			putc (((* origin >> bit) & 1)? '1': '0', fp);
-			if ((bit) && !(bit%4)) 
+			if ((bit) && !(bit%4))
 			{
 				putc ('-', fp);
 			}
@@ -113,22 +113,22 @@ static void regview (void const * memory, uint16_t offset, uint16_t extent, FILE
  *
  *   int main (int argc, const char * argv []);
  *
- *   this is a basic program that produces an MDIO program block 
+ *   this is a basic program that produces an MDIO program block
  *   using macros defined in mdio.h; the output filename is fixed;
  *
  *   declare your MDIO program by editing array program [] based on
- *   the MDIO program rules defined in the Atheros PLC Firmware TRM 
+ *   the MDIO program rules defined in the Atheros PLC Firmware TRM
  *   under the description of the VS_MOD_OP;
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
 #define MDIO_PROGRAM "mdio.bin"
 
-int main (int argc, const char * argv []) 
+int main (int argc, const char * argv [])
 
 {
-	uint16_t program [] = 
+	uint16_t program [] =
 	{
 
 #if 1
@@ -179,25 +179,25 @@ int main (int argc, const char * argv [])
 	};
 	signed fd;
 	program_name = * argv;
-	if (--argc) 
+	if (--argc)
 	{
 		error (1, ECANCELED, "Too many command line arguments");
 	}
 	regview (&program, 0, sizeof (program), stdout);
-	if ((fd = open (MDIO_PROGRAM, O_CREAT|O_WRONLY|O_TRUNC, S_IRWXU | S_IRGRP | S_IROTH)) == -1) 
+	if ((fd = open (MDIO_PROGRAM, O_CREAT|O_WRONLY|O_TRUNC, S_IRWXU | S_IRGRP | S_IROTH)) == -1)
 	{
 		error (1, errno, "Can't open %s", MDIO_PROGRAM);
 	}
-	if (write (fd, program, sizeof (program)) != sizeof (program)) 
+	if (write (fd, program, sizeof (program)) != sizeof (program))
 	{
 		unlink (MDIO_PROGRAM);
 		error (1, errno, "Can't write %s", MDIO_PROGRAM);
 	}
-	if (sizeof (program) % sizeof (uint32_t)) 
+	if (sizeof (program) % sizeof (uint32_t))
 	{
 		uint32_t zeros = 0;
 		ssize_t count = sizeof (uint32_t) - sizeof (program) % sizeof (uint32_t);
-		if (write (fd, &zeros, count) != count) 
+		if (write (fd, &zeros, count) != count)
 		{
 			unlink (MDIO_PROGRAM);
 			error (1, errno, "Can't write %s", MDIO_PROGRAM);

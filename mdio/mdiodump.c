@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -86,7 +86,7 @@
 #define PHY_GENERIC 0
 #define PHY_AR8236  1
 
-struct _code_ switches [] = 
+struct _code_ switches [] =
 
 {
 	{
@@ -108,7 +108,7 @@ struct _code_ switches [] =
 #pragma pack (push,1)
 #endif
 
-struct __packed command 
+struct __packed command
 
 {
 	uint16_t ctrl;
@@ -128,7 +128,7 @@ struct __packed command
 #define PHY_REGISTER 0
 #define GBL_REGISTER 1
 
-struct reg 
+struct reg
 
 {
 	uint32_t address;
@@ -138,7 +138,7 @@ struct reg
 	uint8_t type;
 };
 
-struct memmap 
+struct memmap
 
 {
 	unsigned size;
@@ -150,26 +150,26 @@ struct memmap
 /*====================================================================*
  *
  *   signed write_phy_reg (struct memmap * memmap, uint8_t phy, uint8_t reg, uint16_t data, uint16_t mask);
- * 
- * 
+ *
+ *
  *
  *--------------------------------------------------------------------*/
 
-static signed write_phy_reg (struct memmap * memmap, uint8_t phy, uint8_t reg, uint16_t data, uint16_t mask) 
+static signed write_phy_reg (struct memmap * memmap, uint8_t phy, uint8_t reg, uint16_t data, uint16_t mask)
 
 {
 	unsigned i;
-	for (i = 0; i < memmap->used; ++i) 
+	for (i = 0; i < memmap->used; ++i)
 	{
-		if (memmap->reg [i].type != PHY_REGISTER) 
+		if (memmap->reg [i].type != PHY_REGISTER)
 		{
 			continue;
 		}
-		if (memmap->reg [i].phy != phy) 
+		if (memmap->reg [i].phy != phy)
 		{
 			continue;
 		}
-		if (memmap->reg [i].reg == reg) 
+		if (memmap->reg [i].reg == reg)
 		{
 			continue;
 		}
@@ -177,7 +177,7 @@ static signed write_phy_reg (struct memmap * memmap, uint8_t phy, uint8_t reg, u
 		memmap->reg [i].content |= mask & data;
 		return (0);
 	}
-	if (memmap->used < memmap->size) 
+	if (memmap->used < memmap->size)
 	{
 		memmap->reg [i].phy = phy;
 		memmap->reg [i].reg = reg;
@@ -194,42 +194,42 @@ static signed write_phy_reg (struct memmap * memmap, uint8_t phy, uint8_t reg, u
 /*====================================================================*
  *
  *   signed write_gbl_reg (struct memmap *memmap, uint32_t address, uint8_t upper, uint16_t data, uint16_t mask);
- * 
- * 
+ *
+ *
  *
  *--------------------------------------------------------------------*/
 
-static signed write_gbl_reg (struct memmap * memmap, uint32_t address, uint8_t upper, uint16_t data, uint16_t mask) 
+static signed write_gbl_reg (struct memmap * memmap, uint32_t address, uint8_t upper, uint16_t data, uint16_t mask)
 
 {
 	unsigned i;
-	for (i = 0; i < memmap->used; ++i) 
+	for (i = 0; i < memmap->used; ++i)
 	{
-		if (memmap->reg [i].type != GBL_REGISTER) 
+		if (memmap->reg [i].type != GBL_REGISTER)
 		{
 			continue;
 		}
-		if (memmap->reg [i].address != address) 
+		if (memmap->reg [i].address != address)
 		{
 			continue;
 		}
-		if (upper) 
+		if (upper)
 		{
 			memmap->reg [i].content &= (mask << 16) | 0x0000FFFF;
 			memmap->reg [i].content |= (mask & data) << 16;
 		}
-		else 
+		else
 		{
 			memmap->reg [i].content &= mask | 0xFFFF0000;
 			memmap->reg [i].content |= mask & data;
 		}
 		return (0);
 	}
-	if (memmap->used < memmap->size) 
+	if (memmap->used < memmap->size)
 	{
 		memmap->reg [i].address = address;
 		memmap->reg [i].content = mask & data;
-		if (upper) 
+		if (upper)
 		{
 			memmap->reg [i].content <<= 16;
 		}
@@ -247,26 +247,26 @@ static signed write_gbl_reg (struct memmap * memmap, uint32_t address, uint8_t u
 /*====================================================================*
  *
  *   signed read_phy_reg (struct memmap * memmap, uint8_t phy, uint8_t reg, uint32_t * data);
- * 
- * 
+ *
+ *
  *
  *--------------------------------------------------------------------*/
 
-static signed read_phy_reg (struct memmap * memmap, uint8_t phy, uint8_t reg, uint32_t * data) 
+static signed read_phy_reg (struct memmap * memmap, uint8_t phy, uint8_t reg, uint32_t * data)
 
 {
 	unsigned i;
-	for (i = 0; i < memmap->used; ++i) 
+	for (i = 0; i < memmap->used; ++i)
 	{
-		if (memmap->reg [i].type != PHY_REGISTER) 
+		if (memmap->reg [i].type != PHY_REGISTER)
 		{
 			continue;
 		}
-		if (memmap->reg [i].phy != phy) 
+		if (memmap->reg [i].phy != phy)
 		{
 			continue;
 		}
-		if (memmap->reg [i].reg != reg) 
+		if (memmap->reg [i].reg != reg)
 		{
 			continue;
 		}
@@ -280,22 +280,22 @@ static signed read_phy_reg (struct memmap * memmap, uint8_t phy, uint8_t reg, ui
 /*====================================================================*
  *
  *   signed read_gbl_reg (struct memmap * memmap, uint32_t address, uint32_t * content);
- * 
- * 
+ *
+ *
  *
  *--------------------------------------------------------------------*/
 
-static signed read_gbl_reg (struct memmap * memmap, uint32_t address, uint32_t * content) 
+static signed read_gbl_reg (struct memmap * memmap, uint32_t address, uint32_t * content)
 
 {
 	unsigned i;
-	for (i = 0; i < memmap->used; ++i) 
+	for (i = 0; i < memmap->used; ++i)
 	{
-		if (memmap->reg [i].type != GBL_REGISTER) 
+		if (memmap->reg [i].type != GBL_REGISTER)
 		{
 			continue;
 		}
-		if (memmap->reg [i].address != address) 
+		if (memmap->reg [i].address != address)
 		{
 			continue;
 		}
@@ -312,21 +312,21 @@ static signed read_gbl_reg (struct memmap * memmap, uint32_t address, uint32_t *
  *
  *   void print_memmap (struct memmap *memmap);
  *
- * 
+ *
  *
  *--------------------------------------------------------------------*/
 
-static void print_memmap (struct memmap * memmap) 
+static void print_memmap (struct memmap * memmap)
 
 {
 	unsigned i;
-	for (i = 0; i < memmap->used; ++i) 
+	for (i = 0; i < memmap->used; ++i)
 	{
-		if (memmap->reg [i].type == PHY_REGISTER) 
+		if (memmap->reg [i].type == PHY_REGISTER)
 		{
 			printf ("phy 0x%02x, reg 0x%02x: 0x%04x\n", memmap->reg [i].phy, memmap->reg [i].reg, memmap->reg [i].content);
 		}
-		if (memmap->reg [i].type == GBL_REGISTER) 
+		if (memmap->reg [i].type == GBL_REGISTER)
 		{
 			printf ("0x%08x: 0x%08x\n", memmap->reg [i].address, memmap->reg [i].content);
 		}
@@ -339,17 +339,17 @@ static void print_memmap (struct memmap * memmap)
  *
  *   void print_command (struct command *command);
  *
- * 
+ *
  *
  *--------------------------------------------------------------------*/
 
-static void print_command (struct command * command) 
+static void print_command (struct command * command)
 
 {
-	union __packed 
+	union __packed
 	{
 		uint16_t data;
-		struct __packed 
+		struct __packed
 		{
 			uint16_t start: 2;
 			uint16_t operation: 2;
@@ -370,15 +370,15 @@ static void print_command (struct command * command)
  *
  *   signed init_memmap (unsigned count, struct memmap * memmap);
  *
- * 
+ *
  *
  *--------------------------------------------------------------------*/
 
-static signed init_memmap (unsigned count, struct memmap * memmap) 
+static signed init_memmap (unsigned count, struct memmap * memmap)
 
 {
 	memmap->reg = calloc (count, sizeof (struct reg));
-	if (memmap->reg == NULL) 
+	if (memmap->reg == NULL)
 	{
 		error (1, errno, "could not allocate reg memory");
 	}
@@ -392,11 +392,11 @@ static signed init_memmap (unsigned count, struct memmap * memmap)
  *
  *   void free_memmap (struct memmap * memmap);
  *
- * 
+ *
  *
  *--------------------------------------------------------------------*/
 
-static void free_memmap (struct memmap * memmap) 
+static void free_memmap (struct memmap * memmap)
 
 {
 	free (memmap->reg);
@@ -411,7 +411,7 @@ static void free_memmap (struct memmap * memmap)
  *
  *--------------------------------------------------------------------*/
 
-static signed phy_ar8236 (char const * filename, unsigned commands, flag_t flags) 
+static signed phy_ar8236 (char const * filename, unsigned commands, flag_t flags)
 
 {
 	struct command command;
@@ -421,13 +421,13 @@ static signed phy_ar8236 (char const * filename, unsigned commands, flag_t flags
 	uint16_t high_addr = 0;
 	uint32_t address;
 	uint16_t low_address;
-	if (init_memmap (commands, &memmap)) 
+	if (init_memmap (commands, &memmap))
 	{
 		error (1, 0, "could not allocate memory for simulation");
 	}
-	while (commands--) 
+	while (commands--)
 	{
-		if (read (STDIN_FILENO, &command, sizeof (struct command)) != sizeof (struct command)) 
+		if (read (STDIN_FILENO, &command, sizeof (struct command)) != sizeof (struct command))
 		{
 			error (0, errno, FILE_CANTREAD, filename);
 			return (-1);
@@ -436,16 +436,16 @@ static signed phy_ar8236 (char const * filename, unsigned commands, flag_t flags
 		command.data = LE16TOH (command.data);
 		command.mask = LE16TOH (command.mask);
 		ar8236_code = (command.ctrl & 0x180) >> 7;
-		switch (ar8236_code) 
+		switch (ar8236_code)
 		{
 		case MDIO32_NORMAL:
-			if (_anyset (flags, MDIODUMP_VERBOSE)) 
+			if (_anyset (flags, MDIODUMP_VERBOSE))
 			{
 				printf ("Normal MDIO Operation:\n");
 				printf ("\tPhy Address: 0x%02x\n", (command.ctrl & 0x1F0) >> 4);
 				printf ("\tRegister Address: 0x%02x\n", (command.ctrl & 0x3E00) >> 9);
 			}
-			if ((command.ctrl & 0x0C) >> 2 == 0x01) 
+			if ((command.ctrl & 0x0C) >> 2 == 0x01)
 			{
 				write_phy_reg (&memmap, (command.ctrl & 0x1F0) >> 4, (command.ctrl & 0x3E00) >> 9, command.data, command.mask);
 			}
@@ -453,23 +453,23 @@ static signed phy_ar8236 (char const * filename, unsigned commands, flag_t flags
 		case MDIO32_SET_HIGH:
 			set_high_addr = 1;
 			high_addr = command.data & 0x3FF & command.mask;
-			if ((command.ctrl & 0x0C) >> 2 == 0x01) 
+			if ((command.ctrl & 0x0C) >> 2 == 0x01)
 			{
-				if (_anyset (flags, MDIODUMP_VERBOSE)) 
+				if (_anyset (flags, MDIODUMP_VERBOSE))
 				{
 					printf ("Set High Address to 0x%03x:\n", high_addr);
 				}
 			}
-			else 
+			else
 			{
-				if (_anyset (flags, MDIODUMP_VERBOSE)) 
+				if (_anyset (flags, MDIODUMP_VERBOSE))
 				{
 					printf ("Read High Address:\n");
 				}
 			}
 			break;
 		case MDIO32_ACCESS_USING_HIGH:
-			if (!set_high_addr) 
+			if (!set_high_addr)
 			{
 				error (0, 0, "warning: high address bits not set when attempting to do a 32 bit read, assuming high address bits are 0");
 				high_addr = 0;
@@ -478,17 +478,17 @@ static signed phy_ar8236 (char const * filename, unsigned commands, flag_t flags
 			low_address |= (command.ctrl & 0x070) << 1;
 			address = high_addr << 9;
 			address |= (low_address << 1) & 0xFFFFFFFC;
-			if (low_address & 0x01) 
+			if (low_address & 0x01)
 			{
-				if (_anyset (flags, MDIODUMP_VERBOSE)) 
+				if (_anyset (flags, MDIODUMP_VERBOSE))
 				{
 					printf ("Access bits 31:16 using address 0x%08x:\n", address);
 				}
 				write_gbl_reg (&memmap, address, 1, command.data, command.mask);
 			}
-			else 
+			else
 			{
-				if (_anyset (flags, MDIODUMP_VERBOSE)) 
+				if (_anyset (flags, MDIODUMP_VERBOSE))
 				{
 					printf ("Access bits 15:0 using address 0x%08x:\n", address);
 				}
@@ -496,11 +496,11 @@ static signed phy_ar8236 (char const * filename, unsigned commands, flag_t flags
 			}
 			break;
 		}
-		if ((command.ctrl & 0x03) != 0x01) 
+		if ((command.ctrl & 0x03) != 0x01)
 		{
 			error (1, ECANCELED, "start command must be 0x01");
 		}
-		if (_anyset (flags, MDIODUMP_VERBOSE)) 
+		if (_anyset (flags, MDIODUMP_VERBOSE))
 		{
 			printf ("\tStart: 0x%02x\n", command.ctrl & 0x03);
 			printf ("\tOperation: 0x%02x (%s)\n", (command.ctrl & 0x0C) >> 2, ((command.ctrl & 0x0C) >> 2 == 0x01)? "write": "read");
@@ -510,7 +510,7 @@ static signed phy_ar8236 (char const * filename, unsigned commands, flag_t flags
 			printf ("\n");
 		}
 	}
-	if (_anyset (flags, MDIODUMP_SUMMARY)) 
+	if (_anyset (flags, MDIODUMP_SUMMARY))
 	{
 		printf ("Memory after execution:\n");
 		print_memmap (&memmap);
@@ -524,24 +524,24 @@ static signed phy_ar8236 (char const * filename, unsigned commands, flag_t flags
  *
  *   signed phy_generic (char const * filename, unsigned commands, flag_t flags);
  *
- *   assume instructions are 16-bit and display them in human readable 
+ *   assume instructions are 16-bit and display them in human readable
  *   format on stdout;
  *
  *
  *--------------------------------------------------------------------*/
 
-static signed phy_generic (char const * filename, unsigned commands, flag_t flags) 
+static signed phy_generic (char const * filename, unsigned commands, flag_t flags)
 
 {
 	struct command command;
 	struct memmap memmap;
-	if (init_memmap (commands, &memmap)) 
+	if (init_memmap (commands, &memmap))
 	{
 		error (1, 0, "could not allocate memory for simulation");
 	}
-	while (commands--) 
+	while (commands--)
 	{
-		if (read (STDIN_FILENO, &command, sizeof (command)) != sizeof (command)) 
+		if (read (STDIN_FILENO, &command, sizeof (command)) != sizeof (command))
 		{
 			error (0, errno, FILE_CANTREAD, filename);
 			return (-1);
@@ -549,11 +549,11 @@ static signed phy_generic (char const * filename, unsigned commands, flag_t flag
 		command.ctrl = LE16TOH (command.ctrl);
 		command.data = LE16TOH (command.data);
 		command.mask = LE16TOH (command.mask);
-		if ((command.ctrl & 0x03) != 0x01) 
+		if ((command.ctrl & 0x03) != 0x01)
 		{
 			error (1, ECANCELED, "start command must be 0x01");
 		}
-		if (_anyset (flags, MDIODUMP_VERBOSE)) 
+		if (_anyset (flags, MDIODUMP_VERBOSE))
 		{
 			printf ("Start: 0x%02x\n", command.ctrl & 0x03);
 			printf ("Operation: 0x%02x (%s)\n", (command.ctrl & 0x0C) >> 2, ((command.ctrl & 0x0C) >> 2 == 0x01)? "write": "read");
@@ -565,9 +565,9 @@ static signed phy_generic (char const * filename, unsigned commands, flag_t flag
 			printf ("\n");
 			continue;
 		}
-		if ((command.ctrl & 0x0C) >> 2 == 0x01) 
+		if ((command.ctrl & 0x0C) >> 2 == 0x01)
 		{
-			if (_anyset (flags, MDIODUMP_SUMMARY)) 
+			if (_anyset (flags, MDIODUMP_SUMMARY))
 			{
 				write_phy_reg (&memmap, (command.ctrl & 0x1F0) >> 4, (command.ctrl & 0x3E00) >> 9, command.data, command.mask);
 				continue;
@@ -576,7 +576,7 @@ static signed phy_generic (char const * filename, unsigned commands, flag_t flag
 			continue;
 		}
 	}
-	if (_anyset (flags, MDIODUMP_SUMMARY)) 
+	if (_anyset (flags, MDIODUMP_SUMMARY))
 	{
 		printf ("Memory after execution:\n");
 		print_memmap (&memmap);
@@ -590,7 +590,7 @@ static signed phy_generic (char const * filename, unsigned commands, flag_t flag
  *
  *   signed function (char const * filename, unsigned phy_code, flag_t flags);
  *
- *   read the MDIO block header to determine the number of MDIO 
+ *   read the MDIO block header to determine the number of MDIO
  *   instructions in the program block; call appropriate function
  *   to interpret instructions and display them in human readable
  *   format;
@@ -598,12 +598,12 @@ static signed phy_generic (char const * filename, unsigned commands, flag_t flag
  *
  *--------------------------------------------------------------------*/
 
-static signed function (char const * filename, unsigned phy_code, flag_t flags) 
+static signed function (char const * filename, unsigned phy_code, flag_t flags)
 
 {
 	uint16_t mdio_header;
 	unsigned commands;
-	if (read (STDIN_FILENO, &mdio_header, sizeof (mdio_header)) != sizeof (mdio_header)) 
+	if (read (STDIN_FILENO, &mdio_header, sizeof (mdio_header)) != sizeof (mdio_header))
 	{
 		error (0, errno, FILE_CANTREAD, filename);
 		return (-1);
@@ -611,16 +611,16 @@ static signed function (char const * filename, unsigned phy_code, flag_t flags)
 	mdio_header = LE16TOH (mdio_header);
 	commands = (mdio_header & 0xFFC0) >> 6;
 	printf ("# ------- %s -------\n", filename);
-	if (_anyset (flags, MDIODUMP_SUMMARY)) 
+	if (_anyset (flags, MDIODUMP_SUMMARY))
 	{
 		printf ("Enabled: %s\n", (mdio_header & 0x0001)? "yes": "no");
 		printf ("Number of Commands: %d\n", commands);
 	}
-	if (phy_code == PHY_GENERIC) 
+	if (phy_code == PHY_GENERIC)
 	{
 		return (phy_generic (filename, commands, flags));
 	}
-	if (phy_code == PHY_AR8236) 
+	if (phy_code == PHY_AR8236)
 	{
 		return (phy_ar8236 (filename, commands, flags));
 	}
@@ -629,17 +629,17 @@ static signed function (char const * filename, unsigned phy_code, flag_t flags)
 
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, const char * argv []);
  *
  *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, const char * argv []) 
+int main (int argc, const char * argv [])
 
 {
-	static const char *optv [] = 
+	static const char *optv [] =
 	{
 		"st:v",
 		"file [file] [...]",
@@ -654,15 +654,15 @@ int main (int argc, const char * argv [])
 	signed state = 0;
 	signed c;
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch ((char) (c)) 
+		switch ((char) (c))
 		{
 		case 's':
 			_setbits (flags, MDIODUMP_SUMMARY);
 			break;
 		case 't':
-			if ((c = lookup (optarg, switches, SIZEOF (switches))) == -1) 
+			if ((c = lookup (optarg, switches, SIZEOF (switches))) == -1)
 			{
 				assist (optarg, "type", switches, SIZEOF (switches));
 			}
@@ -681,19 +681,19 @@ int main (int argc, const char * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (!argc) 
+	if (!argc)
 	{
 		function ("stdin", phy_code, flags);
 	}
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
-		if (!freopen (* argv, "rb", stdin)) 
+		if (!freopen (* argv, "rb", stdin))
 		{
 			error (0, errno, "%s", * argv);
 			state = 1;
 			errno = 0;
 		}
-		else if (function (* argv, phy_code, flags)) 
+		else if (function (* argv, phy_code, flags))
 		{
 			state = 1;
 		}

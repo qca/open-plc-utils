@@ -1,21 +1,21 @@
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -23,12 +23,12 @@
  *   CMEncrypt - Send Encrypted Payload;
  *
  *   this program sends and receives raw ethernet frames and so needs
- *   root privileges; if you install it using "chmod 555" and "chown 
- *   root:root" then you must login as root to run it; otherwise, you 
- *   can install it using "chmod 4555" and "chown root:root" so that 
+ *   root privileges; if you install it using "chmod 555" and "chown
+ *   root:root" then you must login as root to run it; otherwise, you
+ *   can install it using "chmod 4555" and "chown root:root" so that
  *   anyone can run it; the program will refuse to run until you get
  *   things right;
- *   
+ *
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
@@ -79,9 +79,9 @@
 #endif
 
 #ifndef MAKEFILE
-#include "../plc/Confirm.c"    
-#include "../plc/Failure.c"    
-#include "../plc/Request.c"    
+#include "../plc/Confirm.c"
+#include "../plc/Failure.c"
+#include "../plc/Request.c"
 #include "../plc/Devices.c"
 #endif
 
@@ -115,17 +115,17 @@
 #define CMENCRYPT_PID 0x04
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv[]);
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		"A:f:i:K:P:qv",
 		"device [device] [...]",
@@ -154,7 +154,7 @@ int main (int argc, char const * argv [])
 #pragma pack(push,1)
 #endif
 
-	struct __packed cm_encrypted_payload 
+	struct __packed cm_encrypted_payload
 	{
 		uint8_t PEKS;
 		uint8_t AVLN;
@@ -164,7 +164,7 @@ int main (int argc, char const * argv [])
 		uint8_t UUID [16];
 		uint16_t LEN;
 	}
-	template = 
+	template =
 	{
 		CMENCRYPT_PEKS,
 		CMENCRYPT_AVLN,
@@ -196,7 +196,7 @@ int main (int argc, char const * argv [])
 #pragma pack (pop)
 #endif
 
-	struct _file_ file = 
+	struct _file_ file =
 	{
 		-1,
 		(char const *) (0)
@@ -208,7 +208,7 @@ int main (int argc, char const * argv [])
 	uint8_t * buffer;
 	signed extent;
 	signed c;
-	if (getenv (PLCDEVICE)) 
+	if (getenv (PLCDEVICE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -223,12 +223,12 @@ int main (int argc, char const * argv [])
 
 	}
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'f':
-			if ((file.file = open (file.name = optarg, O_BINARY|O_RDONLY)) == -1) 
+			if ((file.file = open (file.name = optarg, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, "%s", file.name);
 			}
@@ -272,23 +272,23 @@ int main (int argc, char const * argv [])
  *	load entire file into memory;
  */
 
-	if (file.file == -1) 
+	if (file.file == -1)
 	{
 		error (1, ECANCELED, "No payload file given: Use -f <file>");
 	}
-	if ((extent = lseek (file.file, 0, SEEK_END)) == -1) 
+	if ((extent = lseek (file.file, 0, SEEK_END)) == -1)
 	{
 		error (1, errno, FILE_CANTSIZE, file.name);
 	}
-	if (!(buffer = malloc (extent))) 
+	if (!(buffer = malloc (extent)))
 	{
 		error (1, errno, FILE_CANTLOAD, file.name);
 	}
-	if (lseek (file.file, 0, SEEK_SET)) 
+	if (lseek (file.file, 0, SEEK_SET))
 	{
 		error (1, errno, FILE_CANTHOME, file.name);
 	}
-	if (read (file.file, buffer, extent) != extent) 
+	if (read (file.file, buffer, extent) != extent)
 	{
 		error (1, errno, FILE_CANTREAD, file.name);
 	}
@@ -296,12 +296,12 @@ int main (int argc, char const * argv [])
 	SHA256Reset (&sha256);
 	SHA256Write (&sha256, buffer, extent);
 	SHA256Fetch (&sha256, digest);
-	if (!argc) 
+	if (!argc)
 	{
 		error (1, ECANCELED, "No destination given");
 	}
 	openchannel (&channel);
-	while ((argc) && (* argv)) 
+	while ((argc) && (* argv))
 	{
 		signed offset = 0;
 		signed remain = extent;
@@ -310,23 +310,23 @@ int main (int argc, char const * argv [])
 
 		signed length = sizeof (struct packet_ms) - sizeof (template);
 
-#else   
+#else
 
 		signed length = 502 - sizeof (template);
 
 #endif
 
-		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices)))) 
+		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices))))
 		{
 			error (1, errno, PLC_BAD_MAC, * argv);
 		}
 		template.PRN = (uint16_t)(timer);
 		template.PMN = 0;
 		memcpy (template.UUID, digest, sizeof (template.UUID));
-		while (remain) 
+		while (remain)
 		{
 			uint8_t * memory = packet;
-			if (length > remain) 
+			if (length > remain)
 			{
 				length = remain;
 			}
@@ -340,11 +340,11 @@ int main (int argc, char const * argv [])
 			memcpy (memory, buffer + offset, length);
 			memory += length;
 			extent = (signed)(memory - packet);
-			if (extent < (ETHER_MIN_LEN - ETHER_CRC_LEN)) 
+			if (extent < (ETHER_MIN_LEN - ETHER_CRC_LEN))
 			{
 				extent = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 			}
-			if (sendpacket (&channel, packet, extent) < extent) 
+			if (sendpacket (&channel, packet, extent) < extent)
 			{
 				error (1, errno, CHANNEL_CANTSEND);
 			}

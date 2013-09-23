@@ -1,6 +1,6 @@
 /*====================================================================*
  *
- *   types.h - custom data type definitions and declarations; 
+ *   types.h - custom data type definitions and declarations;
  *
  *   this file is a subset of the original that includes only those
  *   definitions and declaration needed for toolkit programs;
@@ -19,7 +19,7 @@
 #define TYPES_HEADER
 
 /*====================================================================*
- *   system header files; 
+ *   system header files;
  *--------------------------------------------------------------------*/
 
 #include <stdint.h>
@@ -34,7 +34,7 @@
 #elif defined (WIN32)
 	#define SIZE_T_SPEC "%d"
 	#define OFF_T_SPEC "%ld"
-#elif defined (__APPLE__) 
+#elif defined (__APPLE__)
 	#define SIZE_T_SPEC "%zu"
 	#define OFF_T_SPEC "%lld"
 #elif defined (__OpenBSD__)
@@ -56,7 +56,7 @@ error "Unknown environment."
 #define SIZEOF(array) (sizeof(array)/sizeof(array[0]))
 
 /*====================================================================*
- *   new POSIX types; 
+ *   new POSIX types;
  *--------------------------------------------------------------------*/
 
 typedef signed errno_t;
@@ -69,7 +69,7 @@ typedef unsigned char byte;
 
 #ifndef __cplusplus
 
-typedef enum 
+typedef enum
 
 {
 	false,
@@ -102,7 +102,7 @@ typedef signed code_t;
 typedef unsigned char byte_t;
 typedef unsigned type_t;
 typedef unsigned flag_t;
-typedef struct _file_ 
+typedef struct _file_
 
 {
 	file_t file;
@@ -110,7 +110,7 @@ typedef struct _file_
 }
 
 file;
-typedef struct _term_ 
+typedef struct _term_
 
 {
 	char const * term;
@@ -118,7 +118,7 @@ typedef struct _term_
 }
 
 TERM;
-typedef struct _type_ 
+typedef struct _type_
 
 {
 	type_t type;
@@ -126,7 +126,7 @@ typedef struct _type_
 }
 
 TYPE;
-typedef struct _code_ 
+typedef struct _code_
 
 {
 	code_t code;

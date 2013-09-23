@@ -4,7 +4,7 @@
  *
  *   memory.h
  *
- *   print memory as a binary dump showing absolute memory offsets 
+ *   print memory as a binary dump showing absolute memory offsets
  *   and 32-bit binary register maps; sample output looks like:
  *
  *      REGISTER CONTENTS 31----24 23----16 15----08 07----00
@@ -31,19 +31,19 @@
 #include "../tools/memory.h"
 #include "../tools/endian.h"
 
-void regview32 (void const * memory, size_t offset, size_t extent, FILE *fp) 
+void regview32 (void const * memory, size_t offset, size_t extent, FILE *fp)
 
 {
 	uint32_t * origin = (uint32_t *)(memory);
-	while (extent >= sizeof (* origin)) 
+	while (extent >= sizeof (* origin))
 	{
 		signed bit = sizeof (* origin) << 3;
 		printf ("%08X ", (uint32_t)(offset));
 		printf ("%08X ", LE32TOH (* origin));
-		while (bit--) 
+		while (bit--)
 		{
 			putc (((LE32TOH (* origin) >> bit) & 1)? '1': '0', fp);
-			if ((bit) && !(bit%8)) 
+			if ((bit) && !(bit%8))
 			{
 				putc ('-', fp);
 			}
