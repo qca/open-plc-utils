@@ -34,8 +34,8 @@ signed ReadRules (struct plc * plc)
 
 	struct __packed vs_classification_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MCONTROL;
 		uint8_t RSVD;
 		uint8_t OFFSET;
@@ -44,8 +44,8 @@ signed ReadRules (struct plc * plc)
 	* request = (struct vs_classification_request *)(message);
 	struct __packed vs_classification_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint8_t TOTAL_CLASSIFIERS;
 		uint8_t OFFSET;

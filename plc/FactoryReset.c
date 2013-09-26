@@ -56,14 +56,14 @@ signed FactoryReset (struct plc * plc)
 
 	struct __packed vs_fac_defaults_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 	}
 	* request = (struct vs_fac_defaults_request *) (message);
 	struct __packed vs_fac_defaults_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 	}
 	* confirm = (struct vs_fac_defaults_confirm *) (message);

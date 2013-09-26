@@ -66,8 +66,8 @@ unsigned LocalDevices (struct channel const * channel, struct message * message,
 	extern const byte localcast [ETHER_ADDR_LEN];
 	struct vs_sw_ver_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 	}
 	* request = (struct vs_sw_ver_request *)(message);
 	uint8_t * origin = (uint8_t *)(memory);

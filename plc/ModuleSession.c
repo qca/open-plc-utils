@@ -51,8 +51,8 @@ signed ModuleSession (struct plc * plc, unsigned modules, struct vs_module_spec 
 
 	struct __packed vs_module_operation_start_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint32_t RESERVED1;
 		uint8_t NUM_OP_DATA;
 		struct __packed
@@ -69,8 +69,8 @@ signed ModuleSession (struct plc * plc, unsigned modules, struct vs_module_spec 
 	* request = (struct vs_module_operation_start_request *)(message);
 	struct __packed vs_module_operation_start_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint16_t MSTATUS;
 		uint16_t ERR_REC_CODE;
 		uint32_t RESERVED;

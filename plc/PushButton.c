@@ -55,15 +55,15 @@ signed PushButton (struct plc * plc)
 
 	struct __packed ms_pb_enc_request
 	{
-		struct ethernet_std ethernet;
-		struct homeplug_std homeplug;
+		struct ethernet_hdr ethernet;
+		struct homeplug_hdr homeplug;
 		uint8_t PBACTION;
 	}
 	* request = (struct ms_pb_enc_request *) (message);
 	struct __packed ms_pb_enc_confirm
 	{
-		struct ethernet_std ethernet;
-		struct homeplug_std homeplug;
+		struct ethernet_hdr ethernet;
+		struct homeplug_hdr homeplug;
 		uint8_t MSTATUS;
 		uint8_t AVLNSTAT;
 	}

@@ -72,8 +72,8 @@ void Failure (struct plc * plc, char const *format, ...)
 		struct message * message = (struct message *)(plc->message);
 		struct __packed header_confirm
 		{
-			ethernet_std ethernet;
-			qualcomm_std qualcomm;
+			ethernet_hdr ethernet;
+			qualcomm_hdr qualcomm;
 			uint8_t MSTATUS;
 		}
 		* header = (struct header_confirm *)(message);
@@ -88,8 +88,8 @@ void Failure (struct plc * plc, char const *format, ...)
 			{
 				struct __packed header_confirm
 				{
-					struct ethernet_std ethernet;
-					struct qualcomm_std qualcomm;
+					struct ethernet_hdr ethernet;
+					struct qualcomm_hdr qualcomm;
 					uint32_t REQUEST;
 					uint8_t MSTATUS;
 				}
@@ -105,8 +105,8 @@ void Failure (struct plc * plc, char const *format, ...)
 			{
 				struct __packed header_confirm
 				{
-					struct ethernet_std ethernet;
-					struct qualcomm_std qualcomm;
+					struct ethernet_hdr ethernet;
+					struct qualcomm_hdr qualcomm;
 					uint8_t MVERSION;
 					uint8_t RESULTCODE;
 				}

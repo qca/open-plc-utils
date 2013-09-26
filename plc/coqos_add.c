@@ -131,15 +131,15 @@ static signed add_conn (struct plc * plc, struct connection * connection)
 
 	struct __packed vs_add_conn_req
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		struct connection connection;
 	}
 	* request = (struct vs_add_conn_req *)(message);
 	struct __packed vs_add_conn_cnf
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint32_t REQ_ID;
 		uint8_t MSTATUS;
 		uint16_t ERR_REC_CODE;

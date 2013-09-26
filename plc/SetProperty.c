@@ -49,8 +49,8 @@ signed SetProperty (struct plc * plc, struct plcproperty * plcproperty)
 
 	struct __packed vs_set_property_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint32_t COOKIE;
 		uint8_t OPTION;
 		uint8_t RESERVED [3];
@@ -62,8 +62,8 @@ signed SetProperty (struct plc * plc, struct plcproperty * plcproperty)
 	* request = (struct vs_set_property_request *) (message);
 	struct __packed vs_set_property_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint32_t MSTATUS;
 		uint32_t COOKIE;
 	}

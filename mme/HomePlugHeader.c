@@ -20,7 +20,7 @@
 
 /*====================================================================*
  *
- *   signed HomePlugHeader (struct homeplug_std * header, uint8_t MMV, uint16_t MMTYPE);
+ *   signed HomePlugHeader (struct homeplug_hdr * header, uint8_t MMV, uint16_t MMTYPE);
  *
  *   mme.h
  *
@@ -42,7 +42,7 @@
 #include "../mme/mme.h"
 #include "../tools/endian.h"
 
-signed HomePlugHeader (struct homeplug_std * header, uint8_t MMV, uint16_t MMTYPE)
+signed HomePlugHeader (struct homeplug_hdr * header, uint8_t MMV, uint16_t MMTYPE)
 
 {
 	header->MMV = MMV;

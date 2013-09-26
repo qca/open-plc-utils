@@ -129,14 +129,14 @@ signed ResetAndWait (struct plc * plc)
 
 	struct __packed vs_rs_dev_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 	}
 	* request = (struct vs_rs_dev_request *) (message);
 	struct __packed vs_rs_dev_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 	}
 	* confirm = (struct vs_rs_dev_confirm *) (message);
@@ -214,8 +214,8 @@ signed WaitForReset (struct plc * plc, char string [], size_t length)
 
 	struct __packed vs_sw_ver_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint8_t MDEVICEID;
 		uint8_t MVERLENGTH;
@@ -224,8 +224,8 @@ signed WaitForReset (struct plc * plc, char string [], size_t length)
 	* request = (struct vs_sw_ver_request *) (message);
 	struct __packed vs_sw_ver_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint8_t MDEVICEID;
 		uint8_t MVERLENGTH;
@@ -309,8 +309,8 @@ signed WaitForStart (struct plc * plc, char string [], size_t length)
 
 	struct __packed vs_sw_ver_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint8_t MDEVICEID;
 		uint8_t MVERLENGTH;
@@ -319,8 +319,8 @@ signed WaitForStart (struct plc * plc, char string [], size_t length)
 	* request = (struct vs_sw_ver_request *) (message);
 	struct __packed vs_sw_ver_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint8_t MDEVICEID;
 		uint8_t MVERLENGTH;
@@ -408,13 +408,13 @@ signed WaitForAssoc (struct plc * plc)
 
 	struct __packed vs_nw_info_request
 	{
-		struct ethernet_std ethernet;
+		struct ethernet_hdr ethernet;
 		struct qualcomm_fmi qualcomm;
 	}
 	* request = (struct vs_nw_info_request *)(message);
 	struct __packed vs_nw_info_confirm
 	{
-		struct ethernet_std ethernet;
+		struct ethernet_hdr ethernet;
 		struct qualcomm_fmi qualcomm;
 		uint8_t SUB_VERSION;
 		uint8_t Reserved;

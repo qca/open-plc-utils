@@ -321,8 +321,8 @@ signed MDUTrafficStats (struct plc * plc, uint8_t command, uint8_t session, uint
 
 	struct __packed vs_mdu_station_stats_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t COMMAND;
 		uint8_t SESSION;
 		uint32_t SLAVE_BITMAP [8];
@@ -330,8 +330,8 @@ signed MDUTrafficStats (struct plc * plc, uint8_t command, uint8_t session, uint
 	* request = (struct vs_mdu_station_stats_request *) (message);
 	struct __packed vs_mdu_traffic_master_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t COMMAND;
 		uint8_t SESSION;
 		uint16_t RESERVED;
@@ -343,8 +343,8 @@ signed MDUTrafficStats (struct plc * plc, uint8_t command, uint8_t session, uint
 	* master_confirm = (struct vs_mdu_traffic_master_confirm *) (message);
 	struct __packed vs_mdu_traffic_slave_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t COMMAND;
 		uint8_t SESSION;
 		uint16_t STATS_LEN;
@@ -356,8 +356,8 @@ signed MDUTrafficStats (struct plc * plc, uint8_t command, uint8_t session, uint
 
 	struct __packed vs_eth_hardware_stats_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t COMMAND;
 		uint8_t SESSION;
 		uint8_t CHIPTYPE;

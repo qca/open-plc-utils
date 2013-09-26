@@ -58,15 +58,15 @@ signed FlashMOD (struct channel * channel, uint8_t module)
 
 	struct __packed vs_mod_nvm_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MODULEID;
 	}
 	* request = (struct vs_mod_nvm_request *) (&message);
 	struct __packed vs_mod_nvm_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint8_t MODULEID;
 	}

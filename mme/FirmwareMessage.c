@@ -54,7 +54,7 @@ signed FirmwareMessage (void const * memory)
 #pragma pack (push,1)
 #endif
 
-	static struct qualcomm_std header_arpc =
+	static struct qualcomm_hdr header_arpc =
 	{
 		0,
 		0,
@@ -66,8 +66,8 @@ signed FirmwareMessage (void const * memory)
 	};
 	struct __packed vs_arpc_indicate
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint16_t RDATALENGTH;
 		uint8_t RDATAOFFSET;
 		uint8_t RDATA [1];

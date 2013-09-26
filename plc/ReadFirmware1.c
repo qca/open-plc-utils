@@ -64,8 +64,8 @@ signed ReadFirmware1 (struct plc * plc)
 
 	struct __packed vs_rd_mod_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MODULEID;
 		uint8_t MACCESS;
 		uint16_t MLENGTH;
@@ -75,8 +75,8 @@ signed ReadFirmware1 (struct plc * plc)
 	* request = (struct vs_rd_mod_request *) (message);
 	struct __packed vs_rd_mod_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint8_t RES [3];
 		uint8_t MODULEID;

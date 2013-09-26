@@ -55,8 +55,8 @@ signed SlaveMembership (struct plc * plc)
 
 	struct __packed vs_slave_mem_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t SLAVE_ADDR [ETHER_ADDR_LEN];
 		uint8_t AUTHORIZATION_MODE;
 		uint8_t ASSOC_RETRY_TIME;
@@ -64,8 +64,8 @@ signed SlaveMembership (struct plc * plc)
 	* request = (struct vs_slave_mem_request *) (message);
 	struct __packed vs_slave_mem_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 	}
 	* confirm = (struct vs_slave_mem_confirm *) (message);

@@ -52,8 +52,8 @@ signed LocalDeviceList (struct plc * plc, char const * space, char const * comma
 
 	struct __packed vs_sw_ver_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 	}
 	* request = (struct vs_sw_ver_request *) (message);
 

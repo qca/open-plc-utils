@@ -103,16 +103,16 @@ signed SignalToNoise1 (struct plc * plc)
 
 	struct __packed vs_tone_slot_char_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MACADDRESS [ETHER_ADDR_LEN];
 		uint8_t TMSLOT;
 	}
 	* request = (struct vs_tone_slot_char_request *) (message);
 	struct __packed vs_tone_slot_char_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint8_t TMSLOT;
 		uint8_t NUMTMS;

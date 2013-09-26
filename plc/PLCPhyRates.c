@@ -60,8 +60,8 @@ signed PLCPhyRates (struct plc * plc)
 
 	struct __packed vs_sw_ver_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint8_t MDEVICEID;
 		uint8_t MVERLENGTH;
@@ -70,8 +70,8 @@ signed PLCPhyRates (struct plc * plc)
 	* request = (struct vs_sw_ver_request *) (message);
 	struct __packed vs_sw_ver_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint8_t MDEVICEID;
 		uint8_t MVERLENGTH;

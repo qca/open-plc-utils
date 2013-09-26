@@ -57,8 +57,8 @@ signed Antiphon (struct plc * plc, byte source [], byte target [])
 
 	struct __packed vs_fr_lbk_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t DURATION;
 		uint8_t RESERVED;
 		uint16_t LENGTH;

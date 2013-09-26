@@ -63,16 +63,16 @@ signed WatchdogReport (struct plc * plc)
 
 	struct __packed vs_wd_rpt_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint16_t SESSIONID;
 		uint8_t CLR;
 	}
 	* request = (struct vs_wd_rpt_request *) (message);
 	struct __packed vs_wd_rpt_ind
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint16_t SESSIONID;
 		uint8_t NUMPARTS;

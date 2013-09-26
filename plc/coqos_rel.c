@@ -124,8 +124,8 @@ signed rel_conn (struct plc * plc, uint16_t CID)
 
 	struct __packed vs_rel_conn_req
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint32_t REQ_ID;
 		uint32_t RSVD;
 		uint16_t CID;
@@ -133,8 +133,8 @@ signed rel_conn (struct plc * plc, uint16_t CID)
 	* request = (struct vs_rel_conn_req *)(message);
 	struct __packed vs_rel_conn_cnf
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint32_t REQ_ID;
 		uint8_t MSTATUS;
 		uint16_t ERR_REC_CODE;

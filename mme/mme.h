@@ -74,7 +74,7 @@
 #pragma pack (push, 1)
 #endif
 
-typedef struct __packed ethernet_std
+typedef struct __packed ethernet_hdr
 
 {
 	uint8_t ODA [ETHER_ADDR_LEN];
@@ -82,15 +82,15 @@ typedef struct __packed ethernet_std
 	uint16_t MTYPE;
 }
 
-ethernet_std;
-typedef struct __packed homeplug_std
+ethernet_hdr;
+typedef struct __packed homeplug_hdr
 
 {
 	uint8_t MMV;
 	uint16_t MMTYPE;
 }
 
-homeplug_std;
+homeplug_hdr;
 typedef struct __packed homeplug_fmi
 
 {
@@ -101,7 +101,7 @@ typedef struct __packed homeplug_fmi
 }
 
 homeplug_fmi;
-typedef struct __packed qualcomm_std
+typedef struct __packed qualcomm_hdr
 
 {
 	uint8_t MMV;
@@ -109,7 +109,7 @@ typedef struct __packed qualcomm_std
 	uint8_t OUI [ETHER_ADDR_LEN >> 1];
 }
 
-qualcomm_std;
+qualcomm_hdr;
 typedef struct __packed qualcomm_fmi
 
 {
@@ -137,7 +137,7 @@ qualcomm_fmi;
 typedef struct __packed message
 
 {
-	struct ethernet_std ethernet;
+	struct ethernet_hdr ethernet;
 	uint8_t content [ETHERMTU];
 }
 
@@ -145,7 +145,7 @@ MESSAGE;
 typedef struct __packed homeplug
 
 {
-	struct ethernet_std ethernet;
+	struct ethernet_hdr ethernet;
 	struct homeplug_fmi homeplug;
 	uint8_t content [ETHERMTU - sizeof (struct homeplug_fmi)];
 }
@@ -154,7 +154,7 @@ HOMEPLUG;
 typedef struct __packed qualcomm
 
 {
-	struct ethernet_std ethernet;
+	struct ethernet_hdr ethernet;
 	struct qualcomm_fmi qualcomm;
 	uint8_t content [ETHERMTU - sizeof (struct qualcomm_fmi)];
 }
@@ -187,8 +187,8 @@ char const * MMECode (uint16_t MMTYPE, uint8_t MSTATUS);
  *--------------------------------------------------------------------*/
 
 signed EthernetHeader (void * memory, const uint8_t peer [], const uint8_t host [], uint16_t protocol);
-signed HomePlugHeader (struct homeplug_std *, uint8_t MMV, uint16_t MMTYPE);
-signed QualcommHeader (struct qualcomm_std *, uint8_t MMV, uint16_t MMTYPE);
+signed HomePlugHeader (struct homeplug_hdr *, uint8_t MMV, uint16_t MMTYPE);
+signed QualcommHeader (struct qualcomm_hdr *, uint8_t MMV, uint16_t MMTYPE);
 signed HomePlugHeader1 (struct homeplug_fmi *, uint8_t MMV, uint16_t MMTYPE);
 signed QualcommHeader1 (struct qualcomm_fmi *, uint8_t MMV, uint16_t MMTYPE);
 

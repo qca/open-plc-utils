@@ -98,7 +98,7 @@ signed ToneMaps2 (struct plc * plc)
 
 	struct __packed vs_tonemap_char_request
 	{
-		struct ethernet_std ethernet;
+		struct ethernet_hdr ethernet;
 		struct qualcomm_fmi qualcomm;
 		uint8_t MME_SUBVER;
 		uint8_t Reserved1 [3];
@@ -109,7 +109,7 @@ signed ToneMaps2 (struct plc * plc)
 	* request = (struct vs_tonemap_char_request *) (message);
 	struct __packed vs_tonemap_char_confirm
 	{
-		struct ethernet_std ethernet;
+		struct ethernet_hdr ethernet;
 		struct qualcomm_fmi qualcomm;
 		uint8_t MSTATUS;
 		uint8_t Reserved1;
@@ -135,7 +135,7 @@ signed ToneMaps2 (struct plc * plc)
 	* confirm = (struct vs_tonemap_char_confirm *) (message);
 	struct __packed vs_tonemap_char_fragment
 	{
-		struct ethernet_std ethernet;
+		struct ethernet_hdr ethernet;
 		struct homeplug_fmi qualcomm;
 		uint8_t MOD_CARRIER [1];
 	}

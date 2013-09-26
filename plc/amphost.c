@@ -187,8 +187,8 @@ signed function (struct plc * plc)
 
 	struct __packed vs_host_action_ind
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MACTION;
 		uint8_t MAJOR_VERSION;
 		uint8_t MINOR_VERSION;

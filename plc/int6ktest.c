@@ -144,7 +144,7 @@ signed ReadMME (struct plc * plc, uint8_t MMV, uint16_t MMTYPE)
 #pragma pack (push,1)
 #endif
 
-	static qualcomm_std header_arpc =
+	static qualcomm_hdr header_arpc =
 	{
 		0,
 		VS_ARPC | MMTYPE_IND,
@@ -156,8 +156,8 @@ signed ReadMME (struct plc * plc, uint8_t MMV, uint16_t MMTYPE)
 	};
 	struct __packed vs_arpc_ind
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint16_t RDATALENGTH;
 		uint8_t RDATAOFFSET;
 		uint8_t RDATA [1];

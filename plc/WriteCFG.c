@@ -64,16 +64,16 @@ int WriteCFG (struct plc * plc)
 
 	struct __packed vs_set_sdram_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		struct config_ram config_ram;
 		uint32_t CHECKSUM;
 	}
 	* request = (struct vs_set_sdram_request *) (message);
 	struct __packed vs_set_sdram_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 	}
 	* confirm = (struct vs_set_sdram_confirm *) (message);

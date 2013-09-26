@@ -62,8 +62,8 @@ signed NetworkInfoStats (struct plc * plc)
 
 	struct __packed vs_ns_info_stats_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t FIRST_TEI;
 	}
 	* request = (struct vs_ns_info_stats_request *)(message);
@@ -91,8 +91,8 @@ signed NetworkInfoStats (struct plc * plc)
 	* network;
 	struct __packed vs_ns_info_stats_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t FIRST_TEI;
 		uint8_t IN_AVLN;
 		struct network network;
@@ -103,7 +103,7 @@ signed NetworkInfoStats (struct plc * plc)
 
 	struct __packed vs_ns_info_stats_request
 	{
-		struct ethernet_std ethernet;
+		struct ethernet_hdr ethernet;
 		struct qualcomm_fmi qualcomm;
 		uint8_t MME_SUBVER;
 		uint8_t RESERVED [3];
@@ -144,7 +144,7 @@ signed NetworkInfoStats (struct plc * plc)
 	* network;
 	struct __packed vs_ns_info_stats_confirm
 	{
-		struct ethernet_std ethernet;
+		struct ethernet_hdr ethernet;
 		struct qualcomm_fmi qualcomm;
 		uint8_t SUB_VERSION;
 		uint8_t Reserved;

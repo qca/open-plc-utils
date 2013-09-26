@@ -333,8 +333,8 @@ int main (int argc, char const * argv [])
 			template.PMN++;
 			template.LEN = HTOLE16 (length);
 			memset (memory, 0, sizeof (struct message));
-			memory += EthernetHeader ((struct ethernet_std *)(memory), channel.peer, channel.host, channel.type);
-			memory += HomePlugHeader ((struct homeplug_std *)(memory), 0, (CM_ENCRYPTED_PAYLOAD | MMTYPE_IND));
+			memory += EthernetHeader ((struct ethernet_hdr *)(memory), channel.peer, channel.host, channel.type);
+			memory += HomePlugHeader ((struct homeplug_hdr *)(memory), 0, (CM_ENCRYPTED_PAYLOAD | MMTYPE_IND));
 			memcpy (memory, &template, sizeof (template));
 			memory += sizeof (template);
 			memcpy (memory, buffer + offset, length);

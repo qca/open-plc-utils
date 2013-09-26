@@ -60,13 +60,13 @@ signed NetInfo2 (struct plc * plc)
 
 	struct __packed vs_nw_info_request
 	{
-		struct ethernet_std ethernet;
+		struct ethernet_hdr ethernet;
 		struct qualcomm_fmi qualcomm;
 	}
 	* request = (struct vs_nw_info_request *)(message);
 	struct __packed vs_nw_info_confirm
 	{
-		struct ethernet_std ethernet;
+		struct ethernet_hdr ethernet;
 		struct qualcomm_fmi qualcomm;
 		uint8_t SUB_VERSION;
 		uint8_t Reserved;

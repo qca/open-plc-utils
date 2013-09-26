@@ -152,8 +152,8 @@ static signed configure (struct plc * plc, struct selftest * selftest)
 
 	struct __packed vs_selftest_onetime_config_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MVERSION;
 		uint8_t RUNAFTERRESET;
 		uint32_t DELAYTORUN;
@@ -164,8 +164,8 @@ static signed configure (struct plc * plc, struct selftest * selftest)
 	* request = (struct vs_selftest_onetime_config_request *) (message);
 	struct __packed vs_selftest_onetime_config_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 	}
 	* confirm = (struct vs_selftest_onetime_config_confirm *) (message);
@@ -222,16 +222,16 @@ static signed retrieve (struct plc * plc, struct selftest * selftest)
 
 	struct __packed vs_selftest_results_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MVERSION;
 		uint8_t MACTION;
 	}
 	* request = (struct vs_selftest_results_request *) (message);
 	struct __packed vs_selftest_results_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MVERSION;
 		uint8_t MSTATUS;
 		uint32_t NUMBER [6];

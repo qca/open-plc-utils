@@ -375,8 +375,8 @@ static signed ReadVLANIDs (struct plc * plc, uint32_t offset, uint32_t length)
 
 	struct __packed vs_forward_config_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t RESERVED1;
 		uint8_t MREQUEST;
 		uint8_t MVERSION;
@@ -388,8 +388,8 @@ static signed ReadVLANIDs (struct plc * plc, uint32_t offset, uint32_t length)
 	* request = (struct vs_forward_config_request *) (message);
 	struct __packed vs_forward_config_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t RESERVED1;
 		uint8_t RESULTCODE;
 		uint8_t OPERATION;
@@ -450,8 +450,8 @@ static signed AddVLANIDs (struct plc * plc, struct item list [], unsigned items)
 
 	struct __packed vs_forward_config_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t RESERVED1;
 		uint8_t MREQUEST;
 		uint8_t MVERSION;
@@ -462,8 +462,8 @@ static signed AddVLANIDs (struct plc * plc, struct item list [], unsigned items)
 	* request = (struct vs_forward_config_request *) (message);
 	struct __packed vs_forward_config_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t RESERVED1;
 		uint8_t RESULTCODE;
 		uint8_t OPERATION;
@@ -535,8 +535,8 @@ static signed RemoveVLANIDs (struct plc * plc, struct item list [], unsigned ite
 
 	struct __packed vs_forward_config_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t RESERVED1;
 		uint8_t MREQUEST;
 		uint8_t MVERSION;
@@ -547,8 +547,8 @@ static signed RemoveVLANIDs (struct plc * plc, struct item list [], unsigned ite
 	* request = (struct vs_forward_config_request *) (message);
 	struct __packed vs_forward_config_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t RESERVED1;
 		uint8_t RESULTCODE;
 		uint8_t OPERATION;
@@ -620,8 +620,8 @@ static signed CommitVLANIDs (struct plc * plc)
 
 	struct __packed vs_forward_config_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t RESERVED1;
 		uint8_t MREQUEST;
 		uint8_t MVERSION;
@@ -630,8 +630,8 @@ static signed CommitVLANIDs (struct plc * plc)
 	* request = (struct vs_forward_config_request *) (message);
 	struct __packed vs_forward_config_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t RESERVED1;
 		uint8_t RESULTCODE;
 		uint8_t OPERATION;
@@ -686,8 +686,8 @@ static signed ControlVLANIDs (struct plc * plc)
 
 	struct __packed vs_forward_config_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t RESERVED1;
 		uint8_t MREQUEST;
 		uint8_t MVERSION;
@@ -699,8 +699,8 @@ static signed ControlVLANIDs (struct plc * plc)
 	* request = (struct vs_forward_config_request *) (message);
 	struct __packed vs_forward_config_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t RESERVED1;
 		uint8_t RESULTCODE;
 		uint8_t OPERATION;
@@ -757,8 +757,8 @@ static signed DefaultVLANIDs (struct plc * plc, struct item list [], unsigned it
 
 	struct __packed vs_forward_config_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t RESERVED1;
 		uint8_t MREQUEST;
 		uint8_t MVERSION;
@@ -769,8 +769,8 @@ static signed DefaultVLANIDs (struct plc * plc, struct item list [], unsigned it
 	* request = (struct vs_forward_config_request *) (message);
 	struct __packed vs_forward_config_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t RESERVED1;
 		uint8_t RESULTCODE;
 		uint8_t OPERATION;
@@ -826,8 +826,8 @@ static signed ForwardVLANIDs (struct plc * plc)
 
 	struct __packed vs_forward_config_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t RESERVED1;
 		uint8_t MREQUEST;
 		uint8_t MVERSION;
@@ -840,8 +840,8 @@ static signed ForwardVLANIDs (struct plc * plc)
 	* request = (struct vs_forward_config_request *) (message);
 	struct __packed vs_forward_config_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t RESERVED1;
 		uint8_t RESULTCODE;
 		uint8_t OPERATION;

@@ -58,8 +58,8 @@ signed ModuleRead (struct plc * plc, struct _file_ * file, uint16_t source, uint
 
 	struct __packed vs_module_operation_read_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint32_t RESERVED;
 		uint8_t NUM_OP_DATA;
 		struct __packed
@@ -77,8 +77,8 @@ signed ModuleRead (struct plc * plc, struct _file_ * file, uint16_t source, uint
 	* request = (struct vs_module_operation_read_request *)(message);
 	struct __packed vs_module_operation_read_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint16_t MSTATUS;
 		uint16_t ERR_REC_CODE;
 		uint32_t RESERVED;

@@ -115,7 +115,7 @@ signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_
 	}
 	if (homeplug->homeplug.MMV == 0)
 	{
-		struct qualcomm_std * qualcomm = (struct qualcomm_std *)(&homeplug->homeplug);
+		struct qualcomm_hdr * qualcomm = (struct qualcomm_hdr *)(&homeplug->homeplug);
 		if (LE16TOH (qualcomm->MMTYPE) != MMTYPE)
 		{
 

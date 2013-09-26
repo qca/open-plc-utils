@@ -66,8 +66,8 @@ signed WriteParameters2 (struct plc * plc, unsigned module, const struct nvm_hea
 
 	struct __packed vs_wr_mem_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint32_t MOFFSET;
 		uint32_t MLENGTH;
 		uint8_t BUFFER [PLC_RECORD_SIZE];
@@ -75,8 +75,8 @@ signed WriteParameters2 (struct plc * plc, unsigned module, const struct nvm_hea
 	* request = (struct vs_wr_mem_request *) (message);
 	struct __packed vs_wr_mem_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint32_t MOFFSET;
 		uint32_t MLENGTH;

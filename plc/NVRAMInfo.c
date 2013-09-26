@@ -59,14 +59,14 @@ signed NVRAMInfo (struct plc * plc)
 
 	struct __packed vs_get_nvm_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 	}
 	* request = (struct vs_get_nvm_request *) (message);
 	struct __packed vs_get_nvm_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		struct config_nvram config_nvram;
 	}

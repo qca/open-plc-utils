@@ -122,8 +122,8 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 
 	struct __packed vs_con_info_req
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t REQ_TYPE;
 		uint32_t RSVD;
 		uint16_t CSPEC_VER;
@@ -133,8 +133,8 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 	* request = (struct vs_con_info_req *)(message);
 	struct __packed vs_con_info_cnf
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t REQ_TYPE;
 		uint8_t MSTATUS;
 		uint16_t ERR_REC_CODE;
@@ -147,8 +147,8 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 	struct vs_con_info_cnf *indicate = (struct vs_con_info_cnf *)(message);
 	struct __packed vs_mod_conn_req
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint32_t REQ_ID;
 		uint32_t RSVD;
 		uint16_t CID;
@@ -157,8 +157,8 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 	* mc_request = (struct vs_mod_conn_req *)(message);
 	struct __packed vs_mod_conn_cnf
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint32_t REQ_ID;
 		uint8_t MSTATUS;
 		uint16_t ERR_REC_CODE;

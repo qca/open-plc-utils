@@ -176,7 +176,7 @@ int main (int argc, char const * argv [])
 
 	signed (* function) (struct plc *) = ToneMaps2;
 	signed c;
-	plc.action = AMPTONE_COUPLING;
+	plc.action = PLCOUPLING;
 	if (getenv (PLCDEVICE))
 	{
 

@@ -306,8 +306,8 @@ signed PHYSettings (struct channel * channel, struct phy_settings * settings, fl
 
 	struct __packed vs_enet_settings_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MCONTROL;
 		uint8_t AUTONEGOTIATE;
 		uint8_t ADVCAPS;
@@ -318,8 +318,8 @@ signed PHYSettings (struct channel * channel, struct phy_settings * settings, fl
 	* request = (struct vs_enet_settings_request *) (&message);
 	struct __packed vs_enet_settings_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint8_t ESPEED;
 		uint8_t EDUPLEX;

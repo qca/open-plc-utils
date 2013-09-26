@@ -61,8 +61,8 @@ signed HostActionIndicate (struct plc * plc)
 
 	struct __packed vs_host_action_ind
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MACTION;
 		uint8_t MAJOR_VERSION;
 		uint8_t MINOR_VERSION;
@@ -70,8 +70,8 @@ signed HostActionIndicate (struct plc * plc)
 	* indicate = (struct vs_host_action_ind *) (message);
 	struct __packed vs_host_action_rsp
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 	}
 	* response = (struct vs_host_action_rsp *) (message);

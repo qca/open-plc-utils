@@ -129,8 +129,8 @@ signed PLCHostBoot (struct plc * plc, char const * socket, unsigned timer)
 
 	struct __packed vs_host_action_ind
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std intellon;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr intellon;
 		uint8_t MACTION;
 		uint8_t MAJOR_VERSION;
 		uint8_t MINOR_VERSION;

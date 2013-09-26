@@ -153,8 +153,8 @@ static signed mod_conn (struct plc * plc, uint8_t TYPE, uint16_t CID)
 
 	struct __packed vs_mod_conn_req
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint32_t REQ_ID;
 		uint32_t RSVD;
 		uint16_t CID;
@@ -163,8 +163,8 @@ static signed mod_conn (struct plc * plc, uint8_t TYPE, uint16_t CID)
 	* request = (struct vs_mod_conn_req *)(message);
 	struct __packed vs_mod_conn_cnf
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint32_t REQ_ID;
 		uint8_t MSTATUS;
 		uint16_t ERR_REC_CODE;

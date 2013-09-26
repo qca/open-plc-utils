@@ -56,8 +56,8 @@ signed HostActionResponse (struct plc * plc)
 
 	struct __packed vs_host_action_rsp
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 	}
 	* response = (struct vs_host_action_rsp *) (message);

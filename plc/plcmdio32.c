@@ -139,8 +139,8 @@ static signed mdio (struct channel * channel, uint8_t mode, uint8_t phy, uint8_t
 
 	struct __packed vs_mdio_command_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t OPERATION;
 		uint8_t PHY;
 		uint8_t REG;
@@ -149,8 +149,8 @@ static signed mdio (struct channel * channel, uint8_t mode, uint8_t phy, uint8_t
 	* request = (struct vs_mdio_command_request *)(&message);
 	struct __packed vs_mdio_command_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint16_t DATA;
 		uint8_t PHY;

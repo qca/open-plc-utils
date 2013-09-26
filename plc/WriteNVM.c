@@ -61,8 +61,8 @@ signed WriteNVM (struct plc * plc)
 
 	struct __packed vs_wr_mod_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MODULEID;
 		uint8_t RESERVED;
 		uint16_t MLENGTH;
@@ -73,8 +73,8 @@ signed WriteNVM (struct plc * plc)
 	* request = (struct vs_wr_mod_request *) (message);
 	struct __packed vs_wr_mod_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint8_t MODULEID;
 		uint8_t RESERVED;

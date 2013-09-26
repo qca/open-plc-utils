@@ -70,14 +70,14 @@ static signed PLCPlatform (struct channel * channel, struct plcstation * plcstat
 
 	struct __packed vs_sw_ver_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 	}
 	* request = (struct vs_sw_ver_request *) (&message);
 	struct __packed vs_sw_ver_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint8_t MDEVICE;
 		uint8_t MLENGTH;
@@ -130,14 +130,14 @@ static signed PLCIdentity (struct channel * channel, struct plcstation * plcstat
 
 	struct __packed vs_mfg_string_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 	}
 	* request = (struct vs_mfg_string_request *) (&message);
 	struct __packed vs_mfg_string_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint8_t MLENGTH;
 		char MSTRING [0x40];
@@ -194,14 +194,14 @@ signed PLCTopology (struct channel * channel, struct message * message, struct p
 
 	struct __packed vs_nw_info_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 	}
 	* request = (struct vs_nw_info_request *)(message);
 	struct __packed vs_nw_info_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t data [1];
 	}
 	* confirm = (struct vs_nw_info_confirm *)(message);
@@ -237,13 +237,13 @@ signed PLCTopology (struct channel * channel, struct message * message, struct p
 
 	struct __packed vs_nw_info_request
 	{
-		struct ethernet_std ethernet;
+		struct ethernet_hdr ethernet;
 		struct qualcomm_fmi qualcomm;
 	}
 	* request = (struct vs_nw_info_request *)(message);
 	struct __packed vs_nw_info_confirm
 	{
-		struct ethernet_std ethernet;
+		struct ethernet_hdr ethernet;
 		struct qualcomm_fmi qualcomm;
 		uint8_t SUB_VERSION;
 		uint8_t Reserved;

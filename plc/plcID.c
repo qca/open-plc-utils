@@ -147,8 +147,8 @@ static signed function (struct plc * plc, signed newline, signed key)
 
 	struct __packed vs_module_operation_read_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint32_t RESERVED;
 		uint8_t NUM_OP_DATA;
 		struct __packed
@@ -166,8 +166,8 @@ static signed function (struct plc * plc, signed newline, signed key)
 	* request = (struct vs_module_operation_read_request *)(message);
 	struct __packed vs_module_operation_read_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint16_t MSTATUS;
 		uint16_t ERR_REC_CODE;
 		uint32_t RESERVED;

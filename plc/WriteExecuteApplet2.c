@@ -59,8 +59,8 @@ signed WriteExecuteApplet2 (struct plc * plc, unsigned module, const struct nvm_
 
 	struct __packed vs_write_execute_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint32_t CLIENT_SESSION_ID;
 		uint32_t SERVER_SESSION_ID;
 		uint32_t FLAGS;
@@ -76,8 +76,8 @@ signed WriteExecuteApplet2 (struct plc * plc, unsigned module, const struct nvm_
 	* request = (struct vs_write_execute_request *) (message);
 	struct __packed vs_write_execute_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint32_t MSTATUS;
 		uint32_t CLIENT_SESSION_ID;
 		uint32_t SERVER_SESSION_ID;

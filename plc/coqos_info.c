@@ -174,8 +174,8 @@ static signed con_info (struct plc * plc, uint8_t TYPE, uint16_t CID, uint16_t T
 
 	struct __packed vs_con_info_req
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t REQ_TYPE;
 		uint32_t RSVD;
 		uint16_t CSPEC_VER;
@@ -185,8 +185,8 @@ static signed con_info (struct plc * plc, uint8_t TYPE, uint16_t CID, uint16_t T
 	* request = (struct vs_con_info_req *)(message);
 	struct __packed vs_con_info_cnf
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t REQ_TYPE;
 		uint8_t MSTATUS;
 		uint16_t ERR_REC_CODE;

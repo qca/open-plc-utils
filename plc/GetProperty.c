@@ -57,8 +57,8 @@ signed GetProperty (struct plc * plc, struct plcproperty * plcproperty)
 
 	struct __packed vs_get_property_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint32_t COOKIE;
 		uint8_t DATA_FORMAT;
 		uint8_t PROP_FORMAT;
@@ -70,8 +70,8 @@ signed GetProperty (struct plc * plc, struct plcproperty * plcproperty)
 	* request = (struct vs_get_property_request *) (message);
 	struct __packed vs_get_property_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint32_t MSTATUS;
 		uint32_t COOKIE;
 		uint8_t DATA_FORMAT;

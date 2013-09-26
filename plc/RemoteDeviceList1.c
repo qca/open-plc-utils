@@ -53,14 +53,14 @@ signed RemoteDeviceList1 (struct plc * plc, char const * space, char const * com
 
 	struct __packed vs_nw_info_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 	}
 	* request = (struct vs_nw_info_request *)(message);
 	struct __packed vs_nw_info_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 	}
 	* confirm = (struct vs_nw_info_confirm *)(message);
 	struct __packed station

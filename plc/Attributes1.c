@@ -68,16 +68,16 @@ signed Attributes1 (struct plc * plc)
 
 	struct __packed vs_op_attributes_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint32_t COOKIE;
 		uint8_t RTYPE;
 	}
 	* request = (struct vs_op_attributes_request *) (message);
 	struct __packed vs_op_attributes_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint16_t MSTATUS;
 		uint32_t COOKIE;
 		uint8_t RTYPE;

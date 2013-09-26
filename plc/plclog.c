@@ -146,16 +146,16 @@ static signed PrintRawWatchdogReport (struct plc * plc)
 
 	struct __packed vs_wd_rpt_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint16_t SESSIONID;
 		uint8_t CLR;
 	}
 	* request = (struct vs_wd_rpt_request *) (message);
 	struct __packed vs_wd_rpt_ind
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint16_t SESSIONID;
 		uint8_t NUMPARTS;
@@ -231,16 +231,16 @@ static signed PrintWatchdogReport (struct plc * plc, char const * version)
 
 	struct __packed vs_wd_rpt_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint16_t SESSIONID;
 		uint8_t CLR;
 	}
 	* request = (struct vs_wd_rpt_request *) (message);
 	struct __packed vs_wd_rpt_ind
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint16_t SESSIONID;
 		uint8_t NUMPARTS;
@@ -334,16 +334,16 @@ static signed PrintCheckpointReport (struct plc * plc, char const * version)
 
 	struct __packed vs_cp_rpt_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint16_t SESSIONID;
 		uint8_t CLR;
 	}
 	* request = (struct vs_cp_rpt_request *) (message);
 	struct __packed vs_cp_rpt_ind
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint8_t MAJORVERSION;
 		uint8_t MINORVERSION;
@@ -446,8 +446,8 @@ static signed Diagnostics (struct plc * plc)
 
 	struct __packed vs_sw_ver_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint8_t MDEVICEID;
 		uint8_t MVERLENGTH;
@@ -456,8 +456,8 @@ static signed Diagnostics (struct plc * plc)
 	* request = (struct vs_sw_ver_request *) (message);
 	struct __packed vs_sw_ver_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint8_t MDEVICEID;
 		uint8_t MVERLENGTH;

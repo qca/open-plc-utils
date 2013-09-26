@@ -59,8 +59,8 @@ signed StartFirmware2 (struct plc * plc, unsigned module, const struct nvm_heade
 
 	struct __packed vs_st_mac_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MODULEID;
 		uint8_t RESERVED [3];
 		uint32_t IMAGEBOOT;
@@ -71,8 +71,8 @@ signed StartFirmware2 (struct plc * plc, unsigned module, const struct nvm_heade
 	* request = (struct vs_st_mac_request *) (message);
 	struct __packed vs_st_mac_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint8_t MODULEID;
 	}

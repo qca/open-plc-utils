@@ -60,8 +60,8 @@ signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, stru
 
 	struct __packed vs_module_operation_write_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint32_t RESERVED;
 		uint8_t NUM_OP_DATA;
 		struct __packed
@@ -82,8 +82,8 @@ signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, stru
 	* request = (struct vs_module_operation_write_request *)(message);
 	struct __packed vs_module_operation_write_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint16_t MSTATUS;
 		uint16_t ERR_REC_CODE;
 		uint32_t RESERVED;

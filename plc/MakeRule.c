@@ -53,15 +53,15 @@ signed MakeRule (struct plc * plc, struct MMERule * rule)
 
 	struct __packed vs_classification_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		struct MMERule rule;
 	}
 	* request = (struct vs_classification_request *)(message);
 	struct __packed vs_classification_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 	}
 	* confirm = (struct vs_classification_confirm *)(message);
