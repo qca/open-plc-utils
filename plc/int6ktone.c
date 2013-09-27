@@ -20,7 +20,7 @@
 
 /*====================================================================*
  *
- *   plctone.c - Atheros INT6x00 Tone Map Dump Utility
+ *   int6ktone.c - Atheros INT6x00 Tone Map Dump Utility
  *
  *
  *   Contributor(s):

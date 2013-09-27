@@ -20,7 +20,7 @@
 
 /*====================================================================*
  *
- *   plchost.c - Atheros Powerline Device Host Emulator
+ *   int6khost.c - Atheros Powerline Device Host Emulator
  *
  *
  *   Contributor(s):

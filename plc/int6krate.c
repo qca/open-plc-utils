@@ -20,7 +20,7 @@
 
 /*====================================================================*
  *
- *   plcrate.c - Atheros INT6x00 PHY Rate monitor
+ *   int6krate.c - Atheros INT6x00 PHY Rate monitor
  *
  *
  *   Contributor(s):

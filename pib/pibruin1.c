@@ -20,7 +20,7 @@
 
 /*====================================================================*
  *
- *   pibruin.c - Atheros Classification Rule Insert Utility;
+ *   pibruin1.c - Atheros Classification Rule Insert Utility;
  *
  *   This inserts classification rules into pib files from a rule
  *   description file;
