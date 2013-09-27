@@ -20,7 +20,7 @@
 
 /*====================================================================*"
  *
- *   plctest.c -
+ *   plctest.c - Atheros Test Applet Loader;
  *
  *
  *   Contributor(s):
