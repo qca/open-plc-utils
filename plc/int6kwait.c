@@ -20,7 +20,7 @@
 
 /*====================================================================*
  *
- *   plcwait.c - Atheros Powerline Device Procrastinator;
+ *   int6kwait.c - Atheros Powerline Device Procrastinator;
  *
  *   wait for device events to start or finish before returning;
  *

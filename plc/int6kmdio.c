@@ -20,7 +20,7 @@
 
 /*====================================================================*
  *
- *   plcmdio.c - Atheros Powerline PHY Register Editor
+ *   int6kmdio.c - Atheros Powerline PHY Register Editor
  *
  *
  *   Contributor(s):

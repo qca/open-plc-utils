@@ -20,7 +20,7 @@
 
 /*====================================================================*
  *
- *   plcmdio.c - Qualcomm Atheros 16-bit MDIO Register Editor
+ *   plcmdio16.c - Qualcomm Atheros 16-bit MDIO Register Editor
  *
  *
  *   Contributor(s):

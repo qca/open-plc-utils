@@ -20,7 +20,7 @@
 
 /*====================================================================*"
  *
- *   plctest.c -
+ *   plctone.c -
  *
  *
  *   Contributor(s):
@@ -93,6 +93,8 @@
 #include "../mme/UnwantedMessage.c"
 #include "../mme/MMECode.c"
 #endif
+
+#define AMPTONE_COUPLING 0
 
 /*====================================================================*
  *   program variables;
