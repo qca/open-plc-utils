@@ -107,9 +107,12 @@ signed WriteExecuteFirmware1 (struct plc * plc, unsigned module, const struct nv
 		QualcommHeader (&request->qualcomm, 0, (VS_WRITE_AND_EXECUTE_APPLET | MMTYPE_REQ));
 		if (length > extent)
 		{
-			Request (plc, "Start %s (%d) (%08X)", plc->NVM.name, module, LE32TOH (nvm_header->ENTRYPOINT));
+			if (!(LE32TOH(nvm_header->ENTRYPOINT) % sizeof(nvm_header->ENTRYPOINT)))
+			{
+				Request (plc, "Start %s (%d) (%08X)", plc->NVM.name, module, LE32TOH (nvm_header->ENTRYPOINT));
+				action |= PLC_MODULE_EXECUTE;
+			}
 			length = extent;
-			action |= PLC_MODULE_EXECUTE;
 		}
 		if (read (plc->NVM.file, request->IMAGE, length) != (signed)(length))
 		{

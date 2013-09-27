@@ -91,7 +91,6 @@
 #include "../plc/PushButton.c"
 #include "../plc/ReadMFG.c"
 #include "../plc/ReadMME.c"
-#include "../plc/ReadFMI.c"
 #include "../plc/ReadFirmware2.c"
 #include "../plc/ReadParameters2.c"
 #include "../plc/Request.c"

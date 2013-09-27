@@ -52,11 +52,11 @@ void * manifetch (void const * memory, size_t extent, uint32_t type)
 	{
 		struct TLVNode * node = (struct TLVNode *) (offset);
 		if (LE32TOH (node->type) == type)
-		{
+		{ 
 			return ((void *) (& node->data));
-		}
-		extent -= sizeof (* node) - sizeof (node->size) +  LE32TOH (node->size);
-		offset += sizeof (* node) - sizeof (node->size) +  LE32TOH (node->size);
+		} 
+		extent -= TLVSPAN (node);
+		offset += TLVSPAN (node);
 	}
 	return ((void *) (0));
 }

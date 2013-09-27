@@ -83,7 +83,6 @@
 #include "../plc/Request.c"
 #include "../plc/ReadFirmware1.c"
 #include "../plc/ReadMME.c"
-#include "../plc/ReadFMI.c"
 #include "../plc/ReadMFG.c"
 #include "../plc/ReadParameters1.c"
 #include "../plc/ResetDevice.c"
