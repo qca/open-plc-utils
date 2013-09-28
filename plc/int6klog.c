@@ -20,7 +20,7 @@
 
 /*====================================================================*
  *
- *   plclog.c - Atheros INT6x00 Log Retrieval Utility;
+ *   int6klog.c - Atheros INT6x00 Log Retrieval Utility;
  *
  *
  *   Contributor(s):

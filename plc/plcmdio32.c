@@ -20,7 +20,7 @@
 
 /*====================================================================*
  *
- *   int6kmdio2 - Qualcomm Atheros 32-bit MDIO Register Editor
+ *   plcmdio32.c - Qualcomm Atheros 32-bit MDIO Register Editor
  *
  *
  *   Contributor(s):

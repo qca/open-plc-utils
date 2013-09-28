@@ -20,7 +20,7 @@
 
 /*====================================================================*
  *
- *   nics.c - network interface enumerator;
+ *   plcdevs.c -
  *
  *
  *   Contributor(s):

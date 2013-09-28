@@ -20,7 +20,7 @@
 
 /*====================================================================*
  *
- *   psfp.c - prescaler finger print;
+ *   pskey.c - print prescaler key
  *
  *
  *   Contributor(s):
