@@ -41,7 +41,7 @@
 	#define SIZE_T_SPEC "%zu"
 	#define OFF_T_SPEC "%ld"
 #elif defined (__linux__)
-	#define PRI64d "%lld"
+	#define PRI64d "lld"
 	#define SIZE_T_SPEC "%zu"
 	#define OFF_T_SPEC "%ld"
 #else
