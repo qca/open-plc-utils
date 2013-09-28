@@ -18,7 +18,7 @@
  *
  *--------------------------------------------------------------------*/
 
-//*====================================================================*
+/*====================================================================*
  *
  *   signed ReadFMI (struct plc * plc, uint8_t MMV, uint16_t MMTYPE);
  *
@@ -73,7 +73,7 @@ signed ReadFMI (struct plc * plc, uint8_t MMV, uint16_t MMTYPE)
 				extra = ((homeplug->homeplug.FMID >> 4) & 0x0F);
 				plc->packetsize -= sizeof (struct ethernet_hdr);
 				plc->packetsize -= sizeof (struct homeplug_fmi);
-				memcpy ((byte *)(plc->content) +  offset, homeplug->content, plc->packetsize);
+				memcpy ((uint8_t *)(plc->content) +  offset, homeplug->content, plc->packetsize);
 				offset += plc->packetsize;
 			} 
 			plc->packetsize = offset;
