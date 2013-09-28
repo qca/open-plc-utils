@@ -160,12 +160,12 @@ static void TransmitStatistics (struct transmit * transmit)
 
 {
 	printf ("    TX");
-	printf (" %20" PRId64, transmit->NUMTXPBS_PASS);
-	printf (" %20" PRId64, transmit->NUMTXPBS_FAIL);
+	printf (" %20" PRI64d, transmit->NUMTXPBS_PASS);
+	printf (" %20" PRI64d, transmit->NUMTXPBS_FAIL);
 	printf (" %6.2f%%", error_rate (transmit->NUMTXPBS_PASS, transmit->NUMTXPBS_FAIL));
-	printf (" %20" PRId64, transmit->NUMTXMPDU_ACKD);
-	printf (" %20" PRId64, transmit->NUMTXMPDU_FAIL);
-	printf (" %20" PRId64, transmit->NUMTXMPDU_COLL);
+	printf (" %20" PRI64d, transmit->NUMTXMPDU_ACKD);
+	printf (" %20" PRI64d, transmit->NUMTXMPDU_FAIL);
+	printf (" %20" PRI64d, transmit->NUMTXMPDU_COLL);
 	printf (" %6.2f%%", error_rate (transmit->NUMTXMPDU_ACKD, transmit->NUMTXMPDU_FAIL));
 	printf ("\n");
 	return;
@@ -184,11 +184,11 @@ static void ReceiveStatistics (struct receive * receive)
 
 {
 	printf ("    RX");
-	printf (" %20" PRId64, receive->NUMRXPBS_PASS);
-	printf (" %20" PRId64, receive->NUMRXPBS_FAIL);
+	printf (" %20" PRI64d, receive->NUMRXPBS_PASS);
+	printf (" %20" PRI64d, receive->NUMRXPBS_FAIL);
 	printf (" %6.2f%%", error_rate (receive->NUMRXPBS_PASS, receive->NUMRXPBS_FAIL));
-	printf (" %20" PRId64, receive->NUMRXMPDU_ACKD);
-	printf (" %20" PRId64, receive->NUMRXMPDU_FAIL);
+	printf (" %20" PRI64d, receive->NUMRXMPDU_ACKD);
+	printf (" %20" PRI64d, receive->NUMRXMPDU_FAIL);
 	printf (" %6.2f%%", error_rate (receive->NUMRXMPDU_ACKD, receive->NUMRXMPDU_FAIL));
 	printf ("\n");
 	return;
@@ -213,22 +213,22 @@ static void Receive2 (struct receive * receive)
 	{
 		printf (" %1d", slot);
 		printf (" %3d", interval->RXPHYRATE_MBPS_0);
-		printf (" %20" PRId64, interval->NUMRXPBS_PASS);
-		printf (" %20" PRId64, interval->NUMRXPBS_FAIL);
+		printf (" %20" PRI64d, interval->NUMRXPBS_PASS);
+		printf (" %20" PRI64d, interval->NUMRXPBS_FAIL);
 		printf (" %6.2f%%", error_rate (interval->NUMRXPBS_PASS, interval->NUMRXPBS_FAIL));
-		printf (" %20" PRId64, interval->SUMTURBOBER_PASS);
-		printf (" %20" PRId64, interval->SUMTURBOBER_FAIL);
+		printf (" %20" PRI64d, interval->SUMTURBOBER_PASS);
+		printf (" %20" PRI64d, interval->SUMTURBOBER_FAIL);
 		printf (" %6.2f%%", error_rate (interval->SUMTURBOBER_PASS, interval->SUMTURBOBER_FAIL));
 		printf ("\n");
 		interval++;
 		slot++;
 	}
 	printf ("   ALL");
-	printf (" %20" PRId64, receive->NUMRXPBS_PASS);
-	printf (" %20" PRId64, receive->NUMRXPBS_FAIL);
+	printf (" %20" PRI64d, receive->NUMRXPBS_PASS);
+	printf (" %20" PRI64d, receive->NUMRXPBS_FAIL);
 	printf (" %6.2f%%", error_rate (receive->NUMRXPBS_PASS, receive->NUMRXPBS_FAIL));
-	printf (" %20" PRId64, receive->SUMTURBOBER_PASS);
-	printf (" %20" PRId64, receive->SUMTURBOBER_FAIL);
+	printf (" %20" PRI64d, receive->SUMTURBOBER_PASS);
+	printf (" %20" PRI64d, receive->SUMTURBOBER_FAIL);
 	printf (" %6.2f%%", error_rate (receive->SUMTURBOBER_PASS, receive->SUMTURBOBER_FAIL));
 	printf (" %6.2f%%", fec_bit_error_rate (receive));
 	printf ("\n");
