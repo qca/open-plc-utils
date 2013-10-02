@@ -252,17 +252,22 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	fd = open (line, O_RDWR | O_NONBLOCK);
-	if (fd == -1)
+	fd = open (line, O_RDWR | O_NONBLOCK | O_NOCTTY);
+	if (fd == - 1)
 	{
 		error (1, errno, "could not open %s", line);
 	}
-	if (tcgetattr (fd, &termios) == -1)
+	if (fcntl(fd, F_SETFL, 0) == -1)
+	{
+		error (1, errno, "failed to set tty flags");
+	}
+	if (tcgetattr (fd, & termios) == - 1)
 	{
 		error (1, errno, "could not get tty attributes");
 	}
-	cfmakeraw (&termios);
-	if (cfsetspeed (&termios, speed) == -1)
+	cfmakeraw (& termios);
+	termios.c_cflag = CS8 | CREAD | CLOCAL;
+	if (cfsetspeed (& termios, speed) == - 1)
 	{
 		error (1, errno, "could not set tty speed");
 	}
