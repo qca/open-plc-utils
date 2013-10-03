@@ -147,14 +147,15 @@ ssize_t readpacket (struct channel const * channel, void * memory, ssize_t exten
 	if (bpf->bpf_bufused > 0)
 	{
 		bpf_packet = (struct bpf_hdr *)(bpf->bpf_bp);
-		if (extent > bpf_packet->bh_caplen)
+		if ((size_t) (extent) > bpf_packet->bh_caplen)
 		{
 			extent = bpf_packet->bh_caplen;
 		}
-		if (extent < bpf_packet->bh_caplen) {
+		if ((size_t) (extent) < bpf_packet->bh_caplen)
+		{ 
 			if (_anyset (channel->flags, CHANNEL_VERBOSE)) 
 			{
-				error (0, 0, "Truncated incoming frame (%d -> %d bytes)", bpf_packet->bh_caplen, extent);
+				error (0, 0, "Truncated incoming frame (%u -> %zd bytes)", bpf_packet->bh_caplen, extent); 
 			}
 		}
 		memcpy (memory, bpf->bpf_bp + bpf_packet->bh_hdrlen, extent);
