@@ -514,17 +514,20 @@ signed WaitForAssoc (struct plc * plc)
 	return (-1);
 }
 
+#define COMPARE_TYPE_NONE     0
+#define COMPARE_TYPE_EXACT    1
+#define COMPARE_TYPE_CONTAINS 2
 
 /*====================================================================*
  *
- *   void function (struct plc * plc, char const * firmware);
+ *   void function (struct plc * plc, char const * firmware, int compare_type);
  *
  *   perform operations in a logical order;
  *
  *
  *--------------------------------------------------------------------*/
 
-static void function (struct plc * plc, char const * firmware)
+static void function (struct plc * plc, char const * firmware, int compare_type)
 
 {
 	char string [PLC_VERSION_STRING];
@@ -548,9 +551,23 @@ static void function (struct plc * plc, char const * firmware)
 		{
 			Failure (plc, "Device did not Start.");
 		}
-		if ((firmware) && (*firmware) && strcmp (firmware, string))
+		if ((firmware) && (*firmware))
 		{
-			Failure (plc, "Started wrong firmware");
+			switch (compare_type)
+			{
+			case COMPARE_TYPE_EXACT:
+				if (strcmp (firmware, string))
+				{
+					Failure (plc, "Started wrong firmware");
+				}
+				break;
+			case COMPARE_TYPE_CONTAINS:
+				if (strstr (string, firmware) == NULL)
+				{
+					Failure (plc, "Started wrong firmware");
+				}
+				break;
+			}
 		}
 	}
 	if (_anyset (plc->flags, PLC_WAITFORASSOC))
@@ -603,12 +620,13 @@ int main (int argc, char const * argv [])
 	extern struct channel channel;
 	static char const * optv [] =
 	{
-		"aef:i:p:qrRstvw:xy",
+		"aef:F:i:p:qrRstvw:xy",
 		"device [device] [...] [> stdout]",
 		"Qualcomm Atheros Powerline Procrastinator",
 		"a\twait for device assoc",
 		"e\tredirect stderr to stdout",
 		"f s\tconfirm firmware is revision s",
+		"F s\tconfirm firmware revision contains substring s",
 
 #if defined (WINPCAP) || defined (LIBPCAP)
 
@@ -637,6 +655,7 @@ int main (int argc, char const * argv [])
 
 	char const * firmware = "";
 	signed c;
+	int compare_type = COMPARE_TYPE_NONE;
 	if (getenv (PLCDEVICE))
 	{
 
@@ -664,6 +683,11 @@ int main (int argc, char const * argv [])
 			break;
 		case 'f':
 			firmware = optarg;
+			compare_type = COMPARE_TYPE_EXACT;
+			break;
+		case 'F':
+			firmware = optarg;
+			compare_type = COMPARE_TYPE_CONTAINS;
 			break;
 		case 'i':
 
@@ -723,7 +747,7 @@ int main (int argc, char const * argv [])
 	}
 	if (!argc)
 	{
-		function (&plc, firmware);
+		function (&plc, firmware, compare_type);
 	}
 	while ((argc) && (* argv))
 	{
@@ -731,7 +755,7 @@ int main (int argc, char const * argv [])
 		{
 			error (1, errno, PLC_BAD_MAC, * argv);
 		}
-		function (&plc, firmware);
+		function (&plc, firmware, compare_type);
 		argv++;
 		argc--;
 	}
