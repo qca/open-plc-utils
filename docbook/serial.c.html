@@ -6,7 +6,7 @@
 			serial.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -19,23 +19,23 @@
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -46,7 +46,7 @@
  *
  *   this module contains a serial line command buffer and functions
  *   to encode and decode it in different formats and send or receive
- *   it over the serial line;  
+ *   it over the serial line;
  *
  *   Contributor(s):
  *	Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
@@ -96,7 +96,7 @@ struct command command;
  *
  *--------------------------------------------------------------------*/
 
-void clearcommand () 
+void clearcommand ()
 
 {
 	extern struct command command;
@@ -114,16 +114,16 @@ void clearcommand ()
  *
  *--------------------------------------------------------------------*/
 
-void sendcommand (struct _file_ * port, flag_t flags) 
+void sendcommand (struct _file_ * port, flag_t flags)
 
 {
 	extern struct command command;
-	if (_anyset (flags, UART_VERBOSE)) 
+	if (_anyset (flags, UART_VERBOSE))
 	{
 		write (STDERR_FILENO, command.buffer, command.length);
 		write (STDERR_FILENO, &quot;\n&quot;, sizeof (char));
 	}
-	if (write (port-&gt;file, command.buffer, command.length) != (signed)(command.length)) 
+	if (write (port-&gt;file, command.buffer, command.length) != (signed)(command.length))
 	{
 		error (1, errno, &quot;Can't write to %s&quot;, port-&gt;name);
 	}
@@ -141,21 +141,21 @@ void sendcommand (struct _file_ * port, flag_t flags)
  *
  *--------------------------------------------------------------------*/
 
-void readcommand (struct _file_ * port, flag_t flags) 
+void readcommand (struct _file_ * port, flag_t flags)
 
 {
 	extern struct command command;
 
-#if defined (WIN32) 
+#if defined (WIN32)
 
 	PAUSE (250);
 	memset (&amp;command, 0, sizeof (command));
 	command.length = read (port-&gt;file, command.buffer, sizeof (command.buffer));
-	if (command.length &lt; 0) 
+	if (command.length &lt; 0)
 	{
 		error (1, errno, &quot;Bad response from %s&quot;, port-&gt;name);
 	}
-	if (command.length == 0) 
+	if (command.length == 0)
 	{
 		error (1, errno, &quot;No response from %s&quot;, port-&gt;name);
 	}
@@ -166,18 +166,18 @@ void readcommand (struct _file_ * port, flag_t flags)
 	fd_set rfd;
 	ssize_t tmp;
 	memset (&amp;command, 0, sizeof (command));
-	while (!strchr (command.buffer, '\r')) 
+	while (!strchr (command.buffer, '\r'))
 	{
 		tv.tv_sec = 1;
 		tv.tv_usec = 0;
 		FD_ZERO (&amp;rfd);
 		FD_SET (port-&gt;file, &amp;rfd);
-		if (select (port-&gt;file + 1, &amp;rfd, NULL, NULL, &amp;tv) != 1) 
+		if (select (port-&gt;file + 1, &amp;rfd, NULL, NULL, &amp;tv) != 1)
 		{
 			error (1, errno, &quot;Read timeout&quot;);
 		}
 		tmp = read (port-&gt;file, command.buffer + command.length, sizeof (command.buffer) - command.length - 1);
-		if (tmp &lt; 0) 
+		if (tmp &lt; 0)
 		{
 			error (1, errno, &quot;Could not read %s&quot;, port-&gt;name);
 		}
@@ -187,12 +187,12 @@ void readcommand (struct _file_ * port, flag_t flags)
 
 #endif
 
-	if (_anyset (flags, UART_VERBOSE)) 
+	if (_anyset (flags, UART_VERBOSE))
 	{
 		write (STDERR_FILENO, command.buffer, command.length);
 		write (STDERR_FILENO, &quot;\n&quot;, sizeof (char));
 	}
-	if (!memcmp (command.buffer, &quot;ERROR&quot;, 5)) 
+	if (!memcmp (command.buffer, &quot;ERROR&quot;, 5))
 	{
 		error (1, ECANCELED, &quot;Device refused request&quot;);
 	}
@@ -210,11 +210,11 @@ void readcommand (struct _file_ * port, flag_t flags)
  *
  *--------------------------------------------------------------------*/
 
-void insert (char c) 
+void insert (char c)
 
 {
 	extern struct command command;
-	if (command.length &lt; sizeof (command.buffer)) 
+	if (command.length &lt; sizeof (command.buffer))
 	{
 		command.buffer [command.length++] = c;
 	}
@@ -227,63 +227,63 @@ void insert (char c)
  *
  *   serial.h
  *
- *   read a file and convert hexadecimal octets to binary bytes then 
- *   store them in consecutive memory locations up to a given length; 
+ *   read a file and convert hexadecimal octets to binary bytes then
+ *   store them in consecutive memory locations up to a given length;
  *   return the actual number of bytes stored;
  *
- *   digits may be consecutive or separated by white space consisting 
+ *   digits may be consecutive or separated by white space consisting
  *   of spaces, tabs, linefeeds, carriage returns, formfeeds or other
- *   characters such as punctuation; script-style comments are treated 
+ *   characters such as punctuation; script-style comments are treated
  *   as white space;
  *
  *--------------------------------------------------------------------*/
 
-static signed fdgetc (signed fd) 
+static signed fdgetc (signed fd)
 
 {
 	char c;
 	return ((read (fd, &amp;c, sizeof (c)) == sizeof (c))? c: EOF);
 }
 
-size_t readframe (signed fd, void * memory, size_t extent) 
+size_t readframe (signed fd, void * memory, size_t extent)
 
 {
 	unsigned digits = 0;
 	uint8_t * origin = (uint8_t *)(memory);
 	uint8_t * offset = (uint8_t *)(memory);
 	signed c = EOF;
-	while ((extent) &amp;&amp; ((c = fdgetc (fd)) != EOF) &amp;&amp; (c != ';')) 
+	while ((extent) &amp;&amp; ((c = fdgetc (fd)) != EOF) &amp;&amp; (c != ';'))
 	{
-		if (isspace (c)) 
+		if (isspace (c))
 		{
 			continue;
 		}
-		if (c == '#') 
+		if (c == '#')
 		{
-			do 
+			do
 			{
 				c = fdgetc (fd);
 			}
 			while ((c != '\n') &amp;&amp; (c != EOF));
 			continue;
 		}
-		if (c == '/') 
+		if (c == '/')
 		{
 			c = fdgetc (fd);
-			if (c == '/') 
+			if (c == '/')
 			{
-				do 
+				do
 				{
 					c = fdgetc (fd);
 				}
 				while ((c != '\n') &amp;&amp; (c != EOF));
 				continue;
 			}
-			if (c == '*') 
+			if (c == '*')
 			{
-				while ((c != '/') &amp;&amp; (c != EOF)) 
+				while ((c != '/') &amp;&amp; (c != EOF))
 				{
-					while ((c != '*') &amp;&amp; (c != EOF)) 
+					while ((c != '*') &amp;&amp; (c != EOF))
 					{
 						c = fdgetc (fd);
 					}
@@ -293,7 +293,7 @@ size_t readframe (signed fd, void * memory, size_t extent)
 			}
 			continue;
 		}
-		if (isxdigit (c)) 
+		if (isxdigit (c))
 		{
 			*offset = c;
 			offset++;
@@ -303,7 +303,7 @@ size_t readframe (signed fd, void * memory, size_t extent)
 		}
 		error (1, ENOTSUP, &quot;Illegal hex digit '%c' (0x%02X) in source&quot;, c, c);
 	}
-	if (digits &amp; 1) 
+	if (digits &amp; 1)
 	{
 		error (1, ENOTSUP, &quot;Odd number of hex digits (%d) in source&quot;, digits);
 	}
@@ -313,21 +313,21 @@ size_t readframe (signed fd, void * memory, size_t extent)
 /*====================================================================*
  *
  *   void decode (void const * memory, size_t extent);
- *   
+ *
  *   serial.h
  *
  *   copy a memory region into command buffer at the current position
- *   and increment the buffer position pointer; convert bytes to hex 
+ *   and increment the buffer position pointer; convert bytes to hex
  *   octets;
  *
  *--------------------------------------------------------------------*/
 
-void decode (void const * memory, size_t extent) 
+void decode (void const * memory, size_t extent)
 
 {
 	extern struct command command;
 	register byte * binary = (byte *)(memory);
-	while ((command.length &lt; sizeof (command.buffer)) &amp;&amp; (extent--)) 
+	while ((command.length &lt; sizeof (command.buffer)) &amp;&amp; (extent--))
 	{
 		insert (DIGITS_HEX [(*binary &gt;&gt; 4) &amp; 0x0F]);
 		insert (DIGITS_HEX [(*binary &gt;&gt; 0) &amp; 0x0F]);
@@ -347,22 +347,22 @@ void decode (void const * memory, size_t extent)
  *
  *--------------------------------------------------------------------*/
 
-void encode (void * memory, size_t extent) 
+void encode (void * memory, size_t extent)
 
 {
 	extern struct command command;
 	register byte * binary = (byte *)(memory);
 	unsigned digit;
-	while ((command.offset &lt; command.length) &amp;&amp; (extent--)) 
+	while ((command.offset &lt; command.length) &amp;&amp; (extent--))
 	{
 		*binary = 0;
-		if ((digit = todigit (command.buffer [command.offset++])) &gt; 0x0F) 
+		if ((digit = todigit (command.buffer [command.offset++])) &gt; 0x0F)
 		{
 			command.buffer [command.offset] = (char)(0);
 			error (1, EINVAL, &quot;[%s]1&quot;, command.buffer);
 		}
 		*binary |= digit &lt;&lt; 4;
-		if ((digit = todigit (command.buffer [command.offset++])) &gt; 0x0F) 
+		if ((digit = todigit (command.buffer [command.offset++])) &gt; 0x0F)
 		{
 			command.buffer [command.offset] = (char)(0);
 			error (1, EINVAL, &quot;[%s]2&quot;, command.buffer);
@@ -379,20 +379,20 @@ void encode (void * memory, size_t extent)
  *
  *   serial.h
  *
- *   extract the contents of a quoted string string from the command 
+ *   extract the contents of a quoted string string from the command
  *   buffer; it assumes that the current char is a quote character;
  *
  *   copy command buffer characters to an external string; start a the
- *   current buffer position and continue until the buffer exhausts or 
- *   a closing quote is encountered; NUL terminate the string; 
+ *   current buffer position and continue until the buffer exhausts or
+ *   a closing quote is encountered; NUL terminate the string;
  *
  *--------------------------------------------------------------------*/
 
-void string (char * string) 
+void string (char * string)
 
 {
 	extern struct command command;
-	while ((command.offset &lt; command.length) &amp;&amp; (command.buffer [command.offset] != '\&quot;')) 
+	while ((command.offset &lt; command.length) &amp;&amp; (command.buffer [command.offset] != '\&quot;'))
 	{
 		*string++ = command.buffer [command.offset++];
 	}
@@ -412,7 +412,7 @@ void string (char * string)
  *
  *--------------------------------------------------------------------*/
 
-uint64_t hextoint (unsigned bytes) 
+uint64_t hextoint (unsigned bytes)
 
 {
 	extern struct command command;
@@ -420,17 +420,17 @@ uint64_t hextoint (unsigned bytes)
 	uint64_t value = 0;
 	unsigned radix = 16;
 	unsigned digit = 0;
-	if (bytes &lt; sizeof (limit)) 
+	if (bytes &lt; sizeof (limit))
 	{
 		limit &lt;&lt;= (bytes &lt;&lt; 3);
 		limit = ~limit;
 	}
-	while ((digit = todigit (command.buffer [command.offset])) &lt; radix) 
+	while ((digit = todigit (command.buffer [command.offset])) &lt; radix)
 	{
 		value *= radix;
 		value += digit;
 		command.offset++;
-		if (value &gt; limit) 
+		if (value &gt; limit)
 		{
 			command.buffer [command.offset] = (char)(0);
 			error (1, EINVAL, &quot;[%s] exceeds %d bits&quot;, command.buffer, (bytes &lt;&lt; 3));
@@ -451,16 +451,16 @@ uint64_t hextoint (unsigned bytes)
  *
  *--------------------------------------------------------------------*/
 
-void mustbe (char c) 
+void mustbe (char c)
 
 {
 	extern struct command command;
-	if (command.offset &gt;= command.length) 
+	if (command.offset &gt;= command.length)
 	{
 		command.buffer [command.offset] = (char)(0);
 		error (1, EINVAL, &quot;[%s]: overflow&quot;, command.buffer);
 	}
-	if (command.buffer [command.offset++] != (c)) 
+	if (command.buffer [command.offset++] != (c))
 	{
 		command.buffer [command.offset] = (char)(0);
 		error (1, EINVAL, &quot;[%s]: expecting 0x%02X&quot;, command.buffer, c);

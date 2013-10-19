@@ -6,7 +6,7 @@
 			plclist.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -19,23 +19,23 @@
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*&quot;
@@ -116,21 +116,21 @@
 #endif
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv[]);
- *   
+ *
  *
  *   Contributor(s):
  *      Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
 	extern const struct _term_ devices [];
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		&quot;i:bnqrsv&quot;,
 		&quot;device [device] [...] [&gt; stdout]&quot;,
@@ -160,7 +160,7 @@ int main (int argc, char const * argv [])
 	char const * space = &quot; &quot;;
 	char const * comma = &quot;\0&quot;;
 	signed c;
-	if (getenv (PLCDEVICE)) 
+	if (getenv (PLCDEVICE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -175,9 +175,9 @@ int main (int argc, char const * argv [])
 
 	}
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'b':
 			_setbits (plc.flags, PLC_BRIDGE_LIST);
@@ -218,22 +218,22 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (_allclr (plc.flags, (PLC_BRIDGE_LIST|PLC_REMOTE_LIST))) 
+	if (_allclr (plc.flags, (PLC_BRIDGE_LIST|PLC_REMOTE_LIST)))
 	{
 		_setbits (plc.flags, (PLC_BRIDGE_LIST|PLC_REMOTE_LIST));
 	}
 	openchannel (&amp;channel);
-	if (!(plc.message = malloc (sizeof (* plc.message)))) 
+	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);
 	}
-	if (!argc) 
+	if (!argc)
 	{
 		ListLocalDevices (&amp;plc, space, comma);
 	}
-	while ((argc) &amp;&amp; (* argv)) 
+	while ((argc) &amp;&amp; (* argv))
 	{
-		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices)))) 
+		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices))))
 		{
 			error (1, errno, PLC_BAD_MAC, * argv);
 		}

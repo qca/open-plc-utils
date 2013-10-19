@@ -6,7 +6,7 @@
 			decout.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -24,9 +24,9 @@
  *
  *   memory.h
  *
- *   print a memory region as a series of decimal octets separated  
- *   by character c; normally, c will be DEC_EXTENDER as defined in 
- *   number.h; 
+ *   print a memory region as a series of decimal octets separated
+ *   by character c; normally, c will be DEC_EXTENDER as defined in
+ *   number.h;
  *
  *   for example, decout (memory, 4, '.', stdout) would print
  *
@@ -47,25 +47,25 @@
 #include &quot;../tools/memory.h&quot;
 #include &quot;../tools/number.h&quot;
 
-void decout (void const * memory, size_t extent, char c, char e, FILE * fp) 
+void decout (void const * memory, size_t extent, char c, char e, FILE * fp)
 
 {
 	byte * offset = (byte *)(memory);
-	while (extent--) 
+	while (extent--)
 	{
 		unsigned order = 100;
-		while (order) 
+		while (order)
 		{
 			putc (DIGITS_DEC [(* offset / order) % RADIX_DEC], fp);
 			order /= RADIX_DEC;
 		}
-		if ((extent) &amp;&amp; (c)) 
+		if ((extent) &amp;&amp; (c))
 		{
 			putc (c, fp);
 		}
 		offset++;
 	}
-	if (e) 
+	if (e)
 	{
 		putc (e, fp);
 	}

@@ -6,7 +6,7 @@
 			ipv4spec.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -24,11 +24,11 @@
  *
  *   memory.h
  *
- *   encode a 4-byte memory region with the equivalent of an IPv4 
- *   dotted decimal string; all field delimiters must be present 
+ *   encode a 4-byte memory region with the equivalent of an IPv4
+ *   dotted decimal string; all field delimiters must be present
  *   but individual fields may have leading zeros or be empty;
  *
- *      0.0.0.0		 0x00, 0x00, 0x00, 0x00   
+ *      0.0.0.0		 0x00, 0x00, 0x00, 0x00
  *      127...1		 0x7F, 0x00, 0x00, 0x01
  *      192.168.099.000  0xC0, 0xA8, 0x63, 0x00
  *
@@ -47,7 +47,7 @@
 #include &quot;../tools/number.h&quot;
 #include &quot;../tools/error.h&quot;
 
-size_t ipv4spec (char const * string, void * memory) 
+size_t ipv4spec (char const * string, void * memory)
 
 {
 	char const * number = string;
@@ -56,21 +56,21 @@ size_t ipv4spec (char const * string, void * memory)
 	byte * extent = offset + IPv4_LEN;
 	unsigned radix = RADIX_DEC;
 	unsigned digit = 0;
-	while ((*number) &amp;&amp; (offset &lt; extent)) 
+	while ((*number) &amp;&amp; (offset &lt; extent))
 	{
 		unsigned value = 0;
-		if (offset &gt; origin) 
+		if (offset &gt; origin)
 		{
-			if (*number == DEC_EXTENDER) 
+			if (*number == DEC_EXTENDER)
 			{
 				number++;
 			}
 		}
-		while ((digit = todigit (*number)) &lt; radix) 
+		while ((digit = todigit (*number)) &lt; radix)
 		{
 			value *= radix;
 			value += digit;
-			if (value &gt;&gt; 8) 
+			if (value &gt;&gt; 8)
 			{
 				error (1, ERANGE, &quot;IPv4 '%s' octet %d exceeds 8 bits&quot;, string, (unsigned)(offset - origin) + 1);
 			}
@@ -81,18 +81,18 @@ size_t ipv4spec (char const * string, void * memory)
 
 #if defined (WIN32)
 
-	while (isspace (*number)) 
+	while (isspace (*number))
 	{
 		number++;
 	}
 
 #endif
 
-	if (offset &lt; extent) 
+	if (offset &lt; extent)
 	{
 		error (1, EINVAL, &quot;IPv4 '%s' has only %d octets&quot;, string, (unsigned)(offset - origin));
 	}
-	if (*number) 
+	if (*number)
 	{
 		error (1, EINVAL, &quot;IPv4 '%s' contains trash '%s'&quot;, string, number);
 	}
@@ -108,12 +108,12 @@ size_t ipv4spec (char const * string, void * memory)
 #include &lt;stdio.h&gt;
 
 char const * program_name = &quot;ipv4spec&quot;;
-int main (int argc, char * argv []) 
+int main (int argc, char * argv [])
 
 {
 	byte memory [4];
 	char string [16];
-	while (*++argv) 
+	while (*++argv)
 	{
 		ipv4spec (* argv, memory);
 		hexdecode (memory, sizeof (memory), string, sizeof (string));

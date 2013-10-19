@@ -6,7 +6,7 @@
 			plcboot.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -19,27 +19,27 @@
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*&quot;
- *   
+ *
  *   plcboot.c -
  *
  *
@@ -162,17 +162,17 @@
 #endif
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv[]);
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		&quot;eFi:N:p:P:qS:t:vx&quot;,
 		&quot;-N file -P file [device] [device] [...]&quot;,
@@ -204,7 +204,7 @@ int main (int argc, char const * argv [])
 
 	char firmware [PLC_VERSION_STRING];
 	signed c;
-	if (getenv (PLCDEVICE)) 
+	if (getenv (PLCDEVICE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -219,16 +219,16 @@ int main (int argc, char const * argv [])
 
 	}
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'e':
 			dup2 (STDOUT_FILENO, STDERR_FILENO);
 			break;
 		case 'F':
 			_setbits (plc.module, (VS_MODULE_MAC | VS_MODULE_PIB));
-			if (_anyset (plc.flags, PLC_FLASH_DEVICE)) 
+			if (_anyset (plc.flags, PLC_FLASH_DEVICE))
 			{
 				_setbits (plc.module, VS_MODULE_FORCE);
 			}
@@ -248,30 +248,30 @@ int main (int argc, char const * argv [])
 
 			break;
 		case 'N':
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, &quot;%s&quot;, optarg);
 			}
-			if ((plc.NVM.file = open (plc.NVM.name = optarg, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc.NVM.file = open (plc.NVM.name = optarg, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, &quot;%s&quot;, plc.NVM.name);
 			}
-			if (nvmfile2 (&amp;plc.NVM)) 
+			if (nvmfile2 (&amp;plc.NVM))
 			{
 				error (1, errno, &quot;Bad NVM file: %s&quot;, plc.NVM.name);
 			}
 			_setbits (plc.flags, PLC_WRITE_MAC);
 			break;
 		case 'P':
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, &quot;%s&quot;, optarg);
 			}
-			if ((plc.PIB.file = open (plc.PIB.name = optarg, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc.PIB.file = open (plc.PIB.name = optarg, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, &quot;%s&quot;, plc.PIB.name);
 			}
-			if (pibfile2 (&amp;plc.PIB)) 
+			if (pibfile2 (&amp;plc.PIB))
 			{
 				error (1, errno, &quot;Bad PIB file: %s&quot;, plc.PIB.name);
 			}
@@ -282,15 +282,15 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_SILENCE);
 			break;
 		case 'S':
-			if (!checkfilename (optarg)) 
+			if (!checkfilename (optarg))
 			{
 				error (1, EINVAL, &quot;%s&quot;, optarg);
 			}
-			if ((plc.CFG.file = open (plc.CFG.name = optarg, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc.CFG.file = open (plc.CFG.name = optarg, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, &quot;%s&quot;, plc.CFG.name);
 			}
-			if (nvmfile2 (&amp;plc.CFG)) 
+			if (nvmfile2 (&amp;plc.CFG))
 			{
 				error (1, errno, &quot;Bad NVM file: %s&quot;, plc.CFG.name);
 			}
@@ -311,50 +311,50 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (argc) 
+	if (argc)
 	{
 		error (1, ENOTSUP, ERROR_TOOMANY);
 	}
 	openchannel (&amp;channel);
-	if (!(plc.message = malloc (sizeof (* plc.message)))) 
+	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);
 	}
-	if (WaitForStart (&amp;plc, firmware, sizeof (firmware))) 
+	if (WaitForStart (&amp;plc, firmware, sizeof (firmware)))
 	{
 		Failure (&amp;plc, PLC_NODETECT);
 		exit (1);
 	}
-	if (plc.hardwareID &lt; CHIPSET_INT6400) 
+	if (plc.hardwareID &lt; CHIPSET_INT6400)
 	{
 		Failure (&amp;plc, &quot;Device must be %s or later; Use program int6kboot instead.&quot;, chipsetname (CHIPSET_INT6400));
 		exit (1);
 	}
-	if (strcmp (firmware, &quot;BootLoader&quot;)) 
+	if (strcmp (firmware, &quot;BootLoader&quot;))
 	{
 		Failure (&amp;plc, &quot;Bootloader must be running&quot;);
 		exit (1);
 	}
-	if (plc.PIB.file == -1) 
+	if (plc.PIB.file == -1)
 	{
 		error (1, ECANCELED, &quot;No Parameter file named&quot;);
 	}
-	if (plc.NVM.file == -1) 
+	if (plc.NVM.file == -1)
 	{
 		error (1, ECANCELED, &quot;No Firmware file named&quot;);
 	}
-	if (plc.CFG.file == -1) 
+	if (plc.CFG.file == -1)
 	{
-		if (_anyset (plc.flags, PLC_FLASH_DEVICE)) 
+		if (_anyset (plc.flags, PLC_FLASH_DEVICE))
 		{
 			error (1, ECANCELED, &quot;No Softloader file named&quot;);
 		}
 	}
-	if (!InitDevice2 (&amp;plc)) 
+	if (!InitDevice2 (&amp;plc))
 	{
-		if (!BootDevice2 (&amp;plc)) 
+		if (!BootDevice2 (&amp;plc))
 		{
-			if (_anyset (plc.flags, PLC_FLASH_DEVICE)) 
+			if (_anyset (plc.flags, PLC_FLASH_DEVICE))
 			{
 				FlashDevice2 (&amp;plc);
 			}

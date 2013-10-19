@@ -6,7 +6,7 @@
 			hexload.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -24,12 +24,12 @@
  *
  *   memory.h
  *
- *   read a file and convert hexadecimal octets to binary bytes then 
- *   store them in consecutive memory locations up to a given length; 
+ *   read a file and convert hexadecimal octets to binary bytes then
+ *   store them in consecutive memory locations up to a given length;
  *   return the actual number of bytes stored;
  *
  *   digits may be consecutive or separated by white space or comment
- *   text; a colon terminates a frame, to allow multiple frames in a  
+ *   text; a colon terminates a frame, to allow multiple frames in a
  *   on one file;
  *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
@@ -59,7 +59,7 @@ static unsigned col = 1;
 
 /*====================================================================*
  *
- *   signed fpgetc (FILE * fp) 
+ *   signed fpgetc (FILE * fp)
  *
  *   return the next input character after updating the file cursor
  *   position;
@@ -70,18 +70,18 @@ static unsigned col = 1;
  *
  *--------------------------------------------------------------------*/
 
-static signed fpgetc (FILE * fp) 
+static signed fpgetc (FILE * fp)
 
 {
 	extern unsigned row;
 	extern unsigned col;
 	signed c = getc (fp);
-	if (c == '\n') 
+	if (c == '\n')
 	{
 		row++;
 		col = 0;
 	}
-	else 
+	else
 	{
 		col++;
 	}
@@ -94,12 +94,12 @@ static signed fpgetc (FILE * fp)
  *
  *   memory.h
  *
- *   read a file and convert hexadecimal octets to binary bytes then 
- *   store them in consecutive memory locations up to a given length; 
+ *   read a file and convert hexadecimal octets to binary bytes then
+ *   store them in consecutive memory locations up to a given length;
  *   return the actual number of bytes stored;
  *
  *   digits may be consecutive or separated by white space or comment
- *   text; a colon terminates a frame, to allow multiple frames in a  
+ *   text; a colon terminates a frame, to allow multiple frames in a
  *   on one file;
  *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
@@ -108,7 +108,7 @@ static signed fpgetc (FILE * fp)
  *
  *--------------------------------------------------------------------*/
 
-size_t hexload (void * memory, size_t extent, FILE * fp) 
+size_t hexload (void * memory, size_t extent, FILE * fp)
 
 {
 	extern unsigned row;
@@ -118,38 +118,38 @@ size_t hexload (void * memory, size_t extent, FILE * fp)
 	unsigned digits = sizeof (* offset) &lt;&lt; 1;
 	unsigned digit = 0;
 	signed c = EOF;
-	while ((extent) &amp;&amp; ((c = fpgetc (fp)) != EOF) &amp;&amp; (c != ';')) 
+	while ((extent) &amp;&amp; ((c = fpgetc (fp)) != EOF) &amp;&amp; (c != ';'))
 	{
-		if (isspace (c)) 
+		if (isspace (c))
 		{
 			continue;
 		}
-		if (c == '#') 
+		if (c == '#')
 		{
-			do 
+			do
 			{
 				c = fpgetc (fp);
 			}
 			while (nobreak (c));
 			continue;
 		}
-		if (c == '/') 
+		if (c == '/')
 		{
 			c = fpgetc (fp);
-			if (c == '/') 
+			if (c == '/')
 			{
-				do 
+				do
 				{
 					c = fpgetc (fp);
 				}
 				while (nobreak (c));
 				continue;
 			}
-			if (c == '*') 
+			if (c == '*')
 			{
-				while ((c != '/') &amp;&amp; (c != EOF)) 
+				while ((c != '/') &amp;&amp; (c != EOF))
 				{
-					while ((c != '*') &amp;&amp; (c != EOF)) 
+					while ((c != '*') &amp;&amp; (c != EOF))
 					{
 						c = fpgetc (fp);
 					}
@@ -159,35 +159,35 @@ size_t hexload (void * memory, size_t extent, FILE * fp)
 			}
 			continue;
 		}
-		if ((c &gt;= '0') &amp;&amp; (c &lt;= '9')) 
+		if ((c &gt;= '0') &amp;&amp; (c &lt;= '9'))
 		{
 			*offset *= 16;
 			*offset += c - '0';
-			if (!(++digit % digits)) 
+			if (!(++digit % digits))
 			{
 				offset++;
 				extent--;
 			}
 			continue;
 		}
-		if ((c &gt;= 'A') &amp;&amp; (c &lt;= 'F')) 
+		if ((c &gt;= 'A') &amp;&amp; (c &lt;= 'F'))
 		{
 			*offset *= 16;
 			*offset += 10;
 			*offset += c - 'A';
-			if (!(++digit % digits)) 
+			if (!(++digit % digits))
 			{
 				offset++;
 				extent--;
 			}
 			continue;
 		}
-		if ((c &gt;= 'a') &amp;&amp; (c &lt;= 'f')) 
+		if ((c &gt;= 'a') &amp;&amp; (c &lt;= 'f'))
 		{
 			*offset *= 16;
 			*offset += 10;
 			*offset += c - 'a';
-			if (!(++digit % digits)) 
+			if (!(++digit % digits))
 			{
 				offset++;
 				extent--;
@@ -206,7 +206,7 @@ size_t hexload (void * memory, size_t extent, FILE * fp)
 #endif
 
 	}
-	if (digit &amp; 1) 
+	if (digit &amp; 1)
 	{
 
 #if 1

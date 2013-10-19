@@ -6,7 +6,7 @@
 			hexoffset.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -24,7 +24,7 @@
  *
  *   memory.h
  *
- *   encode buffer with with a NUL terminated string containing the 
+ *   encode buffer with with a NUL terminated string containing the
  *   hexadecimal representation of a memory offset; the result will
  *   be padded with leading zeros;
  *
@@ -42,12 +42,12 @@
 #include &quot;../tools/number.h&quot;
 #include &quot;../tools/memory.h&quot;
 
-char * hexoffset (char buffer [], size_t length, off_t offset) 
+char * hexoffset (char buffer [], size_t length, off_t offset)
 
 {
 	char * string = buffer + length - 1;
 	memset (buffer, 0, length);
-	while (string &gt; buffer) 
+	while (string &gt; buffer)
 	{
 		*--string = DIGITS_HEX [offset &amp; 0x0F];
 		offset &gt;&gt;= 4;

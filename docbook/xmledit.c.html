@@ -6,7 +6,7 @@
 			xmledit.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -73,7 +73,7 @@ static bool series = false;
 /*====================================================================*
  *
  *   void position (size_t extent);
- *   
+ *
  *   sanity check offset and extent before editing memory;
  *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
@@ -82,18 +82,18 @@ static bool series = false;
  *
  *--------------------------------------------------------------------*/
 
-static void position (size_t extent) 
+static void position (size_t extent)
 
 {
-	if (!length) 
+	if (!length)
 	{
 		error (XML_BAD_EXTENT, EPERM, &quot;%s has no length&quot;, member);
 	}
-	if (offset &gt; extent) 
+	if (offset &gt; extent)
 	{
 		error (XML_BAD_OFFSET, EPERM, &quot;%s offset of 0x%04X exceeds &quot; DATA_OBJECT &quot; offset of 0x%04X&quot;, member, offset, (unsigned int) extent);
 	}
-	if ((offset + length) &gt; extent) 
+	if ((offset + length) &gt; extent)
 	{
 		error (XML_BAD_EXTENT, EPERM, &quot;%s length of %d bytes exceeds &quot; DATA_OBJECT &quot; length of &quot;SIZE_T_SPEC&quot; bytes&quot;, member, length, extent);
 	}
@@ -114,18 +114,18 @@ static void position (size_t extent)
  *
  *--------------------------------------------------------------------*/
 
-static unsigned xmlinteger (NODE const * node, unsigned radix) 
+static unsigned xmlinteger (NODE const * node, unsigned radix)
 
 {
 	unsigned digit;
 	unsigned value = 0;
-	while ((digit = todigit (*string)) &lt; radix) 
+	while ((digit = todigit (*string)) &lt; radix)
 	{
 		value *= radix;
 		value += digit;
 		string++;
 	}
-	if (*string) 
+	if (*string)
 	{
 		error (XML_BAD_NUMBER, EPERM, &quot;%s %s is not numeric&quot;, member, node-&gt;text);
 	}
@@ -135,35 +135,35 @@ static unsigned xmlinteger (NODE const * node, unsigned radix)
 /*====================================================================*
  *
  *   void xmlstring (void * memory, size_t extent);
- *   
+ *
  *   xmlstring is expressed as character text;  truncate string and
  *   pad memory with NULs as needed;
  *
  *   per the schema, an series cannot have a string member;
- *   
+ *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 
-static void xmlstring (void * memory, size_t extent) 
+static void xmlstring (void * memory, size_t extent)
 
 {
 	char * buffer = (char *)(memory);
-	if (series) 
+	if (series)
 	{
 		error (XML_BAD_NUMBER, ENOTSUP, &quot;%s found inside struct&quot;, member);
 	}
-	if (length) 
+	if (length)
 	{
-		while (length &gt; 1) 
+		while (length &gt; 1)
 		{
-			if (isprint (*string)) 
+			if (isprint (*string))
 			{
 				buffer [offset] = *string++;
 			}
-			else 
+			else
 			{
 				buffer [offset] = (char)(0);
 			}
@@ -180,11 +180,11 @@ static void xmlstring (void * memory, size_t extent)
 /*====================================================================*
  *
  *   void xmlmemory (void * memory, size_t extent);
- *   
- *   xmlmemory is a hexadecimal string of variable extent; an empty 
+ *
+ *   xmlmemory is a hexadecimal string of variable extent; an empty
  *   string increments offset and decrements length but nothing is
  *   written to the memory;
- *   
+ *
  *   per the schema, if xmlmemory is not inside an series then it must
  *   match the object extent;
  *
@@ -194,20 +194,20 @@ static void xmlstring (void * memory, size_t extent)
  *
  *--------------------------------------------------------------------*/
 
-static void xmlmemory (void * memory, size_t extent) 
+static void xmlmemory (void * memory, size_t extent)
 
 {
 	uint8_t * buffer = (uint8_t *)(memory);
-	if (!*string) 
+	if (!*string)
 	{
 		offset++;
 		length--;
 	}
-	while ((*string) &amp;&amp; (length)) 
+	while ((*string) &amp;&amp; (length))
 	{
 		uint8_t msb = todigit (*string++);
 		uint8_t lsb = todigit (*string++);
-		if ((msb &gt; 0x0F) || (lsb &gt; 0x0F)) 
+		if ((msb &gt; 0x0F) || (lsb &gt; 0x0F))
 		{
 			error (XML_BAD_NUMBER, EINVAL, &quot;%s value is not hexadecimal&quot;, member);
 		}
@@ -215,11 +215,11 @@ static void xmlmemory (void * memory, size_t extent)
 		offset++;
 		length--;
 	}
-	if ((length) &amp;&amp; (!series)) 
+	if ((length) &amp;&amp; (!series))
 	{
 		error (XML_BAD_NUMBER, EINVAL, &quot;%s value is too short&quot;, member);
 	}
-	if (*string) 
+	if (*string)
 	{
 		error (XML_BAD_NUMBER, EINVAL, &quot;%s value is too long&quot;, member);
 	}
@@ -229,39 +229,39 @@ static void xmlmemory (void * memory, size_t extent)
 /*====================================================================*
  *
  *   void xmlnumber (void * memory, size_t extent);
- *   
+ *
  *   xmlnumber is a decimal integer string of variable length; the
  *   value cannot exceed length bytes and offset is incremented by
  *   length bytes;
- *   
+ *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 
-static void xmlnumber (void * memory, size_t extent) 
+static void xmlnumber (void * memory, size_t extent)
 
 {
 	uint64_t number = 0;
 	uint64_t maximum = 0;
 	maximum = ~maximum;
-	if (length &lt; sizeof (number)) 
+	if (length &lt; sizeof (number))
 	{
 		maximum &lt;&lt;= (length &lt;&lt; 3);
 		maximum = ~maximum;
 	}
-	while (isdigit (*string)) 
+	while (isdigit (*string))
 	{
 		number *= 10;
 		number += *string - '0';
-		if (number &gt; maximum) 
+		if (number &gt; maximum)
 		{
 			error (XML_BAD_NUMBER, EINVAL, &quot;%s value exceeds %d bytes&quot;, member, length);
 		}
 		string++;
 	}
-	if (*string) 
+	if (*string)
 	{
 		error (XML_BAD_NUMBER, EINVAL, &quot;%s value is not decimal&quot;, member);
 	}
@@ -274,11 +274,11 @@ static void xmlnumber (void * memory, size_t extent)
 /*====================================================================*
  *
  *   void xmlbyte (void * memory, unsigned extent);
- *   
+ *
  *   xmlbyte is a decimal integer string of variable extent; the
- *   value cannot exceed 255; an empty string increments offset and 
+ *   value cannot exceed 255; an empty string increments offset and
  *   decrements length but nothing is written to the memory;
- *   
+ *
  *   per the schema, if xmlbyte is not inside an series then it must
  *   it must match the object extent which must be 1 by implication;
  *
@@ -288,23 +288,23 @@ static void xmlnumber (void * memory, size_t extent)
  *
  *--------------------------------------------------------------------*/
 
-static void xmlbyte (void * memory, size_t extent) 
+static void xmlbyte (void * memory, size_t extent)
 
 {
-	if (*string) 
+	if (*string)
 	{
 		uint16_t number = 0;
-		while (isdigit (*string)) 
+		while (isdigit (*string))
 		{
 			number *= 10;
 			number += *string - '0';
-			if (number &gt; 0xFF) 
+			if (number &gt; 0xFF)
 			{
 				error (XML_BAD_NUMBER, EINVAL, &quot;%s value exceeds 8 bits&quot;, member);
 			}
 			string++;
 		}
-		if (*string) 
+		if (*string)
 		{
 			error (XML_BAD_NUMBER, EINVAL, &quot;%s value is not decimal&quot;, member);
 		}
@@ -312,7 +312,7 @@ static void xmlbyte (void * memory, size_t extent)
 	}
 	offset++;
 	length--;
-	if ((length) &amp;&amp; (!series)) 
+	if ((length) &amp;&amp; (!series))
 	{
 		error (XML_BAD_NUMBER, EINVAL, &quot;%s is too short&quot;, member);
 	}
@@ -329,16 +329,16 @@ static void xmlbyte (void * memory, size_t extent)
  *
  *--------------------------------------------------------------------*/
 
-static char const * xmlcontent1 (struct node const * node) 
+static char const * xmlcontent1 (struct node const * node)
 
 {
-	if (node) 
+	if (node)
 	{
 		node = node-&gt;below;
 	}
-	while (node) 
+	while (node)
 	{
-		if (node-&gt;type == NODE_DATA) 
+		if (node-&gt;type == NODE_DATA)
 		{
 			return (node-&gt;text);
 		}
@@ -357,16 +357,16 @@ static char const * xmlcontent1 (struct node const * node)
  *
  *--------------------------------------------------------------------*/
 
-char const * xmlvalue1 (struct node const * node) 
+char const * xmlvalue1 (struct node const * node)
 
 {
-	if (node) 
+	if (node)
 	{
 		node = node-&gt;below;
 	}
-	while (node) 
+	while (node)
 	{
-		if (node-&gt;type == NODE_VALU) 
+		if (node-&gt;type == NODE_VALU)
 		{
 			return (node-&gt;text);
 		}
@@ -385,18 +385,18 @@ char const * xmlvalue1 (struct node const * node)
  *
  *--------------------------------------------------------------------*/
 
-static char const * xmlattribute1 (struct node const * node, char const * name) 
+static char const * xmlattribute1 (struct node const * node, char const * name)
 
 {
-	if (node) 
+	if (node)
 	{
 		node = node-&gt;below;
 	}
-	while (node) 
+	while (node)
 	{
-		if (node-&gt;type == NODE_ATTR) 
+		if (node-&gt;type == NODE_ATTR)
 		{
-			if (!strcmp (node-&gt;text, name)) 
+			if (!strcmp (node-&gt;text, name))
 			{
 				name = xmlvalue1 (node);
 				return (name);
@@ -417,72 +417,72 @@ static char const * xmlattribute1 (struct node const * node, char const * name)
  *
  *--------------------------------------------------------------------*/
 
-signed xmledit (struct node const * node, void * memory, size_t extent) 
+signed xmledit (struct node const * node, void * memory, size_t extent)
 
 {
-	if (node) 
+	if (node)
 	{
 		node = node-&gt;below;
 	}
-	while (node) 
+	while (node)
 	{
-		if (node-&gt;type == NODE_ELEM) 
+		if (node-&gt;type == NODE_ELEM)
 		{
-			if (!strcmp (node-&gt;text, DATA_MEMBER)) 
+			if (!strcmp (node-&gt;text, DATA_MEMBER))
 			{
 				member = xmlattribute1 (node, DATA_NAME);
 				offset = (unsigned)(-1);
 				length = (unsigned)(-1);
 				series = false;
 			}
-			else if (!strcmp (node-&gt;text, DATA_OFFSET)) 
+			else if (!strcmp (node-&gt;text, DATA_OFFSET))
 			{
 				string = xmlcontent1 (node);
 				offset = xmlinteger (node, 16);
 			}
-			else if (!strcmp (node-&gt;text, DATA_LENGTH)) 
+			else if (!strcmp (node-&gt;text, DATA_LENGTH))
 			{
 				string = xmlcontent1 (node);
 				length = xmlinteger (node, 10);
 			}
-			else if (!strcmp (node-&gt;text, DATA_STRUCT)) 
+			else if (!strcmp (node-&gt;text, DATA_STRUCT))
 			{
 				series = true;
 			}
-			else if (!strcmp (node-&gt;text, DATA_STRING)) 
+			else if (!strcmp (node-&gt;text, DATA_STRING))
 			{
 				string = xmlcontent1 (node);
 				position (extent);
 				xmlstring (memory, extent);
 			}
-			else if (!strcmp (node-&gt;text, DATA_MEMORY)) 
+			else if (!strcmp (node-&gt;text, DATA_MEMORY))
 			{
 				string = xmlcontent1 (node);
 				position (extent);
 				xmlmemory (memory, extent);
 			}
-			else if (!strcmp (node-&gt;text, DATA_HUGE)) 
+			else if (!strcmp (node-&gt;text, DATA_HUGE))
 			{
 				length = sizeof (uint64_t);
 				position (extent);
 				string = xmlcontent1 (node);
 				xmlnumber (memory, extent);
 			}
-			else if (!strcmp (node-&gt;text, DATA_LONG)) 
+			else if (!strcmp (node-&gt;text, DATA_LONG))
 			{
 				length = sizeof (uint32_t);
 				position (extent);
 				string = xmlcontent1 (node);
 				xmlnumber (memory, extent);
 			}
-			else if (!strcmp (node-&gt;text, DATA_WORD)) 
+			else if (!strcmp (node-&gt;text, DATA_WORD))
 			{
 				length = sizeof (uint16_t);
 				position (extent);
 				string = xmlcontent1 (node);
 				xmlnumber (memory, extent);
 			}
-			else if (!strcmp (node-&gt;text, DATA_BYTE)) 
+			else if (!strcmp (node-&gt;text, DATA_BYTE))
 			{
 				position (extent);
 				string = xmlcontent1 (node);

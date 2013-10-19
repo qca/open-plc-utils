@@ -6,7 +6,7 @@
 			putoptv.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -42,16 +42,16 @@
 #include &quot;../tools/getoptv.h&quot;
 #include &quot;../tools/putoptv.h&quot;
 
-void putoptv (char const * optv []) 
+void putoptv (char const * optv [])
 
 {
-	extern char const *program_name;
+	extern char const * program_name;
 	size_t index;
 	printf (&quot;\n&quot;);
-	printf (&quot; purpose: %s\n\n&quot;, optv [PUTOPTV_I_PURPOSE]);
+	printf (&quot; program: %s\n\n&quot;, optv [PUTOPTV_I_PROGRAM]);
 	printf (&quot; command: %s [options] %s\n\n&quot;, program_name, optv [PUTOPTV_I_COMMAND]);
 	printf (&quot; options: [%s%c%c]\n\n&quot;, optv [PUTOPTV_I_OPTIONS], GETOPTV_C_VERSION, GETOPTV_C_SUMMARY);
-	for (index = PUTOPTV_I_DETAILS; optv [index] != (char *) (0); index++) 
+	for (index = PUTOPTV_I_DETAILS; optv [index] != (char *) (0); index++)
 	{
 		printf (&quot; %c%s\n&quot;, GETOPTV_C_OPTION, optv [index]);
 	}

@@ -6,7 +6,7 @@
 			ModuleWrite.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -19,33 +19,33 @@
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *
  *   signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, struct vs_module_spec * vs_module_spec);
- *   
+ *
  *   plc.h
  *
  *   write an entire file to flash memory as a single module; write
- *   the file in 1400 byte records; allow up to 80 seconds for each 
+ *   the file in 1400 byte records; allow up to 80 seconds for each
  *   write to complete; extra time is needed because memory must be
  *   erased;
  *
@@ -66,9 +66,9 @@
 
 #include &quot;../tools/error.h&quot;
 #include &quot;../tools/files.h&quot;
-#include &quot;../plc/plc.h&quot; 
+#include &quot;../plc/plc.h&quot;
 
-signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, struct vs_module_spec * vs_module_spec) 
+signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, struct vs_module_spec * vs_module_spec)
 
 {
 	struct channel * channel = (struct channel *)(plc-&gt;channel);
@@ -78,13 +78,13 @@ signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, stru
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_module_operation_write_request 
+	struct __packed vs_module_operation_write_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint32_t RESERVED;
 		uint8_t NUM_OP_DATA;
-		struct __packed 
+		struct __packed
 		{
 			uint16_t MOD_OP;
 			uint16_t MOD_OP_DATA_LEN;
@@ -100,15 +100,15 @@ signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, stru
 		uint8_t MODULE_DATA [PLC_MODULE_SIZE];
 	}
 	* request = (struct vs_module_operation_write_request *)(message);
-	struct __packed vs_module_operation_write_confirm 
+	struct __packed vs_module_operation_write_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint16_t MSTATUS;
 		uint16_t ERR_REC_CODE;
 		uint32_t RESERVED;
 		uint8_t NUM_OP_DATA;
-		struct __packed 
+		struct __packed
 		{
 			uint16_t MOD_OP;
 			uint16_t MOD_OP_DATA_LEN;
@@ -133,17 +133,17 @@ signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, stru
 	uint32_t extent = vs_module_spec-&gt;MODULE_LENGTH;
 	uint32_t offset = 0;
 	Request (plc, &quot;Flash %s&quot;, file-&gt;name);
-	while (extent) 
+	while (extent)
 	{
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
 		QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_MODULE_OPERATION | MMTYPE_REQ));
 		plc-&gt;packetsize = sizeof (struct vs_module_operation_write_request);
-		if (length &gt; extent) 
+		if (length &gt; extent)
 		{
 			length = extent;
 		}
-		if (read (file-&gt;file, request-&gt;MODULE_DATA, length) != length) 
+		if (read (file-&gt;file, request-&gt;MODULE_DATA, length) != length)
 		{
 			error (1, errno, FILE_CANTREAD, file-&gt;name);
 		}
@@ -171,13 +171,13 @@ signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, stru
 
 #endif
 
-		if (SendMME (plc) &lt;= 0) 
+		if (SendMME (plc) &lt;= 0)
 		{
 			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
 		channel-&gt;timeout = PLC_MODULE_WRITE_TIMEOUT;
-		if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) &lt;= 0) 
+		if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) &lt;= 0)
 		{
 			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			channel-&gt;timeout = timer;
@@ -201,17 +201,17 @@ signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, stru
 
 #endif
 
-		if (confirm-&gt;MSTATUS) 
+		if (confirm-&gt;MSTATUS)
 		{
 			Failure (plc, PLC_WONTDOIT);
 			return (-1);
 		}
-		if (LE16TOH (confirm-&gt;MODULE_SPEC.MODULE_LENGTH) != length) 
+		if (LE16TOH (confirm-&gt;MODULE_SPEC.MODULE_LENGTH) != length)
 		{
 			error ((plc-&gt;flags &amp; PLC_BAILOUT), 0, PLC_ERR_LENGTH);
 			return (-1);
 		}
-		if (LE32TOH (confirm-&gt;MODULE_SPEC.MODULE_OFFSET) != offset) 
+		if (LE32TOH (confirm-&gt;MODULE_SPEC.MODULE_OFFSET) != offset)
 		{
 			error ((plc-&gt;flags &amp; PLC_BAILOUT), 0, PLC_ERR_OFFSET);
 			return (-1);

@@ -6,7 +6,7 @@
 			pibscalers.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -19,36 +19,37 @@
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *   
+ *
  *   uint16_t pibscalers (struct _file_ * pib);
  *
  *   return the number of scalers (carriers) based on the FWVERSION
  *   stored in a .pib file; this function is a fix so that older
  *   toolkit programs will work with newer chipsets;
  *
- *   old chipsets support 1155 carriers; new chipsets support 2880
- *   carriers; 
- *   
+ *   chipsets with the following carriers are supported:
+ *     - 1155 carriers
+ *     - 1345 carriers
+ *     - 2880 carriers
  *
  *--------------------------------------------------------------------*/
 
@@ -62,15 +63,22 @@
 #include &quot;../pib/pib.h&quot;
 #include &quot;../tools/error.h&quot;
 
-uint16_t pibscalers (struct _file_ * pib) 
+uint16_t pibscalers (struct _file_ * pib)
 
 {
+	// TODO: improve chipset detection
+
 	struct pib_header pib_header;
-	if (read (pib-&gt;file, &amp;pib_header, sizeof (pib_header)) != sizeof (pib_header)) 
+	if (read (pib-&gt;file, &amp;pib_header, sizeof (pib_header)) != sizeof (pib_header))
 	{
 		error (1, errno, &quot;%s&quot;, pib-&gt;name);
 	}
-	if (pib_header.FWVERSION &lt; 0x05) 
+	if ((pib_header.FWVERSION  == 0x01) &amp;&amp;
+		(pib_header.PIBVERSION == 0x00))
+	{
+		return (PLC_CARRIERS);
+	}
+	if (pib_header.FWVERSION &lt; 0x05)
 	{
 		return (INT_CARRIERS);
 	}

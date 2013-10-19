@@ -6,36 +6,36 @@
 			manifest.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
 		</head>
 	<body>
 		<div class='headerlink'>
-			[<a href='_main.c.html' title=' _main.c '>PREV</a>]
+			[<a href='MakeRule.c.html' title=' MakeRule.c '>PREV</a>]
 			[<a href='toolkit.html' title=' Index '>HOME</a>]
 			[<a href='manifetch.c.html' title=' manifetch.c '>NEXT</a>]
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -63,24 +63,25 @@
 #include &quot;../tools/endian.h&quot;
 #include &quot;../tools/error.h&quot;
 #include &quot;../tools/files.h&quot;
+#include &quot;../tools/tlv.h&quot;
 #include &quot;../nvm/nvm.h&quot;
 
 /*
  *   strings must appear in order of hardware types;
  */
 
-static char const * compatibility [] = 
+static char const * compatibility [] =
 
 {
 	&quot;QCA7420&quot;,
-	(char const *)(0)
+	(char const *) (0)
 };
 
 /*
  *   strings must appear in order of field type; the last string is the error string;
  */
 
-static char const * nvm_fields [] = 
+static char const * nvm_fields [] =
 
 {
 	&quot;Signature&quot;,
@@ -114,7 +115,7 @@ static char const * nvm_fields [] =
  *   strings must appear in order of chain type;
  */
 
-static char const * nvm_chains [] = 
+static char const * nvm_chains [] =
 
 {
 	&quot;Softloader&quot;,
@@ -137,13 +138,13 @@ static char const * nvm_chains [] =
  *
  *--------------------------------------------------------------------*/
 
-static char * myitoa (unsigned number, char buffer [], size_t length) 
+static char * myitoa (unsigned number, char buffer [], size_t length)
 
 {
-	buffer [--length] = (char)(0);
-	do 
+	buffer [-- length] = (char) (0);
+	do
 	{
-		buffer [--length] = '0' + (number % 10);
+		buffer [-- length] = '0' +  (number % 10);
 		number /= 10;
 	}
 	while (number);
@@ -155,12 +156,12 @@ static char * myitoa (unsigned number, char buffer [], size_t length)
  *   signed manifest (void const * memory, size_t extent);
  *
  *   nvm.h
- *   
- *   walk through a manifest and print known values, when present; 
- *   known values are those defined in nvm.h and named here; 
+ *
+ *   walk through a manifest and print known values, when present;
+ *   known values are those defined in nvm.h and named here;
  *
  *   the TLVNode data structure used here is not the same a that in
- *   the firmware headers; our structure assumes values are 32-bit 
+ *   the firmware headers; our structure assumes values are 32-bit
  *   integers and treats strings are exceptions to that rule;
  *
  *
@@ -169,126 +170,20 @@ static char * myitoa (unsigned number, char buffer [], size_t length)
  *
  *--------------------------------------------------------------------*/
 
-signed manifest (void const * memory, size_t extent) 
+signed manifest (void const * memory, size_t extent)
 
 {
-	uint8_t * offset = (uint8_t *)(memory);
-	uint32_t length = (uint32_t)(extent);
+	uint8_t * offset = (uint8_t *) (memory);
+	uint32_t length = (uint32_t) (extent);
 	char string [1024];
-	while (length &gt; 0) 
+	while (length &gt; 0)
 	{
-		struct TLVNode * node = (struct TLVNode *)(offset);
+		struct TLVNode * node = (struct TLVNode *) (offset);
 		uint32_t type = LE32TOH (node-&gt;type);
 		uint32_t size = LE32TOH (node-&gt;size);
 		uint32_t data = LE32TOH (node-&gt;data);
 
-#if 0
-
-		if (type == NVM_FIELD_SIGNATURE) 
-		{
-			printf (&quot;\t%s: %08X\n&quot;, nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_HARDWARE_COMPAT) 
-		{
-			strfbits (string, sizeof (string), compatibility, &quot;|&quot;, data);
-			printf (&quot;\t%s: %s\n&quot;, nvm_fields [type], string);
-		}
-		else if (type == NVM_FIELD_CHAIN_MAJOR_VERSION) 
-		{
-			printf (&quot;\t%s: %d\n&quot;, nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_CHAIN_MINOR_VERSION) 
-		{
-			printf (&quot;\t%s: %d\n&quot;, nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_CHAIN_TYPE) 
-		{
-			printf (&quot;\t%s: %s\n&quot;, nvm_fields [type], data &lt; SIZEOF (nvm_chains)? nvm_chains [data]: myitoa (data, string, sizeof (string)));
-		}
-		else if (type == NVM_FIELD_BUILD_MAJOR_VERSION) 
-		{
-			printf (&quot;\t%s: %d\n&quot;, nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_BUILD_MINOR_VERSION) 
-		{
-			printf (&quot;\t%s: %d\n&quot;, nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_BUILD_TYPE) 
-		{
-			printf (&quot;\t%s: %s\n&quot;, nvm_fields [type], (char const *)(&amp;node-&gt;data));
-		}
-		else if (type == NVM_FIELD_MANIFEST_VERSION) 
-		{
-			printf (&quot;\t%s: %d\n&quot;, nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_BUILD_NUMBER) 
-		{
-			printf (&quot;\t%s: %d\n&quot;, nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_BUILD_DATE) 
-		{
-			printf (&quot;\t%s: %08X\n&quot;, nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_BUILD_TIME) 
-		{
-			printf (&quot;\t%s: %06X\n&quot;, nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_DEVICE_TYPE) 
-		{
-			printf (&quot;\t%s: %04X\n&quot;, nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_BUILD_HOSTNAME) 
-		{
-			printf (&quot;\t%s: %s\n&quot;, nvm_fields [type], (char const *)(&amp;node-&gt;data));
-		}
-		else if (type == NVM_FIELD_BUILD_USERNAME) 
-		{
-			printf (&quot;\t%s: %s\n&quot;, nvm_fields [type], (char const *)(&amp;node-&gt;data));
-		}
-		else if (type == NVM_FIELD_BUILD_DESCRIPTION) 
-		{
-			printf (&quot;\t%s: %s\n&quot;, nvm_fields [type], (char const *)(&amp;node-&gt;data));
-		}
-		else if (type == NVM_FIELD_BUILD_VERSION_STRING) 
-		{
-			printf (&quot;\t%s: %s\n&quot;, nvm_fields [type], (char const *)(&amp;node-&gt;data));
-		}
-		else if (type == NVM_FIELD_BUILD_SUSTAINING_RELEASE) 
-		{
-			printf (&quot;\t%s: %d\n&quot;, nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_BUILD_MAJOR_SUBVERSION) 
-		{
-			printf (&quot;\t%s: %d\n&quot;, nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_GENERIC_ID0) 
-		{
-			printf (&quot;\t%s: %d\n&quot;, nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_GENERIC_ID1) 
-		{
-			printf (&quot;\t%s: %d\n&quot;, nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_SL_MAJOR_VERSION) 
-		{
-			printf (&quot;\t%s: %d\n&quot;, nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_SL_MINOR_VERSION) 
-		{
-			printf (&quot;\t%s: %d\n&quot;, nvm_fields [type], data);
-		}
-		else if (type == NVM_FIELD_FREE_SPACE) 
-		{
-			printf (&quot;\t%s: %d/%d bytes\n&quot;, nvm_fields [type], size, extent);
-		}
-		else 
-		{
-			error (0, 0, &quot;%s: %d&quot;, nvm_fields [sizeof (nvm_fields) / sizeof (const char *) - 1], type);
-		}
-
-#else
-
-		switch (type) 
+		switch (type)
 		{
 		case NVM_FIELD_SIGNATURE:
 		case NVM_FIELD_BUILD_DATE:
@@ -308,7 +203,7 @@ signed manifest (void const * memory, size_t extent)
 		case NVM_FIELD_BUILD_DESCRIPTION:
 		case NVM_FIELD_BUILD_VERSION_STRING:
 		case NVM_FIELD_BUILD_TYPE:
-			printf (&quot;\t%s: %s\n&quot;, nvm_fields [type], (char const *)(&amp;node-&gt;data));
+			printf (&quot;\t%s: %s\n&quot;, nvm_fields [type], (char const *) (&amp; node-&gt;data));
 			break;
 		case NVM_FIELD_HARDWARE_COMPAT:
 			strfbits (string, sizeof (string), compatibility, &quot;|&quot;, data);
@@ -329,17 +224,15 @@ signed manifest (void const * memory, size_t extent)
 			printf (&quot;\t%s: %d\n&quot;, nvm_fields [type], data);
 			break;
 		case NVM_FIELD_FREE_SPACE:
-			printf (&quot;\t%s: %d/&quot;SIZE_T_SPEC&quot; bytes\n&quot;, nvm_fields [type], size, extent);
+			printf (&quot;\t%s: %d/&quot; SIZE_T_SPEC &quot; bytes\n&quot;, nvm_fields [type], size, extent);
 			break;
 		default:
 			error (0, 0, &quot;%s: %d&quot;, nvm_fields [sizeof (nvm_fields) / sizeof (const char *) - 1], type);
 			break;
 		}
 
-#endif
-
-		length -= sizeof (* node) - sizeof (node-&gt;size) + LE32TOH (node-&gt;size);
-		offset += sizeof (* node) - sizeof (node-&gt;size) + LE32TOH (node-&gt;size);
+		length -= sizeof (* node) - sizeof (node-&gt;size) +  LE32TOH (node-&gt;size);
+		offset += sizeof (* node) - sizeof (node-&gt;size) +  LE32TOH (node-&gt;size);
 	}
 	return (0);
 }
@@ -349,7 +242,7 @@ signed manifest (void const * memory, size_t extent)
 
 </pre>
 		<div class='footerlink'>
-			[<a href='_main.c.html' title=' _main.c '>PREV</a>]
+			[<a href='MakeRule.c.html' title=' MakeRule.c '>PREV</a>]
 			[<a href='toolkit.html' title=' Index '>HOME</a>]
 			[<a href='manifetch.c.html' title=' manifetch.c '>NEXT</a>]
 			</div>

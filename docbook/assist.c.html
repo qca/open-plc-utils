@@ -6,7 +6,7 @@
 			assist.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -23,11 +23,11 @@
  *   void assist (char const * name, char const * type, struct _code_ const list [], size_t size);
  *
  *   symbol.h
- *   
+ *
  *   print program name followed by an error message containing the
  *   type of name expected, the incorrect name and a list of correct
  *   name;
- *   
+ *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
@@ -44,13 +44,13 @@
 #include &quot;../tools/symbol.h&quot;
 #include &quot;../tools/error.h&quot;
 
-void assist (char const * name, char const * type, struct _code_ const list [], size_t size) 
+void assist (char const * name, char const * type, struct _code_ const list [], size_t size)
 
 {
 	extern char const * program_name;
 	fprintf (stderr, &quot;%s: &quot;, program_name);
 	fprintf (stderr, &quot;%s: &quot;, strerror (ENOTSUP));
-	if (name) 
+	if (name)
 	{
 
 #if 0
@@ -64,7 +64,7 @@ void assist (char const * name, char const * type, struct _code_ const list [], 
 #endif
 
 	}
-	else 
+	else
 	{
 		fprintf (stderr, &quot;Want %s &quot;, type);
 	}

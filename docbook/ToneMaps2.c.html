@@ -6,7 +6,7 @@
 			ToneMaps2.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -19,23 +19,23 @@
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -64,7 +64,7 @@
 
 #ifndef SIGNALTONOISE2_SOURCE
 
-static uint8_t const mod2bits [AMP_BITS] = 
+static uint8_t const mod2bits [AMP_BITS] =
 
 {
 	0,
@@ -82,7 +82,7 @@ static uint8_t const mod2bits [AMP_BITS] =
 
 #ifndef SIGNALTONOISE2_SOURCE
 
-static uint8_t const mod2db [AMP_BITS] = 
+static uint8_t const mod2db [AMP_BITS] =
 
 {
 	0,
@@ -98,7 +98,7 @@ static uint8_t const mod2db [AMP_BITS] =
 
 #endif
 
-signed ToneMaps2 (struct plc * plc) 
+signed ToneMaps2 (struct plc * plc)
 
 {
 	uint8_t tonemap [PLC_SLOTS + 1][AMP_CARRIERS &gt;&gt; 1];
@@ -114,9 +114,9 @@ signed ToneMaps2 (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_tonemap_char_request 
+	struct __packed vs_tonemap_char_request
 	{
-		struct ethernet_std ethernet;
+		struct ethernet_hdr ethernet;
 		struct qualcomm_fmi qualcomm;
 		uint8_t MME_SUBVER;
 		uint8_t Reserved1 [3];
@@ -125,14 +125,14 @@ signed ToneMaps2 (struct plc * plc)
 		uint8_t COUPLING;
 	}
 	* request = (struct vs_tonemap_char_request *) (message);
-	struct __packed vs_tonemap_char_confirm 
+	struct __packed vs_tonemap_char_confirm
 	{
-		struct ethernet_std ethernet;
+		struct ethernet_hdr ethernet;
 		struct qualcomm_fmi qualcomm;
 		uint8_t MSTATUS;
 		uint8_t Reserved1;
 		uint16_t MME_LEN;
-		struct __packed vs_tonemap_char_header 
+		struct __packed vs_tonemap_char_header
 		{
 			uint8_t MME_SUBVER;
 			uint8_t Reserved2;
@@ -151,9 +151,9 @@ signed ToneMaps2 (struct plc * plc)
 		uint8_t MOD_CARRIER [1];
 	}
 	* confirm = (struct vs_tonemap_char_confirm *) (message);
-	struct __packed vs_tonemap_char_fragment 
+	struct __packed vs_tonemap_char_fragment
 	{
-		struct ethernet_std ethernet;
+		struct ethernet_hdr ethernet;
 		struct homeplug_fmi qualcomm;
 		uint8_t MOD_CARRIER [1];
 	}
@@ -164,7 +164,7 @@ signed ToneMaps2 (struct plc * plc)
 #endif
 
 	memset (tonemap, 0, sizeof (tonemap));
-	for (carrier = slot = 0; slot &lt; slots; carrier = 0, slot++) 
+	for (carrier = slot = 0; slot &lt; slots; carrier = 0, slot++)
 	{
 		memset (message, 0, sizeof (* message));
 		EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
@@ -172,46 +172,46 @@ signed ToneMaps2 (struct plc * plc)
 		plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		memcpy (request-&gt;MACADDRESS, plc-&gt;RDA, sizeof (request-&gt;MACADDRESS));
 		request-&gt;TMSLOT = slot;
-		request-&gt;COUPLING = plc-&gt;action;
-		if (SendMME (plc) &lt;= 0) 
+		request-&gt;COUPLING = plc-&gt;coupling;
+		if (SendMME (plc) &lt;= 0)
 		{
 			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		if (ReadMME (plc, 1, (VS_TONE_MAP_CHAR | MMTYPE_CNF)) &lt;= 0) 
+		if (ReadMME (plc, 1, (VS_TONE_MAP_CHAR | MMTYPE_CNF)) &lt;= 0)
 		{
 			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
-		if (confirm-&gt;MSTATUS) 
+		if (confirm-&gt;MSTATUS)
 		{
 			error (1, 0, &quot;Device refused request for slot %d: %s&quot;, slot, MMECode (VS_TONE_MAP_CHAR | MMTYPE_CNF, confirm-&gt;MSTATUS));
 		}
 		carriers = LE16TOH (confirm-&gt;header.TMNUMACTCARRIERS);
 		slots = confirm-&gt;header.NUMTMS;
 		extent = LE16TOH (confirm-&gt;MME_LEN) - sizeof (struct vs_tonemap_char_header);
-		if (extent &gt; (AMP_CARRIERS &gt;&gt; 1)) 
+		if (extent &gt; (AMP_CARRIERS &gt;&gt; 1))
 		{
 			error (1, EOVERFLOW, &quot;Too many carriers&quot;);
 		}
 		plc-&gt;packetsize -= sizeof (struct vs_tonemap_char_confirm);
 		plc-&gt;packetsize += sizeof (confirm-&gt;MOD_CARRIER);
-		if (plc-&gt;packetsize &gt; extent) 
+		if (plc-&gt;packetsize &gt; extent)
 		{
 			plc-&gt;packetsize = extent;
 		}
 		memcpy (&amp;tonemap [slot] [carrier], &amp;confirm-&gt;MOD_CARRIER, plc-&gt;packetsize);
 		carrier += plc-&gt;packetsize;
 		extent -= plc-&gt;packetsize;
-		while (extent) 
+		while (extent)
 		{
-			if (ReadMME (plc, 1, (VS_TONE_MAP_CHAR | MMTYPE_CNF)) &lt;= 0) 
+			if (ReadMME (plc, 1, (VS_TONE_MAP_CHAR | MMTYPE_CNF)) &lt;= 0)
 			{
 				error (1, errno, CHANNEL_CANTREAD);
 			}
 			plc-&gt;packetsize -= sizeof (struct vs_tonemap_char_fragment);
 			plc-&gt;packetsize += sizeof (fragment-&gt;MOD_CARRIER);
-			if (plc-&gt;packetsize &gt; extent) 
+			if (plc-&gt;packetsize &gt; extent)
 			{
 				plc-&gt;packetsize = extent;
 			}
@@ -220,16 +220,16 @@ signed ToneMaps2 (struct plc * plc)
 			extent -= plc-&gt;packetsize;
 		}
 	}
-	for (carrier = 0; carrier &lt; carriers; carrier++) 
+	for (carrier = 0; carrier &lt; carriers; carrier++)
 	{
 		uint16_t scale = 0;
 		uint16_t value = 0;
 		uint16_t index = carrier &gt;&gt; 1;
 		printf (&quot;%04d&quot;, carrier);
-		for (slot = 0; slot &lt; slots; slot++) 
+		for (slot = 0; slot &lt; slots; slot++)
 		{
 			value = tonemap [slot][index];
-			if ((carrier &amp; 1)) 
+			if ((carrier &amp; 1))
 			{
 				value &gt;&gt;= 4;
 			}
@@ -238,14 +238,14 @@ signed ToneMaps2 (struct plc * plc)
 			value *= value;
 			scale += value;
 		}
-		if (slots) 
+		if (slots)
 		{
 			scale /= slots;
 		}
 		printf (&quot; %03d &quot;, scale);
-		if (_anyset (plc-&gt;flags, PLC_GRAPH)) 
+		if (_anyset (plc-&gt;flags, PLC_GRAPH))
 		{
-			while (scale--) 
+			while (scale--)
 			{
 				printf (&quot;#&quot;);
 			}

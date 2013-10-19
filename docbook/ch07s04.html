@@ -10,7 +10,7 @@
 			Search a channel for local powerline devices (bridges) and store their Ethernet hardware in consecutive <code class="varname">memory</code> locations. The memory <code class="varname">extent</code> is specified in bytes. The number of devices found is returned as the function value,  provided enough space is available to store all addressed. Unlike function <a class="link" href="ch07s04.html#support-networkdevices" title="NetworkDevices">NetworkDevices</a>, the channel <code class="varname">peer</code> address is ignored. 
 			</p><p>
 			We call local devices “<span class="quote">bridges</span>” because each serves as an Ethernet-to-Powerline bridge for the local host.
-			</p><div class="example"><a name="idp7711168"></a><p class="title"><b>Example 7.1. 
+			</p><div class="example"><a name="idp11851840"></a><p class="title"><b>Example 7.1. 
 				Enumerating Local Devices
 				</b></p><div class="example-contents"><pre class="programlisting">
 #include &lt;net/if.h&gt;
@@ -30,7 +30,7 @@ while (<code class="varname">bridge</code> &lt; <code class="varname">bridges</c
 			NetworkDevices
 			</h3></div></div></div><div class="funcsynopsis"><table border="0" summary="Function synopsis" cellspacing="0" cellpadding="0"><tr><td><code class="funcdef">size_t <b class="fsfunc">NetworkDevices</b> (</code></td><td><code>struct channel * </code> </td><td><var class="pdparam">channel</var>, </td></tr><tr><td> </td><td><code>void * </code> </td><td><var class="pdparam">memory</var>, </td></tr><tr><td> </td><td><code>size_t </code> </td><td><var class="pdparam">extent</var><code class="funcdef">)</code>;</td></tr></table></div><p>
 			Query a powerline device, specified by <a class="link" href="ch07s03.html#support-channel" title="channel">channel</a>, for neighboring network devices and store their Ethernet addresses in consecutive <code class="varname">memory</code> locations. The memory <code class="varname">extent</code> is specified in bytes. The number of devices found is returned as the function value, provided sufficient space is available to store all addresses. Unlike function <a class="link" href="ch07s04.html#support-networkbridges" title="NetworkBridges">NetworkBridges</a>, the <span class="structname">channel</span> <code class="varname">peer</code> address is identifies the device to be queried. 
-			</p><div class="example"><a name="idp7724328"></a><p class="title"><b>Example 7.2. 
+			</p><div class="example"><a name="idp11865000"></a><p class="title"><b>Example 7.2. 
 				Enumerating Network Devices
 				</b></p><div class="example-contents"><pre class="programlisting">
 #include &lt;net/if.h&gt;

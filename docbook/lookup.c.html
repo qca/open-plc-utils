@@ -6,7 +6,7 @@
 			lookup.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -23,7 +23,7 @@
  *   signed lookup (char const * name, struct _code_ const list [], size_t size);
  *
  *   symbol.h
- *   
+ *
  *   search a name list and return the associated name; return the
  *   corresponding code on success or -1 on failure; the search is
  *   case insensitive;
@@ -42,13 +42,13 @@
 
 #include &quot;../tools/symbol.h&quot;
 
-signed lookup (char const * name, struct _code_ const list [], size_t size) 
+signed lookup (char const * name, struct _code_ const list [], size_t size)
 
 {
 	struct _code_ const * item = list;
-	if ((name) &amp;&amp; (*name)) while ((unsigned)(item - list) &lt; size) 
+	if ((name) &amp;&amp; (*name)) while ((unsigned)(item - list) &lt; size)
 	{
-		if (!strcasecmp (item-&gt;name, name)) 
+		if (!strcasecmp (item-&gt;name, name))
 		{
 			return (item-&gt;code);
 		}

@@ -6,7 +6,7 @@
 			__bswap.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -24,7 +24,7 @@
  *
  *   endian.h
  *
- *   alternative byte-swap functions for systems without them (such 
+ *   alternative byte-swap functions for systems without them (such
  *   as Microsoft Windows);
  *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
@@ -40,21 +40,21 @@
 
 #include &quot;../tools/endian.h&quot;
 
-uint16_t __bswap_16 (uint16_t x) 
+uint16_t __bswap_16 (uint16_t x)
 
 {
 	reverse (&amp;x, sizeof (x));
 	return (x);
 }
 
-uint32_t __bswap_32 (uint32_t x) 
+uint32_t __bswap_32 (uint32_t x)
 
 {
 	reverse (&amp;x, sizeof (x));
 	return (x);
 }
 
-uint64_t __bswap_64 (uint64_t x) 
+uint64_t __bswap_64 (uint64_t x)
 
 {
 	reverse (&amp;x, sizeof (x));

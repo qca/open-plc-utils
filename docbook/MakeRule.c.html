@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			MakeRule.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='_main.c.html' title=' _main.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='manifest.c.html' title=' manifest.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *
+ *   Copyright (c) 2013 Qualcomm Atheros Inc.
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
+ *   in all copies.
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   signed MakeRule (struct plc * plc, struct rule * rule);
+ *
+ *   plc.h
+ *
+ *   This plugin for program plcrule adds or removes a temporary
+ *   or permanent network classification rule to a device using a
+ *   VS_CLASSIFICATION message;
+ *
+ *   Contributor(s):
+ *      Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef MAKERULE_SOURCE
+#define MAKERULE_SOURCE
+
+#include &quot;../tools/error.h&quot;
+
+#include &quot;../plc/rules.h&quot;
+#include &quot;../plc/plc.h&quot;
+
+signed MakeRule (struct plc * plc, struct MMERule * rule)
+
+{
+	struct channel * channel = (struct channel *)(plc-&gt;channel);
+	struct message * message = (struct message *)(plc-&gt;message);
+
+#ifndef __GNUC__
+#pragma pack (push,1)
+#endif
+
+	struct __packed vs_classification_request
+	{
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
+		struct MMERule rule;
+	}
+	* request = (struct vs_classification_request *)(message);
+	struct __packed vs_classification_confirm
+	{
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
+		uint8_t MSTATUS;
+	}
+	* confirm = (struct vs_classification_confirm *)(message);
+
+#ifndef __GNUC__
+#pragma pack (pop)
+#endif
+
+	Request (plc, &quot;Set MakeRules Rules&quot;);
+	memset (message, 0, sizeof (* message));
+	EthernetHeader (&amp; request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
+	QualcommHeader (&amp; request-&gt;qualcomm, 0, (VS_CLASSIFICATION | MMTYPE_REQ));
+	plc-&gt;packetsize = sizeof (struct vs_classification_request);
+	memcpy (&amp; request-&gt;rule, rule, sizeof (request-&gt;rule));
+	if (SendMME (plc) &lt;= 0)
+	{
+		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		return (-1);
+	}
+	if (ReadMME (plc, 0, (VS_CLASSIFICATION | MMTYPE_CNF)) &lt;= 0)
+	{
+		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+		return (-1);
+	}
+	if (confirm-&gt;MSTATUS)
+	{
+		Failure (plc, PLC_WONTDOIT);
+		return (-1);
+	}
+	Confirm (plc, &quot;Setting ...&quot;);
+	return (0);
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='_main.c.html' title=' _main.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='manifest.c.html' title=' manifest.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

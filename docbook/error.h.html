@@ -6,7 +6,7 @@
 			error.h
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -24,7 +24,7 @@
  *
  *   this file is an alterantive to GNU header file of the same
  *   name; in addition to standard GNU error function declarations,
- *   some additional functions are declared; 
+ *   some additional functions are declared;
  *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
  *   Copyright 2001-2006 by Charles Maier Associates;
@@ -36,19 +36,19 @@
 #define ERROR_HEADER
 
 /*====================================================================*
- *   system header files; 
+ *   system header files;
  *--------------------------------------------------------------------*/
 
 #include &lt;errno.h&gt;
 
 /*====================================================================*
- *   custom header files; 
+ *   custom header files;
  *--------------------------------------------------------------------*/
 
 #include &quot;../tools/types.h&quot;
 
 /*====================================================================*
- *    
+ *
  *--------------------------------------------------------------------*/
 
 #if defined (WIN32)
@@ -79,7 +79,7 @@
 #endif
 
 /*====================================================================*
- *   define common error message strings; 
+ *   define common error message strings;
  *--------------------------------------------------------------------*/
 
 #define ERROR_NOTROOT &quot;This program needs root privileges&quot;
@@ -89,18 +89,18 @@
 #define CANT_RESET_TIMER &quot;function %s can't reset timer&quot;, __func__
 
 /*====================================================================*
- *    
+ *
  *--------------------------------------------------------------------*/
 
 #define TRACE error (0, 0, &quot;%s (%d)&quot;, __FILE__, __LINE__);
 
 /*====================================================================*
- *   declare GNU error() and error_at_line() functions;  
+ *   declare GNU error() and error_at_line() functions;
  *--------------------------------------------------------------------*/
 
 #ifdef __GNUC__
 
-__attribute__ ((format (printf, 3, 4))) 
+__attribute__ ((format (printf, 3, 4)))
 
 #endif
 
@@ -108,7 +108,7 @@ signed error (signed status, errno_t number, char const * format, ...);
 
 #ifdef __GNUC__
 
-__attribute__ ((format (printf, 3, 4))) 
+__attribute__ ((format (printf, 3, 4)))
 
 #endif
 

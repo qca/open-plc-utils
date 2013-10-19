@@ -6,7 +6,7 @@
 			PushButton.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -19,32 +19,32 @@
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *   
+ *
  *   signed PushButton (struct plc * plc);
- *   
+ *
  *   plc.h
- * 
- *   THis plugin for program plc emulates pushbutton functionality 
+ *
+ *   THis plugin for program plc emulates pushbutton functionality
  *   using a MS_PB_ENC message;
  *
  *
@@ -63,7 +63,7 @@
 #include &quot;../tools/memory.h&quot;
 #include &quot;../plc/plc.h&quot;
 
-signed PushButton (struct plc * plc) 
+signed PushButton (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc-&gt;channel);
@@ -73,17 +73,17 @@ signed PushButton (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed ms_pb_enc_request 
+	struct __packed ms_pb_enc_request
 	{
-		struct ethernet_std ethernet;
-		struct homeplug_std homeplug;
+		struct ethernet_hdr ethernet;
+		struct homeplug_hdr homeplug;
 		uint8_t PBACTION;
 	}
 	* request = (struct ms_pb_enc_request *) (message);
-	struct __packed ms_pb_enc_confirm 
+	struct __packed ms_pb_enc_confirm
 	{
-		struct ethernet_std ethernet;
-		struct homeplug_std homeplug;
+		struct ethernet_hdr ethernet;
+		struct homeplug_hdr homeplug;
 		uint8_t MSTATUS;
 		uint8_t AVLNSTAT;
 	}
@@ -93,15 +93,15 @@ signed PushButton (struct plc * plc)
 #pragma pack (pop)
 #endif
 
-	if (plc-&gt;pushbutton == 1) 
+	if (plc-&gt;pushbutton == 1)
 	{
 		Request (plc, &quot;Join Network&quot;);
 	}
-	if (plc-&gt;pushbutton == 2) 
+	if (plc-&gt;pushbutton == 2)
 	{
 		Request (plc, &quot;Leave Network&quot;);
 	}
-	if (plc-&gt;pushbutton == 3) 
+	if (plc-&gt;pushbutton == 3)
 	{
 		Request (plc, &quot;Fetch Network Status&quot;);
 	}
@@ -111,32 +111,32 @@ signed PushButton (struct plc * plc)
 	request-&gt;homeplug.MMTYPE = HTOLE16 (MS_PB_ENC | MMTYPE_REQ);
 	request-&gt;PBACTION = plc-&gt;pushbutton;
 	plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
-	if (SendMME (plc) &lt;= 0) 
+	if (SendMME (plc) &lt;= 0)
 	{
 		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	if (ReadMFG (plc, 0, (MS_PB_ENC | MMTYPE_CNF)) &lt;= 0) 
+	if (ReadMFG (plc, 0, (MS_PB_ENC | MMTYPE_CNF)) &lt;= 0)
 	{
 		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 		return (-1);
 	}
-	if (confirm-&gt;MSTATUS) 
+	if (confirm-&gt;MSTATUS)
 	{
 		Failure (plc, PLC_WONTDOIT);
 		return (-1);
 	}
-	if (plc-&gt;pushbutton == 1) 
+	if (plc-&gt;pushbutton == 1)
 	{
 		Confirm (plc, &quot;Joining ...&quot;);
 		return (0);
 	}
-	if (plc-&gt;pushbutton == 2) 
+	if (plc-&gt;pushbutton == 2)
 	{
 		Confirm (plc, &quot;Leaving ...&quot;);
 		return (0);
 	}
-	if (plc-&gt;pushbutton == 3) 
+	if (plc-&gt;pushbutton == 3)
 	{
 		Confirm (plc, &quot;Membership Status %d&quot;, confirm-&gt;AVLNSTAT);
 		return (0);

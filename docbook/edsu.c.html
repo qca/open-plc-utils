@@ -6,7 +6,7 @@
 			edsu.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -19,30 +19,30 @@
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *
  *   edsu.c - Qualcomm Atheros Ethernet II Data Send Utility
  *
- *   send one or more files over Ethernet using IEEE 802.2 Ethernet 
+ *   send one or more files over Ethernet using IEEE 802.2 Ethernet
  *   Frames;
  *
  *   this program can be used as a data source when testing AR6405
@@ -116,29 +116,29 @@
  *
  *   signed function (struct channel * channel, unsigned pause, signed fd);
  *
- *   read a file and transmit it over network as a stream of Ethernet 
- *   frames; pause between frames to prevent over-loading the remote 
- *   host;                              
+ *   read a file and transmit it over network as a stream of Ethernet
+ *   frames; pause between frames to prevent over-loading the remote
+ *   host;
  *
  *
  *--------------------------------------------------------------------*/
 
-signed function (struct channel * channel, unsigned pause, signed fd) 
+signed function (struct channel * channel, unsigned pause, signed fd)
 
 {
 	struct ethernet_frame frame;
 	signed length = sizeof (frame.frame_data);
 	memcpy (frame.frame_dhost, channel-&gt;peer, sizeof (frame.frame_dhost));
 	memcpy (frame.frame_shost, channel-&gt;host, sizeof (frame.frame_shost));
-	while ((length = read (fd, frame.frame_data, sizeof (frame.frame_data))) &gt; 0) 
+	while ((length = read (fd, frame.frame_data, sizeof (frame.frame_data))) &gt; 0)
 	{
 		frame.frame_type = htons (length);
-		if (length &lt; ETHERMIN) 
+		if (length &lt; ETHERMIN)
 		{
 			length = ETHERMIN;
 		}
 		length += ETHER_HDR_LEN;
-		if (sendpacket (channel, &amp;frame, length) &lt; 0) 
+		if (sendpacket (channel, &amp;frame, length) &lt; 0)
 		{
 			error (1, errno, CHANNEL_CANTSEND);
 		}
@@ -155,11 +155,11 @@ signed function (struct channel * channel, unsigned pause, signed fd)
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		&quot;e:d:i:p:qv&quot;,
 		&quot;file [file] [...]&quot;,
@@ -184,7 +184,7 @@ int main (int argc, char const * argv [])
 	};
 	unsigned pause = EDSU_PAUSE;
 	signed c;
-	if (getenv (EDSU_INTERFACE)) 
+	if (getenv (EDSU_INTERFACE))
 	{
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -199,15 +199,15 @@ int main (int argc, char const * argv [])
 
 	}
 	channel.type = EDSU_ETHERTYPE;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'e':
 			channel.type = (uint16_t)(basespec (optarg, 16, sizeof (channel.type)));
 			break;
 		case 'd':
-			if (!hexencode (channel.peer, sizeof (channel.peer), optarg)) 
+			if (!hexencode (channel.peer, sizeof (channel.peer), optarg))
 			{
 				error (1, errno, &quot;%s&quot;, optarg);
 			}
@@ -241,13 +241,13 @@ int main (int argc, char const * argv [])
 	argc -= optind;
 	argv += optind;
 	openchannel (&amp;channel);
-	if (!argc) 
+	if (!argc)
 	{
 		function (&amp;channel, pause, STDIN_FILENO);
 	}
-	while ((argc) &amp;&amp; (* argv)) 
+	while ((argc) &amp;&amp; (* argv))
 	{
-		if (efreopen (* argv, &quot;rb&quot;, stdin)) 
+		if (efreopen (* argv, &quot;rb&quot;, stdin))
 		{
 			function (&amp;channel, pause, fileno (stdin));
 		}

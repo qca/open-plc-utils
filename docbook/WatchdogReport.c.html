@@ -6,7 +6,7 @@
 			WatchdogReport.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -19,38 +19,38 @@
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *   
+ *
  *   signed WatchdogReport (struct plc * plc);
- *   
+ *
  *   plc.h
- * 
+ *
  *   Read the watchdog report using VS_WD_RPT and write it to a file
  *   in binary format; this file can be sent to Atheros Support for
  *   analysis;
- *   
+ *
  *   The VS_WD_RPT message returns an indication, not a confirmation
  *    message;
- *   
+ *
  *
  *   Contributor(s):
  *      Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
@@ -71,7 +71,7 @@
 #include &quot;../tools/memory.h&quot;
 #include &quot;../tools/format.h&quot;
 
-signed WatchdogReport (struct plc * plc) 
+signed WatchdogReport (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc-&gt;channel);
@@ -81,18 +81,18 @@ signed WatchdogReport (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_wd_rpt_request 
+	struct __packed vs_wd_rpt_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint16_t SESSIONID;
 		uint8_t CLR;
 	}
 	* request = (struct vs_wd_rpt_request *) (message);
-	struct __packed vs_wd_rpt_ind 
+	struct __packed vs_wd_rpt_ind
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint16_t SESSIONID;
 		uint8_t NUMPARTS;
@@ -114,24 +114,24 @@ signed WatchdogReport (struct plc * plc)
 	request-&gt;SESSIONID = HTOLE32 (plc-&gt;cookie);
 	request-&gt;CLR = plc-&gt;readaction;
 	plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
-	if (SendMME (plc) &lt;= 0) 
+	if (SendMME (plc) &lt;= 0)
 	{
 		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	do 
+	do
 	{
-		if (ReadMME (plc, 0, (VS_WD_RPT | MMTYPE_IND)) &lt;= 0) 
+		if (ReadMME (plc, 0, (VS_WD_RPT | MMTYPE_IND)) &lt;= 0)
 		{
 			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
-		if (indicate-&gt;MSTATUS) 
+		if (indicate-&gt;MSTATUS)
 		{
 			Failure (plc, PLC_WONTDOIT);
 			return (-1);
 		}
-		if (write (plc-&gt;rpt.file, indicate-&gt;RDATA + indicate-&gt;RDATAOFFSET, LE16TOH (indicate-&gt;RDATALENGTH)) != LE16TOH (indicate-&gt;RDATALENGTH)) 
+		if (write (plc-&gt;rpt.file, indicate-&gt;RDATA + indicate-&gt;RDATAOFFSET, LE16TOH (indicate-&gt;RDATALENGTH)) != LE16TOH (indicate-&gt;RDATALENGTH))
 		{
 			Failure (plc, FILE_CANTSAVE, plc-&gt;rpt.name);
 			return (-1);

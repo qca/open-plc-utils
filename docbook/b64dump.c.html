@@ -6,7 +6,7 @@
 			b64dump.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -23,8 +23,8 @@
  *   size_t b64dump (void const * memory, size_t extent, size_t column, FILE *fp);
  *
  *   base64.h
- * 
- *   base64 encode a memory region and write to a text file; wrap 
+ *
+ *   base64 encode a memory region and write to a text file; wrap
  *   the output at a given column; do not wrap when column is 0;
  *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
@@ -42,17 +42,17 @@
 #include &quot;../tools/base64.h&quot;
 #include &quot;../tools/types.h&quot;
 
-void b64dump (void const * memory, size_t extent, size_t column, FILE *fp) 
+void b64dump (void const * memory, size_t extent, size_t column, FILE *fp)
 
 {
 	byte * offset = (byte *)(memory);
 	unsigned encode = 0;
-	while (extent) 
+	while (extent)
 	{
 		uint32_t word = 0;
 		unsigned byte = 0;
 		unsigned bits = BASE64_WORDSIZE - BASE64_BYTESIZE;
-		while ((bits) &amp;&amp; (extent)) 
+		while ((bits) &amp;&amp; (extent))
 		{
 			bits -= BASE64_BYTESIZE;
 			word |= *offset &lt;&lt; bits;
@@ -60,23 +60,23 @@ void b64dump (void const * memory, size_t extent, size_t column, FILE *fp)
 			extent--;
 			byte++;
 		}
-		if (byte++) 
+		if (byte++)
 		{
 			bits = BASE64_WORDSIZE - BASE64_BYTESIZE;
-			while ((bits) &amp;&amp; (byte)) 
+			while ((bits) &amp;&amp; (byte))
 			{
 				bits -= BASE64_CHARSIZE;
 				putc (BASE64_CHARSET [(word &gt;&gt; bits) &amp; BASE64_CHARMASK], fp);
 				byte--;
 				encode++;
 			}
-			while (bits) 
+			while (bits)
 			{
 				bits -= BASE64_CHARSIZE;
 				putc ('=', fp);
 				encode++;
 			}
-			if ((column) &amp;&amp; !(encode%column)) 
+			if ((column) &amp;&amp; !(encode%column))
 			{
 				putc ('\n', fp);
 			}

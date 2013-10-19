@@ -6,7 +6,7 @@
 			hexdecode.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -24,13 +24,13 @@
  *
  *   memory.h
  *
- *   decode a memory region as a string of hex octets separated with 
+ *   decode a memory region as a string of hex octets separated with
  *   character HEX_EXTENDER;
  *
  *   allow three string characters for each memory byte; this means
  *   that the buffer must hold at least three characters or nothing
  *   will be decoded; the maximum number of bytes is the lesser of
- *   chars/3 and bytes; 
+ *   chars/3 and bytes;
  *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
@@ -44,19 +44,19 @@
 #include &quot;../tools/memory.h&quot;
 #include &quot;../tools/number.h&quot;
 
-size_t hexdecode (void const * memory, register size_t extent, char buffer [], register size_t length) 
+size_t hexdecode (void const * memory, register size_t extent, char buffer [], register size_t length)
 
 {
 	register char * string = (char *)(buffer);
 	register byte * offset = (byte *)(memory);
-	if (length) 
+	if (length)
 	{
 		length /= HEX_DIGITS + 1;
-		while ((length--) &amp;&amp; (extent--)) 
+		while ((length--) &amp;&amp; (extent--))
 		{
 			*string++ = DIGITS_HEX [(*offset &gt;&gt; 4) &amp; 0x0F];
 			*string++ = DIGITS_HEX [(*offset &gt;&gt; 0) &amp; 0x0F];
-			if ((length) &amp;&amp; (extent)) 
+			if ((length) &amp;&amp; (extent))
 			{
 				*string++ = HEX_EXTENDER;
 			}

@@ -6,7 +6,7 @@
 			pibruin.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -19,23 +19,23 @@
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -133,8 +133,8 @@
 /*====================================================================*
  *
  *   signed pibimage1 (signed fd, char const * filename, unsigned offset, struct PIBClassifiers * classifiers);
- * 
- *   read thunderbolt/lightning parameter block into memory, edit it 
+ *
+ *   read thunderbolt/lightning parameter block into memory, edit it
  *   and save it;
  *
  *
@@ -143,40 +143,40 @@
  *
  *--------------------------------------------------------------------*/
 
-static signed pibimage1 (signed fd, char const * filename, unsigned offset, struct PIBClassifiers * classifiers) 
+static signed pibimage1 (signed fd, char const * filename, unsigned offset, struct PIBClassifiers * classifiers)
 
 {
 	struct pib_header * pib_header;
 	off_t extent;
 	void * memory;
-	if ((extent = lseek (fd, 0, SEEK_END)) == -1) 
+	if ((extent = lseek (fd, 0, SEEK_END)) == -1)
 	{
 		error (1, errno, FILE_CANTSIZE, filename);
 	}
-	if (!(memory = malloc (extent))) 
+	if (!(memory = malloc (extent)))
 	{
 		error (1, errno, FILE_CANTLOAD, filename);
 	}
-	if (lseek (fd, 0, SEEK_SET)) 
+	if (lseek (fd, 0, SEEK_SET))
 	{
 		error (1, errno, FILE_CANTHOME, filename);
 	}
-	if (read (fd, memory, extent) != extent) 
+	if (read (fd, memory, extent) != extent)
 	{
 		error (1, errno, FILE_CANTREAD, filename);
 	}
-	if (lseek (fd, 0, SEEK_SET)) 
+	if (lseek (fd, 0, SEEK_SET))
 	{
 		error (1, errno, FILE_CANTHOME, filename);
 	}
 	memcpy ((byte *)(memory) + offset, classifiers, sizeof (*classifiers));
 	pib_header = (struct pib_header *)(memory);
 	pib_header-&gt;CHECKSUM = checksum32 (memory, extent, pib_header-&gt;CHECKSUM);
-	if (write (fd, memory, extent) != extent) 
+	if (write (fd, memory, extent) != extent)
 	{
 		error (1, errno, FILE_CANTSAVE, filename);
 	}
-	if (lseek (fd, (off_t)(0) - extent, SEEK_CUR) == -1) 
+	if (lseek (fd, (off_t)(0) - extent, SEEK_CUR) == -1)
 	{
 		error (1, errno, FILE_CANTHOME, filename);
 	}
@@ -188,8 +188,8 @@ static signed pibimage1 (signed fd, char const * filename, unsigned offset, stru
 /*====================================================================*
  *
  *   signed pibimage2 (signed fd, char const * filename, struct nvm_header2 * nvm_header, unsigned offset, struct PIBClassifiers * classifiers);
- * 
- *   read panther/lynx parameter block into memory, edit it and save 
+ *
+ *   read panther/lynx parameter block into memory, edit it and save
  *   it;
  *
  *
@@ -198,43 +198,43 @@ static signed pibimage1 (signed fd, char const * filename, unsigned offset, stru
  *
  *--------------------------------------------------------------------*/
 
-static signed pibimage2 (signed fd, char const * filename, struct nvm_header2 * nvm_header, unsigned offset, struct PIBClassifiers * classifiers) 
+static signed pibimage2 (signed fd, char const * filename, struct nvm_header2 * nvm_header, unsigned offset, struct PIBClassifiers * classifiers)
 
 {
 	void * memory;
 	off_t extent = LE32TOH (nvm_header-&gt;ImageLength);
-	if (!(memory = malloc (extent))) 
+	if (!(memory = malloc (extent)))
 	{
 		error (1, errno, FILE_CANTLOAD, filename);
 	}
-	if (read (fd, memory, extent) != extent) 
+	if (read (fd, memory, extent) != extent)
 	{
 		error (1, errno, FILE_CANTREAD, filename);
 	}
-	if (lseek (fd, (off_t)(0) - extent, SEEK_CUR) == -1) 
+	if (lseek (fd, (off_t)(0) - extent, SEEK_CUR) == -1)
 	{
 		error (1, errno, FILE_CANTHOME, filename);
 	}
 	memcpy ((byte *)(memory) + offset, classifiers, sizeof (*classifiers));
 	nvm_header-&gt;ImageChecksum = checksum32 (memory, extent, 0);
-	if (write (fd, memory, extent) != extent) 
+	if (write (fd, memory, extent) != extent)
 	{
 		error (1, errno, FILE_CANTSAVE, filename);
 	}
-	if (lseek (fd, (off_t)(0) - extent, SEEK_CUR) == -1) 
+	if (lseek (fd, (off_t)(0) - extent, SEEK_CUR) == -1)
 	{
 		error (1, errno, FILE_CANTHOME, filename);
 	}
 	nvm_header-&gt;HeaderChecksum = checksum32 (nvm_header, sizeof (* nvm_header), nvm_header-&gt;HeaderChecksum);
-	if (lseek (fd, (off_t)(0) - sizeof (* nvm_header), SEEK_CUR) == -1) 
+	if (lseek (fd, (off_t)(0) - sizeof (* nvm_header), SEEK_CUR) == -1)
 	{
 		error (1, errno, FILE_CANTHOME, filename);
 	}
-	if (write (fd, nvm_header, sizeof (* nvm_header)) != sizeof (* nvm_header)) 
+	if (write (fd, nvm_header, sizeof (* nvm_header)) != sizeof (* nvm_header))
 	{
 		error (1, errno, FILE_CANTSAVE, filename);
 	}
-	if (lseek (fd, (off_t)(0) - sizeof (* nvm_header), SEEK_CUR) == -1) 
+	if (lseek (fd, (off_t)(0) - sizeof (* nvm_header), SEEK_CUR) == -1)
 	{
 		error (1, errno, FILE_CANTHOME, filename);
 	}
@@ -254,10 +254,10 @@ static signed pibimage2 (signed fd, char const * filename, struct nvm_header2 * 
  *
  *--------------------------------------------------------------------*/
 
-static void make_rule (int argc, char const * argv [], struct PIBClassifiers * classifiers) 
+static void make_rule (int argc, char const * argv [], struct PIBClassifiers * classifiers)
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		&quot;T:V:&quot;,
 		&quot;&quot;,
@@ -272,9 +272,9 @@ static void make_rule (int argc, char const * argv [], struct PIBClassifiers * c
 	optind = 1;
 	memset (&amp;rule, 0, sizeof (rule));
 	memset (&amp;cspec, 0, sizeof (cspec));
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'T':
 			cspec.VLAN_TAG = (uint32_t)(basespec (optarg, 16, sizeof (cspec.VLAN_TAG)));
@@ -297,21 +297,21 @@ static void make_rule (int argc, char const * argv [], struct PIBClassifiers * c
  *   print arguments on stdout;
  */
 
-	for (c = 0; c &lt; argc; c++) 
+	for (c = 0; c &lt; argc; c++)
 	{
 		printf (&quot;argv [%d] = [%s]\n&quot;, c, argv [c]);
 	}
 
 #endif
 
-	if ((argc) &amp;&amp; (*argv)) 
+	if ((argc) &amp;&amp; (*argv))
 	{
 		ParseRule (&amp;argc, &amp;argv, &amp;rule, &amp;cspec);
 
-#if defined (PRINT_RULES) 
+#if defined (PRINT_RULES)
 
 /*
- *   print MMERule set on stdout in human readable format; these rules are populated by ParseRule but members 
+ *   print MMERule set on stdout in human readable format; these rules are populated by ParseRule but members
  *   are not PIB ready; they are not properly grouped, byte-aligned or endian-ized;
  */
 
@@ -319,10 +319,10 @@ static void make_rule (int argc, char const * argv [], struct PIBClassifiers * c
 
 #endif
 
-		if ((rule.NUM_CLASSIFIERS &gt; 1) || (rule.MACTION == ACTION_STRIPTX) || (rule.MACTION == ACTION_STRIPRX) || (rule.MACTION == ACTION_TAGTX) || (classifiers-&gt;priority_count &gt;= RULE_MAX_PRIORITY_MAPS)) 
+		if ((rule.NUM_CLASSIFIERS &gt; 1) || (rule.MACTION == ACTION_STRIPTX) || (rule.MACTION == ACTION_STRIPRX) || (rule.MACTION == ACTION_TAGTX) || (classifiers-&gt;priority_count &gt;= RULE_MAX_PRIORITY_MAPS))
 		{
 			struct auto_connection * auto_connection;
-			if (classifiers-&gt;autoconn_count &gt;= RULE_MAX_AUTOCONN) 
+			if (classifiers-&gt;autoconn_count &gt;= RULE_MAX_AUTOCONN)
 			{
 				error (1, ENOTSUP, &quot;Too many auto connection rules&quot;);
 			}
@@ -330,12 +330,12 @@ static void make_rule (int argc, char const * argv [], struct PIBClassifiers * c
 			auto_connection-&gt;MACTION = rule.MACTION;
 			auto_connection-&gt;MOPERAND = rule.MOPERAND;
 			auto_connection-&gt;NUM_CLASSIFIERS = HTOLE16 ((uint16_t)(rule.NUM_CLASSIFIERS));
-			for (c = 0; c &lt; RULE_MAX_CLASSIFIERS; c++) 
+			for (c = 0; c &lt; RULE_MAX_CLASSIFIERS; c++)
 			{
 				auto_connection-&gt;CLASSIFIER [c].CR_PID = HTOLE32 ((uint32_t)(0xFF));
 				auto_connection-&gt;CLASSIFIER [c].CR_OPERAND = HTOLE32 ((uint32_t)(0xFF));
 			}
-			for (c = 0; c &lt; rule.NUM_CLASSIFIERS; c++) 
+			for (c = 0; c &lt; rule.NUM_CLASSIFIERS; c++)
 			{
 				auto_connection-&gt;CLASSIFIER [c].CR_PID = HTOLE32 ((uint32_t)(rule.CLASSIFIER [c].CR_PID));
 				auto_connection-&gt;CLASSIFIER [c].CR_OPERAND = HTOLE32 ((uint32_t)(rule.CLASSIFIER [c].CR_OPERAND));
@@ -344,10 +344,10 @@ static void make_rule (int argc, char const * argv [], struct PIBClassifiers * c
 			memcpy (&amp;auto_connection-&gt;cspec, &amp;rule.cspec, sizeof (auto_connection-&gt;cspec));
 			classifiers-&gt;autoconn_count++;
 		}
-		else 
+		else
 		{
 			struct classifier_priority_map * classifier_priority_map;
-			if (classifiers-&gt;priority_count &gt;= RULE_MAX_PRIORITY_MAPS) 
+			if (classifiers-&gt;priority_count &gt;= RULE_MAX_PRIORITY_MAPS)
 			{
 				error (1, ENOTSUP, &quot;Too many priority map rules&quot;);
 			}
@@ -363,16 +363,16 @@ static void make_rule (int argc, char const * argv [], struct PIBClassifiers * c
 }
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv[]);
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		&quot;eo:qv&quot;,
 		&quot;pibfile &lt; rules&quot;,
@@ -392,9 +392,9 @@ int main (int argc, char const * argv [])
 	flag_t flags = (flag_t)(0);
 	signed c;
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'e':
 			dup2 (STDOUT_FILENO, STDERR_FILENO);
@@ -415,7 +415,7 @@ int main (int argc, char const * argv [])
 	argc -= optind;
 	argv += optind;
 	memset (&amp;classifiers, 0, sizeof (classifiers));
-	while ((count = getargv (SIZEOF (vector), vector))) 
+	while ((count = getargv (SIZEOF (vector), vector)))
 	{
 		make_rule (count, vector, &amp;classifiers);
 	}
@@ -426,7 +426,7 @@ int main (int argc, char const * argv [])
 
 /*
  *   print PIB-ready classification rules on stdout in human readable format; these rules are written
- *   directly into the appropriate location in the PIB as a single block; 
+ *   directly into the appropriate location in the PIB as a single block;
  */
 
 	PIBClassifiersDump (&amp;classifiers);
@@ -439,29 +439,29 @@ int main (int argc, char const * argv [])
 
 #endif
 
-	while ((argc) &amp;&amp; (*argv)) 
+	while ((argc) &amp;&amp; (*argv))
 	{
-		if ((fd = open (*argv, O_BINARY|O_RDWR)) == -1) 
+		if ((fd = open (*argv, O_BINARY|O_RDWR)) == -1)
 		{
 			error (0, errno, &quot;%s&quot;, *argv);
 		}
-		else if (read (fd, &amp;version, sizeof (version)) != sizeof (version)) 
+		else if (read (fd, &amp;version, sizeof (version)) != sizeof (version))
 		{
 			error (0, errno, FILE_CANTREAD, *argv);
 		}
-		else if (lseek (fd, 0, SEEK_SET)) 
+		else if (lseek (fd, 0, SEEK_SET))
 		{
 			error (0, errno, FILE_CANTHOME, *argv);
 		}
-		else if (LE32TOH (version) == 0x00010001) 
+		else if (LE32TOH (version) == 0x00010001)
 		{
 			struct nvm_header2 nvm_header;
-			if (!nvmseek2 (fd, *argv, &amp;nvm_header, NVM_IMAGE_PIB)) 
+			if (!nvmseek2 (fd, *argv, &amp;nvm_header, NVM_IMAGE_PIB))
 			{
 				pibimage2 (fd, *argv, &amp;nvm_header, offset? offset: PIB_OFFSET2, &amp;classifiers);
 			}
 		}
-		else 
+		else
 		{
 			pibimage1 (fd, *argv, offset? offset: PIB_OFFSET1, &amp;classifiers);
 		}

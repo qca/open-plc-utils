@@ -6,7 +6,7 @@
 			memincr.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -24,7 +24,7 @@
  *
  *   memory.h
  *
- *   increment a multi-byte memory region; start at 0x00 and reset 
+ *   increment a multi-byte memory region; start at 0x00 and reset
  *   at 0xFF; return -1 if all bytes are 0xFF;
  *
  *   for example,
@@ -43,13 +43,13 @@
 
 #include &quot;../tools/memory.h&quot;
 
-signed memincr (void * memory, register size_t extent) 
+signed memincr (void * memory, register size_t extent)
 
 {
 	register byte * offset = (byte *)(memory);
-	while (extent--) 
+	while (extent--)
 	{
-		if (++ offset [extent] != 0x00) 
+		if (++ offset [extent] != 0x00)
 		{
 			return (0);
 		}

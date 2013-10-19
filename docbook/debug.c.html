@@ -6,7 +6,7 @@
 			debug.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -46,23 +46,23 @@
 
 #ifdef __GNUC__
 
-__attribute__ ((format (printf, 3, 4))) 
+__attribute__ ((format (printf, 3, 4)))
 
 #endif
 
-signed debug (signed status, char const * string, char const * format, ...) 
+signed debug (signed status, char const * string, char const * format, ...)
 
 {
 	extern char const * program_name;
-	if ((program_name) &amp;&amp; (* program_name)) 
+	if ((program_name) &amp;&amp; (* program_name))
 	{
 		fprintf (stderr, &quot;%s: &quot;, program_name);
 	}
-	if ((string) &amp;&amp; (* string)) 
+	if ((string) &amp;&amp; (* string))
 	{
 		fprintf (stderr, &quot;%s: &quot;, string);
 	}
-	if ((format) &amp;&amp; (*format)) 
+	if ((format) &amp;&amp; (*format))
 	{
 		va_list arglist;
 		va_start (arglist, format);
@@ -71,7 +71,7 @@ signed debug (signed status, char const * string, char const * format, ...)
 	}
 	fprintf (stderr, &quot;\n&quot;);
 	fflush (stderr);
-	if (status) 
+	if (status)
 	{
 		exit (status);
 	}

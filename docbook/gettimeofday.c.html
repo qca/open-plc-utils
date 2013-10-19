@@ -6,7 +6,7 @@
 			gettimeofday.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -35,13 +35,13 @@
 #include &lt;windows.h&gt;
 #include &lt;sys/time.h&gt;
 
-int gettimeofday (struct timeval *tv, struct timezone *tz) 
+int gettimeofday (struct timeval *tv, struct timezone *tz)
 
 {
 	FILETIME ft;
 	unsigned __int64 tmpres = 0;
 	static int tzflag = 0;
-	if (NULL != tv) 
+	if (NULL != tv)
 	{
 		GetSystemTimeAsFileTime (&amp;ft);
 		tmpres |= ft.dwHighDateTime;
@@ -52,9 +52,9 @@ int gettimeofday (struct timeval *tv, struct timezone *tz)
 		tv-&gt;tv_sec = (long)(tmpres / 1000000UL);
 		tv-&gt;tv_usec = (long)(tmpres % 1000000UL);
 	}
-	if (NULL != tz) 
+	if (NULL != tz)
 	{
-		if (!tzflag) 
+		if (!tzflag)
 		{
 			_tzset ();
 			tzflag++;

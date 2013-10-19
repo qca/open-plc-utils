@@ -6,7 +6,7 @@
 			WriteCFG.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -19,23 +19,23 @@
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -47,8 +47,8 @@
  *   This plugin for program plc writes the contents of an SDRAM
  *   confirmation file to a device using a VS_SET_SDRAM message; the
  *   CFG file in struct plc must be opened before this function is
- *   called; the bootloader must be running for this to work; 
- *   
+ *   called; the bootloader must be running for this to work;
+ *
  *   the VS_SET_SDRAM message is recognized by the INT600 BootLoader
  *   only; the INT6400 BootLoader recognizes it but does nothing with
  *   it;
@@ -72,7 +72,7 @@
 #include &quot;../tools/files.h&quot;
 #include &quot;../ram/sdram.h&quot;
 
-int WriteCFG (struct plc * plc) 
+int WriteCFG (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc-&gt;channel);
@@ -82,18 +82,18 @@ int WriteCFG (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_set_sdram_request 
+	struct __packed vs_set_sdram_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		struct config_ram config_ram;
 		uint32_t CHECKSUM;
 	}
 	* request = (struct vs_set_sdram_request *) (message);
-	struct __packed vs_set_sdram_confirm 
+	struct __packed vs_set_sdram_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 	}
 	* confirm = (struct vs_set_sdram_confirm *) (message);
@@ -107,32 +107,32 @@ int WriteCFG (struct plc * plc)
 	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
 	QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_SET_SDRAM | MMTYPE_REQ));
 	plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
-	if (lseek (plc-&gt;CFG.file, 0, SEEK_SET)) 
+	if (lseek (plc-&gt;CFG.file, 0, SEEK_SET))
 	{
 		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, FILE_CANTHOME, plc-&gt;CFG.name);
 		return (-1);
 	}
-	if (read (plc-&gt;CFG.file, &amp;request-&gt;config_ram, sizeof (struct config_ram)) != sizeof (struct config_ram)) 
+	if (read (plc-&gt;CFG.file, &amp;request-&gt;config_ram, sizeof (struct config_ram)) != sizeof (struct config_ram))
 	{
 		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, FILE_CANTREAD, plc-&gt;CFG.name);
 		return (-1);
 	}
-	if (read (plc-&gt;CFG.file, &amp;request-&gt;CHECKSUM, sizeof (request-&gt;CHECKSUM)) != sizeof (request-&gt;CHECKSUM)) 
+	if (read (plc-&gt;CFG.file, &amp;request-&gt;CHECKSUM, sizeof (request-&gt;CHECKSUM)) != sizeof (request-&gt;CHECKSUM))
 	{
 		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, &quot;can't read %s checksum&quot;, plc-&gt;CFG.name);
 		return (-1);
 	}
-	if (SendMME (plc) &lt;= 0) 
+	if (SendMME (plc) &lt;= 0)
 	{
 		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	if (ReadMME (plc, 0, (VS_SET_SDRAM | MMTYPE_CNF)) &lt;= 0) 
+	if (ReadMME (plc, 0, (VS_SET_SDRAM | MMTYPE_CNF)) &lt;= 0)
 	{
 		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 		return (-1);
 	}
-	if (confirm-&gt;MSTATUS) 
+	if (confirm-&gt;MSTATUS)
 	{
 		Failure (plc, PLC_WONTDOIT);
 		return (-1);

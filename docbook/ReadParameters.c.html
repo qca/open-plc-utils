@@ -6,7 +6,7 @@
 			ReadParameters.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -15,48 +15,48 @@
 		<div class='headerlink'>
 			[<a href='ReadParameters2.c.html' title=' ReadParameters2.c '>PREV</a>]
 			[<a href='toolkit.html' title=' Index '>HOME</a>]
-			[<a href='regview32.c.html' title=' regview32.c '>NEXT</a>]
+			[<a href='ReadRules.c.html' title=' ReadRules.c '>NEXT</a>]
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *
- *   signed ReadParameters (struct plc * plc); 
+ *   signed ReadParameters (struct plc * plc);
  *
  *   plc.h
  *
  *   Read the PIB Image from an INT6000 using as many VS_RD_MOD
- *   messages as needed; Write image blocks to file as they are 
+ *   messages as needed; Write image blocks to file as they are
  *   read;
  *
- *   the objective here is to read the PIB module in 1024 byte blocks 
+ *   the objective here is to read the PIB module in 1024 byte blocks
  *   until the module offset equals or exceeds the PIB length; we do
  *   not know the PIB length until we have read the header contained
  *   in the first block at OFFSET 0;
  *
- *   MOFFSET and MLENGTH fields occupy different offsets in REQ and CNF 
+ *   MOFFSET and MLENGTH fields occupy different offsets in REQ and CNF
  *   messages; we exploit that by initializing them using CNF message
  *   offsets then copying values into REQ message offsets before each
- *   read; this works because confirmation messages always return all 
+ *   read; this works because confirmation messages always return all
  *   the data we request or nothing at all;
  *
  *
@@ -68,9 +68,9 @@
 #ifndef READPARAMETERS_SOURCE
 #define READPARAMETERS_SOURCE
 
-#include &quot;../plc/plc.h&quot; 
+#include &quot;../plc/plc.h&quot;
 
-signed ReadParameters (struct plc * plc) 
+signed ReadParameters (struct plc * plc)
 
 {
 	return (PLCSelect (plc, ReadParameters1, ReadParameters2));
@@ -83,7 +83,7 @@ signed ReadParameters (struct plc * plc)
 		<div class='footerlink'>
 			[<a href='ReadParameters2.c.html' title=' ReadParameters2.c '>PREV</a>]
 			[<a href='toolkit.html' title=' Index '>HOME</a>]
-			[<a href='regview32.c.html' title=' regview32.c '>NEXT</a>]
+			[<a href='ReadRules.c.html' title=' ReadRules.c '>NEXT</a>]
 			</div>
 		</body>
 	</html>

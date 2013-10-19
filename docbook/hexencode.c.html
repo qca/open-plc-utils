@@ -6,7 +6,7 @@
 			hexencode.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -24,12 +24,12 @@
  *
  *   memory.h
  *
- *   encode a hexadecimal string into a fixed length memory region; 
+ *   encode a hexadecimal string into a fixed length memory region;
  *   return the number of bytes encoded or 0 on error; an error will
  *   occur of the entire region cannot be encoded or the entire
  *   string cannot be converted due to illegal or excessive digits;
  *
- *   permit an optional HEX_EXTENDER character between successive 
+ *   permit an optional HEX_EXTENDER character between successive
  *   octets; constant character HEX_EXTENDER is defined in number.h;
  *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
@@ -47,24 +47,24 @@
 #include &quot;../tools/memory.h&quot;
 #include &quot;../tools/number.h&quot;
 
-size_t hexencode (void * memory, register size_t extent, register char const * string) 
+size_t hexencode (void * memory, register size_t extent, register char const * string)
 
 {
 	register byte * origin = (byte *)(memory);
 	register byte * offset = (byte *)(memory);
 	unsigned radix = RADIX_HEX;
 	unsigned digit = 0;
-	while ((extent) &amp;&amp; (*string)) 
+	while ((extent) &amp;&amp; (*string))
 	{
 		unsigned field = HEX_DIGITS;
 		unsigned value = 0;
-		if ((offset &gt; origin) &amp;&amp; (*string == HEX_EXTENDER)) 
+		if ((offset &gt; origin) &amp;&amp; (*string == HEX_EXTENDER))
 		{
 			string++;
 		}
-		while (field--) 
+		while (field--)
 		{
-			if ((digit = todigit (*string)) &lt; radix) 
+			if ((digit = todigit (*string)) &lt; radix)
 			{
 				value *= radix;
 				value += digit;
@@ -81,14 +81,14 @@ size_t hexencode (void * memory, register size_t extent, register char const * s
 
 #if defined (WIN32)
 
-	while (isspace (*string)) 
+	while (isspace (*string))
 	{
 		string++;
 	}
 
 #endif
 
-	if ((extent) || (*string)) 
+	if ((extent) || (*string))
 	{
 		errno = EINVAL;
 		return (0);

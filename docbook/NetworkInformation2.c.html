@@ -6,7 +6,7 @@
 			NetworkInformation2.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -19,35 +19,35 @@
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *   
+ *
  *   signed NetworkInformation2 (struct plc * plc);
  *
  *   plc.h
  *
- *   Request network membership information for the peer device using 
- *   a VS_NW_INFO message; 
+ *   Request network membership information for the peer device using
+ *   a VS_NW_INFO message;
  *
- *   This function is similar to function NetworkInfo() but the output 
+ *   This function is similar to function NetworkInfo() but the output
  *   format is different;
  *
  *
@@ -67,7 +67,7 @@
 #include &quot;../tools/error.h&quot;
 #include &quot;../plc/plc.h&quot;
 
-signed NetworkInformation2 (struct plc * plc) 
+signed NetworkInformation2 (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc-&gt;channel);
@@ -77,15 +77,15 @@ signed NetworkInformation2 (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_nw_info_request 
+	struct __packed vs_nw_info_request
 	{
-		struct ethernet_std ethernet;
+		struct ethernet_hdr ethernet;
 		struct qualcomm_fmi qualcomm;
 	}
 	* request = (struct vs_nw_info_request *)(message);
-	struct __packed vs_nw_info_confirm 
+	struct __packed vs_nw_info_confirm
 	{
-		struct ethernet_std ethernet;
+		struct ethernet_hdr ethernet;
 		struct qualcomm_fmi qualcomm;
 		uint8_t SUB_VERSION;
 		uint8_t Reserved;
@@ -93,7 +93,7 @@ signed NetworkInformation2 (struct plc * plc)
 		uint8_t DATA [1];
 	}
 	* confirm = (struct vs_nw_info_confirm *)(message);
-	struct __packed station 
+	struct __packed station
 	{
 		uint8_t MAC [ETHER_ADDR_LEN];
 		uint8_t TEI;
@@ -106,7 +106,7 @@ signed NetworkInformation2 (struct plc * plc)
 		uint16_t Reserved4;
 	}
 	* station;
-	struct __packed network 
+	struct __packed network
 	{
 		uint8_t NID [7];
 		uint8_t Reserved1 [2];
@@ -122,7 +122,7 @@ signed NetworkInformation2 (struct plc * plc)
 		struct station stations [1];
 	}
 	* network;
-	struct __packed networks 
+	struct __packed networks
 	{
 		uint8_t Reserved;
 		uint8_t NUMAVLNS;
@@ -137,16 +137,16 @@ signed NetworkInformation2 (struct plc * plc)
 	memset (message, 0, sizeof (*message));
 	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
 	QualcommHeader1 (&amp;request-&gt;qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
-	if (sendpacket (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) &lt;= 0) 
+	if (sendpacket (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) &lt;= 0)
 	{
 		error (1, errno, CHANNEL_CANTSEND);
 	}
-	if (readpacket (channel, message, sizeof (* message)) &lt;= 0) 
+	if (readpacket (channel, message, sizeof (* message)) &lt;= 0)
 	{
 		error (1, errno, CHANNEL_CANTREAD);
 	}
 	network = (struct network *)(&amp;networks-&gt;networks);
-	while (networks-&gt;NUMAVLNS--) 
+	while (networks-&gt;NUMAVLNS--)
 	{
 		char string [24];
 		printf (&quot; NID %20s&quot;, hexstring (string, sizeof (string), network-&gt;NID, sizeof (network-&gt;NID)));
@@ -158,7 +158,7 @@ signed NetworkInformation2 (struct plc * plc)
 		printf (&quot; BDA %17s&quot;, hexstring (string, sizeof (string), request-&gt;ethernet.ODA, sizeof (request-&gt;ethernet.ODA)));
 		printf (&quot;\n&quot;);
 		station = (struct station *)(&amp;network-&gt;stations);
-		while (network-&gt;NUMSTAS--) 
+		while (network-&gt;NUMSTAS--)
 		{
 			printf (&quot; %s&quot;, (station-&gt;TEI == network-&gt;CCO_TEI)? &quot;CCO&quot;: &quot;STA&quot;);
 			printf (&quot; TEI %03d&quot;, station-&gt;TEI);

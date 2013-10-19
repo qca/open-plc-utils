@@ -6,36 +6,36 @@
 			psgraph.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
 		</head>
 	<body>
 		<div class='headerlink'>
-			[<a href='plcwait.c.html' title=' plcwait.c '>PREV</a>]
+			[<a href='PrintRule.c.html' title=' PrintRule.c '>PREV</a>]
 			[<a href='toolkit.html' title=' Index '>HOME</a>]
 			[<a href='psin.c.html' title=' psin.c '>NEXT</a>]
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -99,23 +99,23 @@
  *
  *--------------------------------------------------------------------*/
 
-static void int6x00Prescalers (struct _file_ * pib, unsigned scale) 
+static void int6x00Prescalers (struct _file_ * pib, unsigned scale)
 
 {
 	unsigned index = 0;
-	if (lseek (pib-&gt;file, INT_PRESCALER_OFFSET, SEEK_SET) != INT_PRESCALER_OFFSET) 
+	if (lseek (pib-&gt;file, INT_PRESCALER_OFFSET, SEEK_SET) != INT_PRESCALER_OFFSET)
 	{
 		error (1, errno, &quot;Can't seek %s&quot;, pib-&gt;name);
 	}
-	for (index = 0; index &lt; INT_PRESCALER_LENGTH; index++) 
+	for (index = 0; index &lt; INT_PRESCALER_LENGTH; index++)
 	{
 		uint32_t value;
-		if (read (pib-&gt;file, &amp;value, sizeof (value)) != sizeof (value)) 
+		if (read (pib-&gt;file, &amp;value, sizeof (value)) != sizeof (value))
 		{
 			error (1, errno, &quot;can't read %s&quot;, pib-&gt;name);
 		}
 		printf (&quot; %6.3f %04d %6d &quot;, INDEX_TO_FREQ (index), index, value);
-		while (value &gt; scale) 
+		while (value &gt; scale)
 		{
 			printf (&quot;#&quot;);
 			value -= scale;
@@ -133,10 +133,10 @@ static void int6x00Prescalers (struct _file_ * pib, unsigned scale)
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		&quot;s:&quot;,
 		&quot;file [&gt; stdout]&quot;,
@@ -149,9 +149,9 @@ int main (int argc, char const * argv [])
 	unsigned scale = 10;
 	signed c;
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 's':
 			scale = (unsigned)(uintspec (optarg, 1, UCHAR_MAX));
@@ -162,27 +162,27 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (argc &gt; 1) 
+	if (argc &gt; 1)
 	{
 		error (1, ENOTSUP, &quot;Only one file is permitted&quot;);
 	}
-	if ((argc) &amp;&amp; (* argv)) 
+	if ((argc) &amp;&amp; (* argv))
 	{
 		pib.name = * argv;
-		if ((pib.file = open (pib.name, O_BINARY|O_RDONLY)) == -1) 
+		if ((pib.file = open (pib.name, O_BINARY|O_RDONLY)) == -1)
 		{
 			error (1, errno, &quot;Can't open %s&quot;, pib.name);
 		}
 		count = pibscalers (&amp;pib);
-		if (count == AMP_CARRIERS) 
+		if (count == AMP_CARRIERS)
 		{
 			error (1, ENOTSUP, &quot;AR7x00 PIB Format&quot;);
 		}
-		else if (count == INT_CARRIERS) 
+		else if (count == INT_CARRIERS)
 		{
 			int6x00Prescalers (&amp;pib, scale);
 		}
-		else 
+		else
 		{
 			error (1, ENOTSUP, &quot;Unknown PIB Format&quot;);
 		}
@@ -194,7 +194,7 @@ int main (int argc, char const * argv [])
 
 </pre>
 		<div class='footerlink'>
-			[<a href='plcwait.c.html' title=' plcwait.c '>PREV</a>]
+			[<a href='PrintRule.c.html' title=' PrintRule.c '>PREV</a>]
 			[<a href='toolkit.html' title=' Index '>HOME</a>]
 			[<a href='psin.c.html' title=' psin.c '>NEXT</a>]
 			</div>

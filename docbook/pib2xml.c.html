@@ -6,7 +6,7 @@
 			pib2xml.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -19,28 +19,28 @@
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *
- *   pib2xml.c 
+ *   pib2xml.c
  *
  *
  *--------------------------------------------------------------------*/
@@ -96,14 +96,14 @@
 #endif
 
 /*====================================================================*
- *   
+ *
  *   void pibdump (signed fd, char const * filename, char const * schema, unsigned extent, flag_t flags);
- *   
- *   
+ *
+ *
  *
  *--------------------------------------------------------------------*/
 
-static void pibdump (signed fd, char const * filename, char const * schema, unsigned extent, flag_t flags) 
+static void pibdump (signed fd, char const * filename, char const * schema, unsigned extent, flag_t flags)
 
 {
 	unsigned offset = 0;
@@ -115,19 +115,19 @@ static void pibdump (signed fd, char const * filename, char const * schema, unsi
 	char * sp;
 	signed c;
 	output (indent++, &quot;&lt;%s xmlns:xsi='%s' xsi:noNamespaceSchemaLocation='%s'&gt;&quot;, DATA_OBJECT, XML_NAMESPACE, schema);
-	while ((c = getc (stdin)) != EOF) 
+	while ((c = getc (stdin)) != EOF)
 	{
-		if ((c == '#') || (c == ';')) 
+		if ((c == '#') || (c == ';'))
 		{
-			do 
+			do
 			{
 				c = getc (stdin);
 			}
 			while (nobreak (c));
 		}
-		if (isspace (c)) 
+		if (isspace (c))
 		{
-			if (c == '\n') 
+			if (c == '\n')
 			{
 				lineno++;
 			}
@@ -138,20 +138,20 @@ static void pibdump (signed fd, char const * filename, char const * schema, unsi
 			do { c = getc (stdin); } while (isblank (c));
 		}
 		length = 0;
-		while (isdigit (c)) 
+		while (isdigit (c))
 		{
 			length *= 10;
 			length += c - '0';
 			c = getc (stdin);
 		}
-		while (isblank (c)) 
+		while (isblank (c))
 		{
 			c = getc (stdin);
 		}
 		sp = symbol;
-		if (isalpha (c) || (c == '_')) 
+		if (isalpha (c) || (c == '_'))
 		{
-			do 
+			do
 			{
 				*sp++ = (char)(c);
 				c = getc (stdin);
@@ -159,11 +159,11 @@ static void pibdump (signed fd, char const * filename, char const * schema, unsi
 			while (isident (c));
 		}
 		*sp = (char)(0);
-		while (isblank (c)) 
+		while (isblank (c))
 		{
 			c = getc (stdin);
 		}
-		if (c == '[') 
+		if (c == '[')
 		{
 
 #if 0
@@ -173,11 +173,11 @@ static void pibdump (signed fd, char const * filename, char const * schema, unsi
 #endif
 
 			c = getc (stdin);
-			while (isblank (c)) 
+			while (isblank (c))
 			{
 				c = getc (stdin);
 			}
-			while (isdigit (c)) 
+			while (isdigit (c))
 			{
 
 #if 0
@@ -188,11 +188,11 @@ static void pibdump (signed fd, char const * filename, char const * schema, unsi
 
 				c = getc (stdin);
 			}
-			while (isblank (c)) 
+			while (isblank (c))
 			{
 				c = getc (stdin);
 			}
-			if (c != ']') 
+			if (c != ']')
 			{
 				error (1, EINVAL, &quot;Have '%c' but need ']'&quot;, c);
 			}
@@ -206,18 +206,18 @@ static void pibdump (signed fd, char const * filename, char const * schema, unsi
 			c = getc (stdin);
 		}
 		*sp = (char)(0);
-		while (isblank (c)) 
+		while (isblank (c))
 		{
 			c = getc (stdin);
 		}
 		sp = string;
-		while (nobreak (c)) 
+		while (nobreak (c))
 		{
 			*sp++ = (char)(c);
 			c = getc (stdin);
 		}
 		*sp = (char)(0);
-		if (length &gt; 0) 
+		if (length &gt; 0)
 		{
 
 #if defined (WIN32)
@@ -230,13 +230,13 @@ static void pibdump (signed fd, char const * filename, char const * schema, unsi
 
 #endif
 
-			if (read (fd, buffer, length) == length) 
+			if (read (fd, buffer, length) == length)
 			{
 				output (indent++, &quot;&lt;%s name='%s'&gt;&quot;, DATA_MEMBER, symbol);
 
 #if 0
 
-				if (*string) 
+				if (*string)
 				{
 					output (indent++, &quot;&lt;text&gt;&quot;);
 					output (indent, &quot;%s&quot;, string);
@@ -252,11 +252,11 @@ static void pibdump (signed fd, char const * filename, char const * schema, unsi
 				output (indent, &quot;%d&quot;, length);
 				output (indent--, &quot;&lt;/%s&gt;&quot;, DATA_LENGTH);
 				output (indent++, &quot;&lt;%s&gt;&quot;, DATA_MEMORY);
-				for (c = 0; c &lt; indent; c++) 
+				for (c = 0; c &lt; indent; c++)
 				{
 					printf (&quot;\t&quot;);
 				}
-				for (c = 0; c &lt; length; c++) 
+				for (c = 0; c &lt; length; c++)
 				{
 					printf (&quot;%02X&quot;, buffer [c]);
 				}
@@ -275,9 +275,9 @@ static void pibdump (signed fd, char const * filename, char const * schema, unsi
 		offset += length;
 	}
 	output (indent--, &quot;&lt;/%s&gt;&quot;, DATA_OBJECT);
-	if (_allclr (flags, PIB_SILENCE)) 
+	if (_allclr (flags, PIB_SILENCE))
 	{
-		if (offset != extent) 
+		if (offset != extent)
 		{
 			error (0, 0, &quot;file %s is %d not %d bytes&quot;, filename, extent, offset);
 		}
@@ -286,17 +286,17 @@ static void pibdump (signed fd, char const * filename, char const * schema, unsi
 }
 
 /*====================================================================*
- *   
+ *
  *   int main (int argc, char const * argv []);
- *   
- *   
+ *
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		&quot;f:x&quot;,
 		&quot;file [file] [...]&quot;,
@@ -309,12 +309,12 @@ int main (int argc, char const * argv [])
 	flag_t flags = (flag_t)(0);
 	signed c;
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'f':
-			if (!freopen (optarg, &quot;rb&quot;, stdin)) 
+			if (!freopen (optarg, &quot;rb&quot;, stdin))
 			{
 				error (1, errno, &quot;Can't open %s&quot;, optarg);
 			}
@@ -334,7 +334,7 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (argc &gt; 1) 
+	if (argc &gt; 1)
 	{
 		error (1, ENOTSUP, ERROR_TOOMANY);
 	}
@@ -345,42 +345,42 @@ int main (int argc, char const * argv [])
 
 #endif
 
-	if ((argc) &amp;&amp; (* argv)) 
+	if ((argc) &amp;&amp; (* argv))
 	{
 		signed fd;
 		uint32_t version;
-		if ((fd = open (*argv, O_BINARY | O_RDONLY)) == -1) 
+		if ((fd = open (*argv, O_BINARY | O_RDONLY)) == -1)
 		{
 			error (1, errno, &quot;%s&quot;, *argv);
 		}
-		else if (read (fd, &amp;version, sizeof (version)) != sizeof (version)) 
+		else if (read (fd, &amp;version, sizeof (version)) != sizeof (version))
 		{
 			error (1, errno, &quot;Can't read %s&quot;, *argv);
 		}
-		else if (lseek (fd, 0, SEEK_SET)) 
+		else if (lseek (fd, 0, SEEK_SET))
 		{
 			error (1, errno, &quot;Can't home %s&quot;, *argv);
 		}
-		else if (LE32TOH (version) == 0x60000000) 
+		else if (LE32TOH (version) == 0x60000000)
 		{
 			error (1, errno, &quot;Won't read %s&quot;, *argv);
 		}
-		else if (LE32TOH (version) == 0x00010001) 
+		else if (LE32TOH (version) == 0x00010001)
 		{
 			struct nvm_header2 nvm_header;
-			if (!nvmseek2 (fd, *argv, &amp;nvm_header, NVM_IMAGE_PIB)) 
+			if (!nvmseek2 (fd, *argv, &amp;nvm_header, NVM_IMAGE_PIB))
 			{
 				pibdump (fd, *argv, schema, LE32TOH (nvm_header.ImageLength), flags);
 			}
 		}
-		else 
+		else
 		{
 			struct simple_pib pib_header;
-			if (read (fd, &amp;pib_header, sizeof (pib_header)) != sizeof (pib_header)) 
+			if (read (fd, &amp;pib_header, sizeof (pib_header)) != sizeof (pib_header))
 			{
 				error (1, errno, &quot;Can't read %s&quot;, *argv);
 			}
-			if (lseek (fd, 0, SEEK_SET)) 
+			if (lseek (fd, 0, SEEK_SET))
 			{
 				error (1, errno, &quot;Can't home %s&quot;, *argv);
 			}

@@ -6,7 +6,7 @@
 			SHA256Reset.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -20,15 +20,15 @@
 <pre>
 /*====================================================================*
  *
- *   SHA256Reset (struct sha256 * sha256) 
+ *   SHA256Reset (struct sha256 * sha256)
  *
  *   SHA256.h
- *   
+ *
  *   initialize the SHA256 hash state; this effectively erases the
  *   previous hash state;
  *
- *   Read standard FIPS180-2 sec 5.3.2 for an explanation;     
- *   
+ *   Read standard FIPS180-2 sec 5.3.2 for an explanation;
+ *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
@@ -40,7 +40,7 @@
 
 #include &quot;../key/SHA256.h&quot;
 
-void SHA256Reset (struct sha256 * sha256) 
+void SHA256Reset (struct sha256 * sha256)
 
 {
 	memset (sha256, 0, sizeof (struct sha256));
