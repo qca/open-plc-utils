@@ -6,7 +6,7 @@
 			Attributes2.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -19,37 +19,37 @@
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *
  *   signed Attributes2 (struct plc * plc);
- *   
+ *
  *   plc.h
  *
  *   This plugin for program plc requests device attributes using
  *   a VS_OP_ATTRIBUTES message; attributes are pre-parsed versions
- *   of information returned by VS_SW_VER and other messages; 
- * 
+ *   of information returned by VS_SW_VER and other messages;
+ *
  *   The VS_OP_ATTRIBUTES message structure changed between FW 3.3.4
- *   and 3.3.5 and fields are ocassionally appended to the end; you  
+ *   and 3.3.5 and fields are ocassionally appended to the end; you
  *   should not use this message for operational systems because the
  *   format may change again; it was originally intended for PTS use
  *   only;
@@ -76,7 +76,7 @@
 #define snprintf _snprintf
 #endif
 
-signed Attributes2 (struct plc * plc) 
+signed Attributes2 (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc-&gt;channel);
@@ -86,18 +86,18 @@ signed Attributes2 (struct plc * plc)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_op_attributes_request 
+	struct __packed vs_op_attributes_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint32_t COOKIE;
 		uint8_t RTYPE;
 	}
 	* request = (struct vs_op_attributes_request *) (message);
-	struct __packed vs_op_attributes_confirm 
+	struct __packed vs_op_attributes_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint16_t MSTATUS;
 		uint32_t COOKIE;
 		uint8_t RTYPE;
@@ -105,7 +105,7 @@ signed Attributes2 (struct plc * plc)
 		uint8_t MBUFFER [1024];
 	}
 	* confirm = (struct vs_op_attributes_confirm *) (message);
-	struct __packed attributes 
+	struct __packed attributes
 	{
 		uint8_t DEVICEFAMILY [16];
 		uint8_t DEVICETYPE [16];
@@ -143,23 +143,23 @@ signed Attributes2 (struct plc * plc)
 	plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	request-&gt;COOKIE = HTOLE32 (plc-&gt;cookie);
 	request-&gt;RTYPE = 0;
-	if (SendMME (plc) &lt;= 0) 
+	if (SendMME (plc) &lt;= 0)
 	{
 		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	while (ReadMME (plc, 0, (VS_OP_ATTRIBUTES | MMTYPE_CNF)) &gt; 0) 
+	while (ReadMME (plc, 0, (VS_OP_ATTRIBUTES | MMTYPE_CNF)) &gt; 0)
 	{
 
 #if 0
 
-		static char const * frequency [] = 
+		static char const * frequency [] =
 		{
 			&quot;Unknown Frequency&quot;,
 			&quot;50Hz&quot;,
 			&quot;60Hz&quot;,
 		};
-		static char const * zero_cross [] = 
+		static char const * zero_cross [] =
 		{
 			&quot;Not yet detected&quot;,
 			&quot;Detected&quot;,
@@ -170,7 +170,7 @@ signed Attributes2 (struct plc * plc)
 
 		char string [512];
 		size_t length = 0;
-		if (confirm-&gt;MSTATUS) 
+		if (confirm-&gt;MSTATUS)
 		{
 			Failure (plc, PLC_WONTDOIT);
 			continue;
@@ -178,7 +178,7 @@ signed Attributes2 (struct plc * plc)
 
 #if 0
 #if defined (__GNUC__)
-#warning &quot;Debug code active in module Attributes2&quot; 
+#warning &quot;Debug code active in module Attributes2&quot;
 #endif
 
 		fprintf (stderr, &quot;DEVICE FAMILY=[%-16.16s]\n&quot;, attributes-&gt;DEVICEFAMILY);

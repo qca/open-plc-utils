@@ -94,10 +94,6 @@ char const * chipsetname (uint8_t MDEVICE_CLASS)
 		{
 			CHIPSET_QCA7000,
 			"QCA7000"
-		},
-		{
-			CHIPSET_QCA7005,
-			"QCA7005"
 		}
 	};
 	return (typename (chipsets, SIZEOF (chipsets), MDEVICE_CLASS, chipsets [0].name));
@@ -243,7 +239,7 @@ void chipset (void const * memory)
 		{
 			0x001B587C,
 			0x06,
-			CHIPSET_QCA7005
+			CHIPSET_QCA7000
 		}
 	};
 	tDevMap firmware [] =

@@ -6,7 +6,7 @@
 			xmlscan.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -55,7 +55,7 @@
  *   char * advance (char * string, unsigned * line);
  *
  *   discard whitespace and count newlines up to the next meaningful
- *   character; 
+ *   character;
  *
  *   this function is critical to the XML parsing engine because it
  *   ensures that node strings are NUL terminated and line counts
@@ -67,12 +67,12 @@
  *
  *--------------------------------------------------------------------*/
 
-static char * advance (char * string, unsigned * lineno) 
+static char * advance (char * string, unsigned * lineno)
 
 {
-	while (isspace (*string)) 
+	while (isspace (*string))
 	{
-		if (*string == '\n') 
+		if (*string == '\n')
 		{
 			(*lineno)++;
 		}
@@ -93,7 +93,7 @@ static char * advance (char * string, unsigned * lineno)
  *
  *--------------------------------------------------------------------*/
 
-static char * discard (char * string, unsigned * lineno) 
+static char * discard (char * string, unsigned * lineno)
 
 {
 	*string++ = (char)(0);
@@ -106,17 +106,17 @@ static char * discard (char * string, unsigned * lineno)
  *   char * nmtoken (char * string);
  *
  *   collect nmtoken as per w3c xml 1.0 specification;
- *   
+ *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 
-static char * nmtoken (char * string) 
+static char * nmtoken (char * string)
 
 {
-	while (isalnum (*string) || (*string == '-') || (*string == '_') || (*string == '.') || (*string == ':')) 
+	while (isalnum (*string) || (*string == '-') || (*string == '_') || (*string == '.') || (*string == ':'))
 	{
 		string++;
 	}
@@ -127,7 +127,7 @@ static char * nmtoken (char * string)
  *
  *   char * content (char * string, char quote, unsigned * line);
  *
- *   collect literal string; discard quotes; preserve whitespace; 
+ *   collect literal string; discard quotes; preserve whitespace;
  *   count newlines;
  *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
@@ -136,25 +136,25 @@ static char * nmtoken (char * string)
  *
  *--------------------------------------------------------------------*/
 
-static char * content (char * string, char quote, unsigned * lineno) 
+static char * content (char * string, char quote, unsigned * lineno)
 
 {
-	if (*string == quote) 
+	if (*string == quote)
 	{
 		*string++ = (char)(0);
 	}
-	while (*string) 
+	while (*string)
 	{
-		if (*string == quote) 
+		if (*string == quote)
 		{
 			break;
 		}
-		if (*string++ == '\n') 
+		if (*string++ == '\n')
 		{
 			(*lineno)++;
 		}
 	}
-	if (*string == quote) 
+	if (*string == quote)
 	{
 		*string++ = (char)(0);
 	}
@@ -165,7 +165,7 @@ static char * content (char * string, char quote, unsigned * lineno)
  *
  *   char * collect (char * string);
  *
- *   collect entity; an entity consists of non-blank characters 
+ *   collect entity; an entity consists of non-blank characters
  *   excluding common tag punctuation;
  *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
@@ -174,32 +174,32 @@ static char * content (char * string, char quote, unsigned * lineno)
  *
  *--------------------------------------------------------------------*/
 
-static char * collect (char * string) 
+static char * collect (char * string)
 
 {
-	while (*string) 
+	while (*string)
 	{
-		if (*string == '&lt;') 
+		if (*string == '&lt;')
 		{
 			break;
 		}
-		if (*string == '=') 
+		if (*string == '=')
 		{
 			break;
 		}
-		if (*string == '/') 
+		if (*string == '/')
 		{
 			break;
 		}
-		if (*string == '?') 
+		if (*string == '?')
 		{
 			break;
 		}
-		if (*string == '&gt;') 
+		if (*string == '&gt;')
 		{
 			break;
 		}
-		if (isspace (*string)) 
+		if (isspace (*string))
 		{
 			break;
 		}
@@ -212,9 +212,9 @@ static char * collect (char * string)
  *
  *   static char * comment (char * string, unsigned * line);
  *
- *   collect comment; 
+ *   collect comment;
  *   preserve delimiters;
- *   preserve whitespace; 
+ *   preserve whitespace;
  *   count newlines;
  *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
@@ -223,21 +223,21 @@ static char * collect (char * string)
  *
  *--------------------------------------------------------------------*/
 
-static char * comment (char * string, unsigned * lineno) 
+static char * comment (char * string, unsigned * lineno)
 
 {
 	string++;
-	if (*string == '-') 
+	if (*string == '-')
 	{
-		while (*string == '-') 
+		while (*string == '-')
 		{
 			string++;
 		}
-		while ((*string) &amp;&amp; (*string != '-')) 
+		while ((*string) &amp;&amp; (*string != '-'))
 		{
-			while ((*string) &amp;&amp; (*string != '-')) 
+			while ((*string) &amp;&amp; (*string != '-'))
 			{
-				if (*string == '\n') 
+				if (*string == '\n')
 				{
 					(*lineno)++;
 				}
@@ -245,7 +245,7 @@ static char * comment (char * string, unsigned * lineno)
 			}
 			string++;
 		}
-		while (*string == '-') 
+		while (*string == '-')
 		{
 			string++;
 		}
@@ -257,9 +257,9 @@ static char * comment (char * string, unsigned * lineno)
  *
  *   char * literal (char * string, char quote, unsigned * line);
  *
- *   collect literal; 
- *   preserve delimiters; 
- *   preserve whitespace; 
+ *   collect literal;
+ *   preserve delimiters;
+ *   preserve whitespace;
  *   count newlines;
  *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
@@ -268,26 +268,26 @@ static char * comment (char * string, unsigned * lineno)
  *
  *--------------------------------------------------------------------*/
 
-static char * literal (char *string, char quote, unsigned * lineno) 
+static char * literal (char *string, char quote, unsigned * lineno)
 
 {
-	if (*string == quote) 
+	if (*string == quote)
 	{
 		*string++ = (char)(0);
 	}
-	while (*string) 
+	while (*string)
 	{
-		if (*string == quote) 
+		if (*string == quote)
 		{
 			break;
 		}
-		if (*string == '\n') 
+		if (*string == '\n')
 		{
 			(*lineno)++;
 		}
 		string++;
 	}
-	if (*string == quote) 
+	if (*string == quote)
 	{
 		*string++ = (char)(0);
 	}
@@ -298,9 +298,9 @@ static char * literal (char *string, char quote, unsigned * lineno)
  *
  *   char * context (char * string, signed c, unsigned *line);
  *
- *   collect context; 
+ *   collect context;
  *   preserve delimiters;
- *   preserve whitespace; 
+ *   preserve whitespace;
  *   count newlines;
  *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
@@ -309,38 +309,38 @@ static char * literal (char *string, char quote, unsigned * lineno)
  *
  *--------------------------------------------------------------------*/
 
-static char * context (char *string, signed c, unsigned * lineno) 
+static char * context (char *string, signed c, unsigned * lineno)
 
 {
 	string++;
-	while (*string) 
+	while (*string)
 	{
-		if (*string == (char)(c)) 
+		if (*string == (char)(c))
 		{
 			string++;
 			break;
 		}
-		if (*string == '{') 
+		if (*string == '{')
 		{
 			string = context (string, '}', lineno);
 			continue;
 		}
-		if (*string == '(') 
+		if (*string == '(')
 		{
 			string = context (string, ')', lineno);
 			continue;
 		}
-		if (*string == '[') 
+		if (*string == '[')
 		{
 			string = context (string, ']', lineno);
 			continue;
 		}
-		if ((*string == '\&quot;') || (*string == '\'')) 
+		if ((*string == '\&quot;') || (*string == '\''))
 		{
 			string = literal (string, *string, lineno);
 			continue;
 		}
-		if (*string == '\n') 
+		if (*string == '\n')
 		{
 			(*lineno)++;
 		}
@@ -361,7 +361,7 @@ static char * context (char *string, signed c, unsigned * lineno)
  *
  *--------------------------------------------------------------------*/
 
-signed xmlscan (NODE * node) 
+signed xmlscan (NODE * node)
 
 {
 	NODE * section = node;
@@ -372,22 +372,22 @@ signed xmlscan (NODE * node)
 	char suffix = (char)(0);
 	char * string = node-&gt;text;
 	unsigned lineno = 1;
-	if (!section) 
+	if (!section)
 	{
 		error (1, EFAULT, &quot;section is null&quot;);
 	}
-	if (!string) 
+	if (!string)
 	{
 		error (1, EFAULT, &quot;string is null&quot;);
 	}
-	while (*string) 
+	while (*string)
 	{
-		if (*string == '&lt;') 
+		if (*string == '&lt;')
 		{
 			prefix = '&lt;';
 			suffix = '&gt;';
 			string = discard (string, &amp;lineno);
-			if ((*string == '/') || (*string == '?') || (*string == '!')) 
+			if ((*string == '/') || (*string == '?') || (*string == '!'))
 			{
 				prefix = *string;
 				string = discard (string, &amp;lineno);
@@ -396,115 +396,115 @@ signed xmlscan (NODE * node)
 			element-&gt;line = lineno;
 			element-&gt;type = NODE_ELEM;
 			element-&gt;text = string;
-			if (isalpha (*string)) 
+			if (isalpha (*string))
 			{
 				string = nmtoken (string);
 			}
-			else if (*string == '-') 
+			else if (*string == '-')
 			{
 				string = comment (string, &amp;lineno);
 			}
-			else if (*string == '[') 
+			else if (*string == '[')
 			{
 				string = context (string, ']', &amp;lineno);
 			}
-			else 
+			else
 			{
 				string = collect (string);
 			}
 			string = advance (string, &amp;lineno);
-			while ((*string) &amp;&amp; (*string != '&lt;') &amp;&amp; (*string != '/') &amp;&amp; (*string != '?') &amp;&amp; (*string != '&gt;')) 
+			while ((*string) &amp;&amp; (*string != '&lt;') &amp;&amp; (*string != '/') &amp;&amp; (*string != '?') &amp;&amp; (*string != '&gt;'))
 			{
 				attribute = xmlnode (element);
 				attribute-&gt;line = lineno;
 				attribute-&gt;type = NODE_ATTR;
 				attribute-&gt;text = string;
-				if (isalpha (*string)) 
+				if (isalpha (*string))
 				{
 					string = nmtoken (string);
 				}
-				else if (*string == '-') 
+				else if (*string == '-')
 				{
 					string = comment (string, &amp;lineno);
 				}
-				else if (*string == '[') 
+				else if (*string == '[')
 				{
 					string = context (string, ']', &amp;lineno);
 				}
-				else if ((*string == '\&quot;') || (*string == '\'')) 
+				else if ((*string == '\&quot;') || (*string == '\''))
 				{
 					string = content (string, *string, &amp;lineno);
 					attribute-&gt;text++;
 				}
-				else 
+				else
 				{
 					string = collect (string);
 				}
 				string = advance (string, &amp;lineno);
-				if (*string == '=') 
+				if (*string == '=')
 				{
 					string = discard (string, &amp;lineno);
 					value = xmlnode (attribute);
 					value-&gt;line = lineno;
 					value-&gt;type = NODE_VALU;
 					value-&gt;text = string;
-					if ((*string == '\&quot;') || (*string == '\'')) 
+					if ((*string == '\&quot;') || (*string == '\''))
 					{
 						string = content (string, *string, &amp;lineno);
 						value-&gt;text++;
 					}
-					else 
+					else
 					{
 						string = collect (string);
 					}
 					string = advance (string, &amp;lineno);
 				}
 			}
-			if ((*string == '/') || (*string == '?')) 
+			if ((*string == '/') || (*string == '?'))
 			{
 				suffix = *string;
 				string = discard (string, &amp;lineno);
 			}
 		}
-		else if (*string == '&gt;') 
+		else if (*string == '&gt;')
 		{
 			string = discard (string, &amp;lineno);
-			if (prefix == '!') 
+			if (prefix == '!')
 			{
 				element-&gt;type = NODE_SGML;
 			}
-			else if (prefix == '?') 
+			else if (prefix == '?')
 			{
 				element-&gt;type = NODE_INST;
 			}
-			else if (suffix == '?') 
+			else if (suffix == '?')
 			{
 			}
-			else if (prefix == '/') 
+			else if (prefix == '/')
 			{
 				element-&gt;type = NODE_ETAG;
-				if (element-&gt;below) 
+				if (element-&gt;below)
 				{
 					error (1, 0, &quot;Element &lt;/%s&gt; on line %d has attributes or content.&quot;, element-&gt;text, element-&gt;line);
 				}
-				if (strcmp (section-&gt;text, element-&gt;text)) 
+				if (strcmp (section-&gt;text, element-&gt;text))
 				{
 					error (1, 0, &quot;Element &lt;%s&gt; on line %d teminated by &lt;/%s&gt; on line %d&quot;, section-&gt;text, section-&gt;line, element-&gt;text, element-&gt;line);
 				}
-				if (section-&gt;above) 
+				if (section-&gt;above)
 				{
 					section = section-&gt;above;
 				}
 			}
-			else if (suffix == '/') 
+			else if (suffix == '/')
 			{
 			}
-			else 
+			else
 			{
 				section = element;
 			}
 		}
-		else 
+		else
 		{
 			signed space = 0;
 			char * output = string;
@@ -512,26 +512,26 @@ signed xmlscan (NODE * node)
 			segment-&gt;line = lineno;
 			segment-&gt;type = NODE_DATA;
 			segment-&gt;text = string;
-			while (*string) 
+			while (*string)
 			{
-				if (*string == '&lt;') 
+				if (*string == '&lt;')
 				{
 					break;
 				}
-				if (isspace (*string)) 
+				if (isspace (*string))
 				{
 					string = advance (string, &amp;lineno);
 					space++;
 					continue;
 				}
-				if (space) 
+				if (space)
 				{
 					*output++ = ' ';
 					space--;
 				}
 				*output++ = *string++;
 			}
-			if (output &lt; string) 
+			if (output &lt; string)
 			{
 				*output = (char)(0);
 			}

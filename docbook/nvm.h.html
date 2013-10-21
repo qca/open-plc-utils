@@ -6,7 +6,7 @@
 			nvm.h
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -19,32 +19,28 @@
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *
  *   nvm.h - nvm file format definitions and declarations;
- *
- *.  Qualcomm Atheros HomePlug AV Powerline Toolkit
- *:  Copyright (c) 2009-2013 by Qualcomm Atheros Inc. ALL RIGHTS RESERVED;
- *;  For demonstration and evaluation only; Not for production use.
  *
  *   Contributor(s):
  *      Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
@@ -70,8 +66,8 @@
  *   nvm program constants;
  *--------------------------------------------------------------------*/
 
-#define NVM_IMAGETYPES 18 
-#define NVM_PLATFORMS 5 
+#define NVM_IMAGETYPES 18
+#define NVM_PLATFORMS 5
 
 /*====================================================================*
  *   nvm program flags;
@@ -176,36 +172,14 @@
 #define NVM_IMG_RUN &quot;%s applet %d is still running&quot;
 
 /*====================================================================*
- *
+ *   old nvm image header (44 bytes);
  *--------------------------------------------------------------------*/
 
 #ifndef __GNUC__
 #pragma pack (push,1)
 #endif
 
-struct TLVNode 
-
-{
-	uint32_t type;
-	uint32_t size;
-	uint32_t data;
-}
-
-TLVNode;
-
-#ifndef __GNUC__
-#pragma pack (pop)
-#endif
-
-/*====================================================================*
- *   old nvm image header (44 bytes); 
- *--------------------------------------------------------------------*/
-
-#ifndef __GNUC__
-#pragma pack (push,1)
-#endif
-
-typedef struct __packed nvm_header1 
+typedef struct __packed nvm_header1
 
 {
 	uint32_t HEADERVERSION;
@@ -237,7 +211,7 @@ nvm_header1;
 #pragma pack (push,1)
 #endif
 
-typedef struct __packed nvm_header2 
+typedef struct __packed nvm_header2
 
 {
 	uint16_t MajorVersion;
@@ -292,7 +266,7 @@ void nvmpeek1 (void const *);
 void nvmpeek2 (void const *);
 
 /*====================================================================*
- *   
+ *
  *--------------------------------------------------------------------*/
 
 #endif

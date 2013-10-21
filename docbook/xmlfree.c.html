@@ -6,7 +6,7 @@
 			xmlfree.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -24,8 +24,8 @@
  *
  *   node.h
  *
- *   recursively free child nodes; minimize recursion by following  
- *   node-&gt;after at each level; 
+ *   recursively free child nodes; minimize recursion by following
+ *   node-&gt;after at each level;
  *
  *   the caller must free the root node; this allows that the root
  *   to be statically declared, if desired;
@@ -44,21 +44,21 @@
 
 #include &quot;../nodes/node.h&quot;
 
-void xmlfree (NODE * node) 
+void xmlfree (NODE * node)
 
 {
-	if (node) 
+	if (node)
 	{
 		node = node-&gt;below;
 	}
-	while (node) 
+	while (node)
 	{
 		NODE * temp = node;
-		if (node-&gt;above) 
+		if (node-&gt;above)
 		{
 			node-&gt;above-&gt;below = (NODE *)(0);
 		}
-		if (node-&gt;prior) 
+		if (node-&gt;prior)
 		{
 			node-&gt;prior-&gt;after = (NODE *)(0);
 		}

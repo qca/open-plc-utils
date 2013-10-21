@@ -6,7 +6,7 @@
 			NetworkDevices2.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -19,27 +19,27 @@
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *   
+ *
  *   signed NetworkDevices2 (struct plc * plc, void * memory, size_t extent);
  *
  *   plc.h
@@ -71,7 +71,7 @@
 #include &quot;../tools/error.h&quot;
 #include &quot;../plc/plc.h&quot;
 
-signed NetworkDevices2 (struct plc * plc, void * memory, size_t extent) 
+signed NetworkDevices2 (struct plc * plc, void * memory, size_t extent)
 
 {
 	extern const byte broadcast [ETHER_ADDR_LEN];
@@ -85,15 +85,15 @@ signed NetworkDevices2 (struct plc * plc, void * memory, size_t extent)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_nw_info_request 
+	struct __packed vs_nw_info_request
 	{
-		struct ethernet_std ethernet;
+		struct ethernet_hdr ethernet;
 		struct qualcomm_fmi qualcomm;
 	}
 	* request = (struct vs_nw_info_request *)(message);
-	struct __packed vs_nw_info_confirm 
+	struct __packed vs_nw_info_confirm
 	{
-		struct ethernet_std ethernet;
+		struct ethernet_hdr ethernet;
 		struct qualcomm_fmi qualcomm;
 		uint8_t SUB_VERSION;
 		uint8_t Reserved;
@@ -101,7 +101,7 @@ signed NetworkDevices2 (struct plc * plc, void * memory, size_t extent)
 		uint8_t DATA [1];
 	}
 	* confirm = (struct vs_nw_info_confirm *)(message);
-	struct __packed station 
+	struct __packed station
 	{
 		uint8_t MAC [ETHER_ADDR_LEN];
 		uint8_t TEI;
@@ -114,7 +114,7 @@ signed NetworkDevices2 (struct plc * plc, void * memory, size_t extent)
 		uint16_t Reserved4;
 	}
 	* station;
-	struct __packed network 
+	struct __packed network
 	{
 		uint8_t NID [7];
 		uint8_t Reserved1 [2];
@@ -130,7 +130,7 @@ signed NetworkDevices2 (struct plc * plc, void * memory, size_t extent)
 		struct station stations [1];
 	}
 	* network;
-	struct __packed networks 
+	struct __packed networks
 	{
 		uint8_t Reserved;
 		uint8_t NUMAVLNS;
@@ -143,11 +143,11 @@ signed NetworkDevices2 (struct plc * plc, void * memory, size_t extent)
 #endif
 
 	ssize_t packetsize;
-	if (!memcmp (channel-&gt;peer, broadcast, sizeof (channel-&gt;peer))) 
+	if (!memcmp (channel-&gt;peer, broadcast, sizeof (channel-&gt;peer)))
 	{
 		error (1, EINVAL, &quot;Can't use broadcast address&quot;);
 	}
-	if (!memcmp (channel-&gt;peer, localcast, sizeof (channel-&gt;peer))) 
+	if (!memcmp (channel-&gt;peer, localcast, sizeof (channel-&gt;peer)))
 	{
 		error (1, EINVAL, &quot;Can't use localcast address&quot;);
 	}
@@ -156,20 +156,20 @@ signed NetworkDevices2 (struct plc * plc, void * memory, size_t extent)
 	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
 	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
 	QualcommHeader1 (&amp;request-&gt;qualcomm, 1, (VS_NW_INFO | MMTYPE_REQ));
-	if (sendpacket (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) &lt;= 0) 
+	if (sendpacket (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) &lt;= 0)
 	{
 		error (1, errno, CHANNEL_CANTSEND);
 	}
-	while ((packetsize = readpacket (channel, message, sizeof (* message))) &gt; 0) 
+	while ((packetsize = readpacket (channel, message, sizeof (* message))) &gt; 0)
 	{
-		if (UnwantedMessage (message, packetsize, 0, (VS_NW_INFO | MMTYPE_CNF))) 
+		if (UnwantedMessage (message, packetsize, 0, (VS_NW_INFO | MMTYPE_CNF)))
 		{
 			continue;
 		}
 		network = (struct network *)(&amp;networks-&gt;networks);
-		while (networks-&gt;NUMAVLNS--) 
+		while (networks-&gt;NUMAVLNS--)
 		{
-			if (extent &lt; sizeof (request-&gt;ethernet.OSA)) 
+			if (extent &lt; sizeof (request-&gt;ethernet.OSA))
 			{
 				break;
 			}
@@ -177,9 +177,9 @@ signed NetworkDevices2 (struct plc * plc, void * memory, size_t extent)
 			offset += sizeof (request-&gt;ethernet.OSA);
 			extent -= sizeof (request-&gt;ethernet.OSA);
 			station = (struct station *)(&amp;network-&gt;stations);
-			while (network-&gt;NUMSTAS--) 
+			while (network-&gt;NUMSTAS--)
 			{
-				if (extent &lt; sizeof (station-&gt;MAC)) 
+				if (extent &lt; sizeof (station-&gt;MAC))
 				{
 					break;
 				}

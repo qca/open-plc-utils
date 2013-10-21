@@ -6,7 +6,7 @@
 			chrout.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -20,12 +20,12 @@
 <pre>
 /*====================================================================*
  *
- *   void chrout (void const * memory, size_t extent, char c, char e, FILE * fp) 
+ *   void chrout (void const * memory, size_t extent, char c, char e, FILE * fp)
  *
  *   memory.h
  *
- *   print memory as an ASCII character string; replace non-printable 
- *   characters with (c) on output; terminate output with (e); 
+ *   print memory as an ASCII character string; replace non-printable
+ *   characters with (c) on output; terminate output with (e);
  *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
@@ -41,16 +41,16 @@
 
 #include &quot;../tools/memory.h&quot;
 
-void chrout (void const * memory, size_t extent, char c, char e, FILE * fp) 
+void chrout (void const * memory, size_t extent, char c, char e, FILE * fp)
 
 {
 	byte * offset = (byte *)(memory);
-	while (extent--) 
+	while (extent--)
 	{
 		putc (isprint (* offset)? * offset: c, fp);
 		offset++;
 	}
-	if (e) 
+	if (e)
 	{
 		putc (e, fp);
 	}

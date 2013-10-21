@@ -6,7 +6,7 @@
 			fcs.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -45,7 +45,7 @@
  * variables;
  *--------------------------------------------------------------------*/
 
-static uint32_t CRCTable [256] = 
+static uint32_t CRCTable [256] =
 
 {
 	0x00000000,
@@ -320,14 +320,14 @@ static uint32_t CRCTable [256] =
 
 #if 0
 
-static uint32_t ReflectBits (uint32_t value, uint32_t bits) 
+static uint32_t ReflectBits (uint32_t value, uint32_t bits)
 
 {
 	uint32_t image = 0;
 	uint32_t bit;
-	for (bit = 0; bit &lt; bits; bit++) 
+	for (bit = 0; bit &lt; bits; bit++)
 	{
-		if (value &amp; 1) 
+		if (value &amp; 1)
 		{
 			image |= 1 &lt;&lt; (bits - bit - 1);
 		}
@@ -353,16 +353,16 @@ static uint32_t ReflectBits (uint32_t value, uint32_t bits)
 
 #if 0
 
-static void InitCRCTable (uint32_t CRCTable []) 
+static void InitCRCTable (uint32_t CRCTable [])
 
 {
 	extern uint32_t CRCTable [];
 	uint32_t word;
 	uint32_t bit;
-	for (word = 0; word &lt; 256; word++) 
+	for (word = 0; word &lt; 256; word++)
 	{
 		uint32_t crc = ReflectBits (word, 8) &lt;&lt; 24;
-		for (bit = 0; bit &lt; 8; bit++) 
+		for (bit = 0; bit &lt; 8; bit++)
 		{
 			crc = (crc &lt;&lt; 1) ^ ((crc &amp; 0x80000000)? 0x04c11db7: 0);
 		}
@@ -385,12 +385,12 @@ static void InitCRCTable (uint32_t CRCTable [])
  *
  *--------------------------------------------------------------------*/
 
-uint32_t ComputeCRC (uint8_t buffer [], uint32_t length) 
+uint32_t ComputeCRC (uint8_t buffer [], uint32_t length)
 
 {
 	extern uint32_t CRCTable [];
 	uint32_t crc = ~0;
-	while (length--) 
+	while (length--)
 	{
 		crc = (crc &gt;&gt; 8) ^ CRCTable [(crc &amp; 0xff) ^ *buffer++];
 	}
@@ -402,14 +402,14 @@ uint32_t ComputeCRC (uint8_t buffer [], uint32_t length)
  *   int VerifyCRC (uint8_t buffer [], uint32_t length, uint32_t crc);
  *
  *
- * 
+ *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *--------------------------------------------------------------------*/
 
-int VerifyCRC (uint8_t buffer [], uint32_t length, uint32_t crc) 
+int VerifyCRC (uint8_t buffer [], uint32_t length, uint32_t crc)
 
 {
 	return (crc = ComputeCRC (buffer, length));
@@ -417,9 +417,9 @@ int VerifyCRC (uint8_t buffer [], uint32_t length, uint32_t crc)
 
 /*====================================================================*
  *
- *   int main (int argc, const char * argv []) 
- *   
- *   
+ *   int main (int argc, const char * argv [])
+ *
+ *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
@@ -429,7 +429,7 @@ int VerifyCRC (uint8_t buffer [], uint32_t length, uint32_t crc)
 #if 0
 #include &lt;stdio.h&gt;
 
-static uint8_t frame [192]= 
+static uint8_t frame [192]=
 
 {
 	0x00,
@@ -626,12 +626,12 @@ static uint8_t frame [192]=
 	0x00
 };
 
-int main (int argc, const char * argv []) 
+int main (int argc, const char * argv [])
 
 {
 	uint32_t size = sizeof (frame);
 	uint32_t word;
-	uint8_t blah [] = 
+	uint8_t blah [] =
 	{
 		0x00,
 		0xB0,
@@ -655,7 +655,7 @@ int main (int argc, const char * argv [])
 		0x52,
 		0x02
 	};
-	while (size &gt; 160) 
+	while (size &gt; 160)
 	{
 		word = ComputeCRC (frame, size);
 		printf (&quot;%d %08X\n&quot;, size, word);

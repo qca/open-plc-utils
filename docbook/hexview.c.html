@@ -6,7 +6,7 @@
 			hexview.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -44,7 +44,7 @@
 #include &quot;../tools/memory.h&quot;
 #include &quot;../tools/number.h&quot;
 
-void hexview (void const * memory, size_t offset, size_t extent, FILE *fp) 
+void hexview (void const * memory, size_t offset, size_t extent, FILE *fp)
 
 {
 	byte * origin = (byte *)(memory);
@@ -54,46 +54,46 @@ void hexview (void const * memory, size_t offset, size_t extent, FILE *fp)
 	size_t index = 0;
 	char buffer [ADDRSIZE + 72];
 	char * output;
-	while (lower &lt; offset + extent) 
+	while (lower &lt; offset + extent)
 	{
 		output = buffer + ADDRSIZE;
-		for (index = lower; output-- &gt; buffer; index &gt;&gt;= 4) 
+		for (index = lower; output-- &gt; buffer; index &gt;&gt;= 4)
 		{
 			*output = DIGITS_HEX [index &amp; 0x0F];
 		}
 		output = buffer + ADDRSIZE;
-		for (index = lower; index &lt; upper; index++) 
+		for (index = lower; index &lt; upper; index++)
 		{
 			*output++ = ' ';
-			if (index &lt; offset) 
+			if (index &lt; offset)
 			{
 				*output++ = ' ';
 				*output++ = ' ';
 			}
-			else if (index &lt; offset + extent) 
+			else if (index &lt; offset + extent)
 			{
 				*output++ = DIGITS_HEX [(origin [index-offset] &gt;&gt; 4) &amp; 0x0F];
 				*output++ = DIGITS_HEX [(origin [index-offset] &gt;&gt; 0) &amp; 0x0F];
 			}
-			else 
+			else
 			{
 				*output++ = ' ';
 				*output++ = ' ';
 			}
 		}
 		*output++ = ' ';
-		for (index = lower; index &lt; upper; index++) 
+		for (index = lower; index &lt; upper; index++)
 		{
-			if (index &lt; offset) 
+			if (index &lt; offset)
 			{
 				*output++ = ' ';
 			}
-			else if (index &lt; offset + extent) 
+			else if (index &lt; offset + extent)
 			{
 				unsigned c = origin [index-offset];
 				*output++ = isprint (c)? c: '.';
 			}
-			else 
+			else
 			{
 				*output++ = ' ';
 			}

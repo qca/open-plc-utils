@@ -6,7 +6,7 @@
 			strincr.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -38,13 +38,13 @@
 
 #include &quot;../tools/memory.h&quot;
 
-signed strincr (void * memory, register size_t extent, register byte min, register byte max) 
+signed strincr (void * memory, register size_t extent, register byte min, register byte max)
 
 {
 	register byte * offset = (byte *)(memory);
-	while (extent--) 
+	while (extent--)
 	{
-		if (++ offset [extent] &lt;= max) 
+		if (++ offset [extent] &lt;= max)
 		{
 			return (0);
 		}

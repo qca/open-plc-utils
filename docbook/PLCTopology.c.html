@@ -6,7 +6,7 @@
 			PLCTopology.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -19,29 +19,29 @@
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *   
+ *
  *   PLCTopology.c
- *   
+ *
  *   plc.h
  *
  *
@@ -66,19 +66,19 @@
 /*====================================================================*
  *
  *   signed PLCPlatform (struct channel * channel, struct plcstation * station);
- * 
+ *
  *   populate plcstation structure with hardware and firmware version
  *   string using a VS_SW_VER message;
  *
  *   extern char const * chipset [] contains chipset name strings in
- *   order of chipset code but function chipset() must be called to 
+ *   order of chipset code but function chipset() must be called to
  *   insert the true code into the confirmation message because some
  *   chipsets return the wrong code; alien technology and voodoo are
  *   needed;
  *
  *--------------------------------------------------------------------*/
 
-static signed PLCPlatform (struct channel * channel, struct plcstation * plcstation) 
+static signed PLCPlatform (struct channel * channel, struct plcstation * plcstation)
 
 {
 	struct message message;
@@ -88,16 +88,16 @@ static signed PLCPlatform (struct channel * channel, struct plcstation * plcstat
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_sw_ver_request 
+	struct __packed vs_sw_ver_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 	}
 	* request = (struct vs_sw_ver_request *) (&amp;message);
-	struct __packed vs_sw_ver_confirm 
+	struct __packed vs_sw_ver_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint8_t MDEVICE;
 		uint8_t MLENGTH;
@@ -112,11 +112,11 @@ static signed PLCPlatform (struct channel * channel, struct plcstation * plcstat
 	memset (&amp;message, 0, sizeof (message));
 	EthernetHeader (&amp;request-&gt;ethernet, plcstation-&gt;MAC, channel-&gt;host, channel-&gt;type);
 	QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_SW_VER | MMTYPE_REQ));
-	if (sendpacket (channel, &amp;message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) &gt; 0) 
+	if (sendpacket (channel, &amp;message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) &gt; 0)
 	{
-		while ((packetsize = readpacket (channel, &amp;message, sizeof (message))) &gt; 0) 
+		while ((packetsize = readpacket (channel, &amp;message, sizeof (message))) &gt; 0)
 		{
-			if (!UnwantedMessage (&amp;message, packetsize, 0, (VS_SW_VER | MMTYPE_CNF))) 
+			if (!UnwantedMessage (&amp;message, packetsize, 0, (VS_SW_VER | MMTYPE_CNF)))
 			{
 				chipset (confirm);
 				strncpy (plcstation-&gt;hardware, chipsetname (confirm-&gt;MDEVICE), sizeof (plcstation-&gt;hardware));
@@ -131,13 +131,13 @@ static signed PLCPlatform (struct channel * channel, struct plcstation * plcstat
 /*====================================================================*
  *
  *   signed PLCIdentity (struct channel * channel, struct plcstation * station);
- * 
+ *
  *   populate plcstation structure with the device identity using a
- *   VS_MFG_STRING message; 
+ *   VS_MFG_STRING message;
  *
  *--------------------------------------------------------------------*/
 
-static signed PLCIdentity (struct channel * channel, struct plcstation * plcstation) 
+static signed PLCIdentity (struct channel * channel, struct plcstation * plcstation)
 
 {
 	struct message message;
@@ -147,16 +147,16 @@ static signed PLCIdentity (struct channel * channel, struct plcstation * plcstat
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_mfg_string_request 
+	struct __packed vs_mfg_string_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 	}
 	* request = (struct vs_mfg_string_request *) (&amp;message);
-	struct __packed vs_mfg_string_confirm 
+	struct __packed vs_mfg_string_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint8_t MLENGTH;
 		char MSTRING [0x40];
@@ -170,11 +170,11 @@ static signed PLCIdentity (struct channel * channel, struct plcstation * plcstat
 	memset (&amp;message, 0, sizeof (message));
 	EthernetHeader (&amp;request-&gt;ethernet, plcstation-&gt;MAC, channel-&gt;host, channel-&gt;type);
 	QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_MFG_STRING | MMTYPE_REQ));
-	if (sendpacket (channel, &amp;message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) &gt; 0) 
+	if (sendpacket (channel, &amp;message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) &gt; 0)
 	{
-		while ((packetsize = readpacket (channel, &amp;message, sizeof (message))) &gt; 0) 
+		while ((packetsize = readpacket (channel, &amp;message, sizeof (message))) &gt; 0)
 		{
-			if (!UnwantedMessage (&amp;message, packetsize, 0, (VS_MFG_STRING | MMTYPE_CNF))) 
+			if (!UnwantedMessage (&amp;message, packetsize, 0, (VS_MFG_STRING | MMTYPE_CNF)))
 			{
 				strncpy (plcstation-&gt;identity, confirm-&gt;MSTRING, sizeof (plcstation-&gt;identity));
 				return (0);
@@ -186,16 +186,16 @@ static signed PLCIdentity (struct channel * channel, struct plcstation * plcstat
 
 /*====================================================================*
  *
- *   signed PLCTopology (struct channel * channel, struct message * message, struct plctopology * plctopology) 
- * 
- *   populate a plctopology structure with network information; the 
+ *   signed PLCTopology (struct channel * channel, struct message * message, struct plctopology * plctopology)
+ *
+ *   populate a plctopology structure with network information; the
  *   logic this is elusive due to the way the VS_NW_INFO message is
  *   structured;
  *
- *   the host can have many interfaces and each interface can have 
+ *   the host can have many interfaces and each interface can have
  *   many powerline devices connected to it; each powerline device
  *   can bridge to an independent powerline network having a unique
- *   set of member devices; alternately, some powerline devices can  
+ *   set of member devices; alternately, some powerline devices can
  *   be members of the same powerline network;
  *
  *   INT6x00 chipsets have an 8-bit PHY rate while AR7x00 chipsets
@@ -203,27 +203,27 @@ static signed PLCIdentity (struct channel * channel, struct plcstation * plcstat
  *
  *--------------------------------------------------------------------*/
 
-signed PLCTopology (struct channel * channel, struct message * message, struct plctopology * plctopology) 
+signed PLCTopology (struct channel * channel, struct message * message, struct plctopology * plctopology)
 
 {
 	ssize_t packetsize;
 
 #if defined(INT6x00)
 
-	struct __packed vs_nw_info_request 
+	struct __packed vs_nw_info_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 	}
 	* request = (struct vs_nw_info_request *)(message);
-	struct __packed vs_nw_info_confirm 
+	struct __packed vs_nw_info_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t data [1];
 	}
 	* confirm = (struct vs_nw_info_confirm *)(message);
-	struct __packed station 
+	struct __packed station
 	{
 		uint8_t MAC [ETHER_ADDR_LEN];
 		uint8_t TEI;
@@ -232,7 +232,7 @@ signed PLCTopology (struct channel * channel, struct message * message, struct p
 		uint8_t AVGRX;
 	}
 	* station;
-	struct __packed network 
+	struct __packed network
 	{
 		uint8_t NID [7];
 		uint8_t SNID;
@@ -244,7 +244,7 @@ signed PLCTopology (struct channel * channel, struct message * message, struct p
 		struct station stations [1];
 	}
 	* network;
-	struct __packed networks 
+	struct __packed networks
 	{
 		uint8_t NUMAVLNS;
 		struct network networks [1];
@@ -253,15 +253,15 @@ signed PLCTopology (struct channel * channel, struct message * message, struct p
 
 #elif defined (AR7x00)
 
-	struct __packed vs_nw_info_request 
+	struct __packed vs_nw_info_request
 	{
-		struct ethernet_std ethernet;
+		struct ethernet_hdr ethernet;
 		struct qualcomm_fmi qualcomm;
 	}
 	* request = (struct vs_nw_info_request *)(message);
-	struct __packed vs_nw_info_confirm 
+	struct __packed vs_nw_info_confirm
 	{
-		struct ethernet_std ethernet;
+		struct ethernet_hdr ethernet;
 		struct qualcomm_fmi qualcomm;
 		uint8_t SUB_VERSION;
 		uint8_t Reserved;
@@ -269,7 +269,7 @@ signed PLCTopology (struct channel * channel, struct message * message, struct p
 		uint8_t DATA [1];
 	}
 	* confirm = (struct vs_nw_info_confirm *)(message);
-	struct __packed station 
+	struct __packed station
 	{
 		uint8_t MAC [ETHER_ADDR_LEN];
 		uint8_t TEI;
@@ -282,7 +282,7 @@ signed PLCTopology (struct channel * channel, struct message * message, struct p
 		uint16_t Reserved4;
 	}
 	* station;
-	struct __packed network 
+	struct __packed network
 	{
 		uint8_t NID [7];
 		uint8_t Reserved1 [2];
@@ -298,7 +298,7 @@ signed PLCTopology (struct channel * channel, struct message * message, struct p
 		struct station stations [1];
 	}
 	* network;
-	struct __packed networks 
+	struct __packed networks
 	{
 		uint8_t Reserved;
 		uint8_t NUMAVLNS;
@@ -314,7 +314,7 @@ signed PLCTopology (struct channel * channel, struct message * message, struct p
 	struct plcstation * plcstation;
 	byte bridges [255] [ETHER_ADDR_LEN];
 	unsigned bridge = LocalDevices (channel, message, bridges, (size_t)(sizeof (bridges)));
-	while (bridge--) 
+	while (bridge--)
 	{
 		memset (message, 0, sizeof (* message));
 		memcpy (channel-&gt;peer, bridges [bridge], sizeof (channel-&gt;peer));
@@ -333,20 +333,20 @@ signed PLCTopology (struct channel * channel, struct message * message, struct p
 #error &quot;Unspecified Atheros chipset&quot;
 #endif
 
-		if (sendpacket (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) &lt;= 0) 
+		if (sendpacket (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) &lt;= 0)
 		{
 			error (1, errno, CHANNEL_CANTSEND);
 		}
-		while ((packetsize = readpacket (channel, message, sizeof (* message))) &gt; 0) 
+		while ((packetsize = readpacket (channel, message, sizeof (* message))) &gt; 0)
 		{
 
 #if defined (INT6x00)
 
-			if (UnwantedMessage (confirm, packetsize, 0, (VS_NW_INFO | MMTYPE_CNF))) 
+			if (UnwantedMessage (confirm, packetsize, 0, (VS_NW_INFO | MMTYPE_CNF)))
 
 #elif defined (AR7x00)
 
-			if (UnwantedMessage (confirm, packetsize, 1, (VS_NW_INFO | MMTYPE_CNF))) 
+			if (UnwantedMessage (confirm, packetsize, 1, (VS_NW_INFO | MMTYPE_CNF)))
 
 #else
 #error &quot;Unspecified Atheros chipset&quot;
@@ -367,10 +367,10 @@ signed PLCTopology (struct channel * channel, struct message * message, struct p
 			PLCPlatform (channel, plcstation);
 			plcnetwork-&gt;plcstations++;
 			plcstation++;
-			while (networks-&gt;NUMAVLNS--) 
+			while (networks-&gt;NUMAVLNS--)
 			{
 				station = (struct station *)(&amp;network-&gt;stations);
-				while (network-&gt;NUMSTAS--) 
+				while (network-&gt;NUMSTAS--)
 				{
 					memset (plcstation, 0, sizeof (* plcstation));
 					plcstation-&gt;LOC = !memcmp (station-&gt;BDA, channel-&gt;host, sizeof (station-&gt;BDA));

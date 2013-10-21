@@ -6,7 +6,7 @@
 			StartFirmware1.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -19,28 +19,28 @@
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *
- *   struct StartFirmware1 (struct plc * plc, unsigned module, const struct nvm_header1 * nvm_header) 
+ *   struct StartFirmware1 (struct plc * plc, unsigned module, const struct nvm_header1 * nvm_header)
  *
  *   plc.h
  *
@@ -49,7 +49,7 @@
  *   that the firmware will actually start or continue to run so we
  *   wait for a response and report the result;
  *
- *   struct nvm_header1 must be little-endian order and ready to send 
+ *   struct nvm_header1 must be little-endian order and ready to send
  *   to the device;
  *
  *
@@ -67,7 +67,7 @@
 #include &quot;../tools/error.h&quot;
 #include &quot;../plc/plc.h&quot;
 
-signed StartFirmware1 (struct plc * plc, unsigned module, const struct nvm_header1 * nvm_header) 
+signed StartFirmware1 (struct plc * plc, unsigned module, const struct nvm_header1 * nvm_header)
 
 {
 	struct channel * channel = (struct channel *)(plc-&gt;channel);
@@ -77,10 +77,10 @@ signed StartFirmware1 (struct plc * plc, unsigned module, const struct nvm_heade
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_st_mac_request 
+	struct __packed vs_st_mac_request
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MODULEID;
 		uint8_t RESERVED [3];
 		uint32_t IMAGEBOOT;
@@ -89,10 +89,10 @@ signed StartFirmware1 (struct plc * plc, unsigned module, const struct nvm_heade
 		uint32_t IMAGESTART;
 	}
 	* request = (struct vs_st_mac_request *) (message);
-	struct __packed vs_st_mac_confirm 
+	struct __packed vs_st_mac_confirm
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std qualcomm;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 		uint8_t MODULEID;
 	}
@@ -112,17 +112,17 @@ signed StartFirmware1 (struct plc * plc, unsigned module, const struct nvm_heade
 	request-&gt;IMAGECHECKSUM = nvm_header-&gt;IMAGECHECKSUM;
 	request-&gt;IMAGESTART = nvm_header-&gt;ENTRYPOINT;
 	request-&gt;MODULEID = VS_MODULE_MAC;
-	if (SendMME (plc) &lt;= 0) 
+	if (SendMME (plc) &lt;= 0)
 	{
 		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
-	if (ReadMME (plc, 0, (VS_ST_MAC | MMTYPE_CNF)) &lt;= 0) 
+	if (ReadMME (plc, 0, (VS_ST_MAC | MMTYPE_CNF)) &lt;= 0)
 	{
 		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
 		return (-1);
 	}
-	if (confirm-&gt;MSTATUS) 
+	if (confirm-&gt;MSTATUS)
 	{
 		Failure (plc, PLC_WONTDOIT);
 		return (-1);

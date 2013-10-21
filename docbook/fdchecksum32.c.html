@@ -6,7 +6,7 @@
 			fdchecksum32.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -43,13 +43,13 @@
 
 #include &quot;../tools/memory.h&quot;
 
-uint32_t fdchecksum32 (int fd, register size_t extent, register uint32_t checksum) 
+uint32_t fdchecksum32 (int fd, register size_t extent, register uint32_t checksum)
 
 {
 	uint32_t memory;
-	while (extent &gt;= sizeof (memory)) 
+	while (extent &gt;= sizeof (memory))
 	{
-		if (read (fd, &amp;memory, sizeof (memory)) != sizeof (memory)) 
+		if (read (fd, &amp;memory, sizeof (memory)) != sizeof (memory))
 		{
 			return (-1);
 		}

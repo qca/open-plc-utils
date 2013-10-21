@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			tlv.h
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='timer.h.html' title=' timer.h '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='types.h.html' title=' types.h '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *
+ *   Copyright (c) 2011 Qualcomm Atheros Inc.
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
+ *   in all copies.
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
+ *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ *--------------------------------------------------------------------*/
+
+/*====================================================================*
+ *
+ *   tlv.h - nvm file format definitions and declarations;
+ *
+ *   Contributor(s):
+ *      Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef TLV_HEADER
+#define TLV_HEADER
+
+/*====================================================================*
+ *   macros;
+ *--------------------------------------------------------------------*/
+
+#define TLVSPAN(node) (sizeof(*(node))-sizeof((node)-&gt;data)+ LE32TOH((node)-&gt;size)) 
+#define TLVDUMP(node) hexdump(&amp;(node)-&gt;data,0,(node)-&gt;size,stderr) 
+
+/*====================================================================*
+ *   variables;
+ *--------------------------------------------------------------------*/
+
+#ifndef __GNUC__
+#pragma pack (push,1)
+#endif
+
+typedef struct __packed TLVNode
+
+{
+	uint32_t type;
+	uint32_t size;
+	uint32_t data;
+}
+
+TLVNode;
+
+#ifndef __GNUC__
+#pragma pack (pop)
+#endif
+
+/*====================================================================*
+ *
+ *--------------------------------------------------------------------*/
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='timer.h.html' title=' timer.h '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='types.h.html' title=' types.h '>NEXT</a>]
+			</div>
+		</body>
+	</html>

@@ -6,7 +6,7 @@
 			dataspec.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -25,11 +25,11 @@
  *   memory.h
  *
  *   encode a memory region with a variable-length hexadecimal string;
- *   return the number of bytes encoded or terminate the program on 
- *   error; 
+ *   return the number of bytes encoded or terminate the program on
+ *   error;
  *
  *   the number of octets in string must equal the memory extent or
- *   an error will occur; octets may be seperated by semi-colons; 
+ *   an error will occur; octets may be seperated by semi-colons;
  *   empty octets are illegal;
  *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
@@ -48,53 +48,53 @@
 #include &quot;../tools/number.h&quot;
 #include &quot;../tools/error.h&quot;
 
-size_t dataspec (char const * string, void * memory, size_t extent) 
+size_t dataspec (char const * string, void * memory, size_t extent)
 
 {
 	char const * number = string;
 	byte * origin = (byte *)(memory);
 	byte * offset = (byte *)(memory);
-	if (!number) 
+	if (!number)
 	{
 		error (1, EFAULT, &quot;dataspec&quot;);
 	}
 
 #ifdef WIN32
 
-	while (isspace (*number)) 
+	while (isspace (*number))
 	{
 		number++;
 	}
 
 #endif
 
-	while ((*number) &amp;&amp; (extent)) 
+	while ((*number) &amp;&amp; (extent))
 	{
 		unsigned digit = 0;
 
 #ifdef WIN32
 
-		if (isspace (*number)) 
+		if (isspace (*number))
 		{
 			break;
 		}
 
 #endif
 
-		if ((offset &gt; origin) &amp;&amp; (*number == HEX_EXTENDER)) 
+		if ((offset &gt; origin) &amp;&amp; (*number == HEX_EXTENDER))
 		{
 			number++;
 		}
-		if ((digit = todigit (*number++)) &gt;= RADIX_HEX) 
+		if ((digit = todigit (*number++)) &gt;= RADIX_HEX)
 		{
 			error (1, EINVAL, &quot;You said '%s' but I want a hex digit&quot;, string);
 		}
 		*offset = digit &lt;&lt; 4;
-		if (!*number) 
+		if (!*number)
 		{
 			error (1, EINVAL, &quot;You said '%s' but I want another hex digit&quot;, string);
 		}
-		if ((digit = todigit (*number++)) &gt;= 0x10) 
+		if ((digit = todigit (*number++)) &gt;= 0x10)
 		{
 			error (1, EINVAL, &quot;You said '%s' but I want valid hex data&quot;, string);
 		}
@@ -105,18 +105,18 @@ size_t dataspec (char const * string, void * memory, size_t extent)
 
 #ifdef WIN32
 
-	while (isspace (*number)) 
+	while (isspace (*number))
 	{
 		number++;
 	}
 
 #endif
 
-	if (*number &amp;&amp; !extent) 
+	if (*number &amp;&amp; !extent)
 	{
 		error (1, EINVAL, &quot;'%s' exceeds %d bytes&quot;, string, (unsigned)(offset - origin - extent));
 	}
-	if (*number) 
+	if (*number)
 	{
 		error (1, EINVAL, &quot;String '%s' contains trash&quot;, string);
 	}

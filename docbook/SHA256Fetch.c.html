@@ -6,7 +6,7 @@
 			SHA256Fetch.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -21,18 +21,18 @@
 /*====================================================================*
  *
  *   void SHA256Fetch (struct sha256 * sha256,  uint8_t digest []);
- *   
+ *
  *   SHA256.h
- *   
+ *
  *   read the SHA256 digest; this function works like function read()
  *   but the function returns no value and the digest buffer is fixed
  *   length;
  *
  *   to start a digest, use function SHA256Reset(); to write data to
  *   the digest use function SHA256Write();
- *   
- *   Read standard FIPS180-2 sec 5.3.2 for an explanation;     
- *   
+ *
+ *   Read standard FIPS180-2 sec 5.3.2 for an explanation;
+ *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
@@ -44,7 +44,7 @@
 
 #include &quot;../key/SHA256.h&quot;
 
-static void encode (uint8_t memory [], uint32_t number) 
+static void encode (uint8_t memory [], uint32_t number)
 
 {
 	*memory++ = (uint8_t)(number &gt;&gt; 24);
@@ -54,7 +54,7 @@ static void encode (uint8_t memory [], uint32_t number)
 	return;
 }
 
-void SHA256Fetch (struct sha256 * sha256, uint8_t digest []) 
+void SHA256Fetch (struct sha256 * sha256, uint8_t digest [])
 
 {
 	unsigned word;
@@ -67,7 +67,7 @@ void SHA256Fetch (struct sha256 * sha256, uint8_t digest [])
 	encode (&amp;bits [4], lower);
 	SHA256Write (sha256, sha256-&gt;extra, extra);
 	SHA256Write (sha256, bits, sizeof (bits));
-	for (word = 0; word &lt; sizeof (sha256-&gt;state) / sizeof (uint32_t); word++) 
+	for (word = 0; word &lt; sizeof (sha256-&gt;state) / sizeof (uint32_t); word++)
 	{
 		encode (digest, sha256-&gt;state [word]);
 		digest += sizeof (uint32_t);

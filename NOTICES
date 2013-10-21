@@ -14,6 +14,8 @@ Copyright (c) 2012 QUALCOMM ATHEROS Incorporated. All rights reserved. QUALCOMM 
 
 4) Qualcomm Atheros has included WinPcap header files that are known to work with this version of the Qualcomm Atheros Powerline Toolkit. Winpcap files are only required when compiling the toolkit for Microsoft Windows. The WinPcap license appears below.
 
+5) As of 15-Oct-2013, Qualcomm Atheros, Inc. decided to migrate the license of this Powerline Toolkit to more clearly communicate our expectations regarding the licensing and usage of the Powerline Toolkit. We do not expect this will have a practical impact on any current or future users of the Powerline Toolkit. Older versions of the Powerline Toolkit continue to be available under the previous license. 
+
 # ====================================================================
 # Motley Tools License (ISC)
 # --------------------------------------------------------------------

@@ -6,7 +6,7 @@
 			HPAVKeyNMK.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -19,38 +19,38 @@
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *   
+ *
  *   void HPAVKeyNMK (uint8_t NMK [], const char * string);
  *
  *   HPAVKey.h
- *   
- *   compute the HomePlugAV compliant Network Membership Key (NMK) 
- *   for a NUL terminated string; return the key in buffer NMK []; 
- *   the key will be HPAVKEY_NMK_LEN bytes as defined in HPAVKey.h; 
  *
- *   seed the digest then salt the digest then rehash the digest 999 
- *   times per HomePlug AV Specification; 
- *   
+ *   compute the HomePlugAV compliant Network Membership Key (NMK)
+ *   for a NUL terminated string; return the key in buffer NMK [];
+ *   the key will be HPAVKEY_NMK_LEN bytes as defined in HPAVKey.h;
+ *
+ *   seed the digest then salt the digest then rehash the digest 999
+ *   times per HomePlug AV Specification;
+ *
  *
  *   Contributor(s);
  *	Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
@@ -65,12 +65,12 @@
 #include &quot;../key/HPAVKey.h&quot;
 #include &quot;../key/SHA256.h&quot;
 
-void HPAVKeyNMK (uint8_t NMK [], const char * string) 
+void HPAVKeyNMK (uint8_t NMK [], const char * string)
 
 {
 	struct sha256 sha256;
 	uint8_t digest [SHA256_DIGEST_LENGTH];
-	const uint8_t secret [] = 
+	const uint8_t secret [] =
 	{
 		0x08,
 		0x85,
@@ -86,7 +86,7 @@ void HPAVKeyNMK (uint8_t NMK [], const char * string)
 	SHA256Write (&amp;sha256, string, strlen (string));
 	SHA256Write (&amp;sha256, secret, sizeof (secret));
 	SHA256Fetch (&amp;sha256, digest);
-	while (rehash--) 
+	while (rehash--)
 	{
 		SHA256Reset (&amp;sha256);
 		SHA256Write (&amp;sha256, digest, sizeof (digest));

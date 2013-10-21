@@ -6,7 +6,7 @@
 			pcap_nameindex.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -19,35 +19,35 @@
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
  *
- *   struct if_nameindex * pcap_nameindex (void) 
+ *   struct if_nameindex * pcap_nameindex (void)
  *
  *   ether.h
  *
  *   a WinPcap version of POSIX if_nameindex function; return error
  *   in non-pcap environments;
  *
- *   see The Open Group Base Specifications Issue 6 IEEE Std 1003.1, 
+ *   see The Open Group Base Specifications Issue 6 IEEE Std 1003.1,
  *   2004 Edition for a description of this function;
  *
  *
@@ -62,7 +62,7 @@
 
 #include &quot;../ether/ether.h&quot;
 
-struct if_nameindex * pcap_nameindex (void) 
+struct if_nameindex * pcap_nameindex (void)
 
 {
 
@@ -71,17 +71,17 @@ struct if_nameindex * pcap_nameindex (void)
 	char buffer [PCAP_ERRBUF_SIZE];
 	pcap_if_t * devices = (pcap_if_t *)(0);
 	pcap_if_t * device;
-	if (pcap_findalldevs (&amp;devices, buffer) != -1) 
+	if (pcap_findalldevs (&amp;devices, buffer) != -1)
 	{
 		struct if_nameindex * ifs;
 		struct if_nameindex * ifp;
 		unsigned count = 1;
-		for (device = devices; device; device = device-&gt;next) 
+		for (device = devices; device; device = device-&gt;next)
 		{
 			count++;
 		}
 		ifp = ifs = (struct if_nameindex *)(malloc (count * sizeof (struct if_nameindex)));
-		if (ifs) for (device = devices; device; device = device-&gt;next) 
+		if (ifs) for (device = devices; device; device = device-&gt;next)
 		{
 			ifp-&gt;if_index = device-&gt;index;
 			ifp-&gt;if_name = strdup (device-&gt;name);

@@ -6,7 +6,7 @@
 			SHA256Write.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -21,18 +21,18 @@
 /*====================================================================*
  *
  *   void SHA256Write (struct sha256 * sha256, void const * memory, size_t extent);
- *   
+ *
  *   SHA256.h
- *   
+ *
  *   write a block of data to an SHA256 digest; this function behaves
  *   like function write() but returns no value and does not fail; an
  *   unlimited amount of data may be written using successive writes;
  *
  *   to start a new digest, use function SHA266Reset(); to read the
  *   digest, use function SHA256Fetch();
- *   
- *   Read standard FIPS180-2 sec 5.3.2 for an explanation;     
- *   
+ *
+ *   Read standard FIPS180-2 sec 5.3.2 for an explanation;
+ *
  *   Motley Tools by Charles Maier &lt;cmaier@cmassoc.net&gt;;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
@@ -44,21 +44,21 @@
 
 #include &quot;../key/SHA256.h&quot;
 
-void SHA256Write (struct sha256 * sha256, void const * memory, size_t extent) 
+void SHA256Write (struct sha256 * sha256, void const * memory, size_t extent)
 
 {
-	if (extent) 
+	if (extent)
 	{
 		uint8_t * buffer = (uint8_t *)(memory);
 		unsigned left = sha256-&gt;count [0] &amp; 0x3F;
 		unsigned fill = sizeof (sha256-&gt;block) - left;
 		sha256-&gt;count [0] += (uint32_t)(extent);
 		sha256-&gt;count [0] &amp;= 0xFFFFFFFF;
-		if (sha256-&gt;count [0] &lt; extent) 
+		if (sha256-&gt;count [0] &lt; extent)
 		{
 			sha256-&gt;count [1]++;
 		}
-		if ((left) &amp;&amp; (extent &gt;= fill)) 
+		if ((left) &amp;&amp; (extent &gt;= fill))
 		{
 			memcpy (sha256-&gt;block + left, buffer, fill);
 			SHA256Block (sha256, sha256-&gt;block);
@@ -66,13 +66,13 @@ void SHA256Write (struct sha256 * sha256, void const * memory, size_t extent)
 			buffer += fill;
 			left = 0;
 		}
-		while (extent &gt;= sizeof (sha256-&gt;block)) 
+		while (extent &gt;= sizeof (sha256-&gt;block))
 		{
 			SHA256Block (sha256, buffer);
 			extent -= sizeof (sha256-&gt;block);
 			buffer += sizeof (sha256-&gt;block);
 		}
-		if (extent) 
+		if (extent)
 		{
 			memcpy (sha256-&gt;block + left, buffer, extent);
 		}

@@ -6,7 +6,7 @@
 			xmlread.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -24,8 +24,8 @@
  *
  *   node.h
  *
- *   open an XML file and return the parse tree root;     
- *   
+ *   open an XML file and return the parse tree root;
+ *
  *   the entire file is read into a buffer associated with the text
  *   member in the root node; the buffer is then split into strings
  *   referenced by child nodes, forming a hierarchial string vector;
@@ -50,25 +50,25 @@
 #include &quot;../tools/files.h&quot;
 #include &quot;../nodes/node.h&quot;
 
-signed xmlread (NODE * node, char const * filename) 
+signed xmlread (NODE * node, char const * filename)
 
 {
 	struct stat stat;
 	signed fd;
 	memset (node, 0, sizeof (NODE));
-	if (lstat (filename, &amp;stat)) 
+	if (lstat (filename, &amp;stat))
 	{
 		error (1, errno, FILE_CANTSTAT, filename);
 	}
-	if (!(node-&gt;text = malloc (stat.st_size + 1))) 
+	if (!(node-&gt;text = malloc (stat.st_size + 1)))
 	{
 		error (1, errno, FILE_CANTLOAD, filename);
 	}
-	if ((fd = open (filename, O_BINARY|O_RDONLY)) == -1) 
+	if ((fd = open (filename, O_BINARY|O_RDONLY)) == -1)
 	{
 		error (1, errno, FILE_CANTOPEN, filename);
 	}
-	if (read (fd, node-&gt;text, stat.st_size) != stat.st_size) 
+	if (read (fd, node-&gt;text, stat.st_size) != stat.st_size)
 	{
 		error (1, errno, FILE_CANTREAD, filename);
 	}

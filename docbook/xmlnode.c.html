@@ -6,7 +6,7 @@
 			xmlnode.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -23,7 +23,7 @@
  *   NODE * xmlnode (NODE * root);
  *
  *   node.h
- *   
+ *
  *   create an empty node and attach it as the last child below the
  *   root node;
  *
@@ -41,19 +41,19 @@
 #include &quot;../nodes/node.h&quot;
 #include &quot;../tools/memory.h&quot;
 
-NODE * xmlnode (NODE * root) 
+NODE * xmlnode (NODE * root)
 
 {
 	NODE * node = NEW (NODE);
 	memset (node, 0, sizeof (NODE));
-	if (!root) 
+	if (!root)
 	{
 		return (node);
 	}
-	if (root-&gt;below) 
+	if (root-&gt;below)
 	{
 		NODE * temp = root-&gt;below;
-		while (temp-&gt;after) 
+		while (temp-&gt;after)
 		{
 			temp = temp-&gt;after;
 		}

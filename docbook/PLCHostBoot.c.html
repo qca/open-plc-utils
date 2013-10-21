@@ -6,7 +6,7 @@
 			PLCHostBoot.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -19,28 +19,28 @@
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*&quot;
  *
- *   PLCHostBoot.c - 
+ *   PLCHostBoot.c -
  *
  *
  *   Contributor(s):
@@ -66,18 +66,18 @@
 #define SOCKETNAME &quot;/tmp/socket&quot;
 
 static bool done = false;
-void terminate (signo_t signal) 
+void terminate (signo_t signal)
 
 {
 	done = true;
 	return;
 }
 
-static signed opensocket (char const * socketname) 
+static signed opensocket (char const * socketname)
 
 {
 	signed fd;
-	struct sockaddr_un sockaddr_un = 
+	struct sockaddr_un sockaddr_un =
 	{
 
 #ifdef __OpenBSD__
@@ -97,22 +97,22 @@ static signed opensocket (char const * socketname)
 
 #endif
 
-	if (unlink (sockaddr_un.sun_path)) 
+	if (unlink (sockaddr_un.sun_path))
 	{
-		if (errno != ENOENT) 
+		if (errno != ENOENT)
 		{
 			error (1, errno, &quot;%s&quot;, sockaddr_un.sun_path);
 		}
 	}
-	if ((fd = socket (AF_UNIX, SOCK_DGRAM, 0)) == -1) 
+	if ((fd = socket (AF_UNIX, SOCK_DGRAM, 0)) == -1)
 	{
 		error (1, errno, &quot;%s&quot;, sockaddr_un.sun_path);
 	}
-	if (bind (fd, (struct sockaddr *)(&amp;sockaddr_un), sizeof (sockaddr_un)) == -1) 
+	if (bind (fd, (struct sockaddr *)(&amp;sockaddr_un), sizeof (sockaddr_un)) == -1)
 	{
 		error (1, errno, &quot;%s&quot;, sockaddr_un.sun_path);
 	}
-	if (chmod (sockaddr_un.sun_path, 0666) == -1) 
+	if (chmod (sockaddr_un.sun_path, 0666) == -1)
 	{
 		error (1, errno, &quot;%s&quot;, sockaddr_un.sun_path);
 	}
@@ -120,21 +120,21 @@ static signed opensocket (char const * socketname)
 }
 
 /*====================================================================*
- *  
+ *
  *   signed PLCHostBoot (struct plc * plc, char const * socket, signed timer);
- *  
+ *
  *   int6k.h
  *
- *   wait indefinitely for VS_HOST_ACTION messages; service the device 
+ *   wait indefinitely for VS_HOST_ACTION messages; service the device
  *   only; it will stop dead - like a bug! - on error;
- *   
+ *
  *
  *   Contributor(s):
  *      Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
-signed PLCHostBoot (struct plc * plc, char const * socket, unsigned timer) 
+signed PLCHostBoot (struct plc * plc, char const * socket, unsigned timer)
 
 {
 	byte buffer [3000];
@@ -146,10 +146,10 @@ signed PLCHostBoot (struct plc * plc, char const * socket, unsigned timer)
 #pragma pack (push,1)
 #endif
 
-	struct __packed vs_host_action_ind 
+	struct __packed vs_host_action_ind
 	{
-		struct ethernet_std ethernet;
-		struct qualcomm_std intellon;
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr intellon;
 		uint8_t MACTION;
 		uint8_t MAJOR_VERSION;
 		uint8_t MINOR_VERSION;
@@ -167,14 +167,14 @@ signed PLCHostBoot (struct plc * plc, char const * socket, unsigned timer)
 	signed status;
 	memset (buffer, 0, sizeof (buffer));
 	write (fd, MESSAGE, strlen (MESSAGE));
-	while (!done) 
+	while (!done)
 	{
 		status = ReadMME (plc, 0, (VS_HOST_ACTION | MMTYPE_IND));
-		if (status &lt; 0) 
+		if (status &lt; 0)
 		{
 			break;
 		}
-		if (status &lt; 1) 
+		if (status &lt; 1)
 		{
 			PLCTopology (channel, message, plctopology);
 			PLCTopologyPrint (plctopology);
@@ -182,103 +182,103 @@ signed PLCHostBoot (struct plc * plc, char const * socket, unsigned timer)
 		}
 		action = indicate-&gt;MACTION;
 		memcpy (channel-&gt;peer, indicate-&gt;ethernet.OSA, sizeof (channel-&gt;peer));
-		if (HostActionResponse (plc)) 
+		if (HostActionResponse (plc))
 		{
 			return (-1);
 		}
-		if (action == 0x00) 
+		if (action == 0x00)
 		{
-			if (BootDevice1 (plc)) 
+			if (BootDevice1 (plc))
 			{
 				return (-1);
 			}
-			if (_anyset (plc-&gt;flags, PLC_FLASH_DEVICE)) 
+			if (_anyset (plc-&gt;flags, PLC_FLASH_DEVICE))
 			{
 				FlashDevice1 (plc);
 			}
 			continue;
 		}
-		if (action == 0x01) 
+		if (action == 0x01)
 		{
 			close (plc-&gt;NVM.file);
-			if (ReadFirmware1 (plc)) 
+			if (ReadFirmware1 (plc))
 			{
 				return (-1);
 			}
-			if ((plc-&gt;NVM.file = open (plc-&gt;NVM.name = plc-&gt;nvm.name, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc-&gt;NVM.file = open (plc-&gt;NVM.name = plc-&gt;nvm.name, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, &quot;%s&quot;, plc-&gt;NVM.name);
 			}
-			if (ResetDevice (plc)) 
+			if (ResetDevice (plc))
 			{
 				return (-1);
 			}
 			continue;
 		}
-		if (action == 0x02) 
+		if (action == 0x02)
 		{
 			close (plc-&gt;PIB.file);
-			if (ReadParameters (plc)) 
+			if (ReadParameters (plc))
 			{
 				return (-1);
 			}
-			if ((plc-&gt;PIB.file = open (plc-&gt;PIB.name = plc-&gt;pib.name, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc-&gt;PIB.file = open (plc-&gt;PIB.name = plc-&gt;pib.name, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, &quot;%s&quot;, plc-&gt;PIB.name);
 			}
-			if (ResetDevice (plc)) 
+			if (ResetDevice (plc))
 			{
 				return (-1);
 			}
 			continue;
 		}
-		if (action == 0x03) 
+		if (action == 0x03)
 		{
 			close (plc-&gt;PIB.file);
-			if (ReadParameters (plc)) 
+			if (ReadParameters (plc))
 			{
 				return (-1);
 			}
-			if ((plc-&gt;PIB.file = open (plc-&gt;PIB.name = plc-&gt;pib.name, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc-&gt;PIB.file = open (plc-&gt;PIB.name = plc-&gt;pib.name, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, &quot;%s&quot;, plc-&gt;PIB.name);
 			}
 			close (plc-&gt;NVM.file);
-			if (ReadFirmware1 (plc)) 
+			if (ReadFirmware1 (plc))
 			{
 				return (-1);
 			}
-			if ((plc-&gt;NVM.file = open (plc-&gt;NVM.name = plc-&gt;nvm.name, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc-&gt;NVM.file = open (plc-&gt;NVM.name = plc-&gt;nvm.name, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, &quot;%s&quot;, plc-&gt;NVM.name);
 			}
-			if (ResetDevice (plc)) 
+			if (ResetDevice (plc))
 			{
 				return (-1);
 			}
 			continue;
 		}
-		if (action == 0x04) 
+		if (action == 0x04)
 		{
-			if (InitDevice (plc)) 
+			if (InitDevice (plc))
 			{
 				return (-1);
 			}
 			continue;
 		}
-		if (action == 0x05) 
+		if (action == 0x05)
 		{
 			close (plc-&gt;NVM.file);
-			if ((plc-&gt;NVM.file = open (plc-&gt;NVM.name = NVM, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc-&gt;NVM.file = open (plc-&gt;NVM.name = NVM, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, &quot;%s&quot;, plc-&gt;NVM.name);
 			}
 			close (plc-&gt;PIB.file);
-			if ((plc-&gt;PIB.file = open (plc-&gt;PIB.name = PIB, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc-&gt;PIB.file = open (plc-&gt;PIB.name = PIB, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, &quot;%s&quot;, plc-&gt;PIB.name);
 			}
-			if (ResetDevice (plc)) 
+			if (ResetDevice (plc))
 			{
 				return (-1);
 			}
@@ -287,11 +287,11 @@ signed PLCHostBoot (struct plc * plc, char const * socket, unsigned timer)
 		if (action == 0x06)
 		{
 			close (plc-&gt;PIB.file);
-			if (ReadParameters (plc)) 
+			if (ReadParameters (plc))
 			{
 				return (-1);
 			}
-			if ((plc-&gt;PIB.file = open (plc-&gt;PIB.name = plc-&gt;pib.name, O_BINARY|O_RDONLY)) == -1) 
+			if ((plc-&gt;PIB.file = open (plc-&gt;PIB.name = plc-&gt;pib.name, O_BINARY|O_RDONLY)) == -1)
 			{
 				error (1, errno, &quot;%s&quot;, plc-&gt;PIB.name);
 			}

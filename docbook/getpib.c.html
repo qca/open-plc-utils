@@ -6,7 +6,7 @@
 			getpib.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -19,23 +19,23 @@
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -102,10 +102,10 @@
  *
  *--------------------------------------------------------------------*/
 
-static void getmemory (byte const * memory, size_t extent, char const * object, size_t length) 
+static void getmemory (byte const * memory, size_t extent, char const * object, size_t length)
 
 {
-	if (length &gt; extent) 
+	if (length &gt; extent)
 	{
 		error (1, ECANCELED, &quot;%s exceeds PIB length of &quot; SIZE_T_SPEC &quot; bytes&quot;, object, length);
 	}
@@ -120,15 +120,15 @@ static void getmemory (byte const * memory, size_t extent, char const * object, 
  *
  *--------------------------------------------------------------------*/
 
-static void getstring (byte const * memory, size_t extent, char const * object, size_t length) 
+static void getstring (byte const * memory, size_t extent, char const * object, size_t length)
 
 {
 	char const * string = (char const *)(memory);
-	if (length &gt; extent) 
+	if (length &gt; extent)
 	{
 		error (1, ECANCELED, &quot;%s exceeds PIB length &quot; SIZE_T_SPEC &quot; bytes&quot;, object, length);
 	}
-	while (isprint (*string) &amp;&amp; (length--)) 
+	while (isprint (*string) &amp;&amp; (length--))
 	{
 		putc (*string++, stdout);
 	}
@@ -144,19 +144,19 @@ static void getstring (byte const * memory, size_t extent, char const * object, 
  *
  *--------------------------------------------------------------------*/
 
-static void getpib (int argc, char const * argv [], byte const * memory, size_t extent) 
+static void getpib (int argc, char const * argv [], byte const * memory, size_t extent)
 
 {
 	unsigned length = 0;
-	while ((argc) &amp;&amp; (*argv)) 
+	while ((argc) &amp;&amp; (*argv))
 	{
 		char const * object = * argv;
 		argc--;
 		argv++;
-		if (!strcmp (object, &quot;byte&quot;)) 
+		if (!strcmp (object, &quot;byte&quot;))
 		{
 			uint8_t * number = (uint8_t *)(memory);
-			if (sizeof (* number) &gt; extent) 
+			if (sizeof (* number) &gt; extent)
 			{
 				error (1, ECANCELED, &quot;%s exceeds PIB extent &quot; SIZE_T_SPEC, object, extent);
 			}
@@ -164,10 +164,10 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			memory += sizeof (* number);
 			extent -= sizeof (* number);
 		}
-		else if (!strcmp (object, &quot;word&quot;)) 
+		else if (!strcmp (object, &quot;word&quot;))
 		{
 			uint16_t * number = (uint16_t *)(memory);
-			if (sizeof (* number) &gt; extent) 
+			if (sizeof (* number) &gt; extent)
 			{
 				error (1, ECANCELED, &quot;%s exceeds PIB extent &quot; SIZE_T_SPEC, object, extent);
 			}
@@ -175,10 +175,10 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			memory += sizeof (* number);
 			extent -= sizeof (* number);
 		}
-		else if (!strcmp (object, &quot;long&quot;)) 
+		else if (!strcmp (object, &quot;long&quot;))
 		{
 			uint32_t * number = (uint32_t *)(memory);
-			if (sizeof (* number) &gt; extent) 
+			if (sizeof (* number) &gt; extent)
 			{
 				error (1, ECANCELED, &quot;%s exceeds PIB extent &quot; SIZE_T_SPEC, object, extent);
 			}
@@ -186,10 +186,10 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			memory += sizeof (* number);
 			extent -= sizeof (* number);
 		}
-		else if (!strcmp (object, &quot;huge&quot;)) 
+		else if (!strcmp (object, &quot;huge&quot;))
 		{
 			uint64_t * number = (uint64_t *)(memory);
-			if (sizeof (* number) &gt; extent) 
+			if (sizeof (* number) &gt; extent)
 			{
 				error (1, ECANCELED, &quot;%s exceeds PIB extent &quot; SIZE_T_SPEC, object, extent);
 			}
@@ -200,10 +200,10 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 
 #if 1
 
-		else if (!strcmp (object, &quot;xbyte&quot;)) 
+		else if (!strcmp (object, &quot;xbyte&quot;))
 		{
 			uint8_t * number = (uint8_t *)(memory);
-			if (sizeof (* number) &gt; extent) 
+			if (sizeof (* number) &gt; extent)
 			{
 				error (1, ECANCELED, &quot;%s exceeds PIB extent &quot; SIZE_T_SPEC, object, extent);
 			}
@@ -211,10 +211,10 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			memory += sizeof (* number);
 			extent -= sizeof (* number);
 		}
-		else if (!strcmp (object, &quot;xword&quot;)) 
+		else if (!strcmp (object, &quot;xword&quot;))
 		{
 			uint16_t * number = (uint16_t *)(memory);
-			if (sizeof (* number) &gt; extent) 
+			if (sizeof (* number) &gt; extent)
 			{
 				error (1, ECANCELED, &quot;%s exceeds PIB extent &quot; SIZE_T_SPEC, object, extent);
 			}
@@ -222,10 +222,10 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			memory += sizeof (* number);
 			extent -= sizeof (* number);
 		}
-		else if (!strcmp (object, &quot;xlong&quot;)) 
+		else if (!strcmp (object, &quot;xlong&quot;))
 		{
 			uint32_t * number = (uint32_t *)(memory);
-			if (sizeof (* number) &gt; extent) 
+			if (sizeof (* number) &gt; extent)
 			{
 				error (1, ECANCELED, &quot;%s exceeds PIB extent &quot; SIZE_T_SPEC, object, extent);
 			}
@@ -233,10 +233,10 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			memory += sizeof (* number);
 			extent -= sizeof (* number);
 		}
-		else if (!strcmp (object, &quot;xhuge&quot;)) 
+		else if (!strcmp (object, &quot;xhuge&quot;))
 		{
 			uint64_t * number = (uint64_t *)(memory);
-			if (sizeof (* number) &gt; extent) 
+			if (sizeof (* number) &gt; extent)
 			{
 				error (1, ECANCELED, &quot;%s exceeds PIB extent &quot; SIZE_T_SPEC, object, extent);
 			}
@@ -247,10 +247,10 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 
 #endif
 
-		else if (!strcmp (object, &quot;mac&quot;)) 
+		else if (!strcmp (object, &quot;mac&quot;))
 		{
 			length = ETHER_ADDR_LEN;
-			if (length &gt; extent) 
+			if (length &gt; extent)
 			{
 				error (1, ECANCELED, &quot;%s exceeds PIB extent &quot; SIZE_T_SPEC, object, extent);
 			}
@@ -258,10 +258,10 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			memory += length;
 			extent -= length;
 		}
-		else if (!strcmp (object, &quot;key&quot;)) 
+		else if (!strcmp (object, &quot;key&quot;))
 		{
 			length = PIB_KEY_LEN;
-			if (length &gt; extent) 
+			if (length &gt; extent)
 			{
 				error (1, ECANCELED, &quot;%s exceeds PIB extent &quot; SIZE_T_SPEC, object, extent);
 			}
@@ -269,10 +269,10 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			memory += length;
 			extent -= length;
 		}
-		else if (!strcmp (object, &quot;hfid&quot;)) 
+		else if (!strcmp (object, &quot;hfid&quot;))
 		{
 			length = PIB_HFID_LEN;
-			if (length &gt; extent) 
+			if (length &gt; extent)
 			{
 				error (1, ECANCELED, &quot;%s exceeds PIB extent &quot; SIZE_T_SPEC, object, extent);
 			}
@@ -283,10 +283,10 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 
 #if 1
 
-		else if (!strcmp (object, &quot;adminusername&quot;) || !strcmp (object, &quot;adminpassword&quot;) || !strcmp (object, &quot;accessusername&quot;)) 
+		else if (!strcmp (object, &quot;adminusername&quot;) || !strcmp (object, &quot;adminpassword&quot;) || !strcmp (object, &quot;accessusername&quot;))
 		{
 			length = PIB_NAME_LEN + 1;
-			if (length &gt; extent) 
+			if (length &gt; extent)
 			{
 				error (1, ECANCELED, &quot;%s exceeds PIB extent &quot; SIZE_T_SPEC, object, extent);
 			}
@@ -294,10 +294,10 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			memory += length;
 			extent -= length;
 		}
-		else if (!strcmp (object, &quot;accesspassword&quot;)) 
+		else if (!strcmp (object, &quot;accesspassword&quot;))
 		{
 			length = PIB_HFID_LEN + 1;
-			if (length &gt; extent) 
+			if (length &gt; extent)
 			{
 				error (1, ECANCELED, &quot;%s exceeds PIB extent &quot; SIZE_T_SPEC, object, extent);
 			}
@@ -305,7 +305,7 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			memory += length;
 			extent -= length;
 		}
-		else if (!strcmp (object, &quot;username&quot;) || !strcmp (object, &quot;password&quot;) || !strcmp (object, &quot;url&quot;)) 
+		else if (!strcmp (object, &quot;username&quot;) || !strcmp (object, &quot;password&quot;) || !strcmp (object, &quot;url&quot;))
 		{
 			length = PIB_TEXT_LEN + 1;
 			getstring (memory, extent, object, length);
@@ -315,9 +315,9 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 
 #endif
 
-		else if (!strcmp (object, &quot;data&quot;)) 
+		else if (!strcmp (object, &quot;data&quot;))
 		{
-			if (!* argv) 
+			if (!* argv)
 			{
 				error (1, EINVAL, &quot;%s needs a length&quot;, object);
 			}
@@ -328,9 +328,9 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			argc--;
 			argv++;
 		}
-		else if (!strcmp (object, &quot;text&quot;)) 
+		else if (!strcmp (object, &quot;text&quot;))
 		{
-			if (!* argv) 
+			if (!* argv)
 			{
 				error (1, EINVAL, &quot;%s needs a length&quot;, object);
 			}
@@ -341,9 +341,9 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			argc--;
 			argv++;
 		}
-		else if (!strcmp (object, &quot;skip&quot;)) 
+		else if (!strcmp (object, &quot;skip&quot;))
 		{
-			if (!* argv) 
+			if (!* argv)
 			{
 				error (1, EINVAL, &quot;%s needs a length&quot;, object);
 			}
@@ -354,11 +354,11 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			argv++;
 			continue;
 		}
-		else 
+		else
 		{
 			error (1, ENOTSUP, &quot;%s&quot;, object);
 		}
-		if ((argc) &amp;&amp; (* argv)) 
+		if ((argc) &amp;&amp; (* argv))
 		{
 			putc (' ', stdout);
 		}
@@ -368,14 +368,14 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 /*====================================================================*
  *
  *   int main (int argc, char const * argv []);
- *   
+ *
  *
  *--------------------------------------------------------------------*/
 
-int main (int argc, char const * argv []) 
+int main (int argc, char const * argv [])
 
 {
-	static char const * optv [] = 
+	static char const * optv [] =
 	{
 		&quot;qvn&quot;,
 		&quot;file offset type [size]\n\n\tstandard-length types are 'byte'|'word'|'long'|'huge'|'hfid'|'mac'|'key'\n\tvariable-length types are 'data'|'text'|'skip'&quot;,
@@ -394,9 +394,9 @@ int main (int argc, char const * argv [])
 	signed c;
 	optind = 1;
 	opterr = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1) 
+	while ((c = getoptv (argc, argv, optv)) != -1)
 	{
-		switch (c) 
+		switch (c)
 		{
 		case 'n':
 			_setbits (flags, SETPIB_NEWLINE);
@@ -413,28 +413,28 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (!argc) 
+	if (!argc)
 	{
 		error (1, 0, &quot;No file to read&quot;);
 	}
 	file.name = * argv;
-	if ((file.file = open (file.name, O_BINARY|O_RDONLY)) == -1) 
+	if ((file.file = open (file.name, O_BINARY|O_RDONLY)) == -1)
 	{
 		error (1, errno, FILE_CANTOPEN, file.name);
 	}
-	if ((extent = lseek (file.file, 0, SEEK_END)) == (unsigned)(-1)) 
+	if ((extent = lseek (file.file, 0, SEEK_END)) == (unsigned)(-1))
 	{
 		error (1, errno, FILE_CANTSIZE, file.name);
 	}
-	if (!(buffer = malloc (extent))) 
+	if (!(buffer = malloc (extent)))
 	{
 		error (1, errno, &quot;Can't span %s&quot;, file.name);
 	}
-	if (lseek (file.file, 0, SEEK_SET)) 
+	if (lseek (file.file, 0, SEEK_SET))
 	{
 		error (1, errno, FILE_CANTHOME, file.name);
 	}
-	if (read (file.file, buffer, extent) != (signed)(extent)) 
+	if (read (file.file, buffer, extent) != (signed)(extent))
 	{
 		error (1, errno, FILE_CANTLOAD, file.name);
 	}
@@ -442,27 +442,27 @@ int main (int argc, char const * argv [])
 	argc--;
 	argv++;
 	header = (struct pib_header *)(buffer);
-	if (extent != LE16TOH (header-&gt;PIBLENGTH)) 
+	if (extent != LE16TOH (header-&gt;PIBLENGTH))
 	{
 		error (1, ECANCELED, &quot;Bad PIB filesize: %s&quot;, file.name);
 	}
-	if (!argc) 
+	if (!argc)
 	{
 		error (1, ECANCELED, &quot;Need an offset&quot;);
 	}
 	offset = (uint32_t)(basespec (* argv, 16, sizeof (uint32_t)));
-	if (offset &gt; extent) 
+	if (offset &gt; extent)
 	{
 		error (1, ECANCELED, &quot;PIB offset &quot; SIZE_T_SPEC &quot; exceeds PIB extent &quot; SIZE_T_SPEC, (size_t) offset, (size_t) extent);
 	}
 	argc--;
 	argv++;
-	if (!argc) 
+	if (!argc)
 	{
 		_setbits (flags, SETPIB_VERBOSE);
 	}
 	getpib (argc, argv, buffer + offset, extent - offset);
-	if (_anyset (flags, SETPIB_NEWLINE)) 
+	if (_anyset (flags, SETPIB_NEWLINE))
 	{
 		putc ('\n', stdout);
 	}

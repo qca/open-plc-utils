@@ -6,7 +6,7 @@
 			ruledump.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -19,27 +19,27 @@
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2012 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *   
+ *
  *   void ruledump (struct rule * rule, FILE * fp);
  *
  *
@@ -50,8 +50,8 @@
 
 #include &lt;stdio.h&gt;
 
-#include &quot;../tools/memory.h&quot;    
-#include &quot;../plc/rules.h&quot;    
+#include &quot;../tools/memory.h&quot;
+#include &quot;../plc/rules.h&quot;
 
 /*====================================================================*
  *
@@ -60,7 +60,7 @@
  *
  *--------------------------------------------------------------------*/
 
-void cspec_dump (struct cspec * cspec) 
+void cspec_dump (struct cspec * cspec)
 
 {
 	printf (&quot;cspec-&gt;CSPEC_VERSION=%d\n&quot;, LE16TOH (cspec-&gt;CSPEC_VERSION));
@@ -75,7 +75,7 @@ void cspec_dump (struct cspec * cspec)
  *
  *--------------------------------------------------------------------*/
 
-void MMEClassifierDump (struct MMEClassifier * classifier) 
+void MMEClassifierDump (struct MMEClassifier * classifier)
 
 {
 	char string [48];
@@ -93,7 +93,7 @@ void MMEClassifierDump (struct MMEClassifier * classifier)
  *
  *--------------------------------------------------------------------*/
 
-void PIBClassifierDump (struct PIBClassifier * classifier) 
+void PIBClassifierDump (struct PIBClassifier * classifier)
 
 {
 	char string [48];
@@ -111,7 +111,7 @@ void PIBClassifierDump (struct PIBClassifier * classifier)
  *
  *--------------------------------------------------------------------*/
 
-void MMERuleDump (struct MMERule * rule) 
+void MMERuleDump (struct MMERule * rule)
 
 {
 	unsigned count;
@@ -120,7 +120,7 @@ void MMERuleDump (struct MMERule * rule)
 	printf (&quot;rule-&gt;MACTION=%d\n&quot;, rule-&gt;MACTION);
 	printf (&quot;rule-&gt;MOPERAND=%d\n&quot;, rule-&gt;MOPERAND);
 	printf (&quot;rule-&gt;NUM_CLASSIFIERS=%d\n&quot;, rule-&gt;NUM_CLASSIFIERS);
-	for (count = 0; count &lt; rule-&gt;NUM_CLASSIFIERS; count++) 
+	for (count = 0; count &lt; rule-&gt;NUM_CLASSIFIERS; count++)
 	{
 		MMEClassifierDump (&amp;rule-&gt;CLASSIFIER [count]);
 	}
@@ -136,7 +136,7 @@ void MMERuleDump (struct MMERule * rule)
  *
  *--------------------------------------------------------------------*/
 
-void PIBRuleDump (struct PIBRule * rule) 
+void PIBRuleDump (struct PIBRule * rule)
 
 {
 	unsigned count;
@@ -145,7 +145,7 @@ void PIBRuleDump (struct PIBRule * rule)
 	printf (&quot;rule-&gt;MACTION=%d\n&quot;, rule-&gt;MACTION);
 	printf (&quot;rule-&gt;MOPERAND=%d\n&quot;, rule-&gt;MOPERAND);
 	printf (&quot;rule-&gt;NUM_CLASSIFIERS=%d\n&quot;, LE32TOH (rule-&gt;NUM_CLASSIFIERS));
-	for (count = 0; count &lt; LE32TOH (rule-&gt;NUM_CLASSIFIERS); count++) 
+	for (count = 0; count &lt; LE32TOH (rule-&gt;NUM_CLASSIFIERS); count++)
 	{
 		PIBClassifierDump (&amp;rule-&gt;CLASSIFIER [count]);
 	}
@@ -161,7 +161,7 @@ void PIBRuleDump (struct PIBRule * rule)
  *
  *--------------------------------------------------------------------*/
 
-void classifier_priority_map_dump (struct classifier_priority_map * classifier_priority_map) 
+void classifier_priority_map_dump (struct classifier_priority_map * classifier_priority_map)
 
 {
 	printf (&quot;classifier_priority_map-&gt;Priority=%d\n&quot;, LE32TOH (classifier_priority_map-&gt;Priority));
@@ -176,14 +176,14 @@ void classifier_priority_map_dump (struct classifier_priority_map * classifier_p
  *
  *--------------------------------------------------------------------*/
 
-void auto_connection_dump (struct auto_connection * auto_connection) 
+void auto_connection_dump (struct auto_connection * auto_connection)
 
 {
 	unsigned count;
 	printf (&quot;auto_connection-&gt;MACTION=%d\n&quot;, auto_connection-&gt;MACTION);
 	printf (&quot;auto_connection-&gt;MOPERAND=%d\n&quot;, auto_connection-&gt;MOPERAND);
 	printf (&quot;auto_connection-&gt;NUM_CLASSIFIERS=%d\n&quot;, LE16TOH (auto_connection-&gt;NUM_CLASSIFIERS));
-	for (count = 0; count &lt; LE16TOH (auto_connection-&gt;NUM_CLASSIFIERS); count++) 
+	for (count = 0; count &lt; LE16TOH (auto_connection-&gt;NUM_CLASSIFIERS); count++)
 	{
 		PIBClassifierDump (&amp;auto_connection-&gt;CLASSIFIER [count]);
 	}
@@ -198,7 +198,7 @@ void auto_connection_dump (struct auto_connection * auto_connection)
  *
  *--------------------------------------------------------------------*/
 
-void PIBClassifiersDump (struct PIBClassifiers * classifiers) 
+void PIBClassifiersDump (struct PIBClassifiers * classifiers)
 
 {
 	unsigned count;
@@ -206,13 +206,13 @@ void PIBClassifiersDump (struct PIBClassifiers * classifiers)
 	printf (&quot;classifiers-&gt;autoconn_count=%d\n&quot;, LE32TOH (classifiers-&gt;autoconn_count));
 	printf (&quot;\n&quot;);
 	printf (&quot;-------- PRIORITY MAPS --------\n\n&quot;);
-	for (count = 0; count &lt; LE32TOH (classifiers-&gt;priority_count); count++) 
+	for (count = 0; count &lt; LE32TOH (classifiers-&gt;priority_count); count++)
 	{
 		classifier_priority_map_dump (&amp;classifiers-&gt;classifier_priority_map [count]);
 	}
 	printf (&quot;\n&quot;);
 	printf (&quot;-------- AUTO CONNECTIONS --------\n\n&quot;);
-	for (count = 0; count &lt; LE32TOH (classifiers-&gt;autoconn_count); count++) 
+	for (count = 0; count &lt; LE32TOH (classifiers-&gt;autoconn_count); count++)
 	{
 		auto_connection_dump (&amp;classifiers-&gt;auto_connection [count]);
 	}

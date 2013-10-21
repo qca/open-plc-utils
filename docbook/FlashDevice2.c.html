@@ -6,7 +6,7 @@
 			FlashDevice2.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 07:34:23 Jul 17 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -19,33 +19,33 @@
 			</div>
 <pre>
 /*====================================================================*
- *   
+ *
  *   Copyright (c) 2011 Qualcomm Atheros Inc.
- *   
- *   Permission to use, copy, modify, and/or distribute this software 
- *   for any purpose with or without fee is hereby granted, provided 
- *   that the above copyright notice and this permission notice appear 
+ *
+ *   Permission to use, copy, modify, and/or distribute this software
+ *   for any purpose with or without fee is hereby granted, provided
+ *   that the above copyright notice and this permission notice appear
  *   in all copies.
- *   
- *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL 
- *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED 
- *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL  
- *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR 
- *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM 
- *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, 
- *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN 
+ *
+ *   THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL
+ *   WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
+ *   THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR
+ *   CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+ *   LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
+ *   NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
  *   CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- *   
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
- *  
+ *
  *   signed FlashDevice2 (struct plc * plc);
  *
  *   plc.h
- *   
+ *
  *   flash a panther/lynx device; the flash sequence is determined
- *   by plc file descriptors that are valid; 
+ *   by plc file descriptors that are valid;
  *
  *   the contidional statements uses here restricts flash options
  *   as follows:
@@ -68,28 +68,28 @@
 #include &quot;../tools/flags.h&quot;
 #include &quot;../plc/plc.h&quot;
 
-signed FlashDevice2 (struct plc * plc) 
+signed FlashDevice2 (struct plc * plc)
 
 {
 	uint32_t options = (PLC_COMMIT_FORCE | PLC_COMMIT_NORESET | PLC_COMMIT_FACTPIB);
-	if (plc-&gt;CFG.file != -1) 
+	if (plc-&gt;CFG.file != -1)
 	{
-		if (FlashSoftloader (plc, options)) 
+		if (FlashSoftloader (plc, options))
 		{
 			return (-1);
 		}
 	}
-	if ((plc-&gt;NVM.file != -1) &amp;&amp; (plc-&gt;PIB.file != -1)) 
+	if ((plc-&gt;NVM.file != -1) &amp;&amp; (plc-&gt;PIB.file != -1))
 	{
-		if (FlashFirmware (plc, options)) 
+		if (FlashFirmware (plc, options))
 		{
 			return (-1);
 		}
 		return (0);
 	}
-	if (plc-&gt;PIB.file != -1) 
+	if (plc-&gt;PIB.file != -1)
 	{
-		if (FlashParameters (plc, options)) 
+		if (FlashParameters (plc, options))
 		{
 			return (-1);
 		}
