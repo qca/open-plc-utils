@@ -276,6 +276,36 @@ char const * configstring (char const * file, char const * part, char const * it
 
 /*====================================================================*
  *
+ *   unsigned confignumber (char const * file, char const * part, char const * item, unsigned number)
+ *
+ *   open the named file, locate the named part and return the named
+ *   item as an unsigned integer, if present; return a default number
+ *   if the file, part or item is missing; 
+ *
+ *--------------------------------------------------------------------*/
+
+unsigned confignumber (char const * file, char const * part, char const * item, unsigned number) 
+
+{ 
+	unsigned value = 0; 
+	char const * string = configstring (file, part, item, ""); 
+	if ((string) && (* string)) 
+	{ 
+		while (isdigit (* string)) 
+		{ 
+			value *= 10; 
+			value += * string++ - '0'; 
+		} 
+		if (! (* string)) 
+		{ 
+			number = value; 
+		} 
+	} 
+	return (number); 
+} 
+
+/*====================================================================*
+ *
  *   int main (int argc, char const * argv []);
  *
  *   demo/test program; arguments are file, part, item and text in

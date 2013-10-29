@@ -24,6 +24,8 @@ gcc -Wall -Wextra -Wno-unused-parameter -c ARPCPrint.c
 gcc -Wall -Wextra -Wno-unused-parameter -c ARPCWrite.c
 gcc -Wall -Wextra -Wno-unused-parameter -c UnwantedMessage.c
 gcc -Wall -Wextra -Wno-unused-parameter -c FirmwareMessage.c
+gcc -Wall -Wextra -Wno-unused-parameter -c readmessage.c
+gcc -Wall -Wextra -Wno-unused-parameter -c sendmessage.c
 
 # ====================================================================
 # cleanse;

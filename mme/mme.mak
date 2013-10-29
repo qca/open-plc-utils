@@ -28,6 +28,9 @@ MMEMode.o: MMEMode.c mme.h
 MMEName.o: MMEName.c mme.h homeplug.h 
 MMECode.o: MMECode.c mme.h
 UnwantedMessage.o: UnwantedMessage.c mme.h endian.h types.h 
+readmessage.o: readmessage.c error.h plc.h timer.h
+sendmessage.o: sendmessage.c plc.h
+
 
 # ====================================================================
 # files;
