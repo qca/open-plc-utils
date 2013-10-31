@@ -6,25 +6,25 @@
 			Starting a Device
 			</h2></div></div></div><p>
 			Some device configurations have no flash memory to store runtime parameters and firmware so the local host must store them until needed then write them into device <acronym class="acronym">SDRAM</acronym> and start execution. This is also needed when the flash memory is blank or corrupted because the runtime firmware is the only way to write flash memory. Programs <a class="ulink" href="int6kf.7.html" target="_top">int6kf</a>,  <a class="ulink" href="int6kboot.7.html" target="_top">int6kboot</a>, <a class="ulink" href="ampboot.7.html" target="_top">ampboot</a> and <a class="ulink" href="plcboot.7.html" target="_top">plcboot</a> are used to configure a blank device then download runtime parameters and firmware and start execution. They all perform the same basic function but in different ways.
-			</p><div class="example"><a name="idp11027888"></a><p class="title"><b>Example 5.18. 
+			</p><div class="example"><a name="idp11056488"></a><p class="title"><b>Example 5.18. 
 				Start Firmware on <span class="productname">INT6000</span>™
 				</b></p><div class="example-contents"><pre class="screen">
 # int6kf -C abc.cfg -N abc.nvm -P abc.pib 
 </pre><p>
 				Program <a class="ulink" href="int6kf.7.html" target="_top">int6kf</a> can be used to download runtime firmware and parameters and start execution on and <span class="productname">INT6000</span>™ chipset. The process involves downloading a <code class="filename">.cfg</code> file using <code class="constant">VS_SET_SDRAM</code>, downloading a <code class="filename">.nvm</code> file using <code class="constant">VS_WR_MEM</code>, downloading a <code class="filename">.pib</code> file using <code class="constant">VS_WR_MEM</code> then starting firmware execution using <code class="constant">VS_ST_MAC</code>. See the <a class="ulink" href="int6kf.7.html" target="_top">int6kf</a> man page for an explanation of the command line options and arguments used here. 
-				</p></div></div><br class="example-break"><div class="example"><a name="idp11032608"></a><p class="title"><b>Example 5.19. 
+				</p></div></div><br class="example-break"><div class="example"><a name="idp11061208"></a><p class="title"><b>Example 5.19. 
 				Start Firmware on <span class="productname">INT6300</span>™ and <span class="productname">INT6400</span>™
 				</b></p><div class="example-contents"><pre class="screen">
 # int6kboot -N abc.nvm -P abc.pib 
 </pre><p>
 				Program <a class="ulink" href="int6kboot.7.html" target="_top">int6kboot</a> can be used to download runtime firmware and parameters and start execution on an <span class="productname">INT6300</span>™ or <span class="productname">INT6400</span>™ chipset. The process involves downloading a <code class="filename">.nvm</code> file using <code class="constant">VS_WR_MEM</code>, downloading a <code class="filename">.pib</code> file using <code class="constant">VS_WR_MEM</code> then starting firmware execution using <code class="constant">VS_ST_MAC</code>. No <code class="filename">.cfg</code> file is needed or permitted with this application. 
-				</p></div></div><br class="example-break"><div class="example"><a name="idp11037384"></a><p class="title"><b>Example 5.20. 
+				</p></div></div><br class="example-break"><div class="example"><a name="idp11065984"></a><p class="title"><b>Example 5.20. 
 				Start Firmware on <span class="productname">AR7400</span>™
 				</b></p><div class="example-contents"><pre class="screen">
 # ampboot -N abc.nvm -P abc.pib 
 </pre><p>
 				Program <a class="ulink" href="ampboot.7.html" target="_top">ampboot</a> can be used to download runtime firmware and parameters and start execution of runtime firmware on an <span class="productname">INT6300</span>™, <span class="productname">INT6400</span>™ or <span class="productname">AR7400</span>™ chipset. The process involves downloading a <code class="filename">.pib</code> file using <code class="constant">VS_WR_MEM</code>, downloading a <code class="filename">.nvm</code> file using <code class="constant">VS_WR_MEM</code> then starting firmware execution using <code class="constant">VS_ST_MAC</code>. A general purpose applet, stored in the <code class="filename">.nvm</code> file, configures <acronym class="acronym">SDRAM</acronym>. No <code class="filename">.cfg</code> file is needed or permitted with this application. 
-				</p></div></div><br class="example-break"><div class="example"><a name="idp11042784"></a><p class="title"><b>Example 5.21. 
+				</p></div></div><br class="example-break"><div class="example"><a name="idp11071384"></a><p class="title"><b>Example 5.21. 
 				Start Firmware on <span class="productname">AR7420</span>™
 				</b></p><div class="example-contents"><pre class="screen">
 # plcboot -N abc.nvm -P abc.pib 

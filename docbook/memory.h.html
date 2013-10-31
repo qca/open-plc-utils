@@ -6,7 +6,7 @@
 			memory.h
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 12:28:10 Oct 19 2013'/>
+		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -69,6 +69,7 @@
  *
  *--------------------------------------------------------------------*/
 
+#define HEXSTRING(string, memory) hexstring (string, sizeof (string), memory, sizeof (memory)) 
 #define HEXDUMP_HEADER &quot;-------- 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F ----------------\n&quot;
 #define REGVIEW32_HEADER &quot;REGISTER CONTENTS 31----24 23----16 15----08 07----00\n&quot;
 #define REGVIEW16_HEADER &quot;ADDR DATA 5432 1098 7654 3210\n&quot;
