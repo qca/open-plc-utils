@@ -132,6 +132,9 @@
 				RelativePath="..\..\tools\hexencode.c">
 			</File>
 			<File
+				RelativePath="..\..\tools\hexstring.c">
+			</File>
+			<File
 				RelativePath="..\..\tools\ipv4spec.c">
 			</File>
 			<File
@@ -139,6 +142,12 @@
 			</File>
 			<File
 				RelativePath="..\..\tools\lookup.c">
+			</File>
+			<File
+				RelativePath="..\..\plc\MakeRule.c">
+			</File>
+			<File
+				RelativePath="..\..\tools\memout.c">
 			</File>
 			<File
 				RelativePath="..\..\mme\mme.h">
@@ -156,6 +165,9 @@
 				RelativePath="..\..\plc\plcrule.c">
 			</File>
 			<File
+				RelativePath="..\..\plc\PrintRule.c">
+			</File>
+			<File
 				RelativePath="..\..\tools\putoptv.c">
 			</File>
 			<File
@@ -168,7 +180,13 @@
 				RelativePath="..\..\ether\readpacket.c">
 			</File>
 			<File
+				RelativePath="..\..\plc\ReadRules.c">
+			</File>
+			<File
 				RelativePath="..\..\plc\Request.c">
+			</File>
+			<File
+				RelativePath="..\..\tools\reword.c">
 			</File>
 			<File
 				RelativePath="..\..\plc\rules.c">

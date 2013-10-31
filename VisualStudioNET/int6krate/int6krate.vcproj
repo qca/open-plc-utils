@@ -93,9 +93,6 @@
 				RelativePath="..\..\tools\emalloc.c">
 			</File>
 			<File
-				RelativePath="..\..\tools\endian.c">
-			</File>
-			<File
 				RelativePath="..\..\tools\error.c">
 			</File>
 			<File
@@ -178,6 +175,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plc\ResetDevice.c">
+			</File>
+			<File
+				RelativePath="..\..\tools\reverse.c">
 			</File>
 			<File
 				RelativePath="..\..\plc\SendMME.c">

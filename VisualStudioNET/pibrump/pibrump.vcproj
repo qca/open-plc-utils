@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;MAKEFILE"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;MAKEFILE;WINPCAP"
 				RuntimeLibrary="4"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"

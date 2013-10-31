@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;MAKEFILE"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;MAKEFILE;WINPCAP"
 				RuntimeLibrary="4"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -86,13 +86,13 @@
 				RelativePath="..\..\tools\emalloc.c">
 			</File>
 			<File
-				RelativePath="..\..\tools\endian.c">
-			</File>
-			<File
 				RelativePath="..\..\tools\error.c">
 			</File>
 			<File
 				RelativePath="..\..\tools\fdchecksum32.c">
+			</File>
+			<File
+				RelativePath="..\..\tools\getargv.c">
 			</File>
 			<File
 				RelativePath="..\..\tools\getoptv.c">
@@ -123,6 +123,9 @@
 			</File>
 			<File
 				RelativePath="..\..\tools\putoptv.c">
+			</File>
+			<File
+				RelativePath="..\..\tools\reverse.c">
 			</File>
 			<File
 				RelativePath="..\..\plc\rules.c">

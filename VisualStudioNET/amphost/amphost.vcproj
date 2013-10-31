@@ -81,12 +81,6 @@
 				RelativePath="..\..\plc\BootFirmware1.c">
 			</File>
 			<File
-				RelativePath="..\..\plc\BootFirmware1.c">
-			</File>
-			<File
-				RelativePath="..\..\plc\BootParameters1.c">
-			</File>
-			<File
 				RelativePath="..\..\plc\BootParameters1.c">
 			</File>
 			<File
@@ -115,12 +109,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plc\Display.c">
-			</File>
-			<File
-				RelativePath="..\..\tools\endian.c">
-			</File>
-			<File
-				RelativePath="..\..\tools\endian.h">
 			</File>
 			<File
 				RelativePath="..\..\tools\error.c">
@@ -210,6 +198,9 @@
 				RelativePath="..\..\plc\ResetDevice.c">
 			</File>
 			<File
+				RelativePath="..\..\tools\reverse.c">
+			</File>
+			<File
 				RelativePath="..\..\plc\SendMME.c">
 			</File>
 			<File
@@ -264,6 +255,9 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
 				RelativePath="..\..\ether\channel.h">
+			</File>
+			<File
+				RelativePath="..\..\tools\endian.h">
 			</File>
 			<File
 				RelativePath="..\..\tools\error.h">

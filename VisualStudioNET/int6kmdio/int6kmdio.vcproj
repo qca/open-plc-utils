@@ -81,9 +81,6 @@
 				RelativePath="..\..\plc\Devices.c">
 			</File>
 			<File
-				RelativePath="..\..\tools\endian.c">
-			</File>
-			<File
 				RelativePath="..\..\tools\error.c">
 			</File>
 			<File
@@ -126,6 +123,9 @@
 				RelativePath="..\..\ether\readpacket.c">
 			</File>
 			<File
+				RelativePath="..\..\tools\reverse.c">
+			</File>
+			<File
 				RelativePath="..\..\ether\sendpacket.c">
 			</File>
 			<File
@@ -162,6 +162,9 @@
 			</File>
 			<File
 				RelativePath="..\..\tools\getoptv.h">
+			</File>
+			<File
+				RelativePath="..\..\tools\memory.h">
 			</File>
 			<File
 				RelativePath="..\..\tools\version.h">

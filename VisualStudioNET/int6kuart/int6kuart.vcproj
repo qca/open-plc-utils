@@ -80,9 +80,6 @@
 				RelativePath="..\..\serial\closeport.c">
 			</File>
 			<File
-				RelativePath="..\..\tools\endian.c">
-			</File>
-			<File
 				RelativePath="..\..\tools\error.c">
 			</File>
 			<File
@@ -105,6 +102,9 @@
 			</File>
 			<File
 				RelativePath="..\..\tools\putoptv.c">
+			</File>
+			<File
+				RelativePath="..\..\tools\reverse.c">
 			</File>
 			<File
 				RelativePath="..\..\serial\serial.c">

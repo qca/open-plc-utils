@@ -106,7 +106,13 @@
 				RelativePath="..\..\tools\getoptv.h">
 			</File>
 			<File
+				RelativePath="..\include\inttypes.h">
+			</File>
+			<File
 				RelativePath="..\..\tools\putoptv.h">
+			</File>
+			<File
+				RelativePath="..\include\stdint.h">
 			</File>
 			<File
 				RelativePath="..\..\tools\types.h">

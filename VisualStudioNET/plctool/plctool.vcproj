@@ -177,6 +177,9 @@
 				RelativePath="..\..\key\keys.c">
 			</File>
 			<File
+				RelativePath="..\..\plc\LinkStatus.c">
+			</File>
+			<File
 				RelativePath="..\..\mme\MMECode.c">
 			</File>
 			<File

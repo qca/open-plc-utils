@@ -69,9 +69,6 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath="..\..\tools\__bswap.c">
-			</File>
-			<File
 				RelativePath="..\..\plc\BootDevice2.c">
 			</File>
 			<File
@@ -100,9 +97,6 @@
 			</File>
 			<File
 				RelativePath="..\..\plc\Devices.c">
-			</File>
-			<File
-				RelativePath="..\..\tools\endian.c">
 			</File>
 			<File
 				RelativePath="..\..\tools\error.c">

@@ -108,7 +108,7 @@
 				RelativePath="..\..\plc\Devices.c">
 			</File>
 			<File
-				RelativePath="..\..\tools\endian.c">
+				RelativePath="..\..\plc\Display.c">
 			</File>
 			<File
 				RelativePath="..\..\tools\endian.h">
@@ -162,6 +162,9 @@
 				RelativePath="..\..\plc\InitDevice2.c">
 			</File>
 			<File
+				RelativePath="..\..\plc\LinkStatus.c">
+			</File>
+			<File
 				RelativePath="..\..\mme\MMECode.c">
 			</File>
 			<File
@@ -205,6 +208,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plc\Request.c">
+			</File>
+			<File
+				RelativePath="..\..\tools\reverse.c">
 			</File>
 			<File
 				RelativePath="..\..\plc\SendMME.c">
