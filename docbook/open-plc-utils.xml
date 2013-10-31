@@ -33,11 +33,15 @@
 	<!ENTITY download SYSTEM "support8.xml">
 	<!ENTITY procrastinate SYSTEM "support9.xml">
 	<!ENTITY traffic SYSTEM "support10.xml">
+	<!ENTITY slac SYSTEM "support11.xml">
 	<!ENTITY library SYSTEM "library.xml">
 	<!ENTITY security SYSTEM "security.xml">
 	<!ENTITY embedding SYSTEM "embedding.xml">
 	<!ENTITY management SYSTEM "management.xml">
 	<!ENTITY driver1 SYSTEM "qcaspi.xml">
+	<!ENTITY procedure-slac-demo SYSTEM "slac-demo.xml">
+	<!ENTITY procedure-slac-config SYSTEM "slac-config.xml">
+	<!ENTITY procedure-trouble-shooting SYSTEM "trouble-shooting.xml">
 ]>
 <book lang='en'>
 	<bookinfo>
