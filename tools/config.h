@@ -53,6 +53,7 @@
  *--------------------------------------------------------------------*/
 
 char const * configstring (char const * file, char const * part, char const * item, char const * text);
+unsigned confignumber (char const * file, char const * part, char const * item, unsigned number);
 
 /*====================================================================*
  *   end definitions;

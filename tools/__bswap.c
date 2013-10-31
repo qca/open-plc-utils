@@ -19,6 +19,7 @@
 #include <stdint.h>
 
 #include "../tools/endian.h"
+#include "../tools/memory.h"
 
 uint16_t __bswap_16 (uint16_t x)
 
