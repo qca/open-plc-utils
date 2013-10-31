@@ -196,7 +196,7 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			{
 				error (1, ECANCELED, "%s exceeds PIB extent " SIZE_T_SPEC, object, extent);
 			}
-			printf ("%" PRIu64, LE64TOH (* number));
+			printf ("%llu", LE64TOH (* number));
 			memory += sizeof (* number);
 			extent -= sizeof (* number);
 		}
@@ -243,7 +243,7 @@ static void getpib (int argc, char const * argv [], byte const * memory, size_t 
 			{
 				error (1, ECANCELED, "%s exceeds PIB extent " SIZE_T_SPEC, object, extent);
 			}
-			printf ("0x%016" PRIX64, LE64TOH (* number));
+			printf ("0x%016LX", LE64TOH (* number));
 			memory += sizeof (* number);
 			extent -= sizeof (* number);
 		}
