@@ -74,15 +74,20 @@ signed ReadFMI (struct plc * plc, uint8_t MMV, uint16_t MMTYPE)
 {
 	if (ReadMME (plc, MMV, MMTYPE) > 0)
 	{
-		struct homeplug * homeplug = (struct homeplug *)(plc->message);
-		unsigned count = ((homeplug->homeplug.FMID >> 0) & 0x0F);
-		unsigned extra = ((homeplug->homeplug.FMID >> 4) & 0x0F);
-		unsigned length = sizeof (* homeplug) + extra * sizeof (homeplug->content);
+		struct homeplug * homeplug = (struct homeplug *) (plc->message);
+		const unsigned count = ((homeplug->homeplug.FMID >> 4) & 0x0F);
+		unsigned index = ((homeplug->homeplug.FMID >> 0) & 0x0F);
+		const unsigned sequence = homeplug->homeplug.FMSN;
+		if (index != 0)
+		{
+			return -1;
+		}
+		signed length = sizeof (* homeplug) +  count * sizeof (homeplug->content);
 		if ((plc->content = malloc (length)))
 		{
 			signed offset = plc->packetsize;
 			memcpy (plc->content, homeplug, offset);
-			while (count < extra)
+			while (index < count)
 			{
 				if (ReadMME (plc, MMV, MMTYPE) <= 0)
 				{
@@ -90,8 +95,22 @@ signed ReadFMI (struct plc * plc, uint8_t MMV, uint16_t MMTYPE)
 					plc->content = NULL;
 					return (- 1);
 				}
-				count = ((homeplug->homeplug.FMID >> 0) & 0x0F);
-				extra = ((homeplug->homeplug.FMID >> 4) & 0x0F);
+				if (homeplug->homeplug.FMSN != sequence) {
+					free(plc->content);
+					plc->content = NULL;
+					return (-1);
+				}
+				if (((homeplug->homeplug.FMID >> 4) & 0x0F) != count) {
+					free(plc->content);
+					plc->content = NULL;
+					return (-1);
+				}
+				if (((homeplug->homeplug.FMID >> 0) & 0x0F) != index + 1) {
+					free(plc->content);
+					plc->content = NULL;
+					return (-1);
+				}
+				++index;
 				plc->packetsize -= sizeof (struct ethernet_hdr);
 				plc->packetsize -= sizeof (struct homeplug_fmi);
 				memcpy ((uint8_t *)(plc->content) +  offset, homeplug->content, plc->packetsize);
