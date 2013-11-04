@@ -108,13 +108,22 @@ void ttysend (int ifd, int ofd, size_t time, size_t chunk_size)
 	tv_now,
 	tv_result;
 	buf = malloc (chunk_size);
-	if (buf == NULL) error (1, errno, "could not allocate memory");
-	if (ifd == -1)
+	if (buf == NULL)
+	{
+		error (1, errno, "could not allocate memory");
+	}
+	if (ifd == - 1)
 	{
 		unsigned i;
-		for (i = 0; i < chunk_size; ++i) buf [i] = i % 256;
+		for (i = 0; i < chunk_size; ++ i)
+		{
+			buf [i] = i % 256;
+		}
 	}
-	if (gettimeofday (&tv_start, NULL) == -1) error (1, errno, "could not get time");
+	if (gettimeofday (& tv_start, NULL) == - 1)
+	{
+		error (1, errno, "could not get time");
+	}
 	do
 	{
 		if (ifd == -1)
@@ -124,7 +133,10 @@ void ttysend (int ifd, int ofd, size_t time, size_t chunk_size)
 		else
 		{
 			r = read (ifd, buf, chunk_size);
-			if (r == -1) error (1, errno, "could not read");
+			if (r == - 1)
+			{
+				error (1, errno, "could not read");
+			}
 			if (r == 0)
 			{
 				free (buf);
@@ -135,12 +147,18 @@ void ttysend (int ifd, int ofd, size_t time, size_t chunk_size)
 		while (r)
 		{
 			w = write (ofd, p, r);
-			if (w == -1) error (1, errno, "could not write");
+			if (w == - 1)
+			{
+				error (1, errno, "could not write");
+			}
 			p += w;
 			r -= w;
 		}
-		if (gettimeofday (&tv_now, NULL) == -1) error (1, errno, "could not get time");
-		timersub (&tv_now, &tv_start, &tv_result);
+		if (gettimeofday (& tv_now, NULL) == - 1)
+		{
+			error (1, errno, "could not get time");
+		}
+		timersub (& tv_now, & tv_start, & tv_result);
 	}
 	while (tv_result.tv_sec < (signed)(time));
 	free (buf);
@@ -185,14 +203,20 @@ int main (int argc, char const * argv [])
 			else
 			{
 				file.file = open (file.name, O_BINARY | O_RDONLY);
-				if (file.file == -1) error (1, errno, "could not open %s", file.name);
+				if (file.file == - 1)
+				{
+					error (1, errno, "could not open %s", file.name);
+				}
 			}
 			break;
 		case 'l':
 			line = optarg;
 			break;
 		case 's':
-			if (baudrate (uintspec (optarg, 0, UINT_MAX), &speed)) error (1, 0, "could not set baud rate");
+			if (baudrate (uintspec (optarg, 0, UINT_MAX), & speed))
+			{
+				error (1, 0, "could not set baud rate");
+			}
 			break;
 		case 't':
 			time = uintspec (optarg, 0, SIZE_MAX);
@@ -203,12 +227,29 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	fd = open (line, O_RDWR);
-	if (fd == -1) error (1, errno, "could not open %s", line);
-	if (tcgetattr (fd, &termios) == -1) error (1, errno, "could not get tty attributes");
-	cfmakeraw (&termios);
-	if (cfsetspeed (&termios, speed) == -1) error (1, errno, "could not set tty speed");
-	if (tcsetattr (fd, TCSANOW, &termios) == -1) error (1, errno, "could not set tty attributes");
+	fd = open (line, O_RDWR | O_NONBLOCK | O_NOCTTY);
+	if (fd == - 1)
+	{
+		error (1, errno, "could not open %s", line);
+	}
+	if (fcntl(fd, F_SETFL, 0) == -1)
+	{
+		error (1, errno, "failed to set tty flags");
+	}
+	if (tcgetattr (fd, & termios) == - 1)
+	{
+		error (1, errno, "could not get tty attributes");
+	}
+	cfmakeraw (& termios);
+	termios.c_cflag = CS8 | CREAD | CLOCAL;
+	if (cfsetspeed (& termios, speed) == - 1)
+	{
+		error (1, errno, "could not set tty speed");
+	}
+	if (tcsetattr (fd, TCSANOW, & termios) == - 1)
+	{
+		error (1, errno, "could not set tty attributes");
+	}
 	ttysend (file.file, fd, time, chunk_size);
 	close (fd);
 	return (0);

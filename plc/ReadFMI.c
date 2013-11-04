@@ -99,6 +99,10 @@ signed ReadFMI (struct plc * plc, uint8_t MMV, uint16_t MMTYPE)
 			} 
 			plc->packetsize = offset;
 		}
+		else
+		{
+			error (1, errno, "%s", __func__);
+		}
 	}
 	return (plc->packetsize);
 }
