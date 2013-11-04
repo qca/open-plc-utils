@@ -54,9 +54,6 @@
     <ClCompile Include="..\..\plc\EmulateHost64.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\tools\endian.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\tools\error.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -141,9 +138,6 @@
     <ClCompile Include="..\..\ether\sendpacket.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\ether\setchanneltimeout.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\plc\StartFirmware1.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -184,6 +178,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\plc\WriteExecutePIB.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\tools\reverse.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

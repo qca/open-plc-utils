@@ -88,6 +88,7 @@
     <ClInclude Include="..\..\tools\putoptv.h" />
     <ClInclude Include="..\..\key\SHA256.h" />
     <ClInclude Include="..\..\tools\version.h" />
+    <ClInclude Include="..\include\inttypes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

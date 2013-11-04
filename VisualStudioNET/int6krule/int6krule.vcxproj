@@ -54,6 +54,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\plc\MakeRule.c" />
+    <ClCompile Include="..\..\plc\PrintRule.c" />
+    <ClCompile Include="..\..\plc\ReadRules.c" />
     <ClCompile Include="..\..\tools\assist.c" />
     <ClCompile Include="..\..\tools\basespec.c" />
     <ClCompile Include="..\..\tools\bytespec.c" />
@@ -76,12 +79,14 @@
     <ClCompile Include="..\..\tools\hexdump.c" />
     <ClCompile Include="..\..\tools\hexencode.c" />
     <ClCompile Include="..\..\plc\int6krule.c" />
+    <ClCompile Include="..\..\tools\hexstring.c" />
     <ClCompile Include="..\..\tools\ipv4spec.c" />
     <ClCompile Include="..\..\tools\ipv6spec.c" />
     <ClCompile Include="..\..\tools\lookup.c" />
     <ClCompile Include="..\..\mme\MMECode.c" />
     <ClCompile Include="..\..\ether\openchannel.c" />
     <ClCompile Include="..\..\plc\ParseRule.c" />
+    <ClCompile Include="..\..\tools\memout.c" />
     <ClCompile Include="..\..\tools\putoptv.c" />
     <ClCompile Include="..\..\mme\QualcommHeader.c" />
     <ClCompile Include="..\..\plc\ReadMME.c" />
@@ -90,6 +95,7 @@
     <ClCompile Include="..\..\plc\rules.c" />
     <ClCompile Include="..\..\plc\SendMME.c" />
     <ClCompile Include="..\..\ether\sendpacket.c" />
+    <ClCompile Include="..\..\tools\reword.c" />
     <ClCompile Include="..\..\tools\strfbits.c" />
     <ClCompile Include="..\..\tools\synonym.c" />
     <ClCompile Include="..\..\tools\todigit.c" />

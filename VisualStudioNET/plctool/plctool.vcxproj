@@ -55,6 +55,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\plc\Attributes2.c" />
+    <ClCompile Include="..\..\plc\LinkStatus.c" />
     <ClCompile Include="..\..\tools\basespec.c" />
     <ClCompile Include="..\..\ether\channel.c" />
     <ClCompile Include="..\..\tools\checkfilename.c" />

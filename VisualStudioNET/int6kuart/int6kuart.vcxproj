@@ -57,7 +57,7 @@
     <ClCompile Include="..\..\tools\basespec.c" />
     <ClCompile Include="..\..\tools\checksum32.c" />
     <ClCompile Include="..\..\serial\closeport.c" />
-    <ClCompile Include="..\..\tools\endian.c" />
+    <ClCompile Include="..\..\tools\reverse.c" />
     <ClCompile Include="..\..\tools\error.c" />
     <ClCompile Include="..\..\tools\getoptv.c" />
     <ClCompile Include="..\..\tools\hexdecode.c" />
