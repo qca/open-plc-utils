@@ -6,7 +6,7 @@ Copyright (c) 2012 QUALCOMM ATHEROS Incorporated. All rights reserved. QUALCOMM 
 # NOTICES:
 # --------------------------------------------------------------------
 
-1) Qualcomm Atheros has included selected modules from Motley Tools in the Qualcomm Atheros Powerline Toolkit. These modules are licensed under the Internet Software Consortum License which appears below.
+1) Qualcomm Atheros has included selected modules from Motley Tools in the Qualcomm Atheros Powerline Toolkit. These modules are licensed under the Internet Software Consortium License which appears below.
  
 2) Qualcomm Atheros has included modified docbook stylesheets that format documentation for this version of the Qualcomm Atheros Powerline Toolkit. The docbook license and Norman Walsh license appear below.
 
@@ -15,6 +15,24 @@ Copyright (c) 2012 QUALCOMM ATHEROS Incorporated. All rights reserved. QUALCOMM 
 4) Qualcomm Atheros has included WinPcap header files that are known to work with this version of the Qualcomm Atheros Powerline Toolkit. Winpcap files are only required when compiling the toolkit for Microsoft Windows. The WinPcap license appears below.
 
 5) As of 15-Oct-2013, Qualcomm Atheros, Inc. decided to migrate the license of this Powerline Toolkit to more clearly communicate our expectations regarding the licensing and usage of the Powerline Toolkit. We do not expect this will have a practical impact on any current or future users of the Powerline Toolkit. Older versions of the Powerline Toolkit continue to be available under the previous license. 
+
+# ====================================================================
+# Open Powerline Toolkit License (Clear BSD)
+# --------------------------------------------------------------------
+
+Copyright (c) 2013 Qualcomm Atheros, Inc.
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted (subject to the limitations in the disclaimer below) provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+* Neither the name of Qualcomm Atheros nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
 
 # ====================================================================
 # Motley Tools License (ISC)

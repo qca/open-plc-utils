@@ -22,7 +22,7 @@
 #define RELEASE "OSRQCA-929"
 #define COMPILE __TIME__ " " __DATE__
 #define CONTACT "cmaier@qca.qualcomm.com"
-#define LICENSE "Internet Software Concortium (ISC)"
+#define LICENSE "Clear BSD"
 
 /*====================================================================*
  *   functions;
