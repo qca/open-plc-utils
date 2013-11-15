@@ -62,7 +62,7 @@
 signed ReadFirmware2 (struct plc * plc)
 
 {
-	return (ModuleRead (plc, &plc->pib, PLC_MOD_OP_READ_MEMORY, PLC_MODULEID_FIRMWARE, 0));
+	return (ModuleRead (plc, &plc->nvm, PLC_MOD_OP_READ_MEMORY, PLC_MODULEID_FIRMWARE, 0));
 }
 
 
