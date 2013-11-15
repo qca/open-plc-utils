@@ -68,7 +68,7 @@
     <ClCompile Include="..\..\plc\Devices.c" />
     <ClCompile Include="..\..\plc\Display.c" />
     <ClCompile Include="..\..\plc\EmulateHost64.c" />
-    <ClCompile Include="..\..\tools\endian.c" />
+    <ClCompile Include="..\..\tools\reverse.c" />
     <ClCompile Include="..\..\tools\error.c" />
     <ClCompile Include="..\..\mme\EthernetHeader.c" />
     <ClCompile Include="..\..\plc\Failure.c" />
@@ -97,7 +97,6 @@
     <ClCompile Include="..\..\plc\ResetDevice.c" />
     <ClCompile Include="..\..\plc\SendMME.c" />
     <ClCompile Include="..\..\ether\sendpacket.c" />
-    <ClCompile Include="..\..\ether\setchanneltimeout.c" />
     <ClCompile Include="..\..\plc\StartFirmware1.c" />
     <ClCompile Include="..\..\tools\strfbits.c" />
     <ClCompile Include="..\..\tools\todigit.c" />

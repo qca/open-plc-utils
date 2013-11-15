@@ -59,7 +59,7 @@
     <ClCompile Include="..\..\tools\checksum32.c" />
     <ClCompile Include="..\..\tools\dataspec.c" />
     <ClCompile Include="..\..\tools\emalloc.c" />
-    <ClCompile Include="..\..\tools\endian.c" />
+    <ClCompile Include="..\..\tools\reverse.c" />
     <ClCompile Include="..\..\tools\error.c" />
     <ClCompile Include="..\..\tools\fdchecksum32.c" />
     <ClCompile Include="..\..\tools\getoptv.c" />

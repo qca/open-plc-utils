@@ -376,12 +376,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_CD29100DFB154A6BA21B4B5B3A2997EB"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_CD708E6CBDC44F84AFC80FDF8A29C1B7"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -636,7 +630,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:QCA Engineering Powerline Toolkit x64 2.1.2-dev"
         "ProductCode" = "8:{F29EC526-A91D-4F24-88EE-3A26ED918FEE}"
-        "PackageCode" = "8:{4EF1CB37-21E1-46A9-BF20-7DCEB1D3AC85}"
+        "PackageCode" = "8:{7382D664-E151-43F0-9845-3402DA95A962}"
         "UpgradeCode" = "8:{B4ADD55F-AF88-4D15-9E2D-E85972E17348}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -2835,6 +2829,34 @@
                 {
                 }
             }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_BB93AB5D0A1F4A5FBB67C3FF9AAC1C67"
+            {
+            "SourcePath" = "8:"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_2A3F17F58AB548349061ECA41CDE07E2"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{5CC42F12-FE38-4265-BE37-4C61977B9C4A}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_BEA8877130DF4844B44F85773C16F35C"
             {
             "SourcePath" = "8:"
@@ -3026,34 +3048,6 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{230D2359-37C0-4356-B913-852F4B26FA19}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_CD29100DFB154A6BA21B4B5B3A2997EB"
-            {
-            "SourcePath" = "8:"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_2A3F17F58AB548349061ECA41CDE07E2"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{5CC42F12-FE38-4265-BE37-4C61977B9C4A}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {

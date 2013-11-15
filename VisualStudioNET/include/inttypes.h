@@ -33,7 +33,7 @@
 #ifndef INTTYPES_HEADER
 #define INTTYPES_HEADER
 
-#define PRI64d "I64d"
+#define PRId64 "I64d"
 
 #endif
 

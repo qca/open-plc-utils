@@ -39,7 +39,7 @@
 	#define OFF_T_SPEC "%lld"
 #elif defined (__OpenBSD__)
 	#define SIZE_T_SPEC "%zu"
-	#define OFF_T_SPEC "%ld"
+	#define OFF_T_SPEC "%lld"
 #elif defined (__linux__)
 	#define SIZE_T_SPEC "%zu"
 	#define OFF_T_SPEC "%ld"

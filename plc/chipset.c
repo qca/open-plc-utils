@@ -115,6 +115,14 @@ char const * chipsetname (uint8_t MDEVICE_CLASS)
 		{
 			CHIPSET_QCA7000,
 			"QCA7000"
+		},
+		{
+			CHIPSET_QCA7005,
+			"QCA7005"
+		},
+		{
+			CHIPSET_QCA7500,
+			"QCA7500"
 		}
 	};
 	return (typename (chipsets, SIZEOF (chipsets), MDEVICE_CLASS, chipsets [0].name));
@@ -261,6 +269,16 @@ void chipset (void const * memory)
 			0x001B587C,
 			0x06,
 			CHIPSET_QCA7000
+		},
+		{
+			0x001D4C00,
+			0x06,
+			CHIPSET_QCA7500
+		},
+		{
+			0x001D4C0F,
+			0x06,
+			CHIPSET_QCA7500
 		}
 	};
 	tDevMap firmware [] =
@@ -319,6 +337,16 @@ void chipset (void const * memory)
 			0x001B58DC,
 			0x22,
 			CHIPSET_QCA7000
+		},
+		{
+			0x001D4C00,
+			0x30,
+			CHIPSET_QCA7500
+		},
+		{
+			0x001D4C0F,
+			0x30,
+			CHIPSET_QCA7500
 		}
 	};
 	unsigned chip;

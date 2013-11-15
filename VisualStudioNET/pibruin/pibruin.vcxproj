@@ -32,7 +32,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;MAKEFILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;MAKEFILE;WINPCAP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
@@ -61,7 +61,8 @@
     <ClCompile Include="..\..\tools\checksum32.c" />
     <ClCompile Include="..\..\tools\codelist.c" />
     <ClCompile Include="..\..\tools\emalloc.c" />
-    <ClCompile Include="..\..\tools\endian.c" />
+    <ClCompile Include="..\..\tools\getargv.c" />
+    <ClCompile Include="..\..\tools\reverse.c" />
     <ClCompile Include="..\..\tools\error.c" />
     <ClCompile Include="..\..\tools\fdchecksum32.c" />
     <ClCompile Include="..\..\tools\getoptv.c" />

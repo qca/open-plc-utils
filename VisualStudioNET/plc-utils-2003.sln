@@ -375,18 +375,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "int6kf", "int6kf\int6kf.vcp
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "slac-utils", "..\..\plc-utils\VisualStudioNET\slac-utils\slac-utils-2003.vdproj", "{050FC4CC-B7F1-45E4-9F7B-9226F9BA515C}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "evse", "..\..\plc-utils\VisualStudioNET\evse\evse.vcproj", "{34B76C94-5998-47F6-981A-745818407BF4}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pev", "..\..\plc-utils\VisualStudioNET\pev\pev.vcproj", "{284FB28D-A890-42D5-9D40-18C562F23DB6}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Release = Release
@@ -581,12 +569,6 @@ Global
 		{A95C8E9F-B41F-43A6-B02F-A0EE471C92A3}.Release.Build.0 = Release|Win32
 		{25BD1B0C-8E1B-4159-8259-3F53B5624978}.Release.ActiveCfg = Release|Win32
 		{25BD1B0C-8E1B-4159-8259-3F53B5624978}.Release.Build.0 = Release|Win32
-		{050FC4CC-B7F1-45E4-9F7B-9226F9BA515C}.Release.ActiveCfg = Release
-		{050FC4CC-B7F1-45E4-9F7B-9226F9BA515C}.Release.Build.0 = Release
-		{34B76C94-5998-47F6-981A-745818407BF4}.Release.ActiveCfg = Release|Win32
-		{34B76C94-5998-47F6-981A-745818407BF4}.Release.Build.0 = Release|Win32
-		{284FB28D-A890-42D5-9D40-18C562F23DB6}.Release.ActiveCfg = Release|Win32
-		{284FB28D-A890-42D5-9D40-18C562F23DB6}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
