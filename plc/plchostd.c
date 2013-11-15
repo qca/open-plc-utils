@@ -576,7 +576,7 @@ int main (int argc, char const * argv [])
 			}
 			if (nvmfile (&plc.NVM))
 			{
-				error (1, errno, "Bad NVM file: %s", plc.NVM.name);
+				error (1, errno, "Bad firmware file: %s", plc.NVM.name);
 			}
 			_setbits (plc.flags, PLC_WRITE_MAC);
 			break;
@@ -601,7 +601,7 @@ int main (int argc, char const * argv [])
 			}
 			if (pibfile (&plc.PIB))
 			{
-				error (1, errno, "Bad PIB file: %s", plc.PIB.name);
+				error (1, errno, "Bad parameter file: %s", plc.PIB.name);
 			}
 			_setbits (plc.flags, PLC_WRITE_PIB);
 			break;
@@ -632,7 +632,7 @@ int main (int argc, char const * argv [])
 			}
 			if (nvmfile (&plc.CFG))
 			{
-				error (1, errno, "Bad NVM file: %s", plc.CFG.name);
+				error (1, errno, "Bad firmware file: %s", plc.CFG.name);
 			}
 			_setbits (plc.flags, PLC_FLASH_DEVICE);
 			break;
