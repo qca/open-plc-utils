@@ -218,7 +218,7 @@ signed Attributes2 (struct plc * plc)
 		length += snprintf (string + length, sizeof (string) - length, "-%02d", LE32TOH (attributes->SUSTAININGVERSION));
 		length += snprintf (string + length, sizeof (string) - length, "-%8.8s", attributes->BUILDDATE);
 		length += snprintf (string + length, sizeof (string) - length, "-%s", attributes->RELEASETYPE);
-		length += snprintf (string + length, sizeof (string) - length, " (%dmb"), LE32TOH (attributes->DRAMSIZE));
+		length += snprintf (string + length, sizeof (string) - length, " (%dmb)", LE32TOH (attributes->DRAMSIZE));
 		Display (plc, "%s", string);
 	}
 	return (0);
