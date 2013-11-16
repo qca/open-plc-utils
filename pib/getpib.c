@@ -90,7 +90,7 @@
 #endif
 
 #ifndef MAKEFILE
-#include "../nvm/panther_nvm_seek.c"
+#include "../nvm/nvmseek2.c"
 #endif
 
 /*====================================================================*
@@ -447,7 +447,7 @@ static signed pibimage1 (int argc, char const * argv [], char comma)
 static signed pibimage2 (int argc, char const * argv [], char comma) 
 
 { 
-	struct panther_nvm_header header; 
+	struct nvm_header2 header; 
 	signed fd; 
 	off_t extent; 
 	byte * memory; 
@@ -455,7 +455,7 @@ static signed pibimage2 (int argc, char const * argv [], char comma)
 	{ 
 		error (1, errno, FILE_CANTOPEN, * argv); 
 	} 
-	if (panther_nvm_seek (fd, * argv, & header, NVM_IMAGE_PIB)) 
+	if (nvmseek2 (fd, * argv, & header, NVM_IMAGE_PIB)) 
 	{ 
 		error (1, errno, "Can't find PIB image in %s", * argv); 
 	} 
