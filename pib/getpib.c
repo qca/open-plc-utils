@@ -446,7 +446,7 @@ int main (int argc, char const * argv [])
 	argc--;
 	argv++;
 	header = (struct pib_header *)(buffer);
-	if (extent != LE16TOH (header->PIBLENGTH))
+	if (header->PIBLENGTH && (extent != LE16TOH (header->PIBLENGTH)))
 	{
 		error (1, ECANCELED, "Bad PIB filesize: %s", file.name);
 	}
