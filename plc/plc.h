@@ -321,6 +321,7 @@ typedef struct plc
 	unsigned count;
 	unsigned index;
 	flag_t flags;
+	flag_t flag2;
 }
 
 PLC;

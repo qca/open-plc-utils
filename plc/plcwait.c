@@ -641,7 +641,7 @@ int main (int argc, char const * argv [])
 	extern struct channel channel;
 	static char const * optv [] =
 	{
-		"aef:F:i:p:qrRstvw:xy",
+		"aef:F:i:p:qrRst:vw:xy",
 		"device [device] [...] [> stdout]",
 		"Qualcomm Atheros Powerline Procrastinator",
 		"a\twait for device assoc",

@@ -549,7 +549,7 @@ int main (int argc, char const * argv [])
 			}
 			if (nvmfile2 (&plc.NVM))
 			{
-				error (1, errno, "Bad image file: %s", plc.NVM.name);
+				error (1, errno, "Bad firmware file: %s", plc.NVM.name);
 			}
 			_setbits (plc.flags, PLC_FLASH_DEVICE);
 			break;
@@ -582,7 +582,7 @@ int main (int argc, char const * argv [])
 			}
 			if (pibfile2 (&plc.PIB))
 			{
-				error (1, errno, "Bad image file: %s", plc.PIB.name);
+				error (1, errno, "Bad parameter file: %s", plc.PIB.name);
 			}
 			_setbits (plc.flags, PLC_FLASH_DEVICE);
 			break;
@@ -628,7 +628,7 @@ int main (int argc, char const * argv [])
 			}
 			if (nvmfile2 (&plc.CFG))
 			{
-				error (1, errno, "Bad image file: %s", plc.CFG.name);
+				error (1, errno, "Bad softloader file: %s", plc.CFG.name);
 			}
 			_setbits (plc.flags, PLC_FLASH_DEVICE);
 			break;

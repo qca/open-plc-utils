@@ -191,7 +191,7 @@ signed Attributes1 (struct plc * plc)
 		length += snprintf (string + length, sizeof (string) - length, "-%-8.8s", attributes->RELEASEDATE);
 		length += snprintf (string + length, sizeof (string) - length, "-%s", attributes->RELEASETYPE);
 		length += snprintf (string + length, sizeof (string) - length, "-%c", attributes->SDRAMTYPE);
-		length += snprintf (string + length, sizeof (string) - length, " (%dmb) ", LE32TOH (attributes->SDRAMSIZE));
+		length += snprintf (string + length, sizeof (string) - length, " (%dmb)", LE32TOH (attributes->SDRAMSIZE));
 		length += snprintf (string + length, sizeof (string) - length, " (0x%02X) \"%s\" \"%s\" ", attributes->LINEFREQ, frequency [attributes->LINEFREQ & 0x03], zero_cross [(attributes->LINEFREQ & 0x0C) >> 2]);
 		length += snprintf (string + length, sizeof (string) - length, " 0x%02X", attributes->AUTHMODE);
 		Display (plc, "%s", string);

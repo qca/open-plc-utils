@@ -259,7 +259,7 @@ int main (int argc, char const * argv [])
 			}
 			if (nvmfile2 (&plc.NVM))
 			{
-				error (1, errno, "Bad NVM file: %s", plc.NVM.name);
+				error (1, errno, "Bad firmware file: %s", plc.NVM.name);
 			}
 			_setbits (plc.flags, PLC_WRITE_MAC);
 			break;
@@ -274,7 +274,7 @@ int main (int argc, char const * argv [])
 			}
 			if (pibfile2 (&plc.PIB))
 			{
-				error (1, errno, "Bad PIB file: %s", plc.PIB.name);
+				error (1, errno, "Bad parameter file: %s", plc.PIB.name);
 			}
 			_setbits (plc.flags, PLC_WRITE_PIB);
 			break;
@@ -293,7 +293,7 @@ int main (int argc, char const * argv [])
 			}
 			if (nvmfile2 (&plc.CFG))
 			{
-				error (1, errno, "Bad NVM file: %s", plc.CFG.name);
+				error (1, errno, "Bad softloader file: %s", plc.CFG.name);
 			}
 			break;
 		case 't':
@@ -326,9 +326,9 @@ int main (int argc, char const * argv [])
 		Failure (&plc, PLC_NODETECT);
 		exit (1);
 	}
-	if (plc.hardwareID < CHIPSET_INT6400)
+	if (plc.hardwareID < CHIPSET_QCA7420)
 	{
-		Failure (&plc, "Device must be %s or later; Use program int6kboot instead.", chipsetname (CHIPSET_INT6400));
+		Failure (&plc, "Device must be %s or later; Use program int6kboot or ampboot instead.", chipsetname (CHIPSET_QCA7420));
 		exit (1);
 	}
 	if (strcmp (firmware, "BootLoader"))
