@@ -193,7 +193,6 @@ void chipset (void const * memory)
 	tDevMap;
 	struct __packed tDevClass
 	{
-		uint8_t RESERVED;
 		uint32_t IDENT;
 		uint32_t STEP_NUMBER;
 	}
@@ -350,7 +349,7 @@ void chipset (void const * memory)
 		}
 	};
 	unsigned chip;
-	if (!strcmp (confirm->MVERSION, "BootLoader"))
+	if (! strcmp (confirm->MVERSION, "BootLoader"))
 	{
 		for (chip = 0; chip < SIZEOF (bootrom); chip++)
 		{
@@ -366,7 +365,7 @@ void chipset (void const * memory)
 			return;
 		}
 	}
-	else
+	else 
 	{
 		for (chip = 0; chip < SIZEOF (firmware); chip++)
 		{
