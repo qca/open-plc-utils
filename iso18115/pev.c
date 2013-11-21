@@ -99,7 +99,7 @@
 #include "../tools/error.h"
 #include "../tools/config.h"
 #include "../ether/channel.h"
-#include "../iso18115/iso18115.h"
+#include "../iso18115/slac.h"
 
 /*====================================================================*
  *   custom source files;
@@ -146,13 +146,13 @@
 #endif
 
 #ifndef MAKEFILE
-#include "../iso18115/iso18115_session.c"
-#include "../iso18115/iso18115_connect.c"
-#include "../iso18115/pev_cm_iso18115_param.c"
+#include "../iso18115/slac_session.c"
+#include "../iso18115/slac_connect.c"
+#include "../iso18115/pev_cm_slac_param.c"
 #include "../iso18115/pev_cm_start_atten_char.c"
 #include "../iso18115/pev_cm_atten_char.c"
 #include "../iso18115/pev_cm_mnbc_sound.c"
-#include "../iso18115/pev_cm_iso18115_match.c"
+#include "../iso18115/pev_cm_slac_match.c"
 #include "../iso18115/pev_cm_set_key.c"
 #endif
 
@@ -228,7 +228,7 @@ static void initialize (struct session * session, char const * profile, char con
 	session->state = PEV_STATE_DISCONNECTED; 
 	memcpy (session->original_nmk, session->NMK, sizeof (session->original_nmk)); 
 	memcpy (session->original_nid, session->NID, sizeof (session->original_nid)); 
-	iso18115_session (session); 
+	slac_session (session); 
 	return; 
 } 
 
@@ -263,10 +263,10 @@ static signed identifier (struct session * session, struct channel * channel)
 static void DisconnectedState (struct session * session, struct channel * channel, struct message * message) 
 
 { 
-	iso18115_session (session); 
+	slac_session (session); 
 	debug (0, __func__, "Probing ..."); 
 	memincr (session->RunID, sizeof (session->RunID)); 
-	while (pev_cm_iso18115_param (session, channel, message)); 
+	while (pev_cm_slac_param (session, channel, message)); 
 	session->state = PEV_STATE_UNMATCHED; 
 	return; 
 } 
@@ -279,14 +279,14 @@ static void DisconnectedState (struct session * session, struct channel * channe
  *
  *   the cm_start_atten_char and cm_mnbc_sound messages are sent
  *   broadcast; the application may receive multiple cm_atten_char
- *   messages before sending the cm_iso18115_match message;
+ *   messages before sending the cm_slac_match message;
  *
  *--------------------------------------------------------------------*/
 
 static void UnmatchedState (struct session * session, struct channel * channel, struct message * message) 
 
 { 
-	iso18115_session (session); 
+	slac_session (session); 
 	debug (0, __func__, "Sounding ..."); 
 	if (pev_cm_start_atten_char (session, channel, message)) 
 	{ 
@@ -303,13 +303,13 @@ static void UnmatchedState (struct session * session, struct channel * channel, 
 		session->state = PEV_STATE_DISCONNECTED; 
 		return; 
 	} 
-	if (iso18115_connect (session)) 
+	if (slac_connect (session)) 
 	{ 
 		session->state = PEV_STATE_DISCONNECTED; 
 		return; 
 	} 
 	debug (0, __func__, "Matching ..."); 
-	if (pev_cm_iso18115_match (session, channel, message)) 
+	if (pev_cm_slac_match (session, channel, message)) 
 	{ 
 		session->state = PEV_STATE_DISCONNECTED; 
 		return; 
@@ -330,7 +330,7 @@ static void UnmatchedState (struct session * session, struct channel * channel, 
 static void MatchedState (struct session * session, struct channel * channel, struct message * message) 
 
 { 
-	iso18115_session (session); 
+	slac_session (session); 
 	debug (0, __func__, "Connecting ..."); 
 
 #if SLAC_AVLN_EVSE

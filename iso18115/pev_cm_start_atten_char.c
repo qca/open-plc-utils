@@ -43,7 +43,7 @@
  *
  *   signed pev_cm_start_atten_char (struct session * session, struct channel * channel, struct message * message);
  *
- *   iso18115.h
+ *   slac.h
  *   
  *   the PEV-HLE broadcasts a CM_START_ATTEN_CHAR.IND to initiate a 
  *   SLAC session; we broadcast three times per HPGP specification;
@@ -60,7 +60,7 @@
 #include "../tools/types.h"
 #include "../tools/error.h"
 #include "../ether/channel.h"
-#include "../iso18115/iso18115.h"
+#include "../iso18115/slac.h"
 
 signed pev_cm_start_atten_char (struct session * session, struct channel * channel, struct message * message) 
 

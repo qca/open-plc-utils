@@ -43,7 +43,7 @@
  *
  *   signed evse_cm_mnbc_sound (struct session * session, struct channel * channel, struct message * message);
  *
- *   iso18115.h
+ *   slac.h
  *   
  *   the GP specification recommends that the EVSE-HLE set an overall 
  *   timer once the cm_start_atten_char message is received and use it
@@ -73,7 +73,7 @@
 #include "../tools/error.h"
 #include "../tools/flags.h"
 #include "../tools/timer.h"
-#include "../iso18115/iso18115.h"
+#include "../iso18115/slac.h"
 
 signed evse_cm_mnbc_sound (struct session * session, struct channel * channel, struct message * message) 
 

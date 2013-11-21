@@ -43,7 +43,7 @@
  *
  *   signed pev_cm_set_key (struct session * session, struct channel * channel, struct message * message);
  *
- *   iso18115.h
+ *   slac.h
  *
  *   PEV-HLE sets the NMK and NID on PEV-PLC using CM_SET_KEY.REQ; 
  *   the NMK and NID must match those provided by EVSE-HLE using 
@@ -65,7 +65,7 @@
 #include "../tools/flags.h"
 #include "../mme/qualcomm.h"
 #include "../mme/homeplug.h"
-#include "../iso18115/iso18115.h"
+#include "../iso18115/slac.h"
 
 signed pev_cm_set_key (struct session * session, struct channel * channel, struct message * message) 
 

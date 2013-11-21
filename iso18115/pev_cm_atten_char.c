@@ -43,7 +43,7 @@
  *
  *   signed pev_cm_atten_char (struct session * session, struct channel * channel, struct message * message);
  *
- *   iso18115.h
+ *   slac.h
  *
  *   PEV-HLE waits for CM_ATTEN_CHAR.IND from EVSE-HLE and responds
  *   to indicate the data was received in good order; this response
@@ -60,7 +60,7 @@
 #include "../tools/memory.h"
 #include "../tools/error.h"
 #include "../tools/flags.h"
-#include "../iso18115/iso18115.h"
+#include "../iso18115/slac.h"
 
 signed pev_cm_atten_char (struct session * session, struct channel * channel, struct message * message) 
 

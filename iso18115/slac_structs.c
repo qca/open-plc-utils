@@ -41,59 +41,32 @@
 
 /*====================================================================*
  *
- *   signed pev_cm_mnbc_sound (struct session * session, struct channel * channel, struct message * message);
+ *   void slac_structs ()
  *
  *   slac.h
  *
- *   As HLE-PEV send cm_mnbc_sound indications unicast to the
- *   MSOUND_TARGET address recorded in the session variable;
- *
- *   a brief delay of a few milliseconds is needed between msounds 
- *   so that EVSE-PLC has time to forward CM_MNBC_SOUND.IND and
- *   CM_ATTEN_PROFILE.IND to EVSE-HLE; session.timer controls this
- *   delay;
- *
  *--------------------------------------------------------------------*/
 
-#ifndef PEV_CM_MNBC_SOUND_SOURCE
-#define PEV_CM_MNBC_SOUND_SOURCE
+#include <unistd.h>
 
-#include <string.h>
-#include <errno.h>
-
-#include "../ether/channel.h"
-#include "../tools/memory.h"
-#include "../tools/error.h"
-#include "../tools/timer.h"
 #include "../iso18115/slac.h"
 
-signed pev_cm_mnbc_sound (struct session * session, struct channel * channel, struct message * message) 
+void slac_structs () 
 
 { 
-	struct cm_mnbc_sound_indicate * indicate = (struct cm_mnbc_sound_indicate *) (message); 
-	signed sound = session->NUM_SOUNDS; 
-	while (sound--) 
-	{ 
-		debug (0, __func__, "--> CM_MNBC_SOUND.IND"); 
-		memset (message, 0, sizeof (* message)); 
-		EthernetHeader (& indicate->ethernet, session->MSOUND_TARGET, channel->host, channel->type); 
-		HomePlugHeader1 (& indicate->homeplug, HOMEPLUG_MMV, (CM_MNBC_SOUND | MMTYPE_IND)); 
-		indicate->APPLICATION_TYPE = session->APPLICATION_TYPE; 
-		indicate->SECURITY_TYPE = session->SECURITY_TYPE; 
-		memcpy (indicate->MSVarField.SenderID, session->PEV_ID, sizeof (indicate->MSVarField.SenderID)); 
-		indicate->MSVarField.CNT = sound; 
-		memcpy (indicate->MSVarField.RunID, session->RunID, sizeof (indicate->MSVarField.RunID)); 
-		memset (indicate->MSVarField.RND, 0, sizeof (indicate->MSVarField.RND)); 
-		if (sendmessage (channel, message, sizeof (* indicate)) <= 0) 
-		{ 
-			return (debug (1, __func__, CHANNEL_CANTSEND)); 
-		} 
-		SLEEP (session->pause); 
-	} 
-	return (0); 
+	fprintf (stderr, "sizeof struct cm_sta_identity_request %d\n", sizeof (struct cm_sta_identity_request)); 
+	fprintf (stderr, "sizeof struct cm_sta_identity_confirm %d\n", sizeof (struct cm_sta_identity_confirm)); 
+	fprintf (stderr, "sizeof struct cm_slac_param_request %d\n", sizeof (struct cm_slac_param_request)); 
+	fprintf (stderr, "sizeof struct cm_slac_param_confirm %d\n", sizeof (struct cm_slac_param_confirm)); 
+	fprintf (stderr, "sizeof struct cm_start_atten_char_indicate %d\n", sizeof (struct cm_start_atten_char_indicate)); 
+	fprintf (stderr, "sizeof struct cm_start_atten_char_response %d\n", sizeof (struct cm_start_atten_char_response)); 
+	fprintf (stderr, "sizeof struct cm_atten_char_indicate %d\n", sizeof (struct cm_atten_char_indicate)); 
+	fprintf (stderr, "sizeof struct cm_atten_char_response %d\n", sizeof (struct cm_atten_char_response)); 
+	fprintf (stderr, "sizeof struct cm_mnbc_sound_indicate %d\n", sizeof (struct cm_mnbc_sound_indicate)); 
+	fprintf (stderr, "sizeof struct cm_validate_request %d\n", sizeof (struct cm_validate_request)); 
+	fprintf (stderr, "sizeof struct cm_validate_confirm %d\n", sizeof (struct cm_validate_confirm)); 
+	fprintf (stderr, "sizeof struct cm_slac_match_request %d\n", sizeof (struct cm_slac_match_request)); 
+	fprintf (stderr, "sizeof struct cm_slac_match_confirm %d\n", sizeof (struct cm_slac_match_confirm)); 
+	return; 
 } 
-
-#endif
-
-
 

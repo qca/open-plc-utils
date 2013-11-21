@@ -98,7 +98,7 @@
 #include "../tools/flags.h"
 #include "../tools/error.h"
 #include "../ether/channel.h"
-#include "../iso18115/iso18115.h"
+#include "../iso18115/slac.h"
 
 /*====================================================================*
  *   custom source files;
@@ -145,12 +145,12 @@
 #endif
 
 #ifndef MAKEFILE
-#include "../iso18115/iso18115_session.c"
-#include "../iso18115/evse_cm_iso18115_param.c"
+#include "../iso18115/slac_session.c"
+#include "../iso18115/evse_cm_slac_param.c"
 #include "../iso18115/evse_cm_start_atten_char.c"
 #include "../iso18115/evse_cm_atten_char.c"
 #include "../iso18115/evse_cm_mnbc_sound.c"
-#include "../iso18115/evse_cm_iso18115_match.c"
+#include "../iso18115/evse_cm_slac_match.c"
 #include "../iso18115/evse_cm_set_key.c"
 #endif
 
@@ -224,7 +224,7 @@ static void initialize (struct session * session, char const * profile, char con
 	memcpy (session->original_nmk, session->NMK, sizeof (session->original_nmk)); 
 	memcpy (session->original_nid, session->NID, sizeof (session->original_nid)); 
 	session->state = EVSE_STATE_UNOCCUPIED; 
-	iso18115_session (session); 
+	slac_session (session); 
 	return; 
 } 
 
@@ -253,9 +253,9 @@ static signed identifier (struct session * session, struct channel * channel)
 static void UnoccupiedState (struct session * session, struct channel * channel, struct message * message) 
 
 { 
-	iso18115_session (session); 
+	slac_session (session); 
 	debug (0, __func__, "Listening ..."); 
-	while (evse_cm_iso18115_param (session, channel, message)); 
+	while (evse_cm_slac_param (session, channel, message)); 
 	session->state = EVSE_STATE_UNMATCHED; 
 	return; 
 } 
@@ -272,7 +272,7 @@ static void UnoccupiedState (struct session * session, struct channel * channel,
 static void UnmatchedState (struct session * session, struct channel * channel, struct message * message) 
 
 { 
-	iso18115_session (session); 
+	slac_session (session); 
 	debug (0, __func__, "Sounding ..."); 
 	if (evse_cm_start_atten_char (session, channel, message)) 
 	{ 
@@ -290,7 +290,7 @@ static void UnmatchedState (struct session * session, struct channel * channel, 
 		return; 
 	} 
 	debug (0, __func__, "Matching ..."); 
-	if (evse_cm_iso18115_match (session, channel, message)) 
+	if (evse_cm_slac_match (session, channel, message)) 
 	{ 
 		session->state = EVSE_STATE_UNOCCUPIED; 
 		return; 

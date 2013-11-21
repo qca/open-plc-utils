@@ -43,7 +43,7 @@
  *
  *   signed evse_cm_atten_char (struct session * session, struct channel * channel, struct message * message);
  *
- *   iso18115.h
+ *   slac.h
  *
  *   EVSE-HLE sends average msound values to the PEV-HLE for a match
  *   decision;
@@ -59,7 +59,7 @@
 #include "../tools/memory.h"
 #include "../tools/error.h"
 #include "../tools/flags.h"
-#include "../iso18115/iso18115.h"
+#include "../iso18115/slac.h"
 
 signed evse_cm_atten_char (struct session * session, struct channel * channel, struct message * message) 
 

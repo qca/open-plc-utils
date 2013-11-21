@@ -43,7 +43,7 @@
  *
  *   signed evse_cm_start_atten_char (struct session * session, struct channel * channel, struct message * message);
  *
- *   iso18115.h
+ *   slac.h
  *
  *   EVSE_HLE stores NUM_SOUNDS, TIME_OUT and FORWARDING_STA for use
  *   later in the SLAC session;
@@ -62,7 +62,7 @@
 #include "../tools/memory.h"
 #include "../tools/error.h"
 #include "../tools/flags.h"
-#include "../iso18115/iso18115.h"
+#include "../iso18115/slac.h"
 
 signed evse_cm_start_atten_char (struct session * session, struct channel * channel, struct message * message) 
 
