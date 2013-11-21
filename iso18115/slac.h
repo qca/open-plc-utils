@@ -41,7 +41,7 @@
 
 /*====================================================================*
  *
- *   iso18115.h - 
+ *   slac.h - 
  *
  *   this file contains defintions for the HomePlug Green PHY SLAC
  *   protocol;
