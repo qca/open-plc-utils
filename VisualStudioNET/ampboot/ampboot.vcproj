@@ -217,6 +217,9 @@
 				RelativePath="..\..\plc\WaitForReset.c">
 			</File>
 			<File
+				RelativePath="..\..\plc\WaitForRestart.c">
+			</File>
+			<File
 				RelativePath="..\..\plc\WaitForStart.c">
 			</File>
 			<File

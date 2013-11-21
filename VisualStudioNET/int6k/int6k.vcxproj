@@ -62,6 +62,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\plc\Attributes1.c" />
     <ClCompile Include="..\..\ether\channel.c" />
+    <ClCompile Include="..\..\plc\WaitForRestart.c" />
     <ClCompile Include="..\..\tools\checkfilename.c" />
     <ClCompile Include="..\..\tools\checksum32.c" />
     <ClCompile Include="..\..\plc\chipset.c" />

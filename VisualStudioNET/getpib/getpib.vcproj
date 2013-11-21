@@ -71,10 +71,16 @@
 				RelativePath="..\..\tools\basespec.c">
 			</File>
 			<File
+				RelativePath="..\..\tools\checksum32.c">
+			</File>
+			<File
 				RelativePath="..\..\tools\error.c">
 			</File>
 			<File
 				RelativePath="..\..\tools\error.h">
+			</File>
+			<File
+				RelativePath="..\..\tools\fdchecksum32.c">
 			</File>
 			<File
 				RelativePath="..\..\tools\getoptv.c">
@@ -84,6 +90,9 @@
 			</File>
 			<File
 				RelativePath="..\..\tools\hexout.c">
+			</File>
+			<File
+				RelativePath="..\..\nvm\nvmseek2.c">
 			</File>
 			<File
 				RelativePath="..\..\tools\putoptv.c">
