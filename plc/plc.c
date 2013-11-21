@@ -270,6 +270,7 @@ struct plc plc =
 	PLC_COUNT,
 	PLC_INDEX,
 	PLC_FLAGS,
+	PLC_FLAGS
 };
 
 

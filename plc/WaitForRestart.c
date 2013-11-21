@@ -41,47 +41,43 @@
 
 /*====================================================================*
  *
- *   signed FlashDevice1 (struct plc * plc);
+ *   signed WaitForRestart (struct plc * plc, char string [], size_t length);
  *
  *   plc.h
  *
- *   permanently write parameters and firmware to flash memory using
- *   VS_WR_MOD messagesand VS_MOD_NVM messages;
- *
- *   paramters and firmware are written to device SDRAM and stored
- *   until commited to flash memory;
- *
+ *   wait for the local powerline device to reset then start again;
+ *   this function may be called to stop the program from returning
+ *   to the command line until a flash or reset action is completed;
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-#ifndef FLASHDEVICE1_SOURCE
-#define FLASHDEVICE1_SOURCE
+#ifndef WAITFORRESTART_SOURCE
+#define WAITFORRESTART_SOURCE
 
-#include "../tools/flags.h"
-#include "../tools/error.h"
+
 #include "../plc/plc.h"
+#include "../tools/error.h"
+#include "../tools/flags.h"
 
-signed FlashDevice1 (struct plc * plc)
+signed WaitForRestart (struct plc * plc)
 
 {
-	if (WritePIB (plc))
+	if (_allclr (plc->flags, PLC_QUICK_FLASH))
 	{
-		return (-1);
-	}
-	if (WriteNVM (plc))
-	{
-		return (-1);
-	}
-	if (FlashNVM (plc))
-	{
-		return (-1);
-	}
-	if (WaitForRestart (plc))
-	{
-		return (-1);
+		char firmware [PLC_VERSION_STRING];
+		if (WaitForReset (plc, firmware, sizeof (firmware)))
+		{
+			error ((plc->flags & PLC_BAILOUT), 0, "Device did not Reset");
+			return (-1);
+		}
+		if (WaitForStart (plc, firmware, sizeof (firmware)))
+		{
+			error ((plc->flags & PLC_BAILOUT), 0, "Device did not Start");
+			return (-1);
+		}
 	}
 	return (0);
 }
