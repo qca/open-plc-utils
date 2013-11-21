@@ -125,7 +125,7 @@ signed PhyRates1 (struct plc * plc)
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	while (ReadMME (plc, 0, (VS_NW_INFO | MMTYPE_CNF)) > 0)
@@ -151,7 +151,7 @@ signed PhyRates1 (struct plc * plc)
 					{
 						if (!station->AVGTX || !station->AVGRX)
 						{
-							error ((plc->flags & PLC_BAILOUT), ECANCELED, PLC_BADVALUE);
+							error (PLC_EXIT (plc), ECANCELED, PLC_BADVALUE);
 							return (-1);
 						}
 					}

@@ -178,12 +178,12 @@ signed ToneMaps2 (struct plc * plc)
 		request->COUPLING = plc->coupling;
 		if (SendMME (plc) <= 0)
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
 		if (ReadMME (plc, 1, (VS_TONE_MAP_CHAR | MMTYPE_CNF)) <= 0)
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
 		if (confirm->MSTATUS)

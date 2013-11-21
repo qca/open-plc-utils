@@ -105,12 +105,12 @@ signed SlaveMembership (struct plc * plc)
 	request->ASSOC_RETRY_TIME = plc->module;
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	if (ReadMME (plc, 0, (VS_SLAVE_MEM | MMTYPE_CNF)) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 		return (-1);
 	}
 	if (confirm->MSTATUS)

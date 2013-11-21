@@ -40,17 +40,6 @@
  *--------------------------------------------------------------------*/
 
 /*====================================================================*"
- *
- *   ampboot.c -
- *
- *
- *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
- *
- *--------------------------------------------------------------------*/
-
-
-/*====================================================================*"
  *   system header files;
  *--------------------------------------------------------------------*/
 
@@ -100,8 +89,8 @@
 #include "../plc/WriteNVM.c"
 #include "../plc/WritePIB.c"
 #include "../plc/WaitForReset.c"
-#include "../plc/WaitForStart.c"
 #include "../plc/WaitForRestart.c"
+#include "../plc/WaitForStart.c"
 #include "../plc/InitDevice1.c"
 #include "../plc/BootDevice1.c"
 #include "../plc/BootFirmware1.c"

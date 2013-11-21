@@ -235,7 +235,7 @@ static signed con_info (struct plc * plc, uint8_t TYPE, uint16_t CID, uint16_t T
 	request->CSPEC_VER = 0x01;
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	while (ReadMME (plc, 0, (VS_CONN_INFO | MMTYPE_CNF)) <= 0);

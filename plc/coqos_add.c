@@ -188,7 +188,7 @@ static signed add_conn (struct plc * plc, struct connection * connection)
 	plc->packetsize = sizeof (struct vs_add_conn_req);
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	while (ReadMME (plc, 0, (VS_CONN_ADD | MMTYPE_CNF)) <= 0)

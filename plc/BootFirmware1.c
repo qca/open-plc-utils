@@ -79,15 +79,15 @@ signed BootFirmware1 (struct plc * plc)
 	{
 		if (read (plc->NVM.file, &nvm_header, sizeof (nvm_header)) != sizeof (nvm_header))
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, NVM_HDR_CANTREAD, plc->NVM.name, module);
+			error (PLC_EXIT (plc), errno, NVM_HDR_CANTREAD, plc->NVM.name, module);
 		}
 		if (LE32TOH (nvm_header.HEADERVERSION) != 0x60000000)
 		{
-			error ((plc->flags & PLC_BAILOUT), ECANCELED, NVM_HDR_VERSION, plc->NVM.name, module);
+			error (PLC_EXIT (plc), ECANCELED, NVM_HDR_VERSION, plc->NVM.name, module);
 		}
 		if (checksum32 (&nvm_header, sizeof (nvm_header), 0))
 		{
-			error ((plc->flags & PLC_BAILOUT), ECANCELED, NVM_HDR_CHECKSUM, plc->NVM.name, module);
+			error (PLC_EXIT (plc), ECANCELED, NVM_HDR_CHECKSUM, plc->NVM.name, module);
 		}
 
 #if 0
@@ -96,7 +96,7 @@ signed BootFirmware1 (struct plc * plc)
 		{
 			if (lseek (plc->NVM.file, LE32TOH (nvm_header.NEXTHEADER), SEEK_SET) == -1)
 			{
-				error ((plc->flags & PLC_BAILOUT), errno, "Can't skip module: %s (%d)", plc->NVM.name, module);
+				error (PLC_EXIT (plc), errno, "Can't skip module: %s (%d)", plc->NVM.name, module);
 			}
 		}
 		else
@@ -125,7 +125,7 @@ signed BootFirmware1 (struct plc * plc)
 		}
 		if (lseek (plc->NVM.file, LE32TOH (nvm_header.NEXTHEADER), SEEK_SET) == -1)
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, "Can't skip module: %s (%d)", plc->NVM.name, module);
+			error (PLC_EXIT (plc), errno, "Can't skip module: %s (%d)", plc->NVM.name, module);
 		}
 		module++;
 	}

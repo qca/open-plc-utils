@@ -205,6 +205,8 @@
 #define PLC_BAD_DAK "Have '%s' instead of DAK"
 #define PLC_BAD_NMK "Have '%s' instead of NMK"
 
+#define PLC_EXIT(plc) ((signed) (plc->flags & PLC_BAILOUT))
+
 /*====================================================================*
  *    program constants;
  *--------------------------------------------------------------------*/

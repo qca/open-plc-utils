@@ -107,7 +107,7 @@ signed SetProperty (struct plc * plc, struct plcproperty * plcproperty)
 	plc->packetsize = sizeof (* request);
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	while (ReadMME (plc, 0, (VS_SET_PROPERTY | MMTYPE_CNF)) > 0)

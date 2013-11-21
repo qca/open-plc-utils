@@ -120,7 +120,7 @@ signed ReadFirmware1 (struct plc * plc)
 	Request (plc, "Read Firmware from Device");
 	if (lseek (plc->nvm.file, 0, SEEK_SET))
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, FILE_CANTHOME, plc->nvm.name);
+		error (PLC_EXIT (plc), errno, FILE_CANTHOME, plc->nvm.name);
 		return (1);
 	}
 	do
@@ -134,12 +134,12 @@ signed ReadFirmware1 (struct plc * plc)
 		request->MOFFSET = HTOLE32 (offset);
 		if (SendMME (plc) <= 0)
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
 		if (ReadMME (plc, 0, (VS_RD_MOD | MMTYPE_CNF)) <= 0)
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
 		if (confirm->MSTATUS)
@@ -149,19 +149,19 @@ signed ReadFirmware1 (struct plc * plc)
 		}
 		if (LE16TOH (confirm->MLENGTH) != length)
 		{
-			error ((plc->flags & PLC_BAILOUT), 0, PLC_ERR_LENGTH);
+			error (PLC_EXIT (plc), 0, PLC_ERR_LENGTH);
 			return (-1);
 		}
 		if (LE32TOH (confirm->MOFFSET) != offset)
 		{
-			error ((plc->flags & PLC_BAILOUT), 0, PLC_ERR_OFFSET);
+			error (PLC_EXIT (plc), 0, PLC_ERR_OFFSET);
 			return (-1);
 		}
 		length = LE16TOH (confirm->MLENGTH);
 		offset = LE32TOH (confirm->MOFFSET);
 		if (checksum32 (confirm->BUFFER, length, confirm->CHKSUM))
 		{
-			error ((plc->flags & PLC_BAILOUT), ECANCELED, "Bad Packet Checksum");
+			error (PLC_EXIT (plc), ECANCELED, "Bad Packet Checksum");
 			return (-1);
 		}
 		if (offset == extent)
@@ -169,12 +169,12 @@ signed ReadFirmware1 (struct plc * plc)
 			struct nvm_header1 * nvm_header = (struct nvm_header1 *)(confirm->BUFFER);
 			if (checksum32 (nvm_header, sizeof (* nvm_header), 0))
 			{
-				error ((plc->flags & PLC_BAILOUT), ECANCELED, "Bad Header Checksum");
+				error (PLC_EXIT (plc), ECANCELED, "Bad Header Checksum");
 				return (-1);
 			}
 			if (LE32TOH (nvm_header->HEADERVERSION) != 0x60000000)
 			{
-				error ((plc->flags & PLC_BAILOUT), ECANCELED, "Bad Header Version");
+				error (PLC_EXIT (plc), ECANCELED, "Bad Header Version");
 				return (-1);
 			}
 			extent += sizeof (* nvm_header);
@@ -187,12 +187,12 @@ signed ReadFirmware1 (struct plc * plc)
 		}
 		if (lseek (plc->nvm.file, offset, SEEK_SET) != (off_t)(offset))
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, FILE_CANTSEEK, plc->nvm.name);
+			error (PLC_EXIT (plc), errno, FILE_CANTSEEK, plc->nvm.name);
 			return (-1);
 		}
 		if (write (plc->nvm.file, confirm->BUFFER, length) != (signed)(length))
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, FILE_CANTSEEK, plc->nvm.name);
+			error (PLC_EXIT (plc), errno, FILE_CANTSEEK, plc->nvm.name);
 			return (-1);
 		}
 		offset += length;

@@ -218,12 +218,12 @@ signed Identity2 (struct plc * plc)
 	request->MODULE_SPEC.MODULE_OFFSET = HTOLE32 (0);
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 		return (-1);
 	}
 	if (confirm->MSTATUS)

@@ -110,27 +110,27 @@ int WriteCFG (struct plc * plc)
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	if (lseek (plc->CFG.file, 0, SEEK_SET))
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, FILE_CANTHOME, plc->CFG.name);
+		error (PLC_EXIT (plc), errno, FILE_CANTHOME, plc->CFG.name);
 		return (-1);
 	}
 	if (read (plc->CFG.file, &request->config_ram, sizeof (struct config_ram)) != sizeof (struct config_ram))
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, FILE_CANTREAD, plc->CFG.name);
+		error (PLC_EXIT (plc), errno, FILE_CANTREAD, plc->CFG.name);
 		return (-1);
 	}
 	if (read (plc->CFG.file, &request->CHECKSUM, sizeof (request->CHECKSUM)) != sizeof (request->CHECKSUM))
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, "can't read %s checksum", plc->CFG.name);
+		error (PLC_EXIT (plc), errno, "can't read %s checksum", plc->CFG.name);
 		return (-1);
 	}
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	if (ReadMME (plc, 0, (VS_SET_SDRAM | MMTYPE_CNF)) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 		return (-1);
 	}
 	if (confirm->MSTATUS)

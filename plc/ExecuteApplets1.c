@@ -70,7 +70,7 @@ signed ExecuteApplets1 (struct plc * plc)
 	{
 		if (_allclr (plc->flags, PLC_SILENCE))
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, FILE_CANTHOME, plc->NVM.name);
+			error (PLC_EXIT (plc), errno, FILE_CANTHOME, plc->NVM.name);
 		}
 		return (-1);
 	}
@@ -80,7 +80,7 @@ signed ExecuteApplets1 (struct plc * plc)
 		{
 			if (_allclr (plc->flags, PLC_SILENCE))
 			{
-				error ((plc->flags & PLC_BAILOUT), errno, NVM_HDR_CANTREAD, plc->NVM.name, module);
+				error (PLC_EXIT (plc), errno, NVM_HDR_CANTREAD, plc->NVM.name, module);
 			}
 			return (-1);
 		}
@@ -88,7 +88,7 @@ signed ExecuteApplets1 (struct plc * plc)
 		{
 			if (_allclr (plc->flags, PLC_SILENCE))
 			{
-				error ((plc->flags & PLC_BAILOUT), 0, NVM_HDR_VERSION, plc->NVM.name, module);
+				error (PLC_EXIT (plc), 0, NVM_HDR_VERSION, plc->NVM.name, module);
 			}
 			return (-1);
 		}
@@ -96,7 +96,7 @@ signed ExecuteApplets1 (struct plc * plc)
 		{
 			if (_allclr (plc->flags, PLC_SILENCE))
 			{
-				error ((plc->flags & PLC_BAILOUT), 0, NVM_HDR_CHECKSUM, plc->NVM.name, module);
+				error (PLC_EXIT (plc), 0, NVM_HDR_CHECKSUM, plc->NVM.name, module);
 			}
 			return (-1);
 		}

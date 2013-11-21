@@ -80,15 +80,15 @@ signed BootParameters1 (struct plc * plc)
 	uint32_t offset;
 	if (lseek (plc->PIB.file, 0, SEEK_SET))
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, FILE_CANTHOME, plc->PIB.name);
+		error (PLC_EXIT (plc), errno, FILE_CANTHOME, plc->PIB.name);
 	}
 	if (read (plc->PIB.file, &pib_header, sizeof (pib_header)) != sizeof (pib_header))
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, FILE_CANTREAD, plc->PIB.name);
+		error (PLC_EXIT (plc), errno, FILE_CANTREAD, plc->PIB.name);
 	}
 	if (lseek (plc->PIB.file, 0, SEEK_SET))
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, FILE_CANTHOME, plc->PIB.name);
+		error (PLC_EXIT (plc), errno, FILE_CANTHOME, plc->PIB.name);
 	}
 
 #if 1

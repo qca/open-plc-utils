@@ -175,7 +175,7 @@ signed rel_conn (struct plc * plc, uint16_t CID)
 	request->CID = CID;
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	while (ReadMME (plc, 0, (VS_CONN_REL | MMTYPE_CNF)) > 0)

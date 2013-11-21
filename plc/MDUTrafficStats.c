@@ -404,7 +404,7 @@ signed MDUTrafficStats (struct plc * plc, uint8_t command, uint8_t session, uint
 	plc->packetsize = sizeof (* request);
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	while (ReadMME (plc, 0, (VS_MDU_TRAFFIC_STATS | MMTYPE_CNF)) > 0)

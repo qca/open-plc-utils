@@ -70,12 +70,12 @@ signed WaitForRestart (struct plc * plc)
 		char firmware [PLC_VERSION_STRING];
 		if (WaitForReset (plc, firmware, sizeof (firmware)))
 		{
-			error ((plc->flags & PLC_BAILOUT), 0, "Device did not Reset");
+			error (PLC_EXIT (plc), 0, "Device did not Reset");
 			return (-1);
 		}
 		if (WaitForStart (plc, firmware, sizeof (firmware)))
 		{
-			error ((plc->flags & PLC_BAILOUT), 0, "Device did not Start");
+			error (PLC_EXIT (plc), 0, "Device did not Start");
 			return (-1);
 		}
 	}

@@ -174,13 +174,13 @@ signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, stru
 
 		if (SendMME (plc) <= 0)
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
 		channel->timeout = PLC_MODULE_WRITE_TIMEOUT;
 		if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0)
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 			channel->timeout = timer;
 			return (-1);
 		}
@@ -209,12 +209,12 @@ signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, stru
 		}
 		if (LE16TOH (confirm->MODULE_SPEC.MODULE_LENGTH) != length)
 		{
-			error ((plc->flags & PLC_BAILOUT), 0, PLC_ERR_LENGTH);
+			error (PLC_EXIT (plc), 0, PLC_ERR_LENGTH);
 			return (-1);
 		}
 		if (LE32TOH (confirm->MODULE_SPEC.MODULE_OFFSET) != offset)
 		{
-			error ((plc->flags & PLC_BAILOUT), 0, PLC_ERR_OFFSET);
+			error (PLC_EXIT (plc), 0, PLC_ERR_OFFSET);
 			return (-1);
 		}
 		extent -= length;

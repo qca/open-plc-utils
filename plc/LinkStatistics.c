@@ -310,12 +310,12 @@ signed LinkStatistics (struct plc * plc)
 	memcpy (request->MACADDRESS, plc->RDA, sizeof (request->MACADDRESS));
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	if (ReadMME (plc, 0, (VS_LNK_STATS | MMTYPE_CNF)) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 		return (-1);
 	}
 	if (confirm->MSTATUS)
