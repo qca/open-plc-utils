@@ -109,7 +109,7 @@ signed HostActionIndicate (struct plc * plc)
 	indicate->MACTION = plc->action;
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	while (ReadMME (plc, 0, (VS_HOST_ACTION | MMTYPE_RSP)) > 0)

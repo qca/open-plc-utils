@@ -208,7 +208,7 @@ static signed configure (struct plc * plc, struct selftest * selftest)
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	while (ReadMME (plc, 0, (VS_SELFTEST_ONETIME_CONFIG | MMTYPE_CNF)) > 0)
@@ -272,7 +272,7 @@ static signed retrieve (struct plc * plc, struct selftest * selftest)
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	while (ReadMME (plc, 0, (VS_SELFTEST_RESULTS | MMTYPE_CNF)) > 0)

@@ -109,6 +109,7 @@
 #include "../plc/WritePIB.c"
 #include "../plc/WaitForReset.c"
 #include "../plc/WaitForStart.c"
+#include "../plc/WaitForRestart.c"
 #endif
 
 #ifndef MAKEFILE

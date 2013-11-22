@@ -115,12 +115,12 @@ signed StartFirmware1 (struct plc * plc, unsigned module, const struct nvm_heade
 	request->MODULEID = VS_MODULE_MAC;
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	if (ReadMME (plc, 0, (VS_ST_MAC | MMTYPE_CNF)) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 		return (-1);
 	}
 	if (confirm->MSTATUS)

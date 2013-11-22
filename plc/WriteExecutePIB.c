@@ -146,12 +146,12 @@ signed WriteExecutePIB (struct plc * plc, uint32_t offset, struct pib_header * h
 		plc->packetsize = sizeof (* request);
 		if (SendMME (plc) <= 0)
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
 		if (ReadMME (plc, 0, (VS_WRITE_AND_EXECUTE_APPLET | MMTYPE_CNF)) <= 0)
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
 		if (confirm->MSTATUS)
@@ -161,12 +161,12 @@ signed WriteExecutePIB (struct plc * plc, uint32_t offset, struct pib_header * h
 		}
 		if (LE32TOH (confirm->CURR_PART_LENGTH) != length)
 		{
-			error ((plc->flags & PLC_BAILOUT), 0, PLC_ERR_LENGTH);
+			error (PLC_EXIT (plc), 0, PLC_ERR_LENGTH);
 			return (-1);
 		}
 		if (LE32TOH (confirm->CURR_PART_OFFSET) != offset)
 		{
-			error ((plc->flags & PLC_BAILOUT), 0, PLC_ERR_OFFSET);
+			error (PLC_EXIT (plc), 0, PLC_ERR_OFFSET);
 			return (-1);
 		}
 		offset += length;

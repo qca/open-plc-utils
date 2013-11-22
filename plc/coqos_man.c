@@ -208,7 +208,7 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 		request->TOT_BW_USED = TOT_BW_USED;
 		if (SendMME (plc) <= 0)
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
 		while (ReadMME (plc, 0, (VS_CONN_INFO | MMTYPE_CNF)) <= 0);
@@ -270,7 +270,7 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 		mc_request->CID = lowcid;
 		if (SendMME (plc) <= 0)
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
 		while (ReadMME (plc, 0, (VS_CONN_MOD | MMTYPE_CNF)) <= 0);

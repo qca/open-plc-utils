@@ -205,6 +205,8 @@
 #define PLC_BAD_DAK "Have '%s' instead of DAK"
 #define PLC_BAD_NMK "Have '%s' instead of NMK"
 
+#define PLC_EXIT(plc) ((signed) (plc->flags & PLC_BAILOUT))
+
 /*====================================================================*
  *    program constants;
  *--------------------------------------------------------------------*/
@@ -464,6 +466,7 @@ signed WaitForAssoc2 (struct plc *);
 signed WaitForBootLoader (struct plc *);
 signed WaitForReset (struct plc *, char buffer [], size_t length);
 signed WaitForStart (struct plc *, char buffer [], size_t length);
+signed WaitForRestart (struct plc *);
 signed WatchdogReport (struct plc *);
 signed WriteCFG (struct plc *);
 signed WriteExecuteApplet2 (struct plc *, unsigned module, const struct nvm_header2 *);

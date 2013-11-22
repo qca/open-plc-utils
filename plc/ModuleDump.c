@@ -138,13 +138,13 @@ signed ModuleDump (struct plc * plc, uint16_t source, uint16_t module, uint16_t 
 		request->MODULE_SPEC.MODULE_OFFSET = HTOLE32 (offset);
 		if (SendMME (plc) <= 0)
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
 		channel->timeout = PLC_MODULE_READ_TIMEOUT;
 		if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0)
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 			channel->timeout = timer;
 			return (-1);
 		}

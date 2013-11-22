@@ -249,6 +249,9 @@
     <ClCompile Include="..\..\plc\WritePIB.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\plc\WaitForRestart.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\key\base64.h">

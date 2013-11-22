@@ -114,6 +114,7 @@
 #include "../plc/WritePIB.c"
 #include "../plc/WaitForReset.c"
 #include "../plc/WaitForStart.c"
+#include "../plc/WaitForRestart.c"
 #include "../plc/WatchdogReport.c"
 #include "../plc/StationRole.c"
 #include "../plc/ModuleRead.c"
@@ -305,6 +306,7 @@ static void manager (struct plc * plc, signed count, signed pause)
 		if (_anyset (plc->flags, PLC_FLASH_DEVICE))
 		{
 			FlashNVM (plc);
+			WaitForRestart (plc);
 		}
 		if (_anyset (plc->flags, PLC_RESET_DEVICE))
 		{

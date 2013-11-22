@@ -128,13 +128,13 @@ signed ModuleCommit (struct plc * plc, uint32_t options)
 	request->request.COMMIT_CODE = HTOLE32 (options);
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	channel->timeout = PLC_MODULE_WRITE_TIMEOUT;
 	if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 		channel->timeout = timer;
 		return (-1);
 	}

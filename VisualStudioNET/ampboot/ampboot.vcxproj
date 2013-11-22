@@ -55,6 +55,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\plc\WaitForRestart.c" />
     <ClCompile Include="..\..\plc\WriteExecutePIB.c" />
     <ClCompile Include="..\..\tools\__bswap.c" />
     <ClCompile Include="..\..\plc\ampboot.c" />

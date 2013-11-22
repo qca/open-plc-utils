@@ -98,6 +98,7 @@
 #include "../plc/SendMME.c"
 #include "../plc/WaitForReset.c"
 #include "../plc/WaitForStart.c"
+#include "../plc/WaitForRestart.c"
 #include "../plc/WriteExecuteFirmware1.c"
 #include "../plc/WriteExecutePIB.c"
 #include "../plc/WriteMEM.c"

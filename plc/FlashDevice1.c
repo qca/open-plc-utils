@@ -79,19 +79,9 @@ signed FlashDevice1 (struct plc * plc)
 	{
 		return (-1);
 	}
-	if (_allclr (plc->flags, PLC_QUICK_FLASH))
+	if (WaitForRestart (plc))
 	{
-		char firmware [PLC_VERSION_STRING];
-		if (WaitForReset (plc, firmware, sizeof (firmware)))
-		{
-			error ((plc->flags & PLC_BAILOUT), 0, "Device did not Reset");
-			return (-1);
-		}
-		if (WaitForStart (plc, firmware, sizeof (firmware)))
-		{
-			error ((plc->flags & PLC_BAILOUT), 0, "Device did not Start");
-			return (-1);
-		}
+		return (-1);
 	}
 	return (0);
 }

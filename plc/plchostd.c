@@ -129,6 +129,7 @@
 #include "../plc/LocalDevices.c"
 #include "../plc/WaitForReset.c"
 #include "../plc/WaitForStart.c"
+#include "../plc/WaitForRestart.c"
 #include "../plc/WriteMEM.c"
 #include "../plc/WriteNVM.c"
 #include "../plc/WritePIB.c"

@@ -78,6 +78,9 @@
 				RelativePath="..\..\tools\checksum32.c">
 			</File>
 			<File
+				RelativePath="..\..\plc\chipset.c">
+			</File>
+			<File
 				RelativePath="..\..\ether\closechannel.c">
 			</File>
 			<File
@@ -156,10 +159,16 @@
 				RelativePath="..\..\tools\todigit.c">
 			</File>
 			<File
+				RelativePath="..\..\tools\typename.c">
+			</File>
+			<File
 				RelativePath="..\..\mme\UnwantedMessage.c">
 			</File>
 			<File
 				RelativePath="..\..\tools\version.c">
+			</File>
+			<File
+				RelativePath="..\..\plc\WaitForStart.c">
 			</File>
 		</Filter>
 		<Filter

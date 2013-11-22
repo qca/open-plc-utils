@@ -220,7 +220,7 @@ static signed PrintRawWatchdogReport (struct plc * plc)
 	request->CLR = plc->readaction;
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	do
@@ -228,7 +228,7 @@ static signed PrintRawWatchdogReport (struct plc * plc)
 		printf ("%d %d\n", LE16TOH (indicate->RDATALENGTH), indicate->RDATAOFFSET);
 		if (ReadMME (plc, 0, (VS_WD_RPT | MMTYPE_IND)) <= 0)
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
 		printf ("%d %d\n", LE16TOH (indicate->RDATALENGTH), indicate->RDATAOFFSET);
@@ -305,7 +305,7 @@ static signed PrintWatchdogReport (struct plc * plc, char const * version)
 	request->CLR = plc->readaction;
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	printf ("<WatchdogReport>");
@@ -313,7 +313,7 @@ static signed PrintWatchdogReport (struct plc * plc, char const * version)
 	{
 		if (ReadMME (plc, 0, (VS_WD_RPT | MMTYPE_IND)) < 0)
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
 		if (indicate->MSTATUS)
@@ -409,7 +409,7 @@ static signed PrintCheckpointReport (struct plc * plc, char const * version)
 	request->CLR = plc->readaction;
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	printf ("<CheckpointReport>");
@@ -417,7 +417,7 @@ static signed PrintCheckpointReport (struct plc * plc, char const * version)
 	{
 		if (ReadMME (plc, 0, (VS_CP_RPT | MMTYPE_IND)) <= 0)
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
 		if (_anyset (indicate->MSTATUS, MSTATUS_STATUS))
@@ -510,12 +510,12 @@ static signed Diagnostics (struct plc * plc)
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	if (ReadMME (plc, 0, (VS_SW_VER | MMTYPE_CNF)) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 		return (-1);
 	}
 	if (confirm->MSTATUS)

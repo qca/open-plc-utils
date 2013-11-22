@@ -83,24 +83,24 @@ int StartDevice1 (struct plc * plc)
 	}
 	if (lseek (plc->NVM.file, 0, SEEK_SET))
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, FILE_CANTHOME, plc->NVM.name);
+		error (PLC_EXIT (plc), errno, FILE_CANTHOME, plc->NVM.name);
 		return (-1);
 	}
 	if (read (plc->NVM.file, &nvm_header, sizeof (nvm_header)) != sizeof (nvm_header))
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, FILE_CANTREAD, plc->NVM.name);
+		error (PLC_EXIT (plc), errno, FILE_CANTREAD, plc->NVM.name);
 		return (-1);
 	}
 	while (nvm_header.NEXTHEADER)
 	{
 		if (lseek (plc->NVM.file, LE32TOH (nvm_header.NEXTHEADER), SEEK_SET) == -1)
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, FILE_CANTHOME, plc->NVM.name);
+			error (PLC_EXIT (plc), errno, FILE_CANTHOME, plc->NVM.name);
 			return (-1);
 		}
 		if (read (plc->NVM.file, &nvm_header, sizeof (nvm_header)) != sizeof (nvm_header))
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, FILE_CANTREAD, plc->NVM.name);
+			error (PLC_EXIT (plc), errno, FILE_CANTREAD, plc->NVM.name);
 			return (-1);
 		}
 		module++;
@@ -143,7 +143,7 @@ int StartDevice1 (struct plc * plc)
 	}
 	if (lseek (plc->NVM.file, 0, SEEK_SET))
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, FILE_CANTHOME, plc->NVM.name);
+		error (PLC_EXIT (plc), errno, FILE_CANTHOME, plc->NVM.name);
 		return (-1);
 	}
 	return (0);

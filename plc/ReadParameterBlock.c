@@ -134,17 +134,17 @@ signed ReadParameterBlock (struct plc * plc, void * memory, size_t extent)
 		plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		if (SendMME (plc) <= 0)
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
 		if (ReadMME (plc, 0, (VS_RD_MOD | MMTYPE_CNF)) <= 0)
 		{
-			error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
 		if (confirm->MSTATUS)
 		{
-			error ((plc->flags & PLC_BAILOUT), ECANCELED, PLC_WONTDOIT);
+			error (PLC_EXIT (plc), ECANCELED, PLC_WONTDOIT);
 			return (-1);
 		}
 		if (LE16TOH (confirm->MLENGTH) != actual)
@@ -161,7 +161,7 @@ signed ReadParameterBlock (struct plc * plc, void * memory, size_t extent)
 		offset = LE32TOH (confirm->MOFFSET);
 		if (checksum32 (confirm->BUFFER, actual, confirm->CHKSUM))
 		{
-			error ((plc->flags & PLC_BAILOUT), ECANCELED, "Bad Packet Checksum");
+			error (PLC_EXIT (plc), ECANCELED, "Bad Packet Checksum");
 			return (-1);
 		}
 		if (offset == length)

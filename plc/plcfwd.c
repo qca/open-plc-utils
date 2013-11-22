@@ -436,7 +436,7 @@ static signed ReadVLANIDs (struct plc * plc, uint32_t offset, uint32_t length)
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) > 0)
@@ -522,7 +522,7 @@ static signed AddVLANIDs (struct plc * plc, struct item list [], unsigned items)
 	plc->packetsize = (signed)((uint8_t *)(item) - (uint8_t *)(request));
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) > 0)
@@ -607,7 +607,7 @@ static signed RemoveVLANIDs (struct plc * plc, struct item list [], unsigned ite
 	plc->packetsize = (signed)((uint8_t *)(item) - (uint8_t *)(request));
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) > 0)
@@ -673,7 +673,7 @@ static signed CommitVLANIDs (struct plc * plc)
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) > 0)
@@ -744,7 +744,7 @@ static signed ControlVLANIDs (struct plc * plc)
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) > 0)
@@ -813,7 +813,7 @@ static signed DefaultVLANIDs (struct plc * plc, struct item list [], unsigned it
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) > 0)
@@ -883,7 +883,7 @@ static signed ForwardVLANIDs (struct plc * plc)
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	if (SendMME (plc) <= 0)
 	{
-		error ((plc->flags & PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) > 0)

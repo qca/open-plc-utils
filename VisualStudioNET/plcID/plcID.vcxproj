@@ -56,11 +56,13 @@
   <ItemGroup>
     <ClCompile Include="..\..\ether\channel.c" />
     <ClCompile Include="..\..\ether\closechannel.c" />
+    <ClCompile Include="..\..\plc\chipset.c" />
     <ClCompile Include="..\..\plc\Devices.c" />
     <ClCompile Include="..\..\plc\Display.c" />
     <ClCompile Include="..\..\plc\Failure.c" />
     <ClCompile Include="..\..\plc\ReadMME.c" />
     <ClCompile Include="..\..\plc\SendMME.c" />
+    <ClCompile Include="..\..\plc\WaitForStart.c" />
     <ClCompile Include="..\..\tools\checksum32.c" />
     <ClCompile Include="..\..\tools\error.c" />
     <ClCompile Include="..\..\mme\EthernetHeader.c" />
@@ -82,6 +84,7 @@
     <ClCompile Include="..\..\tools\synonym.c" />
     <ClCompile Include="..\..\tools\todigit.c" />
     <ClCompile Include="..\..\mme\UnwantedMessage.c" />
+    <ClCompile Include="..\..\tools\typename.c" />
     <ClCompile Include="..\..\tools\version.c" />
   </ItemGroup>
   <ItemGroup>
