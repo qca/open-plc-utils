@@ -74,6 +74,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../plc/plc.h"
 #include "../plc/coqos.h"
 
@@ -98,6 +99,7 @@
 #include "../tools/lookup.c"
 #include "../tools/assist.c"
 #include "../tools/codelist.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -369,6 +371,8 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
+	openchannel (&channel);
+	desuid ();
 	if ((code = lookup (* argv++, types, SIZEOF (types))) == -1)
 	{
 		assist (*--argv, CONTROL, types, SIZEOF (types));
@@ -397,7 +401,6 @@ int main (int argc, char const * argv [])
 		limit = atoi (* argv++);
 		argc--;
 	}
-	openchannel (&channel);
 	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);

@@ -72,6 +72,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../plc/plc.h"
 #include "../ether/channel.h"
 #include "../mme/mme.h"
@@ -106,6 +107,7 @@
 #include "../tools/lookup.c"
 #include "../tools/synonym.c"
 #include "../tools/uintspec.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -494,6 +496,34 @@ int main (int argc, char const * argv [])
 	{
 		switch (c)
 		{
+		case 'i':
+
+#if defined (WINPCAP) || defined (LIBPCAP)
+
+			channel.ifindex = atoi (optarg);
+
+#else
+
+			channel.ifname = optarg;
+
+#endif
+
+			break;
+		case 'q':
+			_setbits (channel.flags, CHANNEL_SILENCE);
+			break;
+		case 'v':
+			_setbits (channel.flags, CHANNEL_VERBOSE);
+			break;
+		}
+	}
+	openchannel (&channel);
+	desuid ();
+	optind = 1;
+	while ((c = getoptv (argc, argv, optv)) != -1)
+	{
+		switch (c)
+		{
 		case 'a':
 			if ((c = lookup (optarg, advcap, ADVCAP)) == -1)
 			{
@@ -535,32 +565,13 @@ int main (int argc, char const * argv [])
 		case 't':
 			_setbits (flags, PLC_ANALYSE);
 			break;
-		case 'i':
-
-#if defined (WINPCAP) || defined (LIBPCAP)
-
-			channel.ifindex = atoi (optarg);
-
-#else
-
-			channel.ifname = optarg;
-
-#endif
-
-			break;
 		case 'p':
 			settings.MCONTROL &= 0x0F;
 			settings.MCONTROL |= (unsigned)(uintspec (optarg, 0, 7)) << 4;
 			break;
-		case 'q':
-			_setbits (channel.flags, CHANNEL_SILENCE);
-			break;
 		case 'r':
 			settings.MCONTROL &= 0xF0;
 			settings.MCONTROL |= 0x00;
-			break;
-		case 'v':
-			_setbits (channel.flags, CHANNEL_VERBOSE);
 			break;
 		case 'w':
 			settings.MCONTROL &= 0xF0;
@@ -572,7 +583,6 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	openchannel (&channel);
 	if (!argc)
 	{
 		PHYSettings (&channel, &settings, flags);

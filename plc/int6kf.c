@@ -78,6 +78,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../ram/nvram.h"
 #include "../ram/sdram.h"
 #include "../nvm/nvm.h"
@@ -127,6 +128,7 @@
 #include "../tools/typename.c"
 #include "../tools/strfbits.c"
 #include "../tools/error.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -247,6 +249,38 @@ int main (int argc, const char * argv [])
 	{
 		switch ((char) (c))
 		{
+		case 'i':
+
+#if defined (WINPCAP) || defined (LIBPCAP)
+
+			channel.ifindex = atoi (optarg);
+
+#else
+
+			channel.ifname = optarg;
+
+#endif
+
+			break;
+		case 'q':
+			_setbits (channel.flags, CHANNEL_SILENCE);
+			break;
+		case 't':
+			channel.timeout = (unsigned)(uintspec (optarg, 0, UINT_MAX));
+			break;
+		case 'v':
+			_setbits (channel.flags, CHANNEL_VERBOSE);
+			break;
+		}
+	}
+	openchannel (&channel);
+	desuid ();
+	optind = 1;
+	opterr = 1;
+	while ((c = getoptv (argc, argv, optv)) != -1)
+	{
+		switch ((char) (c))
+		{
 		case 'C':
 			if (!checkfilename (optarg))
 			{
@@ -265,19 +299,6 @@ int main (int argc, const char * argv [])
 			break;
 		case 'e':
 			dup2 (STDOUT_FILENO, STDERR_FILENO);
-			break;
-		case 'i':
-
-#if defined (WINPCAP) || defined (LIBPCAP)
-
-			channel.ifindex = atoi (optarg);
-
-#else
-
-			channel.ifname = optarg;
-
-#endif
-
 			break;
 		case 'F':
 			_setbits (plc.module, PLC_MODULE_NVM_PIB);
@@ -320,14 +341,9 @@ int main (int argc, const char * argv [])
 			_setbits (plc.flags, PLC_WRITE_PIB);
 			break;
 		case 'q':
-			_setbits (channel.flags, CHANNEL_SILENCE);
 			_setbits (plc.flags, PLC_SILENCE);
 			break;
-		case 't':
-			channel.timeout = (unsigned)(uintspec (optarg, 0, UINT_MAX));
-			break;
 		case 'v':
-			_setbits (channel.flags, CHANNEL_VERBOSE);
 			_setbits (plc.flags, PLC_VERBOSE);
 			break;
 		case 'x':
@@ -355,7 +371,6 @@ int main (int argc, const char * argv [])
 	{
 		error (1, ECANCELED, "No NVM file specified");
 	}
-	openchannel (&channel);
 	if (!(plc.message = malloc (sizeof (struct message))))
 	{
 		error (1, errno, PLC_NOMEMORY);

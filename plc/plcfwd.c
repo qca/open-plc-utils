@@ -69,6 +69,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../plc/plc.h"
 
 /*====================================================================*
@@ -100,6 +101,7 @@
 #include "../tools/synonym.c"
 #include "../tools/binout.c"
 #include "../tools/error.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -1014,6 +1016,37 @@ int main (int argc, char const * argv [])
 	{
 		switch (c)
 		{
+		case 'i':
+
+#if defined (WINPCAP) || defined (LIBPCAP)
+
+			channel.ifindex = atoi (optarg);
+
+#else
+
+			channel.ifname = optarg;
+
+#endif
+
+			break;
+		case 'q':
+			_setbits (channel.flags, CHANNEL_SILENCE);
+			break;
+		case 't':
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
+			break;
+		case 'v':
+			_setbits (channel.flags, CHANNEL_VERBOSE);
+			break;
+		}
+	}
+	openchannel (&channel);
+	desuid ();
+	optind = 1;
+	while ((c = getoptv (argc, argv, optv)) != -1)
+	{
+		switch (c)
+		{
 		case 'A':
 			plc.action = PLCFWD_ADD;
 			break;
@@ -1034,19 +1067,6 @@ int main (int argc, char const * argv [])
 			}
 			items += readlist (&list [items], size - items);
 			break;
-		case 'i':
-
-#if defined (WINPCAP) || defined (LIBPCAP)
-
-			channel.ifindex = atoi (optarg);
-
-#else
-
-			channel.ifname = optarg;
-
-#endif
-
-			break;
 		case 'M':
 			plc.action = PLCFWD_CTL;
 			plc.module = (uint8_t)(uintspec (synonym (optarg, states, STATES), 0, UCHAR_MAX));
@@ -1058,7 +1078,6 @@ int main (int argc, char const * argv [])
 			offset = (uint32_t) (basespec (optarg, 10, sizeof (offset)));
 			break;
 		case 'q':
-			_setbits (channel.flags, CHANNEL_SILENCE);
 			_setbits (plc.flags, PLC_SILENCE);
 			break;
 		case 'R':
@@ -1068,11 +1087,7 @@ int main (int argc, char const * argv [])
 			plc.action = PLCFWD_CTL;
 			plc.pushbutton = (uint8_t)(uintspec (synonym (optarg, states, STATES), 0, UCHAR_MAX));
 			break;
-		case 't':
-			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
-			break;
 		case 'v':
-			_setbits (channel.flags, CHANNEL_VERBOSE);
 			_setbits (plc.flags, PLC_VERBOSE);
 			break;
 		case 'x':
@@ -1094,7 +1109,6 @@ int main (int argc, char const * argv [])
 
 #endif
 
-	openchannel (&channel);
 	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);

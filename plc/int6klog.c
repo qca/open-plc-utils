@@ -75,6 +75,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../ether/channel.h"
 #include "../plc/plc.h"
 
@@ -106,6 +107,7 @@
 #include "../tools/assist.c"
 #include "../tools/codelist.c"
 #include "../tools/b64dump.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -624,6 +626,34 @@ int main (int argc, char const * argv [])
 	{
 		switch (c)
 		{
+		case 'i':
+
+#if defined (WINPCAP) || defined (LIBPCAP)
+
+			channel.ifindex = atoi (optarg);
+
+#else
+
+			channel.ifname = optarg;
+
+#endif
+
+			break;
+		case 'q':
+			_setbits (channel.flags, CHANNEL_SILENCE);
+			break;
+		case 'v':
+			_setbits (channel.flags, CHANNEL_VERBOSE);
+			break;
+		}
+	}
+	openchannel (&channel);
+	desuid ();
+	optind = 1;
+	while ((c = getoptv (argc, argv, optv)) != -1)
+	{
+		switch (c)
+		{
 		case 'C':
 			_setbits (plc.readaction, WD_ACTION_CUSTOM);
 			break;
@@ -640,28 +670,13 @@ int main (int argc, char const * argv [])
 			}
 			plc.action = (uint8_t)(c);
 			break;
-		case 'i':
-
-#if defined (WINPCAP) || defined (LIBPCAP)
-
-			channel.ifindex = atoi (optarg);
-
-#else
-
-			channel.ifname = optarg;
-
-#endif
-
-			break;
 		case 'q':
-			_setbits (channel.flags, CHANNEL_SILENCE);
 			_setbits (plc.flags, PLC_SILENCE);
 			break;
 		case 'r':
 			_setbits (plc.readaction, WD_ACTION_READ);
 			break;
 		case 'v':
-			_setbits (channel.flags, CHANNEL_VERBOSE);
 			_setbits (plc.flags, PLC_VERBOSE);
 			break;
 		case 'z':
@@ -680,7 +695,6 @@ int main (int argc, char const * argv [])
 			error (1, ECANCELED, PLC_NODEVICE);
 		}
 	}
-	openchannel (&channel);
 	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);
