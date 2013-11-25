@@ -98,6 +98,7 @@
 #include "../tools/files.h"
 #include "../tools/error.h"
 #include "../tools/config.h"
+#include "../tools/permissions.h"
 #include "../ether/channel.h"
 #include "../iso18115/slac.h"
 
@@ -122,6 +123,7 @@
 #include "../tools/memincr.c"
 #include "../tools/debug.c"
 #include "../tools/error.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -493,11 +495,12 @@ int main (int argc, char const * argv [])
 	} 
 	argc -= optind; 
 	argv += optind; 
+	openchannel (& channel); 
+	desuid();
 	if (argc) 
 	{ 
 		debug (1, __func__, ERROR_TOOMANY); 
 	} 
-	openchannel (& channel); 
 	identifier (& session, & channel); 
 	initialize (& session, profile, section); 
 	if (pev_cm_set_key (& session, & channel, & message)) 

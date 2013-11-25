@@ -97,6 +97,7 @@
 #include "../tools/timer.h"
 #include "../tools/flags.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../ether/channel.h"
 #include "../iso18115/slac.h"
 
@@ -121,6 +122,7 @@
 #include "../tools/error.c"
 #include "../tools/config.c"
 #include "../tools/debug.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -464,11 +466,12 @@ int main (int argc, char const * argv [])
 	} 
 	argc -= optind; 
 	argv += optind; 
+	openchannel (& channel); 
+	desuid ();
 	if (argc) 
 	{ 
 		debug (1, __func__, ERROR_TOOMANY); 
 	} 
-	openchannel (& channel); 
 	initialize (& session, profile, section); 
 	identifier (& session, & channel); 
 	if (evse_cm_set_key (& session, & channel, & message)) 
