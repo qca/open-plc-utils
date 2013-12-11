@@ -476,7 +476,8 @@ int main (int argc, char const * argv [])
 			section = optarg; 
 			break; 
 		case 'q': 
-			_clrbits (channel.flags, CHANNEL_SILENCE); 
+			_setbits (channel.flags, CHANNEL_SILENCE);
+			_setbits (session.flags, SLAC_SILENCE);
 			break; 
 		case 't': 
 			channel.timeout = (unsigned) (uintspec (optarg, 0, UINT_MAX)); 
