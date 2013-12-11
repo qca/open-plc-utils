@@ -89,7 +89,7 @@ signed evse_cm_mnbc_sound (struct session * session, struct channel * channel, s
 	memset (session->AAG, 0, sizeof (session->AAG)); 
 	if (gettimeofday (& ts, NULL) == - 1) 
 	{ 
-		debug (1, __func__, CANT_START_TIMER); 
+		slac_debug (session, 1, __func__, CANT_START_TIMER); 
 	} 
 	while ((length = readpacket (channel, message, sizeof (* message))) >= 0) 
 	{ 
@@ -99,37 +99,37 @@ signed evse_cm_mnbc_sound (struct session * session, struct channel * channel, s
 		} 
 		else if (ntohs (homeplug->ethernet.MTYPE) != ETH_P_HPAV) 
 		{ 
-			debug (session->exit, __func__, "bad MTYPE"); 
+			slac_debug (session, session->exit, __func__, "bad MTYPE"); 
 		} 
 		else if (homeplug->homeplug.MMV != HOMEPLUG_MMV) 
 		{ 
-			debug (session->exit, __func__, "bad MMV"); 
+			slac_debug (session, session->exit, __func__, "bad MMV"); 
 		} 
 		else if (LE16TOH (homeplug->homeplug.MMTYPE) == (CM_MNBC_SOUND | MMTYPE_IND)) 
 		{ 
 			struct cm_mnbc_sound_indicate * indicate = (struct cm_mnbc_sound_indicate *) (message); 
 			if (! memcmp (session->RunID, indicate->MSVarField.RunID, sizeof (session->RunID))) 
 			{ 
-				debug (0, __func__, "<-- CM_MNBC_SOUND.IND (%d)", sounds); 
+				slac_debug (session, 0, __func__, "<-- CM_MNBC_SOUND.IND (%d)", sounds); 
 
 #if SLAC_DEBUG
 
 				if (_anyset (session->flags, SLAC_VERBOSE)) 
 				{ 
 					char string [256]; 
-					debug (0, __func__, "CM_MNBC_SOUND.IND.APPLICATION_TYPE %d", indicate->APPLICATION_TYPE); 
-					debug (0, __func__, "CM_MNBC_SOUND.IND.SECURITY_TYPE %d", indicate->SECURITY_TYPE); 
-					debug (0, __func__, "CM_MNBC_SOUND.IND.MSVarField.SenderID %s", HEXSTRING (string, indicate->MSVarField.SenderID)); 
-					debug (0, __func__, "CM_MNBC_SOUND.IND.MSVarField.Count %d", indicate->MSVarField.CNT); 
-					debug (0, __func__, "CM_MNBC_SOUND.IND.MSVarField.RunID %s", HEXSTRING (string, indicate->MSVarField.RunID)); 
-					debug (0, __func__, "CM_MNBC_SOUND.IND.MSVarField.RND %s", HEXSTRING (string, indicate->MSVarField.RND)); 
+					slac_debug (session, 0, __func__, "CM_MNBC_SOUND.IND.APPLICATION_TYPE %d", indicate->APPLICATION_TYPE); 
+					slac_debug (session, 0, __func__, "CM_MNBC_SOUND.IND.SECURITY_TYPE %d", indicate->SECURITY_TYPE); 
+					slac_debug (session, 0, __func__, "CM_MNBC_SOUND.IND.MSVarField.SenderID %s", HEXSTRING (string, indicate->MSVarField.SenderID)); 
+					slac_debug (session, 0, __func__, "CM_MNBC_SOUND.IND.MSVarField.Count %d", indicate->MSVarField.CNT); 
+					slac_debug (session, 0, __func__, "CM_MNBC_SOUND.IND.MSVarField.RunID %s", HEXSTRING (string, indicate->MSVarField.RunID)); 
+					slac_debug (session, 0, __func__, "CM_MNBC_SOUND.IND.MSVarField.RND %s", HEXSTRING (string, indicate->MSVarField.RND)); 
 				} 
 
 #endif
 
 				if (memcmp (session->PEV_MAC, indicate->ethernet.OSA, sizeof (session->PEV_MAC))) 
 				{ 
-					debug (session->exit, __func__, "Unexpected OSA"); 
+					slac_debug (session, session->exit, __func__, "Unexpected OSA"); 
 				} 
 				sounds++; 
 			} 
@@ -139,16 +139,16 @@ signed evse_cm_mnbc_sound (struct session * session, struct channel * channel, s
 			struct cm_atten_profile_indicate * indicate = (struct cm_atten_profile_indicate *) (message); 
 			if (! memcmp (session->PEV_MAC, indicate->PEV_MAC, sizeof (session->PEV_MAC))) 
 			{ 
-				debug (0, __func__, "<-- CM_ATTEN_PROFILE.IND (%d)", session->sounds); 
+				slac_debug (session, 0, __func__, "<-- CM_ATTEN_PROFILE.IND (%d)", session->sounds); 
 
 #if SLAC_DEBUG
 
 				if (_anyset (session->flags, SLAC_VERBOSE)) 
 				{ 
 					char string [256]; 
-					debug (0, __func__, "CM_ATTEN_PROFILE.PEV_MAC %s", HEXSTRING (string, indicate->PEV_MAC)); 
-					debug (0, __func__, "CM_ATTEN_PROFILE.NumGroups %d", indicate->NumGroups); 
-					debug (0, __func__, "CM_ATTEN_PROFILE.AAG %s", hexstring (string, sizeof (string), indicate->AAG, indicate->NumGroups)); 
+					slac_debug (session, 0, __func__, "CM_ATTEN_PROFILE.PEV_MAC %s", HEXSTRING (string, indicate->PEV_MAC)); 
+					slac_debug (session, 0, __func__, "CM_ATTEN_PROFILE.NumGroups %d", indicate->NumGroups); 
+					slac_debug (session, 0, __func__, "CM_ATTEN_PROFILE.AAG %s", hexstring (string, sizeof (string), indicate->AAG, indicate->NumGroups)); 
 				} 
 
 #endif
@@ -163,7 +163,7 @@ signed evse_cm_mnbc_sound (struct session * session, struct channel * channel, s
 		} 
 		if (gettimeofday (& tc, NULL) == - 1) 
 		{ 
-			debug (1, __func__, CANT_RESET_TIMER); 
+			slac_debug (session, 1, __func__, CANT_RESET_TIMER); 
 		} 
 		if ((MILLISECONDS (ts, tc) < timer) && (session->sounds < session->NUM_SOUNDS)) 
 		{ 
@@ -178,7 +178,7 @@ signed evse_cm_mnbc_sound (struct session * session, struct channel * channel, s
 		} 
 		return (0); 
 	} 
-	return (debug (session->exit, __func__, "Sound timeout")); 
+	return (slac_debug (session, session->exit, __func__, "Sound timeout")); 
 } 
 
 #endif
