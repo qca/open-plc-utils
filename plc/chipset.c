@@ -193,6 +193,7 @@ void chipset (void const * memory)
 	tDevMap;
 	struct __packed tDevClass
 	{
+		uint8_t RESVD;
 		uint32_t IDENT;
 		uint32_t STEP_NUMBER;
 	}
@@ -378,19 +379,19 @@ void chipset (void const * memory)
 				confirm->MDEVICE_CLASS = firmware [chip].DEVICE;
 				return;
 			}
-			pDevClass = (struct tDevClass *) (& confirm->MVERSION [65]);
+			pDevClass = (struct tDevClass *) (& confirm->MVERSION [64]);
 			if (firmware [chip].IDENT == LE32TOH (pDevClass->IDENT))
 			{
 				confirm->MDEVICE_CLASS = firmware [chip].DEVICE;
 				return;
 			}
-			pDevClass = (struct tDevClass *) (& confirm->MVERSION [129]);
+			pDevClass = (struct tDevClass *) (& confirm->MVERSION [128]);
 			if (firmware [chip].IDENT == LE32TOH (pDevClass->IDENT))
 			{
 				confirm->MDEVICE_CLASS = firmware [chip].DEVICE;
 				return;
 			}
-			pDevClass = (struct tDevClass *) (& confirm->MVERSION [254]);
+			pDevClass = (struct tDevClass *) (& confirm->MVERSION [253]);
 			if (firmware [chip].IDENT == LE32TOH (pDevClass->IDENT))
 			{
 				confirm->MDEVICE_CLASS = firmware [chip].DEVICE;
