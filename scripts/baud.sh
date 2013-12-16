@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # ====================================================================
 # set serial port parameters on a Linux system;
