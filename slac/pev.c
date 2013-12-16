@@ -120,7 +120,6 @@
 #include "../tools/strfbits.c"
 #include "../tools/config.c"
 #include "../tools/memincr.c"
-#include "../tools/debug.c"
 #include "../tools/error.c"
 #endif
 
@@ -148,6 +147,7 @@
 #ifndef MAKEFILE
 #include "../slac/slac_session.c"
 #include "../slac/slac_connect.c"
+#include "../slac/slac_debug.c"
 #include "../slac/pev_cm_slac_param.c"
 #include "../slac/pev_cm_start_atten_char.c"
 #include "../slac/pev_cm_atten_char.c"
@@ -264,7 +264,7 @@ static void DisconnectedState (struct session * session, struct channel * channe
 
 { 
 	slac_session (session); 
-	debug (0, __func__, "Probing ..."); 
+	slac_debug (session, 0, __func__, "Probing ..."); 
 	memincr (session->RunID, sizeof (session->RunID)); 
 	while (pev_cm_slac_param (session, channel, message)); 
 	session->state = PEV_STATE_UNMATCHED; 
@@ -287,7 +287,7 @@ static void UnmatchedState (struct session * session, struct channel * channel, 
 
 { 
 	slac_session (session); 
-	debug (0, __func__, "Sounding ..."); 
+	slac_debug (session, 0, __func__, "Sounding ..."); 
 	if (pev_cm_start_atten_char (session, channel, message)) 
 	{ 
 		session->state = PEV_STATE_DISCONNECTED; 
@@ -308,7 +308,7 @@ static void UnmatchedState (struct session * session, struct channel * channel, 
 		session->state = PEV_STATE_DISCONNECTED; 
 		return; 
 	} 
-	debug (0, __func__, "Matching ..."); 
+	slac_debug (session, 0, __func__, "Matching ..."); 
 	if (pev_cm_slac_match (session, channel, message)) 
 	{ 
 		session->state = PEV_STATE_DISCONNECTED; 
@@ -331,11 +331,11 @@ static void MatchedState (struct session * session, struct channel * channel, st
 
 { 
 	slac_session (session); 
-	debug (0, __func__, "Connecting ..."); 
+	slac_debug (session, 0, __func__, "Connecting ..."); 
 
 #if SLAC_AVLN_EVSE
 
-	debug (0, __func__, "waiting for evse to settle ..."); 
+	slac_debug (session, 0, __func__, "waiting for evse to settle ..."); 
 	sleep (session->settletime); 
 
 #endif
@@ -350,13 +350,13 @@ static void MatchedState (struct session * session, struct channel * channel, st
 
 #endif
 
-	debug (0, __func__, "Charging (%d) ...\n\n", session->counter++); 
+	slac_debug (session, 0, __func__, "Charging (%d) ...\n\n", session->counter++); 
 	sleep (session->chargetime); 
-	debug (0, __func__, "Disconnecting ..."); 
+	slac_debug (session, 0, __func__, "Disconnecting ..."); 
 
 #if SLAC_AVLN_EVSE
 
-	debug (0, __func__, "waiting for evse to settle ..."); 
+	slac_debug (session, 0, __func__, "waiting for evse to settle ..."); 
 	sleep (session->settletime); 
 
 #endif
@@ -476,7 +476,8 @@ int main (int argc, char const * argv [])
 			section = optarg; 
 			break; 
 		case 'q': 
-			_clrbits (channel.flags, CHANNEL_SILENCE); 
+			_setbits (channel.flags, CHANNEL_SILENCE);
+			_setbits (session.flags, SLAC_SILENCE);
 			break; 
 		case 't': 
 			channel.timeout = (unsigned) (uintspec (optarg, 0, UINT_MAX)); 
@@ -495,14 +496,14 @@ int main (int argc, char const * argv [])
 	argv += optind; 
 	if (argc) 
 	{ 
-		debug (1, __func__, ERROR_TOOMANY); 
+		slac_debug (& session, 1, __func__, ERROR_TOOMANY); 
 	} 
 	openchannel (& channel); 
 	identifier (& session, & channel); 
 	initialize (& session, profile, section); 
 	if (pev_cm_set_key (& session, & channel, & message)) 
 	{ 
-		debug (1, __func__, "Can't set key"); 
+		slac_debug (& session, 1, __func__, "Can't set key"); 
 	} 
 	sleep (session.settletime); 
 	while (session.state) 
@@ -522,7 +523,7 @@ int main (int argc, char const * argv [])
 			MatchedState (& session, & channel, & message); 
 			continue; 
 		} 
-		debug (1, __func__, "Illegal state!"); 
+		slac_debug (& session, 1, __func__, "Illegal state!"); 
 	} 
 	closechannel (& channel); 
 	return (0); 

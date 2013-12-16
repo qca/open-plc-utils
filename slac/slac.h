@@ -416,7 +416,8 @@ signed evse_cm_slac_match (struct session *, struct channel *, struct message *)
 signed evse_cm_set_key (struct session *, struct channel *, struct message *); 
 signed slac_connect (struct session *); 
 void slac_session (struct session *); 
-void slac_structs (); 
+void slac_structs ();
+signed slac_debug (struct session * session, signed status, char const * string, char const * format, ...);
 
 /*====================================================================*
  *
