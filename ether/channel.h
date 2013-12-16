@@ -123,11 +123,18 @@
 #else
 #       define CHANNEL_ETHDEVICE "nic1"
 #endif
+
 #define CHANNEL_FOREVER (unsigned)(-1)
 #define CHANNEL_BAILOUT 0
-#define CHANNEL_CAPTURE 15
-#define CHANNEL_TIMEOUT 50
 #define CHANNEL_FLAGS 0
+
+#if defined (WIN32)
+#define CHANNEL_CAPTURE 50 
+#define CHANNEL_TIMEOUT 200   
+#else
+#define CHANNEL_CAPTURE 15 
+#define CHANNEL_TIMEOUT 50   
+#endif
 
 /*====================================================================*
  *   common channel error messages;
