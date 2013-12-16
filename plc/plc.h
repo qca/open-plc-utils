@@ -55,6 +55,7 @@
 #include "../ether/channel.h"
 #include "../key/HPAVKey.h"
 #include "../tools/types.h"
+#include "../plc/chipset.h"
 #include "../mme/mme.h"
 #include "../nvm/nvm.h"
 #include "../pib/pib.h"
@@ -63,24 +64,6 @@
  *   constants; these codes are returned in the DEVICEID field of the
  *   firmware VS_SW_VER message;
  *--------------------------------------------------------------------*/
-
-#define CHIPSET_UNKNOWN 0x00
-#define CHIPSET_INT6000 0x01
-#define CHIPSET_INT6300 0x02
-#define CHIPSET_INT6400 0x03
-#define CHIPSET_AR7400 0x04
-#define CHIPSET_AR6405 0x05
-#define CHIPSET_PANTHER_LYNX 0x06
-#define CHIPSET_QCA7450 0x07
-#define CHIPSET_QCA7451 0x08
-#define CHIPSET_QCA7452 0x09
-#define CHIPSET_QCA7420 0x20
-#define CHIPSET_QCA6410 0x21
-#define CHIPSET_QCA6411 0x21
-#define CHIPSET_QCA7000 0x22
-#define CHIPSET_QCA7005 0x22
-#define CHIPSET_QCA7000I 0x22
-#define CHIPSET_QCA7500 0x30
 
 #define PLC_MODULE_SOFTLOADER           0x00
 #define PLC_MODULE_FIRMWARE             (1 << 0)
