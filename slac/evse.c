@@ -366,7 +366,7 @@ int main (int argc, char const * argv [])
 	extern struct channel channel; 
 	static char const * optv [] = 
 	{ 
-		"cCdi:p:qs:t:vw:x", 
+		"cCdi:p:qs:t:vx", 
 		"", 
 		"Qualcomm Atheros Electric Vehicle Supply Equipment Emulator", 
 		"c\tprint template configuration file on stdout", 
