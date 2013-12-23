@@ -66,7 +66,7 @@ signed evse_cm_atten_char (struct session * session, struct channel * channel, s
 { 
 	struct cm_atten_char_indicate * indicate = (struct cm_atten_char_indicate *) (message); 
 	struct cm_atten_char_response * response = (struct cm_atten_char_response *) (message); 
-	debug (0, __func__, "--> CM_ATTEN_CHAR.IND"); 
+	slac_debug (session, 0, __func__, "--> CM_ATTEN_CHAR.IND"); 
 	memset (message, 0, sizeof (* message)); 
 	EthernetHeader (& indicate->ethernet, session->PEV_MAC, channel->host, channel->type); 
 	HomePlugHeader1 (& indicate->homeplug, HOMEPLUG_MMV, (CM_ATTEN_CHAR | MMTYPE_IND)); 
@@ -81,26 +81,26 @@ signed evse_cm_atten_char (struct session * session, struct channel * channel, s
 	memcpy (indicate->ACVarField.ATTEN_PROFILE.AAG, session->AAG, session->NumGroups); 
 	if (sendmessage (channel, message, sizeof (* indicate)) <= 0) 
 	{ 
-		return (debug (1, __func__, CHANNEL_CANTSEND)); 
+		return (slac_debug (session, 1, __func__, CHANNEL_CANTSEND)); 
 	} 
 	if (readmessage (channel, message, HOMEPLUG_MMV, (CM_ATTEN_CHAR | MMTYPE_RSP)) > 0) 
 	{ 
 		if (! memcmp (session->RunID, response->ACVarField.RunID, sizeof (session->RunID))) 
 		{ 
-			debug (0, __func__, "<-- CM_ATTEN_CHAR.RSP"); 
+			slac_debug (session, 0, __func__, "<-- CM_ATTEN_CHAR.RSP"); 
 
 #if SLAC_DEBUG
 
 			if (_anyset (session->flags, SLAC_VERBOSE)) 
 			{ 
 				char string [256]; 
-				debug (0, __func__, "CM_ATTEN_CHAR.RSP.APPLICATION_TYPE %d", response->APPLICATION_TYPE); 
-				debug (0, __func__, "CM_ATTEN_CHAR.RSP.SECURITY_TYPE %d", response->SECURITY_TYPE); 
-				debug (0, __func__, "CM_ATTEN_CHAR.RSP.ACVarfield.SOURCE_ADDRESS %s", HEXSTRING (string, response->ACVarField.SOURCE_ADDRESS)); 
-				debug (0, __func__, "CM_ATTEN_CHAR.RSP.ACVarFIeld.RunID %s", HEXSTRING (string, response->ACVarField.RunID)); 
-				debug (0, __func__, "CM_ATTEN_CHAR.RSP.ACVarField.SOURCE_ID %s", HEXSTRING (string, response->ACVarField.SOURCE_ID)); 
-				debug (0, __func__, "CM_ATTEN_CHAR.RSP.ACVarField.RESP_ID %s", HEXSTRING (string, response->ACVarField.RESP_ID)); 
-				debug (0, __func__, "CM_ATTEN_CHAR.RSP.ACVarField.Result %d", response->ACVarField.Result); 
+				slac_debug (session, 0, __func__, "CM_ATTEN_CHAR.RSP.APPLICATION_TYPE %d", response->APPLICATION_TYPE); 
+				slac_debug (session, 0, __func__, "CM_ATTEN_CHAR.RSP.SECURITY_TYPE %d", response->SECURITY_TYPE); 
+				slac_debug (session, 0, __func__, "CM_ATTEN_CHAR.RSP.ACVarfield.SOURCE_ADDRESS %s", HEXSTRING (string, response->ACVarField.SOURCE_ADDRESS)); 
+				slac_debug (session, 0, __func__, "CM_ATTEN_CHAR.RSP.ACVarFIeld.RunID %s", HEXSTRING (string, response->ACVarField.RunID)); 
+				slac_debug (session, 0, __func__, "CM_ATTEN_CHAR.RSP.ACVarField.SOURCE_ID %s", HEXSTRING (string, response->ACVarField.SOURCE_ID)); 
+				slac_debug (session, 0, __func__, "CM_ATTEN_CHAR.RSP.ACVarField.RESP_ID %s", HEXSTRING (string, response->ACVarField.RESP_ID)); 
+				slac_debug (session, 0, __func__, "CM_ATTEN_CHAR.RSP.ACVarField.Result %d", response->ACVarField.Result); 
 			} 
 
 #endif
@@ -108,7 +108,7 @@ signed evse_cm_atten_char (struct session * session, struct channel * channel, s
 			return (0); 
 		} 
 	} 
-	return (debug (session->exit, __func__, "<-- CM_ATTEN_CHAR.RSP ?")); 
+	return (slac_debug (session, session->exit, __func__, "<-- CM_ATTEN_CHAR.RSP ?")); 
 } 
 
 #endif

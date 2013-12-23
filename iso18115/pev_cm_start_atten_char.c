@@ -66,7 +66,7 @@ signed pev_cm_start_atten_char (struct session * session, struct channel * chann
 
 { 
 	struct cm_start_atten_char_indicate * indicate = (struct cm_start_atten_char_indicate *) (message); 
-	debug (0, __func__, "--> CM_START_ATTEN_CHAR.IND"); 
+	slac_debug (session, 0, __func__, "--> CM_START_ATTEN_CHAR.IND"); 
 	memset (message, 0, sizeof (* message)); 
 	EthernetHeader (& indicate->ethernet, session->MSOUND_TARGET, channel->host, channel->type); 
 	HomePlugHeader1 (& indicate->homeplug, HOMEPLUG_MMV, (CM_START_ATTEN_CHAR | MMTYPE_IND)); 
@@ -79,7 +79,7 @@ signed pev_cm_start_atten_char (struct session * session, struct channel * chann
 	memcpy (indicate->ACVarField.RunID, session->RunID, sizeof (indicate->ACVarField.RunID)); 
 	if (sendmessage (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) <= 0) 
 	{ 
-		return (debug (1, __func__, CHANNEL_CANTSEND)); 
+		return (slac_debug (session, 1, __func__, CHANNEL_CANTSEND)); 
 	} 
 
 #if 0
@@ -91,11 +91,11 @@ signed pev_cm_start_atten_char (struct session * session, struct channel * chann
 
 	if (sendmessage (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) <= 0) 
 	{ 
-		return (debug (1, __func__, CHANNEL_CANTSEND)); 
+		return (slac_debug (session, 1, __func__, CHANNEL_CANTSEND)); 
 	} 
 	if (sendmessage (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) <= 0) 
 	{ 
-		return (debug (1, __func__, CHANNEL_CANTSEND)); 
+		return (slac_debug (session, 1, __func__, CHANNEL_CANTSEND)); 
 	} 
 
 #endif

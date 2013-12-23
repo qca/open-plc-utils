@@ -66,7 +66,7 @@ signed slac_connect (struct session * session)
 	unsigned total = 0; 
 	if (session->NumGroups > SIZEOF (session->AAG)) 
 	{ 
-		return (debug (session->exit, __func__, "Too much data to analyse!")); 
+		return (slac_debug (session, session->exit, __func__, "Too much data to analyse!")); 
 	} 
 	if (session->NumGroups > 0) 
 	{ 
@@ -80,18 +80,18 @@ signed slac_connect (struct session * session)
 		if (total > session->limit) 
 		{ 
 			char string [512]; 
-			debug (0, __func__, "Average attenuation (%u) more than limit (%u) frow %d groups", total, session->limit, group); 
-			debug (0, __func__, "%s", HEXSTRING (string, session->AAG)); 
+			slac_debug (session, 0, __func__, "Average attenuation (%u) more than limit (%u) frow %d groups", total, session->limit, group); 
+			slac_debug (session, 0, __func__, "%s", HEXSTRING (string, session->AAG)); 
 			return (- 1); 
 		} 
 		if (total > 0) 
 		{ 
-			debug (0, __func__, "Average attenuation (%u) less than limit (%u) from %d groups", total, session->limit, group); 
-			debug (0, __func__, "%s", HEXSTRING (string, session->AAG)); 
+			slac_debug (session, 0, __func__, "Average attenuation (%u) less than limit (%u) from %d groups", total, session->limit, group); 
+			slac_debug (session, 0, __func__, "%s", HEXSTRING (string, session->AAG)); 
 			return (0); 
 		} 
 	} 
-	return (debug (session->exit, __func__, "Nothing to analyse")); 
+	return (slac_debug (session, session->exit, __func__, "Nothing to analyse")); 
 } 
 
 #endif
