@@ -41,7 +41,7 @@
 
 /*====================================================================*
  *
- *   bool UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_t MMTYPE);
+ *   signed UnwantedMessage (void const * memory, size_t extent, uint8_t MMV, uint16_t MMTYPE);
  *
  *   mme.h
  *

@@ -1,6 +1,7 @@
 /*====================================================================*
  *
  *   Copyright (c) 2013 Qualcomm Atheros, Inc.
+ *   Copyright (c) 2013 I2SE GmbH
  *
  *   All rights reserved.
  *
@@ -38,62 +39,69 @@
  *   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
  *
  *--------------------------------------------------------------------*/
-
+ 
 /*====================================================================*
  *
- *   signed pev_cm_mnbc_sound (struct session * session, struct channel * channel, struct message * message);
+ *   signed slac_debug (struct session * session, signed status, char const * string, char const * format, ...);
  *
  *   slac.h
  *
- *   As HLE-PEV send cm_mnbc_sound indications unicast to the
- *   MSOUND_TARGET address recorded in the session variable;
- *
- *   a brief delay of a few milliseconds is needed between msounds 
- *   so that EVSE-PLC has time to forward CM_MNBC_SOUND.IND and
- *   CM_ATTEN_PROFILE.IND to EVSE-HLE; session.timer controls this
- *   delay;
+ *   variation of the GNU error() function that accepts a message in
+ *   place of an error code and always returns -1;
  *
  *--------------------------------------------------------------------*/
 
-#ifndef PEV_CM_MNBC_SOUND_SOURCE
-#define PEV_CM_MNBC_SOUND_SOURCE
+#ifndef SLAC_DEBUG_SOURCE
+#define SLAC_DEBUG_SOURCE
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdarg.h>
 #include <string.h>
-#include <errno.h>
 
-#include "../ether/channel.h"
-#include "../tools/memory.h"
-#include "../tools/error.h"
-#include "../tools/timer.h"
 #include "../slac/slac.h"
+#include "../tools/types.h"
+#include "../tools/error.h"
+#include "../tools/flags.h"
 
-signed pev_cm_mnbc_sound (struct session * session, struct channel * channel, struct message * message) 
+#ifdef __GNUC__
 
-{ 
-	struct cm_mnbc_sound_indicate * indicate = (struct cm_mnbc_sound_indicate *) (message); 
-	signed sound = session->NUM_SOUNDS; 
-	while (sound--) 
-	{ 
-		slac_debug (session, 0, __func__, "--> CM_MNBC_SOUND.IND"); 
-		memset (message, 0, sizeof (* message)); 
-		EthernetHeader (& indicate->ethernet, session->MSOUND_TARGET, channel->host, channel->type); 
-		HomePlugHeader1 (& indicate->homeplug, HOMEPLUG_MMV, (CM_MNBC_SOUND | MMTYPE_IND)); 
-		indicate->APPLICATION_TYPE = session->APPLICATION_TYPE; 
-		indicate->SECURITY_TYPE = session->SECURITY_TYPE; 
-		memcpy (indicate->MSVarField.SenderID, session->PEV_ID, sizeof (indicate->MSVarField.SenderID)); 
-		indicate->MSVarField.CNT = sound; 
-		memcpy (indicate->MSVarField.RunID, session->RunID, sizeof (indicate->MSVarField.RunID)); 
-		memset (indicate->MSVarField.RND, 0, sizeof (indicate->MSVarField.RND)); 
-		if (sendmessage (channel, message, sizeof (* indicate)) <= 0) 
-		{ 
-			return (slac_debug (session, 1, __func__, CHANNEL_CANTSEND)); 
-		} 
-		SLEEP (session->pause); 
-	} 
-	return (0); 
-} 
+__attribute__ ((format (printf, 4, 5)))
 
 #endif
 
+signed slac_debug (struct session * session, signed status, char const * string, char const * format, ...)
 
+{
+	extern char const * program_name;
+	
+	if (_allclr (session->flags, SLAC_SILENCE))
+	{
+		if ((program_name) && (* program_name))
+		{
+			fprintf (stderr, "%s: ", program_name);
+		}
+		if ((string) && (* string))
+		{
+			fprintf (stderr, "%s: ", string);
+		}
+		if ((format) && (*format))
+		{
+			va_list arglist;
+			va_start (arglist, format);
+			vfprintf (stderr, format, arglist);
+			va_end (arglist);
+		}
+		fprintf (stderr, "\n");
+		fflush (stderr);
+	}
+	if (status)
+	{
+		exit (status);
+	}
+	return (-1);
+}
+
+
+#endif
 

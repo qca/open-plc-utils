@@ -498,7 +498,7 @@ int main (int argc, char const * argv [])
 	extern void terminate (signo_t);
 	static char const * optv [] =
 	{
-		"dFi:n:N:p:P:qs:t:vw:x",
+		"dFi:n:N:p:P:qs:S:t:vw:x",
 		"-N file -P file [-S file] [-n file] [-p file]",
 		"Qualcomm Atheros PLC Host Daemon",
 		"d\texecute in background as daemon",

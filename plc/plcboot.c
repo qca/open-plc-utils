@@ -340,14 +340,14 @@ int main (int argc, char const * argv [])
 		Failure (&plc, PLC_NODETECT);
 		exit (1);
 	}
-	if (plc.hardwareID < CHIPSET_QCA7420)
-	{
-		Failure (&plc, "Device must be %s or later; Use program int6kboot or ampboot instead.", chipsetname (CHIPSET_QCA7420));
-		exit (1);
-	}
 	if (strcmp (firmware, "BootLoader"))
 	{
 		Failure (&plc, "Bootloader must be running");
+		exit (1);
+	}
+	if (plc.hardwareID < CHIPSET_INT6400)
+	{
+		Failure (&plc, "Device must be %s or later; Use program int6kboot or ampboot instead.", chipsetname (CHIPSET_INT6400));
 		exit (1);
 	}
 	if (plc.PIB.file == -1)

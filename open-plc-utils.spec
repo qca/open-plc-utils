@@ -4,11 +4,11 @@
 
 Summary: 	Open version of the Qualcomm Atheros Powerline Toolkit
 Name: 		open-plc-utils
-Version: 	0.0.2
+Version: 	0.0.3
 Release: 	1
 Source:	 	https://codeload.github.com/qca/open-plc-utils/zip/master/open-plc-utils-master.zip
 URL:		https://github.com/qca/open-plc-utils.git
-License:	ISC
+License:	BSD
 Vendor:		Qualcomm-Atheros <cmaier@qca.qualcomm.com>
 Group: 		Productivity/Networking/Diagnostic
 BuildRoot: 	{_tmppath}/%{name}-%{version}-build
@@ -17,6 +17,15 @@ AutoReqProv:	on
 %description
 This package installs the tools required to configure Qualcomm-Atheros
 Powerline devices on the network.
+
+%package slac
+License:        BSD
+Summary:        SLAC tools of the Qualcomm Atheros Powerline Toolkit
+Group:          Development/Tools/Other
+AutoReqProv:    on
+
+%description slac
+This package installs the tools for Signal Level Attenuation Characterization.
 
 %prep -q
 %setup -n open-plc-utils-master 
@@ -250,6 +259,17 @@ rm -rf "%buildroot"
 %{_mandir}/man1/weeder.1.gz
 %{_mandir}/man1/xml2pib.1.gz
 
+%files slac
+%defattr (-,root,root)
+/usr/local/bin/evse
+/usr/local/bin/pev
+%{_mandir}/man1/evse.1.gz
+%{_mandir}/man1/pev.1.gz
+
 %changelog
+* Thu Nov 14 2013 Stefan Wahren <stefan.wahren@i2se.com> - 0.0.3-1
+- Update License
+- Add new package slac 
+
 * Sat Aug 31 2013 Stefan Wahren <stefan.wahren@i2se.com> - 0.0.2-1
 - Initial package based on the debian branch

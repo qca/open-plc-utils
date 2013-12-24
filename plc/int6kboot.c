@@ -341,6 +341,11 @@ int main (int argc, char const * argv [])
 		Failure (&plc, PLC_NODETECT);
 		exit (1);
 	}
+	if (strcmp (firmware, "BootLoader"))
+	{
+		Failure (&plc, "Bootloader must be running");
+		exit (1);
+	}
 	if (plc.hardwareID < CHIPSET_INT6300)
 	{
 		Failure (&plc, "Device must be %s or later. Try program int6kf instead.", chipsetname (CHIPSET_INT6300));
@@ -349,11 +354,6 @@ int main (int argc, char const * argv [])
 	if (plc.hardwareID >= CHIPSET_AR7400)
 	{
 		Failure (&plc, "Program does not support %s or later; try program ampboot instead.", chipsetname (CHIPSET_AR7400));
-		exit (1);
-	}
-	if (strcmp (firmware, "BootLoader"))
-	{
-		Failure (&plc, "Bootloader must be running");
 		exit (1);
 	}
 	if (!InitDevice1 (&plc))
