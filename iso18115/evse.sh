@@ -5,6 +5,16 @@
 #   configure a QCA7000 PIB file as a SLAC-EVSE on Linux or Cygwin. 
 #
 
+if [ $# -ne 1 ]; then
+	cat << EOF
+usage: evse.sh PIBFILE
+
+This script configures a QCA7000 PIB file as a SLAC-EVSE
+
+EOF
+	exit 1
+fi 
+
 # ====================================================================
 # Manufacturer HFID; 
 # --------------------------------------------------------------------
