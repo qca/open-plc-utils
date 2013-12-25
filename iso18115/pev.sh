@@ -1,4 +1,5 @@
-#!/bin/sëÞöÏfile: iso18115/pev.sh
+#!/bin/sh
+# file: iso18115/pev.sh
 
 #
 #  configure a QCA7000 PIB file as a SLAC-PEV on Linux or Cygwin. 
