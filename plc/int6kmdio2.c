@@ -72,6 +72,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../plc/plc.h"
 #include "../ram/nvram.h"
 #include "../ram/sdram.h"
@@ -103,6 +104,7 @@
 #include "../tools/regview32.c"
 #include "../tools/synonym.c"
 #include "../tools/error.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -432,6 +434,7 @@ int main (int argc, char const * argv [])
 	argc -= optind;
 	argv += optind;
 	openchannel (&channel);
+	desuid ();
 	if (!argc)
 	{
 		function (&channel, mode, address, content, flags);

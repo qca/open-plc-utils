@@ -74,6 +74,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../plc/plc.h"
 #include "../plc/coqos.h"
 
@@ -100,6 +101,7 @@
 #include "../tools/lookup.c"
 #include "../tools/assist.c"
 #include "../tools/codelist.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -294,6 +296,8 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
+	openchannel (&channel);
+	desuid ();
 	memset (&connection, 0, sizeof (connection));
 	if ((code = lookup (* argv++, actions, SIZEOF (actions))) == -1)
 	{
@@ -409,7 +413,6 @@ int main (int argc, char const * argv [])
 		argc--;
 	}
 	connection.cspec.CSPEC_VERSION = 0x0001;
-	openchannel (&channel);
 	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);

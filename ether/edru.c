@@ -93,6 +93,7 @@
 #include "../tools/types.h"
 #include "../tools/flags.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../ether/channel.h"
 
 /*====================================================================*
@@ -110,6 +111,7 @@
 #include "../tools/uintspec.c"
 #include "../tools/todigit.c"
 #include "../tools/error.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -215,11 +217,12 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
+	openchannel (&channel);
+	desuid ();
 	if (argc)
 	{
 		error (1, ECANCELED, ERROR_TOOMANY);
 	}
-	openchannel (&channel);
 	while ((length = readpacket (&channel, &frame, sizeof (frame))) > 0)
 	{
 		write (STDOUT_FILENO, frame.frame_data, ntohs (frame.frame_type));

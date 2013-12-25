@@ -64,6 +64,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../ram/nvram.h"
 #include "../ram/sdram.h"
 #include "../plc/plc.h"
@@ -117,6 +118,7 @@
 #include "../tools/error.c"
 #include "../tools/strfbits.c"
 #include "../tools/typename.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -226,6 +228,24 @@ int main (int argc, char const * argv [])
 #endif
 
 			break;
+		case 'q':
+			_setbits (channel.flags, CHANNEL_SILENCE);
+			break;
+		case 't':
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
+			break;
+		case 'v':
+			_setbits (channel.flags, CHANNEL_VERBOSE);
+			break;
+		}
+	}
+	openchannel (&channel);
+	desuid ();
+	optind = 1;
+	while ((c = getoptv (argc, argv, optv)) != -1)
+	{
+		switch (c)
+		{
 		case 'e':
 			dup2 (STDOUT_FILENO, STDERR_FILENO);
 			break;
@@ -268,14 +288,9 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_WRITE_PIB);
 			break;
 		case 'q':
-			_setbits (channel.flags, CHANNEL_SILENCE);
 			_setbits (plc.flags, PLC_SILENCE);
 			break;
-		case 't':
-			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
-			break;
 		case 'v':
-			_setbits (channel.flags, CHANNEL_VERBOSE);
 			_setbits (plc.flags, PLC_VERBOSE);
 			break;
 		case 'x':
@@ -291,7 +306,6 @@ int main (int argc, char const * argv [])
 	{
 		error (1, ENOTSUP, ERROR_TOOMANY);
 	}
-	openchannel (&channel);
 	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);

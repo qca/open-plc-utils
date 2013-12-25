@@ -73,6 +73,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../ether/channel.h"
 #include "../key/HPAVKey.h"
 #include "../key/keys.h"
@@ -138,6 +139,7 @@
 #include "../tools/fdchecksum32.c"
 #include "../tools/strfbits.c"
 #include "../tools/typename.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -426,6 +428,37 @@ int main (int argc, char const * argv [])
 	{
 		switch (c)
 		{
+		case 'i':
+
+#if defined (WINPCAP) || defined (LIBPCAP)
+
+			channel.ifindex = atoi (optarg);
+
+#else
+
+			channel.ifname = optarg;
+
+#endif
+
+			break;
+		case 'q':
+			_setbits (channel.flags, CHANNEL_SILENCE);
+			break;
+		case 't':
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
+			break;
+		case 'v':
+			_setbits (channel.flags, CHANNEL_VERBOSE);
+			break;
+		}
+	}
+	openchannel (&channel);
+	desuid ();
+	optind = 1;
+	while ((c = getoptv (argc, argv, optv)) != -1)
+	{
+		switch (c)
+		{
 		case 'a':
 			_setbits (plc.flags, PLC_ATTRIBUTES);
 			break;
@@ -450,13 +483,6 @@ int main (int argc, char const * argv [])
 			{
 				error (1, errno, "%s", plc.rpt.name);
 			}
-
-#ifndef WIN32
-
-			chown (optarg, getuid (), getgid ());
-
-#endif
-
 			plc.readaction = 3;
 			break;
 		case 'D':
@@ -499,19 +525,6 @@ int main (int argc, char const * argv [])
 			break;
 		case 'I':
 			_setbits (plc.flags, PLC_READ_IDENTITY);
-			break;
-		case 'i':
-
-#if defined (WINPCAP) || defined (LIBPCAP)
-
-			channel.ifindex = atoi (optarg);
-
-#else
-
-			channel.ifname = optarg;
-
-#endif
-
 			break;
 		case 'J':
 			if (!hexencode (plc.RDA, sizeof (plc.RDA), (char const *)(optarg)))
@@ -574,13 +587,6 @@ int main (int argc, char const * argv [])
 			{
 				error (1, errno, "%s", plc.nvm.name);
 			}
-
-#ifndef WIN32
-
-			chown (optarg, getuid (), getgid ());
-
-#endif
-
 			_setbits (plc.flags, PLC_READ_MAC);
 			break;
 		case 'P':
@@ -607,20 +613,12 @@ int main (int argc, char const * argv [])
 			{
 				error (1, errno, "%s", plc.pib.name);
 			}
-
-#ifndef WIN32
-
-			chown (optarg, getuid (), getgid ());
-
-#endif
-
 			_setbits (plc.flags, PLC_READ_PIB);
 			break;
 		case 'Q':
 			_setbits (plc.flags, PLC_QUICK_FLASH);
 			break;
 		case 'q':
-			_setbits (channel.flags, CHANNEL_SILENCE);
 			_setbits (plc.flags, PLC_SILENCE);
 			break;
 		case 'R':
@@ -632,14 +630,10 @@ int main (int argc, char const * argv [])
 		case 's':
 			_setbits (plc.flags, PLC_SDRAM_INFO);
 			break;
-		case 't':
-			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
-			break;
 		case 'T':
 			_setbits (plc.flags, PLC_FACTORY_DEFAULTS);
 			break;
 		case 'v':
-			_setbits (channel.flags, CHANNEL_VERBOSE);
 			_setbits (plc.flags, PLC_VERBOSE);
 			break;
 		case 'V':
@@ -673,7 +667,6 @@ int main (int argc, char const * argv [])
 			error (1, ECANCELED, PLC_NODEVICE);
 		}
 	}
-	openchannel (&channel);
 	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);
