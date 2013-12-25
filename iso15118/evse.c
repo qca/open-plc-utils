@@ -98,7 +98,7 @@
 #include "../tools/flags.h"
 #include "../tools/error.h"
 #include "../ether/channel.h"
-#include "../iso18115/slac.h"
+#include "../iso15118/slac.h"
 
 /*====================================================================*
  *   custom source files;
@@ -144,14 +144,14 @@
 #endif
 
 #ifndef MAKEFILE
-#include "../iso18115/slac_session.c"
-#include "../iso18115/slac_debug.c"
-#include "../iso18115/evse_cm_slac_param.c"
-#include "../iso18115/evse_cm_start_atten_char.c"
-#include "../iso18115/evse_cm_atten_char.c"
-#include "../iso18115/evse_cm_mnbc_sound.c"
-#include "../iso18115/evse_cm_slac_match.c"
-#include "../iso18115/evse_cm_set_key.c"
+#include "../iso15118/slac_session.c"
+#include "../iso15118/slac_debug.c"
+#include "../iso15118/evse_cm_slac_param.c"
+#include "../iso15118/evse_cm_start_atten_char.c"
+#include "../iso15118/evse_cm_atten_char.c"
+#include "../iso15118/evse_cm_mnbc_sound.c"
+#include "../iso15118/evse_cm_slac_match.c"
+#include "../iso15118/evse_cm_set_key.c"
 #endif
 
 /*====================================================================*

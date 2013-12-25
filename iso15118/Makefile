@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-# file: iso18115/Makefile
+# file: iso15118/Makefile
 
 # ====================================================================
 # environment definitions;
@@ -40,7 +40,7 @@ uninstall:
 clean:
 	rm -f ${TRASH} ${TOOLS}
 check:
-	${SHELL} iso18115.sh
+	${SHELL} iso15118.sh
 ignore:
 	echo ${TOOLS} | tr ' ' '\n' > .gitignore
 

@@ -1,5 +1,5 @@
 #!/bin/sh
-# file: iso18115/pev.sh
+# file: iso15118/pev.sh
 
 #
 #   configure a QCA7000 PIB file as a SLAC-EVSE on Linux or Cygwin. 
