@@ -216,11 +216,11 @@ static void initialize (struct session * session, char const * profile, char con
 	hexencode (session->EVSE_ID, sizeof (session->EVSE_ID), configstring (profile, section, "StationIdentifier", EVSE_SID)); 
 	hexencode (session->NMK, sizeof (session->NMK), configstring (profile, section, "NetworkMembershipKey", EVSE_NMK)); 
 	hexencode (session->NID, sizeof (session->NID), configstring (profile, section, "NetworkIdentifier", EVSE_NID)); 
-	session->NUM_SOUNDS = confignumber (profile, section, "NumberOfSounds", SLAC_MSOUNDS); 
-	session->TIME_OUT = confignumber (profile, section, "TimeToSound", SLAC_TIMETOSOUND); 
-	session->RESP_TYPE = confignumber (profile, section, "ResponseType", SLAC_RESPONSE_TYPE); 
-	session->chargetime = confignumber (profile, section, "ChargeTime", SLAC_CHARGETIME); 
-	session->settletime = confignumber (profile, section, "SettleTime", SLAC_SETTLETIME); 
+	session->NUM_SOUNDS = confignumber_range (profile, section, "NumberOfSounds", SLAC_MSOUNDS, 0, UCHAR_MAX); 
+	session->TIME_OUT = confignumber_range (profile, section, "TimeToSound", SLAC_TIMETOSOUND, 0, UCHAR_MAX); 
+	session->RESP_TYPE = confignumber_range (profile, section, "ResponseType", SLAC_RESPONSE_TYPE, 0, UCHAR_MAX); 
+	session->chargetime = confignumber_range (profile, section, "ChargeTime", SLAC_CHARGETIME, 0, UINT_MAX); 
+	session->settletime = confignumber_range (profile, section, "SettleTime", SLAC_SETTLETIME, 0, UINT_MAX); 
 	memcpy (session->original_nmk, session->NMK, sizeof (session->original_nmk)); 
 	memcpy (session->original_nid, session->NID, sizeof (session->original_nid)); 
 	session->state = EVSE_STATE_UNOCCUPIED; 
