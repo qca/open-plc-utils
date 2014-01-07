@@ -302,6 +302,39 @@ unsigned confignumber (char const * file, char const * part, char const * item, 
 		} 
 	} 
 	return (number); 
+}
+
+/*====================================================================*
+ *
+ *   unsigned confignumber_range (char const * file, char const * part, char const * item, unsigned number, unsigned min, unsigned max)
+ *
+ *   open the named file, locate the named part and return the named
+ *   item as an unsigned integer, if present; return a default number
+ *   if the file, part or item is missing or item is out of range; 
+ *
+ *--------------------------------------------------------------------*/
+
+unsigned confignumber_range (char const * file, char const * part, char const * item, unsigned number, unsigned min, unsigned max)
+
+{
+	unsigned value = 0;
+	char const * string = configstring (file, part, item, "");
+	if ((string) && (* string))
+	{
+		while (isdigit (* string))
+		{
+			value *= 10;
+			value += * string++ - '0';
+		}
+		if (! (* string))
+		{
+			if ((value >= min) && (value <= max))
+			{
+			    number = value;
+			}
+		}
+	}
+	return (number);
 } 
 
 /*====================================================================*

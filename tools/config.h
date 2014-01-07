@@ -54,6 +54,7 @@
 
 char const * configstring (char const * file, char const * part, char const * item, char const * text);
 unsigned confignumber (char const * file, char const * part, char const * item, unsigned number);
+unsigned confignumber_range (char const * file, char const * part, char const * item, unsigned number, unsigned min, unsigned max);
 
 /*====================================================================*
  *   end definitions;
