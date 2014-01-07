@@ -21,7 +21,7 @@ TOOLS+=plcboot plchost plcID plclist plcrate plcrule plcstat plctest plctool plc
 PAGES=plc.1
 PAGES+=int6k.1 int6kboot.1 int6keth.1 int6kid.1 int6kf.1 int6khost.1 int64host.1 int6klist.1 int6klog.1 int6kmdio.1 int6kmdio2.1 int6kmod.1 int6kstat.1 int6ktest.1 int6ktone.1 int6krate.1 int6krule.1 int6kwait.1 CMEncrypt.1 sada.1 coqos_add.1 coqos_info.1 coqos_man.1 coqos_mod.1 coqos_rel.1 mdustats.1
 PAGES+=ampboot.1 amphost.1 ampID.1 amplist.1 amprate.1 amprule.1 ampstat.1 amptest.1 amptool.1 amptone.1 ampwait.1
-PAGES+=plcboot.1 plchost.1 plcID.1 plclist.1 plcrate.1 plcrule.1 plcstat.1 plctest.1 plctool.1 plctone.1 plcwait.1 plchostd.1 plcget.1 plcset.1 plcotst.1 plcfwd.1 plcdevs.1 plclog.1 plcmdio16.1 plcmdio32.1 
+PAGES+=plcboot.1 plchost.1 plcID.1 plclist.1 plcrate.1 plcrule.1 plcstat.1 plctest.1 plctool.1 plctone.1 plcwait.1 plchostd.1 plchostd2.1 plcget.1 plcset.1 plcotst.1 plcfwd.1 plcdevs.1 plclog.1 plcmdio16.1 plcmdio32.1 
 
 # ====================================================================
 # pseudo targets;
