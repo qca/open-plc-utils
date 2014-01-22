@@ -126,6 +126,37 @@ static void int6x00Prescalers (struct _file_ * pib, unsigned scale)
 	return;
 }
 
+/*====================================================================*
+ *
+ *   void qca7x00Prescalers (struct _file_ * pib, unsigned scale);
+ *
+ *--------------------------------------------------------------------*/
+
+static void qca7x00Prescalers (struct _file_ * pib, unsigned scale)
+{
+	unsigned index = 0;
+	if (lseek (pib->file, QCA_PRESCALER_OFFSET, SEEK_SET) != QCA_PRESCALER_OFFSET)
+	{
+		error (1, errno, FILE_CANTSEEK, pib->name);
+	}
+	for (index = 0; index < QCA_PRESCALER_LENGTH; index++)
+	{
+		byte value;
+		if (read (pib->file, &value, sizeof (value)) != sizeof (value))
+		{
+			error (1, errno, "can't read %s", pib->name);
+		}
+		printf (" %6.3f %04d %6d ", INDEX_TO_FREQ (index), index, value);
+		while (value > scale)
+		{
+			printf ("#");
+			value -= scale;
+		}
+		printf ("\n");
+	}
+	return;
+}
+
 
 /*====================================================================*
  *
@@ -176,7 +207,11 @@ int main (int argc, char const * argv [])
 			error (1, errno, "Can't open %s", pib.name);
 		}
 		count = pibscalers (&pib);
-		if (count == AMP_CARRIERS)
+		if (count == PLC_CARRIERS)
+		{
+			qca7x00Prescalers (&pib, scale);
+		}
+		else if (count == AMP_CARRIERS)
 		{
 			error (1, ENOTSUP, "AR7x00 PIB Format");
 		}
