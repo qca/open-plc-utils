@@ -130,10 +130,10 @@
 #define MSTATUS_UNSOLICITEDUPDATES (1 << 6)
 #define MSTATUS_UNSOLICITED (1 << 7)
 
-#define WD_ACTION_READ   (0 << 1)
-#define WD_ACTION_CLEAR  (1 << 1)
-#define WD_ACTION_CUSTOM (2 << 1)
 #define WD_SESSION_ID 0xFEFE
+#define WD_ACTION_READ   (1 << 0)
+#define WD_ACTION_CLEAR  (1 << 1)
+#define WD_ACTION_CUSTOM (1 << 2)
 
 /*====================================================================*
  *
