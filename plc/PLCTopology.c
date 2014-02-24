@@ -252,7 +252,7 @@ signed PLCTopology (struct channel * channel, struct message * message, struct p
 		uint8_t NUMAVLNS;
 		struct network networks [1];
 	}
-	* networks = (struct networks *) (&confirm->data);
+	* networks = (struct networks *) (confirm->data);
 
 #elif defined (AR7x00)
 

@@ -119,7 +119,7 @@ signed Topology1 (struct plc * plc)
 		uint8_t NUMAVLNS;
 		struct network networks [1];
 	}
-	* networks = (struct networks *) (&confirm->data);
+	* networks = (struct networks *) (confirm->data);
 
 #ifndef __GNUC__
 #pragma pack (pop)

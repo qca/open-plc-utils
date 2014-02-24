@@ -124,7 +124,7 @@ signed NetworkDevices1 (struct plc * plc, void * memory, size_t extent)
 		uint8_t NUMAVLNS;
 		struct network networks [1];
 	}
-	* networks = (struct networks *) (&confirm->data);
+	* networks = (struct networks *) (confirm->data);
 
 #ifndef __GNUC__
 #pragma pack (pop)
