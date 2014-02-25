@@ -91,7 +91,7 @@
 #include "../tools/flags.h"
 #include "../tools/error.h"
 #include "../tools/memory.h"
-#include "../iso18115/slac.h"
+#include "../iso15118/slac.h"
 
 signed evse_cm_slac_param (struct session * session, struct channel * channel, struct message * message) 
 
@@ -101,7 +101,7 @@ signed evse_cm_slac_param (struct session * session, struct channel * channel, s
 	struct cm_slac_param_confirm * confirm = (struct cm_slac_param_confirm *) (message); 
 	while (readmessage (channel, message, HOMEPLUG_MMV, (CM_SLAC_PARAM | MMTYPE_REQ)) > 0) 
 	{ 
-		debug (0, __func__, "<-- CM_SLAC_PARAM.REQ"); 
+		slac_debug (session, 0, __func__, "<-- CM_SLAC_PARAM.REQ"); 
 		session->APPLICATION_TYPE = request->APPLICATION_TYPE; 
 		session->SECURITY_TYPE = request->SECURITY_TYPE; 
 		memcpy (session->PEV_MAC, request->ethernet.OSA, sizeof (session->PEV_MAC)); 
@@ -112,12 +112,12 @@ signed evse_cm_slac_param (struct session * session, struct channel * channel, s
 		if (_anyset (session->flags, SLAC_VERBOSE)) 
 		{ 
 			char string [256]; 
-			debug (0, __func__, "CM_SLAC_PARAM.REQ.APPLICATION_TYPE %d", request->APPLICATION_TYPE); 
-			debug (0, __func__, "CM_SLAC_PARAM.REQ.SECURITY_TYPE %d", request->SECURITY_TYPE); 
-			debug (0, __func__, "CM_SLAC_PARAM.REQ.RunID %s", HEXSTRING (string, request->RunID)); 
-			debug (0, __func__, "CM_SLAC_PARAM.REQ.CipherSuiteSetSize %d", request->CipherSuiteSetSize); 
-			debug (0, __func__, "CM_SLAC_PARAM.REQ.CipherSuite [0] %d", request->CipherSuite [0]); 
-			debug (0, __func__, "CM_SLAC_PARAM.REQ.CipherSuite [1] %d", request->CipherSuite [1]); 
+			slac_debug (session, 0, __func__, "CM_SLAC_PARAM.REQ.APPLICATION_TYPE %d", request->APPLICATION_TYPE); 
+			slac_debug (session, 0, __func__, "CM_SLAC_PARAM.REQ.SECURITY_TYPE %d", request->SECURITY_TYPE); 
+			slac_debug (session, 0, __func__, "CM_SLAC_PARAM.REQ.RunID %s", HEXSTRING (string, request->RunID)); 
+			slac_debug (session, 0, __func__, "CM_SLAC_PARAM.REQ.CipherSuiteSetSize %d", request->CipherSuiteSetSize); 
+			slac_debug (session, 0, __func__, "CM_SLAC_PARAM.REQ.CipherSuite [0] %d", request->CipherSuite [0]); 
+			slac_debug (session, 0, __func__, "CM_SLAC_PARAM.REQ.CipherSuite [1] %d", request->CipherSuite [1]); 
 		} 
 
 #endif
@@ -126,10 +126,10 @@ signed evse_cm_slac_param (struct session * session, struct channel * channel, s
 		{ 
 			if (LE16TOH (request->CipherSuite [0]) != (uint16_t) (session->counter)) 
 			{ 
-				debug (session->exit, __func__, "session->counter mismatch! PEV=(%d) EVSE=(%d)", LE16TOH (request->CipherSuite [0]), session->counter); 
+				slac_debug (session, session->exit, __func__, "session->counter mismatch! PEV=(%d) EVSE=(%d)", LE16TOH (request->CipherSuite [0]), session->counter); 
 			} 
 		} 
-		debug (0, __func__, "--> CM_SLAC_PARAM.CNF"); 
+		slac_debug (session, 0, __func__, "--> CM_SLAC_PARAM.CNF"); 
 		memset (message, 0, sizeof (* message)); 
 		EthernetHeader (& confirm->ethernet, session->PEV_MAC, channel->host, channel->type); 
 		HomePlugHeader1 (& confirm->homeplug, HOMEPLUG_MMV, (CM_SLAC_PARAM | MMTYPE_CNF)); 
@@ -144,11 +144,11 @@ signed evse_cm_slac_param (struct session * session, struct channel * channel, s
 		confirm->CipherSuite = HTOLE16 ((uint16_t) (session->counter)); 
 		if (sendmessage (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) <= 0) 
 		{ 
-			return (debug (1, __func__, CHANNEL_CANTSEND)); 
+			return (slac_debug (session, 1, __func__, CHANNEL_CANTSEND)); 
 		} 
 		return (0); 
 	} 
-	return (debug (0, __func__, "<-- CM_SLAC_PARAM.REQ ?")); 
+	return (slac_debug (session, 0, __func__, "<-- CM_SLAC_PARAM.REQ ?")); 
 } 
 
 #endif

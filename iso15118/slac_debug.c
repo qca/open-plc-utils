@@ -1,6 +1,7 @@
 /*====================================================================*
  *
  *   Copyright (c) 2013 Qualcomm Atheros, Inc.
+ *   Copyright (c) 2013 I2SE GmbH
  *
  *   All rights reserved.
  *
@@ -38,72 +39,69 @@
  *   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
  *
  *--------------------------------------------------------------------*/
-
+ 
 /*====================================================================*
  *
- *   signed pev_cm_start_atten_char (struct session * session, struct channel * channel, struct message * message);
+ *   signed slac_debug (struct session * session, signed status, char const * string, char const * format, ...);
  *
  *   slac.h
- *   
- *   the PEV-HLE broadcasts a CM_START_ATTEN_CHAR.IND to initiate a 
- *   SLAC session; we broadcast three times per HPGP specification;
+ *
+ *   variation of the GNU error() function that accepts a message in
+ *   place of an error code and always returns -1;
  *
  *--------------------------------------------------------------------*/
 
-#ifndef PEV_CM_START_ATTEN_CHAR_SOURCE
-#define PEV_CM_START_ATTEN_CHAR_SOURCE
+#ifndef SLAC_DEBUG_SOURCE
+#define SLAC_DEBUG_SOURCE
 
-#include <sys/time.h>
-#include <memory.h>
-#include <errno.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdarg.h>
+#include <string.h>
 
+#include "../iso15118/slac.h"
 #include "../tools/types.h"
 #include "../tools/error.h"
-#include "../ether/channel.h"
-#include "../iso18115/slac.h"
+#include "../tools/flags.h"
 
-signed pev_cm_start_atten_char (struct session * session, struct channel * channel, struct message * message) 
+#ifdef __GNUC__
 
-{ 
-	struct cm_start_atten_char_indicate * indicate = (struct cm_start_atten_char_indicate *) (message); 
-	debug (0, __func__, "--> CM_START_ATTEN_CHAR.IND"); 
-	memset (message, 0, sizeof (* message)); 
-	EthernetHeader (& indicate->ethernet, session->MSOUND_TARGET, channel->host, channel->type); 
-	HomePlugHeader1 (& indicate->homeplug, HOMEPLUG_MMV, (CM_START_ATTEN_CHAR | MMTYPE_IND)); 
-	indicate->APPLICATION_TYPE = session->APPLICATION_TYPE; 
-	indicate->SECURITY_TYPE = session->SECURITY_TYPE; 
-	indicate->ACVarField.NUM_SOUNDS = session->NUM_SOUNDS; 
-	indicate->ACVarField.TIME_OUT = session->TIME_OUT; 
-	indicate->ACVarField.RESP_TYPE = session->RESP_TYPE; 
-	memcpy (indicate->ACVarField.FORWARDING_STA, session->FORWARDING_STA, sizeof (indicate->ACVarField.FORWARDING_STA)); 
-	memcpy (indicate->ACVarField.RunID, session->RunID, sizeof (indicate->ACVarField.RunID)); 
-	if (sendmessage (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) <= 0) 
-	{ 
-		return (debug (1, __func__, CHANNEL_CANTSEND)); 
-	} 
-
-#if 0
-
-/*	
- *	the GreenPHY spec says to send CM_START_ATTEN.IND three times to ensure
- *	that is is received;
- */
-
-	if (sendmessage (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) <= 0) 
-	{ 
-		return (debug (1, __func__, CHANNEL_CANTSEND)); 
-	} 
-	if (sendmessage (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) <= 0) 
-	{ 
-		return (debug (1, __func__, CHANNEL_CANTSEND)); 
-	} 
+__attribute__ ((format (printf, 4, 5)))
 
 #endif
 
-	return (0); 
-} 
+signed slac_debug (struct session * session, signed status, char const * string, char const * format, ...)
+
+{
+	extern char const * program_name;
+	
+	if (_allclr (session->flags, SLAC_SILENCE))
+	{
+		if ((program_name) && (* program_name))
+		{
+			fprintf (stderr, "%s: ", program_name);
+		}
+		if ((string) && (* string))
+		{
+			fprintf (stderr, "%s: ", string);
+		}
+		if ((format) && (*format))
+		{
+			va_list arglist;
+			va_start (arglist, format);
+			vfprintf (stderr, format, arglist);
+			va_end (arglist);
+		}
+		fprintf (stderr, "\n");
+		fflush (stderr);
+	}
+	if (status)
+	{
+		exit (status);
+	}
+	return (-1);
+}
+
 
 #endif
-
-
 
