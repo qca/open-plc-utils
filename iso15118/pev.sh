@@ -1,8 +1,8 @@
 #!/bin/sh
-# file: iso18115/pev.sh
+# file: iso15118/pev.sh
 
 #
-#   configure a QCA7000 PIB file as a SLAC-EVSE on Linux or Cygwin. 
+#  configure a QCA7000 PIB file as a SLAC-PEV on Linux or Cygwin. 
 #
 
 # ====================================================================
@@ -15,13 +15,13 @@ setpib ${1} 24 hfid "Delta Electronics $(date)"
 # User HFID; 
 # --------------------------------------------------------------------
 
-setpib ${1} 74 hfid "Qualcomm Atheros Enabled EVSE"
+setpib ${1} 74 hfid "Qualcomm Atheros Enabled PEV"
 
 # ====================================================================
 # CCo Selection; 0=Auto, 1=Never, 2=Always, 3=UserAssigned
 # --------------------------------------------------------------------
 
-setpib ${1} F4 byte 2
+setpib ${1} F4 byte 1
 
 # ====================================================================
 # AVLN Membership; 0=No, 1=Yes
@@ -39,7 +39,7 @@ setpib ${1} 109 byte 1
 # SLAC Enable; 0=disable, 1=PEV, 2=EVSE
 # --------------------------------------------------------------------
 
-setpib ${1} 1653 byte 2
+setpib ${1} 1653 byte 1
 
 # ====================================================================
 # Low Speed Link, High Speed Link

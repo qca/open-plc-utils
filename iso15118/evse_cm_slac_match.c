@@ -65,7 +65,7 @@
 #include "../tools/memory.h"
 #include "../tools/error.h"
 #include "../tools/flags.h"
-#include "../iso18115/slac.h"
+#include "../iso15118/slac.h"
 
 signed evse_cm_slac_match (struct session * session, struct channel * channel, struct message * message) 
 
@@ -76,7 +76,7 @@ signed evse_cm_slac_match (struct session * session, struct channel * channel, s
 	{ 
 		if (! memcmp (session->RunID, request->MatchVarField.RunID, sizeof (session->RunID))) 
 		{ 
-			debug (0, __func__, "<-- CM_SLAC_MATCH.REQ"); 
+			slac_debug (session, 0, __func__, "<-- CM_SLAC_MATCH.REQ"); 
 			memcpy (session->PEV_ID, request->MatchVarField.PEV_ID, sizeof (session->PEV_ID)); 
 			memcpy (session->PEV_MAC, request->MatchVarField.PEV_MAC, sizeof (session->PEV_MAC)); 
 			memcpy (session->RunID, request->MatchVarField.RunID, sizeof (session->RunID)); 
@@ -86,19 +86,19 @@ signed evse_cm_slac_match (struct session * session, struct channel * channel, s
 			if (_anyset (session->flags, SLAC_VERBOSE)) 
 			{ 
 				char string [256]; 
-				debug (0, __func__, "CM_SLAC_MATCH.REQ.APPLICATION_TYPE %d", request->APPLICATION_TYPE); 
-				debug (0, __func__, "CM_SLAC_MATCH.REQ.SECURITY_TYPE %d", request->SECURITY_TYPE); 
-				debug (0, __func__, "CM_SLAC_MATCH.REQ.MVFLength %d", LE16TOH (request->MVFLength)); 
-				debug (0, __func__, "CM_SLAC_MATCH.REQ.PEV_ID %s", HEXSTRING (string, request->MatchVarField.PEV_ID)); 
-				debug (0, __func__, "CM_SLAC_MATCH.REQ.PEV_MAC %s", HEXSTRING (string, request->MatchVarField.PEV_MAC)); 
-				debug (0, __func__, "CM_SLAC_MATCH.REQ.EVSE_ID %s", HEXSTRING (string, request->MatchVarField.EVSE_ID)); 
-				debug (0, __func__, "CM_SLAC_MATCH.REQ.EVSE_MAC %s", HEXSTRING (string, request->MatchVarField.EVSE_MAC)); 
-				debug (0, __func__, "CM_SLAC_MATCH.REQ.RunID %s", HEXSTRING (string, request->MatchVarField.RunID)); 
+				slac_debug (session, 0, __func__, "CM_SLAC_MATCH.REQ.APPLICATION_TYPE %d", request->APPLICATION_TYPE); 
+				slac_debug (session, 0, __func__, "CM_SLAC_MATCH.REQ.SECURITY_TYPE %d", request->SECURITY_TYPE); 
+				slac_debug (session, 0, __func__, "CM_SLAC_MATCH.REQ.MVFLength %d", LE16TOH (request->MVFLength)); 
+				slac_debug (session, 0, __func__, "CM_SLAC_MATCH.REQ.PEV_ID %s", HEXSTRING (string, request->MatchVarField.PEV_ID)); 
+				slac_debug (session, 0, __func__, "CM_SLAC_MATCH.REQ.PEV_MAC %s", HEXSTRING (string, request->MatchVarField.PEV_MAC)); 
+				slac_debug (session, 0, __func__, "CM_SLAC_MATCH.REQ.EVSE_ID %s", HEXSTRING (string, request->MatchVarField.EVSE_ID)); 
+				slac_debug (session, 0, __func__, "CM_SLAC_MATCH.REQ.EVSE_MAC %s", HEXSTRING (string, request->MatchVarField.EVSE_MAC)); 
+				slac_debug (session, 0, __func__, "CM_SLAC_MATCH.REQ.RunID %s", HEXSTRING (string, request->MatchVarField.RunID)); 
 			} 
 
 #endif
 
-			debug (0, __func__, "--> CM_SLAC_MATCH.CNF"); 
+			slac_debug (session, 0, __func__, "--> CM_SLAC_MATCH.CNF"); 
 			memset (message, 0, sizeof (* message)); 
 			EthernetHeader (& confirm->ethernet, session->PEV_MAC, channel->host, channel->type); 
 			HomePlugHeader1 (& confirm->homeplug, HOMEPLUG_MMV, (CM_SLAC_MATCH | MMTYPE_CNF)); 
@@ -114,12 +114,12 @@ signed evse_cm_slac_match (struct session * session, struct channel * channel, s
 			memcpy (confirm->MatchVarField.NMK, session->NMK, sizeof (confirm->MatchVarField.NMK)); 
 			if (sendmessage (channel, message, sizeof (* confirm)) <= 0) 
 			{ 
-				return (debug (1, __func__, CHANNEL_CANTSEND)); 
+				return (slac_debug (session, 1, __func__, CHANNEL_CANTSEND)); 
 			} 
 			return (0); 
 		} 
 	} 
-	return (debug (session->exit, __func__, "<-- CM_SLAC_MATCH.REQ ?")); 
+	return (slac_debug (session, session->exit, __func__, "<-- CM_SLAC_MATCH.REQ ?")); 
 } 
 
 #endif

@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-# file: iso18115/Makefile
+# file: iso15118/Makefile
 
 # ====================================================================
 # environment definitions;
@@ -40,7 +40,7 @@ uninstall:
 clean:
 	rm -f ${TRASH} ${TOOLS}
 check:
-	${SHELL} iso18115.sh
+	${SHELL} iso15118.sh
 ignore:
 	echo ${TOOLS} | tr ' ' '\n' > .gitignore
 
@@ -57,8 +57,8 @@ ignore:
 # programs;     
 # --------------------------------------------------------------------
 
-evse: evse.o Devices.o EthernetHeader.o QualcommHeader.o HomePlugHeader1.o UnwantedMessage.o channel.o closechannel.o config.o debug.o decdecode.o decstring.o error.o evse_cm_atten_char.o evse_cm_mnbc_sound.o evse_cm_slac_match.o evse_cm_slac_param.o evse_cm_start_atten_char.o evse_cm_set_key.o getoptv.o hexdecode.o hexdump.o hexencode.o hexout.o hexstring.o openchannel.o putoptv.o readmessage.o readpacket.o sendmessage.o sendpacket.o slac_session.o strfbits.o todigit.o uintspec.o version.o 
-pev: pev.o Devices.o EthernetHeader.o QualcommHeader.o HomePlugHeader1.o UnwantedMessage.o channel.o closechannel.o config.o debug.o decdecode.o decstring.o error.o getoptv.o hexdecode.o hexdump.o hexencode.o hexstring.o memincr.o openchannel.o pev_cm_atten_char.o pev_cm_mnbc_sound.o pev_cm_slac_match.o pev_cm_slac_param.o pev_cm_start_atten_char.o pev_cm_set_key.o putoptv.o readmessage.o readpacket.o sendmessage.o sendpacket.o slac_connect.o slac_session.o strfbits.o todigit.o uintspec.o version.o 
+evse: evse.o Devices.o EthernetHeader.o QualcommHeader.o HomePlugHeader1.o UnwantedMessage.o channel.o closechannel.o config.o decdecode.o decstring.o error.o evse_cm_atten_char.o evse_cm_mnbc_sound.o evse_cm_slac_match.o evse_cm_slac_param.o evse_cm_start_atten_char.o evse_cm_set_key.o getoptv.o hexdecode.o hexdump.o hexencode.o hexout.o hexstring.o openchannel.o putoptv.o readmessage.o readpacket.o sendmessage.o sendpacket.o slac_session.o strfbits.o todigit.o uintspec.o version.o slac_debug.o
+pev: pev.o Devices.o EthernetHeader.o QualcommHeader.o HomePlugHeader1.o UnwantedMessage.o channel.o closechannel.o config.o decdecode.o decstring.o error.o getoptv.o hexdecode.o hexdump.o hexencode.o hexstring.o memincr.o openchannel.o pev_cm_atten_char.o pev_cm_mnbc_sound.o pev_cm_slac_match.o pev_cm_slac_param.o pev_cm_start_atten_char.o pev_cm_set_key.o putoptv.o readmessage.o readpacket.o sendmessage.o sendpacket.o slac_connect.o slac_session.o strfbits.o todigit.o uintspec.o version.o slac_debug.o
 
 # ====================================================================
 # includes;

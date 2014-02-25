@@ -41,7 +41,7 @@
 
 /*====================================================================*
  *
- *   evse.c - QCA Electric Vehicle Supply Equipment Emulator;
+ *   pev.c - QCA Plug-in Electric Vehicle Emulator;
  *
  *   This program, in the current state, is not a finished product;
  *   It has been released so that interested parties can begin to 
@@ -70,6 +70,8 @@
  *   5) lots of debugging messages; these can be suppressed or 
  *      deleted if not wanted;
  *
+ *   6) simplified state machine;
+ *
  *--------------------------------------------------------------------*/
 
 /*====================================================================*
@@ -78,27 +80,26 @@
 
 #include <unistd.h>
 #include <stdlib.h>
-#include <string.h>
 #include <limits.h>
+#include <string.h>
 #include <errno.h>
-#include <sys/time.h>
+#include <time.h>
 
 /*====================================================================*
  *   custom header files;
  *--------------------------------------------------------------------*/
 
-#include "../ether/channel.h"
 #include "../tools/getoptv.h"
 #include "../tools/putoptv.h"
 #include "../tools/memory.h"
 #include "../tools/number.h"
-#include "../tools/config.h"
 #include "../tools/types.h"
-#include "../tools/timer.h"
 #include "../tools/flags.h"
+#include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/config.h"
 #include "../ether/channel.h"
-#include "../iso18115/slac.h"
+#include "../iso15118/slac.h"
 
 /*====================================================================*
  *   custom source files;
@@ -108,27 +109,18 @@
 #include "../tools/getoptv.c"
 #include "../tools/putoptv.c"
 #include "../tools/version.c"
-#include "../tools/uintspec.c"
+#include "../tools/hexdump.c"
 #include "../tools/hexdecode.c"
 #include "../tools/hexencode.c"
-#include "../tools/hexdump.c"
-#include "../tools/hexout.c"
 #include "../tools/hexstring.c"
 #include "../tools/decdecode.c"
 #include "../tools/decstring.c"
+#include "../tools/uintspec.c"
 #include "../tools/todigit.c"
 #include "../tools/strfbits.c"
-#include "../tools/error.c"
 #include "../tools/config.c"
-#include "../tools/debug.c"
-#endif
-
-#ifndef MAKEFILE
-#include "../ether/openchannel.c"
-#include "../ether/closechannel.c"
-#include "../ether/readpacket.c"
-#include "../ether/sendpacket.c"
-#include "../ether/channel.c"
+#include "../tools/memincr.c"
+#include "../tools/error.c"
 #endif
 
 #ifndef MAKEFILE
@@ -145,13 +137,23 @@
 #endif
 
 #ifndef MAKEFILE
-#include "../iso18115/slac_session.c"
-#include "../iso18115/evse_cm_slac_param.c"
-#include "../iso18115/evse_cm_start_atten_char.c"
-#include "../iso18115/evse_cm_atten_char.c"
-#include "../iso18115/evse_cm_mnbc_sound.c"
-#include "../iso18115/evse_cm_slac_match.c"
-#include "../iso18115/evse_cm_set_key.c"
+#include "../ether/channel.c"
+#include "../ether/openchannel.c"
+#include "../ether/closechannel.c"
+#include "../ether/sendpacket.c"
+#include "../ether/readpacket.c"
+#endif
+
+#ifndef MAKEFILE
+#include "../iso15118/slac_session.c"
+#include "../iso15118/slac_connect.c"
+#include "../iso15118/slac_debug.c"
+#include "../iso15118/pev_cm_slac_param.c"
+#include "../iso15118/pev_cm_start_atten_char.c"
+#include "../iso15118/pev_cm_atten_char.c"
+#include "../iso15118/pev_cm_mnbc_sound.c"
+#include "../iso15118/pev_cm_slac_match.c"
+#include "../iso15118/pev_cm_set_key.c"
 #endif
 
 /*====================================================================*
@@ -159,26 +161,30 @@
  *--------------------------------------------------------------------*/
 
 #define PLCDEVICE "PLC"
-#define PROFILE "evse.ini"
-#define SECTION "default" 
-#define STATION ""
+#define PROFILE "pev.ini"
+#define SECTION "default"   
 
-#define EVSE_STATE_UNAVAILABLE 0
-#define EVSE_STATE_UNOCCUPIED 1
-#define EVSE_STATE_UNMATCHED 2
-#define EVSE_STATE_MATCHED 3
+#define PEV_STATE_DISCONNECTED 1
+#define PEV_STATE_UNMATCHED 2
+#define PEV_STATE_MATCHED 3
 
-#define EVSE_SID "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"	// Station Identifier
-#define EVSE_NMK "B59319D7E8157BA001B018669CCEE30D" 	// HomePlugAV0123
-#define EVSE_NID "026BCBA5354E08"		    	// HomePlugAV0123
+#define PEV_VID "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" // VehicleIdentifier
+#define PEV_NMK "50D3E4933F855B7040784DF815AA8DB7"   // HomePlugAV
+#define PEV_NID "B0F2E695666B03"		     // HomePlugAV
 
 
 /*====================================================================*
+ *   program variables;
+ *--------------------------------------------------------------------*/
+
+unsigned state = 0; 
+
+/*====================================================================*
  *
- *   void configure ()
+ *   static void configure ();
  *
- *   print default EVSE-HLE configuration file on stdout so that the
- *   profile, section and element names match; 
+ *   print template PEV-HLE configuration file on stdout so that 
+ *   profile, section and element names match;
  *
  *--------------------------------------------------------------------*/
 
@@ -187,43 +193,41 @@ static void configure ()
 { 
 	printf ("# file: %s\n", PROFILE); 
 	printf ("# ====================================================================\n"); 
-	printf ("# EVSE-HLE initiaization;\n"); 
+	printf ("# PEV-HLE initialization;\n"); 
 	printf ("# --------------------------------------------------------------------\n"); 
 	printf ("[%s]\n", SECTION); 
-	printf ("station identifier = %s\n", EVSE_SID); 
-	printf ("network membership key = %s\n", EVSE_NMK); 
-	printf ("network identifier = %s\n", EVSE_NID); 
-	printf ("number of sounds = %d\n", SLAC_MSOUNDS); 
-	printf ("time to sound = %d\n", SLAC_TIMETOSOUND); 
-	printf ("response type = %d\n", SLAC_RESPONSE_TYPE); 
-	printf ("settle time = %d\n", SLAC_SETTLETIME); 
+	printf ("vehicle identifier = %s\n", PEV_VID); 
+	printf ("network membership key = %s\n", PEV_NMK); 
+	printf ("network identifier = %s\n", PEV_NID); 
+	printf ("attenuation threshold = %d\n", SLAC_LIMIT); 
+	printf ("msound pause = %d\n", SLAC_PAUSE); 
 	printf ("charge time = %d\n", SLAC_CHARGETIME); 
+	printf ("settle time = %d\n", SLAC_SETTLETIME); 
 	return; 
 } 
 
 /*====================================================================*
  *
- *   char void initialize (struct session * session, char const * profile, char const * section) 
+ *   void initialize (struct session * session, char const * profile, char const * section);
  *
- *   read EVSE-HLE configuration profile; initialize session variable;
- *   
+ *   read PEV-HLE configuration profile; initialize session variable;
+ *
  *--------------------------------------------------------------------*/
 
 static void initialize (struct session * session, char const * profile, char const * section) 
 
 { 
 	session->next = session->prev = session; 
-	hexencode (session->EVSE_ID, sizeof (session->EVSE_ID), configstring (profile, section, "StationIdentifier", EVSE_SID)); 
-	hexencode (session->NMK, sizeof (session->NMK), configstring (profile, section, "NetworkMembershipKey", EVSE_NMK)); 
-	hexencode (session->NID, sizeof (session->NID), configstring (profile, section, "NetworkIdentifier", EVSE_NID)); 
-	session->NUM_SOUNDS = confignumber (profile, section, "NumberOfSounds", SLAC_MSOUNDS); 
-	session->TIME_OUT = confignumber (profile, section, "TimeToSound", SLAC_TIMETOSOUND); 
-	session->RESP_TYPE = confignumber (profile, section, "ResponseType", SLAC_RESPONSE_TYPE); 
-	session->chargetime = confignumber (profile, section, "ChargeTime", SLAC_CHARGETIME); 
-	session->settletime = confignumber (profile, section, "SettleTime", SLAC_SETTLETIME); 
+	hexencode (session->PEV_ID, sizeof (session->PEV_ID), configstring (profile, section, "VehicleIdentifier", PEV_VID)); 
+	hexencode (session->NMK, sizeof (session->NMK), configstring (profile, section, "NetworkMembershipKey", PEV_NMK)); 
+	hexencode (session->NID, sizeof (session->NID), configstring (profile, section, "NetworkIdentifier", PEV_NID)); 
+	session->limit = confignumber_range (profile, section, "AttenuationThreshold", SLAC_LIMIT, 0, UINT_MAX); 
+	session->pause = confignumber_range (profile, section, "MSoundPause", SLAC_PAUSE, 0, UINT_MAX); 
+	session->settletime = confignumber_range (profile, section, "SettleTime", SLAC_SETTLETIME, 0, UINT_MAX); 
+	session->chargetime = confignumber_range (profile, section, "ChargeTime", SLAC_CHARGETIME, 0, UINT_MAX); 
+	session->state = PEV_STATE_DISCONNECTED; 
 	memcpy (session->original_nmk, session->NMK, sizeof (session->original_nmk)); 
 	memcpy (session->original_nid, session->NID, sizeof (session->original_nid)); 
-	session->state = EVSE_STATE_UNOCCUPIED; 
 	slac_session (session); 
 	return; 
 } 
@@ -232,31 +236,38 @@ static void initialize (struct session * session, char const * profile, char con
  *
  *   signed identifier (struct session * session, struct channel * channel);
  *
- *   copy channel host address to session EVSE MAC address; set session
- *   EVSE identifier to zeros;
+ *   generate the run identifier and store in session variable;
+ *
+ *   copy channel host address to session PEV MAC address; set session
+ *   PEV identifier to zeros;
  *
  *--------------------------------------------------------------------*/
 
 static signed identifier (struct session * session, struct channel * channel) 
 
 { 
-	memcpy (session->EVSE_MAC, channel->host, sizeof (session->EVSE_MAC)); 
+	time_t now; 
+	time (& now); 
+	memset (session->RunID, 0, sizeof (session->RunID)); 
+	memcpy (session->RunID, channel->host, ETHER_ADDR_LEN); 
+	memcpy (session->PEV_MAC, channel->host, sizeof (session->PEV_MAC)); 
 	return (0); 
 } 
 
 /*====================================================================*
  *
- *   void UnoccupiedState (struct session * session, struct channel * channel, struct message * message);
+ *   void DisconnectedState (struct session * session, struct channel * channel, struct message * message);
  *
  *--------------------------------------------------------------------*/
 
-static void UnoccupiedState (struct session * session, struct channel * channel, struct message * message) 
+static void DisconnectedState (struct session * session, struct channel * channel, struct message * message) 
 
 { 
 	slac_session (session); 
-	debug (0, __func__, "Listening ..."); 
-	while (evse_cm_slac_param (session, channel, message)); 
-	session->state = EVSE_STATE_UNMATCHED; 
+	slac_debug (session, 0, __func__, "Probing ..."); 
+	memincr (session->RunID, sizeof (session->RunID)); 
+	while (pev_cm_slac_param (session, channel, message)); 
+	session->state = PEV_STATE_UNMATCHED; 
 	return; 
 } 
 
@@ -264,8 +275,11 @@ static void UnoccupiedState (struct session * session, struct channel * channel,
  *
  *   void MatchingState (struct session * session, struct channel * channel, struct message * message);
  *
- *   the cm_start_atten_char message establishes msound count and 
- *   timeout;
+ *   The PEV-EVSE perform GreenPPEA protocol in this state;
+ *
+ *   the cm_start_atten_char and cm_mnbc_sound messages are sent
+ *   broadcast; the application may receive multiple cm_atten_char
+ *   messages before sending the cm_slac_match message;
  *
  *--------------------------------------------------------------------*/
 
@@ -273,29 +287,34 @@ static void UnmatchedState (struct session * session, struct channel * channel, 
 
 { 
 	slac_session (session); 
-	debug (0, __func__, "Sounding ..."); 
-	if (evse_cm_start_atten_char (session, channel, message)) 
+	slac_debug (session, 0, __func__, "Sounding ..."); 
+	if (pev_cm_start_atten_char (session, channel, message)) 
 	{ 
-		session->state = EVSE_STATE_UNOCCUPIED; 
+		session->state = PEV_STATE_DISCONNECTED; 
 		return; 
 	} 
-	if (evse_cm_mnbc_sound (session, channel, message)) 
+	if (pev_cm_mnbc_sound (session, channel, message)) 
 	{ 
-		session->state = EVSE_STATE_UNOCCUPIED; 
+		session->state = PEV_STATE_DISCONNECTED; 
 		return; 
 	} 
-	if (evse_cm_atten_char (session, channel, message)) 
+	if (pev_cm_atten_char (session, channel, message)) 
 	{ 
-		session->state = EVSE_STATE_UNOCCUPIED; 
+		session->state = PEV_STATE_DISCONNECTED; 
 		return; 
 	} 
-	debug (0, __func__, "Matching ..."); 
-	if (evse_cm_slac_match (session, channel, message)) 
+	if (slac_connect (session)) 
 	{ 
-		session->state = EVSE_STATE_UNOCCUPIED; 
+		session->state = PEV_STATE_DISCONNECTED; 
 		return; 
 	} 
-	session->state = EVSE_STATE_MATCHED; 
+	slac_debug (session, 0, __func__, "Matching ..."); 
+	if (pev_cm_slac_match (session, channel, message)) 
+	{ 
+		session->state = PEV_STATE_DISCONNECTED; 
+		return; 
+	} 
+	session->state = PEV_STATE_MATCHED; 
 	return; 
 } 
 
@@ -303,61 +322,67 @@ static void UnmatchedState (struct session * session, struct channel * channel, 
  *
  *   void MatchedState (struct session * session, struct channel * channel, struct message * message);
  *
+ *   charge vehicle; restore original NMK/NID and disconnect; loop
+ *   if SLAC_CONTINUE is set;
+ *
  *--------------------------------------------------------------------*/
 
 static void MatchedState (struct session * session, struct channel * channel, struct message * message) 
 
 { 
-	debug (0, __func__, "Connecting ..."); 
+	slac_session (session); 
+	slac_debug (session, 0, __func__, "Connecting ..."); 
 
 #if SLAC_AVLN_EVSE
 
-	if (evse_cm_set_key (session, channel, message)) 
-	{ 
-		session->state = EVSE_STATE_UNOCCUPIED; 
-		return; 
-	} 
+	slac_debug (session, 0, __func__, "waiting for evse to settle ..."); 
 	sleep (session->settletime); 
 
 #endif
 #if SLAC_AVLN_PEV
 
-	debug (0, __func__, "waiting for pev to settle ..."); 
+	if (pev_cm_set_key (session, channel, message)) 
+	{ 
+		session->state = PEV_STATE_DISCONNECTED; 
+		return; 
+	} 
 	sleep (session->settletime); 
 
 #endif
 
-	debug (0, __func__, "Charging (%d) ...\n\n", session->counter++); 
+	slac_debug (session, 0, __func__, "Charging (%d) ...\n\n", session->counter++); 
 	sleep (session->chargetime); 
-	debug (0, __func__, "Disconnecting ..."); 
+	slac_debug (session, 0, __func__, "Disconnecting ..."); 
 
 #if SLAC_AVLN_EVSE
+
+	slac_debug (session, 0, __func__, "waiting for evse to settle ..."); 
+	sleep (session->settletime); 
+
+#endif
+
+#if SLAC_AVLN_PEV
 
 	memcpy (session->NMK, session->original_nmk, sizeof (session->NMK)); 
 	memcpy (session->NID, session->original_nid, sizeof (session->NID)); 
-	if (evse_cm_set_key (session, channel, message)) 
+	if (pev_cm_set_key (session, channel, message)) 
 	{ 
-		session->state = EVSE_STATE_UNOCCUPIED; 
+		session->state = PEV_STATE_DISCONNECTED; 
 		return; 
 	} 
 	sleep (session->settletime); 
 
 #endif
-#if SLAC_AVLN_PEV
 
-	debug (0, __func__, "waiting for pev to settle ..."); 
-	sleep (session->settletime); 
-
-#endif
-
-	session->state = EVSE_STATE_UNOCCUPIED; 
+	session->state = state; 
 	return; 
 } 
 
 /*====================================================================*
  *   
- *   int main (int argc, char const * argv[]);
+ *   int main (int argc, char * argv[]);
  *   
+ *
  *--------------------------------------------------------------------*/
 
 int main (int argc, char const * argv []) 
@@ -366,9 +391,9 @@ int main (int argc, char const * argv [])
 	extern struct channel channel; 
 	static char const * optv [] = 
 	{ 
-		"cCdi:p:qs:t:vw:x", 
+		"cCdi:lp:qs:t:vx", 
 		"", 
-		"Electric Vehicle Supply Equipment Emulator", 
+		"Plug-in Electric Vehicle Emulator", 
 		"c\tprint template configuration file on stdout", 
 		"C\tstop on count mismatch", 
 		"d\tdisplay debug information", 
@@ -383,11 +408,12 @@ int main (int argc, char const * argv [])
 
 #endif
 
+		"l\tloop indefinitely", 
 		"p s\tconfiguration profile is (s) [" LITERAL (PROFILE) "]", 
+		"q\tsuppress normal output", 
 		"s s\tconfiguration section is (s) [" LITERAL (SECTION) "]", 
-		"q\tquiet mode", 
 		"t n\tread timeout is (n) milliseconds [" LITERAL (SLAC_TIMEOUT) "]", 
-		"v\tverbose mode", 
+		"v\tverbose messages on stdout", 
 		"x\texit on error", 
 		(char const *) (0)
 	}; 
@@ -440,6 +466,9 @@ int main (int argc, char const * argv [])
 #endif
 
 			break; 
+		case 'l': 
+			state = PEV_STATE_DISCONNECTED; 
+			break; 
 		case 'p': 
 			profile = optarg; 
 			break; 
@@ -447,10 +476,11 @@ int main (int argc, char const * argv [])
 			section = optarg; 
 			break; 
 		case 'q': 
-			_setbits (channel.flags, CHANNEL_SILENCE); 
+			_setbits (channel.flags, CHANNEL_SILENCE);
+			_setbits (session.flags, SLAC_SILENCE);
 			break; 
 		case 't': 
-			channel.timeout = (signed) (uintspec (optarg, 0, UINT_MAX)); 
+			channel.timeout = (unsigned) (uintspec (optarg, 0, UINT_MAX)); 
 			break; 
 		case 'v': 
 			_setbits (channel.flags, CHANNEL_VERBOSE); 
@@ -466,36 +496,36 @@ int main (int argc, char const * argv [])
 	argv += optind; 
 	if (argc) 
 	{ 
-		debug (1, __func__, ERROR_TOOMANY); 
+		slac_debug (& session, 1, __func__, ERROR_TOOMANY); 
 	} 
 	openchannel (& channel); 
-	initialize (& session, profile, section); 
 	identifier (& session, & channel); 
-	if (evse_cm_set_key (& session, & channel, & message)) 
+	initialize (& session, profile, section); 
+	if (pev_cm_set_key (& session, & channel, & message)) 
 	{ 
-		debug (1, __func__, "Can't set key."); 
+		slac_debug (& session, 1, __func__, "Can't set key"); 
 	} 
 	sleep (session.settletime); 
 	while (session.state) 
 	{ 
-		if (session.state == EVSE_STATE_UNOCCUPIED) 
+		if (session.state == PEV_STATE_DISCONNECTED) 
 		{ 
-			UnoccupiedState (& session, & channel, & message); 
+			DisconnectedState (& session, & channel, & message); 
 			continue; 
 		} 
-		if (session.state == EVSE_STATE_UNMATCHED) 
+		if (session.state == PEV_STATE_UNMATCHED) 
 		{ 
 			UnmatchedState (& session, & channel, & message); 
 			continue; 
 		} 
-		if (session.state == EVSE_STATE_MATCHED) 
+		if (session.state == PEV_STATE_MATCHED) 
 		{ 
 			MatchedState (& session, & channel, & message); 
 			continue; 
 		} 
-		debug (1, __func__, "Illegal state!"); 
+		slac_debug (& session, 1, __func__, "Illegal state!"); 
 	} 
 	closechannel (& channel); 
-	exit (0); 
+	return (0); 
 } 
 

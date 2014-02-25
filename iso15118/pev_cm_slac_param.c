@@ -88,7 +88,7 @@
 #include "../tools/memory.h"
 #include "../tools/error.h"
 #include "../tools/flags.h"
-#include "../iso18115/slac.h"
+#include "../iso15118/slac.h"
 
 signed pev_cm_slac_param (struct session * session, struct channel * channel, struct message * message) 
 
@@ -96,7 +96,7 @@ signed pev_cm_slac_param (struct session * session, struct channel * channel, st
 	extern byte const broadcast [ETHER_ADDR_LEN]; 
 	struct cm_slac_param_request * request = (struct cm_slac_param_request *) (message); 
 	struct cm_slac_param_confirm * confirm = (struct cm_slac_param_confirm *) (message); 
-	debug (0, __func__, "--> CM_SLAC_PARAM.REQ"); 
+	slac_debug (session, 0, __func__, "--> CM_SLAC_PARAM.REQ"); 
 	memset (message, 0, sizeof (* message)); 
 	EthernetHeader (& request->ethernet, broadcast, channel->host, channel->type); 
 	HomePlugHeader1 (& request->homeplug, HOMEPLUG_MMV, (CM_SLAC_PARAM | MMTYPE_REQ)); 
@@ -106,26 +106,26 @@ signed pev_cm_slac_param (struct session * session, struct channel * channel, st
 	request->CipherSuite [0] = HTOLE16 ((uint16_t) (session->counter)); 
 	if (sendmessage (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) <= 0) 
 	{ 
-		return (debug (1, __func__, CHANNEL_CANTSEND)); 
+		return (slac_debug (session, 1, __func__, CHANNEL_CANTSEND)); 
 	} 
 	while (readmessage (channel, message, HOMEPLUG_MMV, (CM_SLAC_PARAM | MMTYPE_CNF)) > 0) 
 	{ 
 		if (! memcmp (session->RunID, confirm->RunID, sizeof (session->RunID))) 
 		{ 
-			debug (0, __func__, "<-- CM_SLAC_PARAM.CNF"); 
+			slac_debug (session, 0, __func__, "<-- CM_SLAC_PARAM.CNF"); 
 			if (confirm->APPLICATION_TYPE != session->APPLICATION_TYPE) 
 			{ 
-				debug (session->exit, __func__, "Unexpected APPLICATION_TYPE"); 
+				slac_debug (session, session->exit, __func__, "Unexpected APPLICATION_TYPE"); 
 			} 
 			if (confirm->SECURITY_TYPE != session->SECURITY_TYPE) 
 			{ 
-				debug (session->exit, __func__, "Unexpected SECURITY_TYPE"); 
+				slac_debug (session, session->exit, __func__, "Unexpected SECURITY_TYPE"); 
 			} 
 			if (_anyset (session->flags, SLAC_COMPARE)) 
 			{ 
 				if (LE16TOH (confirm->CipherSuite) != (uint16_t) (session->counter)) 
 				{ 
-					debug (session->exit, __func__, "session->counter mismatch! PEV=(%d) EVSE=(%d)", LE16TOH (confirm->CipherSuite), session->counter); 
+					slac_debug (session, session->exit, __func__, "session->counter mismatch! PEV=(%d) EVSE=(%d)", LE16TOH (confirm->CipherSuite), session->counter); 
 				} 
 			} 
 
@@ -134,15 +134,15 @@ signed pev_cm_slac_param (struct session * session, struct channel * channel, st
 			if (_anyset (session->flags, SLAC_VERBOSE)) 
 			{ 
 				char string [256]; 
-				debug (0, __func__, "CM_SLAC_PARAM.CNF.MSOUND_TARGET %s", HEXSTRING (string, confirm->MSOUND_TARGET)); 
-				debug (0, __func__, "CM_SLAC_PARAM.CNF.NUM_SOUNDS %d", confirm->NUM_SOUNDS); 
-				debug (0, __func__, "CM_SLAC_PARAM.CNF.TIME_OUT %d", confirm->TIME_OUT); 
-				debug (0, __func__, "CM_SLAC_PARAM.CNF.RESP_TYPE %d", confirm->RESP_TYPE); 
-				debug (0, __func__, "CM_SLAC_PARAM.CNF.FORWARDING_STA %s", HEXSTRING (string, confirm->FORWARDING_STA)); 
-				debug (0, __func__, "CM_SLAC_PARAM.CNF.APPLICATION_TYPE %d", confirm->APPLICATION_TYPE); 
-				debug (0, __func__, "CM_SLAC_PARAM.CNF.SECURITY_TYPE %d", confirm->SECURITY_TYPE); 
-				debug (0, __func__, "CM_SLAC_PARAM.CNF.RunID %s", HEXSTRING (string, confirm->RunID)); 
-				debug (0, __func__, "CM_SLAC_PARAM.CNF.CipherSuite %d", confirm->CipherSuite); 
+				slac_debug (session, 0, __func__, "CM_SLAC_PARAM.CNF.MSOUND_TARGET %s", HEXSTRING (string, confirm->MSOUND_TARGET)); 
+				slac_debug (session, 0, __func__, "CM_SLAC_PARAM.CNF.NUM_SOUNDS %d", confirm->NUM_SOUNDS); 
+				slac_debug (session, 0, __func__, "CM_SLAC_PARAM.CNF.TIME_OUT %d", confirm->TIME_OUT); 
+				slac_debug (session, 0, __func__, "CM_SLAC_PARAM.CNF.RESP_TYPE %d", confirm->RESP_TYPE); 
+				slac_debug (session, 0, __func__, "CM_SLAC_PARAM.CNF.FORWARDING_STA %s", HEXSTRING (string, confirm->FORWARDING_STA)); 
+				slac_debug (session, 0, __func__, "CM_SLAC_PARAM.CNF.APPLICATION_TYPE %d", confirm->APPLICATION_TYPE); 
+				slac_debug (session, 0, __func__, "CM_SLAC_PARAM.CNF.SECURITY_TYPE %d", confirm->SECURITY_TYPE); 
+				slac_debug (session, 0, __func__, "CM_SLAC_PARAM.CNF.RunID %s", HEXSTRING (string, confirm->RunID)); 
+				slac_debug (session, 0, __func__, "CM_SLAC_PARAM.CNF.CipherSuite %d", confirm->CipherSuite); 
 			} 
 
 #endif
@@ -155,7 +155,7 @@ signed pev_cm_slac_param (struct session * session, struct channel * channel, st
 			return (0); 
 		} 
 	} 
-	return (debug (0, __func__, "<-- CM_SLAC_PARAM.CNF ?")); 
+	return (slac_debug (session, 0, __func__, "<-- CM_SLAC_PARAM.CNF ?")); 
 } 
 
 #endif

@@ -41,32 +41,60 @@
 
 /*====================================================================*
  *
- *   void slac_structs ()
- *
+ *   void slac_connect (struct session * session);
+ *   
  *   slac.h
+ *
+ *   compute the arithmetic mean of session attenuation values and
+ *   compare to the session limit; average attenuation greater than
+ *   the session limit is considered a bad connection;
  *
  *--------------------------------------------------------------------*/
 
-#include <unistd.h>
+#ifndef SLAC_AVERAGE_SOURCE
+#define SLAC_AVERAGE_SOURCE
 
-#include "../iso18115/slac.h"
+#include "../tools/error.h"
+#include "../tools/flags.h"
+#include "../tools/memory.h"
+#include "../iso15118/slac.h"
 
-void slac_structs () 
+signed slac_connect (struct session * session) 
 
 { 
-	fprintf (stderr, "sizeof struct cm_sta_identity_request %d\n", sizeof (struct cm_sta_identity_request)); 
-	fprintf (stderr, "sizeof struct cm_sta_identity_confirm %d\n", sizeof (struct cm_sta_identity_confirm)); 
-	fprintf (stderr, "sizeof struct cm_slac_param_request %d\n", sizeof (struct cm_slac_param_request)); 
-	fprintf (stderr, "sizeof struct cm_slac_param_confirm %d\n", sizeof (struct cm_slac_param_confirm)); 
-	fprintf (stderr, "sizeof struct cm_start_atten_char_indicate %d\n", sizeof (struct cm_start_atten_char_indicate)); 
-	fprintf (stderr, "sizeof struct cm_start_atten_char_response %d\n", sizeof (struct cm_start_atten_char_response)); 
-	fprintf (stderr, "sizeof struct cm_atten_char_indicate %d\n", sizeof (struct cm_atten_char_indicate)); 
-	fprintf (stderr, "sizeof struct cm_atten_char_response %d\n", sizeof (struct cm_atten_char_response)); 
-	fprintf (stderr, "sizeof struct cm_mnbc_sound_indicate %d\n", sizeof (struct cm_mnbc_sound_indicate)); 
-	fprintf (stderr, "sizeof struct cm_validate_request %d\n", sizeof (struct cm_validate_request)); 
-	fprintf (stderr, "sizeof struct cm_validate_confirm %d\n", sizeof (struct cm_validate_confirm)); 
-	fprintf (stderr, "sizeof struct cm_slac_match_request %d\n", sizeof (struct cm_slac_match_request)); 
-	fprintf (stderr, "sizeof struct cm_slac_match_confirm %d\n", sizeof (struct cm_slac_match_confirm)); 
-	return; 
+	unsigned group = 0; 
+	unsigned total = 0; 
+	if (session->NumGroups > SIZEOF (session->AAG)) 
+	{ 
+		return (slac_debug (session, session->exit, __func__, "Too much data to analyse!")); 
+	} 
+	if (session->NumGroups > 0) 
+	{ 
+		char string [512]; 
+		while (group < session->NumGroups) 
+		{ 
+			total += session->AAG [group]; 
+			group++; 
+		} 
+		total /= group; 
+		if (total > session->limit) 
+		{ 
+			char string [512]; 
+			slac_debug (session, 0, __func__, "Average attenuation (%u) more than limit (%u) frow %d groups", total, session->limit, group); 
+			slac_debug (session, 0, __func__, "%s", HEXSTRING (string, session->AAG)); 
+			return (- 1); 
+		} 
+		if (total > 0) 
+		{ 
+			slac_debug (session, 0, __func__, "Average attenuation (%u) less than limit (%u) from %d groups", total, session->limit, group); 
+			slac_debug (session, 0, __func__, "%s", HEXSTRING (string, session->AAG)); 
+			return (0); 
+		} 
+	} 
+	return (slac_debug (session, session->exit, __func__, "Nothing to analyse")); 
 } 
+
+#endif
+
+
 

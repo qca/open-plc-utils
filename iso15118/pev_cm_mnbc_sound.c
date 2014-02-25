@@ -65,7 +65,7 @@
 #include "../tools/memory.h"
 #include "../tools/error.h"
 #include "../tools/timer.h"
-#include "../iso18115/slac.h"
+#include "../iso15118/slac.h"
 
 signed pev_cm_mnbc_sound (struct session * session, struct channel * channel, struct message * message) 
 
@@ -74,7 +74,7 @@ signed pev_cm_mnbc_sound (struct session * session, struct channel * channel, st
 	signed sound = session->NUM_SOUNDS; 
 	while (sound--) 
 	{ 
-		debug (0, __func__, "--> CM_MNBC_SOUND.IND"); 
+		slac_debug (session, 0, __func__, "--> CM_MNBC_SOUND.IND"); 
 		memset (message, 0, sizeof (* message)); 
 		EthernetHeader (& indicate->ethernet, session->MSOUND_TARGET, channel->host, channel->type); 
 		HomePlugHeader1 (& indicate->homeplug, HOMEPLUG_MMV, (CM_MNBC_SOUND | MMTYPE_IND)); 
@@ -86,7 +86,7 @@ signed pev_cm_mnbc_sound (struct session * session, struct channel * channel, st
 		memset (indicate->MSVarField.RND, 0, sizeof (indicate->MSVarField.RND)); 
 		if (sendmessage (channel, message, sizeof (* indicate)) <= 0) 
 		{ 
-			return (debug (1, __func__, CHANNEL_CANTSEND)); 
+			return (slac_debug (session, 1, __func__, CHANNEL_CANTSEND)); 
 		} 
 		SLEEP (session->pause); 
 	} 

@@ -221,10 +221,10 @@ static void initialize (struct session * session, char const * profile, char con
 	hexencode (session->PEV_ID, sizeof (session->PEV_ID), configstring (profile, section, "VehicleIdentifier", PEV_VID)); 
 	hexencode (session->NMK, sizeof (session->NMK), configstring (profile, section, "NetworkMembershipKey", PEV_NMK)); 
 	hexencode (session->NID, sizeof (session->NID), configstring (profile, section, "NetworkIdentifier", PEV_NID)); 
-	session->limit = confignumber (profile, section, "AttenuationThreshold", SLAC_LIMIT); 
-	session->pause = confignumber (profile, section, "MSoundPause", SLAC_PAUSE); 
-	session->settletime = confignumber (profile, section, "SettleTime", SLAC_SETTLETIME); 
-	session->chargetime = confignumber (profile, section, "ChargeTime", SLAC_CHARGETIME); 
+	session->limit = confignumber_range (profile, section, "AttenuationThreshold", SLAC_LIMIT, 0, UINT_MAX); 
+	session->pause = confignumber_range (profile, section, "MSoundPause", SLAC_PAUSE, 0, UINT_MAX); 
+	session->settletime = confignumber_range (profile, section, "SettleTime", SLAC_SETTLETIME, 0, UINT_MAX); 
+	session->chargetime = confignumber_range (profile, section, "ChargeTime", SLAC_CHARGETIME, 0, UINT_MAX); 
 	session->state = PEV_STATE_DISCONNECTED; 
 	memcpy (session->original_nmk, session->NMK, sizeof (session->original_nmk)); 
 	memcpy (session->original_nid, session->NID, sizeof (session->original_nid)); 
@@ -391,7 +391,7 @@ int main (int argc, char const * argv [])
 	extern struct channel channel; 
 	static char const * optv [] = 
 	{ 
-		"cCdi:lp:qs:t:vw:x", 
+		"cCdi:lp:qs:t:vx", 
 		"", 
 		"Qualcomm Atheros Plug-in Electric Vehicle Emulator", 
 		"c\tprint template configuration file on stdout", 

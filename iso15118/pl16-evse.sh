@@ -1,4 +1,5 @@
-# file: iso18115/pl16-evse.sh
+#!/bin/sh
+# file: iso15118/pl16-evse.sh
 
 # ====================================================================
 # define environment variables;
