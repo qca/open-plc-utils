@@ -16,7 +16,7 @@ PROJECT=open-plc-utils
 RELEASE=$(shell basename "${CURDIR}")
 LIBRARY=${FTP}/toolkit/${RELEASE}
 CDROM=${FTP}/cdrom/${RELEASE}
-FOLDERS=ether key mdio mme nvm nodes pib plc ram serial slac tools VisualStudioNET iso15118
+FOLDERS=ether key mdio mme nvm nodes pib plc ram serial slac tools VisualStudioNET 
 EXCLUDE=--exclude=.git --exclude=.#* --exclude=*.[0-9][0-9][0-9]
 
 # ====================================================================
