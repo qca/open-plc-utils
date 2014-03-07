@@ -41,12 +41,13 @@
 
 /*====================================================================*
  *
- *   psin.c - load prescalers into int6000 parameter file;
+ *   psin.c - load prescalers into int6000 and qca7000 parameter file;
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *      Charles Maier <cmaier@qca.qualcomm.com>
  *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
+ *      Christian Aurich <christian.aurich@i2se.com>
  *
  *--------------------------------------------------------------------*/
 
