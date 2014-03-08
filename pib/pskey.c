@@ -45,7 +45,8 @@
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	    Charles Maier <cmaier@qca.qualcomm.com>
+ *      Stefan Wahren <stefan.wahren@i2se.com>
  *
  *--------------------------------------------------------------------*/
 
@@ -72,6 +73,7 @@
 #include "../key/HPAVKey.h"
 #include "../key/SHA256.h"
 #include "../pib/pib.h"
+#include "../plc/plc.h"
 
 /*====================================================================*
  *   custom source files;
@@ -81,6 +83,7 @@
 #include "../tools/getoptv.c"
 #include "../tools/putoptv.c"
 #include "../tools/version.c"
+#include "../tools/checksum32.c"
 #include "../tools/fdchecksum32.c"
 #include "../tools/hexdecode.c"
 #include "../tools/hexstring.c"
@@ -89,7 +92,10 @@
 #endif
 
 #ifndef MAKEFILE
+#include "../pib/pibfile.c"
 #include "../pib/pibfile1.c"
+#include "../pib/pibfile2.c"
+#include "../pib/pibscalers.c"
 #endif
 
 #ifndef MAKEFILE
@@ -115,26 +121,37 @@
  *   the key with optional filename on stdout; the digest acts like
  *   a fingerprint;
  *
- *   assume that offset and extent are for ar7400 and change to 6400
- *   offset and extent when the PIB requires it;
- *
  *
  *--------------------------------------------------------------------*/
 
-static signed pskey (struct _file_ * pib, off_t offset, void * memory, ssize_t extent, flag_t flags)
+static signed pskey (struct _file_ * pib, void * memory, ssize_t extent, flag_t flags)
 
 {
 	struct sha256 sha256;
 	byte digest [SHA256_DIGEST_LENGTH];
 	struct pib_header pib_header;
+	off_t offset;
+	unsigned scalers = pibscalers (pib);
+	switch (scalers)
+	{
+	case PLC_CARRIERS:
+		offset = QCA_PRESCALER_OFFSET;
+		extent = QCA_PRESCALER_LENGTH;
+		break;
+	case AMP_CARRIERS:
+		offset = AMP_PRESCALER_OFFSET;
+		extent = AMP_PRESCALER_LENGTH;
+		break;
+	case INT_CARRIERS:
+		offset = INT_PRESCALER_OFFSET;
+		extent = INT_PRESCALER_LENGTH;
+		break;
+	default:
+		return (-1);
+	}	
 	if (read (pib->file, &pib_header, sizeof (pib_header)) != sizeof (pib_header))
 	{
 		return (-1);
-	}
-	if (pib_header.FWVERSION < 0x05)
-	{
-		offset = INT_PRESCALER_OFFSET;
-		extent = INT_PRESCALER_LENGTH;
 	}
 	if (lseek (pib->file, offset, SEEK_SET) != offset)
 	{
@@ -209,12 +226,12 @@ int main (int argc, char const * argv [])
 			state = 1;
 			errno = 0;
 		}
-		else if (pibfile1 (&pib))
+		else if (pibfile (&pib))
 		{
 			error (0, errno, "Bad PIB: %s", pib.name);
 			state = 1;
 		}
-		else if (pskey (&pib, INT_PRESCALER_OFFSET, buffer, sizeof (buffer), flags))
+		else if (pskey (&pib, buffer, sizeof (buffer), flags))
 		{
 			state = 1;
 		}
