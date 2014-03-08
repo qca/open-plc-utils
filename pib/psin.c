@@ -239,7 +239,7 @@ static signed psin (struct _file_ * pib)
 		}
 		else if (limit == PLC_CARRIERS)
 		{
-      uint8_t tmp = value & 0xff;
+			uint8_t tmp = value & 0xff;
 			if (write (pib->file, &tmp, sizeof (tmp)) != sizeof (tmp))
 			{
 				error (1, errno, "Can't save %s", pib->name);
