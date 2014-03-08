@@ -45,8 +45,8 @@
  *
  *
  *   Contributor(s):
- *	    Charles Maier <cmaier@qca.qualcomm.com>
- *      Stefan Wahren <stefan.wahren@i2se.com>
+ *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Stefan Wahren <stefan.wahren@i2se.com>
  *
  *--------------------------------------------------------------------*/
 
