@@ -270,7 +270,7 @@ int main (int argc, char const * argv [])
 	{
 		"",
 		"pibfile [< scalers]",
-		"load prescalers into int6000 parameter file",
+		"load prescalers into int6000 and qca7000 parameter file",
 		(char const *) (0)
 	};
 	struct _file_ pib;
