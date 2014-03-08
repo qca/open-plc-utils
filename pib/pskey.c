@@ -179,7 +179,7 @@ int main (int argc, char const * argv [])
 		(char const *) (0)
 	};
 	struct _file_ pib;
-	uint8_t buffer [INT_PRESCALER_LENGTH];
+	uint8_t buffer [AMP_PRESCALER_LENGTH];
 	signed state = 0;
 	flag_t flags = (flag_t) (0);
 	signed c;
