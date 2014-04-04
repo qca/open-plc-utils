@@ -66,8 +66,8 @@
 signed ReadRules (struct plc * plc)
 
 {
-	struct channel * channel = (struct channel *)(plc->channel);
-	struct message * message = (struct message *)(plc->message);
+	struct channel * channel = (struct channel *) (plc->channel);
+	struct message * message = (struct message *) (plc->message);
 
 #ifndef __GNUC__
 #pragma pack (push,1)
@@ -82,7 +82,7 @@ signed ReadRules (struct plc * plc)
 		uint8_t OFFSET;
 		uint8_t COUNT;
 	}
-	* request = (struct vs_classification_request *)(message);
+	* request = (struct vs_classification_request *) (message);
 	struct __packed vs_classification_confirm
 	{
 		struct ethernet_hdr ethernet;
@@ -101,7 +101,7 @@ signed ReadRules (struct plc * plc)
 		}
 		RULESET [60];
 	}
-	* confirm = (struct vs_classification_confirm *)(message);
+	* confirm = (struct vs_classification_confirm *) (message);
 
 #ifndef __GNUC__
 #pragma pack (pop)
@@ -117,7 +117,7 @@ signed ReadRules (struct plc * plc)
 		EthernetHeader (& request->ethernet, channel->peer, channel->host, channel->type);
 		QualcommHeader (& request->qualcomm, 0, (VS_CLASSIFICATION | MMTYPE_REQ));
 		plc->packetsize = ETHER_MIN_LEN - ETHER_CRC_LEN;
-		request->MCONTROL = 0x02;
+		request->MCONTROL = CONTROL_READ;
 		request->OFFSET = index;
 		request->COUNT = SIZEOF (confirm->RULESET);
 		if (SendMME (plc) <= 0)
@@ -140,7 +140,7 @@ signed ReadRules (struct plc * plc)
 		rule = confirm->RULESET;
 		while (confirm->COUNT--)
 		{
-			int i;
+			int count;
 			int rule_len;
 			const char * p1;
 			const char * p2;
@@ -149,10 +149,10 @@ signed ReadRules (struct plc * plc)
 			{
 				error (1, 0, "too many classifiers in rule (%d, expecting <= %d)", rule->NUM_CLASSIFIERS, RULE_MAX_CLASSIFIERS);
 			}
-			rule_len = sizeof (* rule) - (RULE_MAX_CLASSIFIERS - rule->NUM_CLASSIFIERS) * sizeof (struct MMEReadRule) - sizeof (struct cspec);
+			rule_len = sizeof (* rule) - (RULE_MAX_CLASSIFIERS - rule->NUM_CLASSIFIERS) * sizeof (struct MMEClassifier) - sizeof (struct cspec);
 			if (rule->MACTION == ACTION_AUTOCONNECT || rule->MACTION == ACTION_TAGTX || rule->MACTION == ACTION_TAGRX)
 			{
-				cspec = (struct cspec *)((uint8_t *) rule + rule_len);
+				cspec = (struct cspec *) ((uint8_t *) rule +  rule_len);
 				rule_len += sizeof (struct cspec);
 			}
 			if (rule->MACTION == ACTION_TAGTX)
@@ -174,18 +174,20 @@ signed ReadRules (struct plc * plc)
 
 /* need to dump out the actual conditions here */
 
-			for (i = 0; i < rule->NUM_CLASSIFIERS; ++i)
+			for (count = 0; count < rule->NUM_CLASSIFIERS; ++ count)
 			{
-				struct MMEClassifier * classifier = & rule->CLASSIFIER [i];
+				struct MMEClassifier * classifier = & rule->CLASSIFIER [count];
 				PrintRule (classifier->CR_PID, classifier->CR_OPERAND, classifier->CR_VALUE);
 				putchar (' ');
 			}
 			printf ("add temp\n");
-			rule = (struct MMEReadRule *)((uint8_t *)(rule) + rule_len);
+			rule = (struct MMEReadRule *) ((uint8_t *) (rule) +  rule_len);
 		}
 	}
 	return (0);
 }
 
 #endif
+
+
 

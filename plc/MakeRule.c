@@ -65,8 +65,8 @@
 signed MakeRule (struct plc * plc, struct MMERule * rule)
 
 {
-	struct channel * channel = (struct channel *)(plc->channel);
-	struct message * message = (struct message *)(plc->message);
+	struct channel * channel = (struct channel *) (plc->channel);
+	struct message * message = (struct message *) (plc->message);
 
 #ifndef __GNUC__
 #pragma pack (push,1)
@@ -78,14 +78,14 @@ signed MakeRule (struct plc * plc, struct MMERule * rule)
 		struct qualcomm_hdr qualcomm;
 		struct MMERule rule;
 	}
-	* request = (struct vs_classification_request *)(message);
+	* request = (struct vs_classification_request *) (message);
 	struct __packed vs_classification_confirm
 	{
 		struct ethernet_hdr ethernet;
 		struct qualcomm_hdr qualcomm;
 		uint8_t MSTATUS;
 	}
-	* confirm = (struct vs_classification_confirm *)(message);
+	* confirm = (struct vs_classification_confirm *) (message);
 
 #ifndef __GNUC__
 #pragma pack (pop)
@@ -117,4 +117,6 @@ signed MakeRule (struct plc * plc, struct MMERule * rule)
 }
 
 #endif
+
+
 
