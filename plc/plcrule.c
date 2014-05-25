@@ -48,7 +48,7 @@
  *
  *--------------------------------------------------------------------*/
 
-/*====================================================================*"
+/*====================================================================*
  *   system header files;
  *--------------------------------------------------------------------*/
 
@@ -143,7 +143,6 @@
  *
  *   int main (int argc, char const * argv[]);
  *
- *
  *--------------------------------------------------------------------*/
 
 int main (int argc, char const * argv [])
@@ -201,7 +200,7 @@ int main (int argc, char const * argv [])
 
 	}
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1)
+	while (~ (c = getoptv (argc, argv, optv)))
 	{
 		switch (c)
 		{
@@ -254,10 +253,10 @@ int main (int argc, char const * argv [])
 			printf ("\n");
 			return (0);
 		case 't':
-			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
+			channel.timeout = (signed) (uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'T':
-			cspec.VLAN_TAG = (uint32_t)(basespec (optarg, 16, sizeof (cspec.VLAN_TAG)));
+			cspec.VLAN_TAG = (uint32_t) (basespec (optarg, 16, sizeof (cspec.VLAN_TAG)));
 			cspec.VLAN_TAG = htonl (cspec.VLAN_TAG);
 			break;
 		case 'v':
@@ -265,10 +264,10 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_VERBOSE);
 			break;
 		case 'V':
-			cspec.CSPEC_VERSION = (uint16_t)(basespec (optarg, 10, sizeof (cspec.CSPEC_VERSION)));
+			cspec.CSPEC_VERSION = (uint16_t) (basespec (optarg, 10, sizeof (cspec.CSPEC_VERSION)));
 			cspec.CSPEC_VERSION = HTOLE16 (cspec.CSPEC_VERSION);
 			break;
-		default:
+		default: 
 			break;
 		}
 	}
@@ -282,24 +281,24 @@ int main (int argc, char const * argv [])
 		}
 	}
 	openchannel (& channel);
-	if (!(plc.message = malloc (sizeof (* plc.message))))
+	if (! (plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);
 	}
-	if (!argc)
+	if (! argc)
 	{
 		if (_anyset (plc.flags, PLC_ANALYSE))
 		{
 			ReadRules (& plc);
 		}
-		else
+		else 
 		{
 			MakeRule (& plc, & rule);
 		}
 	}
 	while ((argc) && (* argv))
 	{
-		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices))))
+		if (! hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices))))
 		{
 			error (1, errno, PLC_BAD_MAC, * argv);
 		}
@@ -307,7 +306,7 @@ int main (int argc, char const * argv [])
 		{
 			ReadRules (& plc);
 		}
-		else
+		else 
 		{
 			MakeRule (& plc, & rule);
 		}
