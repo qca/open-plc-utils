@@ -78,6 +78,7 @@
 #include "../tools/number.h"
 #include "../tools/symbol.h"
 #include "../tools/flags.h"
+#include "../tools/permissions.h"
 #include "../ether/channel.h"
 
 /*====================================================================*
@@ -96,6 +97,7 @@
 #include "../tools/uintspec.c"
 #include "../tools/basespec.c"
 #include "../tools/synonym.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -330,6 +332,7 @@ int main (int argc, char const * argv [])
 	argc -= optind;
 	argv += optind;
 	openchannel (&channel);
+	desuid ();
 	while (loop--)
 	{
 		iterate (argc, argv, &channel, pause);

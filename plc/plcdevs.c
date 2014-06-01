@@ -68,6 +68,7 @@
 #include "../tools/number.h"
 #include "../tools/error.h"
 #include "../tools/flags.h"
+#include "../tools/permissions.h"
 #include "../ether/channel.h"
 #include "../ether/ether.h"
 #include "../plc/plc.h"
@@ -90,6 +91,7 @@
 #include "../tools/uintspec.c"
 #include "../tools/todigit.c"
 #include "../tools/error.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -164,6 +166,7 @@ static void enumerate (struct channel * channel, struct nic nic [], unsigned siz
 
 		channel->ifname = nic->ifname;
 		openchannel (channel);
+		desuid ();
 		Platform (channel, localcast);
 		closechannel (channel);
 		printf ("\n");

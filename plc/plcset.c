@@ -71,6 +71,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../plc/plc.h"
 #include "../ether/channel.h"
 
@@ -105,6 +106,7 @@
 #include "../tools/binout.c"
 #include "../tools/error.c"
 #include "../tools/memencode.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -262,13 +264,14 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
+	openchannel (&channel);
+	desuid ();
 	while ((argc > 1) && (* argv))
 	{
 		plcproperty.DATA_LENGTH += (uint32_t)(memencode (plcproperty.DATA_BUFFER + plcproperty.DATA_LENGTH, sizeof (plcproperty.DATA_BUFFER) - plcproperty.DATA_LENGTH, argv [0], argv [1]));
 		argc -= 2;
 		argv += 2;
 	}
-	openchannel (&channel);
 	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);

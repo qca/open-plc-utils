@@ -86,6 +86,7 @@
 #include "../tools/types.h"
 #include "../tools/flags.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../ether/channel.h"
 #include "../plc/plc.h"
 #include "../mme/mme.h"
@@ -104,6 +105,7 @@
 #include "../tools/uintspec.c"
 #include "../tools/todigit.c"
 #include "../tools/error.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -213,6 +215,7 @@ int main (int argc, char const * argv [])
 	argc -= optind;
 	argv += optind;
 	openchannel (&channel);
+	desuid ();
 	while ((length = readpacket (&channel, &message, sizeof (message))) >= 0)
 	{
 		if (length > 0)

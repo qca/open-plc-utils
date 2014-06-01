@@ -72,6 +72,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../plc/plc.h"
 
 /*====================================================================*
@@ -114,6 +115,7 @@
 #include "../tools/fdchecksum32.c"
 #include "../tools/synonym.c"
 #include "../tools/typename.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -340,11 +342,12 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
+	openchannel (&channel);
+	desuid ();
 	if (_allclr (plc.flags, (PLC_VERSION | PLC_LOCAL_TRAFFIC | PLC_NETWORK_TRAFFIC | PLC_RESET_DEVICE)))
 	{
 		_setbits (plc.flags, PLC_NETWORK);
 	}
-	openchannel (&channel);
 	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);

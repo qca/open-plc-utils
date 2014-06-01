@@ -72,6 +72,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../ether/channel.h"
 #include "../plc/plc.h"
 
@@ -114,6 +115,7 @@
 #include "../tools/synonym.c"
 #include "../tools/typename.c"
 #include "../tools/error.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -259,19 +261,6 @@ int main (int argc, char const * argv [])
 	{
 		switch (c)
 		{
-		case 'e':
-			dup2 (STDOUT_FILENO, STDERR_FILENO);
-			break;
-		case 'C':
-			_setbits (plc.flags, PLC_COMMIT_MODULE);
-			break;
-		case 'd':
-			if (_anyset (plc.flags, PLC_READ_MODULE))
-			{
-				error (1, EINVAL, "Options -d and -m are mutually exclusive");
-			}
-			_setbits (plc.flags, PLC_DUMP_MODULE);
-			break;
 		case 'i':
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -284,6 +273,35 @@ int main (int argc, char const * argv [])
 
 #endif
 
+			break;
+		case 'q':
+			_setbits (channel.flags, CHANNEL_SILENCE);
+			break;
+		case 'v':
+			_setbits (channel.flags, CHANNEL_VERBOSE);
+			break;
+		}
+	}
+	openchannel (&channel);
+	desuid ();
+	optind = 1;
+	opterr = 1;
+	while ((c = getoptv (argc, argv, optv)) != -1)
+	{
+		switch ((char) (c))
+		{
+		case 'e':
+			dup2 (STDOUT_FILENO, STDERR_FILENO);
+			break;
+		case 'C':
+			_setbits (plc.flags, PLC_COMMIT_MODULE);
+			break;
+		case 'd':
+			if (_anyset (plc.flags, PLC_READ_MODULE))
+			{
+				error (1, EINVAL, "Options -d and -m are mutually exclusive");
+			}
+			_setbits (plc.flags, PLC_DUMP_MODULE);
 			break;
 		case 'M':
 			_setbits (plc.flags, PLC_WRITE_MODULE);
@@ -314,13 +332,6 @@ int main (int argc, char const * argv [])
 			{
 				error (1, errno, "%s", plc.nvm.name);
 			}
-
-#ifndef WIN32
-
-			chown (optarg, getuid (), getgid ());
-
-#endif
-
 			break;
 		case 't':
 			ModuleID = (uint16_t)(basespec (optarg, 16, sizeof (ModuleID)));
@@ -332,11 +343,9 @@ int main (int argc, char const * argv [])
 			plc.cookie = (uint32_t)(basespec (optarg, 16, sizeof (plc.cookie)));
 			break;
 		case 'q':
-			_setbits (channel.flags, CHANNEL_SILENCE);
 			_setbits (plc.flags, PLC_SILENCE);
 			break;
 		case 'v':
-			_setbits (channel.flags, CHANNEL_VERBOSE);
 			_setbits (plc.flags, PLC_VERBOSE);
 			break;
 		case 'x':
@@ -355,7 +364,6 @@ int main (int argc, char const * argv [])
 			error (1, ECANCELED, PLC_NODEVICE);
 		}
 	}
-	openchannel (&channel);
 	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);

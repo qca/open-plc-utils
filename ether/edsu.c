@@ -79,6 +79,7 @@
 #include "../tools/files.h"
 #include "../tools/flags.h"
 #include "../ether/ether.h"
+#include "../tools/permissions.h"
 #include "../ether/channel.h"
 
 /*====================================================================*
@@ -96,6 +97,7 @@
 #include "../tools/hexdump.c"
 #include "../tools/hexencode.c"
 #include "../tools/error.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -244,6 +246,7 @@ int main (int argc, char const * argv [])
 	argc -= optind;
 	argv += optind;
 	openchannel (&channel);
+	desuid ();
 	if (!argc)
 	{
 		function (&channel, pause, STDIN_FILENO);

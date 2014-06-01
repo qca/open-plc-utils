@@ -74,6 +74,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../plc/plc.h"
 #include "../plc/coqos.h"
 
@@ -93,6 +94,7 @@
 #include "../tools/typename.c"
 #include "../tools/error.c"
 #include "../tools/synonym.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -376,13 +378,14 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
+	openchannel (&channel);
+	desuid ();
 	if (!argc)
 	{
 		error (1, ECANCELED, "No limit given");
 	}
 	limit = (uint16_t)(uintspec (* argv++, 10, 90000));
 	argc--;
-	openchannel (&channel);
 	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);

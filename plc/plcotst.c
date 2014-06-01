@@ -74,6 +74,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../plc/plc.h"
 
 /*====================================================================*
@@ -102,6 +103,7 @@
 #include "../tools/todigit.c"
 #include "../tools/synonym.c"
 #include "../tools/error.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -446,11 +448,12 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
+	openchannel (&channel);
+	desuid ();
 	if (_allclr (plc.flags, (PLC_CONFIGURE | PLC_RESULTS)))
 	{
 		_setbits (plc.flags, PLC_RESULTS);
 	}
-	openchannel (&channel);
 	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);
