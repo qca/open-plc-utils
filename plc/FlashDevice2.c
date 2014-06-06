@@ -41,7 +41,7 @@
 
 /*====================================================================*
  *
- *   signed FlashDevice2 (struct plc * plc);
+ *   signed FlashDevice2 (struct plc * plc, uint32_t options);
  *
  *   plc.h
  *
@@ -66,13 +66,11 @@
 #ifndef FLASHDEVICE2_SOURCE
 #define FLASHDEVICE2_SOURCE
 
-#include "../tools/flags.h"
 #include "../plc/plc.h"
 
-signed FlashDevice2 (struct plc * plc)
+signed FlashDevice2 (struct plc * plc, uint32_t options)
 
 {
-	uint32_t options = (PLC_COMMIT_FORCE | PLC_COMMIT_NORESET | PLC_COMMIT_FACTPIB);
 	if (plc->CFG.file != -1)
 	{
 		if (FlashSoftloader (plc, options))
@@ -80,21 +78,19 @@ signed FlashDevice2 (struct plc * plc)
 			return (-1);
 		}
 	}
-	if ((plc->NVM.file != -1) && (plc->PIB.file != -1))
+	else if ((plc->NVM.file != -1) && (plc->PIB.file != -1))
 	{
 		if (FlashFirmware (plc, options))
 		{
 			return (-1);
 		}
-		return (0);
 	}
-	if (plc->PIB.file != -1)
+	else if (plc->PIB.file != -1)
 	{
 		if (FlashParameters (plc, options))
 		{
 			return (-1);
 		}
-		return (0);
 	}
 	return (0);
 }

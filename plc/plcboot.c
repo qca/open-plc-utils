@@ -357,7 +357,7 @@ int main (int argc, char const * argv [])
 		{
 			if (_anyset (plc.flags, PLC_FLASH_DEVICE))
 			{
-				FlashDevice2 (&plc);
+				FlashDevice2 (& plc, (PLC_COMMIT_FORCE | PLC_COMMIT_NORESET | PLC_COMMIT_FACTPIB));
 			}
 		}
 	}

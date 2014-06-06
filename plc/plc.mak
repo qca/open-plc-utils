@@ -93,7 +93,6 @@ ExecuteApplets2.o: ExecuteApplets2.c error.h files.h flags.h plc.h
 FactoryDefaults.o: FactoryDefaults.c error.h memory.h plc.h
 FactoryReset.o: FactoryReset.c error.h memory.h plc.h
 Failure.o: Failure.c error.h flags.h memory.h mme.h plc.h
-FlashDevice.o: FlashDevice.c error.h plc.h
 FlashDevice1.o: FlashDevice1.c error.h flags.h plc.h
 FlashDevice2.o: FlashDevice2.c flags.h plc.h
 FlashFirmware.o: FlashFirmware.c plc.h

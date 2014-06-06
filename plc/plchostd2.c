@@ -362,7 +362,7 @@ signed function (struct plc * plc, char const * socket)
 			}
 			if (_anyset (plc->flags, PLC_FLASH_DEVICE))
 			{
-				FlashDevice2 (plc);
+				FlashDevice2 (plc, (PLC_COMMIT_FORCE | PLC_COMMIT_NORESET | PLC_COMMIT_FACTPIB));
 			}
 			continue;
 		}
