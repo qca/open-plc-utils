@@ -72,7 +72,6 @@ gcc -Wall -Wextra -Wno-unused-parameter -c EmulateHost.c
 gcc -Wall -Wextra -Wno-unused-parameter -c EmulateHost64.c
 gcc -Wall -Wextra -Wno-unused-parameter -c FactoryDefaults.c
 gcc -Wall -Wextra -Wno-unused-parameter -c Failure.c
-gcc -Wall -Wextra -Wno-unused-parameter -c FlashDevice.c
 gcc -Wall -Wextra -Wno-unused-parameter -c FlashDevice1.c
 gcc -Wall -Wextra -Wno-unused-parameter -c FlashDevice2.c
 gcc -Wall -Wextra -Wno-unused-parameter -c FlashMOD.c
