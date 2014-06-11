@@ -44,9 +44,19 @@
  *   signed FlashDevice2 (struct plc * plc, uint32_t options);
  *
  *   plc.h
- *   
- *   flash a QCA7420 device; force a reset because a reset is not
- *   automatic;
+ *
+ *   flash a panther/lynx device; the flash sequence is determined
+ *   by plc file descriptors that are valid;
+ *
+ *   the contidional statements uses here restricts flash options
+ *   as follows:
+ *
+ *   1. Softloader only
+ *   2. Firmware and Parameters together;
+ *   3. Parameters only.
+ *
+ *   Notice that we do not allow a firmware only flash;
+ *
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
@@ -61,15 +71,14 @@
 signed FlashDevice2 (struct plc * plc, uint32_t options)
 
 {
-	char firmware [256];
-	if (plc->SFT.file != -1)
+	if (plc->CFG.file != -1)
 	{
 		if (FlashSoftloader (plc, options))
 		{
 			return (-1);
 		}
 	}
-	if ((plc->NVM.file != -1) && (plc->PIB.file != -1))
+	else if ((plc->NVM.file != -1) && (plc->PIB.file != -1))
 	{
 		if (FlashFirmware (plc, options))
 		{
@@ -83,17 +92,9 @@ signed FlashDevice2 (struct plc * plc, uint32_t options)
 			return (-1);
 		}
 	}
-	if (ResetDevice (plc))
-	{
-		return (-1);
-	}
-	sleep (5);
-	if (WaitForStart (plc, firmware, sizeof (firmware)))
-	{
-		return (-1);
-	}
 	return (0);
 }
+
 
 #endif
 
