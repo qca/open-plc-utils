@@ -111,7 +111,16 @@ void MMEPeek (void const * memory, size_t extent, FILE *fp)
 				fprintf (fp, "MMV=%02X ", qualcomm->MMV);
 				fprintf (fp, "MMTYPE=%04X ", mmtype);
 				fprintf (fp, "OUI=%s ", hexstring (address, sizeof (address), qualcomm->OUI, sizeof (qualcomm->OUI)));
-				fprintf (fp, "%s.%s\n", MMEName (mmtype), MMEMode (mmtype));
+				if ((qualcomm->OUI [0] == 0x00) &&
+				    (qualcomm->OUI [1] == 0xB0) &&
+				    (qualcomm->OUI [2] == 0x52))
+				{
+					fprintf (fp, "%s.%s\n", MMEName (mmtype), MMEMode (mmtype));
+				}
+				else
+				{
+					fprintf (fp, "UNKNOWN_MESSAGE_TYPE.%s\n", MMEMode (mmtype));
+				}
 				return;
 			}
 			if (homeplug->MMV == 0x01)
@@ -123,7 +132,16 @@ void MMEPeek (void const * memory, size_t extent, FILE *fp)
 				fprintf (fp, "FMID=%02X ", qualcomm->FMID);
 				fprintf (fp, "FMSN=%02X ", qualcomm->FMSN);
 				fprintf (fp, "OUI=%s ", hexstring (address, sizeof (address), qualcomm->OUI, sizeof (qualcomm->OUI)));
-				fprintf (fp, "%s.%s\n", MMEName (mmtype), MMEMode (mmtype));
+				if ((qualcomm->OUI [0] == 0x00) &&
+				    (qualcomm->OUI [1] == 0xB0) &&
+				    (qualcomm->OUI [2] == 0x52))
+				{
+					fprintf (fp, "%s.%s\n", MMEName (mmtype), MMEMode (mmtype));
+				}
+				else
+				{
+					fprintf (fp, "UNKNOWN_MESSAGE_TYPE.%s\n", MMEMode (mmtype));
+				}
 				return;
 			}
 		}
