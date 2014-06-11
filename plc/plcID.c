@@ -105,7 +105,6 @@
 #include "../plc/Failure.c"
 #include "../plc/ReadMME.c"
 #include "../plc/SendMME.c"
-#include "../plc/PLCSelect.c"
 #include "../plc/WaitForStart.c"
 #include "../plc/chipset.c"
 #endif

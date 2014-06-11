@@ -74,12 +74,12 @@ signed FlashSoftloader (struct plc * plc, uint32_t options)
 		0,
 		0
 	};
-	ModuleSpec (&plc->CFG, &vs_module_spec);
+	ModuleSpec (&plc->SFT, &vs_module_spec);
 	if (ModuleSession (plc, 1, &vs_module_spec))
 	{
 		return (-1);
 	}
-	if (ModuleWrite (plc, &plc->CFG, 0, &vs_module_spec))
+	if (ModuleWrite (plc, &plc->SFT, 0, &vs_module_spec))
 	{
 		return (-1);
 	}

@@ -104,6 +104,7 @@
 #include "../plc/NVMSelect.c"
 #include "../plc/ReadMME.c"
 #include "../plc/Request.c"
+#include "../plc/ResetDevice.c"
 #include "../plc/SendMME.c"
 #include "../plc/WaitForReset.c"
 #include "../plc/WaitForStart.c"

@@ -283,6 +283,8 @@ typedef struct plc
 	uint8_t DAK [HPAVKEY_DAK_LEN];
 	struct _file_ CFG;
 	struct _file_ cfg;
+	struct _file_ SFT;
+	struct _file_ sft;
 	struct _file_ NVM;
 	struct _file_ nvm;
 	struct _file_ PIB;
@@ -628,7 +630,7 @@ signed ModuleCommit (struct plc *, uint32_t flags);
 
 #ifdef __GNUC__
 
-__attribute__ ((format (printf, 2, 3)))
+__attribute__ ((format (printf, 2, 3))) 
 
 #endif
 
@@ -636,7 +638,7 @@ void Request (struct plc *, char const * format, ...);
 
 #ifdef __GNUC__
 
-__attribute__ ((format (printf, 2, 3)))
+__attribute__ ((format (printf, 2, 3))) 
 
 #endif
 
@@ -644,7 +646,7 @@ void Confirm (struct plc *, char const * format, ...);
 
 #ifdef __GNUC__
 
-__attribute__ ((format (printf, 2, 3)))
+__attribute__ ((format (printf, 2, 3))) 
 
 #endif
 
@@ -652,7 +654,7 @@ void Display (struct plc *, char const * format, ...);
 
 #ifdef __GNUC__
 
-__attribute__ ((format (printf, 2, 3)))
+__attribute__ ((format (printf, 2, 3))) 
 
 #endif
 
@@ -663,4 +665,6 @@ void Failure (struct plc *, char const * format, ...);
  *--------------------------------------------------------------------*/
 
 #endif
+
+
 

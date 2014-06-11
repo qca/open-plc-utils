@@ -66,7 +66,7 @@
 struct plc plc =
 
 {
-	(struct channel *) (&channel),
+	(struct channel *) (& channel),
 	(struct message *) (0),
 	(void *) (0),
 	0,
@@ -153,7 +153,7 @@ struct plc plc =
 
 	{
 		(file_t) (-1),
-		(char const *)(0)
+		(char const *) (0)
 	},
 
 /*
@@ -163,7 +163,27 @@ struct plc plc =
 
 	{
 		(file_t) (-1),
-		(char const *)(0)
+		(char const *) (0)
+	},
+
+/*
+ * struct _file_ SFT; softloader file to be written to flash
+ * memory;
+ */
+
+	{
+		(file_t) (-1),
+		(char const *) (0)
+	},
+
+/*
+ * struct _file_ sft; softloader file to be read from flash
+ * memory;
+ */
+
+	{
+		(file_t) (-1),
+		(char const *) (0)
 	},
 
 /*
@@ -173,7 +193,7 @@ struct plc plc =
 
 	{
 		(file_t) (-1),
-		(char const *)(0)
+		(char const *) (0)
 	},
 
 /*
@@ -186,7 +206,7 @@ struct plc plc =
 
 	{
 		(file_t) (-1),
-		(char const *)(0)
+		(char const *) (0)
 	},
 
 /*
@@ -196,7 +216,7 @@ struct plc plc =
 
 	{
 		(file_t) (-1),
-		(char const *)(0)
+		(char const *) (0)
 	},
 
 /*
@@ -209,7 +229,7 @@ struct plc plc =
 
 	{
 		(file_t) (-1),
-		(char const *)(0)
+		(char const *) (0)
 	},
 
 /*
@@ -219,7 +239,7 @@ struct plc plc =
 
 	{
 		(file_t) (-1),
-		(char const *)(0)
+		(char const *) (0)
 	},
 
 /*
@@ -229,7 +249,7 @@ struct plc plc =
 
 	{
 		(file_t) (-1),
-		(char const *)(0)
+		(char const *) (0)
 	},
 
 /*
@@ -238,7 +258,7 @@ struct plc plc =
 
 	{
 		(file_t) (-1),
-		(char const *)(0)
+		(char const *) (0)
 	},
 
 /*
@@ -273,6 +293,7 @@ struct plc plc =
 	PLC_FLAGS
 };
 
-
 #endif
+
+
 
