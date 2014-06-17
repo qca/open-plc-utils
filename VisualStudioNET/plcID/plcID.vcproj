@@ -182,13 +182,7 @@
 				RelativePath="..\..\plc\homeplug.h">
 			</File>
 			<File
-				RelativePath="..\..\ihpapi\ihp.h">
-			</File>
-			<File
-				RelativePath="..\..\plc\int6k.h">
-			</File>
-			<File
-				RelativePath="..\..\plc\intellon.h">
+				RelativePath="..\..\tools\permissions.h">
 			</File>
 			<File
 				RelativePath="..\..\tools\putoptv.h">

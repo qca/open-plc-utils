@@ -167,6 +167,9 @@
 				RelativePath="..\..\tools\memory.h">
 			</File>
 			<File
+				RelativePath="..\..\tools\permissions.h">
+			</File>
+			<File
 				RelativePath="..\..\tools\version.h">
 			</File>
 		</Filter>

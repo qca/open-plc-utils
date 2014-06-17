@@ -140,6 +140,7 @@
     <ClInclude Include="..\..\plc\chipset.h" />
     <ClInclude Include="..\..\tools\endian.h" />
     <ClInclude Include="..\..\tools\error.h" />
+    <ClInclude Include="..\..\tools\permissions.h" />
     <ClInclude Include="..\include\net\ethernet.h" />
     <ClInclude Include="..\..\tools\files.h" />
     <ClInclude Include="..\..\tools\format.h" />
@@ -147,7 +148,6 @@
     <ClInclude Include="..\..\plc\homeplug.h" />
     <ClInclude Include="..\include\net\if.h" />
     <ClInclude Include="..\..\plc\int6k.h" />
-    <ClInclude Include="..\..\plc\intellon.h" />
     <ClInclude Include="..\..\key\keys.h" />
     <ClInclude Include="..\..\tools\markup.h" />
     <ClInclude Include="..\..\tools\memory.h" />

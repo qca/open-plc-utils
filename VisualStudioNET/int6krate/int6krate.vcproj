@@ -236,7 +236,7 @@
 				RelativePath="..\..\plc\int6k.h">
 			</File>
 			<File
-				RelativePath="..\..\plc\intellon.h">
+				RelativePath="..\..\tools\permissions.h">
 			</File>
 		</Filter>
 		<Filter

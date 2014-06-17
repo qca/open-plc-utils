@@ -110,6 +110,7 @@
     <ClInclude Include="..\..\ether\ether.h" />
     <ClInclude Include="..\..\tools\getoptv.h" />
     <ClInclude Include="..\..\tools\memory.h" />
+    <ClInclude Include="..\..\tools\permissions.h" />
     <ClInclude Include="..\..\tools\putoptv.h" />
     <ClInclude Include="..\..\plc\rules.h" />
     <ClInclude Include="..\..\windows\include\stdint.h" />

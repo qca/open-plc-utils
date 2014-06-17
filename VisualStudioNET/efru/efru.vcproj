@@ -152,6 +152,9 @@
 				RelativePath="..\..\pcap\pcap_mac.h">
 			</File>
 			<File
+				RelativePath="..\..\tools\permissions.h">
+			</File>
+			<File
 				RelativePath="..\..\tools\putoptv.h">
 			</File>
 			<File

@@ -188,7 +188,7 @@
 				RelativePath="..\..\tools\getoptv.h">
 			</File>
 			<File
-				RelativePath="..\..\plc\intellon.h">
+				RelativePath="..\..\tools\permissions.h">
 			</File>
 			<File
 				RelativePath="..\..\mme\mme.h">

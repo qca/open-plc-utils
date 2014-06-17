@@ -149,6 +149,9 @@
 				RelativePath="..\..\tools\memory.h">
 			</File>
 			<File
+				RelativePath="..\..\tools\permissions.h">
+			</File>
+			<File
 				RelativePath="..\..\pcap\pcap_mac.h">
 			</File>
 			<File

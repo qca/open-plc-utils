@@ -140,9 +140,6 @@
     <ClInclude Include="..\..\tools\getoptv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\plc\int6k.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\mme\mme.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -150,6 +147,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\tools\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\tools\permissions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

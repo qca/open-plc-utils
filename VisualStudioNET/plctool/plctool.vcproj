@@ -365,12 +365,6 @@
 				RelativePath="..\include\net\if.h">
 			</File>
 			<File
-				RelativePath="..\..\plc\int6k.h">
-			</File>
-			<File
-				RelativePath="..\..\plc\intellon.h">
-			</File>
-			<File
 				RelativePath="..\..\key\keys.h">
 			</File>
 			<File
@@ -378,6 +372,9 @@
 			</File>
 			<File
 				RelativePath="..\..\tools\memory.h">
+			</File>
+			<File
+				RelativePath="..\..\tools\permissions.h">
 			</File>
 			<File
 				RelativePath="..\..\nvm\nvm.h">

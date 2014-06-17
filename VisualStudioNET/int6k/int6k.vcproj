@@ -329,6 +329,9 @@
 				RelativePath="..\..\tools\getoptv.h">
 			</File>
 			<File
+				RelativePath="..\..\tools\permissions.h">
+			</File>
+			<File
 				RelativePath="..\..\plc\homeplug.h">
 			</File>
 			<File
@@ -336,9 +339,6 @@
 			</File>
 			<File
 				RelativePath="..\include\netinet\if_ether.h">
-			</File>
-			<File
-				RelativePath="..\..\plc\intellon.h">
 			</File>
 			<File
 				RelativePath="..\..\key\keys.h">

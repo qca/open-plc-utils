@@ -116,6 +116,7 @@
     <ClInclude Include="..\..\tools\getoptv.h" />
     <ClInclude Include="..\..\plc\int6k.h" />
     <ClInclude Include="..\..\nvm\nvm.h" />
+    <ClInclude Include="..\..\tools\permissions.h" />
     <ClInclude Include="..\..\tools\putoptv.h" />
     <ClInclude Include="..\..\tools\tools.h" />
     <ClInclude Include="..\..\tools\types.h" />

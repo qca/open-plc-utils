@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ether\channel.h" />
+    <ClInclude Include="..\..\tools\permissions.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
