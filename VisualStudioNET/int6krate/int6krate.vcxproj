@@ -104,12 +104,12 @@
   <ItemGroup>
     <ClInclude Include="..\..\tools\error.h" />
     <ClInclude Include="..\..\tools\getoptv.h" />
+    <ClInclude Include="..\..\tools\permissions.h" />
     <ClInclude Include="..\..\tools\putoptv.h" />
     <ClInclude Include="..\..\tools\version.h" />
     <ClInclude Include="..\..\plc\chipset.h" />
     <ClInclude Include="..\..\plc\homeplug.h" />
     <ClInclude Include="..\..\plc\int6k.h" />
-    <ClInclude Include="..\..\plc\intellon.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />

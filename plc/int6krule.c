@@ -70,6 +70,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../plc/plc.h"
 #include "../plc/rules.h"
 
@@ -98,6 +99,7 @@
 #include "../tools/codelist.c"
 #include "../tools/memout.c"
 #include "../tools/reword.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -274,6 +276,8 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
+	openchannel (&channel);
+	desuid ();
 	if (_allclr (plc.flags, PLC_ANALYSE))
 	{
 		if (ParseRule (& argc, & argv, & rule, & cspec) == -1)
@@ -281,7 +285,6 @@ int main (int argc, char const * argv [])
 			error (1, 0, "invalid rule");
 		}
 	}
-	openchannel (& channel);
 	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);

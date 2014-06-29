@@ -90,6 +90,7 @@
     <ClInclude Include="..\..\ether\channel.h" />
     <ClInclude Include="..\..\tools\error.h" />
     <ClInclude Include="..\..\tools\getoptv.h" />
+    <ClInclude Include="..\..\tools\permissions.h" />
     <ClInclude Include="..\..\tools\putoptv.h" />
     <ClInclude Include="..\..\tools\version.h" />
   </ItemGroup>

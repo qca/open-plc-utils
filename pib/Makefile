@@ -69,8 +69,8 @@ mrgpib: mrgpib.o getoptv.o putoptv.o version.o error.o fdchecksum32.o pibfile1.o
 setpib: setpib.o getoptv.o putoptv.o version.o hexpeek.o hexdump.o dataspec.o basespec.o error.o todigit.o uintspec.o bytespec.o pibfile1.o checksum32.o fdchecksum32.o memencode.o nvmseek2.o
 setpib1: setpib1.o getoptv.o putoptv.o version.o hexpeek.o hexdump.o dataspec.o basespec.o error.o todigit.o uintspec.o bytespec.o pibfile1.o checksum32.o fdchecksum32.o memencode.o
 setpib2: setpib2.o getoptv.o putoptv.o version.o hexpeek.o hexdump.o dataspec.o basespec.o error.o todigit.o uintspec.o bytespec.o pibfile1.o checksum32.o fdchecksum32.o memencode.o
-psin: psin.o getoptv.o putoptv.o version.o hexdecode.o hexstring.o todigit.o error.o pibfile1.o piblock.o pibscalers.o fdchecksum32.o 
-pskey: pskey.o getoptv.o putoptv.o version.o error.o hexdecode.o hexstring.o hexout.o pibfile1.o SHA256Reset.o SHA256Write.o SHA256Block.o SHA256Fetch.o keys.o fdchecksum32.o
+psin: psin.o getoptv.o putoptv.o version.o hexdecode.o hexstring.o todigit.o error.o pibfile.o pibfile1.o pibfile2.o piblock.o pibscalers.o fdchecksum32.o checksum32.o
+pskey: pskey.o getoptv.o putoptv.o version.o error.o hexdecode.o hexstring.o hexout.o pibfile.o pibfile1.o pibfile2.o pibscalers.o SHA256Reset.o SHA256Write.o SHA256Block.o SHA256Fetch.o keys.o checksum32.o fdchecksum32.o
 psout: psout.o getoptv.o putoptv.o version.o error.o pibfile.o pibfile1.o pibfile2.o pibscalers.o checksum32.o fdchecksum32.o
 psnotch: psnotch.o getoptv.o putoptv.o version.o error.o todigit.o uintspec.o
 psgraph: psgraph.o getoptv.o putoptv.o version.o error.o todigit.o uintspec.o pibscalers.o

@@ -170,6 +170,9 @@
 				RelativePath="..\..\ether\channel.h">
 			</File>
 			<File
+				RelativePath="..\..\tools\permissions.h">
+			</File>
+			<File
 				RelativePath="..\..\ether\ether.h">
 			</File>
 		</Filter>

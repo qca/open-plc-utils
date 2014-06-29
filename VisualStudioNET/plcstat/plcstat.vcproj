@@ -209,7 +209,7 @@
 				RelativePath="..\..\tools\getoptv.h">
 			</File>
 			<File
-				RelativePath="..\..\plc\int6k.h">
+				RelativePath="..\..\tools\permissions.h">
 			</File>
 			<File
 				RelativePath="..\..\plc\plc.h">

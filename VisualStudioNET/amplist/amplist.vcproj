@@ -166,6 +166,9 @@
 			<File
 				RelativePath="..\..\ether\ether.h">
 			</File>
+			<File
+				RelativePath="..\..\tools\permissions.h">
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

@@ -103,10 +103,9 @@
     <ClInclude Include="..\..\ether\ether.h" />
     <ClInclude Include="..\..\tools\getoptv.h" />
     <ClInclude Include="..\..\plc\homeplug.h" />
-    <ClInclude Include="..\..\plc\int6k.h" />
-    <ClInclude Include="..\..\plc\intellon.h" />
     <ClInclude Include="..\..\tools\memory.h" />
     <ClInclude Include="..\..\mme\mme.h" />
+    <ClInclude Include="..\..\tools\permissions.h" />
     <ClInclude Include="..\..\tools\putoptv.h" />
     <ClInclude Include="..\..\tools\tools.h" />
     <ClInclude Include="..\..\tools\types.h" />

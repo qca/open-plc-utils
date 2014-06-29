@@ -80,6 +80,7 @@
     <ClCompile Include="..\..\tools\version.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\tools\permissions.h" />
     <ClInclude Include="..\..\tools\putoptv.h" />
     <ClInclude Include="..\..\ether\channel.h" />
     <ClInclude Include="..\..\tools\endian.h" />

@@ -93,6 +93,7 @@
     <ClInclude Include="..\..\tools\error.h" />
     <ClInclude Include="..\..\ether\ether.h" />
     <ClInclude Include="..\..\tools\getoptv.h" />
+    <ClInclude Include="..\..\tools\permissions.h" />
     <ClInclude Include="..\..\tools\putoptv.h" />
     <ClInclude Include="..\..\Windows\include\stdint.h" />
     <ClInclude Include="..\..\Windows\include\unistd.h" />

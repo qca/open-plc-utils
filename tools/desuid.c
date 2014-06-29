@@ -39,62 +39,91 @@
  *
  *--------------------------------------------------------------------*/
 
-/*====================================================================*
+/*====================================================================*"
  *
- *   signed FlashDevice2 (struct plc * plc, uint32_t options);
+ *   desuid.c - Permanently drop suid privileges
  *
- *   plc.h
- *
- *   flash a panther/lynx device; the flash sequence is determined
- *   by plc file descriptors that are valid;
- *
- *   the contidional statements uses here restricts flash options
- *   as follows:
- *
- *   1. Softloader only
- *   2. Firmware and Parameters together;
- *   3. Parameters only.
- *
- *   Notice that we do not allow a firmware only flash;
- *
+ *   The desuid() function attempts to permanently drop the suid
+ *   granted permissions.
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-#ifndef FLASHDEVICE2_SOURCE
-#define FLASHDEVICE2_SOURCE
+#ifndef DESUID_SOURCE
+#define DESUID_SOURCE
 
-#include "../plc/plc.h"
+#if defined (__linux__)
+#define _GNU_SOURCE
+#include <unistd.h>
+#elif defined (__APPLE__)
+#include <unistd.h>
+#elif defined (__OpenBSD__)
+#include <sys/types.h>
+#include <unistd.h>
+#elif defined (WIN32)
+#else
+#error "desuid() unimplemented"
+#endif
 
-signed FlashDevice2 (struct plc * plc, uint32_t options)
+#include "../tools/error.h"
+#include "../tools/permissions.h"
 
+#if defined (__linux__) || defined (__OpenBSD__)
+
+void
+desuid(void)
 {
-	if (plc->CFG.file != -1)
+	uid_t uid, euid, suid;
+
+	if (getresuid(&uid, &euid, &suid) == -1)
 	{
-		if (FlashSoftloader (plc, options))
-		{
-			return (-1);
-		}
+		error(1, errno, "could not determine privileges");
 	}
-	else if ((plc->NVM.file != -1) && (plc->PIB.file != -1))
+
+	if (euid == uid && suid == uid)
 	{
-		if (FlashFirmware (plc, options))
-		{
-			return (-1);
-		}
+		return;
 	}
-	else if (plc->PIB.file != -1)
+
+	if (setresuid(uid, uid, uid) == -1)
 	{
-		if (FlashParameters (plc, options))
-		{
-			return (-1);
-		}
+		error(1, errno, "could not revoke privileges");
 	}
-	return (0);
 }
 
+#elif defined (__APPLE__)
+
+void
+desuid(void)
+{
+	uid_t uid, euid;
+
+	uid = getuid();
+	euid = geteuid();
+
+	if (uid == euid)
+	{
+		return;
+	}
+
+	if (setuid(uid) == -1)
+	{
+		error(1, errno, "could not revoke privileges");
+	}
+
+	/*
+	 * If the saved uid is set to the effective uid, this will
+	 * succeed, which means privileges could not be permanently
+	 * revoked
+	 */
+	if (setuid(euid) != -1)
+	{
+		error(1, 0, "could not revoke privileges");
+	}
+}
 
 #endif
 
+#endif

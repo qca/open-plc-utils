@@ -78,6 +78,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../ram/nvram.h"
 #include "../ram/sdram.h"
 #include "../nvm/nvm.h"
@@ -165,6 +166,7 @@
 #include "../tools/error.c"
 #include "../tools/strfbits.c"
 #include "../tools/typename.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -548,9 +550,6 @@ int main (int argc, char const * argv [])
 	{
 		switch (c)
 		{
-		case 'd':
-			_setbits (plc.flags, PLC_DAEMON);
-			break;
 		case 'i':
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -563,6 +562,28 @@ int main (int argc, char const * argv [])
 
 #endif
 
+			break;
+		case 'q':
+			_setbits (channel.flags, CHANNEL_SILENCE);
+			break;
+		case 't':
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
+			break;
+		case 'v':
+			_setbits (channel.flags, CHANNEL_VERBOSE);
+			break;
+		}
+	}
+	openchannel (&channel);
+	desuid ();
+	optind = 1;
+	opterr = 1;
+	while ((c = getoptv (argc, argv, optv)) != -1)
+	{
+		switch ((char) (c))
+		{
+		case 'd':
+			_setbits (plc.flags, PLC_DAEMON);
 			break;
 		case 'N':
 			if (!checkfilename (optarg))
@@ -615,7 +636,6 @@ int main (int argc, char const * argv [])
 			}
 			break;
 		case 'q':
-			_setbits (channel.flags, CHANNEL_SILENCE);
 			_setbits (plc.flags, PLC_SILENCE);
 			break;
 		case 's':
@@ -635,11 +655,7 @@ int main (int argc, char const * argv [])
 			}
 			_setbits (plc.flags, PLC_FLASH_DEVICE);
 			break;
-		case 't':
-			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
-			break;
 		case 'v':
-			_setbits (channel.flags, CHANNEL_VERBOSE);
 			_setbits (plc.flags, PLC_VERBOSE);
 			break;
 		case 'w':
@@ -706,7 +722,6 @@ int main (int argc, char const * argv [])
 
 #endif
 
-	openchannel (&channel);
 	if (!(plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);

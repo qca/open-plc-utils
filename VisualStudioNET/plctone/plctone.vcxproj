@@ -89,12 +89,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\tools\endian.h" />
+    <ClInclude Include="..\..\tools\permissions.h" />
     <ClInclude Include="..\..\tools\symbol.h" />
     <ClInclude Include="..\..\ether\channel.h" />
     <ClInclude Include="..\..\tools\error.h" />
     <ClInclude Include="..\..\ether\ether.h" />
     <ClInclude Include="..\..\tools\getoptv.h" />
-    <ClInclude Include="..\..\plc\intellon.h" />
     <ClInclude Include="..\..\mme\mme.h" />
     <ClInclude Include="..\..\plc\plc.h" />
     <ClInclude Include="..\..\tools\putoptv.h" />

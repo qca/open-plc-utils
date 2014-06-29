@@ -311,6 +311,9 @@
 				RelativePath="..\..\tools\getoptv.h">
 			</File>
 			<File
+				RelativePath="..\..\tools\permissions.h">
+			</File>
+			<File
 				RelativePath="..\..\plc\plc.h">
 			</File>
 			<File

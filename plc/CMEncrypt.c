@@ -79,6 +79,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../key/SHA256.h"
 #include "../plc/plc.h"
 
@@ -97,6 +98,7 @@
 #include "../tools/todigit.c"
 #include "../tools/error.c"
 #include "../tools/synonym.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -248,21 +250,6 @@ int main (int argc, char const * argv [])
 	{
 		switch (c)
 		{
-		case 'f':
-			if ((file.file = open (file.name = optarg, O_BINARY|O_RDONLY)) == -1)
-			{
-				error (1, errno, "%s", file.name);
-			}
-			break;
-		case 'P':
-			template.PID = (byte)(uintspec (optarg, 0x00, 0x0F));
-			break;
-		case 'A':
-			template.AVLN = (byte)(uintspec (optarg, 0x00, 0x08));
-			break;
-		case 'K':
-			template.PEKS = (byte)(uintspec (optarg, 0x00, 0xFF));
-			break;
 		case 'i':
 
 #if defined (WINPCAP) || defined (LIBPCAP)
@@ -282,6 +269,30 @@ int main (int argc, char const * argv [])
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);
 			break;
+		}	
+	}
+	openchannel (&channel);
+	desuid ();
+	optind = 1;
+	while ((c = getoptv (argc, argv, optv)) != -1)
+	{
+		switch (c)
+		{
+		case 'f':
+			if ((file.file = open (file.name = optarg, O_BINARY|O_RDONLY)) == -1)
+			{
+				error (1, errno, "%s", file.name);
+			}
+			break;
+		case 'P':
+			template.PID = (byte)(uintspec (optarg, 0x00, 0x0F));
+			break;
+		case 'A':
+			template.AVLN = (byte)(uintspec (optarg, 0x00, 0x08));
+			break;
+		case 'K':
+			template.PEKS = (byte)(uintspec (optarg, 0x00, 0xFF));
+			break;	
 		default:
 			break;
 		}
@@ -321,7 +332,6 @@ int main (int argc, char const * argv [])
 	{
 		error (1, ECANCELED, "No destination given");
 	}
-	openchannel (&channel);
 	while ((argc) && (* argv))
 	{
 		signed offset = 0;

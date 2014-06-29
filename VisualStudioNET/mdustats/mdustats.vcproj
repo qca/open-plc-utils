@@ -200,10 +200,10 @@
 				RelativePath="..\..\tools\getoptv.h">
 			</File>
 			<File
-				RelativePath="..\..\plc\int6k.h">
+				RelativePath="..\..\tools\permissions.h">
 			</File>
 			<File
-				RelativePath="..\..\mme\intellon.h">
+				RelativePath="..\..\tools\putoptv.h">
 			</File>
 			<File
 				RelativePath="..\..\tools\memory.h">

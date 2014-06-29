@@ -39,62 +39,23 @@
  *
  *--------------------------------------------------------------------*/
 
-/*====================================================================*
+/*====================================================================*"
  *
- *   signed FlashDevice2 (struct plc * plc, uint32_t options);
- *
- *   plc.h
- *
- *   flash a panther/lynx device; the flash sequence is determined
- *   by plc file descriptors that are valid;
- *
- *   the contidional statements uses here restricts flash options
- *   as follows:
- *
- *   1. Softloader only
- *   2. Firmware and Parameters together;
- *   3. Parameters only.
- *
- *   Notice that we do not allow a firmware only flash;
+ *   permissions.h - Permissions related function declarations
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-#ifndef FLASHDEVICE2_SOURCE
-#define FLASHDEVICE2_SOURCE
+#ifndef PERMISSIONS_HEADER
+#define PERMISSIONS_HEADER
 
-#include "../plc/plc.h"
-
-signed FlashDevice2 (struct plc * plc, uint32_t options)
-
-{
-	if (plc->CFG.file != -1)
-	{
-		if (FlashSoftloader (plc, options))
-		{
-			return (-1);
-		}
-	}
-	else if ((plc->NVM.file != -1) && (plc->PIB.file != -1))
-	{
-		if (FlashFirmware (plc, options))
-		{
-			return (-1);
-		}
-	}
-	else if (plc->PIB.file != -1)
-	{
-		if (FlashParameters (plc, options))
-		{
-			return (-1);
-		}
-	}
-	return (0);
-}
-
-
+#ifdef WIN32
+#define desuid() do { } while(0)
+#else
+void desuid (void);
 #endif
 
+#endif

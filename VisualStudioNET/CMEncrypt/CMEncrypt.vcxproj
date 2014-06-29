@@ -89,6 +89,7 @@
     <ClInclude Include="..\..\mme\homeplug.h" />
     <ClInclude Include="..\..\tools\memory.h" />
     <ClInclude Include="..\..\tools\number.h" />
+    <ClInclude Include="..\..\tools\permissions.h" />
     <ClInclude Include="..\..\tools\putoptv.h" />
     <ClInclude Include="..\..\mme\qualcomm.h" />
     <ClInclude Include="..\..\tools\version.h" />

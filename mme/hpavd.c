@@ -68,13 +68,13 @@
 
 #include <fcntl.h>
 #include <stdio.h>
+#include <limits.h>
 #include <ctype.h>
 #include <unistd.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/signal.h>
-#include <sys/ioctl.h>
 #include <errno.h>
 
 #ifdef __linux__
@@ -95,6 +95,8 @@
 #include "../tools/types.h"
 #include "../tools/flags.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
+#include "../ether/channel.h"
 #include "../plc/plc.h"
 #include "../mme/mme.h"
 
@@ -107,10 +109,20 @@
 #include "../tools/putoptv.c"
 #include "../tools/version.c"
 #include "../tools/hexdump.c"
-#include "../tools/hexstring.c"
 #include "../tools/hexdecode.c"
+#include "../tools/hexstring.c"
+#include "../tools/uintspec.c"
+#include "../tools/todigit.c"
 #include "../tools/error.c"
-#include "../tools/emalloc.c"
+#include "../tools/desuid.c"
+#endif
+
+#ifndef MAKEFILE
+#include "../ether/channel.c"
+#include "../ether/openchannel.c"
+#include "../ether/closechannel.c"
+#include "../ether/sendpacket.c"
+#include "../ether/readpacket.c"
 #endif
 
 #ifndef MAKEFILE
@@ -166,27 +178,9 @@ static void terminate (signo_t signal)
 int main (int argc, char const * argv [])
 
 {
+	extern struct channel channel;
+	struct message message;
 	struct sigaction sa;
-	struct ifreq ifreq;
-	struct sockaddr_ll sockaddr =
-	{
-		PF_PACKET,
-		htons (ETH_P_HPAV),
-		0x0000,
-		ARPHRD_ETHER,
-		PACKET_OTHERHOST,
-		ETHER_ADDR_LEN,
-		{
-			0x00,
-			0x00,
-			0x00,
-			0x00,
-			0x00,
-			0x00,
-			0x00,
-			0x00
-		}
-	};
 	static char const * optv [] =
 	{
 		"di:qv",
@@ -198,16 +192,21 @@ int main (int argc, char const * argv [])
 		"v\tverbose messages on stdout",
 		(char const *) (0)
 	};
-	uint8_t packet [ETHER_MAX_LEN];
-	flag_t state = (flag_t)(0);
 	flag_t flags = (flag_t)(0);
-	sock_t fd = -1;
 	signed c;
-	memset (&ifreq, 0, sizeof (ifreq));
-	memcpy (ifreq.ifr_name, ETHDEVICE, sizeof (ETHDEVICE));
 	if (getenv (PLCDEVICE))
 	{
-		memcpy (ifreq.ifr_name, getenv (PLCDEVICE), sizeof (ifreq.ifr_name));
+
+#if defined (WINPCAP)
+
+		channel.ifindex = atoi (getenv (PLCDEVICE));
+
+#else
+
+		channel.ifname = strdup (getenv (PLCDEVICE));
+
+#endif
+
 	}
 	optind = 1;
 	while ((c = getoptv (argc, argv, optv)) != -1)
@@ -218,7 +217,17 @@ int main (int argc, char const * argv [])
 			_setbits (flags, HPAVD_DAEMON);
 			break;
 		case 'i':
-			memcpy (ifreq.ifr_name, optarg, sizeof (ifreq.ifr_name));
+
+#if defined (WIN32)
+
+			channel.ifindex = atoi (optarg);
+
+#else
+
+			channel.ifname = optarg;
+
+#endif
+
 			break;
 		case 'q':
 			_setbits (flags, HPAVD_SILENCE);
@@ -232,10 +241,8 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (geteuid ())
-	{
-		error (1, EPERM, ERROR_NOTROOT);
-	}
+	openchannel (&channel);
+	desuid ();
 	if (_anyset (flags, HPAVD_DAEMON))
 	{
 		pid_t pid = fork ();
@@ -255,56 +262,22 @@ int main (int argc, char const * argv [])
 	sigaction (SIGTSTP, &sa, (struct sigaction *)(0));
 	sigaction (SIGINT, &sa, (struct sigaction *)(0));
 	sigaction (SIGHUP, &sa, (struct sigaction *)(0));
-	if ((fd = socket (sockaddr.sll_family, SOCK_RAW, sockaddr.sll_protocol)) == -1)
-	{
-		error (1, errno, "Can't create socket for %s", ifreq.ifr_name);
-	}
-	if (ioctl (fd, SIOCGIFFLAGS, &ifreq) < 0)
-	{
-		error (1, errno, "Can't read %s device state", ifreq.ifr_name);
-	}
-	state = ifreq.ifr_flags;
-	_setbits (ifreq.ifr_flags, (IFF_UP | IFF_BROADCAST));
-	_clrbits (ifreq.ifr_flags, (IFF_MULTICAST | IFF_ALLMULTI | IFF_PROMISC));
-	if (ioctl (fd, SIOCSIFFLAGS, &ifreq) < 0)
-	{
-		error (1, errno, "Can't change %s device state", ifreq.ifr_name);
-	}
-	if (ioctl (fd, SIOCGIFINDEX, &ifreq) == -1)
-	{
-		error (1, errno, "Can't get %s interface index", ifreq.ifr_name);
-	}
-	sockaddr.sll_ifindex = ifreq.ifr_ifindex;
-	if (ioctl (fd, SIOCGIFHWADDR, &ifreq) == -1)
-	{
-		error (1, errno, "Can't get %s hardware address", ifreq.ifr_name);
-	}
-	memcpy (sockaddr.sll_addr, ifreq.ifr_ifru.ifru_hwaddr.sa_data, sizeof (sockaddr.sll_addr));
-	if (bind (fd, (struct sockaddr *) (&sockaddr), sizeof (struct sockaddr_ll)) == -1)
-	{
-		error (1, errno, "Can't bind socket to %s", ifreq.ifr_name);
-	}
 	while (!done)
 	{
-		signed length = recvfrom (fd, packet, sizeof (packet), 0, (struct sockaddr *) (0), (socklen_t *)(0));
+		signed length = length = readpacket (&channel, &message, sizeof (message));
 		if (length > 0)
 		{
 			if (_allclr (flags, HPAVD_SILENCE))
 			{
-				MMEPeek (&packet, length, stdout);
+				MMEPeek (&message, length, stdout);
 			}
 			if (_anyset (flags, HPAVD_VERBOSE))
 			{
-				hexdump (&packet, 0, length, stdout);
+				hexdump (&message, 0, length, stdout);
 			}
 		}
 	}
-	ifreq.ifr_flags = state;
-	if (ioctl (fd, SIOCSIFFLAGS, &ifreq) < 0)
-	{
-		error (1, errno, "Can't restore %s device state", ifreq.ifr_name);
-	}
-	close (fd);
+	closechannel (&channel);
 	return (0);
 }
 

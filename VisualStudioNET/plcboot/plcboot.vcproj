@@ -284,6 +284,9 @@
 				RelativePath="..\..\tools\getoptv.h">
 			</File>
 			<File
+				RelativePath="..\..\tools\permissions.h">
+			</File>
+			<File
 				RelativePath="..\..\nvm\nvm.h">
 			</File>
 			<File

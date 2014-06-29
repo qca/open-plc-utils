@@ -58,8 +58,8 @@ ignore:
 # programs; 
 # --------------------------------------------------------------------
 
-hpav: hpav.o getoptv.o putoptv.o version.o hexdump.o hexdecode.o hexstring.o error.o channel.o openchannel.o closechannel.o sendpacket.o readpacket.o MMEPeek.o MMEName.o MMEMode.o uintspec.o todigit.o
-hpavd: hpavd.o getoptv.o putoptv.o version.o hexdump.o hexdecode.o hexstring.o error.o channel.o openchannel.o closechannel.o sendpacket.o readpacket.o MMEPeek.o MMEName.o MMEMode.o 
+hpav: hpav.o getoptv.o putoptv.o version.o hexdump.o hexdecode.o hexstring.o error.o channel.o openchannel.o desuid.o closechannel.o sendpacket.o readpacket.o MMEPeek.o MMEName.o MMEMode.o uintspec.o todigit.o
+hpavd: hpavd.o getoptv.o putoptv.o version.o hexdump.o hexdecode.o hexstring.o error.o channel.o openchannel.o desuid.o closechannel.o sendpacket.o readpacket.o MMEPeek.o MMEName.o MMEMode.o uintspec.o todigit.o
 mme: mme.o getoptv.o putoptv.o version.o uintspec.o todigit.o output.o error.o MMEName.o MMEMode.o
 
 # ====================================================================
