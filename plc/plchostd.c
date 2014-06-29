@@ -103,8 +103,6 @@
 #include "../plc/ExecuteApplets1.c"
 #include "../plc/ExecuteApplets2.c"
 #include "../plc/Failure.c"
-#include "../plc/FlashDevice.c"
-#include "../plc/FlashDevice1.c"
 #include "../plc/FlashDevice2.c"
 #include "../plc/FlashSoftloader.c"
 #include "../plc/FlashFirmware.c"
@@ -369,7 +367,7 @@ signed function (struct plc * plc, char const * socket)
 			}
 			if (_anyset (plc->flags, PLC_FLASH_DEVICE))
 			{
-				FlashDevice2 (plc);
+				FlashDevice2 (plc, (PLC_COMMIT_FORCE | PLC_COMMIT_NORESET | PLC_COMMIT_FACTPIB));
 			}
 			continue;
 		}
