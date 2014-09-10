@@ -15,7 +15,7 @@
  *   constants;
  *--------------------------------------------------------------------*/
 
-#define COMPANY "Qualcomm Atheros, Ocala FL USA"
+#define COMPANY "Qualcomm Atheros, San Jose CA, USA"
 #define PACKAGE "Qualcomm Atheros Open Powerline Toolkit"
 #define PROJECT "open-plc-utils"
 #define VERSION "0.0.4"
