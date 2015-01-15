@@ -108,10 +108,11 @@ void ARPCPrint (FILE * fp, void const * memory, size_t extent)
 		argp++;
 	}
 
-#if defined (__UCLIBC__) || defined (__FREESCALE__)
+#if defined (__UCLIBC__) 
 
 /*
- *	This is a temporary fix so that we can compile program plctest for the PL16; A better solution is needed;
+ *	This is a simple fix to work around uclibc implementation issue with variable arugment lists; We are
+ *	testing a better one but most PLC users will not have access to firmware that exercises this module;
  */
 
 	argp = (uint32_t *)(&data->LIST [LE16TOH (data->ARGOFFSET)]);
