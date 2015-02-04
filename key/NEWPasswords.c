@@ -45,10 +45,10 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <error.h>
 #include <errno.h>
 
 #include "../tools/types.h"
+#include "../tools/error.h"
 #include "../tools/files.h"
 #include "../tools/flags.h"
 #include "../key/keys.h"
