@@ -81,7 +81,6 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <limits.h>
-#include <netinet/in.h>
 
 #include "../tools/types.h"
 #include "../tools/flags.h"
