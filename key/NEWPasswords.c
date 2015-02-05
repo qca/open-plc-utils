@@ -59,16 +59,16 @@
  *
  *   keys.h
  *
- *   print a new password on stdout;
+ *   print new password on stdout;
  *
  *   charset is an array containing an alphabet of printable ASCII
- *   characters; limit is the charaset size in bytes; alpha is the
- *   total number of characters to select from the alphabet; bunch
+ *   characters; limit is the charset size in bytes; alpha is the
+ *   number of characters to be selected from the alphabet; bunch
  *   the grouping factor; space is the character used to separate
- *   indidual groups of characters;
+ *   character groups; 
  *
- *   
- *   
+ *   characters are not bunched when bunch is zero or greater than
+ *   or equal to alpha;
  *
  *--------------------------------------------------------------------*/
 
