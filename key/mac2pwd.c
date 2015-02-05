@@ -191,7 +191,7 @@ static void function (const char * file, unsigned alpha, unsigned bunch, unsigne
  *--------------------------------------------------------------------*/
 
 #define DEFAULT_ALPHA 25
-#define DEFAULT_BUNCH 25
+#define DEFAULT_BUNCH 0
 
 int main (int argc, const char * argv [])
 
@@ -203,9 +203,9 @@ int main (int argc, const char * argv [])
 		PUTOPTV_S_FUNNEL,
 		"Atheros device password generator",
 		"b n\tbunching factor [" LITERAL (DEFAULT_BUNCH) "]",
-		"e\tbase password on host system entropy",
+		"e\tbase passwords on host system entropy (more secure)",
 		"l n\tpassword letters [" LITERAL (DEFAULT_ALPHA) "]",
-		"m\tbase password on MAC address (less secure)",
+		"m\tbase passwords on MAC addresses (less secure)",
 		"q\tomit device address on output",
 		"v\tprepend PTS flag on output",
 		(const char *)(0)
