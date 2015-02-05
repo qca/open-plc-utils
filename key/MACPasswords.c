@@ -41,7 +41,7 @@
 
 /*====================================================================*
  *
- *   void  MACPasswords (uint32_t vendor, uint32_t device, unsigned number, unsigned count, unsigned group, unsigned space, flag_t flags);
+ *   void  MACPasswords (uint32_t vendor, uint32_t device, unsigned number, unsigned count, unsigned group, char space, flag_t flags);
  *
  *   keys.h
  *
@@ -81,7 +81,6 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <limits.h>
-#include <netinet/in.h>
 
 #include "../tools/types.h"
 #include "../tools/flags.h"
@@ -104,28 +103,77 @@ static uint32_t MACRand ()
 	return ((uint32_t)((MACSeed >> 0x10) & 0x7FFFFFFF));
 }
 
-static void MACPassword (uint32_t device, char const charset [], unsigned count, unsigned alpha, unsigned group, char space)
+/*====================================================================*
+ *
+ *   void MACPassword (uint32_t device, char const charset [], unsigned limit, unsigned alpha, unsigned bunch, char space);
+ *
+ *   keys.h
+ *
+ *   device is used to seed the random number generator and select
+ *   count random letters from the character set until the password
+ *   has been constructed; alpha is the total number of letters in
+ *   the password, excluding delimiters; bunch is a grouping factor
+ *   for letters; space is the character used to separate groups;
+ *
+ *   Contributor(s):
+ *	Charles Maier <cmaier@qca.qualcomm.com>
+ *
+ *--------------------------------------------------------------------*/
+
+void MACPassword (uint32_t device, char const charset [], unsigned limit, unsigned alpha, unsigned bunch, char space)
 
 {
-	unsigned letter = 0;
 	MACSRand (device);
-	while (letter < alpha)
+	while (alpha--)
 	{
-		unsigned offset = MACRand () % count;
-		if ((letter) && (group) && !(letter%group))
+		unsigned index = MACRand () % limit;
+		putc (charset [index & limit], stdout);
+		if ((alpha) && (bunch) && !(alpha % bunch))
 		{
 			putc (space, stdout);
 		}
-		putc (charset [offset], stdout);
-		letter++;
 	}
 	return;
 }
 
-void MACPasswords (uint32_t vendor, uint32_t device, unsigned count, unsigned alpha, unsigned group, unsigned space, flag_t flags)
+/*====================================================================*
+ *
+ *   void  MACPasswords (uint32_t vendor, uint32_t device, unsigned number, unsigned count, unsigned group, char space, flag_t flags);
+ *
+ *   keys.h
+ *
+ *   print a range of device address/password pairs on stdout; print
+ *   an optional usage flag in the first column for PTS compatability;
+ *
+ *   vendor is the 24-bit OUI expressed as an integer; device is the
+ *   24-bit starting unit address expressed as an integer; number is
+ *   the number of address/password pairs to generate; count is the
+ *   number of letters in the password excluding delimiters;
+ *
+ *   passwords consists of letters arranged in groups separated by
+ *   spaces; count is the number of letters; group is the number of
+ *   letters in each group; space is the character that separates
+ *   each group;
+ *
+ *   vendor is used to seed the random number generator and create
+ *   a character set having the 256 random upper case letters used
+ *   for all vendor passwords; most letters will appear more than
+ *   once in the character set;
+ *
+ *   device is used to seed the random number generator and select
+ *   count random letters from the character set until the password
+ *   has been constructed;
+ *
+ *
+ *   Contributor(s):
+ *	Charles Maier <cmaier@qca.qualcomm.com>
+ *
+ *--------------------------------------------------------------------*/
+
+void MACPasswords (uint32_t vendor, uint32_t device, unsigned count, unsigned alpha, unsigned bunch, char space, flag_t flags)
 
 {
-	char charset [UCHAR_MAX + 1];
+	char charset [UCHAR_MAX];
 	unsigned offset = 0;
 	if (vendor >> 24)
 	{
@@ -161,7 +209,7 @@ void MACPasswords (uint32_t vendor, uint32_t device, unsigned count, unsigned al
 			printf ("%06X", device & 0x00FFFFFF);
 			putc (' ', stdout);
 		}
-		MACPassword (device, charset, sizeof (charset), alpha, group, space);
+		MACPassword (device, charset, sizeof (charset), alpha, bunch, space);
 		putc ('\n', stdout);
 		device++;
 	}

@@ -18,7 +18,7 @@
 #define COMPANY "Qualcomm Atheros, San Jose CA, USA"
 #define PACKAGE "Qualcomm Atheros Open Powerline Toolkit"
 #define PROJECT "open-plc-utils"
-#define VERSION "0.0.4"
+#define VERSION "0.0.5"
 #define RELEASE "OSRQCA-929"
 #define COMPILE __TIME__ " " __DATE__
 #define CONTACT "cmaier@qca.qualcomm.com"

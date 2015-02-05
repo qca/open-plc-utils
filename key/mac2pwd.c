@@ -78,6 +78,7 @@
 
 #ifndef MAKEFILE
 #include "../key/MACPasswords.c"
+#include "../key/NEWPasswords.c"
 #endif
 
 /*====================================================================*
@@ -163,7 +164,7 @@ static void function (const char * file, unsigned count, unsigned group, unsigne
 			}
 			c = getc (stdin);
 		}
-		MACPasswords (vendor, device, 1, count, group, space, flags);
+		NEWPasswords (vendor, device, 1, count, group, space, flags);
 	}
 	return;
 }
@@ -177,14 +178,13 @@ static void function (const char * file, unsigned count, unsigned group, unsigne
  *   and print a stream of address/password pairs; device addresses
  *   must be separated by white space;
  *
- *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-#define DEFAULT_COUNT 16
-#define DEFAULT_GROUP 4
+#define DEFAULT_COUNT 25
+#define DEFAULT_GROUP 5
 
 int main (int argc, const char * argv [])
 

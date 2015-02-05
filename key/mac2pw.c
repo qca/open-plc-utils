@@ -78,6 +78,7 @@
 
 #ifndef MAKEFILE
 #include "../key/MACPasswords.c"
+#include "../key/NEWPasswords.c"
 #endif
 
 /*====================================================================*
@@ -85,7 +86,7 @@
  *--------------------------------------------------------------------*/
 
 #ifndef ETHER_ADDR_LEN
-#define ETHER_ADDR_LEN 6 /* normally defined in ethernet.h or if_ether.h */
+#define ETHER_ADDR_LEN 6 
 #endif
 
 /*====================================================================*
@@ -149,7 +150,7 @@ static void function (const char * string, uint32_t range, unsigned count, unsig
 	{
 		error (1, ERANGE, "Want %d passwords but only %d left in range", range, (0x00FFFFFF - device));
 	}
-	MACPasswords (vendor, device, range, count, group, space, flags);
+	NEWPasswords (vendor, device, range, count, group, space, flags);
 	return;
 }
 
@@ -180,8 +181,8 @@ static void function (const char * string, uint32_t range, unsigned count, unsig
  *--------------------------------------------------------------------*/
 
 #define DEFAULT_RANGE 1
-#define DEFAULT_COUNT 16
-#define DEFAULT_GROUP 4
+#define DEFAULT_COUNT 25
+#define DEFAULT_GROUP 5
 
 int main (int argc, const char * argv [])
 
