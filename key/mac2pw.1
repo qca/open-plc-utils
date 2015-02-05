@@ -11,14 +11,15 @@ mac2pw - Qualcomm Atheros Ethernet Device Password Generator
 [...] 
 
 .SH DESCRIPTION
-Print a range of consecutive Ethernet addresses and passwords on stdout.
-The starting address and address range are specified.
-Computed passwords consist of upper case letters (A-Z) with separators.
-The algorithm used here is not required for HomePlug AV compliance and so vendors are free to use other methods to generate their own device passwords.
+Print a range of consecutive Ethernet addresses and passwords on stdout suche that each device has a unique password.
+Program output is suitable as input to the Qualcomm Atheros HomePlug AV Production Test System or may be used in custom production systems.
+A starting address and an address range are specified.
+Computed passwords consist of upper case letters and digits with optional group separators.
+Output consists of address/password pairs in text format.
 
 .PP
-This program may be used to generate passwords for large numbers of consecutive device addresses over a fixed range.
-It complements program \fBmac2pwd\fR which generates passwords for non-consecutive device addresses that may occur in unpredictable order.
+This program is designed to generate passwords for a large number of consecutive device addresses.
+It complements program \fBmac2pwd\fR which generates passwords for non-consecutive device addresses occuring in unspecified order.
 
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
@@ -26,25 +27,49 @@ See the \fBAMP\fR man page for an overview and installation instructions.
 
 .SH CAVEATS
 Atheros provides this program as a simple means of generating unique and apparently random device passwords for a large volume of Ethernet devices.
-It uses a Linear Congruential Random Number Generator to produce a single-wheel Bazerie Cylinder and to select characters from that cylinder.
-The algorithm used is adequate for this purpose and nothing more.
-Vendors are encouraged to develop their own means of generating passwords for the reasons mentioned below.
+Two different password algorithms are implemented but neither one is required for HomePlug AV compliance.
+Vendors are free to use other methods to generate their own device passwords and are encouraged to do so.
 
-.PP
-Device addresses can be determined using a variety of network management programs.
-Anyone having access to this program, or the algorithm used, could compute the device password and gain access to device features reserved for priviledged users.
+.TP 
+Method 1
+This method generates random passwords for each device based on system entropy. 
+A different set of passwords is generated for a given address range with each program execution.
+There is no correlation at between addresses and passwords.
+
+This method is the most secure but requires care when programming and labelling devices at the factory.
+It may be necessary to maintain a database if regular device maintenance and firmware upgrade are needed.
+
+.TP 
+Method 2
+An optional method produces apparently random passwords based on device addresses.
+The same set of passwords will be generated for a given address range with each program execution.
+This method may be appropriate on system where regular maintenance and firmware upsates are required.
+
+This method is less secure because device addresses can be determined using a variety of network management programs.
+Anyone having access to this program, or the algorithm, could compute the device password and gain access to device features reserved for priviledged users.
+This program does provide features to mitigate the risks of using this method.
 
 .SH OPTIONS
 
 .TP
 -\fBb\fR \fIbunch\fR
 The password bunching factor.
-Passwords have a fixed number of upper case letters broken into groups separated with dashes.
-The number of letters in each group are the \fBbunch\fR value.
-When \fIbunch\fR is \fB0\fR, password length is \fIcount\fR.
-When \fIbunch\fR is \fB1\fR, password length is twice \fIcount\fR because every other character will be a dash.
+Passwords consists of \fIcount\fR uppercase letters and digits optionally displayed in groups separated by hyphens.
+The bunching factor specifies the number of letters and digits in each group.
+When \fibunch\fR is \fB0\fR or greater than \fIcount\fR, bunching is suppressed.
+Any separating hyphens add to overall password length.
 The minimum is \fB0\fR and the maximum is \fB255\fR.
-The default is \fB4\fR.
+The default is \fB0\fR which suppresses bunching.
+
+When \fIbunch\fR is \fB0\fR, overall password length is \fIcount\fR.
+When \fIbunch\fR is \fB1\fR, overall password length is twice \fIcount\fR because every other character will be a hyphen.
+
+.TP
+.RB - e
+Compute passwords based on host system entropy.
+Passwords consist of uppercase letters [A-Z] optionally grouped using option \fB-b\fR.
+This method produces a repeatable set of unique, apparently random passwords over a given address range.
+This method is the default and is more secure than method \fB-m\fR.
 
 .TP
 -\fBl \fIcount\fR
@@ -52,6 +77,13 @@ The number of letters in the password string.
 Overall password length is the sum of \fIcount\fR plus the number of delimiters implied by \fIbunch\fR.
 The minimum is \fB12\fR and the maximum is \fB64\fR.
 The default is \fB16\fR.
+
+.TP
+.RB - m
+Compute passwords based on target device address.
+Passwords consist of uppercase letters [A-Z].
+This method produces a repeatable set of unique and apparently random passwords over a given address range.
+This method is less secure than the default method \fB-e\fR.
 
 .TP
 -\fBn \fInumber\fR

@@ -105,7 +105,7 @@ void NEWPassword (char const charset [], unsigned limit, unsigned alpha, unsigne
 
 /*====================================================================*
  *
- *   void  NEWPasswords (uint32_t vendor, uint32_t device, unsigned count, unsigned alpha, unsigned bunch, unsigned space, flag_t flags);
+ *   void  NEWPasswords (unsigned vendor, unsigned device, unsigned count, unsigned alpha, unsigned bunch, unsigned space, flag_t flags);
  *
  *   keys.h
  *
@@ -122,7 +122,7 @@ void NEWPassword (char const charset [], unsigned limit, unsigned alpha, unsigne
  *
  *--------------------------------------------------------------------*/
 
-void NEWPasswords (uint32_t vendor, uint32_t device, unsigned count, unsigned alpha, unsigned bunch, char space, flag_t flags)
+void NEWPasswords (unsigned vendor, unsigned device, unsigned count, unsigned alpha, unsigned bunch, char space, flag_t flags)
 
 {
 	static const char charset [] =

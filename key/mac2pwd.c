@@ -90,16 +90,23 @@
 #endif
 
 /*====================================================================*
+ *   program functions;
+ *--------------------------------------------------------------------*/
+
+void (* passwords)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t) = NEWPasswords;
+
+/*====================================================================*
  *
- *   void function (const char * file, unsigned count, unsigned bunch, flag_t flags)
+ *   void function (const char * file, unsigned alpha, unsigned bunch, flag_t flags)
  *
  *
  *
  *--------------------------------------------------------------------*/
 
-static void function (const char * file, unsigned count, unsigned group, unsigned space, flag_t flags)
+static void function (const char * file, unsigned alpha, unsigned bunch, unsigned space, flag_t flags)
 
 {
+	extern void (* passwords)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t);
 	unsigned line = 1;
 	unsigned radix = 0x10;
 	unsigned width;
@@ -164,7 +171,7 @@ static void function (const char * file, unsigned count, unsigned group, unsigne
 			}
 			c = getc (stdin);
 		}
-		NEWPasswords (vendor, device, 1, count, group, space, flags);
+		passwords (vendor, device, 1, alpha, bunch, space, flags);
 	}
 	return;
 }
@@ -183,25 +190,28 @@ static void function (const char * file, unsigned count, unsigned group, unsigne
  *
  *--------------------------------------------------------------------*/
 
-#define DEFAULT_COUNT 25
-#define DEFAULT_GROUP 5
+#define DEFAULT_ALPHA 25
+#define DEFAULT_BUNCH 25
 
 int main (int argc, const char * argv [])
 
 {
+	extern void (* passwords)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t);
 	static const char * optv [] =
 	{
-		"b:l:qs:uv",
+		"b:l:mqs:rv",
 		PUTOPTV_S_FUNNEL,
 		"Atheros device password generator",
-		"b n\tbunching factor [" LITERAL (DEFAULT_GROUP) "]",
-		"l n\tpassword letters [" LITERAL (DEFAULT_COUNT) "]",
+		"b n\tbunching factor [" LITERAL (DEFAULT_BUNCH) "]",
+		"e\tbase password on host system entropy",
+		"l n\tpassword letters [" LITERAL (DEFAULT_ALPHA) "]",
+		"m\tbase password on MAC address (less secure)",
 		"q\tomit device address on output",
 		"v\tprepend PTS flag on output",
 		(const char *)(0)
 	};
-	unsigned count = DEFAULT_COUNT;
-	unsigned group = DEFAULT_GROUP;
+	unsigned alpha = DEFAULT_ALPHA;
+	unsigned bunch = DEFAULT_BUNCH;
 	unsigned space = '-';
 	flag_t flags = (flag_t)(0);
 	signed c;
@@ -211,15 +221,17 @@ int main (int argc, const char * argv [])
 		switch ((char)(c))
 		{
 		case 'b':
-			group = (unsigned)(uintspec (optarg, 0, UCHAR_MAX));
+			bunch = uintspec (optarg, 0, UCHAR_MAX);
 			break;
 		case 'l':
-			count = (unsigned)(uintspec (optarg, 12, 64));
+			alpha = uintspec (optarg, 12, 64);
+			break;
+		case 'm':
+			passwords = MACPasswords;
 			break;
 		case 'q':
 			_setbits (flags, PASSWORD_SILENCE);
 			break;
-		case 'u':
 		case 'v':
 			_setbits (flags, PASSWORD_VERBOSE);
 			break;
@@ -231,7 +243,7 @@ int main (int argc, const char * argv [])
 	argv += optind;
 	if (!argc)
 	{
-		function ("stdin", count, group, space, flags);
+		function ("stdin", alpha, bunch, space, flags);
 	}
 	while ((argv) && (* argv))
 	{
@@ -239,7 +251,7 @@ int main (int argc, const char * argv [])
 		{
 			error (1, EINVAL, "Can't open %s", * argv);
 		}
-		function (* argv, count, group, space, flags);
+		function (* argv, alpha, bunch, space, flags);
 		argc--;
 		argv++;
 	}

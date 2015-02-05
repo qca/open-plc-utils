@@ -41,7 +41,7 @@
 
 /*====================================================================*
  *
- *   void  MACPasswords (uint32_t vendor, uint32_t device, unsigned number, unsigned count, unsigned group, char space, flag_t flags);
+ *   void  MACPasswords (unsigned vendor, unsigned device, unsigned number, unsigned count, unsigned group, char space, flag_t flags);
  *
  *   keys.h
  *
@@ -95,17 +95,17 @@ static uint64_t MACSRand (uint64_t seed)
 	return (temp);
 }
 
-static uint32_t MACRand ()
+static unsigned MACRand ()
 
 {
 	MACSeed *= 0x41C64E6D;
 	MACSeed += 0x00003029;
-	return ((uint32_t)((MACSeed >> 0x10) & 0x7FFFFFFF));
+	return ((unsigned)((MACSeed >> 0x10) & 0x7FFFFFFF));
 }
 
 /*====================================================================*
  *
- *   void MACPassword (uint32_t device, char const charset [], unsigned limit, unsigned alpha, unsigned bunch, char space);
+ *   void MACPassword (unsigned device, char const charset [], unsigned limit, unsigned alpha, unsigned bunch, char space);
  *
  *   keys.h
  *
@@ -120,7 +120,7 @@ static uint32_t MACRand ()
  *
  *--------------------------------------------------------------------*/
 
-void MACPassword (uint32_t device, char const charset [], unsigned limit, unsigned alpha, unsigned bunch, char space)
+void MACPassword (unsigned device, char const charset [], unsigned limit, unsigned alpha, unsigned bunch, char space)
 
 {
 	MACSRand (device);
@@ -138,7 +138,7 @@ void MACPassword (uint32_t device, char const charset [], unsigned limit, unsign
 
 /*====================================================================*
  *
- *   void  MACPasswords (uint32_t vendor, uint32_t device, unsigned number, unsigned count, unsigned group, char space, flag_t flags);
+ *   void  MACPasswords (unsigned vendor, unsigned device, unsigned number, unsigned count, unsigned group, char space, flag_t flags);
  *
  *   keys.h
  *
@@ -170,7 +170,7 @@ void MACPassword (uint32_t device, char const charset [], unsigned limit, unsign
  *
  *--------------------------------------------------------------------*/
 
-void MACPasswords (uint32_t vendor, uint32_t device, unsigned count, unsigned alpha, unsigned bunch, char space, flag_t flags)
+void MACPasswords (unsigned vendor, unsigned device, unsigned count, unsigned alpha, unsigned bunch, char space, flag_t flags)
 
 {
 	char charset [UCHAR_MAX];

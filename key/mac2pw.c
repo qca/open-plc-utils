@@ -90,8 +90,14 @@
 #endif
 
 /*====================================================================*
+ *   program functions;
+ *--------------------------------------------------------------------*/
+
+void (* passwords)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t) = NEWPasswords;
+
+/*====================================================================*
  *
- *   void function (const char * string, uint32_t range, unsigned count, unsigned group, unsigned space, flag_t flags)
+ *   void function (const char * string, unsigned range, unsigned alpha, unsigned bunch, unsigned space, flag_t flags)
  *
  *   parse an Ethernet hardware address string into vendor and device
  *   ID substrings; print a specified number of consecutive addresses
@@ -103,12 +109,12 @@
  *
  *--------------------------------------------------------------------*/
 
-static void function (const char * string, uint32_t range, unsigned count, unsigned group, unsigned space, flag_t flags)
+static void function (const char * string, unsigned range, unsigned alpha, unsigned bunch, unsigned space, flag_t flags)
 
 {
 	const char * offset = string;
-	uint32_t vendor = 0;
-	uint32_t device = 0;
+	unsigned vendor = 0;
+	unsigned device = 0;
 	unsigned radix = 0x10;
 	unsigned width;
 	unsigned digit;
@@ -150,7 +156,7 @@ static void function (const char * string, uint32_t range, unsigned count, unsig
 	{
 		error (1, ERANGE, "Want %d passwords but only %d left in range", range, (0x00FFFFFF - device));
 	}
-	NEWPasswords (vendor, device, range, count, group, space, flags);
+	passwords (vendor, device, range, alpha, bunch, space, flags);
 	return;
 }
 
@@ -181,27 +187,30 @@ static void function (const char * string, uint32_t range, unsigned count, unsig
  *--------------------------------------------------------------------*/
 
 #define DEFAULT_RANGE 1
-#define DEFAULT_COUNT 25
-#define DEFAULT_GROUP 5
+#define DEFAULT_ALPHA 25
+#define DEFAULT_BUNCH 25
 
 int main (int argc, const char * argv [])
 
 {
+	extern void (* passwords)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t);
 	static const char * optv [] =
 	{
-		"b:l:n:quv",
+		"b:el:mn:qv",
 		"address [address] [...]",
 		"Atheros device password generator",
-		"b n\tbunching factor [" LITERAL (DEFAULT_GROUP) "]",
-		"l n\tpassword letters [" LITERAL (DEFAULT_COUNT) "]",
+		"b n\tbunching factor [" LITERAL (DEFAULT_BUNCH) "]",
+		"e\tbase password on host system entropy",
+		"l n\tpassword letters [" LITERAL (DEFAULT_ALPHA) "]",
+		"m\tbase password on MAC address (less secure)",                     
 		"n n\tgenerate n consecutive passwords [" LITERAL (DEFAULT_RANGE) "]",
 		"q\tomit device address on output",
 		"v\tprepend PTS flag on output",
 		(const char *)(0)
 	};
-	uint32_t range = DEFAULT_RANGE;
-	unsigned count = DEFAULT_COUNT;
-	unsigned group = DEFAULT_GROUP;
+	unsigned range = DEFAULT_RANGE;
+	unsigned alpha = DEFAULT_ALPHA;
+	unsigned bunch = DEFAULT_BUNCH;
 	unsigned space = '-';
 	flag_t flags = (flag_t)(0);
 	signed c;
@@ -211,13 +220,19 @@ int main (int argc, const char * argv [])
 		switch ((char)(c))
 		{
 		case 'b':
-			group = (unsigned)(uintspec (optarg, 0, UCHAR_MAX));
+			bunch = uintspec (optarg, 0, UCHAR_MAX);
+			break;
+		case 'e':
+			passwords = NEWPasswords;
 			break;
 		case 'l':
-			count = (unsigned)(uintspec (optarg, 12, 64));
+			alpha = uintspec (optarg, 12, 64);
+			break;
+		case 'm':
+			passwords = MACPasswords;
 			break;
 		case 'n':
-			range = (uint32_t)(uintspec (optarg, 0, 0x00FFFFFF));
+			range = uintspec (optarg, 0, 0x00FFFFFF);
 			break;
 		case 'q':
 			_setbits (flags, PASSWORD_SILENCE);
@@ -233,7 +248,7 @@ int main (int argc, const char * argv [])
 	argv += optind;
 	while ((argv) && (* argv))
 	{
-		function (* argv, range, count, group, space, flags);
+		function (* argv, range, alpha, bunch, space, flags);
 		argc--;
 		argv++;
 	}
