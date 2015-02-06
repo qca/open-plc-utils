@@ -67,8 +67,13 @@
  *   the grouping factor; space is the character used to separate
  *   character groups; 
  *
- *   characters are not bunched when bunch is zero or greater than
+ *   characters are not grouped when bunch is zero or greater than
  *   or equal to alpha;
+ *
+ *   Contributors:
+ *	Charles Maier <cmaier@qca.qualcomm.com>
+ *      Pouyan Sepehrdad <pouyans@qti.qualcomm.com>
+ *      Ning Shang <nshang@qti.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
