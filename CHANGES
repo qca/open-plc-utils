@@ -1,3 +1,14 @@
+open-plc-utils-0.0.6
+---------------
+
+1. Programs mac2pw and mac2pwd implement a new method of generating device passwords. The old method is supported but is not the default. 
+
+open-plc-utils-0.0.5
+---------------
+
+open-plc-utils-0.0.4
+---------------
+
 open-plc-utils-0.0.3
 ---------------
 
