@@ -39,8 +39,32 @@
  *
  *--------------------------------------------------------------------*/
 
-#ifndef NEWPASSWORDS_SOURCE
-#define NEWPASSWORDS_SOURCE
+/*====================================================================*
+ *
+ *   void putpwd (char const charset [], unsigned limit, unsigned alpha, unsigned group, char space);
+ *
+ *   keys.h
+ *
+ *   print new password on stdout;
+ *
+ *   charset is an array containing an alphabet of printable ASCII
+ *   characters; limit is the charset size in bytes; alpha is the
+ *   number of characters to be selected from the alphabet; group
+ *   the bunching factor; space is the character used to separate
+ *   character groups; 
+ *
+ *   characters are not grouped when group is zero or greater than
+ *   or equal to alpha;
+ *
+ *   Contributors:
+ *	Charles Maier <cmaier@qca.qualcomm.com>
+ *      Pouyan Sepehrdad <pouyans@qti.qualcomm.com>
+ *      Ning Shang <nshang@qti.qualcomm.com>
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef PUTPWD_SOURCE
+#define PUTPWD_SOURCE
 
 #include <stdio.h>
 #include <unistd.h>
@@ -53,35 +77,11 @@
 #include "../tools/flags.h"
 #include "../key/keys.h"
 
-/*====================================================================*
- *
- *   void NEWPassword (char const charset [], unsigned limit, unsigned alpha, unsigned bunch, char space);
- *
- *   keys.h
- *
- *   print new password on stdout;
- *
- *   charset is an array containing an alphabet of printable ASCII
- *   characters; limit is the charset size in bytes; alpha is the
- *   number of characters to be selected from the alphabet; bunch
- *   the grouping factor; space is the character used to separate
- *   character groups; 
- *
- *   characters are not grouped when bunch is zero or greater than
- *   or equal to alpha;
- *
- *   Contributors:
- *	Charles Maier <cmaier@qca.qualcomm.com>
- *      Pouyan Sepehrdad <pouyans@qti.qualcomm.com>
- *      Ning Shang <nshang@qti.qualcomm.com>
- *
- *--------------------------------------------------------------------*/
-
-void NEWPassword (char const charset [], unsigned limit, unsigned alpha, unsigned bunch, char space)
+void putpwd (char const charset [], unsigned limit, unsigned alpha, unsigned group, char space)
 
 {
 	signed fd;
-	if ((fd = open("/dev/urandom", O_BINARY | O_RDONLY)) == -1)
+	if ((fd = open("/dev/urandom", O_RDONLY)) == -1)
 	{
 		error (1, errno, "can't open /dev/urandom");
 	}
@@ -99,7 +99,7 @@ void NEWPassword (char const charset [], unsigned limit, unsigned alpha, unsigne
 			index |= (number & 1) << place;
 		}
 		putc ( charset [index % limit], stdout);
-		if ((alpha) && (bunch) && !(alpha % bunch))
+		if ((alpha) && (group) && !(alpha % group))
 		{
 			putc (space, stdout);
 		}
@@ -108,96 +108,5 @@ void NEWPassword (char const charset [], unsigned limit, unsigned alpha, unsigne
 	return;
 }
 
-/*====================================================================*
- *
- *   void  NEWPasswords (unsigned vendor, unsigned device, unsigned count, unsigned alpha, unsigned bunch, unsigned space, flag_t flags);
- *
- *   keys.h
- *
- *   print a range of device address/password pairs on stdout; print
- *   an optional usage flag in the first column for PTS compatability;
- *
- *   vendor is the 24-bit OUI expressed as an integer; device is the
- *   24-bit starting unit address expressed as an integer; count is
- *   the number of address/password pairs to generate; alpha is the
- *   number of letters/numbers in the password excluding delimiters;
- *   bunch is the number of letters or numbers appear between space
- *   characters; space characters are suppressed when bunch is zero
- *   or greater than alpha;
- *
- *--------------------------------------------------------------------*/
-
-void NEWPasswords (unsigned vendor, unsigned device, unsigned count, unsigned alpha, unsigned bunch, char space, flag_t flags)
-
-{
-	static const char charset [] =
-	{
-		'2',
-		'3',
-		'4',
-		'5',
-		'6',
-		'7',
-		'8',
-		'9',
-		'A',
-		'B',
-		'C',
-		'D',
-		'E',
-		'F',
-		'G',
-		'H',
-		'J',
-		'K',
-		'L',
-		'M',
-		'N',
-		'P',
-		'Q',
-		'R',
-		'S',
-		'T',
-		'U',
-		'V',
-		'W',
-		'X',
-		'Y',
-		'Z'
-	};
-	if (vendor >> 24)
-	{
-		return;
-	}
-	if (device >> 24)
-	{
-		return;
-	}
-	if (count >> 24)
-	{
-		return;
-	}
-	while (count--)
-	{
-		if (_anyset (flags, PASSWORD_VERBOSE))
-		{
-			putc ('0', stdout);
-			putc (' ', stdout);
-		}
-		if (_allclr (flags, PASSWORD_SILENCE))
-		{
-			printf ("%06X", vendor & 0x00FFFFFF);
-			printf ("%06X", device & 0x00FFFFFF);
-			putc (' ', stdout);
-		}
-		NEWPassword (charset, sizeof (charset), alpha, bunch, space);
-		putc ('\n', stdout);
-		device++;
-	}
-	return;
-}
-
 #endif
-
-
 
