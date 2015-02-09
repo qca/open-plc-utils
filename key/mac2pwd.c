@@ -79,7 +79,7 @@
 #ifndef MAKEFILE
 #include "../key/MACPasswords.c"
 #include "../key/RNDPasswords.c"
-#include "../key/strnpwd.c"
+#include "../key/putpwd.c"
 #endif
 
 /*====================================================================*
