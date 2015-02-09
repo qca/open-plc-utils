@@ -78,7 +78,8 @@
 
 #ifndef MAKEFILE
 #include "../key/MACPasswords.c"
-#include "../key/NEWPasswords.c"
+#include "../key/RNDPasswords.c"
+#include "../key/strnpwd.c"
 #endif
 
 /*====================================================================*
@@ -93,7 +94,7 @@
  *   program functions;
  *--------------------------------------------------------------------*/
 
-void (* passwords)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t) = NEWPasswords;
+void (* passwords)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t) = RNDPasswords;
 
 /*====================================================================*
  *
@@ -112,6 +113,7 @@ void (* passwords)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_
 static void function (const char * string, unsigned range, unsigned alpha, unsigned bunch, unsigned space, flag_t flags)
 
 {
+	extern void (* passwords)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t);
 	const char * offset = string;
 	unsigned vendor = 0;
 	unsigned device = 0;
@@ -223,7 +225,7 @@ int main (int argc, const char * argv [])
 			bunch = uintspec (optarg, 0, UCHAR_MAX);
 			break;
 		case 'e':
-			passwords = NEWPasswords;
+			passwords = RNDPasswords;
 			break;
 		case 'l':
 			alpha = uintspec (optarg, 12, 64);

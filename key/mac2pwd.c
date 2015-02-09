@@ -78,7 +78,8 @@
 
 #ifndef MAKEFILE
 #include "../key/MACPasswords.c"
-#include "../key/NEWPasswords.c"
+#include "../key/RNDPasswords.c"
+#include "../key/strnpwd.c"
 #endif
 
 /*====================================================================*
@@ -93,7 +94,7 @@
  *   program functions;
  *--------------------------------------------------------------------*/
 
-void (* passwords)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t) = NEWPasswords;
+void (* passwords)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t) = RNDPasswords;
 
 /*====================================================================*
  *

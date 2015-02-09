@@ -21,7 +21,7 @@ gcc -Wall -Wextra -Wno-unused-parameter -c HPAVKeySHA.c
 gcc -Wall -Wextra -Wno-unused-parameter -c HPAVKeyOut.c
 gcc -Wall -Wextra -Wno-unused-parameter -c HPAVKeySpec.c
 gcc -Wall -Wextra -Wno-unused-parameter -c MACPasswords.c
-gcc -Wall -Wextra -Wno-unused-parameter -c NEWPasswords.c
+gcc -Wall -Wextra -Wno-unused-parameter -c RNDPasswords.c
 gcc -Wall -Wextra -Wno-unused-parameter -c SHA256Block.c
 gcc -Wall -Wextra -Wno-unused-parameter -c SHA256Fetch.c
 gcc -Wall -Wextra -Wno-unused-parameter -c SHA256Reset.c
@@ -30,6 +30,8 @@ gcc -Wall -Wextra -Wno-unused-parameter -c SHA256Print.c
 gcc -Wall -Wextra -Wno-unused-parameter -c SHA256Ident.c
 gcc -Wall -Wextra -Wno-unused-parameter -c SHA256Match.c
 gcc -Wall -Wextra -Wno-unused-parameter -c keys.c
+gcc -Wall -Wextra -Wno-unused-parameter -c putpwd.c 
+gcc -Wall -Wextra -Wno-unused-parameter -c strnpwd.c 
 
 # ====================================================================
 # cleanse;

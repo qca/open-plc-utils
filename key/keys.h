@@ -107,9 +107,9 @@ extern const struct key keys [];
  *--------------------------------------------------------------------*/
 
 void MACPasswords (unsigned vendor, unsigned device, unsigned count, unsigned alpha, unsigned bunch, char space, flag_t flags);
-void NEWPasswords (unsigned vendor, unsigned device, unsigned count, unsigned alpha, unsigned bunch, char space, flag_t flags);
-void MACPassword (unsigned device, char const charset [], unsigned limit, unsigned alpha, unsigned bunch, char space);
-void NEWPassword (char const charset [], unsigned limit, unsigned alpha, unsigned bunch, char space);
+void RNDPasswords (unsigned vendor, unsigned device, unsigned count, unsigned alpha, unsigned bunch, char space, flag_t flags);
+unsigned strnpwd (char buffer [], unsigned length, char const charset [], unsigned limit, unsigned alpha, unsigned group, char space);
+void putpwd (char const charset [], unsigned limit, unsigned alpha, unsigned group, char space);
 
 /*====================================================================*
  *

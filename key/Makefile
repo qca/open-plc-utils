@@ -62,10 +62,10 @@ ignore:
 
 hpavkey: hpavkey.o HPAVKeyDAK.o HPAVKeyNID.o HPAVKeyNMK.o HPAVKeyOut.o HPAVKeySHA.o SHA256.o error.o getoptv.o hexout.o putoptv.o todigit.o uintspec.o version.o
 hpavkeys: hpavkeys.o HPAVKeyDAK.o HPAVKeyNID.o HPAVKeyNMK.o HPAVKeyOut.o HPAVKeySHA.o SHA256.o error.o getoptv.o hexout.o putoptv.o todigit.o uintspec.o version.o
-mac2pw: mac2pw.o MACPasswords.o NEWPasswords.o error.o getoptv.o putoptv.o todigit.o uintspec.o version.o
-mac2pwd: mac2pwd.o MACPasswords.o NEWPasswords.o error.o getoptv.o putoptv.o todigit.o uintspec.o version.o
+mac2pw: mac2pw.o MACPasswords.o RNDPasswords.o putpwd.o error.o getoptv.o putoptv.o todigit.o uintspec.o version.o
+mac2pwd: mac2pwd.o MACPasswords.o RNDPasswords.o putpwd.o error.o getoptv.o putoptv.o todigit.o uintspec.o version.o
 rkey: rkey.o HPAVKeyDAK.o HPAVKeyNID.o HPAVKeyNMK.o HPAVKeyOut.o HPAVKeySHA.o SHA256Block.o SHA256Fetch.o SHA256Reset.o SHA256Write.o error.o getoptv.o hexout.o putoptv.o strincr.o todigit.o uintspec.o version.o
-libkeys.a: HPAVKeySHA.o HPAVKeyDAK.o HPAVKeyNMK.o HPAVKeyNID.o HPAVKeyOut.o SHA256.o NEWPasswords.o
+libkeys.a: HPAVKeySHA.o HPAVKeyDAK.o HPAVKeyNMK.o HPAVKeyNID.o HPAVKeyOut.o SHA256.o strnpwd.o
 	rm -f ${@}
 	$(AR) rc ${@} ${^}
 	$(RANLIB) ${@}
