@@ -94,20 +94,28 @@
  *   program functions;
  *--------------------------------------------------------------------*/
 
-void (* passwords)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t) = RNDPasswords;
+void (* generate)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t) = RNDPasswords;
 
 /*====================================================================*
  *
  *   void function (const char * file, unsigned alpha, unsigned bunch, flag_t flags)
  *
+ *   read Ethernet hardware address strings from a file and print 
+ *   address passwords pairs on stdout;
  *
+ *   parse an Ethernet hardware address string into vendor and device
+ *   ID substrings; print a specified number of consecutive addresses
+ *   and password strings having a defined letter count and grouping;
+ *
+ *   Contributor(s):
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
 static void function (const char * file, unsigned alpha, unsigned bunch, unsigned space, flag_t flags)
 
 {
-	extern void (* passwords)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t);
+	extern void (* generate)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t);
 	unsigned line = 1;
 	unsigned radix = 0x10;
 	unsigned width;
@@ -172,7 +180,7 @@ static void function (const char * file, unsigned alpha, unsigned bunch, unsigne
 			}
 			c = getc (stdin);
 		}
-		passwords (vendor, device, 1, alpha, bunch, space, flags);
+		generate (vendor, device, 1, alpha, bunch, space, flags);
 	}
 	return;
 }
@@ -197,7 +205,7 @@ static void function (const char * file, unsigned alpha, unsigned bunch, unsigne
 int main (int argc, const char * argv [])
 
 {
-	extern void (* passwords)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t);
+	extern void (* generate)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t);
 	static const char * optv [] =
 	{
 		"b:l:mqs:rv",
@@ -224,11 +232,14 @@ int main (int argc, const char * argv [])
 		case 'b':
 			bunch = uintspec (optarg, 0, UCHAR_MAX);
 			break;
+		case 'e':
+			generate = RNDPasswords;
+			break;
 		case 'l':
 			alpha = uintspec (optarg, 12, 64);
 			break;
 		case 'm':
-			passwords = MACPasswords;
+			generate = MACPasswords;
 			break;
 		case 'q':
 			_setbits (flags, PASSWORD_SILENCE);

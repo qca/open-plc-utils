@@ -94,7 +94,7 @@
  *   program functions;
  *--------------------------------------------------------------------*/
 
-void (* passwords)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t) = RNDPasswords;
+void (* generate)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t) = RNDPasswords;
 
 /*====================================================================*
  *
@@ -104,7 +104,6 @@ void (* passwords)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_
  *   ID substrings; print a specified number of consecutive addresses
  *   and password strings having a defined letter count and grouping;
  *
- *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
  *
@@ -113,7 +112,7 @@ void (* passwords)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_
 static void function (const char * string, unsigned range, unsigned alpha, unsigned bunch, unsigned space, flag_t flags)
 
 {
-	extern void (* passwords)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t);
+	extern void (* generate)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t);
 	const char * offset = string;
 	unsigned vendor = 0;
 	unsigned device = 0;
@@ -158,7 +157,7 @@ static void function (const char * string, unsigned range, unsigned alpha, unsig
 	{
 		error (1, ERANGE, "Want %d passwords but only %d left in range", range, (0x00FFFFFF - device));
 	}
-	passwords (vendor, device, range, alpha, bunch, space, flags);
+	generate (vendor, device, range, alpha, bunch, space, flags);
 	return;
 }
 
@@ -168,7 +167,7 @@ static void function (const char * string, unsigned range, unsigned alpha, unsig
  *   int main (int argc, const char * argv []);
  *
  *   generate unique password strings for a range of device hardware
- *   addresses; print paired addresses and passwords to stdout;
+ *   addresses; print paired addresses and passwords on stdout;
  *
  *   Many Atheros programs expect the user to enter a password to
  *   access a device; the password is encoded to product the 16-bit
@@ -195,7 +194,7 @@ static void function (const char * string, unsigned range, unsigned alpha, unsig
 int main (int argc, const char * argv [])
 
 {
-	extern void (* passwords)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t);
+	extern void (* generate)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t);
 	static const char * optv [] =
 	{
 		"b:el:mn:qv",
@@ -225,13 +224,13 @@ int main (int argc, const char * argv [])
 			bunch = uintspec (optarg, 0, UCHAR_MAX);
 			break;
 		case 'e':
-			passwords = RNDPasswords;
+			generate = RNDPasswords;
 			break;
 		case 'l':
 			alpha = uintspec (optarg, 12, 64);
 			break;
 		case 'm':
-			passwords = MACPasswords;
+			generate = MACPasswords;
 			break;
 		case 'n':
 			range = uintspec (optarg, 0, 0x00FFFFFF);
