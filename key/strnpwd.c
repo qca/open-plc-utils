@@ -90,7 +90,7 @@ unsigned strnpwd (char buffer [], unsigned length, char const charset [], unsign
 		{
 			error (1, errno, "can't read /dev/urandom");
 		}	
-		index &= 0x1F
+		index &= 0x1F;
 		if (length)
 		{
 			buffer [width++] = charset [index % limit];
