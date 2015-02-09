@@ -87,17 +87,12 @@ void putpwd (char const charset [], unsigned limit, unsigned alpha, unsigned gro
 	}
 	while (alpha--)
 	{
-		unsigned index = 0;
-		unsigned place = 5;
-		while (place--)
+		unsigned index;
+		if (read (fd, &index, sizeof (index)) != sizeof (index))
 		{
-			unsigned number;
-			if (read (fd, &number, sizeof (number)) != sizeof (number))
-			{
-				error (1, errno, "can't read /dev/urandom");
-			}	
-			index |= (number & 1) << place;
-		}
+			error (1, errno, "can't read /dev/urandom");
+		}	
+		index &= 0x1F;
 		putc ( charset [index % limit], stdout);
 		if ((alpha) && (group) && !(alpha % group))
 		{

@@ -85,17 +85,12 @@ unsigned strnpwd (char buffer [], unsigned length, char const charset [], unsign
 	}
 	while (alpha--)
 	{
-		unsigned index = 0;
-		unsigned bit = 5;
-		while (bit--)
+		unsigned index;
+		if (read (fd, &index, sizeof (index)) != sizeof (index))
 		{
-			unsigned number;
-			if (read (fd, &number, sizeof (number)) != sizeof (number))
-			{
-				error (1, errno, "can't read /dev/urandom");
-			}	
-			index |= (number & 1) << bit;
-		}
+			error (1, errno, "can't read /dev/urandom");
+		}	
+		index &= 0x1F
 		if (length)
 		{
 			buffer [width++] = charset [index % limit];
