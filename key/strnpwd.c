@@ -38,7 +38,6 @@
  *   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
  *
  *--------------------------------------------------------------------*/
-
 /*====================================================================*
  *
  *   unsigned strnpwd (char buffer [], unsigned length, char const charset [], unsigned limit, unsigned alpha, unsigned group.g, char space);
@@ -68,10 +67,11 @@
 #define STRNPWD_SOURCE
 
 #include <unistd.h>
+#include <fcntl.h>
 #include <errno.h>
 
+#include "../tools/types.h"
 #include "../tools/error.h"
-#include "../tools/files.h"
 #include "../key/keys.h"
 
 unsigned strnpwd (char buffer [], unsigned length, char const charset [], unsigned limit, unsigned alpha, unsigned group, char space)
@@ -79,24 +79,24 @@ unsigned strnpwd (char buffer [], unsigned length, char const charset [], unsign
 {
 	signed fd;
 	unsigned width = 0;
-	if ((fd = open("/dev/urandom", O_RDONLY)) == -1)
+	if ((fd = open ("/dev/urandom", O_RDONLY)) == -1)
 	{
 		error (1, errno, "can't open /dev/urandom");
 	}
 	while (alpha--)
 	{
 		unsigned index;
-		if (read (fd, &index, sizeof (index)) != sizeof (index))
+		if (read (fd, & index, sizeof (index)) != sizeof (index))
 		{
 			error (1, errno, "can't read /dev/urandom");
-		}	
+		}
 		index &= 0x1F;
 		if (length)
 		{
 			buffer [width++] = charset [index % limit];
 			length--;
 		}
-		if ((alpha) && (group) && !(alpha % group))
+		if ((alpha) && (group) && ! (alpha % group))
 		{
 			if (length)
 			{

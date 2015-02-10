@@ -38,7 +38,6 @@
  *   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
  *
  *--------------------------------------------------------------------*/
-
 /*====================================================================*
  *
  *   void putpwd (char const charset [], unsigned limit, unsigned alpha, unsigned group, char space);
@@ -66,35 +65,33 @@
 #ifndef PUTPWD_SOURCE
 #define PUTPWD_SOURCE
 
-#include <stdio.h>
 #include <unistd.h>
+#include <stdio.h>
 #include <fcntl.h>
 #include <errno.h>
 
 #include "../tools/types.h"
 #include "../tools/error.h"
-#include "../tools/files.h"
-#include "../tools/flags.h"
 #include "../key/keys.h"
 
 void putpwd (char const charset [], unsigned limit, unsigned alpha, unsigned group, char space)
 
 {
 	signed fd;
-	if ((fd = open("/dev/urandom", O_RDONLY)) == -1)
+	if ((fd = open ("/dev/urandom", O_RDONLY)) == -1)
 	{
 		error (1, errno, "can't open /dev/urandom");
 	}
 	while (alpha--)
 	{
 		unsigned index;
-		if (read (fd, &index, sizeof (index)) != sizeof (index))
+		if (read (fd, & index, sizeof (index)) != sizeof (index))
 		{
 			error (1, errno, "can't read /dev/urandom");
-		}	
+		}
 		index &= 0x1F;
-		putc ( charset [index % limit], stdout);
-		if ((alpha) && (group) && !(alpha % group))
+		putc (charset [index % limit], stdout);
+		if ((alpha) && (group) && ! (alpha % group))
 		{
 			putc (space, stdout);
 		}
@@ -104,4 +101,6 @@ void putpwd (char const charset [], unsigned limit, unsigned alpha, unsigned gro
 }
 
 #endif
+
+
 
