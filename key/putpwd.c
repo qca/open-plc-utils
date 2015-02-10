@@ -1,6 +1,6 @@
 /*====================================================================*
  *
- *   Copyright (c) 2013 Qualcomm Atheros, Inc.
+ *   Copyright (c) 2015 Qualcomm Atheros, Inc.
  *
  *   All rights reserved.
  *
