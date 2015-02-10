@@ -109,7 +109,7 @@ void SHA256Block (struct sha256 * sha256, void const * memory)
 		W [word] |= (uint32_t)(*buffer++) << 8;
 		W [word] |= (uint32_t)(*buffer++) << 0;;
 	}
-	for (word = word; word < sizeof (sha256->block); word++)
+	for ( ; word < sizeof (sha256->block); word++)
 	{
 		uint32_t s0 = ROTR (W [word-15], 7) ^ ROTR (W [word-15], 18) ^ SHR (W [word-15], 3);
 		uint32_t s1 = ROTR (W [word- 2], 17) ^ ROTR (W [word- 2], 19) ^ SHR (W [word- 2], 10);
