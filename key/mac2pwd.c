@@ -208,7 +208,7 @@ int main (int argc, const char * argv [])
 	extern void (* generate)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t);
 	static const char * optv [] =
 	{
-		"b:l:mqs:rv",
+		"b:el:mqv",
 		PUTOPTV_S_FUNNEL,
 		"Atheros device password generator",
 		"b n\tbunching factor [" LITERAL (DEFAULT_BUNCH) "]",
