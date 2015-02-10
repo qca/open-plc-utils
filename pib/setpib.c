@@ -315,7 +315,7 @@ static signed function (int argc, char const * argv [], unsigned window)
 {
 	uint32_t version;
 	char const * filename = * argv;
-	signed status;
+	signed status = -1;
 	signed fd;
 	if ((fd = open (filename, O_BINARY|O_RDWR)) == -1)
 	{
