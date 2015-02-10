@@ -40,7 +40,7 @@
  *--------------------------------------------------------------------*/
 /*====================================================================*
  *
- *   unsigned strnpwd (char buffer [], unsigned length, char const charset [], unsigned limit, unsigned alpha, unsigned group.g, char space);
+ *   char * strnpwd (char buffer [], unsigned length, unsigned count, unsigned group, char space);
  *
  *   keys.h
  *
@@ -48,13 +48,13 @@
  *   of random letters and digits; optionally, group the letters and
  *   digits and separate groups with a space character;
  *
- *   charset is an array of printable ASCII characters; limit is 
- *   the number of characters in the charset; alpha is the number
- *   of characters to be selected from the charset; group is the
- *   grouping factor; space is the character separating groups; 
+ *   alphabet is an array of 32 printable password characters; 
+ *   count is the number of characters to be selected from alphabet; 
+ *   group is the grouping factor; 
+ *   space is the group separator;
  *
- *   characters are not grouped when group.g is zero or greater than 
- *   or equal to alpha;
+ *   grouping is suppressed when group is zero or greater than or
+ *   equal to alpha;
  *
  *   Contributors:
  *      Pouyan Sepehrdad <pouyans@qti.qualcomm.com>
@@ -74,39 +74,75 @@
 #include "../tools/error.h"
 #include "../key/keys.h"
 
-unsigned strnpwd (char buffer [], unsigned length, char const charset [], unsigned limit, unsigned alpha, unsigned group, char space)
+char * strnpwd (char buffer [], unsigned length, unsigned count, unsigned group, char space)
 
 {
 	signed fd;
-	unsigned width = 0;
 	if ((fd = open ("/dev/urandom", O_RDONLY)) == -1)
 	{
 		error (1, errno, "can't open /dev/urandom");
 	}
-	while (alpha--)
+	while (count--)
 	{
-		unsigned index;
-		if (read (fd, & index, sizeof (index)) != sizeof (index))
+		static const char alphabet [] =
+		{
+			'2',
+			'3',
+			'4',
+			'5',
+			'6',
+			'7',
+			'8',
+			'9',
+			'A',
+			'B',
+			'C',
+			'D',
+			'E',
+			'F',
+			'G',
+			'H',
+			'J',
+			'K',
+			'L',
+			'M',
+			'N',
+			'P',
+			'Q',
+			'R',
+			'S',
+			'T',
+			'U',
+			'V',
+			'W',
+			'X',
+			'Y',
+			'Z'
+		};
+		unsigned member;
+		if (read (fd, & member, sizeof (member)) != sizeof (member))
 		{
 			error (1, errno, "can't read /dev/urandom");
 		}
-		index &= 0x1F;
+		member &= 0x1F;
 		if (length)
 		{
-			buffer [width++] = charset [index % limit];
+			*buffer = alphabet [member % sizeof (alphabet)];
+			buffer++;
 			length--;
 		}
-		if ((alpha) && (group) && ! (alpha % group))
+		if ((count) && (group) && ! (count % group))
 		{
 			if (length)
 			{
-				buffer [width++] = space;
+				*buffer = space;
+				buffer++;
 				length--;
 			}
 		}
 	}
 	close (fd);
-	return (width);
+	return (buffer);
 }
 
 #endif

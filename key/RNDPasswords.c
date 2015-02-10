@@ -75,41 +75,6 @@
 void RNDPasswords (unsigned vendor, unsigned device, unsigned count, unsigned alpha, unsigned group, char space, flag_t flags)
 
 {
-	static const char charset [] =
-	{
-		'2',
-		'3',
-		'4',
-		'5',
-		'6',
-		'7',
-		'8',
-		'9',
-		'A',
-		'B',
-		'C',
-		'D',
-		'E',
-		'F',
-		'G',
-		'H',
-		'J',
-		'K',
-		'L',
-		'M',
-		'N',
-		'P',
-		'Q',
-		'R',
-		'S',
-		'T',
-		'U',
-		'V',
-		'W',
-		'X',
-		'Y',
-		'Z'
-	};
 	if (vendor >> 24)
 	{
 		return;
@@ -137,7 +102,7 @@ void RNDPasswords (unsigned vendor, unsigned device, unsigned count, unsigned al
 			putc (' ', stdout);
 		}
 		memset (buffer, 0,  sizeof (buffer));
-		putpwd (charset, sizeof (charset), alpha, group, space);
+		putpwd (alpha, group, space);
 		putc ('\n', stdout);
 		device++;
 	}

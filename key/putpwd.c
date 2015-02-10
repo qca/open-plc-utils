@@ -40,20 +40,19 @@
  *--------------------------------------------------------------------*/
 /*====================================================================*
  *
- *   void putpwd (char const charset [], unsigned limit, unsigned alpha, unsigned group, char space);
+ *   void putpwd (unsigned count, unsigned group, char space);
  *
  *   keys.h
  *
  *   print new password on stdout;
  *
- *   charset is an array containing an alphabet of printable ASCII
- *   characters; limit is the charset size in bytes; alpha is the
- *   number of characters to be selected from the alphabet; group
- *   the bunching factor; space is the character used to separate
- *   character groups; 
+ *   alphabet is an array of 32 printable password characters; 
+ *   count is the number of characters to be selected from alphabet; 
+ *   group is the grouping factor; 
+ *   space is the group separator;
  *
- *   characters are not grouped when group is zero or greater than
- *   or equal to alpha;
+ *   grouping is suppressed when group is zero or greater than or 
+ *   equal to count;
  *
  *   Contributors:
  *	Charles Maier <cmaier@qca.qualcomm.com>
@@ -74,7 +73,7 @@
 #include "../tools/error.h"
 #include "../key/keys.h"
 
-void putpwd (char const charset [], unsigned limit, unsigned alpha, unsigned group, char space)
+void putpwd (unsigned count, unsigned group, char space)
 
 {
 	signed fd;
@@ -82,16 +81,51 @@ void putpwd (char const charset [], unsigned limit, unsigned alpha, unsigned gro
 	{
 		error (1, errno, "can't open /dev/urandom");
 	}
-	while (alpha--)
+	while (count--)
 	{
-		unsigned index;
-		if (read (fd, & index, sizeof (index)) != sizeof (index))
+		static const char alphabet [] =
+		{
+			'2',
+			'3',
+			'4',
+			'5',
+			'6',
+			'7',
+			'8',
+			'9',
+			'A',
+			'B',
+			'C',
+			'D',
+			'E',
+			'F',
+			'G',
+			'H',
+			'J',
+			'K',
+			'L',
+			'M',
+			'N',
+			'P',
+			'Q',
+			'R',
+			'S',
+			'T',
+			'U',
+			'V',
+			'W',
+			'X',
+			'Y',
+			'Z'
+		};
+		unsigned member;
+		if (read (fd, & member, sizeof (member)) != sizeof (member))
 		{
 			error (1, errno, "can't read /dev/urandom");
 		}
-		index &= 0x1F;
-		putc (charset [index % limit], stdout);
-		if ((alpha) && (group) && ! (alpha % group))
+		member &= 0x1F;
+		putc (alphabet [member % sizeof (alphabet)], stdout);
+		if ((count) && (group) && ! (count % group))
 		{
 			putc (space, stdout);
 		}

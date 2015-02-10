@@ -108,8 +108,8 @@ extern const struct key keys [];
 
 void MACPasswords (unsigned vendor, unsigned device, unsigned count, unsigned alpha, unsigned bunch, char space, flag_t flags);
 void RNDPasswords (unsigned vendor, unsigned device, unsigned count, unsigned alpha, unsigned bunch, char space, flag_t flags);
-unsigned strnpwd (char buffer [], unsigned length, char const charset [], unsigned limit, unsigned alpha, unsigned group, char space);
-void putpwd (char const charset [], unsigned limit, unsigned alpha, unsigned group, char space);
+char * strnpwd (char buffer [], unsigned length, unsigned count, unsigned group, char space);
+void putpwd (unsigned count, unsigned group, char space);
 
 /*====================================================================*
  *
