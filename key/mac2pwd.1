@@ -64,7 +64,7 @@ The default is \fB0\fR which suppresses bunching.
 .RB - e
 Compute passwords based on host system entropy.
 Passwords consist of uppercase letters [A-Z] optionally grouped using option \fB-b\fR.
-This method produces a repeatable set of unique, apparently random passwords over a given address range.
+This method produces a non-repeatable set of unique passwords over a given address range.
 This method is the default and is more secure than method \fB-m\fR.
 
 .TP
@@ -77,7 +77,7 @@ Overall password length is the sum of \fBcount\fR plus the number of delimiters 
 .RB - m
 Compute passwords based on target device address.
 Passwords consist of uppercase letters [A-Z].
-This method produces a repeatable set of unique and apparently random passwords over a given address range.
+This method produces a repeatable set of unique passwords over a given address range.
 This method is less secure than the default method \fB-e\fR.
 
 .TP
