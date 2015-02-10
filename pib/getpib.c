@@ -262,7 +262,7 @@ static void snatch (int argc, char const * argv [], byte const * memory, size_t 
 			{ 
 				error (1, ECANCELED, GETPIB_TOOBIG, object, extent); 
 			} 
-			printf ("0x%016LX", LE64TOH (* number)); 
+			printf ("0x%016llX", LE64TOH (* number)); 
 			memory += sizeof (* number); 
 			extent -= sizeof (* number); 
 		} 
