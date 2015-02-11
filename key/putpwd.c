@@ -44,7 +44,9 @@
  *
  *   keys.h
  *
- *   print new password on stdout;
+ *   print a random password on stdout; passwords consist of count
+ *   letters and digits; optionally, group letters and digits and 
+ *   separate groups with a space character;
  *
  *   alphabet is an array of 32 printable password characters; 
  *   count is the number of characters to be selected from alphabet; 

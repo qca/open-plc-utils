@@ -54,12 +54,12 @@
  *   space is the group separator;
  *
  *   grouping is suppressed when group is zero or greater than or
- *   equal to alpha;
+ *   equal to count;
  *
  *   Contributors:
+ *	Charles Maier <cmaier@qca.qualcomm.com>
  *      Pouyan Sepehrdad <pouyans@qti.qualcomm.com>
  *      Ning Shang <nshang@qti.qualcomm.com>
- *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
