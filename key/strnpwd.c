@@ -59,8 +59,6 @@
  *
  *   Contributors:
  *	Charles Maier <cmaier@qca.qualcomm.com>
- *      Pouyan Sepehrdad <pouyans@qti.qualcomm.com>
- *      Ning Shang <nshang@qti.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
