@@ -46,7 +46,8 @@
  *
  *   encode a buffer with a password containing the specified number
  *   of random letters and digits; optionally, group the letters and
- *   digits and separate groups with a space character;
+ *   digits and separate groups with a space character; return the
+ *   address of the byte following the encoded password;
  *
  *   alphabet is an array of 32 printable password characters; 
  *   count is the number of characters to be selected from alphabet; 
