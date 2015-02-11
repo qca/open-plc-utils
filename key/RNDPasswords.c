@@ -41,20 +41,20 @@
 
 /*====================================================================*
  *
- *   void  RNDPasswords (unsigned vendor, unsigned device, unsigned count, unsigned alpha, unsigned group, unsigned space, flag_t flags);
+ *   void  RNDPasswords (unsigned vendor, unsigned device, unsigned number, unsigned count, unsigned group, unsigned space, flag_t flags);
  *
  *   keys.h
  *
- *   print a range of device address/password pairs on stdout; print
+ *   print a number of device address/password pairs on stdout; print
  *   an optional usage flag in the first column for PTS compatability;
  *
  *   vendor is the 24-bit OUI expressed as an integer; device is the
- *   24-bit starting unit address expressed as an integer; count is
- *   the number of address/password pairs to generate; alpha is the
+ *   24-bit starting unit address expressed as an integer; number is
+ *   the number of address/password pairs to generate; count is the
  *   number of letters/numbers in the password excluding delimiters;
  *   group is the number of letters or numbers appear between space
  *   characters; space characters are suppressed when group is zero
- *   or greater than alpha;
+ *   or greater than count;
  *
  *--------------------------------------------------------------------*/
 
@@ -72,7 +72,7 @@
 #include "../tools/flags.h"
 #include "../key/keys.h"
 
-void RNDPasswords (unsigned vendor, unsigned device, unsigned count, unsigned alpha, unsigned group, char space, flag_t flags)
+void RNDPasswords (unsigned vendor, unsigned device, unsigned number, unsigned count, unsigned group, char space, flag_t flags)
 
 {
 	if (vendor >> 24)
@@ -83,11 +83,11 @@ void RNDPasswords (unsigned vendor, unsigned device, unsigned count, unsigned al
 	{
 		return;
 	}
-	if (count >> 24)
+	if (number >> 24)
 	{
 		return;
 	}
-	while (count--)
+	while (number--)
 	{
 		char buffer [256];
 		if (_anyset (flags, PASSWORD_VERBOSE))
@@ -101,8 +101,8 @@ void RNDPasswords (unsigned vendor, unsigned device, unsigned count, unsigned al
 			printf ("%06X", device & 0x00FFFFFF);
 			putc (' ', stdout);
 		}
-		memset (buffer, 0,  sizeof (buffer));
-		putpwd (alpha, group, space);
+		memset (buffer, 0, sizeof (buffer));
+		putpwd (count, group, space);
 		putc ('\n', stdout);
 		device++;
 	}
