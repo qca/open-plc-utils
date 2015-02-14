@@ -350,7 +350,8 @@ int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	extern struct key const keys [];
+	extern struct _term_ const daks [];
+	extern struct _term_ const nmks [];
 	static char const * optv [] =
 	{
 		"aB:C:d:D:efFHi:IJ:K:l:mMn:N:p:P:QqrRS:st:Tvw:x",
@@ -455,22 +456,7 @@ int main (int argc, char const * argv [])
 			plc.readaction = 3;
 			break;
 		case 'D':
-			if (!strcmp (optarg, "none"))
-			{
-				memcpy (plc.DAK, keys [0].DAK, sizeof (plc.DAK));
-				break;
-			}
-			if (!strcmp (optarg, "key1"))
-			{
-				memcpy (plc.DAK, keys [1].DAK, sizeof (plc.DAK));
-				break;
-			}
-			if (!strcmp (optarg, "key2"))
-			{
-				memcpy (plc.DAK, keys [2].DAK, sizeof (plc.DAK));
-				break;
-			}
-			if (!hexencode (plc.DAK, sizeof (plc.DAK), (char const *)(optarg)))
+			if (!hexencode (plc.DAK, sizeof (plc.DAK), synonym (optarg, daks, SIZEOF (daks))))
 			{
 				error (1, errno, PLC_BAD_DAK, optarg);
 			}
@@ -516,22 +502,7 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_SETREMOTEKEY);
 			break;
 		case 'K':
-			if (!strcmp (optarg, "none"))
-			{
-				memcpy (plc.NMK, keys [0].NMK, sizeof (plc.NMK));
-				break;
-			}
-			if (!strcmp (optarg, "key1"))
-			{
-				memcpy (plc.NMK, keys [1].NMK, sizeof (plc.NMK));
-				break;
-			}
-			if (!strcmp (optarg, "key2"))
-			{
-				memcpy (plc.NMK, keys [2].NMK, sizeof (plc.NMK));
-				break;
-			}
-			if (!hexencode (plc.NMK, sizeof (plc.NMK), (char const *)(optarg)))
+			if (!hexencode (plc.NMK, sizeof (plc.NMK), synonym (optarg, nmks, SIZEOF (nmks))))
 			{
 				error (1, errno, PLC_BAD_NMK, optarg);
 			}

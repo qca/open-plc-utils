@@ -70,6 +70,7 @@
 
 #include "../tools/getoptv.h"
 #include "../tools/number.h"
+#include "../tools/symbol.h"
 #include "../tools/flags.h"
 #include "../tools/error.h"
 #include "../tools/files.h"
@@ -95,6 +96,7 @@
 #include "../tools/hexstring.c"
 #include "../tools/todigit.c"
 #include "../tools/memincr.c"
+#include "../tools/synonym.c"
 #include "../tools/error.c"
 #endif
 
@@ -483,7 +485,8 @@ static signed function (char const * filename, struct simple_pib * sample_pib, u
 int main (int argc, char const * argv [])
 
 {
-	extern const struct key keys [];
+	extern struct _term_ const daks [];
+	extern struct _term_ const nmks [];
 	static char const * optv [] =
 	{
 		"C:D:L:M:N:S:T:U:v",
@@ -517,26 +520,11 @@ int main (int argc, char const * argv [])
 			sample_pib.CCoSelection = (uint8_t)(uintspec (optarg, 0, 4));
 			break;
 		case 'D':
-			_setbits (flags, PIB_DAK);
-			if (!strcmp (optarg, "none"))
-			{
-				memcpy (sample_pib.DAK, keys [0].DAK, sizeof (sample_pib.DAK));
-				break;
-			}
-			if (!strcmp (optarg, "key1"))
-			{
-				memcpy (sample_pib.DAK, keys [1].DAK, sizeof (sample_pib.DAK));
-				break;
-			}
-			if (!strcmp (optarg, "key2"))
-			{
-				memcpy (sample_pib.DAK, keys [2].DAK, sizeof (sample_pib.DAK));
-				break;
-			}
-			if (!hexencode (sample_pib.DAK, sizeof (sample_pib.DAK), optarg))
+			if (!hexencode (sample_pib.DAK, sizeof (sample_pib.DAK), synonym (optarg, daks, SIZEOF (daks))))
 			{
 				error (1, errno, PLC_BAD_DAK, optarg);
 			}
+			_setbits (flags, PIB_DAK);
 			break;
 		case 'L':
 			level = (uint8_t)(uintspec (optarg, 0, 1));
@@ -565,26 +553,11 @@ int main (int argc, char const * argv [])
 			_setbits (flags, PIB_MAC);
 			break;
 		case 'N':
-			_setbits (flags, PIB_NMK);
-			if (!strcmp (optarg, "key0"))
-			{
-				memcpy (sample_pib.NMK, keys [0].NMK, sizeof (sample_pib.NMK));
-				break;
-			}
-			if (!strcmp (optarg, "key1"))
-			{
-				memcpy (sample_pib.NMK, keys [1].NMK, sizeof (sample_pib.NMK));
-				break;
-			}
-			if (!strcmp (optarg, "key2"))
-			{
-				memcpy (sample_pib.NMK, keys [2].NMK, sizeof (sample_pib.NMK));
-				break;
-			}
-			if (!hexencode (sample_pib.NMK, sizeof (sample_pib.NMK), optarg))
+			if (!hexencode (sample_pib.NMK, sizeof (sample_pib.NMK), synonym (optarg, nmks, SIZEOF (nmks))))
 			{
 				error (1, errno, PLC_BAD_NMK, optarg);
 			}
+			_setbits (flags, PIB_NMK);
 			break;
 		case 'S':
 			for (sp = optarg; isprint (*sp); ++sp);
