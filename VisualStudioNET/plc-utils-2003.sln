@@ -351,10 +351,6 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "key-utils", "key-utils\key-
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "qca-utils", "qca-utils\qca-utils-2003.vdproj", "{B96287CF-160E-4200-9256-4EAAEB7F8D5F}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plcrule", "plcrule\plcrule.vcproj", "{EF47D9E0-F82E-46F1-B09F-6A1F47DD4731}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -557,8 +553,6 @@ Global
 		{9BF284A9-D0E9-47F1-9D1F-11B7A6D3FF26}.Release.Build.0 = Release
 		{57484BC9-99E8-4A1D-9DA8-1E23804CF9EF}.Release.ActiveCfg = Release
 		{57484BC9-99E8-4A1D-9DA8-1E23804CF9EF}.Release.Build.0 = Release
-		{B96287CF-160E-4200-9256-4EAAEB7F8D5F}.Release.ActiveCfg = Release
-		{B96287CF-160E-4200-9256-4EAAEB7F8D5F}.Release.Build.0 = Release
 		{EF47D9E0-F82E-46F1-B09F-6A1F47DD4731}.Release.ActiveCfg = Release|Win32
 		{EF47D9E0-F82E-46F1-B09F-6A1F47DD4731}.Release.Build.0 = Release|Win32
 		{4064B4A5-4B8E-4074-B3C5-D9EC618C1420}.Release.ActiveCfg = Release|Win32

@@ -30,15 +30,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sada", "sada\sada.vcxproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hpav", "hpav\hpav.vcxproj", "{752CF245-D386-45CF-95FE-477DC5A6B2A8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mac2pw", "mac2pw\mac2pw.vcxproj", "{A2E66252-AB4A-4BBF-9C7C-DDF732EDC50A}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "int6kstat", "int6kstat\int6kstat.vcxproj", "{4FB9F71C-211F-4F9C-967E-FA6D3B37A633}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "setpib", "setpib\setpib.vcxproj", "{D954A874-9442-4F7F-B4EA-6D493FC950E6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "int6krule", "int6krule\int6krule.vcxproj", "{41EB07C1-86AF-450E-A4A8-4FE7ADCAD42C}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mac2pwd", "mac2pwd\mac2pwd.vcxproj", "{BC2CAF65-DDF4-48E9-B9D0-6D147EB16B23}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nvmsplit", "nvmsplit\nvmsplit.vcxproj", "{41447506-DD50-44E5-9743-B7B7D9C74FD7}"
 EndProject
@@ -270,11 +266,6 @@ Global
 		{752CF245-D386-45CF-95FE-477DC5A6B2A8}.Release|Win32.ActiveCfg = Release|Win32
 		{752CF245-D386-45CF-95FE-477DC5A6B2A8}.Release|Win32.Build.0 = Release|Win32
 		{752CF245-D386-45CF-95FE-477DC5A6B2A8}.Release|x86.ActiveCfg = Release|Win32
-		{A2E66252-AB4A-4BBF-9C7C-DDF732EDC50A}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{A2E66252-AB4A-4BBF-9C7C-DDF732EDC50A}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{A2E66252-AB4A-4BBF-9C7C-DDF732EDC50A}.Release|Win32.ActiveCfg = Release|Win32
-		{A2E66252-AB4A-4BBF-9C7C-DDF732EDC50A}.Release|Win32.Build.0 = Release|Win32
-		{A2E66252-AB4A-4BBF-9C7C-DDF732EDC50A}.Release|x86.ActiveCfg = Release|Win32
 		{4FB9F71C-211F-4F9C-967E-FA6D3B37A633}.Release|Mixed Platforms.ActiveCfg = Release|Win32
 		{4FB9F71C-211F-4F9C-967E-FA6D3B37A633}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{4FB9F71C-211F-4F9C-967E-FA6D3B37A633}.Release|Win32.ActiveCfg = Release|Win32
@@ -290,11 +281,6 @@ Global
 		{41EB07C1-86AF-450E-A4A8-4FE7ADCAD42C}.Release|Win32.ActiveCfg = Release|Win32
 		{41EB07C1-86AF-450E-A4A8-4FE7ADCAD42C}.Release|Win32.Build.0 = Release|Win32
 		{41EB07C1-86AF-450E-A4A8-4FE7ADCAD42C}.Release|x86.ActiveCfg = Release|Win32
-		{BC2CAF65-DDF4-48E9-B9D0-6D147EB16B23}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{BC2CAF65-DDF4-48E9-B9D0-6D147EB16B23}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{BC2CAF65-DDF4-48E9-B9D0-6D147EB16B23}.Release|Win32.ActiveCfg = Release|Win32
-		{BC2CAF65-DDF4-48E9-B9D0-6D147EB16B23}.Release|Win32.Build.0 = Release|Win32
-		{BC2CAF65-DDF4-48E9-B9D0-6D147EB16B23}.Release|x86.ActiveCfg = Release|Win32
 		{41447506-DD50-44E5-9743-B7B7D9C74FD7}.Release|Mixed Platforms.ActiveCfg = Release|Win32
 		{41447506-DD50-44E5-9743-B7B7D9C74FD7}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{41447506-DD50-44E5-9743-B7B7D9C74FD7}.Release|Win32.ActiveCfg = Release|Win32
