@@ -81,8 +81,8 @@
 #define NMK2 "B59319D7E8157BA001B018669CCEE30D"
 
 #define KEYS 3
-#define DAKS 3
-#define NMKS 3
+#define DAKS 6
+#define NMKS 5
 
 /*====================================================================*
  *   variables;

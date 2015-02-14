@@ -187,16 +187,28 @@ struct _term_ const daks [DAKS] =
 
 {
 	{
-		"none/secret",
+		"key0",
 		DAK0
 	},
 	{
-		"HomePlugAV",
+		"key1",
 		DAK1
 	},
 	{
-		"HomePlugAV0123",
+		"key2",
 		DAK2
+	},
+	{
+		"none",
+		DAK0
+	},
+	{
+		"secret",
+		DAK0
+	},
+	{
+		"zero",
+		DAK0
 	}
 };
 
@@ -208,17 +220,25 @@ struct _term_ const nmks [NMKS] =
 
 {
 	{
-		"none/secret",
+		"key0",
 		NMK0
 	},
 	{
-		"HomePlugAV",
+		"key1",
 		NMK1
 	},
 	{
-		"HomePlugAV0123",
+		"key2",
 		NMK2
-	}
+	},
+	{
+		"none",
+		NMK0
+	},
+	{
+		"zero",
+		NMK0
+	},
 };
 
 /*====================================================================*
