@@ -38,7 +38,6 @@
  *   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
  *
  *--------------------------------------------------------------------*/
-
 /*====================================================================*
  *
  *   keys.c - Encryption Key Data and Functions;
@@ -47,7 +46,6 @@
  *
  *   Tabulate default Atheros pass phrases and their DAK, NMK and
  *   NID for search and conversion purposes;
- *
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
@@ -59,7 +57,7 @@
 
 #include "../key/keys.h"
 
-const struct key keys [KEYS] =
+struct key const keys [KEYS] =
 
 {
 	{
@@ -181,6 +179,53 @@ const struct key keys [KEYS] =
 	}
 };
 
+/*====================================================================*
+ * device access key synonym table;
+ *--------------------------------------------------------------------*/
+
+struct _term_ const daks [DAKS] =
+
+{
+	{
+		"none/secret",
+		DAK0
+	},
+	{
+		"HomePlugAV",
+		DAK1
+	},
+	{
+		"HomePlugAV0123",
+		DAK2
+	}
+};
+
+/*====================================================================*
+ * network membership key synonym table;
+ *--------------------------------------------------------------------*/
+
+struct _term_ const nmks [NMKS] =
+
+{
+	{
+		"none/secret",
+		NMK0
+	},
+	{
+		"HomePlugAV",
+		NMK1
+	},
+	{
+		"HomePlugAV0123",
+		NMK2
+	}
+};
+
+/*====================================================================*
+ *  
+ *--------------------------------------------------------------------*/
 
 #endif
+
+
 
