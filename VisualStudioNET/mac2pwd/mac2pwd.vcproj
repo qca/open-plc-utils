@@ -82,6 +82,12 @@
 				RelativePath="..\..\tools\putoptv.c">
 			</File>
 			<File
+				RelativePath="..\..\key\putpwd.c">
+			</File>
+			<File
+				RelativePath="..\..\key\RNDPasswords.c">
+			</File>
+			<File
 				RelativePath="..\..\tools\todigit.c">
 			</File>
 			<File

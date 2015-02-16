@@ -131,6 +131,9 @@
 				RelativePath="..\..\key\SHA256Write.c">
 			</File>
 			<File
+				RelativePath="..\..\tools\synonym.c">
+			</File>
+			<File
 				RelativePath="..\..\tools\todigit.c">
 			</File>
 			<File

@@ -75,6 +75,7 @@
     <ClCompile Include="..\..\key\SHA256Fetch.c" />
     <ClCompile Include="..\..\key\SHA256Reset.c" />
     <ClCompile Include="..\..\key\SHA256Write.c" />
+    <ClCompile Include="..\..\tools\synonym.c" />
     <ClCompile Include="..\..\tools\todigit.c" />
     <ClCompile Include="..\..\tools\uintspec.c" />
     <ClCompile Include="..\..\tools\version.c" />

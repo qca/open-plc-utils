@@ -210,6 +210,9 @@
 				RelativePath="..\..\plc\Request.c">
 			</File>
 			<File
+				RelativePath="..\..\plc\ResetDevice.c">
+			</File>
+			<File
 				RelativePath="..\..\tools\reverse.c">
 			</File>
 			<File
