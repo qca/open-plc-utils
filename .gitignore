@@ -10,7 +10,4 @@ CVS
 t.*
 temp.*
 test.*
-main
 *.a
-*.exe
-recurse.sh
