@@ -25,7 +25,7 @@ Three keys of interest to users are the Device Access Key (DAK), the Network Mem
 Their purpose is described in the HomePlug AV Specification.
 
 .PP
-The HomePlug AV Specification explains how to generate 16-btye binary DAK, NMK and NID values using the SHA-256 algorithm to hash user-supplied ASCII strings, called "pass phrases" in the specification.
+The HomePlug AV Specification explains how to generate 16-byte binary DAK, NMK and NID values using the SHA-256 algorithm to hash user-supplied ASCII strings, called "pass phrases" in the specification.
 HomePlug AV compliant pass phrases have from 12 to 64 7-bit ASCII character values in the range 0x20 to 0x7F.
 In some cases, a specified 8-byte salt is added to the pass phrase before computing the 32-byte hash value.
 In all cases, the computed hash is then rehashed a specified number of times to produce the final 32-byte value.
@@ -58,7 +58,7 @@ In such cases, you may need to include meta characters.
 -\fBL\fR \fIlevel\fR
 Set security level.
 The security level is encoded into the NID.
-Level \fB0\fR enables pusbutton pairing.
+Level \fB0\fR enables pushbutton pairing.
 Level \fB1\fR disables it.
 This option has no effect unless a NID is computed.
 
