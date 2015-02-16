@@ -13,4 +13,4 @@ test.*
 main
 *.a
 *.exe
-/.project
+recurse.sh
