@@ -11,7 +11,7 @@ mac2pw - Qualcomm Atheros Ethernet Device Password Generator
 [...] 
 
 .SH DESCRIPTION
-Print a range of consecutive Ethernet addresses and passwords on stdout suche that each device has a unique password.
+Print a range of consecutive Ethernet addresses and passwords on stdout such that each device has a unique password.
 Program output is suitable as input to the Qualcomm Atheros HomePlug AV Production Test System or may be used in custom production systems.
 A starting address and an address range are specified.
 Computed passwords consist of upper case letters and digits with optional group separators.
@@ -19,20 +19,20 @@ Output consists of address/password pairs in text format.
 
 .PP
 This program is designed to generate passwords for a large number of consecutive device addresses.
-It complements program \fBmac2pwd\fR which generates passwords for non-consecutive device addresses occuring in unspecified order.
+It complements program \fBmac2pwd\fR which generates passwords for non-consecutive device addresses occurring in unspecified order.
 
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
 See the \fBAMP\fR man page for an overview and installation instructions.
 
 .SH CAVEATS
-Atheros provides this program as a simple means of generating unique and apparently random device passwords for a large volume of Ethernet devices.
+Atheros provides this program as a simple means of generating unique device passwords for a large volume of Ethernet devices.
 Two different password algorithms are implemented but neither one is required for HomePlug AV compliance.
 Vendors are free to use other methods to generate their own device passwords and are encouraged to do so.
 
 .TP 
 Random Method
-Generate random passwords based on system entropy.
+Generate passwords based on system entropy.
 A different set of passwords is generated for a given address range with each program execution.
 There is no correlation at between addresses and passwords.
 This method is the most secure but requires care when programming and labelling devices at the factory.
@@ -40,11 +40,11 @@ It may be necessary to maintain a database if regular device maintenance and fir
 
 .TP 
 Device Method
-Generate apparently random passwords based on device address.
+Generate passwords based on device address.
 The same set of passwords will be generated for a given address range with each program execution.
-This method may be appropriate on system where regular maintenance and firmware upsates are required.
+This method may be appropriate on system where regular maintenance and firmware updates are required.
 This method is less secure because device addresses can be determined using a variety of network management programs.
-Anyone having access to this program, or the algorithm, could compute the device password and gain access to device features reserved for priviledged users.
+Anyone having access to this program, or the algorithm, could compute the device password and gain access to device features reserved for privileged users.
 This program does provide features to mitigate the risks of using this method.
 
 .SH OPTIONS
@@ -78,7 +78,7 @@ The default is \fB16\fR.
 Compute passwords based on target device address.
 Passwords consist of uppercase letters [A-Z].
 This method produces a repeatable set of unique passwords over a given address range.
-This method is less secure than the default method \fB-e\fR.
+This method is non-secure.
 
 .TP
 -\fBn \fInumber\fR

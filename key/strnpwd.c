@@ -123,7 +123,6 @@ char * strnpwd (char buffer [], unsigned length, unsigned count, unsigned group,
 		{
 			error (1, errno, "can't read /dev/urandom");
 		}
-		member &= 0x1F;
 		if (length)
 		{
 			*buffer = alphabet [member % sizeof (alphabet)];

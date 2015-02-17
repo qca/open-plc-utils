@@ -89,7 +89,6 @@ void RNDPasswords (unsigned vendor, unsigned device, unsigned number, unsigned c
 	}
 	while (number--)
 	{
-		char buffer [256];
 		if (_anyset (flags, PASSWORD_VERBOSE))
 		{
 			putc ('0', stdout);
@@ -97,11 +96,10 @@ void RNDPasswords (unsigned vendor, unsigned device, unsigned number, unsigned c
 		}
 		if (_allclr (flags, PASSWORD_SILENCE))
 		{
-			printf ("%06X", vendor & 0x00FFFFFF);
-			printf ("%06X", device & 0x00FFFFFF);
+			printf ("%06X", vendor);
+			printf ("%06X", device);
 			putc (' ', stdout);
 		}
-		memset (buffer, 0, sizeof (buffer));
 		putpwd (count, group, space);
 		putc ('\n', stdout);
 		device++;

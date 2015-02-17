@@ -46,27 +46,7 @@
  *   keys.h
  *
  *   print a range of device address/password pairs on stdout; print
- *   an optional usage flag in the first column for PTS compatability;
- *
- *   vendor is the 24-bit OUI expressed as an integer; device is the
- *   24-bit starting unit address expressed as an integer; number is
- *   the number of address/password pairs to generate; count is the
- *   number of letters in the password excluding delimiters;
- *
- *   passwords consists of letters arranged in groups separated by
- *   spaces; count is the number of letters; group is the number of
- *   letters in each group; space is the character that separates
- *   each group;
- *
- *   vendor is used to seed the random number generator and create
- *   a character set having the 256 random upper case letters used
- *   for all vendor passwords; most letters will appear more than
- *   once in the character set;
- *
- *   device is used to seed the random number generator and select
- *   count random letters from the character set until the password
- *   has been constructed;
- *
+ *   an optional usage flag in first column for PTS compatability;
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
@@ -105,30 +85,24 @@ static unsigned MACRand ()
 
 /*====================================================================*
  *
- *   void MACPassword (unsigned device, char const charset [], unsigned limit, unsigned alpha, unsigned bunch, char space);
+ *   void MACPassword (unsigned device, char const charset [], unsigned limit, unsigned count, unsigned group, char space);
  *
  *   keys.h
- *
- *   device is used to seed the random number generator and select
- *   count random letters from the character set until the password
- *   has been constructed; alpha is the total number of letters in
- *   the password, excluding delimiters; bunch is a grouping factor
- *   for letters; space is the character used to separate groups;
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-void MACPassword (unsigned device, char const charset [], unsigned limit, unsigned alpha, unsigned bunch, char space)
+void MACPassword (unsigned device, char const charset [], unsigned limit, unsigned count, unsigned group, char space)
 
 {
 	MACSRand (device);
-	while (alpha--)
+	while (count--)
 	{
 		unsigned index = MACRand () % limit;
 		putc (charset [index & limit], stdout);
-		if ((alpha) && (bunch) && !(alpha % bunch))
+		if ((count) && (group) && !(count % group))
 		{
 			putc (space, stdout);
 		}
@@ -143,34 +117,14 @@ void MACPassword (unsigned device, char const charset [], unsigned limit, unsign
  *   keys.h
  *
  *   print a range of device address/password pairs on stdout; print
- *   an optional usage flag in the first column for PTS compatability;
- *
- *   vendor is the 24-bit OUI expressed as an integer; device is the
- *   24-bit starting unit address expressed as an integer; number is
- *   the number of address/password pairs to generate; count is the
- *   number of letters in the password excluding delimiters;
- *
- *   passwords consists of letters arranged in groups separated by
- *   spaces; count is the number of letters; group is the number of
- *   letters in each group; space is the character that separates
- *   each group;
- *
- *   vendor is used to seed the random number generator and create
- *   a character set having the 256 random upper case letters used
- *   for all vendor passwords; most letters will appear more than
- *   once in the character set;
- *
- *   device is used to seed the random number generator and select
- *   count random letters from the character set until the password
- *   has been constructed;
- *
+ *   an optional usage flag in first column for PTS compatability;
  *
  *   Contributor(s):
  *	Charles Maier <cmaier@qca.qualcomm.com>
  *
  *--------------------------------------------------------------------*/
 
-void MACPasswords (unsigned vendor, unsigned device, unsigned count, unsigned alpha, unsigned bunch, char space, flag_t flags)
+void MACPasswords (unsigned vendor, unsigned device, unsigned number, unsigned count, unsigned group, char space, flag_t flags)
 
 {
 	char charset [UCHAR_MAX];
@@ -183,7 +137,7 @@ void MACPasswords (unsigned vendor, unsigned device, unsigned count, unsigned al
 	{
 		return;
 	}
-	if (count >> 24)
+	if (number >> 24)
 	{
 		return;
 	}
@@ -196,7 +150,7 @@ void MACPasswords (unsigned vendor, unsigned device, unsigned count, unsigned al
 			charset [offset++] = c;
 		}
 	}
-	while (count--)
+	while (number--)
 	{
 		if (_anyset (flags, PASSWORD_VERBOSE))
 		{
@@ -209,7 +163,7 @@ void MACPasswords (unsigned vendor, unsigned device, unsigned count, unsigned al
 			printf ("%06X", device & 0x00FFFFFF);
 			putc (' ', stdout);
 		}
-		MACPassword (device, charset, sizeof (charset), alpha, bunch, space);
+		MACPassword (device, charset, sizeof (charset), count, group, space);
 		putc ('\n', stdout);
 		device++;
 	}

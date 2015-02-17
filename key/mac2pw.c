@@ -170,7 +170,7 @@ static void function (const char * string, unsigned range, unsigned alpha, unsig
  *   addresses; print paired addresses and passwords on stdout;
  *
  *   Many Atheros programs expect the user to enter a password to
- *   access a device; the password is encoded to product the 16-bit
+ *   access a device; the password is encoded to produce the 16-bit
  *   Device Access Key (DAK) stored in the PIB;
  *
  *   Vendors must publish the device password so that end users can
