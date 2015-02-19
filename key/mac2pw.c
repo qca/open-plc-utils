@@ -203,7 +203,7 @@ int main (int argc, const char * argv [])
 		"b n\tbunching factor [" LITERAL (DEFAULT_BUNCH) "]",
 		"e\tbase passwords on host system entropy (more secure)",
 		"l n\tpassword letters [" LITERAL (DEFAULT_ALPHA) "]",
-		"m\tbase passwords on MAC addresses (less secure)",                     
+		"m\tbase passwords on MAC addresses (non-secure)",                     
 		"n n\tgenerate n consecutive passwords [" LITERAL (DEFAULT_RANGE) "]",
 		"q\tomit device address on output",
 		"v\tprepend PTS flag on output",

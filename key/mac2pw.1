@@ -35,7 +35,7 @@ Random Method
 Generate passwords based on system entropy.
 A different set of passwords is generated for a given address range with each program execution.
 There is no correlation at between addresses and passwords.
-This method is the most secure but requires care when programming and labelling devices at the factory.
+This method is more secure but requires care when programming and labelling devices at the factory.
 It may be necessary to maintain a database if regular device maintenance and firmware upgrade are needed.
 
 .TP 
@@ -43,7 +43,7 @@ Device Method
 Generate passwords based on device address.
 The same set of passwords will be generated for a given address range with each program execution.
 This method may be appropriate on system where regular maintenance and firmware updates are required.
-This method is less secure because device addresses can be determined using a variety of network management programs.
+This method is not secure because device addresses can be determined using a variety of network management programs.
 Anyone having access to this program, or the algorithm, could compute the device password and gain access to device features reserved for privileged users.
 This program does provide features to mitigate the risks of using this method.
 
