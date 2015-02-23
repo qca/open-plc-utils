@@ -35,7 +35,7 @@ Random Method
 Generate passwords based on system entropy.
 A different set of passwords is generated for a given address range with each program execution.
 There is no correlation at between addresses and passwords.
-This method is more secure but requires care when programming and labelling devices at the factory.
+This method is secure but requires care when programming and labelling devices at the factory.
 It may be necessary to maintain a database if regular device maintenance and firmware upgrade are needed.
 
 .TP 
@@ -64,7 +64,7 @@ The default is \fB0\fR which suppresses bunching.
 Compute passwords based on host system entropy.
 Passwords consist of uppercase letters [A-Z] optionally grouped using option \fB-b\fR.
 This method produces a non-repeatable set of unique passwords over a given address range.
-This method is the default and is more secure than method \fB-m\fR.
+This method is the default and is secure.
 
 .TP
 -\fBl \fIcount\fR
@@ -78,7 +78,7 @@ The default is \fB16\fR.
 Compute passwords based on target device address.
 Passwords consist of uppercase letters [A-Z].
 This method produces a repeatable set of unique passwords over a given address range.
-This method is non-secure.
+This method is not secure.
 
 .TP
 -\fBn \fInumber\fR
