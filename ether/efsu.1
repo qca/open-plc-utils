@@ -150,7 +150,7 @@ A hexadecimal dump of the transmitted frame appears on the console because optio
 
 .PP
 Since every host interface has a different hardware address, one can replace the source address of transmitted frames with the actual host interface address using option \fB-h\fR.
-Observe that the original source address has been replaced with that of the local host interface used to transmit the frame.
+Observe that the source address above has been replaced with that of the local host interface used to transmit the frame.
 
 .PP
    # efsu abc.hex -vh
@@ -162,7 +162,7 @@ Observe that the original source address has been replaced with that of the loca
 
 .PP
 You can also direct the frame to another device using option \fB-d\fR.
-Observe that the original destination address has been replaced with the one specified on the command line.
+Observe that the destination address above has been replaced with the one specified on the command line.
 
 .PP
    # efsu abc.hex -vhd 00b052beef01
