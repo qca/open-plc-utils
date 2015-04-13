@@ -6,7 +6,7 @@
 			int6k.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -133,6 +133,7 @@
 #include &quot;../plc/WritePIB.c&quot;
 #include &quot;../plc/WaitForReset.c&quot;
 #include &quot;../plc/WaitForStart.c&quot;
+#include &quot;../plc/WaitForRestart.c&quot;
 #include &quot;../plc/WatchdogReport.c&quot;
 #include &quot;../plc/StationRole.c&quot;
 #include &quot;../plc/ModuleRead.c&quot;
@@ -323,6 +324,7 @@ static void manager (struct plc * plc, signed count, signed pause)
 		if (_anyset (plc-&gt;flags, PLC_FLASH_DEVICE))
 		{
 			FlashNVM (plc);
+			WaitForRestart (plc);
 		}
 		if (_anyset (plc-&gt;flags, PLC_RESET_DEVICE))
 		{
@@ -365,7 +367,8 @@ int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	extern struct key const keys [];
+	extern struct _term_ const daks [];
+	extern struct _term_ const nmks [];
 	static char const * optv [] =
 	{
 		&quot;aB:C:d:D:efFHi:IJ:K:l:mMn:N:p:P:QqrRS:st:Tvw:x&quot;,
@@ -470,22 +473,7 @@ int main (int argc, char const * argv [])
 			plc.readaction = 3;
 			break;
 		case 'D':
-			if (!strcmp (optarg, &quot;none&quot;))
-			{
-				memcpy (plc.DAK, keys [0].DAK, sizeof (plc.DAK));
-				break;
-			}
-			if (!strcmp (optarg, &quot;key1&quot;))
-			{
-				memcpy (plc.DAK, keys [1].DAK, sizeof (plc.DAK));
-				break;
-			}
-			if (!strcmp (optarg, &quot;key2&quot;))
-			{
-				memcpy (plc.DAK, keys [2].DAK, sizeof (plc.DAK));
-				break;
-			}
-			if (!hexencode (plc.DAK, sizeof (plc.DAK), (char const *)(optarg)))
+			if (!hexencode (plc.DAK, sizeof (plc.DAK), synonym (optarg, daks, SIZEOF (daks))))
 			{
 				error (1, errno, PLC_BAD_DAK, optarg);
 			}
@@ -531,22 +519,7 @@ int main (int argc, char const * argv [])
 			_setbits (plc.flags, PLC_SETREMOTEKEY);
 			break;
 		case 'K':
-			if (!strcmp (optarg, &quot;none&quot;))
-			{
-				memcpy (plc.NMK, keys [0].NMK, sizeof (plc.NMK));
-				break;
-			}
-			if (!strcmp (optarg, &quot;key1&quot;))
-			{
-				memcpy (plc.NMK, keys [1].NMK, sizeof (plc.NMK));
-				break;
-			}
-			if (!strcmp (optarg, &quot;key2&quot;))
-			{
-				memcpy (plc.NMK, keys [2].NMK, sizeof (plc.NMK));
-				break;
-			}
-			if (!hexencode (plc.NMK, sizeof (plc.NMK), (char const *)(optarg)))
+			if (!hexencode (plc.NMK, sizeof (plc.NMK), synonym (optarg, nmks, SIZEOF (nmks))))
 			{
 				error (1, errno, PLC_BAD_NMK, optarg);
 			}
@@ -571,7 +544,7 @@ int main (int argc, char const * argv [])
 			}
 			if (nvmfile1 (&amp;plc.NVM))
 			{
-				error (1, errno, &quot;Bad NVM file: %s&quot;, plc.NVM.name);
+				error (1, errno, &quot;Bad firmware file: %s&quot;, plc.NVM.name);
 			}
 			_setbits (plc.flags, PLC_WRITE_MAC);
 			break;
@@ -604,7 +577,7 @@ int main (int argc, char const * argv [])
 			}
 			if (pibfile1 (&amp;plc.PIB))
 			{
-				error (1, errno, &quot;Bad PIB file: %s&quot;, plc.PIB.name);
+				error (1, errno, &quot;Bad parameter file: %s&quot;, plc.PIB.name);
 			}
 			_setbits (plc.flags, PLC_WRITE_PIB);
 			break;

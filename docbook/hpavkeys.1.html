@@ -6,7 +6,7 @@
 			hpavkeys.1
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -63,20 +63,20 @@ OPTIONS
               such cases, you may need to include meta characters.
 
        -L level
-              Set security level.  The security level is encoded into the NID.  Level 0 enables pushbutton pairing.  Level 1 dis‐
-              ables it.  This option has no effect unless a NID is computed.
+              Set security level.  The security level is encoded into the NID.  Level 0 enables  pushbutton  pairing.   Level  1
+              disables it.  This option has no effect unless a NID is computed.
 
        -M     Uses HomePlug AV rules to compute Network Membership Keys (NMK) from pass phrases read from file or stdin.  An NMK
               is 16 bytes expressed as 32 hexadecimal characters.  This option over-rides any -D or -N options previsously spec‐
               ified on the command line.
 
        -N     Uses HomePlug AV rules to compute Network Identification Keys (NID) from pass phrases read from file or stdin.  An
-              NID is 7 bytes expressed as 14 hexadecimal digits.  This  option  over-rides  any  -D  or  -M  options  previously
-              specified on the command line.
+              NID is 7 bytes expressed as 14 hexadecimal digits.  This option over-rides any -D or -M options previously  speci‐
+              fied on the command line.
 
        -p     Print  the  password, or pass phrase, used to generate each key after each key on stdout.  One single space seper‐
-              ates the pass phrase from the key string.  The pass  phrase  consists  of  all  subsequent  characters,  including
-              spaces, appearing up to the end of the line.  Without this option, only the keys are printed.
+              ates the pass phrase from the key string.  The pass phrase consists of all subsequent characters,  including  spa‐
+              ces, appearing up to the end of the line.  Without this option, only the keys are printed.
 
        -q     Enable quiet mode which, for this application, has no effect.  This behavior has changed from earlier program ver‐
               sions.
@@ -110,7 +110,7 @@ EXAMPLES
 
        The following command reads file example.keys and prints the DAK for each phrase in that file.  Input phrases are checked
        for  HomePlugAV compliance and illegal phrases are reported then ignored.  A legal HomePlug pass phrase is 12 to 64 char‐
-       acters consisting of ASCII characters ’ ’ through ’~’.  Essentially, these are the only characters that one can enter  on
+       acters consisting of ASCII characters ' ' through '~'.  Essentially, these are the only characters that one can enter  on
        a standard English keyboard.
 
           # hpavkeys -D example.keys
@@ -127,7 +127,7 @@ EXAMPLES
 
        The  following  example  reads  the  same file as above but prints the NMK for each phrase, instead of the DAK.  The keys
        printed here have different values because the HomePlug AV Specification requires different hash algorithms for  the  DAK
-       and NMK.  Don’t mix them up.
+       and NMK.  Don't mix them up.
 
           # hpavkeys -M example.keys
           B59319D7E8157BA001B018669CCEE30D
@@ -151,7 +151,7 @@ EXAMPLES
           54CB8AB1235896E45E6B643C7BF11ADB abcdefghijklmnopqrstuvwxyz
           75CD66973ED683E041F8AC37ACA88B58    I     love     my    dog   .
           E20A0A69A3C6326C623202D3F42AF416 A.B.C.D.E.F.G.H.I.J.K.L.M.N.O.P.Q.R.S.T.U.V.W.X.Y.Z
-          1671D61F305E81BAF000D58AF09888D5 ~!@#$%^&amp;*()_-‘{}[]&quot;:;’&lt;&gt;./?
+          1671D61F305E81BAF000D58AF09888D5 ~!@#$%^&amp;*()_-`{}[]&quot;:;'&lt;&gt;./?
           05EFD9C9452BF8415D84BB1C415EE52A QWRT-YPSD-FGHJ-KLZX
           56F3C7F539D4F8F5EEC00E63F11A8DEC The quick brown fox jumped over the lazy dog.
           9718D29451897404DA2719CB80CA2ADA Super-Duper Electrosonic Frepitator SSEI43
@@ -162,7 +162,7 @@ TIPS&amp;TRICKS
        the dash is an option prefix which is incorrect in this case.  An error occurs because option -H is illegal.
 
           # hpavkey -vM -HomePlugAV -HomePlugAV123
-          hpavkey: Operation canceled: Option ’H’ has no meaning
+          hpavkey: Operation canceled: Option 'H' has no meaning
 
        One solution is to insert the keys verbatim in a password file, in this case password.txt, then run program  hpavkeys  on
        that file.
@@ -176,8 +176,8 @@ REFERENCES
        standard FIPS180-2 sec 5.3.2 for more information on SHA256 encoding.
 
 DISCLAIMER
-       Qualcomm Atheros reserves the right to modify program names, functionality, input  format  or  output  format  in  future
-       toolkit releases without any obligation to notify or compensate toolkit users.
+       Qualcomm Atheros reserves the right to modify program names, functionality, input format or output format in future tool‐
+       kit releases without any obligation to notify or compensate toolkit users.
 
 SEE ALSO
        hpavkey(1), keys(1), mac2pw(1), mac2pwd(1), rkey(1)
@@ -185,7 +185,7 @@ SEE ALSO
 CREDITS
         Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
 
-open-plc-utils-0.0.3                                      November 2013                                              hpavkeys(1)
+open-plc-utils-0.0.3                                        Mar 2014                                                 hpavkeys(1)
 </pre>
 		<div class='footerlink'>
 			[<a href='hpavkey.1.html' title=' hpavkey.1 '>PREV</a>]

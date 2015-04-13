@@ -6,7 +6,7 @@
 			config.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -318,6 +318,39 @@ unsigned confignumber (char const * file, char const * part, char const * item, 
 		} 
 	} 
 	return (number); 
+}
+
+/*====================================================================*
+ *
+ *   unsigned confignumber_range (char const * file, char const * part, char const * item, unsigned number, unsigned min, unsigned max)
+ *
+ *   open the named file, locate the named part and return the named
+ *   item as an unsigned integer, if present; return a default number
+ *   if the file, part or item is missing or item is out of range; 
+ *
+ *--------------------------------------------------------------------*/
+
+unsigned confignumber_range (char const * file, char const * part, char const * item, unsigned number, unsigned min, unsigned max)
+
+{
+	unsigned value = 0;
+	char const * string = configstring (file, part, item, &quot;&quot;);
+	if ((string) &amp;&amp; (* string))
+	{
+		while (isdigit (* string))
+		{
+			value *= 10;
+			value += * string++ - '0';
+		}
+		if (! (* string))
+		{
+			if ((value &gt;= min) &amp;&amp; (value &lt;= max))
+			{
+			    number = value;
+			}
+		}
+	}
+	return (number);
 } 
 
 /*====================================================================*

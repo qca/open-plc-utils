@@ -6,7 +6,7 @@
 			efbu.1
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -34,7 +34,7 @@ DESCRIPTION
        hosts will see less.
 
        This  program is for test purposes.  It has no practical application beyond flooding the network with useless traffic and
-       annoying the network administrator.  Don’t abuse it.
+       annoying the network administrator.  Don't abuse it.
 
 OPTIONS
        -b value
@@ -54,8 +54,8 @@ OPTIONS
               the frame. This allows frames to be sent correctly from any host interface. Use option -i to specify an interface.
 
        -i interface
-              The host interface used to send frames. The default is &quot;eth1&quot; because most people use &quot;eth0&quot;  as  their  principle
-              network  connection; however, if the string &quot;PLC&quot; is defined in the environment then it will over-ride the program
+              The  host  interface  used to send frames. The default is &quot;eth1&quot; because most people use &quot;eth0&quot; as their principle
+              network connection; however, if the string &quot;PLC&quot; is defined in the environment then it will over-ride the  program
               default. Any interface specified on the command line will over-ride the default.
 
        -p milliseconds
@@ -64,7 +64,7 @@ OPTIONS
               ond for the duration.  Permitted values are 0 through UINT_MAX as defined in &lt;limits.h&gt;.
 
        -t milliseconds
-              The blast duration in milliseconds.  The default is 1000 milliseconds seconds which is about 1 second.   Permitted
+              The  blast duration in milliseconds.  The default is 1000 milliseconds seconds which is about 1 second.  Permitted
               values are 0 through UINT_MAX as defined in &lt;limits.h&gt;.
 
        -v     Print transmitted frames in hex dump format on stdout as they are sent. This reduces network transmission rate, as
@@ -74,9 +74,9 @@ ARGUMENTS
        None.
 
 EXAMPLES
-       The following example sends an IP broadcast frame of maximum length on host interface eth2 for a duration of 20  seconds.
-       The  destination  address will be the Ethernet broadcast address because option -d is omitted. The source address will be
-       the host Ethernet interface address because option -h is present. Frames will be send  at  about  20  frames  per  second
+       The  following example sends an IP broadcast frame of maximum length on host interface eth2 for a duration of 20 seconds.
+       The destination address will be the Ethernet broadcast address because option -d is omitted. The source address  will  be
+       the  host  Ethernet  interface  address  because  option -h is present. Frames will be send at about 20 frames per second
        because option -p is not present.
 
           # efbu -ieth2 -t20000 -h -e0800
@@ -185,7 +185,7 @@ SEE ALSO
 CREDITS
         Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
 
-open-plc-utils-0.0.3                                      November 2013                                                  efbu(1)
+open-plc-utils-0.0.3                                        Mar 2014                                                     efbu(1)
 </pre>
 		<div class='footerlink'>
 			[<a href='edsu.1.html' title=' edsu.1 '>PREV</a>]

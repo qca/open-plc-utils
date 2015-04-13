@@ -6,7 +6,7 @@
 			evse_cm_atten_char.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -79,14 +79,14 @@
 #include &quot;../tools/memory.h&quot;
 #include &quot;../tools/error.h&quot;
 #include &quot;../tools/flags.h&quot;
-#include &quot;../slac/slac.h&quot;
+#include &quot;../iso15118/slac.h&quot;
 
 signed evse_cm_atten_char (struct session * session, struct channel * channel, struct message * message) 
 
 { 
 	struct cm_atten_char_indicate * indicate = (struct cm_atten_char_indicate *) (message); 
 	struct cm_atten_char_response * response = (struct cm_atten_char_response *) (message); 
-	debug (0, __func__, &quot;--&gt; CM_ATTEN_CHAR.IND&quot;); 
+	slac_debug (session, 0, __func__, &quot;--&gt; CM_ATTEN_CHAR.IND&quot;); 
 	memset (message, 0, sizeof (* message)); 
 	EthernetHeader (&amp; indicate-&gt;ethernet, session-&gt;PEV_MAC, channel-&gt;host, channel-&gt;type); 
 	HomePlugHeader1 (&amp; indicate-&gt;homeplug, HOMEPLUG_MMV, (CM_ATTEN_CHAR | MMTYPE_IND)); 
@@ -101,26 +101,26 @@ signed evse_cm_atten_char (struct session * session, struct channel * channel, s
 	memcpy (indicate-&gt;ACVarField.ATTEN_PROFILE.AAG, session-&gt;AAG, session-&gt;NumGroups); 
 	if (sendmessage (channel, message, sizeof (* indicate)) &lt;= 0) 
 	{ 
-		return (debug (1, __func__, CHANNEL_CANTSEND)); 
+		return (slac_debug (session, 1, __func__, CHANNEL_CANTSEND)); 
 	} 
 	if (readmessage (channel, message, HOMEPLUG_MMV, (CM_ATTEN_CHAR | MMTYPE_RSP)) &gt; 0) 
 	{ 
 		if (! memcmp (session-&gt;RunID, response-&gt;ACVarField.RunID, sizeof (session-&gt;RunID))) 
 		{ 
-			debug (0, __func__, &quot;&lt;-- CM_ATTEN_CHAR.RSP&quot;); 
+			slac_debug (session, 0, __func__, &quot;&lt;-- CM_ATTEN_CHAR.RSP&quot;); 
 
 #if SLAC_DEBUG
 
 			if (_anyset (session-&gt;flags, SLAC_VERBOSE)) 
 			{ 
 				char string [256]; 
-				debug (0, __func__, &quot;CM_ATTEN_CHAR.RSP.APPLICATION_TYPE %d&quot;, response-&gt;APPLICATION_TYPE); 
-				debug (0, __func__, &quot;CM_ATTEN_CHAR.RSP.SECURITY_TYPE %d&quot;, response-&gt;SECURITY_TYPE); 
-				debug (0, __func__, &quot;CM_ATTEN_CHAR.RSP.ACVarfield.SOURCE_ADDRESS %s&quot;, HEXSTRING (string, response-&gt;ACVarField.SOURCE_ADDRESS)); 
-				debug (0, __func__, &quot;CM_ATTEN_CHAR.RSP.ACVarFIeld.RunID %s&quot;, HEXSTRING (string, response-&gt;ACVarField.RunID)); 
-				debug (0, __func__, &quot;CM_ATTEN_CHAR.RSP.ACVarField.SOURCE_ID %s&quot;, HEXSTRING (string, response-&gt;ACVarField.SOURCE_ID)); 
-				debug (0, __func__, &quot;CM_ATTEN_CHAR.RSP.ACVarField.RESP_ID %s&quot;, HEXSTRING (string, response-&gt;ACVarField.RESP_ID)); 
-				debug (0, __func__, &quot;CM_ATTEN_CHAR.RSP.ACVarField.Result %d&quot;, response-&gt;ACVarField.Result); 
+				slac_debug (session, 0, __func__, &quot;CM_ATTEN_CHAR.RSP.APPLICATION_TYPE %d&quot;, response-&gt;APPLICATION_TYPE); 
+				slac_debug (session, 0, __func__, &quot;CM_ATTEN_CHAR.RSP.SECURITY_TYPE %d&quot;, response-&gt;SECURITY_TYPE); 
+				slac_debug (session, 0, __func__, &quot;CM_ATTEN_CHAR.RSP.ACVarfield.SOURCE_ADDRESS %s&quot;, HEXSTRING (string, response-&gt;ACVarField.SOURCE_ADDRESS)); 
+				slac_debug (session, 0, __func__, &quot;CM_ATTEN_CHAR.RSP.ACVarFIeld.RunID %s&quot;, HEXSTRING (string, response-&gt;ACVarField.RunID)); 
+				slac_debug (session, 0, __func__, &quot;CM_ATTEN_CHAR.RSP.ACVarField.SOURCE_ID %s&quot;, HEXSTRING (string, response-&gt;ACVarField.SOURCE_ID)); 
+				slac_debug (session, 0, __func__, &quot;CM_ATTEN_CHAR.RSP.ACVarField.RESP_ID %s&quot;, HEXSTRING (string, response-&gt;ACVarField.RESP_ID)); 
+				slac_debug (session, 0, __func__, &quot;CM_ATTEN_CHAR.RSP.ACVarField.Result %d&quot;, response-&gt;ACVarField.Result); 
 			} 
 
 #endif
@@ -128,7 +128,7 @@ signed evse_cm_atten_char (struct session * session, struct channel * channel, s
 			return (0); 
 		} 
 	} 
-	return (debug (session-&gt;exit, __func__, &quot;&lt;-- CM_ATTEN_CHAR.RSP ?&quot;)); 
+	return (slac_debug (session, session-&gt;exit, __func__, &quot;&lt;-- CM_ATTEN_CHAR.RSP ?&quot;)); 
 } 
 
 #endif

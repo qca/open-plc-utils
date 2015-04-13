@@ -6,7 +6,7 @@
 			PLCTopology.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -270,7 +270,7 @@ signed PLCTopology (struct channel * channel, struct message * message, struct p
 		uint8_t NUMAVLNS;
 		struct network networks [1];
 	}
-	* networks = (struct networks *) (&amp;confirm-&gt;data);
+	* networks = (struct networks *) (confirm-&gt;data);
 
 #elif defined (AR7x00)
 

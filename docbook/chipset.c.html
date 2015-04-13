@@ -6,7 +6,7 @@
 			chipset.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -62,6 +62,10 @@
 #ifndef CHIPSET_SOURCE
 #define CHIPSET_SOURCE
 
+/*====================================================================*
+ *   custom header files;
+ *--------------------------------------------------------------------*/
+
 #include &quot;../plc/plc.h&quot;
 #include &quot;../tools/types.h&quot;
 #include &quot;../tools/symbol.h&quot;
@@ -86,30 +90,30 @@
 char const * chipsetname (uint8_t MDEVICE_CLASS)
 
 {
-	static const struct _type_ chipsets [] =
+	static const struct _type_ chipname [] =
 	{
 		{
 			CHIPSET_UNKNOWN,
 			&quot;UNKNOWN&quot;
 		},
 		{
-			CHIPSET_INT6000,
+			CHIPSET_INT6000A1,
 			&quot;INT6000&quot;
 		},
 		{
-			CHIPSET_INT6300,
+			CHIPSET_INT6300A0,
 			&quot;INT6300&quot;
 		},
 		{
-			CHIPSET_INT6400,
+			CHIPSET_INT6400A0,
 			&quot;INT6400&quot;
 		},
 		{
-			CHIPSET_AR7400,
+			CHIPSET_AR7400A0,
 			&quot; AR7400&quot;
 		},
 		{
-			CHIPSET_AR6405,
+			CHIPSET_AR6405A0,
 			&quot; AR6405&quot;
 		},
 		{
@@ -117,27 +121,35 @@ char const * chipsetname (uint8_t MDEVICE_CLASS)
 			&quot;PANTHER/LYNX&quot;
 		},
 		{
-			CHIPSET_QCA7450,
+			CHIPSET_QCA7450A0,
 			&quot;QCA7450&quot;
 		},
 		{
-			CHIPSET_QCA7451,
+			CHIPSET_QCA7451A0,
 			&quot;QCA7451&quot;
 		},
 		{
-			CHIPSET_QCA7420,
+			CHIPSET_QCA7420A0,
 			&quot;QCA7420&quot;
 		},
 		{
-			CHIPSET_QCA6410,
+			CHIPSET_QCA6410A0,
 			&quot;QCA6410&quot;
 		},
 		{
-			CHIPSET_QCA7000,
+			CHIPSET_QCA7000A0,
 			&quot;QCA7000&quot;
+		},
+		{
+			CHIPSET_QCA7005A0,
+			&quot;QCA7005&quot;
+		},
+		{
+			CHIPSET_QCA7500A0,
+			&quot;QCA7500&quot;
 		}
 	};
-	return (typename (chipsets, SIZEOF (chipsets), MDEVICE_CLASS, chipsets [0].name));
+	return (typename (chipname, SIZEOF (chipname), MDEVICE_CLASS, chipname [0].name));
 }
 
 /*====================================================================*
@@ -172,8 +184,9 @@ char const * chipsetname (uint8_t MDEVICE_CLASS)
  *   QCA7000   0x06 / 0x22  0x001B589C
  *   QCA7000   0x06 / 0x22  0x001B58DC
  *   QCA7005   0x06 / 0x22  0x001B587C
+ *   QCA7500   0x06 / 0x30  0x001D4C0F
  *
- *   some chipsets have have multiple IDENT field values; this is
+ *   some chipsets have have multiple STRAP field values; this is
  *   not an error; there may be multiple versions of a chipset;
  *
  *--------------------------------------------------------------------*/
@@ -196,161 +209,181 @@ void chipset (void const * memory)
 		char MVERSION [254];
 	}
 	* confirm = (struct vs_sw_ver_confirm *) (memory);
-	typedef struct __packed
+	struct __packed chipinfo
 	{
-		uint32_t IDENT;
-		uint8_t DEVICE_CLASS;
-		uint8_t DEVICE;
-	}
-	tDevMap;
-	struct __packed tDevClass
-	{
-		uint8_t RESERVED;
-		uint32_t IDENT;
+		uint8_t RESVD;
+		uint32_t STRAP;
 		uint32_t STEP_NUMBER;
 	}
-	* pDevClass = (struct tDevClass *) (&amp; confirm-&gt;MVERSION [64]);
+	* chipinfo = (struct chipinfo *) (&amp; confirm-&gt;MVERSION [64]);
+	typedef struct __packed
+	{
+		uint32_t STRAP;
+		uint8_t CLASS;
+		uint8_t DEVICE;
+	}
+	chipdata;
 
 #ifndef __GNUC__
 #pragma pack (pop)
 #endif
 
-	tDevMap bootrom [] =
+	chipdata bootrom [] =
 	{
 		{
 			0x00000042,
 			0x01,
-			CHIPSET_INT6000
+			CHIPSET_INT6000A1
 		},
 		{
 			0x00006300,
 			0x01,
-			CHIPSET_INT6300
+			CHIPSET_INT6300A0
 		},
 		{
 			0x00006400,
 			0x03,
-			CHIPSET_INT6400
+			CHIPSET_INT6400A0
 		},
 		{
 			0x00007400,
 			0x03,
-			CHIPSET_AR7400
+			CHIPSET_AR7400A0
 		},
 		{
 			0x0F001D1A,
 			0x03,
-			CHIPSET_QCA7450
+			CHIPSET_QCA7450A0
 		},
 		{
 			0x0E001D1A,
 			0x03,
-			CHIPSET_QCA7451
+			CHIPSET_QCA7451A0
 		},
 		{
 			0x001CFC00,
 			0x05,
-			CHIPSET_QCA7420
+			CHIPSET_QCA7420A0
 		},
 		{
 			0x001CFCFC,
 			0x05,
-			CHIPSET_QCA7420
+			CHIPSET_QCA7420A0
 		},
 		{
 			0x001CFCFC,
 			0x06,
-			CHIPSET_QCA7420
+			CHIPSET_QCA7420A0
 		},
 		{
 			0x001B58EC,
 			0x06,
-			CHIPSET_QCA6410
+			CHIPSET_QCA6410A0
 		},
 		{
 			0x001B58BC,
 			0x06,
-			CHIPSET_QCA6411
+			CHIPSET_QCA6411A0
 		},
 		{
 			0x001B58DC,
 			0x06,
-			CHIPSET_QCA7000
+			CHIPSET_QCA7000A0
 		},
 		{
 			0x001B587C,
 			0x06,
-			CHIPSET_QCA7000
+			CHIPSET_QCA7005A0
+		},
+		{
+			0x001D4C00,
+			0x06,
+			CHIPSET_QCA7500A0
+		},
+		{
+			0x001D4C0F,
+			0x06,
+			CHIPSET_QCA7500A0
 		}
 	};
-	tDevMap firmware [] =
+	chipdata firmware [] =
 	{
 		{
 			0x00000000,
 			0x01,
-			CHIPSET_INT6000
+			CHIPSET_INT6000A1
 		},
 		{
 			0x00000000,
 			0x02,
-			CHIPSET_INT6300
+			CHIPSET_INT6300A0
 		},
 		{
 			0x00000000,
 			0x03,
-			CHIPSET_INT6400
+			CHIPSET_INT6400A0
 		},
 		{
 			0x00000000,
 			0x05,
-			CHIPSET_AR6405
+			CHIPSET_AR6405A0
 		},
 		{
 			0x00000000,
 			0x04,
-			CHIPSET_AR7400
+			CHIPSET_AR7400A0
 		},
 		{
 			0x0F001D1A,
 			0x20,
-			CHIPSET_QCA7450
+			CHIPSET_QCA7450A0
 		},
 		{
 			0x0E001D1A,
 			0x20,
-			CHIPSET_QCA7451
+			CHIPSET_QCA7451A0
 		},
 		{
 			0x001CFCFC,
 			0x20,
-			CHIPSET_QCA7420
+			CHIPSET_QCA7420A0
 		},
 		{
 			0x001B58EC,
 			0x21,
-			CHIPSET_QCA6410
+			CHIPSET_QCA6410A0
 		},
 		{
 			0x001B58BC,
 			0x21,
-			CHIPSET_QCA6411
+			CHIPSET_QCA6411A0
 		},
 		{
 			0x001B58DC,
 			0x22,
-			CHIPSET_QCA7000
+			CHIPSET_QCA7000A0
+		},
+		{
+			0x001D4C00,
+			0x30,
+			CHIPSET_QCA7500A0
+		},
+		{
+			0x001D4C0F,
+			0x30,
+			CHIPSET_QCA7500A0
 		}
 	};
 	unsigned chip;
-	if (!strcmp (confirm-&gt;MVERSION, &quot;BootLoader&quot;))
+	if (! strcmp (confirm-&gt;MVERSION, &quot;BootLoader&quot;))
 	{
 		for (chip = 0; chip &lt; SIZEOF (bootrom); chip++)
 		{
-			if (bootrom [chip].DEVICE_CLASS != confirm-&gt;MDEVICE_CLASS)
+			if (bootrom [chip].CLASS != confirm-&gt;MDEVICE_CLASS)
 			{
 				continue;
 			}
-			if (bootrom [chip].IDENT != LE32TOH (pDevClass-&gt;IDENT))
+			if (bootrom [chip].STRAP != LE32TOH (chipinfo-&gt;STRAP))
 			{
 				continue;
 			}
@@ -358,33 +391,33 @@ void chipset (void const * memory)
 			return;
 		}
 	}
-	else
+	else 
 	{
 		for (chip = 0; chip &lt; SIZEOF (firmware); chip++)
 		{
-			if (firmware [chip].DEVICE_CLASS != confirm-&gt;MDEVICE_CLASS)
+			if (firmware [chip].CLASS != confirm-&gt;MDEVICE_CLASS)
 			{
 				continue;
 			}
-			if (firmware [chip].IDENT &lt;= 5)
+			if (firmware [chip].STRAP &lt; CHIPSET_PANTHER_LYNX)
 			{
 				confirm-&gt;MDEVICE_CLASS = firmware [chip].DEVICE;
 				return;
 			}
-			pDevClass = (struct tDevClass *) (&amp; confirm-&gt;MVERSION [65]);
-			if (firmware [chip].IDENT == LE32TOH (pDevClass-&gt;IDENT))
+			chipinfo = (struct chipinfo *) (&amp; confirm-&gt;MVERSION [64]);
+			if (firmware [chip].STRAP == LE32TOH (chipinfo-&gt;STRAP))
 			{
 				confirm-&gt;MDEVICE_CLASS = firmware [chip].DEVICE;
 				return;
 			}
-			pDevClass = (struct tDevClass *) (&amp; confirm-&gt;MVERSION [129]);
-			if (firmware [chip].IDENT == LE32TOH (pDevClass-&gt;IDENT))
+			chipinfo = (struct chipinfo *) (&amp; confirm-&gt;MVERSION [128]);
+			if (firmware [chip].STRAP == LE32TOH (chipinfo-&gt;STRAP))
 			{
 				confirm-&gt;MDEVICE_CLASS = firmware [chip].DEVICE;
 				return;
 			}
-			pDevClass = (struct tDevClass *) (&amp; confirm-&gt;MVERSION [254]);
-			if (firmware [chip].IDENT == LE32TOH (pDevClass-&gt;IDENT))
+			chipinfo = (struct chipinfo *) (&amp; confirm-&gt;MVERSION [253]);
+			if (firmware [chip].STRAP == LE32TOH (chipinfo-&gt;STRAP))
 			{
 				confirm-&gt;MDEVICE_CLASS = firmware [chip].DEVICE;
 				return;

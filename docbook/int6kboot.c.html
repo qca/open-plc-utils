@@ -6,7 +6,7 @@
 			int6kboot.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -119,6 +119,7 @@
 #include &quot;../plc/WritePIB.c&quot;
 #include &quot;../plc/WaitForReset.c&quot;
 #include &quot;../plc/WaitForStart.c&quot;
+#include &quot;../plc/WaitForRestart.c&quot;
 #include &quot;../plc/InitDevice1.c&quot;
 #include &quot;../plc/BootDevice1.c&quot;
 #include &quot;../plc/BootFirmware1.c&quot;
@@ -287,7 +288,7 @@ int main (int argc, char const * argv [])
 			}
 			if (nvmfile1 (&amp;plc.NVM))
 			{
-				error (1, errno, &quot;Bad NVM file: %s&quot;, plc.NVM.name);
+				error (1, errno, &quot;Bad firmware file: %s&quot;, plc.NVM.name);
 			}
 			_setbits (plc.flags, PLC_WRITE_MAC);
 			break;
@@ -302,7 +303,7 @@ int main (int argc, char const * argv [])
 			}
 			if (pibfile1 (&amp;plc.PIB))
 			{
-				error (1, errno, &quot;Bad PIB file: %s&quot;, plc.PIB.name);
+				error (1, errno, &quot;Bad parameter file: %s&quot;, plc.PIB.name);
 			}
 			_setbits (plc.flags, PLC_WRITE_PIB);
 			break;
@@ -348,6 +349,11 @@ int main (int argc, char const * argv [])
 		Failure (&amp;plc, PLC_NODETECT);
 		exit (1);
 	}
+	if (strcmp (firmware, &quot;BootLoader&quot;))
+	{
+		Failure (&amp;plc, &quot;Bootloader must be running&quot;);
+		exit (1);
+	}
 	if (plc.hardwareID &lt; CHIPSET_INT6300)
 	{
 		Failure (&amp;plc, &quot;Device must be %s or later. Try program int6kf instead.&quot;, chipsetname (CHIPSET_INT6300));
@@ -356,11 +362,6 @@ int main (int argc, char const * argv [])
 	if (plc.hardwareID &gt;= CHIPSET_AR7400)
 	{
 		Failure (&amp;plc, &quot;Program does not support %s or later; try program ampboot instead.&quot;, chipsetname (CHIPSET_AR7400));
-		exit (1);
-	}
-	if (strcmp (firmware, &quot;BootLoader&quot;))
-	{
-		Failure (&amp;plc, &quot;Bootloader must be running&quot;);
 		exit (1);
 	}
 	if (!InitDevice1 (&amp;plc))

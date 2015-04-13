@@ -6,7 +6,7 @@
 			plcfwd.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -452,7 +452,7 @@ static signed ReadVLANIDs (struct plc * plc, uint32_t offset, uint32_t length)
 	plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	if (SendMME (plc) &lt;= 0)
 	{
-		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) &gt; 0)
@@ -537,7 +537,7 @@ static signed AddVLANIDs (struct plc * plc, struct item list [], unsigned items)
 	plc-&gt;packetsize = (signed)((uint8_t *)(item) - (uint8_t *)(request));
 	if (SendMME (plc) &lt;= 0)
 	{
-		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) &gt; 0)
@@ -621,7 +621,7 @@ static signed RemoveVLANIDs (struct plc * plc, struct item list [], unsigned ite
 	plc-&gt;packetsize = (signed)((uint8_t *)(item) - (uint8_t *)(request));
 	if (SendMME (plc) &lt;= 0)
 	{
-		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) &gt; 0)
@@ -686,7 +686,7 @@ static signed CommitVLANIDs (struct plc * plc)
 	plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	if (SendMME (plc) &lt;= 0)
 	{
-		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) &gt; 0)
@@ -756,7 +756,7 @@ static signed ControlVLANIDs (struct plc * plc)
 	plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	if (SendMME (plc) &lt;= 0)
 	{
-		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) &gt; 0)
@@ -824,7 +824,7 @@ static signed DefaultVLANIDs (struct plc * plc, struct item list [], unsigned it
 	plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	if (SendMME (plc) &lt;= 0)
 	{
-		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) &gt; 0)
@@ -893,7 +893,7 @@ static signed ForwardVLANIDs (struct plc * plc)
 	plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	if (SendMME (plc) &lt;= 0)
 	{
-		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	while (ReadMME (plc, 0, (VS_FORWARD_CONFIG | MMTYPE_CNF)) &gt; 0)

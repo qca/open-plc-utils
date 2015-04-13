@@ -6,7 +6,7 @@
 			ReadRules.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -86,8 +86,8 @@
 signed ReadRules (struct plc * plc)
 
 {
-	struct channel * channel = (struct channel *)(plc-&gt;channel);
-	struct message * message = (struct message *)(plc-&gt;message);
+	struct channel * channel = (struct channel *) (plc-&gt;channel);
+	struct message * message = (struct message *) (plc-&gt;message);
 
 #ifndef __GNUC__
 #pragma pack (push,1)
@@ -102,7 +102,7 @@ signed ReadRules (struct plc * plc)
 		uint8_t OFFSET;
 		uint8_t COUNT;
 	}
-	* request = (struct vs_classification_request *)(message);
+	* request = (struct vs_classification_request *) (message);
 	struct __packed vs_classification_confirm
 	{
 		struct ethernet_hdr ethernet;
@@ -121,7 +121,7 @@ signed ReadRules (struct plc * plc)
 		}
 		RULESET [60];
 	}
-	* confirm = (struct vs_classification_confirm *)(message);
+	* confirm = (struct vs_classification_confirm *) (message);
 
 #ifndef __GNUC__
 #pragma pack (pop)
@@ -137,17 +137,17 @@ signed ReadRules (struct plc * plc)
 		EthernetHeader (&amp; request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
 		QualcommHeader (&amp; request-&gt;qualcomm, 0, (VS_CLASSIFICATION | MMTYPE_REQ));
 		plc-&gt;packetsize = ETHER_MIN_LEN - ETHER_CRC_LEN;
-		request-&gt;MCONTROL = 0x02;
+		request-&gt;MCONTROL = CONTROL_READ;
 		request-&gt;OFFSET = index;
 		request-&gt;COUNT = SIZEOF (confirm-&gt;RULESET);
 		if (SendMME (plc) &lt;= 0)
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
 		if (ReadMME (plc, 0, (VS_CLASSIFICATION | MMTYPE_CNF)) &lt;= 0)
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
 		if (confirm-&gt;MSTATUS)
@@ -160,7 +160,7 @@ signed ReadRules (struct plc * plc)
 		rule = confirm-&gt;RULESET;
 		while (confirm-&gt;COUNT--)
 		{
-			int i;
+			int count;
 			int rule_len;
 			const char * p1;
 			const char * p2;
@@ -169,10 +169,10 @@ signed ReadRules (struct plc * plc)
 			{
 				error (1, 0, &quot;too many classifiers in rule (%d, expecting &lt;= %d)&quot;, rule-&gt;NUM_CLASSIFIERS, RULE_MAX_CLASSIFIERS);
 			}
-			rule_len = sizeof (* rule) - (RULE_MAX_CLASSIFIERS - rule-&gt;NUM_CLASSIFIERS) * sizeof (struct MMEReadRule) - sizeof (struct cspec);
+			rule_len = sizeof (* rule) - (RULE_MAX_CLASSIFIERS - rule-&gt;NUM_CLASSIFIERS) * sizeof (struct MMEClassifier) - sizeof (struct cspec);
 			if (rule-&gt;MACTION == ACTION_AUTOCONNECT || rule-&gt;MACTION == ACTION_TAGTX || rule-&gt;MACTION == ACTION_TAGRX)
 			{
-				cspec = (struct cspec *)((uint8_t *) rule + rule_len);
+				cspec = (struct cspec *) ((uint8_t *) rule +  rule_len);
 				rule_len += sizeof (struct cspec);
 			}
 			if (rule-&gt;MACTION == ACTION_TAGTX)
@@ -194,14 +194,14 @@ signed ReadRules (struct plc * plc)
 
 /* need to dump out the actual conditions here */
 
-			for (i = 0; i &lt; rule-&gt;NUM_CLASSIFIERS; ++i)
+			for (count = 0; count &lt; rule-&gt;NUM_CLASSIFIERS; ++ count)
 			{
-				struct MMEClassifier * classifier = &amp; rule-&gt;CLASSIFIER [i];
+				struct MMEClassifier * classifier = &amp; rule-&gt;CLASSIFIER [count];
 				PrintRule (classifier-&gt;CR_PID, classifier-&gt;CR_OPERAND, classifier-&gt;CR_VALUE);
 				putchar (' ');
 			}
 			printf (&quot;add temp\n&quot;);
-			rule = (struct MMEReadRule *)((uint8_t *)(rule) + rule_len);
+			rule = (struct MMEReadRule *) ((uint8_t *) (rule) +  rule_len);
 		}
 	}
 	return (0);

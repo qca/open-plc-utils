@@ -6,7 +6,7 @@
 			setpib.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -332,7 +332,7 @@ static signed function (int argc, char const * argv [], unsigned window)
 {
 	uint32_t version;
 	char const * filename = * argv;
-	signed status;
+	signed status = -1;
 	signed fd;
 	if ((fd = open (filename, O_BINARY|O_RDWR)) == -1)
 	{

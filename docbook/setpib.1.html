@@ -6,7 +6,7 @@
 			setpib.1
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -58,7 +58,7 @@ OPTIONS
 
        -w window
               The  display  window  in  bytes.  When option -v is present, PIB information surrounding the edited region is dis‐
-              played to provide some sort of context.  The edited region appears in the middle of this window.  The default win�‐
+              played to provide some sort of context.  The edited region appears in the middle of this window.  The default win‐
               dow is 32 bytes.  This means that the 32 bytes before and the 32 bytes after the edited region are included in the
               display.
 
@@ -134,72 +134,72 @@ FORMATS
 
        mac hex
               A sequence of hexadecimal octets.  Octets may be separated by a colon for clarity.  The number of octets must con‐
-              vert to 6 bytes or an error will occur.  The offset increments by 6 prior to the next insertion.  This is  similar
+              vert  to 6 bytes or an error will occur.  The offset increments by 6 prior to the next insertion.  This is similar
               &quot;data&quot; above but accepts only fixed length input.  This option may be used to set the DAK, NMK or NVAK values.
 
        text string
-              An  ASCII character string.  The string string length determines the number of bytes stored.  The string is stored
+              An ASCII character string.  The string string length determines the number of bytes stored.  The string is  stored
               with NUL terminator included.  It is not padded or truncated.  The offset increments by the number of bytes stored
               prior to the next insertion.  This option may be used to enter a variable length string.
 
        hfid string
-              An  ASCII  character string.  The string is always stored as 64 bytes.  Short strings are padded on the right with
-              NUL characters.  Long strings are truncated on the right and the last byte is forced to NUL.   The  offset  incre‐
-              ments  by  64 bytes prior to the next insertion.  This option may be used to enter user, network and  manufacturer
+              An ASCII character string.  The string is always stored as 64 bytes.  Short strings are padded on the  right  with
+              NUL  characters.   Long  strings are truncated on the right and the last byte is forced to NUL.  The offset incre‐
+              ments by 64 bytes prior to the next insertion.  This option may be used to enter user, network  and   manufacturer
               identification strings.
 
        zero count
-              An unsigned integer representing the number of consecutive bytes to fill with 0x00.  The offset increments by  the
+              An  unsigned integer representing the number of consecutive bytes to fill with 0x00.  The offset increments by the
               number of bytes written.  This option may be used to erase regions of the PIB.
 
        fill count
-              An  unsigned integer representing the number of consecutive bytes to fill with 0xFF.  The offset increments by the
+              An unsigned integer representing the number of consecutive bytes to fill with 0xFF.  The offset increments by  the
               number of bytes written.  This option may be used to erase regions of the PIB.
 
        skip count
-              An unsigned integer indicating the number of bytes to skip over before staring another change.   Intervening  data
+              An  unsigned  integer indicating the number of bytes to skip over before staring another change.  Intervening data
               data locations are unchanged.
 
 TR69 DATA TYPES
        accesspassword string
-              An  ASCII character string.  The string is always stored as 257 bytes.  Short strings are padded on the right with
-              NUL characters.  Long strings are truncated on the right and the last byte is forced to NUL.   The  offset  incre‐
+              An ASCII character string.  The string is always stored as 257 bytes.  Short strings are padded on the right  with
+              NUL  characters.   Long  strings are truncated on the right and the last byte is forced to NUL.  The offset incre‐
               ments by 257 prior to the next insertion.
 
        accessusername string
-              An  ASCII  character string.  The string is always stored as 33 bytes.  Short strings are padded on the right with
-              NUL characters.  Long strings are truncated on the right and the last byte is forced to NUL.   The  offset  incre‐
+              An ASCII character string.  The string is always stored as 33 bytes.  Short strings are padded on the  right  with
+              NUL  characters.   Long  strings are truncated on the right and the last byte is forced to NUL.  The offset incre‐
               ments by 33 prior to the next insertion.
 
        adminpassword string
-              An  ASCII  character string.  The string is always stored as 33 bytes.  Short strings are padded on the right with
-              NUL characters.  Long strings are truncated on the right and the last byte is forced to NUL.   The  offset  incre‐
+              An ASCII character string.  The string is always stored as 33 bytes.  Short strings are padded on the  right  with
+              NUL  characters.   Long  strings are truncated on the right and the last byte is forced to NUL.  The offset incre‐
               ments by 33 prior to the next insertion.
 
        adminusername string
-              An  ASCII  character string.  The string is always stored as 33 bytes.  Short strings are padded on the right with
-              NUL characters.  Long strings are truncated on the right and the last byte is forced to NUL.   The  offset  incre‐
+              An ASCII character string.  The string is always stored as 33 bytes.  Short strings are padded on the  right  with
+              NUL  characters.   Long  strings are truncated on the right and the last byte is forced to NUL.  The offset incre‐
               ments by 33 prior to the next insertion.
 
        password string
-              An  ASCII character string.  The string is always stored as 257 bytes.  Short strings are padded on the right with
-              NUL characters.  Long strings are truncated on the right and the last byte is forced to NUL.   The  offset  incre‐
+              An ASCII character string.  The string is always stored as 257 bytes.  Short strings are padded on the right  with
+              NUL  characters.   Long  strings are truncated on the right and the last byte is forced to NUL.  The offset incre‐
               ments by 257 prior to the next insertion.
 
        url string
-              An  ASCII character string.  The string is always stored as 257 bytes.  Short strings are padded on the right with
-              NUL characters.  Long strings are truncated on the right and the last byte is forced to NUL.   The  offset  incre‐
+              An ASCII character string.  The string is always stored as 257 bytes.  Short strings are padded on the right  with
+              NUL  characters.   Long  strings are truncated on the right and the last byte is forced to NUL.  The offset incre‐
               ments by 257 prior to the next insertion.
 
        username string
-              An  ASCII character string.  The string is always stored as 257 bytes.  Short strings are padded on the right with
-              NUL characters.  Long strings are truncated on the right and the last byte is forced to NUL.   The  offset  incre‐
+              An ASCII character string.  The string is always stored as 257 bytes.  Short strings are padded on the right  with
+              NUL  characters.   Long  strings are truncated on the right and the last byte is forced to NUL.  The offset incre‐
               ments by 257 prior to the next insertion.
 
 EXAMPLES
-       The  following  example  edits  file  abc.pib  by  writing  decimal  value 1 at offset 01F7 followed by hexadecimal value
-       00B052BABE01.  A partial dump is printed showing 16 bytes before and 16 bytes after the changed data because the  default
-       display  windows is 16 bytes.  Unless the change occurs right at the start or end of the file, it will appear in the cen‐
+       The following example edits file abc.pib by writing decimal  value  1  at  offset  01F7  followed  by  hexadecimal  value
+       00B052BABE01.   A partial dump is printed showing 16 bytes before and 16 bytes after the changed data because the default
+       display windows is 16 bytes.  Unless the change occurs right at the start or end of the file, it will appear in the  cen‐
        ter of the display window.
 
           # setpib -v abc.pib 01F7 byte 1 data 00:B0:52:BA:BE:01
@@ -209,7 +209,7 @@ EXAMPLES
           00000200  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
           00000210  00 00 00 00 00 00 00 00 00 00 00 00 00 00        ..............
 
-       The following example sets the manufacturer HFID string in PIB file def.pib.  HFID strings are  64  characters  long  and
+       The  following  example  sets  the manufacturer HFID string in PIB file def.pib.  HFID strings are 64 characters long and
        either truncated or padded on the right with NUL characters.  You may need to enclose the string in quotes it it contains
        spaces.
 
@@ -224,8 +224,8 @@ EXAMPLES
           00000070  15 AA 8D B7 49 6E 74 65 6C 6C 6F 6E 20 45 6E 61  ....Atheros Ena
           00000080  62 6C 65 64                                      bled
 
-       The following example displays the contents of PIB file abc.pib without changing any data.  The region  displayed  is  24
-       bytes  starting  at  offset 0x24.  The format skip specifies the region but does not change it.  By default, the 32 bytes
+       The  following  example  displays the contents of PIB file abc.pib without changing any data.  The region displayed is 24
+       bytes starting at offset 0x24.  The format skip specifies the region but does not change it.  By default,  the  32  bytes
        before and 32 bytes after are included in the display.  This technique can be used to inspect a specific portion of a PIB
        file.
 
@@ -240,7 +240,7 @@ EXAMPLES
           00000070  15 AA 8D B7 49 6E 74 65 6C 6C 6F 6E 20 45 6E 61  ....Atheros Ena
           00000080  62 6C 65 64                                      bled
 
-       The  next example does the same thing for a negative value.  This is tricky because the minus sign will be interpreted as
+       The next example does the same thing for a negative value.  This is tricky because the minus sign will be interpreted  as
        the start of another option.  We must use &quot;--&quot; to end normal option parsing.  This is a POSIX standard feature.  See IEEE
        Std 1002.1-2001, Section 12.2, Utility Syntax Guidelines for more an explanation.
 
@@ -251,8 +251,8 @@ EXAMPLES
           00001480 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
           00001490 00 00 00 00 00                                  .....
 
-       The  following example computes a new checksum without changing any data.  The filename and an offset are required but no
-       other values are needed.  This technique can be used to compute a new checksum after modifying the  file  using  software
+       The following example computes a new checksum without changing any data.  The filename and an offset are required but  no
+       other  values  are  needed.  This technique can be used to compute a new checksum after modifying the file using software
        that does not update the checksum.
 
           # setpib abc.pib 0 -x
@@ -268,7 +268,7 @@ SEE ALSO
 CREDITS
         Charles Maier &lt;cmaier@qca.qualcomm.com&gt; ]
 
-open-plc-utils-0.0.3                                      November 2013                                                setpib(1)
+open-plc-utils-0.0.3                                        Mar 2014                                                   setpib(1)
 </pre>
 		<div class='footerlink'>
 			[<a href='sdram.1.html' title=' sdram.1 '>PREV</a>]

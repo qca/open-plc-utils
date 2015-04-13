@@ -6,14 +6,14 @@
 			plcID.1
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
 		</head>
 	<body>
 		<div class='headerlink'>
-			[<a href='plchostd.1.html' title=' plchostd.1 '>PREV</a>]
+			[<a href='plchostd2.1.html' title=' plchostd2.1 '>PREV</a>]
 			[<a href='toolkit.html' title=' Index '>HOME</a>]
 			[<a href='plclist.1.html' title=' plclist.1 '>NEXT</a>]
 			</div>
@@ -89,8 +89,8 @@ ARGUMENTS
               information about symbolic device addresses.
 
 DEVICES
-       Powerline  devices use Ethernet Media Access Control (MAC) addresses.  A MAC address is a 48-bit value entered as 12 hex‐
-       adecimal digits in upper, lower or mixed character case.  Octets may be separated with colons for clarity.  For  example,
+       Powerline devices use Ethernet Media Access Control (MAC) addresses.  A MAC address is a 48-bit value entered as 12 hexa‐
+       decimal digits in upper, lower or mixed character case.  Octets may be separated with colons for clarity.   For  example,
        &quot;00b052000001&quot;, &quot;00:b0:52:00:00:01&quot; and &quot;00b052:000001&quot; are valid and equivalent.
 
        The following MAC addresses are special and may be entered by name instead of number.
@@ -137,7 +137,7 @@ EXAMPLES
           # modpib abc.pib -D $(plcID -Di eth2 00:B0:52:DA:DA:57) -N $(plcID -Mi eth2 00:B0:52:DA:DA:57)
 
        The following example is an alternate way of accomplishing the same thing using shell script variables.  This method  may
-       be easier to read and maintain.  Notice that we ’squished’ all the options together for brevity.
+       be easier to read and maintain.  Notice that we 'squished' all the options together for brevity.
 
           # PLC=00:B0:52:DA:DA:57
           # DAK=$(plcID -Dieth2 ${PLC})
@@ -150,10 +150,10 @@ SEE ALSO
 CREDITS
         Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
 
-open-plc-utils-0.0.3                                      November 2013                                                 plcID(1)
+open-plc-utils-0.0.3                                        Mar 2014                                                    plcID(1)
 </pre>
 		<div class='footerlink'>
-			[<a href='plchostd.1.html' title=' plchostd.1 '>PREV</a>]
+			[<a href='plchostd2.1.html' title=' plchostd2.1 '>PREV</a>]
 			[<a href='toolkit.html' title=' Index '>HOME</a>]
 			[<a href='plclist.1.html' title=' plclist.1 '>NEXT</a>]
 			</div>

@@ -6,7 +6,7 @@
 			xmledit.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -95,7 +95,7 @@ static void position (size_t extent)
 	}
 	if ((offset + length) &gt; extent)
 	{
-		error (XML_BAD_EXTENT, EPERM, &quot;%s length of %d bytes exceeds &quot; DATA_OBJECT &quot; length of &quot;SIZE_T_SPEC&quot; bytes&quot;, member, length, extent);
+		error (XML_BAD_EXTENT, EPERM, &quot;%s length of %u bytes exceeds &quot; DATA_OBJECT &quot; length of &quot; SIZE_T_SPEC &quot; bytes&quot;, member, length, extent); 
 	}
 	return;
 }
@@ -257,7 +257,7 @@ static void xmlnumber (void * memory, size_t extent)
 		number += *string - '0';
 		if (number &gt; maximum)
 		{
-			error (XML_BAD_NUMBER, EINVAL, &quot;%s value exceeds %d bytes&quot;, member, length);
+			error (XML_BAD_NUMBER, EINVAL, &quot;%s value exceeds %u bytes&quot;, member, length); 
 		}
 		string++;
 	}

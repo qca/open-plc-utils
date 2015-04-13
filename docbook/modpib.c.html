@@ -6,7 +6,7 @@
 			modpib.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -90,6 +90,7 @@
 
 #include &quot;../tools/getoptv.h&quot;
 #include &quot;../tools/number.h&quot;
+#include &quot;../tools/symbol.h&quot;
 #include &quot;../tools/flags.h&quot;
 #include &quot;../tools/error.h&quot;
 #include &quot;../tools/files.h&quot;
@@ -115,6 +116,7 @@
 #include &quot;../tools/hexstring.c&quot;
 #include &quot;../tools/todigit.c&quot;
 #include &quot;../tools/memincr.c&quot;
+#include &quot;../tools/synonym.c&quot;
 #include &quot;../tools/error.c&quot;
 #endif
 
@@ -499,7 +501,8 @@ static signed function (char const * filename, struct simple_pib * sample_pib, u
 int main (int argc, char const * argv [])
 
 {
-	extern const struct key keys [];
+	extern struct _term_ const daks [];
+	extern struct _term_ const nmks [];
 	static char const * optv [] =
 	{
 		&quot;C:D:L:M:N:S:T:U:v&quot;,
@@ -533,26 +536,11 @@ int main (int argc, char const * argv [])
 			sample_pib.CCoSelection = (uint8_t)(uintspec (optarg, 0, 4));
 			break;
 		case 'D':
-			_setbits (flags, PIB_DAK);
-			if (!strcmp (optarg, &quot;none&quot;))
-			{
-				memcpy (sample_pib.DAK, keys [0].DAK, sizeof (sample_pib.DAK));
-				break;
-			}
-			if (!strcmp (optarg, &quot;key1&quot;))
-			{
-				memcpy (sample_pib.DAK, keys [1].DAK, sizeof (sample_pib.DAK));
-				break;
-			}
-			if (!strcmp (optarg, &quot;key2&quot;))
-			{
-				memcpy (sample_pib.DAK, keys [2].DAK, sizeof (sample_pib.DAK));
-				break;
-			}
-			if (!hexencode (sample_pib.DAK, sizeof (sample_pib.DAK), optarg))
+			if (!hexencode (sample_pib.DAK, sizeof (sample_pib.DAK), synonym (optarg, daks, SIZEOF (daks))))
 			{
 				error (1, errno, PLC_BAD_DAK, optarg);
 			}
+			_setbits (flags, PIB_DAK);
 			break;
 		case 'L':
 			level = (uint8_t)(uintspec (optarg, 0, 1));
@@ -581,26 +569,11 @@ int main (int argc, char const * argv [])
 			_setbits (flags, PIB_MAC);
 			break;
 		case 'N':
-			_setbits (flags, PIB_NMK);
-			if (!strcmp (optarg, &quot;key0&quot;))
-			{
-				memcpy (sample_pib.NMK, keys [0].NMK, sizeof (sample_pib.NMK));
-				break;
-			}
-			if (!strcmp (optarg, &quot;key1&quot;))
-			{
-				memcpy (sample_pib.NMK, keys [1].NMK, sizeof (sample_pib.NMK));
-				break;
-			}
-			if (!strcmp (optarg, &quot;key2&quot;))
-			{
-				memcpy (sample_pib.NMK, keys [2].NMK, sizeof (sample_pib.NMK));
-				break;
-			}
-			if (!hexencode (sample_pib.NMK, sizeof (sample_pib.NMK), optarg))
+			if (!hexencode (sample_pib.NMK, sizeof (sample_pib.NMK), synonym (optarg, nmks, SIZEOF (nmks))))
 			{
 				error (1, errno, PLC_BAD_NMK, optarg);
 			}
+			_setbits (flags, PIB_NMK);
 			break;
 		case 'S':
 			for (sp = optarg; isprint (*sp); ++sp);

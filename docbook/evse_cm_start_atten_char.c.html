@@ -6,7 +6,7 @@
 			evse_cm_start_atten_char.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -82,7 +82,7 @@
 #include &quot;../tools/memory.h&quot;
 #include &quot;../tools/error.h&quot;
 #include &quot;../tools/flags.h&quot;
-#include &quot;../slac/slac.h&quot;
+#include &quot;../iso15118/slac.h&quot;
 
 signed evse_cm_start_atten_char (struct session * session, struct channel * channel, struct message * message) 
 
@@ -92,43 +92,43 @@ signed evse_cm_start_atten_char (struct session * session, struct channel * chan
 	{ 
 		if (! memcmp (session-&gt;RunID, indicate-&gt;ACVarField.RunID, sizeof (session-&gt;RunID))) 
 		{ 
-			debug (0, __func__, &quot;&lt;-- CM_START_ATTEN_CHAR.IND&quot;); 
+			slac_debug (session, 0, __func__, &quot;&lt;-- CM_START_ATTEN_CHAR.IND&quot;); 
 
 #if SLAC_DEBUG
 
 			if (_anyset (session-&gt;flags, SLAC_VERBOSE)) 
 			{ 
 				char string [256]; 
-				debug (0, __func__, &quot;CM_START_ATTEN_CHAR.IND.APPLICATION_TYPE %d&quot;, indicate-&gt;APPLICATION_TYPE); 
-				debug (0, __func__, &quot;CM_START_ATTEN_CHAR.IND.SECURITY_TYPE %d&quot;, indicate-&gt;SECURITY_TYPE); 
-				debug (0, __func__, &quot;CM_START_ATTEN_CHAR.IND.ACVarField.NUM_SOUNDS %d&quot;, indicate-&gt;ACVarField.NUM_SOUNDS); 
-				debug (0, __func__, &quot;CM_START_ATTEN_CHAR.IND.ACVarField.TIME_OUT %d&quot;, indicate-&gt;ACVarField.TIME_OUT); 
-				debug (0, __func__, &quot;CM_START_ATTEN_CHAR.IND.ACVarField.RESP_TYPE %d&quot;, indicate-&gt;ACVarField.RESP_TYPE); 
-				debug (0, __func__, &quot;CM_START_ATTEN_CHAR.IND.ACVarField.FORWARDING_STA %s&quot;, HEXSTRING (string, indicate-&gt;ACVarField.FORWARDING_STA)); 
-				debug (0, __func__, &quot;CM_START_ATTEN_CHAR.IND.ACVarField.RunID %s&quot;, HEXSTRING (string, indicate-&gt;ACVarField.RunID)); 
+				slac_debug (session, 0, __func__, &quot;CM_START_ATTEN_CHAR.IND.APPLICATION_TYPE %d&quot;, indicate-&gt;APPLICATION_TYPE); 
+				slac_debug (session, 0, __func__, &quot;CM_START_ATTEN_CHAR.IND.SECURITY_TYPE %d&quot;, indicate-&gt;SECURITY_TYPE); 
+				slac_debug (session, 0, __func__, &quot;CM_START_ATTEN_CHAR.IND.ACVarField.NUM_SOUNDS %d&quot;, indicate-&gt;ACVarField.NUM_SOUNDS); 
+				slac_debug (session, 0, __func__, &quot;CM_START_ATTEN_CHAR.IND.ACVarField.TIME_OUT %d&quot;, indicate-&gt;ACVarField.TIME_OUT); 
+				slac_debug (session, 0, __func__, &quot;CM_START_ATTEN_CHAR.IND.ACVarField.RESP_TYPE %d&quot;, indicate-&gt;ACVarField.RESP_TYPE); 
+				slac_debug (session, 0, __func__, &quot;CM_START_ATTEN_CHAR.IND.ACVarField.FORWARDING_STA %s&quot;, HEXSTRING (string, indicate-&gt;ACVarField.FORWARDING_STA)); 
+				slac_debug (session, 0, __func__, &quot;CM_START_ATTEN_CHAR.IND.ACVarField.RunID %s&quot;, HEXSTRING (string, indicate-&gt;ACVarField.RunID)); 
 			} 
 
 #endif
 
 			if (indicate-&gt;APPLICATION_TYPE != session-&gt;APPLICATION_TYPE) 
 			{ 
-				debug (session-&gt;exit, __func__, &quot;%s: APPLICATION_TYPE&quot;, __func__); 
+				slac_debug (session, session-&gt;exit, __func__, &quot;%s: APPLICATION_TYPE&quot;, __func__); 
 			} 
 			if (indicate-&gt;SECURITY_TYPE != session-&gt;SECURITY_TYPE) 
 			{ 
-				debug (session-&gt;exit, __func__, &quot;%s: SECURITY_TYPE&quot;, __func__); 
+				slac_debug (session, session-&gt;exit, __func__, &quot;%s: SECURITY_TYPE&quot;, __func__); 
 			} 
 			session-&gt;NUM_SOUNDS = indicate-&gt;ACVarField.NUM_SOUNDS; 
 			session-&gt;TIME_OUT = indicate-&gt;ACVarField.TIME_OUT; 
 			if (indicate-&gt;ACVarField.RESP_TYPE != session-&gt;RESP_TYPE) 
 			{ 
-				debug (session-&gt;exit, __func__, &quot;%s: RESP_TYPE&quot;, __func__); 
+				slac_debug (session, session-&gt;exit, __func__, &quot;%s: RESP_TYPE&quot;, __func__); 
 			} 
 			memcpy (session-&gt;FORWARDING_STA, indicate-&gt;ACVarField.FORWARDING_STA, sizeof (session-&gt;FORWARDING_STA)); 
 			return (0); 
 		} 
 	} 
-	return (debug (session-&gt;exit, __func__, &quot;CM_START_ATTEN_CHAR.IND ?&quot;)); 
+	return (slac_debug (session, session-&gt;exit, __func__, &quot;CM_START_ATTEN_CHAR.IND ?&quot;)); 
 } 
 
 #endif

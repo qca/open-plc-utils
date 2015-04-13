@@ -6,7 +6,7 @@
 			efsu.1
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -42,7 +42,7 @@ DESCRIPTION
 
        A frame descriptions is a continuous stream of hexadecimal digits.  Intervening text, punctuation, white space  and  com‐
        ments  are  discarded.  Hex characters inside script-style, C-style or C++-style comments are ignored.  Script-style com‐
-       ments include all characters between a hash (’#’) and the next newline or EOF.  C-style  and  C++-style  comments  follow
+       ments include all characters between a hash ('#') and the next newline or EOF.  C-style  and  C++-style  comments  follow
        normal  language  rules.   Comments may be used to document frame descriptions or hide frame segments.  In the end, there
        must be an even number of hex digits that represent 60 to 1518 octets;
 
@@ -130,7 +130,7 @@ EXAMPLES
           00000040 00 00 00 00 00 00                               ......
 
        Since every host interface has a different hardware address, one can replace the source  address  of  transmitted  frames
-       with  the actual host interface address using option -h.  Observe that the original source address has been replaced with
+       with  the  actual  host  interface address using option -h.  Observe that the source address above has been replaced with
        that of the local host interface used to transmit the frame.
 
           # efsu abc.hex -vh
@@ -140,7 +140,7 @@ EXAMPLES
           00000030 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ................
           00000040 00 00 00 00 00 00                               ......
 
-       You can also direct the frame to another device using option -d.  Observe that the original destination address has  been
+       You can also direct the frame to another device using option -d.  Observe that the destination  address  above  has  been
        replaced with the one specified on the command line.
 
           # efsu abc.hex -vhd 00b052beef01
@@ -156,7 +156,7 @@ SEE ALSO
 CREDITS
         Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
 
-open-plc-utils-0.0.3                                      November 2013                                                  efsu(1)
+open-plc-utils-0.0.3                                        Mar 2014                                                     efsu(1)
 </pre>
 		<div class='footerlink'>
 			[<a href='efru.1.html' title=' efru.1 '>PREV</a>]

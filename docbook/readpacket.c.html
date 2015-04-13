@@ -6,7 +6,7 @@
 			readpacket.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -167,8 +167,18 @@ ssize_t readpacket (struct channel const * channel, void * memory, ssize_t exten
 	if (bpf-&gt;bpf_bufused &gt; 0)
 	{
 		bpf_packet = (struct bpf_hdr *)(bpf-&gt;bpf_bp);
-		extent = bpf_packet-&gt;bh_caplen;
-		memcpy (memory, bpf-&gt;bpf_bp + bpf_packet-&gt;bh_hdrlen, bpf_packet-&gt;bh_caplen);
+		if ((size_t) (extent) &gt; bpf_packet-&gt;bh_caplen)
+		{
+			extent = bpf_packet-&gt;bh_caplen;
+		}
+		if ((size_t) (extent) &lt; bpf_packet-&gt;bh_caplen)
+		{ 
+			if (_anyset (channel-&gt;flags, CHANNEL_VERBOSE)) 
+			{
+				error (0, 0, &quot;Truncated incoming frame (%u -&gt; %zd bytes)&quot;, bpf_packet-&gt;bh_caplen, extent); 
+			}
+		}
+		memcpy (memory, bpf-&gt;bpf_bp + bpf_packet-&gt;bh_hdrlen, extent);
 		bpf-&gt;bpf_bufused -= BPF_WORDALIGN (bpf_packet-&gt;bh_hdrlen + bpf_packet-&gt;bh_caplen);
 		bpf-&gt;bpf_bp += BPF_WORDALIGN (bpf_packet-&gt;bh_hdrlen + bpf_packet-&gt;bh_caplen);
 		if (_anyset (channel-&gt;flags, CHANNEL_VERBOSE))

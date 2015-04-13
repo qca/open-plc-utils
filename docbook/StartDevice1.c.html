@@ -6,7 +6,7 @@
 			StartDevice1.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -103,24 +103,24 @@ int StartDevice1 (struct plc * plc)
 	}
 	if (lseek (plc-&gt;NVM.file, 0, SEEK_SET))
 	{
-		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, FILE_CANTHOME, plc-&gt;NVM.name);
+		error (PLC_EXIT (plc), errno, FILE_CANTHOME, plc-&gt;NVM.name);
 		return (-1);
 	}
 	if (read (plc-&gt;NVM.file, &amp;nvm_header, sizeof (nvm_header)) != sizeof (nvm_header))
 	{
-		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, FILE_CANTREAD, plc-&gt;NVM.name);
+		error (PLC_EXIT (plc), errno, FILE_CANTREAD, plc-&gt;NVM.name);
 		return (-1);
 	}
 	while (nvm_header.NEXTHEADER)
 	{
 		if (lseek (plc-&gt;NVM.file, LE32TOH (nvm_header.NEXTHEADER), SEEK_SET) == -1)
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, FILE_CANTHOME, plc-&gt;NVM.name);
+			error (PLC_EXIT (plc), errno, FILE_CANTHOME, plc-&gt;NVM.name);
 			return (-1);
 		}
 		if (read (plc-&gt;NVM.file, &amp;nvm_header, sizeof (nvm_header)) != sizeof (nvm_header))
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, FILE_CANTREAD, plc-&gt;NVM.name);
+			error (PLC_EXIT (plc), errno, FILE_CANTREAD, plc-&gt;NVM.name);
 			return (-1);
 		}
 		module++;
@@ -163,7 +163,7 @@ int StartDevice1 (struct plc * plc)
 	}
 	if (lseek (plc-&gt;NVM.file, 0, SEEK_SET))
 	{
-		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, FILE_CANTHOME, plc-&gt;NVM.name);
+		error (PLC_EXIT (plc), errno, FILE_CANTHOME, plc-&gt;NVM.name);
 		return (-1);
 	}
 	return (0);

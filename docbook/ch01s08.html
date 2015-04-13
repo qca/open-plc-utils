@@ -1,8 +1,8 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Toolkit Programs</title><link rel="stylesheet" href="docbook.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.73.2"><meta name="keywords" content="Intellon, Atheros, Qualcomm, HomePlug, powerline, communications, INT6000, INT6300, INT6400, AR7400, AR7420"><link rel="start" href="index.html" title="Qualcomm Atheros Open Powerline Toolkit"><link rel="up" href="ch01.html" title="Chapter 1.  Overview"><link rel="prev" href="ch01s07.html" title="Toolkit Installation on Windows 7™"><link rel="next" href="ch01s09.html" title="Toolkit Folders"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Toolkit Programs</title><meta name="generator" content="DocBook XSL Stylesheets V1.76.1"><meta name="keywords" content="Intellon, Atheros, Qualcomm, HomePlug, powerline, communications, INT6000, INT6300, INT6400, AR7400, AR7420"><link rel="home" href="index.html" title="Qualcomm Atheros Open Powerline Toolkit"><link rel="up" href="ch01.html" title="Chapter 1.  Overview"><link rel="prev" href="ch01s07.html" title="Toolkit Installation on Windows 7™"><link rel="next" href="ch01s09.html" title="Toolkit Folders"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">
 			Toolkit Programs 
 			</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch01s07.html">Prev</a> </td><th width="60%" align="center">Chapter 1. 
 		Overview 
-		</th><td width="20%" align="right"> <a accesskey="n" href="ch01s09.html">Next</a></td></tr></table><hr></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="overview-programs"></a>
+		</th><td width="20%" align="right"> <a accesskey="n" href="ch01s09.html">Next</a></td></tr></table><hr></div><div class="section" title="Toolkit Programs"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="overview-programs"></a>
 			Toolkit Programs 
 			</h2></div></div></div><p>
 			The Qualcomm Atheros <span class="application">Open Powerline Toolkit</span> is a collection of small, command line programs. Each program deals with some aspect of powerline device management. Programs can be combined, in various ways, using shell scripts, to perform sophisticated and complex tasks. With these program, one can identify chipset and firmware version, reset devices, flash devices, identify other powerline network devices, validate <code class="filename">*.pib</code> and <code class="filename">*.nvm</code> files, sniff <span class="trademark">HomePlug</span>® AV Ethernet frames, send generic Ethernet frames and so on. 
@@ -12,7 +12,7 @@
 			Most programs in this toolkit start their life on Linux and are eventually ported to other environments. Consequently, not all programs are available in the Windows version of the toolkit but most of them are.
 			</p><p>
 			Program descriptions appear below in alphabetical order. Alternately, you may browse the latest program descriptions and source code <a class="ulink" href="toolkit.html" target="_top">here</a>.
-			</p><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="programs-6400-Management"></a>
+			</p><div class="section" title="INT6400 Device Management"><div class="titlepage"><div><div><h3 class="title"><a name="programs-6400-Management"></a>
 				INT6400 Device Management
 				</h3></div></div></div><p>
 				Programs in this group are older versions that communicate with INT6x00 chipsets. Many still work on AR7x00 chipsets. The main difference is due to the higher PHY data rates on AR7x00 chipsets. The higher data rates must be expressed using 16-bits instead of 8-bits. Consequently, some MME formats have changed.
@@ -94,7 +94,7 @@
 							</span>
 						</span></dt><dd><p>
 							A command line utility that polls the local powerline device and waits for the bootloader or runtime firmware to either stop executing or start executing or wait for a device to associate with another device. It can be used to synchronize scripts with device or network events such as connection make or break, power on or off and firmware stop or start. This program is installed in folder <code class="filename">/usr/local/bin</code> with 4555 file permissions. See the discussion on security for more information about file permissions. The main source code is located in folder <code class="filename">./plc</code>. See the <a class="ulink" href="int6kwait.7.html" target="_top">int6kwait</a> man page for more information.
-							</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="programs-6400-Monitoring"></a>
+							</p></dd></dl></div></div><div class="section" title="INT6400 Device Monitoring"><div class="titlepage"><div><div><h3 class="title"><a name="programs-6400-Monitoring"></a>
 				INT6400 Device Monitoring
 				</h3></div></div></div><div class="variablelist"><dl><dt><a name="program-int6klog"></a><span class="term">
 						<span class="application">
@@ -116,7 +116,7 @@
 							</span>
 						</span></dt><dd><p>
 							A command line utility that polls a poserline device and prints various network and link statistics in a format suitable for processing by another program. It is a work in progress because we are investigating different ways to present the information. This program is installed in folder <code class="filename">/usr/local/bin</code> with 4555 file permissions. See the discussion on security for more information about file permissions. The main source code is located in folder <code class="filename">./plc</code>. See the <a class="ulink" href="int6kstat.7.html" target="_top">int6kstat</a> man page for more information.
-							</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="programs-7400-Management"></a>
+							</p></dd></dl></div></div><div class="section" title="AR7400 Device Management"><div class="titlepage"><div><div><h3 class="title"><a name="programs-7400-Management"></a>
 				AR7400 Device Management
 				</h3></div></div></div><p>
 				The programs in this group are essentially identical to those in the INT6x00 group but they support higher PHY data rates offered by the AR7x00 chipsets. Specifically, they handle the new  <code class="constant">VS_NW_INFO</code> and <code class="constant">VS_LNK_STATS</code> message formats.
@@ -162,7 +162,7 @@
 							</span>
 						</span></dt><dd><p>
 							This program is installed in folder <code class="filename">/usr/local/bin</code> with 4555 file permissions. See the discussion on security for more information about file permissions. The main source code is located in folder <code class="filename">./plc</code>. See the <a class="ulink" href="ampwait.7.html" target="_top">ampwait</a> man page for more information.
-							</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="programs-7400-Monitoring"></a>
+							</p></dd></dl></div></div><div class="section" title="AR7400 Device Monitoring"><div class="titlepage"><div><div><h3 class="title"><a name="programs-7400-Monitoring"></a>
 				AR7400 Device Monitoring
 				</h3></div></div></div><p>
 				The programs in this group are essentially identical to those in the INT6x00 group but they support higher PHY data rates offered by the AR7x00 chipsets. Specifically, they handle the new  <code class="constant">VS_NW_INFO</code> and <code class="constant">VS_LNK_STATS</code> message formats.
@@ -202,7 +202,7 @@
 						mdustats
 						</span></dt><dd><p>
 							A command line utility to collect and display various MDU traffic statistics. This program is installed in folder <code class="filename">/usr/local/bin</code> with 0555 file permissions. The main source code is located in folder <code class="filename">./plc</code>. See the <a class="ulink" href="mdustats.7.html" target="_top">mdustats</a> man page for more information.
-							</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="programs-7420"></a>
+							</p></dd></dl></div></div><div class="section" title="AR7420 Device Configuration"><div class="titlepage"><div><div><h3 class="title"><a name="programs-7420"></a>
 				AR7420 Device Configuration 
 				</h3></div></div></div><p>
 				Programs in this group understand changes to .nvm file formats and to the device boot and memory flash messages and sequences.
@@ -220,7 +220,7 @@
 							A command line utility that downloads and executes small program images stored in older and newer <code class="filename">.nvm</code> files. It can be used to download and execute small powerline diagnostic programs. It is not intended to download and start runtime firmware. The program is installed in folder <code class="filename">/usr/local/bin</code> with 4555 file permissions. See the discussion on security for more information about file permissions. The main source code is located in folder <code class="filename">./plc</code>. See the <a class="ulink" href="plctest.7.html" target="_top">plctest</a> man page for more information. 
 							</p><p>
 							This program automatically detects the type of .nvm file format and adapts. 
-							</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="programs-configure"></a>
+							</p></dd></dl></div></div><div class="section" title="Parameter File Management"><div class="titlepage"><div><div><h3 class="title"><a name="programs-configure"></a>
 				Parameter File Management
 				</h3></div></div></div><p>
 				Programs in this group are used to inspect and change .pib files in various ways. The do not communicate directly with the powerline device. Use program int6k, amptool or plctool to read the PIB from a powerline device or write a PIB to the powerline device. 
@@ -310,7 +310,7 @@
 							</span>
 						</span></dt><dd><p>
 							A simple means of setting PIB parameters when the parameter offset, length and format are known. It is an alternative to program <a class="link" href="ch01s08.html#program-pxe">pxe</a> and a companion to program <a class="link" href="ch01s08.html#program-getpib">getpib</a>. The user specifies the filename, a starting offset and a sequence of type/data pairs. Edits are applied in order and a new checksum is computed. A full or partial dump of the PIB displays the result. This program is installed in folder <code class="filename">/usr/local/bin</code> with 0555 file permissions. The main source code is located in folder <code class="filename">./pib</code>. See the <a class="ulink" href="setpib.7.html" target="_top">setpib</a> man page for more information. 
-							</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="programs-firmware"></a>
+							</p></dd></dl></div></div><div class="section" title="Firmware File Management"><div class="titlepage"><div><div><h3 class="title"><a name="programs-firmware"></a>
 				Firmware File Management
 				</h3></div></div></div><div class="variablelist"><dl><dt><a name="program-chknvm"></a><span class="term">
 						<span class="application">
@@ -342,7 +342,7 @@
 							</span>
 						</span></dt><dd><p>
 							A command line utility to extract all constituent images from an Atheros image file. It is reserved for use by Atheros Field Application Engineers. Use of this probram could void some contractual obligations made by Atheros. This program is installed in folder <code class="filename">/usr/local/bin</code> with 0555 file permissions. The main source code is located in folder <code class="filename">./nvm</code>. See the <a class="ulink" href="nvmsplit.7.html" target="_top">nvmsplit</a> man page for more information. 
-							</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="programs-ethernet"></a>
+							</p></dd></dl></div></div><div class="section" title="Ethernet Traffic"><div class="titlepage"><div><div><h3 class="title"><a name="programs-ethernet"></a>
 				Ethernet Traffic
 				</h3></div></div></div><div class="variablelist"><dl><dt><a name="program-edru"></a><span class="term">
 						<span class="application">
@@ -374,7 +374,7 @@
 							</span>
 						</span></dt><dd><p>
 							A utility to enumerate <span class="application">LibPcap</span> or <span class="application">WinPcap</span> devices available on the host. It is compiled but only works if one of these two packages is installed on the host. At present, it is only needed with the Windows version of the Toolkit which is compiled against the <span class="application">WinPcap</span> library.  The main source code is located in folder <code class="filename">./ether</code>. See the <a class="ulink" href="pcapdevs.7.html" target="_top">pcapdevs</a> man page for more information.
-							</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="programs-passwords"></a>
+							</p></dd></dl></div></div><div class="section" title="Passwords and Keys"><div class="titlepage"><div><div><h3 class="title"><a name="programs-passwords"></a>
 				Passwords and Keys
 				</h3></div></div></div><div class="variablelist"><dl><dt><a name="program-hpavkey"></a><span class="term">
 						<span class="application">
@@ -406,7 +406,7 @@
 							</span>
 						</span></dt><dd><p>
 							A command line utility to dynamically generate distinct HomePlug AV compliant keys from a user created keyfile. It can be used in shell scripts to dynamically insert random and distinct keys on program command lines as arguments. For example, a Linux bash script can reference "$(rkey -i eth0 -D secret.key)" inline. This program is installed in folder <code class="filename">/usr/local/bin</code> with 4555 file permissions. See the discussion on security for more information about file permissions. The main source code is located in folder <code class="filename">./crypt</code>. See the <a class="ulink" href="rkey.7.html" target="_top">rkey</a> man page for more information. 
-							</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="programs-mdio"></a>
+							</p></dd></dl></div></div><div class="section" title="MDIO Programming"><div class="titlepage"><div><div><h3 class="title"><a name="programs-mdio"></a>
 				MDIO Programming
 				</h3></div></div></div><div class="variablelist"><dl><dt><a name="program-int6kmdio"></a><span class="term">
 						int6kmdio
@@ -432,7 +432,7 @@
 						mdiogen
 						</span></dt><dd><p>
 							A rudimentary command line utility that write a custom MDIO block to a fixed file. The user must edit a data statements, in the main program, to define MDIO command fields. A series of macros then mask, shift and merge the fields to create complete Clause 22 or Clause 45 MDIO commands on output. The program has no dependencies on other toolkit modules and so it will compile anywhere. This program must be manually compiled and it is not automatically installed. The main source code is located in folder <code class="filename">./mdio</code> and file <a class="ulink" href="mdio.h.html" target="_top">mdio.h</a> is required for compilation. There are no help files available at this time. If you do not understand how to use it then you may not need it.
-							</p></dd></dl></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="programs-serial"></a>
+							</p></dd></dl></div></div><div class="section" title="Serial Programming"><div class="titlepage"><div><div><h3 class="title"><a name="programs-serial"></a>
 				Serial Programming
 				</h3></div></div></div><div class="variablelist"><dl><dt><a name="program-ptsctl"></a><span class="term">
 						<span class="application">
@@ -458,4 +458,4 @@
 			Toolkit Installation on <span class="productname">Windows 7</span>™
 			 </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 
 			Toolkit Folders 
-			</td></tr></table></div></body></html>0
+			</td></tr></table></div></body></html>

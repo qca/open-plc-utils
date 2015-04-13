@@ -6,7 +6,7 @@
 			mac2pwd.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -98,6 +98,8 @@
 
 #ifndef MAKEFILE
 #include &quot;../key/MACPasswords.c&quot;
+#include &quot;../key/RNDPasswords.c&quot;
+#include &quot;../key/putpwd.c&quot;
 #endif
 
 /*====================================================================*
@@ -109,16 +111,31 @@
 #endif
 
 /*====================================================================*
+ *   program functions;
+ *--------------------------------------------------------------------*/
+
+void (* generate)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t) = RNDPasswords;
+
+/*====================================================================*
  *
- *   void function (const char * file, unsigned count, unsigned bunch, flag_t flags)
+ *   void function (const char * file, unsigned alpha, unsigned bunch, flag_t flags)
  *
+ *   read Ethernet hardware address strings from a file and print 
+ *   address passwords pairs on stdout;
  *
+ *   parse an Ethernet hardware address string into vendor and device
+ *   ID substrings; print a specified number of consecutive addresses
+ *   and password strings having a defined letter count and grouping;
+ *
+ *   Contributor(s):
+ *	Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
-static void function (const char * file, unsigned count, unsigned group, unsigned space, flag_t flags)
+static void function (const char * file, unsigned alpha, unsigned bunch, unsigned space, flag_t flags)
 
 {
+	extern void (* generate)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t);
 	unsigned line = 1;
 	unsigned radix = 0x10;
 	unsigned width;
@@ -183,7 +200,7 @@ static void function (const char * file, unsigned count, unsigned group, unsigne
 			}
 			c = getc (stdin);
 		}
-		MACPasswords (vendor, device, 1, count, group, space, flags);
+		generate (vendor, device, 1, alpha, bunch, space, flags);
 	}
 	return;
 }
@@ -196,31 +213,33 @@ static void function (const char * file, unsigned count, unsigned group, unsigne
  *   and print a stream of address/password pairs; device addresses
  *   must be separated by white space;
  *
- *
  *   Contributor(s):
  *	Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
-#define DEFAULT_COUNT 16
-#define DEFAULT_GROUP 4
+#define DEFAULT_ALPHA 25
+#define DEFAULT_BUNCH 0
 
 int main (int argc, const char * argv [])
 
 {
+	extern void (* generate)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t);
 	static const char * optv [] =
 	{
-		&quot;b:l:qs:uv&quot;,
+		&quot;b:el:mqv&quot;,
 		PUTOPTV_S_FUNNEL,
 		&quot;Atheros device password generator&quot;,
-		&quot;b n\tbunching factor [&quot; LITERAL (DEFAULT_GROUP) &quot;]&quot;,
-		&quot;l n\tpassword letters [&quot; LITERAL (DEFAULT_COUNT) &quot;]&quot;,
+		&quot;b n\tbunching factor [&quot; LITERAL (DEFAULT_BUNCH) &quot;]&quot;,
+		&quot;e\tbase passwords on host system entropy (more secure)&quot;,
+		&quot;l n\tpassword letters [&quot; LITERAL (DEFAULT_ALPHA) &quot;]&quot;,
+		&quot;m\tbase passwords on MAC addresses (non-secure)&quot;,
 		&quot;q\tomit device address on output&quot;,
 		&quot;v\tprepend PTS flag on output&quot;,
 		(const char *)(0)
 	};
-	unsigned count = DEFAULT_COUNT;
-	unsigned group = DEFAULT_GROUP;
+	unsigned alpha = DEFAULT_ALPHA;
+	unsigned bunch = DEFAULT_BUNCH;
 	unsigned space = '-';
 	flag_t flags = (flag_t)(0);
 	signed c;
@@ -230,15 +249,20 @@ int main (int argc, const char * argv [])
 		switch ((char)(c))
 		{
 		case 'b':
-			group = (unsigned)(uintspec (optarg, 0, UCHAR_MAX));
+			bunch = uintspec (optarg, 0, UCHAR_MAX);
+			break;
+		case 'e':
+			generate = RNDPasswords;
 			break;
 		case 'l':
-			count = (unsigned)(uintspec (optarg, 12, 64));
+			alpha = uintspec (optarg, 12, 64);
+			break;
+		case 'm':
+			generate = MACPasswords;
 			break;
 		case 'q':
 			_setbits (flags, PASSWORD_SILENCE);
 			break;
-		case 'u':
 		case 'v':
 			_setbits (flags, PASSWORD_VERBOSE);
 			break;
@@ -250,7 +274,7 @@ int main (int argc, const char * argv [])
 	argv += optind;
 	if (!argc)
 	{
-		function (&quot;stdin&quot;, count, group, space, flags);
+		function (&quot;stdin&quot;, alpha, bunch, space, flags);
 	}
 	while ((argv) &amp;&amp; (* argv))
 	{
@@ -258,7 +282,7 @@ int main (int argc, const char * argv [])
 		{
 			error (1, EINVAL, &quot;Can't open %s&quot;, * argv);
 		}
-		function (* argv, count, group, space, flags);
+		function (* argv, alpha, bunch, space, flags);
 		argc--;
 		argv++;
 	}

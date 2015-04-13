@@ -1,12 +1,12 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Forming a Network</title><link rel="stylesheet" href="docbook.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.73.2"><meta name="keywords" content="Intellon, Atheros, Qualcomm, HomePlug, powerline, communications, INT6000, INT6300, INT6400, AR7400, AR7420"><link rel="start" href="index.html" title="Qualcomm Atheros Open Powerline Toolkit"><link rel="up" href="ch05.html" title="Chapter 5.  Procedures"><link rel="prev" href="ch05s05.html" title="Browse the Network"><link rel="next" href="ch05s07.html" title="Configuring a Device"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Forming a Network</title><meta name="generator" content="DocBook XSL Stylesheets V1.76.1"><meta name="keywords" content="Intellon, Atheros, Qualcomm, HomePlug, powerline, communications, INT6000, INT6300, INT6400, AR7400, AR7420"><link rel="home" href="index.html" title="Qualcomm Atheros Open Powerline Toolkit"><link rel="up" href="ch05.html" title="Chapter 5.  Procedures"><link rel="prev" href="ch05s05.html" title="Browse the Network"><link rel="next" href="ch05s07.html" title="Configuring a Device"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">
 			Forming a Network                     
 			</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch05s05.html">Prev</a> </td><th width="60%" align="center">Chapter 5. 
 		Procedures 
-		</th><td width="20%" align="right"> <a accesskey="n" href="ch05s07.html">Next</a></td></tr></table><hr></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="procedure-change-network"></a>
+		</th><td width="20%" align="right"> <a accesskey="n" href="ch05s07.html">Next</a></td></tr></table><hr></div><div class="section" title="Forming a Network"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="procedure-change-network"></a>
 			Forming a Network                     
 			</h2></div></div></div><p>
 			A powerline network is formed when two or more devices share a common Network Membership Key (<acronym class="acronym">NMK</acronym>). An <acronym class="acronym">NMK</acronym> is always 16 bytes (32 hexadecimal digits) in length and can have any value,  including all zeros. Devices programmed with the same <acronym class="acronym">NMK</acronym> value can communicate while those programmed with different <acronym class="acronym">NMK</acronym> values cannot. Program <a class="ulink" href="int6k.7.html" target="_top">int6k</a> can be used to program a local or remote device with a specific <acronym class="acronym">NMK</acronym> value.
-			</p><div class="example"><a name="idp11002608"></a><p class="title"><b>Example 5.9. 
+			</p><div class="example"><a name="idp22288112"></a><p class="title"><b>Example 5.9. 
 				Setting the Network Membership Key
 				</b></p><div class="example-contents"><pre class="screen">
 # int6k -M 
@@ -18,7 +18,7 @@ eth1 00:B0:52:BA:BA:56 Setting ...
 			One can quickly and easily create a default network by connecting each device,  in turn, to the local host and executing this command shown above. The devices will then form a network when connected via the powerline. Although fast and simple, this method is not very secure because the default <acronym class="acronym">NMK</acronym> is used by many Atheros tools and is well known.
 				</p><p>
 			There are cases where one wants to create separate, independent networks on the powerline. This is accomplished by programming some devices with one <acronym class="acronym">NMK</acronym> and other devices with another <acronym class="acronym">NMK</acronym>. In such cases we need to specify an <acronym class="acronym">NMK</acronym> value.
-			</p><div class="example"><a name="idp11006864"></a><p class="title"><b>Example 5.10. 
+			</p><div class="example"><a name="idp22292368"></a><p class="title"><b>Example 5.10. 
 				Forming a Custom Network
 				</b></p><div class="example-contents"><pre class="screen">
 # int6k -M -K 00:11:22:33:44:55:66:77:88:99:AA:BB:CC:DD:EE:FF 
@@ -30,7 +30,7 @@ eth1 00:B0:52:BA:BA:56 Setting ...
 # int6k -M -K 00:11:22:33:44:55:66:77:88:99:AA:BB:CC:DD:EE:FF 
 # int6k -M -K 00:11:22:33:44:55:66:77:88:99:AA:BB:CC:DD:EE:FF 00:B0:52:BA:BE:56
 # int6k -M -K 00:11:22:33:44:55:66:77:88:99:AA:BB:CC:DD:EE:FF local
-</pre></div></div><br class="example-break"><div class="example"><a name="idp11010984"></a><p class="title"><b>Example 5.11. 
+</pre></div></div><br class="example-break"><div class="example"><a name="idp22296488"></a><p class="title"><b>Example 5.11. 
 				Remote Network Configuration
 				</b></p><div class="example-contents"><p>
 				Once a network has been established, one can change the <acronym class="acronym">NMK</acronym> of remote devices over the powerline but once the <acronym class="acronym">NMK</acronym> on the remote device has changed, it is no longer part of original network and can no longer be returned to the network in the same way. Additionally, one cannot change the <acronym class="acronym">NMK</acronym> on a remote device without specifying the <acronym class="acronym">DAK</acronym> of the device to be changed. 
@@ -48,4 +48,4 @@ eth1 00:B0:52:BA:BA:56 Setting ...
 			Browse the Network
 			 </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 
 			Configuring a Device
-			</td></tr></table></div></body></html>0
+			</td></tr></table></div></body></html>

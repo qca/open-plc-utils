@@ -6,7 +6,7 @@
 			pev.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -119,7 +119,7 @@
 #include &quot;../tools/error.h&quot;
 #include &quot;../tools/config.h&quot;
 #include &quot;../ether/channel.h&quot;
-#include &quot;../slac/slac.h&quot;
+#include &quot;../iso15118/slac.h&quot;
 
 /*====================================================================*
  *   custom source files;
@@ -140,7 +140,6 @@
 #include &quot;../tools/strfbits.c&quot;
 #include &quot;../tools/config.c&quot;
 #include &quot;../tools/memincr.c&quot;
-#include &quot;../tools/debug.c&quot;
 #include &quot;../tools/error.c&quot;
 #endif
 
@@ -166,14 +165,15 @@
 #endif
 
 #ifndef MAKEFILE
-#include &quot;../slac/slac_session.c&quot;
-#include &quot;../slac/slac_connect.c&quot;
-#include &quot;../slac/pev_cm_slac_param.c&quot;
-#include &quot;../slac/pev_cm_start_atten_char.c&quot;
-#include &quot;../slac/pev_cm_atten_char.c&quot;
-#include &quot;../slac/pev_cm_mnbc_sound.c&quot;
-#include &quot;../slac/pev_cm_slac_match.c&quot;
-#include &quot;../slac/pev_cm_set_key.c&quot;
+#include &quot;../iso15118/slac_session.c&quot;
+#include &quot;../iso15118/slac_connect.c&quot;
+#include &quot;../iso15118/slac_debug.c&quot;
+#include &quot;../iso15118/pev_cm_slac_param.c&quot;
+#include &quot;../iso15118/pev_cm_start_atten_char.c&quot;
+#include &quot;../iso15118/pev_cm_atten_char.c&quot;
+#include &quot;../iso15118/pev_cm_mnbc_sound.c&quot;
+#include &quot;../iso15118/pev_cm_slac_match.c&quot;
+#include &quot;../iso15118/pev_cm_set_key.c&quot;
 #endif
 
 /*====================================================================*
@@ -240,10 +240,10 @@ static void initialize (struct session * session, char const * profile, char con
 	hexencode (session-&gt;PEV_ID, sizeof (session-&gt;PEV_ID), configstring (profile, section, &quot;VehicleIdentifier&quot;, PEV_VID)); 
 	hexencode (session-&gt;NMK, sizeof (session-&gt;NMK), configstring (profile, section, &quot;NetworkMembershipKey&quot;, PEV_NMK)); 
 	hexencode (session-&gt;NID, sizeof (session-&gt;NID), configstring (profile, section, &quot;NetworkIdentifier&quot;, PEV_NID)); 
-	session-&gt;limit = confignumber (profile, section, &quot;AttenuationThreshold&quot;, SLAC_LIMIT); 
-	session-&gt;pause = confignumber (profile, section, &quot;MSoundPause&quot;, SLAC_PAUSE); 
-	session-&gt;settletime = confignumber (profile, section, &quot;SettleTime&quot;, SLAC_SETTLETIME); 
-	session-&gt;chargetime = confignumber (profile, section, &quot;ChargeTime&quot;, SLAC_CHARGETIME); 
+	session-&gt;limit = confignumber_range (profile, section, &quot;AttenuationThreshold&quot;, SLAC_LIMIT, 0, UINT_MAX); 
+	session-&gt;pause = confignumber_range (profile, section, &quot;MSoundPause&quot;, SLAC_PAUSE, 0, UINT_MAX); 
+	session-&gt;settletime = confignumber_range (profile, section, &quot;SettleTime&quot;, SLAC_SETTLETIME, 0, UINT_MAX); 
+	session-&gt;chargetime = confignumber_range (profile, section, &quot;ChargeTime&quot;, SLAC_CHARGETIME, 0, UINT_MAX); 
 	session-&gt;state = PEV_STATE_DISCONNECTED; 
 	memcpy (session-&gt;original_nmk, session-&gt;NMK, sizeof (session-&gt;original_nmk)); 
 	memcpy (session-&gt;original_nid, session-&gt;NID, sizeof (session-&gt;original_nid)); 
@@ -283,7 +283,7 @@ static void DisconnectedState (struct session * session, struct channel * channe
 
 { 
 	slac_session (session); 
-	debug (0, __func__, &quot;Probing ...&quot;); 
+	slac_debug (session, 0, __func__, &quot;Probing ...&quot;); 
 	memincr (session-&gt;RunID, sizeof (session-&gt;RunID)); 
 	while (pev_cm_slac_param (session, channel, message)); 
 	session-&gt;state = PEV_STATE_UNMATCHED; 
@@ -306,7 +306,7 @@ static void UnmatchedState (struct session * session, struct channel * channel, 
 
 { 
 	slac_session (session); 
-	debug (0, __func__, &quot;Sounding ...&quot;); 
+	slac_debug (session, 0, __func__, &quot;Sounding ...&quot;); 
 	if (pev_cm_start_atten_char (session, channel, message)) 
 	{ 
 		session-&gt;state = PEV_STATE_DISCONNECTED; 
@@ -327,7 +327,7 @@ static void UnmatchedState (struct session * session, struct channel * channel, 
 		session-&gt;state = PEV_STATE_DISCONNECTED; 
 		return; 
 	} 
-	debug (0, __func__, &quot;Matching ...&quot;); 
+	slac_debug (session, 0, __func__, &quot;Matching ...&quot;); 
 	if (pev_cm_slac_match (session, channel, message)) 
 	{ 
 		session-&gt;state = PEV_STATE_DISCONNECTED; 
@@ -350,11 +350,11 @@ static void MatchedState (struct session * session, struct channel * channel, st
 
 { 
 	slac_session (session); 
-	debug (0, __func__, &quot;Connecting ...&quot;); 
+	slac_debug (session, 0, __func__, &quot;Connecting ...&quot;); 
 
 #if SLAC_AVLN_EVSE
 
-	debug (0, __func__, &quot;waiting for evse to settle ...&quot;); 
+	slac_debug (session, 0, __func__, &quot;waiting for evse to settle ...&quot;); 
 	sleep (session-&gt;settletime); 
 
 #endif
@@ -369,13 +369,13 @@ static void MatchedState (struct session * session, struct channel * channel, st
 
 #endif
 
-	debug (0, __func__, &quot;Charging (%d) ...\n\n&quot;, session-&gt;counter++); 
+	slac_debug (session, 0, __func__, &quot;Charging (%d) ...\n\n&quot;, session-&gt;counter++); 
 	sleep (session-&gt;chargetime); 
-	debug (0, __func__, &quot;Disconnecting ...&quot;); 
+	slac_debug (session, 0, __func__, &quot;Disconnecting ...&quot;); 
 
 #if SLAC_AVLN_EVSE
 
-	debug (0, __func__, &quot;waiting for evse to settle ...&quot;); 
+	slac_debug (session, 0, __func__, &quot;waiting for evse to settle ...&quot;); 
 	sleep (session-&gt;settletime); 
 
 #endif
@@ -410,9 +410,9 @@ int main (int argc, char const * argv [])
 	extern struct channel channel; 
 	static char const * optv [] = 
 	{ 
-		&quot;cCdi:lp:qs:t:vw:x&quot;, 
+		&quot;cCdi:lp:qs:t:vx&quot;, 
 		&quot;&quot;, 
-		&quot;Qualcomm Atheros Plug-in Electric Vehicle Emulator&quot;, 
+		&quot;Plug-in Electric Vehicle Emulator&quot;, 
 		&quot;c\tprint template configuration file on stdout&quot;, 
 		&quot;C\tstop on count mismatch&quot;, 
 		&quot;d\tdisplay debug information&quot;, 
@@ -495,7 +495,8 @@ int main (int argc, char const * argv [])
 			section = optarg; 
 			break; 
 		case 'q': 
-			_clrbits (channel.flags, CHANNEL_SILENCE); 
+			_setbits (channel.flags, CHANNEL_SILENCE);
+			_setbits (session.flags, SLAC_SILENCE);
 			break; 
 		case 't': 
 			channel.timeout = (unsigned) (uintspec (optarg, 0, UINT_MAX)); 
@@ -514,14 +515,14 @@ int main (int argc, char const * argv [])
 	argv += optind; 
 	if (argc) 
 	{ 
-		debug (1, __func__, ERROR_TOOMANY); 
+		slac_debug (&amp; session, 1, __func__, ERROR_TOOMANY); 
 	} 
 	openchannel (&amp; channel); 
 	identifier (&amp; session, &amp; channel); 
 	initialize (&amp; session, profile, section); 
 	if (pev_cm_set_key (&amp; session, &amp; channel, &amp; message)) 
 	{ 
-		debug (1, __func__, &quot;Can't set key&quot;); 
+		slac_debug (&amp; session, 1, __func__, &quot;Can't set key&quot;); 
 	} 
 	sleep (session.settletime); 
 	while (session.state) 
@@ -541,7 +542,7 @@ int main (int argc, char const * argv [])
 			MatchedState (&amp; session, &amp; channel, &amp; message); 
 			continue; 
 		} 
-		debug (1, __func__, &quot;Illegal state!&quot;); 
+		slac_debug (&amp; session, 1, __func__, &quot;Illegal state!&quot;); 
 	} 
 	closechannel (&amp; channel); 
 	return (0); 

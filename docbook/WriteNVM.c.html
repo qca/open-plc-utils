@@ -6,7 +6,7 @@
 			WriteNVM.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -153,12 +153,12 @@ signed WriteNVM (struct plc * plc)
 		plc-&gt;packetsize = sizeof (* request);
 		if (SendMME (plc) &lt;= 0)
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
 		if (ReadMME (plc, 0, (VS_WR_MOD | MMTYPE_CNF)) &lt;= 0)
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
 		if (confirm-&gt;MSTATUS)
@@ -168,12 +168,12 @@ signed WriteNVM (struct plc * plc)
 		}
 		if (LE16TOH (confirm-&gt;MLENGTH) != length)
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), 0, PLC_ERR_LENGTH);
+			error (PLC_EXIT (plc), 0, PLC_ERR_LENGTH);
 			return (-1);
 		}
 		if (LE32TOH (confirm-&gt;MOFFSET) != offset)
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), 0, PLC_ERR_OFFSET);
+			error (PLC_EXIT (plc), 0, PLC_ERR_OFFSET);
 			return (-1);
 		}
 		extent -= length;

@@ -6,7 +6,7 @@
 			pev_cm_atten_char.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -80,7 +80,7 @@
 #include &quot;../tools/memory.h&quot;
 #include &quot;../tools/error.h&quot;
 #include &quot;../tools/flags.h&quot;
-#include &quot;../slac/slac.h&quot;
+#include &quot;../iso15118/slac.h&quot;
 
 signed pev_cm_atten_char (struct session * session, struct channel * channel, struct message * message) 
 
@@ -91,7 +91,7 @@ signed pev_cm_atten_char (struct session * session, struct channel * channel, st
 	{ 
 		if (! memcmp (session-&gt;RunID, indicate-&gt;ACVarField.RunID, sizeof (session-&gt;RunID))) 
 		{ 
-			debug (0, __func__, &quot;&lt;-- CM_ATTEN_CHAR.IND&quot;); 
+			slac_debug (session, 0, __func__, &quot;&lt;-- CM_ATTEN_CHAR.IND&quot;); 
 			memcpy (session-&gt;EVSE_MAC, indicate-&gt;ethernet.OSA, sizeof (session-&gt;EVSE_MAC)); 
 			session-&gt;NUM_SOUNDS = indicate-&gt;ACVarField.NUM_SOUNDS; 
 			session-&gt;NumGroups = indicate-&gt;ACVarField.ATTEN_PROFILE.NumGroups; 
@@ -102,20 +102,20 @@ signed pev_cm_atten_char (struct session * session, struct channel * channel, st
 			if (_anyset (session-&gt;flags, SLAC_VERBOSE)) 
 			{ 
 				char string [256]; 
-				debug (0, __func__, &quot;CM_ATTEN_CHAR.IND.ACVarField.APPLICATION_TYPE %d&quot;, indicate-&gt;APPLICATION_TYPE); 
-				debug (0, __func__, &quot;CM_ATTEN_CHAR.IND.ACVarField.SECURITY_TYPE %d&quot;, indicate-&gt;SECURITY_TYPE); 
-				debug (0, __func__, &quot;CM_ATTEN_CHAR.IND.ACVarField.SOURCE_ADDRESS %s&quot;, HEXSTRING (string, indicate-&gt;ACVarField.SOURCE_ADDRESS)); 
-				debug (0, __func__, &quot;CM_ATTEN_CHAR.IND.ACVarField.RunID %s&quot;, HEXSTRING (string, indicate-&gt;ACVarField.RunID)); 
-				debug (0, __func__, &quot;CM_ATTEN_CHAR.IND.ACVarField.SOURCE_ID %s&quot;, HEXSTRING (string, indicate-&gt;ACVarField.SOURCE_ID)); 
-				debug (0, __func__, &quot;CM_ATTEN_CHAR.IND.ACVarField.RESP_ID %s&quot;, HEXSTRING (string, indicate-&gt;ACVarField.RESP_ID)); 
-				debug (0, __func__, &quot;CM_ATTEN_CHAR.IND.ACVarField.NUM_SOUNDS %d&quot;, indicate-&gt;ACVarField.NUM_SOUNDS); 
-				debug (0, __func__, &quot;CM_ATTEN_CHAR.IND.ACVarField.ATTEN_PROFILE.NumGroups %d&quot;, indicate-&gt;ACVarField.ATTEN_PROFILE.NumGroups); 
-				debug (0, __func__, &quot;CM_ATTEN_CHAR.IND.ACVarField.ATTEN_PROFILE.AAG %s&quot;, hexstring (string, sizeof (string), indicate-&gt;ACVarField.ATTEN_PROFILE.AAG, indicate-&gt;ACVarField.ATTEN_PROFILE.NumGroups)); 
+				slac_debug (session, 0, __func__, &quot;CM_ATTEN_CHAR.IND.ACVarField.APPLICATION_TYPE %d&quot;, indicate-&gt;APPLICATION_TYPE); 
+				slac_debug (session, 0, __func__, &quot;CM_ATTEN_CHAR.IND.ACVarField.SECURITY_TYPE %d&quot;, indicate-&gt;SECURITY_TYPE); 
+				slac_debug (session, 0, __func__, &quot;CM_ATTEN_CHAR.IND.ACVarField.SOURCE_ADDRESS %s&quot;, HEXSTRING (string, indicate-&gt;ACVarField.SOURCE_ADDRESS)); 
+				slac_debug (session, 0, __func__, &quot;CM_ATTEN_CHAR.IND.ACVarField.RunID %s&quot;, HEXSTRING (string, indicate-&gt;ACVarField.RunID)); 
+				slac_debug (session, 0, __func__, &quot;CM_ATTEN_CHAR.IND.ACVarField.SOURCE_ID %s&quot;, HEXSTRING (string, indicate-&gt;ACVarField.SOURCE_ID)); 
+				slac_debug (session, 0, __func__, &quot;CM_ATTEN_CHAR.IND.ACVarField.RESP_ID %s&quot;, HEXSTRING (string, indicate-&gt;ACVarField.RESP_ID)); 
+				slac_debug (session, 0, __func__, &quot;CM_ATTEN_CHAR.IND.ACVarField.NUM_SOUNDS %d&quot;, indicate-&gt;ACVarField.NUM_SOUNDS); 
+				slac_debug (session, 0, __func__, &quot;CM_ATTEN_CHAR.IND.ACVarField.ATTEN_PROFILE.NumGroups %d&quot;, indicate-&gt;ACVarField.ATTEN_PROFILE.NumGroups); 
+				slac_debug (session, 0, __func__, &quot;CM_ATTEN_CHAR.IND.ACVarField.ATTEN_PROFILE.AAG %s&quot;, hexstring (string, sizeof (string), indicate-&gt;ACVarField.ATTEN_PROFILE.AAG, indicate-&gt;ACVarField.ATTEN_PROFILE.NumGroups)); 
 			} 
 
 #endif
 
-			debug (0, __func__, &quot;--&gt; CM_ATTEN_CHAR.RSP&quot;); 
+			slac_debug (session, 0, __func__, &quot;--&gt; CM_ATTEN_CHAR.RSP&quot;); 
 			memset (message, 0, sizeof (* message)); 
 			EthernetHeader (&amp; response-&gt;ethernet, session-&gt;EVSE_MAC, channel-&gt;host, channel-&gt;type); 
 			HomePlugHeader1 (&amp; response-&gt;homeplug, HOMEPLUG_MMV, (CM_ATTEN_CHAR | MMTYPE_RSP)); 
@@ -128,12 +128,12 @@ signed pev_cm_atten_char (struct session * session, struct channel * channel, st
 			response-&gt;ACVarField.Result = 0; 
 			if (sendmessage (channel, message, sizeof (* response)) &lt;= 0) 
 			{ 
-				return (debug (1, __func__, CHANNEL_CANTSEND)); 
+				return (slac_debug (session, 1, __func__, CHANNEL_CANTSEND)); 
 			} 
 			return (0); 
 		} 
 	} 
-	return (debug (session-&gt;exit, __func__, &quot;&lt;-- CM_ATTEN_CHAR.IND ?&quot;)); 
+	return (slac_debug (session, session-&gt;exit, __func__, &quot;&lt;-- CM_ATTEN_CHAR.IND ?&quot;)); 
 } 
 
 #endif

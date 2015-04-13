@@ -6,7 +6,7 @@
 			pev_cm_mnbc_sound.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -85,7 +85,7 @@
 #include &quot;../tools/memory.h&quot;
 #include &quot;../tools/error.h&quot;
 #include &quot;../tools/timer.h&quot;
-#include &quot;../slac/slac.h&quot;
+#include &quot;../iso15118/slac.h&quot;
 
 signed pev_cm_mnbc_sound (struct session * session, struct channel * channel, struct message * message) 
 
@@ -94,7 +94,7 @@ signed pev_cm_mnbc_sound (struct session * session, struct channel * channel, st
 	signed sound = session-&gt;NUM_SOUNDS; 
 	while (sound--) 
 	{ 
-		debug (0, __func__, &quot;--&gt; CM_MNBC_SOUND.IND&quot;); 
+		slac_debug (session, 0, __func__, &quot;--&gt; CM_MNBC_SOUND.IND&quot;); 
 		memset (message, 0, sizeof (* message)); 
 		EthernetHeader (&amp; indicate-&gt;ethernet, session-&gt;MSOUND_TARGET, channel-&gt;host, channel-&gt;type); 
 		HomePlugHeader1 (&amp; indicate-&gt;homeplug, HOMEPLUG_MMV, (CM_MNBC_SOUND | MMTYPE_IND)); 
@@ -106,7 +106,7 @@ signed pev_cm_mnbc_sound (struct session * session, struct channel * channel, st
 		memset (indicate-&gt;MSVarField.RND, 0, sizeof (indicate-&gt;MSVarField.RND)); 
 		if (sendmessage (channel, message, sizeof (* indicate)) &lt;= 0) 
 		{ 
-			return (debug (1, __func__, CHANNEL_CANTSEND)); 
+			return (slac_debug (session, 1, __func__, CHANNEL_CANTSEND)); 
 		} 
 		SLEEP (session-&gt;pause); 
 	} 

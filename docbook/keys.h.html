@@ -6,7 +6,7 @@
 			keys.h
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -101,6 +101,8 @@
 #define NMK2 &quot;B59319D7E8157BA001B018669CCEE30D&quot;
 
 #define KEYS 3
+#define DAKS 6
+#define NMKS 5
 
 /*====================================================================*
  *   variables;
@@ -116,17 +118,23 @@ typedef struct key
 
 key;
 
+extern struct key const keys [KEYS];
+
 /*====================================================================*
  *
  *--------------------------------------------------------------------*/
 
-extern const struct key keys [];
+extern struct _term_ const daks [DAKS];
+extern struct _term_ const nmks [NMKS];
 
 /*====================================================================*
  *   functions;
  *--------------------------------------------------------------------*/
 
-void MACPasswords (uint32_t vendor, uint32_t device, unsigned count, unsigned alpha, unsigned group, unsigned space, flag_t flags);
+void MACPasswords (unsigned vendor, unsigned device, unsigned count, unsigned alpha, unsigned bunch, char space, flag_t flags);
+void RNDPasswords (unsigned vendor, unsigned device, unsigned count, unsigned alpha, unsigned bunch, char space, flag_t flags);
+char * strnpwd (char buffer [], unsigned length, unsigned count, unsigned group, char space);
+void putpwd (unsigned count, unsigned group, char space);
 
 /*====================================================================*
  *

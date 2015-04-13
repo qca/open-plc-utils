@@ -6,7 +6,7 @@
 			psgraph.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -148,6 +148,37 @@ static void int6x00Prescalers (struct _file_ * pib, unsigned scale)
 
 /*====================================================================*
  *
+ *   void qca7x00Prescalers (struct _file_ * pib, unsigned scale);
+ *
+ *--------------------------------------------------------------------*/
+
+static void qca7x00Prescalers (struct _file_ * pib, unsigned scale)
+{
+	unsigned index = 0;
+	if (lseek (pib-&gt;file, QCA_PRESCALER_OFFSET, SEEK_SET) != QCA_PRESCALER_OFFSET)
+	{
+		error (1, errno, FILE_CANTSEEK, pib-&gt;name);
+	}
+	for (index = 0; index &lt; QCA_PRESCALER_LENGTH; index++)
+	{
+		byte value;
+		if (read (pib-&gt;file, &amp;value, sizeof (value)) != sizeof (value))
+		{
+			error (1, errno, &quot;can't read %s&quot;, pib-&gt;name);
+		}
+		printf (&quot; %6.3f %04d %6d &quot;, INDEX_TO_FREQ (index), index, value);
+		while (value &gt; scale)
+		{
+			printf (&quot;#&quot;);
+			value -= scale;
+		}
+		printf (&quot;\n&quot;);
+	}
+	return;
+}
+
+/*====================================================================*
+ *
  *   int main (int argc, char const * argv []);
  *
  *
@@ -195,7 +226,11 @@ int main (int argc, char const * argv [])
 			error (1, errno, &quot;Can't open %s&quot;, pib.name);
 		}
 		count = pibscalers (&amp;pib);
-		if (count == AMP_CARRIERS)
+		if (count == PLC_CARRIERS)
+		{
+			qca7x00Prescalers (&amp;pib, scale);
+		}
+		else if (count == AMP_CARRIERS)
 		{
 			error (1, ENOTSUP, &quot;AR7x00 PIB Format&quot;);
 		}

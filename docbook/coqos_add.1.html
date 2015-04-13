@@ -6,7 +6,7 @@
 			coqos_add.1
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -148,10 +148,10 @@ FIELDS
 
        EthSA  A 48-bit Ethernet source address expressed in hexadecimal.  The format is described in IEEE Standard 802-2001 [4].
 
-       VLANUP An 8-bit Ethernet VLAN tag where the lower 3 bits are the User Priority sub-field of a VLAN Tag  defined  in  IEEE
+       VLANUP An  8-bit  Ethernet  VLAN tag where the lower 3 bits are the User Priority sub-field of a VLAN Tag defined in IEEE
               Std 802.1Q-1998 (Virtual Bridged Local Area Networks) [11].  The upper 5 bits should be zero.
 
-       VLANID A  16-bit  VLAN  identifier  where the lower 12 bits are the VLAN Identifier (VID) defined in IEEE Std 802.1Q-1998
+       VLANID A 16-bit VLAN identifier where the lower 12 bits are the VLAN Identifier (VID) defined  in  IEEE  Std  802.1Q-1998
               (Virtual Bridged Local Area Networks) [11].  The upper 4 bits should be zero.
 
        IPV4TOS
@@ -161,32 +161,32 @@ FIELDS
               An 8-bit Ethernet Protocol identifier.  The format is defined in the RFC 791 (Internet Protocol) [14].
 
        IPV4SA A 32-bit Internet Protocol source address expressed in dotted-decimal notation.  The official format is defined in
-              RFC  791  (Internet Protocol) [14].  Our implementation permits empty octets and leading zeros within fields.  For
+              RFC 791 (Internet Protocol) [14].  Our implementation permits empty octets and leading zeros within  fields.   For
               example, &quot;...&quot; is equivalent to &quot;0.0.0.0 and &quot;127..000.001&quot; is equivalent to &quot;127.0.0.1&quot;.
 
-       IPV4DA A 32-bit Internet Protocol destination address expressed  in  dotted-decimal  notation.  The  official  format  is
-              defined  in  RFC  791  (internet  Protocol) [14]. Our implementation permits empty octets and leading zeros within
+       IPV4DA A  32-bit  Internet  Protocol  destination  address  expressed  in dotted-decimal notation. The official format is
+              defined in RFC 791 (internet Protocol) [14]. Our implementation permits empty  octets  and  leading  zeros  within
               fields. For example, &quot;...&quot; is equivalent to &quot;0.0.0.0 and &quot;127..000.001&quot; is equivalent to &quot;127.0.0.1&quot;.
 
        IPV6TC An 8-bit Internet Protocol V6 traffic class expressed as defined in RFC 2460 (Internet Protocol Version 6) [17].
 
-       IPV6FL A 24-bit IPV6 flow label where the lower 20 bits are the IPv6 Flow Label defined in RFC  2460  (Internat  Protocol
-              Version  6)  [17].   The upper 4 bits should be zero.  The value can be entered either as a decimal, binary or hex
+       IPV6FL A  24-bit  IPV6  flow label where the lower 20 bits are the IPv6 Flow Label defined in RFC 2460 (Internat Protocol
+              Version 6) [17].  The upper 4 bits should be zero.  The value can be entered either as a decimal,  binary  or  hex
               integer.
 
-       IPV6SA A 128-bit IPV6 source address expressed as colon-separated hexadecmial quartets (octet pairs).  The official  for‐
-              mat  is defined in RFC 2460 (Internet Protocol Version 6) [17].  Our implementation permits multiple empty fields,
-              abreviated fields and leading zeros within fields.  When multiple empty fields appear, only the  right-most  occu‐
-              rance     expands     to     zeros.      For     example,     &quot;FFFF::DDDD::BBBB::AAAA&quot;     is     equivalent    to
+       IPV6SA A  128-bit IPV6 source address expressed as colon-separated hexadecmial quartets (octet pairs).  The official for‐
+              mat is defined in RFC 2460 (Internet Protocol Version 6) [17].  Our implementation permits multiple empty  fields,
+              abreviated  fields  and leading zeros within fields.  When multiple empty fields appear, only the right-most occu‐
+              rance    expands     to     zeros.      For     example,     &quot;FFFF::DDDD::BBBB::AAAA&quot;     is     equivalent     to
               &quot;FFFF:0000:DDDD:0000:BBBB:0000:0000:AAAA&quot;.
 
-       IPV6DA A 128-bit IPV6 destination address expressed as colon-separated hexadecimal quartets (octet pairs).  The  official
-              format  is  defined  in  RFC  2460  (Internet Protocol Version 6) [17].  Our implementation permits multiple empty
-              fields, abbreviated fields and leading zeros within fields.  When multiple empty fields appear,  only  the  right-
-              most    occurance    expands    to    zeros.     For    example,   &quot;AAAA::BBBB::CCCC::DDDD&quot;   is   equivalent   to
+       IPV6DA A  128-bit IPV6 destination address expressed as colon-separated hexadecimal quartets (octet pairs).  The official
+              format is defined in RFC 2460 (Internet Protocol Version 6)  [17].   Our  implementation  permits  multiple  empty
+              fields,  abbreviated  fields  and leading zeros within fields.  When multiple empty fields appear, only the right-
+              most   occurance   expands   to   zeros.     For    example,    &quot;AAAA::BBBB::CCCC::DDDD&quot;    is    equivalent    to
               &quot;AAAA:0000:BBBB:0000:CCCC:0000:0000:DDDD&quot;.
 
-       TCPSP  A 16-bit TCP source port as a decimal integer.  The format is defined in RFC 793  (Transmission  Control  Protocol
+       TCPSP  A  16-bit  TCP  source port as a decimal integer.  The format is defined in RFC 793 (Transmission Control Protocol
               [15]).
 
        TCPDP  A 16-bit TCP destination port expressed as a decimal integer.  The format is defined in RFC 793 (Transmission Con‐
@@ -195,18 +195,18 @@ FIELDS
        UDPSP  A 16-bit UDP source port expressed as a decimal integer.  The format is defined in RFC 768 (User Datagram Protocol
               [13]).
 
-       UDPDP  A  16-bit  UDP  destination  port expressed as a decimal integer.  The format is defined in RFC 768 (User Datagram
+       UDPDP  A 16-bit UDP destination port expressed as a decimal integer.  The format is defined in  RFC  768  (User  Datagram
               Protocol [13]).
 
-       IPSP   A 16-bit IP source port expressed as a decimal integer.  This condition applies to  either  TCP  or  UDP  packets,
+       IPSP   A  16-bit  IP  source  port  expressed as a decimal integer.  This condition applies to either TCP or UDP packets,
               depending on the protocol used, and is valid only for actions &quot;CAP0&quot;, &quot;CAP1&quot;, &quot;CAP2&quot;, &quot;CAP3&quot; and &quot;Drop&quot;.
 
        IPDP   A 16-bit IP destination port expressed as a decimal integer.  This condition applies to either TCP or UDP packets,
               depending on the protocol used, and is valid only for actions &quot;CAP0&quot;, &quot;CAP1&quot;, &quot;CAP2&quot;, &quot;CAP3&quot; and &quot;Drop&quot;.
 
-       MME    A 24-bit Atheros HomePlugAV Management Message type expressed in hexadecimal.  The first byte is the MMV  and  the
-              next  two  bytes  are  the MMTYPE for a HomePlug AV frame as defined in the HomePlug AV Specification.  The MMTYPE
-              will match any MME sub-type (Request; Confirm; Indicate; Response).  This field is only valid for action  &quot;Boost&quot;.
+       MME    A  24-bit  Atheros HomePlugAV Management Message type expressed in hexadecimal.  The first byte is the MMV and the
+              next two bytes are the MMTYPE for a HomePlug AV frame as defined in the HomePlug  AV  Specification.   The  MMTYPE
+              will match any MME sub-type (Request; Confirm; Indicate; Response).  This field is only valid for action &quot;Boost&quot;.
 
 OPERATORS
        An  operator  indicates an equality between a field and a value.  An operator is an alphanumeric string entered in upper,
@@ -229,8 +229,8 @@ STATES
               negatives are permitted so &quot;Is False&quot; is equvalent to &quot;Not True&quot;.
 
 DEVICES
-       Powerline  devices use Ethernet Media Access Control (MAC) addresses.  A MAC address is a 48-bit value entered as 12 hex‐
-       adecimal digits in upper, lower or mixed character case.  Octets may be separated with colons for clarity.  For  example,
+       Powerline devices use Ethernet Media Access Control (MAC) addresses.  A MAC address is a 48-bit value entered as 12 hexa‐
+       decimal digits in upper, lower or mixed character case.  Octets may be separated with colons for clarity.   For  example,
        &quot;00b052000001&quot;, &quot;00:b0:52:00:00:01&quot; and &quot;00b052:000001&quot; are valid and equivalent.
 
        The following MAC addresses are common or special and may be entered by name instead of number.
@@ -270,7 +270,7 @@ CREDITS
         Nathaniel Houghton &lt;nhoughto@qca.qualcomm.com&gt;
         Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
 
-open-plc-utils-0.0.3                                      November 2013                                             coqos_add(1)
+open-plc-utils-0.0.3                                        Mar 2014                                                coqos_add(1)
 </pre>
 		<div class='footerlink'>
 			[<a href='config2cfg.1.html' title=' config2cfg.1 '>PREV</a>]

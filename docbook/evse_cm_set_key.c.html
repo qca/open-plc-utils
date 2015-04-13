@@ -6,7 +6,7 @@
 			evse_cm_set_key.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -85,7 +85,7 @@
 #include &quot;../tools/flags.h&quot;
 #include &quot;../mme/qualcomm.h&quot;
 #include &quot;../mme/homeplug.h&quot;
-#include &quot;../slac/slac.h&quot;
+#include &quot;../iso15118/slac.h&quot;
 
 signed evse_cm_set_key (struct session * session, struct channel * channel, struct message * message) 
 
@@ -132,7 +132,7 @@ signed evse_cm_set_key (struct session * session, struct channel * channel, stru
 #endif
 
 	memset (message, 0, sizeof (* message)); 
-	debug (0, __func__, &quot;--&gt; CM_SET_KEY.REQ&quot;); 
+	slac_debug (session, 0, __func__, &quot;--&gt; CM_SET_KEY.REQ&quot;); 
 	EthernetHeader (&amp; request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type); 
 	HomePlugHeader1 (&amp; request-&gt;homeplug, HOMEPLUG_MMV, (CM_SET_KEY | MMTYPE_REQ)); 
 	request-&gt;KEYTYPE = SLAC_CM_SETKEY_KEYTYPE; 
@@ -151,45 +151,45 @@ signed evse_cm_set_key (struct session * session, struct channel * channel, stru
 	if (_anyset (session-&gt;flags, SLAC_VERBOSE)) 
 	{ 
 		char string [1024]; 
-		debug (0, __func__, &quot;CM_SET_KEY.KEYTYPE %d&quot;, request-&gt;KEYTYPE); 
-		debug (0, __func__, &quot;CM_SET_KEY.MYNOUNCE %s&quot;, hexstring (string, sizeof (string), &amp; request-&gt;MYNOUNCE, sizeof (request-&gt;MYNOUNCE))); 
-		debug (0, __func__, &quot;CM_SET_KEY.YOURNOUNCE %s&quot;, hexstring (string, sizeof (string), &amp; request-&gt;YOURNOUNCE, sizeof (request-&gt;MYNOUNCE))); 
-		debug (0, __func__, &quot;CM_SET_KEY.PID %d&quot;, request-&gt;PID); 
-		debug (0, __func__, &quot;CM_SET_KEY.PRN %d&quot;, LE32TOH (request-&gt;PRN)); 
-		debug (0, __func__, &quot;CM_SET_KEY.PMN %d&quot;, request-&gt;PMN); 
-		debug (0, __func__, &quot;CM_SET_KEY.CCoCAP %d&quot;, request-&gt;CCOCAP); 
-		debug (0, __func__, &quot;CM_SET_KEY.NID %s&quot;, HEXSTRING (string, request-&gt;NID)); 
-		debug (0, __func__, &quot;CM_SET_KEY.NEWEKS %d&quot;, request-&gt;NEWEKS); 
-		debug (0, __func__, &quot;CM_SET_KEY.NEWKEY %s&quot;, HEXSTRING (string, request-&gt;NEWKEY)); 
+		slac_debug (session, 0, __func__, &quot;CM_SET_KEY.KEYTYPE %d&quot;, request-&gt;KEYTYPE); 
+		slac_debug (session, 0, __func__, &quot;CM_SET_KEY.MYNOUNCE %s&quot;, hexstring (string, sizeof (string), &amp; request-&gt;MYNOUNCE, sizeof (request-&gt;MYNOUNCE))); 
+		slac_debug (session, 0, __func__, &quot;CM_SET_KEY.YOURNOUNCE %s&quot;, hexstring (string, sizeof (string), &amp; request-&gt;YOURNOUNCE, sizeof (request-&gt;MYNOUNCE))); 
+		slac_debug (session, 0, __func__, &quot;CM_SET_KEY.PID %d&quot;, request-&gt;PID); 
+		slac_debug (session, 0, __func__, &quot;CM_SET_KEY.PRN %d&quot;, LE32TOH (request-&gt;PRN)); 
+		slac_debug (session, 0, __func__, &quot;CM_SET_KEY.PMN %d&quot;, request-&gt;PMN); 
+		slac_debug (session, 0, __func__, &quot;CM_SET_KEY.CCoCAP %d&quot;, request-&gt;CCOCAP); 
+		slac_debug (session, 0, __func__, &quot;CM_SET_KEY.NID %s&quot;, HEXSTRING (string, request-&gt;NID)); 
+		slac_debug (session, 0, __func__, &quot;CM_SET_KEY.NEWEKS %d&quot;, request-&gt;NEWEKS); 
+		slac_debug (session, 0, __func__, &quot;CM_SET_KEY.NEWKEY %s&quot;, HEXSTRING (string, request-&gt;NEWKEY)); 
 	} 
 
 #endif
 
 	if (sendpacket (channel, request, sizeof (* request)) &lt;= 0) 
 	{ 
-		return (debug (1, __func__, CHANNEL_CANTSEND)); 
+		return (slac_debug (session, 1, __func__, CHANNEL_CANTSEND)); 
 	} 
 	while (readpacket (channel, confirm, sizeof (* confirm)) &gt; 0) 
 	{ 
 		if (ntohs (confirm-&gt;ethernet.MTYPE) != ETH_P_HPAV) 
 		{ 
-			debug (session-&gt;exit, __func__, &quot;Ignore MTYPE 0x%04X&quot;, htons (confirm-&gt;ethernet.MTYPE)); 
+			slac_debug (session, session-&gt;exit, __func__, &quot;Ignore MTYPE 0x%04X&quot;, htons (confirm-&gt;ethernet.MTYPE)); 
 			continue; 
 		} 
 		if (confirm-&gt;homeplug.MMV != HOMEPLUG_MMV) 
 		{ 
-			debug (session-&gt;exit, __func__, &quot;Ignore MMV 0x%02X&quot;, confirm-&gt;homeplug.MMV); 
+			slac_debug (session, session-&gt;exit, __func__, &quot;Ignore MMV 0x%02X&quot;, confirm-&gt;homeplug.MMV); 
 			continue; 
 		} 
 		if (LE32TOH (confirm-&gt;homeplug.MMTYPE) != (CM_SET_KEY | MMTYPE_CNF)) 
 		{ 
-			debug (session-&gt;exit, __func__, &quot;Ignore MMTYPE 0x%04X&quot;, LE32TOH (confirm-&gt;homeplug.MMTYPE)); 
+			slac_debug (session, session-&gt;exit, __func__, &quot;Ignore MMTYPE 0x%04X&quot;, LE32TOH (confirm-&gt;homeplug.MMTYPE)); 
 			continue; 
 		} 
-		debug (0, __func__, &quot;&lt;-- CM_SET_KEY.CNF&quot;); 
+		slac_debug (session, 0, __func__, &quot;&lt;-- CM_SET_KEY.CNF&quot;); 
 		if (! confirm-&gt;RESULT) 
 		{ 
-			return (debug (session-&gt;exit, __func__, &quot;Device refused request&quot;)); 
+			return (slac_debug (session, session-&gt;exit, __func__, &quot;Device refused request&quot;)); 
 		} 
 
 #if SLAC_DEBUG
@@ -197,20 +197,20 @@ signed evse_cm_set_key (struct session * session, struct channel * channel, stru
 		if (_anyset (session-&gt;flags, SLAC_VERBOSE)) 
 		{ 
 			char string [1024]; 
-			debug (0, __func__, &quot;CM_SET_KEY.RESULT %d&quot;, confirm-&gt;RESULT); 
-			debug (0, __func__, &quot;CM_SET_KEY.MYNOUNCE %s&quot;, hexstring (string, sizeof (string), &amp; confirm-&gt;MYNOUNCE, sizeof (confirm-&gt;MYNOUNCE))); 
-			debug (0, __func__, &quot;CM_SET_KEY.YOURNOUNCE %s&quot;, hexstring (string, sizeof (string), &amp; confirm-&gt;YOURNOUNCE, sizeof (confirm-&gt;MYNOUNCE))); 
-			debug (0, __func__, &quot;CM_SET_KEY.PID %d&quot;, confirm-&gt;PID); 
-			debug (0, __func__, &quot;CM_SET_KEY.PRN %d&quot;, LE32TOH (confirm-&gt;PRN)); 
-			debug (0, __func__, &quot;CM_SET_KEY.PMN %d&quot;, confirm-&gt;PMN); 
-			debug (0, __func__, &quot;CM_SET_KEY.CCoCAP %d&quot;, confirm-&gt;CCOCAP); 
+			slac_debug (session, 0, __func__, &quot;CM_SET_KEY.RESULT %d&quot;, confirm-&gt;RESULT); 
+			slac_debug (session, 0, __func__, &quot;CM_SET_KEY.MYNOUNCE %s&quot;, hexstring (string, sizeof (string), &amp; confirm-&gt;MYNOUNCE, sizeof (confirm-&gt;MYNOUNCE))); 
+			slac_debug (session, 0, __func__, &quot;CM_SET_KEY.YOURNOUNCE %s&quot;, hexstring (string, sizeof (string), &amp; confirm-&gt;YOURNOUNCE, sizeof (confirm-&gt;MYNOUNCE))); 
+			slac_debug (session, 0, __func__, &quot;CM_SET_KEY.PID %d&quot;, confirm-&gt;PID); 
+			slac_debug (session, 0, __func__, &quot;CM_SET_KEY.PRN %d&quot;, LE32TOH (confirm-&gt;PRN)); 
+			slac_debug (session, 0, __func__, &quot;CM_SET_KEY.PMN %d&quot;, confirm-&gt;PMN); 
+			slac_debug (session, 0, __func__, &quot;CM_SET_KEY.CCoCAP %d&quot;, confirm-&gt;CCOCAP); 
 		} 
 
 #endif
 
 		return (0); 
 	} 
-	return (debug (session-&gt;exit, __func__, &quot;&lt;-- CM_SET_KEY.REQ ?&quot;)); 
+	return (slac_debug (session, session-&gt;exit, __func__, &quot;&lt;-- CM_SET_KEY.REQ ?&quot;)); 
 } 
 
 #endif

@@ -6,7 +6,7 @@
 			mac2pw.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -98,6 +98,8 @@
 
 #ifndef MAKEFILE
 #include &quot;../key/MACPasswords.c&quot;
+#include &quot;../key/RNDPasswords.c&quot;
+#include &quot;../key/putpwd.c&quot;
 #endif
 
 /*====================================================================*
@@ -105,29 +107,35 @@
  *--------------------------------------------------------------------*/
 
 #ifndef ETHER_ADDR_LEN
-#define ETHER_ADDR_LEN 6 /* normally defined in ethernet.h or if_ether.h */
+#define ETHER_ADDR_LEN 6 
 #endif
 
 /*====================================================================*
+ *   program functions;
+ *--------------------------------------------------------------------*/
+
+void (* generate)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t) = RNDPasswords;
+
+/*====================================================================*
  *
- *   void function (const char * string, uint32_t range, unsigned count, unsigned group, unsigned space, flag_t flags)
+ *   void function (const char * string, unsigned range, unsigned alpha, unsigned bunch, unsigned space, flag_t flags)
  *
  *   parse an Ethernet hardware address string into vendor and device
  *   ID substrings; print a specified number of consecutive addresses
  *   and password strings having a defined letter count and grouping;
- *
  *
  *   Contributor(s):
  *	Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
-static void function (const char * string, uint32_t range, unsigned count, unsigned group, unsigned space, flag_t flags)
+static void function (const char * string, unsigned range, unsigned alpha, unsigned bunch, unsigned space, flag_t flags)
 
 {
+	extern void (* generate)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t);
 	const char * offset = string;
-	uint32_t vendor = 0;
-	uint32_t device = 0;
+	unsigned vendor = 0;
+	unsigned device = 0;
 	unsigned radix = 0x10;
 	unsigned width;
 	unsigned digit;
@@ -169,7 +177,7 @@ static void function (const char * string, uint32_t range, unsigned count, unsig
 	{
 		error (1, ERANGE, &quot;Want %d passwords but only %d left in range&quot;, range, (0x00FFFFFF - device));
 	}
-	MACPasswords (vendor, device, range, count, group, space, flags);
+	generate (vendor, device, range, alpha, bunch, space, flags);
 	return;
 }
 
@@ -178,10 +186,10 @@ static void function (const char * string, uint32_t range, unsigned count, unsig
  *   int main (int argc, const char * argv []);
  *
  *   generate unique password strings for a range of device hardware
- *   addresses; print paired addresses and passwords to stdout;
+ *   addresses; print paired addresses and passwords on stdout;
  *
  *   Many Atheros programs expect the user to enter a password to
- *   access a device; the password is encoded to product the 16-bit
+ *   access a device; the password is encoded to produce the 16-bit
  *   Device Access Key (DAK) stored in the PIB;
  *
  *   Vendors must publish the device password so that end users can
@@ -199,27 +207,30 @@ static void function (const char * string, uint32_t range, unsigned count, unsig
  *--------------------------------------------------------------------*/
 
 #define DEFAULT_RANGE 1
-#define DEFAULT_COUNT 16
-#define DEFAULT_GROUP 4
+#define DEFAULT_ALPHA 25
+#define DEFAULT_BUNCH 0
 
 int main (int argc, const char * argv [])
 
 {
+	extern void (* generate)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t);
 	static const char * optv [] =
 	{
-		&quot;b:l:n:quv&quot;,
+		&quot;b:el:mn:qv&quot;,
 		&quot;address [address] [...]&quot;,
 		&quot;Atheros device password generator&quot;,
-		&quot;b n\tbunching factor [&quot; LITERAL (DEFAULT_GROUP) &quot;]&quot;,
-		&quot;l n\tpassword letters [&quot; LITERAL (DEFAULT_COUNT) &quot;]&quot;,
+		&quot;b n\tbunching factor [&quot; LITERAL (DEFAULT_BUNCH) &quot;]&quot;,
+		&quot;e\tbase passwords on host system entropy (more secure)&quot;,
+		&quot;l n\tpassword letters [&quot; LITERAL (DEFAULT_ALPHA) &quot;]&quot;,
+		&quot;m\tbase passwords on MAC addresses (non-secure)&quot;,                     
 		&quot;n n\tgenerate n consecutive passwords [&quot; LITERAL (DEFAULT_RANGE) &quot;]&quot;,
 		&quot;q\tomit device address on output&quot;,
 		&quot;v\tprepend PTS flag on output&quot;,
 		(const char *)(0)
 	};
-	uint32_t range = DEFAULT_RANGE;
-	unsigned count = DEFAULT_COUNT;
-	unsigned group = DEFAULT_GROUP;
+	unsigned range = DEFAULT_RANGE;
+	unsigned alpha = DEFAULT_ALPHA;
+	unsigned bunch = DEFAULT_BUNCH;
 	unsigned space = '-';
 	flag_t flags = (flag_t)(0);
 	signed c;
@@ -229,13 +240,19 @@ int main (int argc, const char * argv [])
 		switch ((char)(c))
 		{
 		case 'b':
-			group = (unsigned)(uintspec (optarg, 0, UCHAR_MAX));
+			bunch = uintspec (optarg, 0, UCHAR_MAX);
+			break;
+		case 'e':
+			generate = RNDPasswords;
 			break;
 		case 'l':
-			count = (unsigned)(uintspec (optarg, 12, 64));
+			alpha = uintspec (optarg, 12, 64);
+			break;
+		case 'm':
+			generate = MACPasswords;
 			break;
 		case 'n':
-			range = (uint32_t)(uintspec (optarg, 0, 0x00FFFFFF));
+			range = uintspec (optarg, 0, 0x00FFFFFF);
 			break;
 		case 'q':
 			_setbits (flags, PASSWORD_SILENCE);
@@ -251,7 +268,7 @@ int main (int argc, const char * argv [])
 	argv += optind;
 	while ((argv) &amp;&amp; (* argv))
 	{
-		function (* argv, range, count, group, space, flags);
+		function (* argv, range, alpha, bunch, space, flags);
 		argc--;
 		argv++;
 	}

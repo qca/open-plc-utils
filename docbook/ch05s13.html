@@ -1,15 +1,15 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Pairing UART Devices post PTS</title><link rel="stylesheet" href="docbook.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.73.2"><meta name="keywords" content="Intellon, Atheros, Qualcomm, HomePlug, powerline, communications, INT6000, INT6300, INT6400, AR7400, AR7420"><link rel="start" href="index.html" title="Qualcomm Atheros Open Powerline Toolkit"><link rel="up" href="ch05.html" title="Chapter 5.  Procedures"><link rel="prev" href="ch05s12.html" title="Programming NVRAM"><link rel="next" href="ch05s14.html" title="Trouble-shooting Problems"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Pairing UART Devices post PTS</title><meta name="generator" content="DocBook XSL Stylesheets V1.76.1"><meta name="keywords" content="Intellon, Atheros, Qualcomm, HomePlug, powerline, communications, INT6000, INT6300, INT6400, AR7400, AR7420"><link rel="home" href="index.html" title="Qualcomm Atheros Open Powerline Toolkit"><link rel="up" href="ch05.html" title="Chapter 5.  Procedures"><link rel="prev" href="ch05s12.html" title="Programming NVRAM"><link rel="next" href="ch05s14.html" title="Trouble-shooting Problems"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">
 			Pairing UART Devices post PTS
 			</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch05s12.html">Prev</a> </td><th width="60%" align="center">Chapter 5. 
 		Procedures 
-		</th><td width="20%" align="right"> <a accesskey="n" href="ch05s14.html">Next</a></td></tr></table><hr></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="procedure-uart-pairing"></a>
+		</th><td width="20%" align="right"> <a accesskey="n" href="ch05s14.html">Next</a></td></tr></table><hr></div><div class="section" title="Pairing UART Devices post PTS"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="procedure-uart-pairing"></a>
 			Pairing UART Devices post PTS
 			</h2></div></div></div><p>
 			This procedure describes how to pair two UART-enabled powerline adapters once they have been programmed,  personalized and tested. This example assumes you are using a Windows host and two powerline adapters having MAC addresses <code class="constant">00:B0:52:00:05:F9</code> and <code class="constant">00:B0:52:00:05:FA</code>.
 			</p><p>
 			Start with the first device, <code class="constant">00:B0:52)(00:05:F9</code>. Plug the host serial cable into the RJ45 port on the device and plug the device into an AC power source.
 			</p><p>
-			Change to transparent mode using program int6kuart. Option -v displays outgoing command and incoming serial responses. The “<span class="quote">+++</span>” is the serial data sent to the device and the “<span class="quote">OK</span>” is the device response. 
+			Change to transparent mode using program int6kuart. Option -v displays outgoing command and incoming serial responses. The <span class="quote">“<span class="quote">+++</span>”</span> is the serial data sent to the device and the <span class="quote">“<span class="quote">OK</span>”</span> is the device response. 
 </p><pre class="screen">
 # int6kuart -s com3 -wv
 +++
@@ -51,4 +51,4 @@ OK
 			Programming NVRAM  
 			 </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 
 			Trouble-shooting Problems 
-			</td></tr></table></div></body></html>0
+			</td></tr></table></div></body></html>

@@ -6,7 +6,7 @@
 			int6krate.1
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -41,7 +41,7 @@ OPTIONS
        -d seconds
               Traffic  duration in seconds per connection.  Directional traffic is systematically sent between each pair of pow‐
               erline network devices for this period of time.  Consequently, the total time needed to generate  traffic  between
-              all network devices will be approximately n! times this value, so don’’t get carried away.  The minimum value is 1
+              all network devices will be approximately n! times this value, so don''t get carried away.  The minimum value is 1
               second and the maximum value is 60 seconds.
 
        -e     Redirects stderr messages to stdout.  By convention status and error messages are printed on stderr while  primary
@@ -68,8 +68,8 @@ OPTIONS
        -R     Resets the device using VS_RS_DEV.
 
        -t     Generate  powerline traffic between the local device and each remote device on each powerline network connected to
-              the host.  It does not generate any traffic between remote powerline device  pairs.   This  option  is  especially
-              useful  when remote powerline devices are not connected to Ethernet devices capable of sending traffic back to the
+              the host.  It does not generate any traffic between remote powerline device pairs.  This option is especially use‐
+              ful  when  remote  powerline  devices are not connected to Ethernet devices capable of sending traffic back to the
               host.
 
        -T     Generate powerline traffic between all devices on each powerline network connected to the host.   This  option  is
@@ -99,8 +99,8 @@ ARGUMENTS
               information about symbolic device addresses.
 
 DEVICES
-       Powerline  devices use Ethernet Media Access Control (MAC) addresses.  A MAC address is a 48-bit value entered as 12 hex‐
-       adecimal digits in upper, lower or mixed character case.  Octets may be separated with colons for clarity.  For  example,
+       Powerline devices use Ethernet Media Access Control (MAC) addresses.  A MAC address is a 48-bit value entered as 12 hexa‐
+       decimal digits in upper, lower or mixed character case.  Octets may be separated with colons for clarity.   For  example,
        &quot;00b052000001&quot;, &quot;00:b0:52:00:00:01&quot; and &quot;00b052:000001&quot; are valid and equivalent.
 
        The following MAC addresses are special and may be entered by name instead of number.
@@ -150,7 +150,7 @@ CREDITS
         Nathaniel Houghton &lt;nhoughto@qca.qualcomm.com&gt;
         Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
 
-open-plc-utils-0.0.3                                      November 2013                                             int6krate(1)
+open-plc-utils-0.0.3                                        Mar 2014                                                int6krate(1)
 </pre>
 		<div class='footerlink'>
 			[<a href='int6kmod.1.html' title=' int6kmod.1 '>PREV</a>]

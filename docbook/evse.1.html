@@ -6,7 +6,7 @@
 			evse.1
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -71,42 +71,38 @@ OPTIONS
 
        -v     Enter verbose mode.  All Etherenet frames sent or received by the program are displayed on stdout.
 
-       -w milliseconds
-              Wakeup frequency in milliseconds.  Values range from 0 through UINT_MAX.  The default is 5000 milliseconds  (or  5
-              seconds).
-
        -?, --help
               Print program help summary on stdout.  This option takes precedence over other options on the command line.
 
        -!, --version
               Print program version information on stdout.  This option takes precedence over other options on the command line.
-              Use this option when sending screen dumps to Atheros Technical Support so that they know exactly which version  of
+              Use  this option when sending screen dumps to Atheros Technical Support so that they know exactly which version of
               the Linux Toolkit you are using.
 
 PROFILE
-       The  default  configuration profile for this program is &quot;evse.ini&quot;.  The default profile section is &quot;default&quot;.  Users may
-       create addition profiles and reference them with option -p or add additional sections to an existing profiles and  refer�‐
+       The default configuration profile for this program is &quot;evse.ini&quot;.  The default profile section is &quot;default&quot;.   Users  may
+       create  addition profiles and reference them with option -p or add additional sections to an existing profiles and refer‐
        ence them with option -s.
 
        Time to Sound
               The time in 100 millisecond increments for all msounds to arrive at the msound target.  The msound target may pro‐
-              ceed with attenuation characterization computations should all msounds fail to arrive within  this  period.   This
-              value  is read but not used by program pev or program evse.  This value is the same as CM_SLAC_PARAM.CNF.TIME_OUT.
+              ceed  with  attenuation  characterization computations should all msounds fail to arrive within this period.  This
+              value is read but not used by program pev or program evse.  This value is the same as  CM_SLAC_PARAM.CNF.TIME_OUT.
               The default value is 10 which represents 1000 milliseconds.
 
        Number of Sounds
 
        The total number of msounds that will be sent to the msound target.
-              All msounds  must  arrive  within  the  allotted  time  or  they  will  be  lost.   This  value  is  the  same  as
+              All  msounds  must  arrive  within  the  allotted  time  or  they  will  be  lost.   This  value  is  the  same as
               CM_SLAC_PARAM.CNF.NUM_SOUNDS.  The default is 8.
 
        Response Type
-              Controls  whether  the  msound  recipient  sends signal attenuation characteristic profile data to the EVSE-HLE or
-              another station.  The only response specified at this time is the EVSE-HLE.  The default value is  0.   Any  other
+              Controls whether the msound recipient sends signal attenuation characteristic profile  data  to  the  EVSE-HLE  or
+              another  station.   The  only response specified at this time is the EVSE-HLE.  The default value is 0.  Any other
               value is ignored.
 
        Station Identifier
-              Vehicle  identification.   The  17-byte  Vehicle Identification Number to be placed in CM_MNBC_SOUND.IND.SenderID.
+              Vehicle identification.  The 17-byte Vehicle Identification Number to  be  placed  in  CM_MNBC_SOUND.IND.SenderID.
               This value is not used but is can be changed here so that the field is easy to spot within network message traces.
 
        Network Membership Key
@@ -118,11 +114,11 @@ PROFILE
               to this value after disconnecting.  The default value is the same as that for Network Password &quot;HomePlugAV0123&quot;.
 
 REFERENCES
-       See  the  Qualcomm Atheros AR7420, QCA6410 IEEE 1901, HomePlug AV and QCA7000 HomePlug Green PHY PLC Chipset Programmer’s
+       See  the  Qualcomm Atheros AR7420, QCA6410 IEEE 1901, HomePlug AV and QCA7000 HomePlug Green PHY PLC Chipset Programmer's
        Guide or the HomePlug Green PHY Specification Release Version 1.1 for more information on this protocol.
 
 REFERENCES
-       See the Qualcomm Atheros AR7420, QCA6410 IEEE 1901, HomePlug AV and QCA7000 HomePlug Green PHY PLC Chipset  Programmer’sw
+       See the Qualcomm Atheros AR7420, QCA6410 IEEE 1901, HomePlug AV and QCA7000 HomePlug Green PHY PLC Chipset  Programmer'sw
        Guide or the HomePlug Green PHY Specification Release Version 1.1 for more information on this protocol.
 
 EXAMPLES
@@ -152,7 +148,7 @@ SEE ALSO
 CREDITS
         Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
 
-open-plc-utils-0.0.3                                      November 2013                                                  evse(1)
+open-plc-utils-0.0.3                                        Mar 2014                                                     evse(1)
 </pre>
 		<div class='footerlink'>
 			[<a href='efsu.1.html' title=' efsu.1 '>PREV</a>]

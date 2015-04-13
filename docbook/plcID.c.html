@@ -6,7 +6,7 @@
 			plcID.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -116,6 +116,7 @@
 #include &quot;../tools/error.c&quot;
 #include &quot;../tools/synonym.c&quot;
 #include &quot;../tools/checksum32.c&quot;
+#include &quot;../tools/typename.c&quot;
 #endif
 
 #ifndef MAKEFILE
@@ -124,6 +125,8 @@
 #include &quot;../plc/Failure.c&quot;
 #include &quot;../plc/ReadMME.c&quot;
 #include &quot;../plc/SendMME.c&quot;
+#include &quot;../plc/WaitForStart.c&quot;
+#include &quot;../plc/chipset.c&quot;
 #endif
 
 #ifndef MAKEFILE
@@ -157,27 +160,166 @@
 
 /*====================================================================*
  *
- *   signed function (struct plc * plc, signed newline, signed key);
+ *   signed PLCSelect (struct plc * plc, signed old (struct plc *), signed new (struct plc *));
  *
  *   plc.h
  *
- *   read start of parameter chain from the device using a single
- *   VS_MODULE_OPERATION message; search parameter chain for PIB and
- *   print requested key on stdout;
- *
+ *   wait for device to start in order to determine chipset then call
+ *   the approproate function based on chipset; unfortunately, chipset
+ *   detection and selection may not be this simple in the future;
  *
  *   Contributor(s):
  *      Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
  *
  *--------------------------------------------------------------------*/
 
-static signed function (struct plc * plc, signed newline, signed key)
+signed PLCSelect (struct plc * plc, signed old (struct plc *), signed new (struct plc *))
 
 {
-	struct channel * channel = (struct channel *)(plc-&gt;channel);
-	struct message * message = (struct message *)(plc-&gt;message);
+	char firmware [PLC_VERSION_STRING];
+	if (WaitForStart (plc, firmware, sizeof (firmware)))
+	{
+		Failure (plc, PLC_NODETECT);
+		exit (1);
+	}
+	return ((plc-&gt;hardwareID &lt; CHIPSET_QCA7420)? old (plc): new (plc));
+}
+
+/*====================================================================*
+ *
+ *   signed ReadKey1 (struct plc * plc);
+ *
+ *   read the first block of the PIB from a device then echo one of
+ *   several parameters on stdout as a string; program output can be
+ *   used in scripts to define variables or compare strings;
+ *
+ *   this function is an abridged version of ReadParameters(); it reads only
+ *   the first 1024 bytes of the PIB then stops; most parameters of
+ *   general interest occur in that block;
+ *
+ *--------------------------------------------------------------------*/
+
+static signed ReadKey1 (struct plc * plc)
+
+{
+	static signed count = 0;
+	struct channel * channel = (struct channel *) (plc-&gt;channel);
+	struct message * message = (struct message *) (plc-&gt;message);
+
+#ifndef __GNUC__
+#pragma pack (push,1)
+#endif
+
+	struct __packed vs_rd_mod_request
+	{
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
+		uint8_t MODULEID;
+		uint8_t RESERVED;
+		uint16_t MLENGTH;
+		uint32_t MOFFSET;
+		uint8_t DAK [16];
+	}
+	* request = (struct vs_rd_mod_request *) (message);
+	struct __packed vs_rd_mod_confirm
+	{
+		struct ethernet_hdr ethernet;
+		struct qualcomm_hdr qualcomm;
+		uint8_t MSTATUS;
+		uint8_t RESERVED1 [3];
+		uint8_t MODULEID;
+		uint8_t RESERVED2;
+		uint16_t MLENGTH;
+		uint32_t MOFFSET;
+		uint32_t MCHKSUM;
+		struct simple_pib pib;
+	}
+	* confirm = (struct vs_rd_mod_confirm *) (message);
+
+#ifndef __GNUC__
+#pragma pack (pop)
+#endif
+
+	memset (message, 0, sizeof (* message));
+	EthernetHeader (&amp; request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
+	QualcommHeader (&amp; request-&gt;qualcomm, 0, (VS_RD_MOD | MMTYPE_REQ));
+	request-&gt;MODULEID = VS_MODULE_PIB;
+	request-&gt;MLENGTH = HTOLE16 (PLC_RECORD_SIZE);
+	request-&gt;MOFFSET = HTOLE32 (0);
+	plc-&gt;packetsize = ETHER_MIN_LEN - ETHER_CRC_LEN;
+	if (SendMME (plc) &lt;= 0)
+	{
+		error (1, errno, CHANNEL_CANTSEND);
+	}
+	while (ReadMME (plc, 0, (VS_RD_MOD | MMTYPE_CNF)) &gt; 0)
+	{
+		if (confirm-&gt;MSTATUS)
+		{
+			Failure (plc, PLC_WONTDOIT);
+			return (-1);
+		}
+		if (count++ &gt; 0)
+		{
+			putc (plc-&gt;coupling, stdout);
+		}
+		if (plc-&gt;action == PLCID_MAC)
+		{
+			hexout (confirm-&gt;pib.MAC, sizeof (confirm-&gt;pib.MAC), HEX_EXTENDER, 0, stdout);
+		}
+		else if (plc-&gt;action == PLCID_DAK)
+		{
+			hexout (confirm-&gt;pib.DAK, sizeof (confirm-&gt;pib.DAK), HEX_EXTENDER, 0, stdout);
+		}
+		else if (plc-&gt;action == PLCID_NMK)
+		{
+			hexout (confirm-&gt;pib.NMK, sizeof (confirm-&gt;pib.NMK), HEX_EXTENDER, 0, stdout);
+		}
+		else if (plc-&gt;action == PLCID_MFG)
+		{
+			confirm-&gt;pib.MFG [PIB_HFID_LEN -1] = (char) (0);
+			printf (&quot;%s&quot;, confirm-&gt;pib.MFG);
+		}
+		else if (plc-&gt;action == PLCID_USR)
+		{
+			confirm-&gt;pib.USR [PIB_HFID_LEN -1] = (char) (0);
+			printf (&quot;%s&quot;, confirm-&gt;pib.USR);
+		}
+		else if (plc-&gt;action == PLCID_NET)
+		{
+			confirm-&gt;pib.NET [PIB_HFID_LEN -1] = (char) (0);
+			printf (&quot;%s&quot;, confirm-&gt;pib.NET);
+		}
+	}
+	if (plc-&gt;packetsize &lt; 0)
+	{
+		error (1, errno, CHANNEL_CANTREAD);
+	}
+	return (0);
+}
+
+/*====================================================================*
+ *
+ *   signed ReadKey2 (struct plc * plc);
+ *
+ *   plc.h
+ *
+ *   read start of parameter chain from the device using a single
+ *   VS_MODULE_OPERATION message; search parameter chain for PIB and
+ *   print requested plc-&gt;action on stdout;
+ *
+ *   Contributor(s):
+ *      Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+static signed ReadKey2 (struct plc * plc)
+
+{
+	static signed count = 0;
+	struct channel * channel = (struct channel *) (plc-&gt;channel);
+	struct message * message = (struct message *) (plc-&gt;message);
 	struct nvm_header2 * nvm_header;
-	uint32_t origin = ~0;
+	uint32_t origin = ~ 0;
 	uint32_t offset = 0;
 	signed module = 0;
 	char * filename = &quot;device&quot;;
@@ -204,7 +346,7 @@ static signed function (struct plc * plc, signed newline, signed key)
 		}
 		MODULE_SPEC;
 	}
-	* request = (struct vs_module_operation_read_request *)(message);
+	* request = (struct vs_module_operation_read_request *) (message);
 	struct __packed vs_module_operation_read_confirm
 	{
 		struct ethernet_hdr ethernet;
@@ -226,15 +368,15 @@ static signed function (struct plc * plc, signed newline, signed key)
 		MODULE_SPEC;
 		uint8_t MODULE_DATA [PLC_MODULE_SIZE];
 	}
-	* confirm = (struct vs_module_operation_read_confirm *)(message);
+	* confirm = (struct vs_module_operation_read_confirm *) (message);
 
 #ifndef __GNUC__
 #pragma pack (pop)
 #endif
 
-	memset (&amp;message, 0, sizeof (message));
-	EthernetHeader (&amp;request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
-	QualcommHeader (&amp;request-&gt;qualcomm, 0, (VS_MODULE_OPERATION | MMTYPE_REQ));
+	memset (message, 0, sizeof (* message));
+	EthernetHeader (&amp; request-&gt;ethernet, channel-&gt;peer, channel-&gt;host, channel-&gt;type);
+	QualcommHeader (&amp; request-&gt;qualcomm, 0, (VS_MODULE_OPERATION | MMTYPE_REQ));
 	plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	request-&gt;NUM_OP_DATA = 1;
 	request-&gt;MODULE_SPEC.MOD_OP = HTOLE16 (0);
@@ -246,109 +388,108 @@ static signed function (struct plc * plc, signed newline, signed key)
 	request-&gt;MODULE_SPEC.MODULE_OFFSET = HTOLE32 (0);
 	if (SendMME (plc) &lt;= 0)
 	{
-		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
-		return (-1);
+		error (1, errno, CHANNEL_CANTSEND);
 	}
-	if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) &lt;= 0)
+	while (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) &gt; 0)
 	{
-		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
-		return (-1);
+		if (confirm-&gt;MSTATUS)
+		{
+			Failure (plc, PLC_WONTDOIT);
+			return (-1);
+		}
+		if (count++ &gt; 0)
+		{
+			putc (plc-&gt;coupling, stdout);
+		}
+		do 
+		{
+			nvm_header = (struct nvm_header2 *) (&amp; confirm-&gt;MODULE_DATA [offset]);
+			if (LE16TOH (nvm_header-&gt;MajorVersion) != 1)
+			{
+				if (_allclr (plc-&gt;flags, PLC_SILENCE))
+				{
+					error (0, errno, NVM_HDR_VERSION, filename, module);
+				}
+				return (-1);
+			}
+			if (LE16TOH (nvm_header-&gt;MinorVersion) != 1)
+			{
+				if (_allclr (plc-&gt;flags, PLC_SILENCE))
+				{
+					error (0, errno, NVM_HDR_VERSION, filename, module);
+				}
+				return (-1);
+			}
+			if (LE32TOH (nvm_header-&gt;PrevHeader) != origin)
+			{
+				if (_allclr (plc-&gt;flags, PLC_SILENCE))
+				{
+					error (0, errno, NVM_HDR_LINK, filename, module);
+				}
+				return (-1);
+			}
+			if (checksum32 (nvm_header, sizeof (* nvm_header), 0))
+			{
+				error (0, 0, NVM_HDR_CHECKSUM, filename, module);
+				return (-1);
+			}
+			origin = offset;
+			offset += sizeof (* nvm_header);
+			if (LE32TOH (nvm_header-&gt;ImageType) == NVM_IMAGE_PIB)
+			{
+				struct simple_pib * pib = (struct simple_pib *) (&amp; confirm-&gt;MODULE_DATA [offset]);
+				if (plc-&gt;action == PLCID_MAC)
+				{
+					hexout (pib-&gt;MAC, sizeof (pib-&gt;MAC), HEX_EXTENDER, 0, stdout);
+				}
+				else if (plc-&gt;action == PLCID_DAK)
+				{
+					hexout (pib-&gt;DAK, sizeof (pib-&gt;DAK), HEX_EXTENDER, 0, stdout);
+				}
+				else if (plc-&gt;action == PLCID_NMK)
+				{
+					hexout (pib-&gt;NMK, sizeof (pib-&gt;NMK), HEX_EXTENDER, 0, stdout);
+				}
+				else if (plc-&gt;action == PLCID_MFG)
+				{
+					pib-&gt;MFG [PIB_HFID_LEN -1] = (char) (0);
+					printf (&quot;%s&quot;, pib-&gt;MFG);
+				}
+				else if (plc-&gt;action == PLCID_USR)
+				{
+					pib-&gt;USR [PIB_HFID_LEN -1] = (char) (0);
+					printf (&quot;%s&quot;, pib-&gt;USR);
+				}
+				else if (plc-&gt;action == PLCID_NET)
+				{
+					pib-&gt;NET [PIB_HFID_LEN -1] = (char) (0);
+					printf (&quot;%s&quot;, pib-&gt;NET);
+				}
+				break;
+			}
+			if (checksum32 (&amp; confirm-&gt;MODULE_DATA [offset], LE32TOH (nvm_header-&gt;ImageLength), nvm_header-&gt;ImageChecksum))
+			{
+				if (_allclr (plc-&gt;flags, PLC_SILENCE))
+				{
+					error (0, errno, NVM_IMG_CHECKSUM, filename, module);
+				}
+				return (-1);
+			}
+			offset += LE32TOH (nvm_header-&gt;ImageLength);
+			module++;
+		}
+		while (~ nvm_header-&gt;NextHeader);
 	}
-	if (confirm-&gt;MSTATUS)
+	if (plc-&gt;packetsize &lt; 0)
 	{
-		Failure (plc, PLC_WONTDOIT);
-		return (-1);
+		error (1, errno, CHANNEL_CANTREAD);
 	}
-	do
-	{
-		nvm_header = (struct nvm_header2 *)(&amp;confirm-&gt;MODULE_DATA [offset]);
-		if (LE16TOH (nvm_header-&gt;MajorVersion) != 1)
-		{
-			if (_allclr (plc-&gt;flags, PLC_SILENCE))
-			{
-				error (0, errno, NVM_HDR_VERSION, filename, module);
-			}
-			return (-1);
-		}
-		if (LE16TOH (nvm_header-&gt;MinorVersion) != 1)
-		{
-			if (_allclr (plc-&gt;flags, PLC_SILENCE))
-			{
-				error (0, errno, NVM_HDR_VERSION, filename, module);
-			}
-			return (-1);
-		}
-		if (LE32TOH (nvm_header-&gt;PrevHeader) != origin)
-		{
-			if (_allclr (plc-&gt;flags, PLC_SILENCE))
-			{
-				error (0, errno, NVM_HDR_LINK, filename, module);
-			}
-			return (-1);
-		}
-		if (checksum32 (nvm_header, sizeof (* nvm_header), 0))
-		{
-			error (0, 0, NVM_HDR_CHECKSUM, filename, module);
-			return (-1);
-		}
-		origin = offset;
-		offset += sizeof (* nvm_header);
-		if (LE32TOH (nvm_header-&gt;ImageType) == NVM_IMAGE_PIB)
-		{
-			struct simple_pib * pib = (struct simple_pib *)(&amp;confirm-&gt;MODULE_DATA [offset]);
-			if (key == PLCID_MAC)
-			{
-				hexout (pib-&gt;MAC, sizeof (pib-&gt;MAC), HEX_EXTENDER, 0, stdout);
-			}
-			else if (key == PLCID_DAK)
-			{
-				hexout (pib-&gt;DAK, sizeof (pib-&gt;DAK), HEX_EXTENDER, 0, stdout);
-			}
-			else if (key == PLCID_NMK)
-			{
-				hexout (pib-&gt;NMK, sizeof (pib-&gt;NMK), HEX_EXTENDER, 0, stdout);
-			}
-			else if (key == PLCID_MFG)
-			{
-				pib-&gt;MFG [PIB_HFID_LEN - 1] = (char)(0);
-				printf (&quot;%s&quot;, pib-&gt;MFG);
-			}
-			else if (key == PLCID_USR)
-			{
-				pib-&gt;USR [PIB_HFID_LEN - 1] = (char)(0);
-				printf (&quot;%s&quot;, pib-&gt;USR);
-			}
-			else if (key == PLCID_NET)
-			{
-				pib-&gt;NET [PIB_HFID_LEN - 1] = (char)(0);
-				printf (&quot;%s&quot;, pib-&gt;NET);
-			}
-			if (_anyset (plc-&gt;flags, PLC_NEWLINE))
-			{
-				putc (newline, stdout);
-			}
-			break;
-		}
-		if (checksum32 (&amp;confirm-&gt;MODULE_DATA [offset], LE32TOH (nvm_header-&gt;ImageLength), nvm_header-&gt;ImageChecksum))
-		{
-			if (_allclr (plc-&gt;flags, PLC_SILENCE))
-			{
-				error (0, errno, NVM_IMG_CHECKSUM, filename, module);
-			}
-			return (-1);
-		}
-		offset += LE32TOH (nvm_header-&gt;ImageLength);
-		module++;
-	}
-	while (~nvm_header-&gt;NextHeader);
 	return (0);
 }
 
 /*====================================================================*
  *
  *   int main (int argc, char const * argv []);
- *
- *
  *
  *--------------------------------------------------------------------*/
 
@@ -388,9 +529,9 @@ int main (int argc, char const * argv [])
 
 #include &quot;../plc/plc.c&quot;
 
-	signed newline = '\n';
-	signed key = PLCID_DAK;
 	signed c;
+	plc.action = PLCID_DAK;
+	plc.coupling = '\n';
 	if (getenv (PLCDEVICE))
 	{
 
@@ -406,18 +547,18 @@ int main (int argc, char const * argv [])
 
 	}
 	optind = 1;
-	while ((c = getoptv (argc, argv, optv)) != -1)
+	while (~ (c = getoptv (argc, argv, optv)))
 	{
 		switch (c)
 		{
 		case 'A':
-			key = PLCID_MAC;
+			plc.action = PLCID_MAC;
 			break;
 		case 'c':
-			newline = * optarg;
+			plc.coupling = * optarg;
 			break;
 		case 'D':
-			key = PLCID_DAK;
+			plc.action = PLCID_DAK;
 			break;
 		case 'e':
 			dup2 (STDOUT_FILENO, STDERR_FILENO);
@@ -436,55 +577,59 @@ int main (int argc, char const * argv [])
 
 			break;
 		case 'M':
-			key = PLCID_NMK;
+			plc.action = PLCID_NMK;
 			break;
 		case 'n':
 			_setbits (plc.flags, PLC_NEWLINE);
 			break;
 		case 'N':
-			key = PLCID_NET;
+			plc.action = PLCID_NET;
 			break;
 		case 'q':
 			_setbits (channel.flags, CHANNEL_SILENCE);
 			_setbits (plc.flags, PLC_SILENCE);
 			break;
 		case 'S':
-			key = PLCID_MFG;
+			plc.action = PLCID_MFG;
 			break;
 		case 'U':
-			key = PLCID_USR;
+			plc.action = PLCID_USR;
 			break;
 		case 'v':
 			_setbits (channel.flags, CHANNEL_VERBOSE);
 			_setbits (plc.flags, PLC_VERBOSE);
 			break;
-		default:
+		default: 
 			break;
 		}
 	}
 	argc -= optind;
 	argv += optind;
-	openchannel (&amp;channel);
-	if (!(plc.message = malloc (sizeof (* plc.message))))
+	openchannel (&amp; channel);
+	if (! (plc.message = malloc (sizeof (* plc.message))))
 	{
 		error (1, errno, PLC_NOMEMORY);
 	}
-	if (!argc)
+	if (! argc)
 	{
-		function (&amp;plc, newline, key);
+		PLCSelect (&amp; plc, ReadKey1, ReadKey2);
 	}
 	while ((argc) &amp;&amp; (* argv))
 	{
-		if (!hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices))))
+		if (! hexencode (channel.peer, sizeof (channel.peer), synonym (* argv, devices, SIZEOF (devices))))
 		{
 			error (1, errno, PLC_BAD_MAC, * argv);
 		}
-		function (&amp;plc, newline, key);
+		PLCSelect (&amp; plc, ReadKey1, ReadKey2);
 		argv++;
 		argc--;
 	}
+	if (_anyset (plc.flags, PLC_NEWLINE))
+	{
+		printf (&quot;\n&quot;);
+	}
 	free (plc.message);
-	closechannel (&amp;channel);
+	closechannel (&amp; channel);
 	return (0);
 }
 

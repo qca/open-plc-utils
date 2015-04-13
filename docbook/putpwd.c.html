@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!doctype html public '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>
+<html xmlns='http://www.w3c.org/1999/xhtml' lang='en-us'>
+	<head>
+		<title>
+			putpwd.c
+			</title>
+		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
+		<meta name='author' content='cmaier@cmassoc.net'/>
+		<meta name='robots' content='noindex,nofollow'/>
+		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
+		</head>
+	<body>
+		<div class='headerlink'>
+			[<a href='putoptv.c.html' title=' putoptv.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='qosinfo.c.html' title=' qosinfo.c '>NEXT</a>]
+			</div>
+<pre>
+/*====================================================================*
+ *
+ *   Copyright (c) 2015 Qualcomm Atheros, Inc.
+ *
+ *   All rights reserved.
+ *
+ *   Redistribution and use in source and binary forms, with or 
+ *   without modification, are permitted (subject to the limitations 
+ *   in the disclaimer below) provided that the following conditions 
+ *   are met:
+ *
+ *   * Redistributions of source code must retain the above copyright 
+ *     notice, this list of conditions and the following disclaimer.
+ *
+ *   * Redistributions in binary form must reproduce the above 
+ *     copyright notice, this list of conditions and the following 
+ *     disclaimer in the documentation and/or other materials 
+ *     provided with the distribution.
+ *
+ *   * Neither the name of Qualcomm Atheros nor the names of 
+ *     its contributors may be used to endorse or promote products 
+ *     derived from this software without specific prior written 
+ *     permission.
+ *
+ *   NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE 
+ *   GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE 
+ *   COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND ANY EXPRESS OR 
+ *   IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+ *   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
+ *   PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER 
+ *   OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+ *   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+ *   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+ *   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
+ *   HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+ *   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
+ *   OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
+ *   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+ *
+ *--------------------------------------------------------------------*/
+/*====================================================================*
+ *
+ *   void putpwd (unsigned count, unsigned group, char space);
+ *
+ *   keys.h
+ *
+ *   print a random password on stdout; passwords consist of count
+ *   letters and digits; optionally, group letters and digits and 
+ *   separate groups with a space character;
+ *
+ *   alphabet is an array of 32 printable password characters; 
+ *   count is the number of characters to be selected from alphabet; 
+ *   group is the grouping factor; 
+ *   space is the group separator;
+ *
+ *   grouping is suppressed when group is zero or greater than or 
+ *   equal to count;
+ *
+ *   Contributors:
+ *	Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
+ *
+ *--------------------------------------------------------------------*/
+
+#ifndef PUTPWD_SOURCE
+#define PUTPWD_SOURCE
+
+#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;errno.h&gt;
+
+#include &quot;../tools/types.h&quot;
+#include &quot;../tools/error.h&quot;
+#include &quot;../key/keys.h&quot;
+
+void putpwd (unsigned count, unsigned group, char space)
+
+{
+	signed fd;
+	if ((fd = open (&quot;/dev/urandom&quot;, O_RDONLY)) == -1)
+	{
+		error (1, errno, &quot;can't open /dev/urandom&quot;);
+	}
+	while (count--)
+	{
+		static const char alphabet [] =
+		{
+			'2',
+			'3',
+			'4',
+			'5',
+			'6',
+			'7',
+			'8',
+			'9',
+			'A',
+			'B',
+			'C',
+			'D',
+			'E',
+			'F',
+			'G',
+			'H',
+			'J',
+			'K',
+			'L',
+			'M',
+			'N',
+			'P',
+			'Q',
+			'R',
+			'S',
+			'T',
+			'U',
+			'V',
+			'W',
+			'X',
+			'Y',
+			'Z'
+		};
+		unsigned member;
+		if (read (fd, &amp; member, sizeof (member)) != sizeof (member))
+		{
+			error (1, errno, &quot;can't read /dev/urandom&quot;);
+		}
+		member &amp;= 0x1F;
+		putc (alphabet [member % sizeof (alphabet)], stdout);
+		if ((count) &amp;&amp; (group) &amp;&amp; ! (count % group))
+		{
+			putc (space, stdout);
+		}
+	}
+	close (fd);
+	return;
+}
+
+#endif
+
+
+</pre>
+		<div class='footerlink'>
+			[<a href='putoptv.c.html' title=' putoptv.c '>PREV</a>]
+			[<a href='toolkit.html' title=' Index '>HOME</a>]
+			[<a href='qosinfo.c.html' title=' qosinfo.c '>NEXT</a>]
+			</div>
+		</body>
+	</html>

@@ -6,7 +6,7 @@
 			evse.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -118,7 +118,7 @@
 #include &quot;../tools/flags.h&quot;
 #include &quot;../tools/error.h&quot;
 #include &quot;../ether/channel.h&quot;
-#include &quot;../slac/slac.h&quot;
+#include &quot;../iso15118/slac.h&quot;
 
 /*====================================================================*
  *   custom source files;
@@ -140,7 +140,6 @@
 #include &quot;../tools/strfbits.c&quot;
 #include &quot;../tools/error.c&quot;
 #include &quot;../tools/config.c&quot;
-#include &quot;../tools/debug.c&quot;
 #endif
 
 #ifndef MAKEFILE
@@ -165,13 +164,14 @@
 #endif
 
 #ifndef MAKEFILE
-#include &quot;../slac/slac_session.c&quot;
-#include &quot;../slac/evse_cm_slac_param.c&quot;
-#include &quot;../slac/evse_cm_start_atten_char.c&quot;
-#include &quot;../slac/evse_cm_atten_char.c&quot;
-#include &quot;../slac/evse_cm_mnbc_sound.c&quot;
-#include &quot;../slac/evse_cm_slac_match.c&quot;
-#include &quot;../slac/evse_cm_set_key.c&quot;
+#include &quot;../iso15118/slac_session.c&quot;
+#include &quot;../iso15118/slac_debug.c&quot;
+#include &quot;../iso15118/evse_cm_slac_param.c&quot;
+#include &quot;../iso15118/evse_cm_start_atten_char.c&quot;
+#include &quot;../iso15118/evse_cm_atten_char.c&quot;
+#include &quot;../iso15118/evse_cm_mnbc_sound.c&quot;
+#include &quot;../iso15118/evse_cm_slac_match.c&quot;
+#include &quot;../iso15118/evse_cm_set_key.c&quot;
 #endif
 
 /*====================================================================*
@@ -235,11 +235,11 @@ static void initialize (struct session * session, char const * profile, char con
 	hexencode (session-&gt;EVSE_ID, sizeof (session-&gt;EVSE_ID), configstring (profile, section, &quot;StationIdentifier&quot;, EVSE_SID)); 
 	hexencode (session-&gt;NMK, sizeof (session-&gt;NMK), configstring (profile, section, &quot;NetworkMembershipKey&quot;, EVSE_NMK)); 
 	hexencode (session-&gt;NID, sizeof (session-&gt;NID), configstring (profile, section, &quot;NetworkIdentifier&quot;, EVSE_NID)); 
-	session-&gt;NUM_SOUNDS = confignumber (profile, section, &quot;NumberOfSounds&quot;, SLAC_MSOUNDS); 
-	session-&gt;TIME_OUT = confignumber (profile, section, &quot;TimeToSound&quot;, SLAC_TIMETOSOUND); 
-	session-&gt;RESP_TYPE = confignumber (profile, section, &quot;ResponseType&quot;, SLAC_RESPONSE_TYPE); 
-	session-&gt;chargetime = confignumber (profile, section, &quot;ChargeTime&quot;, SLAC_CHARGETIME); 
-	session-&gt;settletime = confignumber (profile, section, &quot;SettleTime&quot;, SLAC_SETTLETIME); 
+	session-&gt;NUM_SOUNDS = confignumber_range (profile, section, &quot;NumberOfSounds&quot;, SLAC_MSOUNDS, 0, UCHAR_MAX); 
+	session-&gt;TIME_OUT = confignumber_range (profile, section, &quot;TimeToSound&quot;, SLAC_TIMETOSOUND, 0, UCHAR_MAX); 
+	session-&gt;RESP_TYPE = confignumber_range (profile, section, &quot;ResponseType&quot;, SLAC_RESPONSE_TYPE, 0, UCHAR_MAX); 
+	session-&gt;chargetime = confignumber_range (profile, section, &quot;ChargeTime&quot;, SLAC_CHARGETIME, 0, UINT_MAX); 
+	session-&gt;settletime = confignumber_range (profile, section, &quot;SettleTime&quot;, SLAC_SETTLETIME, 0, UINT_MAX); 
 	memcpy (session-&gt;original_nmk, session-&gt;NMK, sizeof (session-&gt;original_nmk)); 
 	memcpy (session-&gt;original_nid, session-&gt;NID, sizeof (session-&gt;original_nid)); 
 	session-&gt;state = EVSE_STATE_UNOCCUPIED; 
@@ -273,7 +273,7 @@ static void UnoccupiedState (struct session * session, struct channel * channel,
 
 { 
 	slac_session (session); 
-	debug (0, __func__, &quot;Listening ...&quot;); 
+	slac_debug (session, 0, __func__, &quot;Listening ...&quot;); 
 	while (evse_cm_slac_param (session, channel, message)); 
 	session-&gt;state = EVSE_STATE_UNMATCHED; 
 	return; 
@@ -292,7 +292,7 @@ static void UnmatchedState (struct session * session, struct channel * channel, 
 
 { 
 	slac_session (session); 
-	debug (0, __func__, &quot;Sounding ...&quot;); 
+	slac_debug (session, 0, __func__, &quot;Sounding ...&quot;); 
 	if (evse_cm_start_atten_char (session, channel, message)) 
 	{ 
 		session-&gt;state = EVSE_STATE_UNOCCUPIED; 
@@ -308,7 +308,7 @@ static void UnmatchedState (struct session * session, struct channel * channel, 
 		session-&gt;state = EVSE_STATE_UNOCCUPIED; 
 		return; 
 	} 
-	debug (0, __func__, &quot;Matching ...&quot;); 
+	slac_debug (session, 0, __func__, &quot;Matching ...&quot;); 
 	if (evse_cm_slac_match (session, channel, message)) 
 	{ 
 		session-&gt;state = EVSE_STATE_UNOCCUPIED; 
@@ -327,7 +327,7 @@ static void UnmatchedState (struct session * session, struct channel * channel, 
 static void MatchedState (struct session * session, struct channel * channel, struct message * message) 
 
 { 
-	debug (0, __func__, &quot;Connecting ...&quot;); 
+	slac_debug (session, 0, __func__, &quot;Connecting ...&quot;); 
 
 #if SLAC_AVLN_EVSE
 
@@ -341,14 +341,14 @@ static void MatchedState (struct session * session, struct channel * channel, st
 #endif
 #if SLAC_AVLN_PEV
 
-	debug (0, __func__, &quot;waiting for pev to settle ...&quot;); 
+	slac_debug (session, 0, __func__, &quot;waiting for pev to settle ...&quot;); 
 	sleep (session-&gt;settletime); 
 
 #endif
 
-	debug (0, __func__, &quot;Charging (%d) ...\n\n&quot;, session-&gt;counter++); 
+	slac_debug (session, 0, __func__, &quot;Charging (%d) ...\n\n&quot;, session-&gt;counter++); 
 	sleep (session-&gt;chargetime); 
-	debug (0, __func__, &quot;Disconnecting ...&quot;); 
+	slac_debug (session, 0, __func__, &quot;Disconnecting ...&quot;); 
 
 #if SLAC_AVLN_EVSE
 
@@ -364,7 +364,7 @@ static void MatchedState (struct session * session, struct channel * channel, st
 #endif
 #if SLAC_AVLN_PEV
 
-	debug (0, __func__, &quot;waiting for pev to settle ...&quot;); 
+	slac_debug (session, 0, __func__, &quot;waiting for pev to settle ...&quot;); 
 	sleep (session-&gt;settletime); 
 
 #endif
@@ -385,9 +385,9 @@ int main (int argc, char const * argv [])
 	extern struct channel channel; 
 	static char const * optv [] = 
 	{ 
-		&quot;cCdi:p:qs:t:vw:x&quot;, 
+		&quot;cCdi:p:qs:t:vx&quot;, 
 		&quot;&quot;, 
-		&quot;Qualcomm Atheros Electric Vehicle Supply Equipment Emulator&quot;, 
+		&quot;Electric Vehicle Supply Equipment Emulator&quot;, 
 		&quot;c\tprint template configuration file on stdout&quot;, 
 		&quot;C\tstop on count mismatch&quot;, 
 		&quot;d\tdisplay debug information&quot;, 
@@ -466,7 +466,8 @@ int main (int argc, char const * argv [])
 			section = optarg; 
 			break; 
 		case 'q': 
-			_setbits (channel.flags, CHANNEL_SILENCE); 
+			_setbits (channel.flags, CHANNEL_SILENCE);
+			_setbits (session.flags, SLAC_SILENCE); 
 			break; 
 		case 't': 
 			channel.timeout = (signed) (uintspec (optarg, 0, UINT_MAX)); 
@@ -485,14 +486,14 @@ int main (int argc, char const * argv [])
 	argv += optind; 
 	if (argc) 
 	{ 
-		debug (1, __func__, ERROR_TOOMANY); 
+		slac_debug (&amp; session, 1, __func__, ERROR_TOOMANY); 
 	} 
 	openchannel (&amp; channel); 
 	initialize (&amp; session, profile, section); 
 	identifier (&amp; session, &amp; channel); 
 	if (evse_cm_set_key (&amp; session, &amp; channel, &amp; message)) 
 	{ 
-		debug (1, __func__, &quot;Can't set key.&quot;); 
+		slac_debug (&amp; session, 1, __func__, &quot;Can't set key.&quot;); 
 	} 
 	sleep (session.settletime); 
 	while (session.state) 
@@ -512,7 +513,7 @@ int main (int argc, char const * argv [])
 			MatchedState (&amp; session, &amp; channel, &amp; message); 
 			continue; 
 		} 
-		debug (1, __func__, &quot;Illegal state!&quot;); 
+		slac_debug (&amp; session, 1, __func__, &quot;Illegal state!&quot;); 
 	} 
 	closechannel (&amp; channel); 
 	exit (0); 

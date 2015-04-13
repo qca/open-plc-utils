@@ -6,7 +6,7 @@
 			plc.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -86,7 +86,7 @@
 struct plc plc =
 
 {
-	(struct channel *) (&amp;channel),
+	(struct channel *) (&amp; channel),
 	(struct message *) (0),
 	(void *) (0),
 	0,
@@ -173,7 +173,7 @@ struct plc plc =
 
 	{
 		(file_t) (-1),
-		(char const *)(0)
+		(char const *) (0)
 	},
 
 /*
@@ -183,7 +183,27 @@ struct plc plc =
 
 	{
 		(file_t) (-1),
-		(char const *)(0)
+		(char const *) (0)
+	},
+
+/*
+ * struct _file_ SFT; softloader file to be written to flash
+ * memory;
+ */
+
+	{
+		(file_t) (-1),
+		(char const *) (0)
+	},
+
+/*
+ * struct _file_ sft; softloader file to be read from flash
+ * memory;
+ */
+
+	{
+		(file_t) (-1),
+		(char const *) (0)
 	},
 
 /*
@@ -193,7 +213,7 @@ struct plc plc =
 
 	{
 		(file_t) (-1),
-		(char const *)(0)
+		(char const *) (0)
 	},
 
 /*
@@ -206,7 +226,7 @@ struct plc plc =
 
 	{
 		(file_t) (-1),
-		(char const *)(0)
+		(char const *) (0)
 	},
 
 /*
@@ -216,7 +236,7 @@ struct plc plc =
 
 	{
 		(file_t) (-1),
-		(char const *)(0)
+		(char const *) (0)
 	},
 
 /*
@@ -229,7 +249,7 @@ struct plc plc =
 
 	{
 		(file_t) (-1),
-		(char const *)(0)
+		(char const *) (0)
 	},
 
 /*
@@ -239,7 +259,7 @@ struct plc plc =
 
 	{
 		(file_t) (-1),
-		(char const *)(0)
+		(char const *) (0)
 	},
 
 /*
@@ -249,7 +269,7 @@ struct plc plc =
 
 	{
 		(file_t) (-1),
-		(char const *)(0)
+		(char const *) (0)
 	},
 
 /*
@@ -258,7 +278,7 @@ struct plc plc =
 
 	{
 		(file_t) (-1),
-		(char const *)(0)
+		(char const *) (0)
 	},
 
 /*
@@ -290,6 +310,7 @@ struct plc plc =
 	PLC_COUNT,
 	PLC_INDEX,
 	PLC_FLAGS,
+	PLC_FLAGS
 };
 
 #endif

@@ -6,7 +6,7 @@
 			ARPCPrint.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -128,10 +128,11 @@ void ARPCPrint (FILE * fp, void const * memory, size_t extent)
 		argp++;
 	}
 
-#if defined (__UCLIBC__) || defined (__FREESCALE__)
+#if defined (__UCLIBC__) 
 
 /*
- *	This is a temporary fix so that we can compile program plctest for the PL16; A better solution is needed;
+ *	This is a simple fix to work around uclibc implementation issue with variable arugment lists; We are
+ *	testing a better one but most PLC users will not have access to firmware that exercises this module;
  */
 
 	argp = (uint32_t *)(&amp;data-&gt;LIST [LE16TOH (data-&gt;ARGOFFSET)]);

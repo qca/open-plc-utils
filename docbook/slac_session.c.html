@@ -6,14 +6,14 @@
 			slac_session.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
 		</head>
 	<body>
 		<div class='headerlink'>
-			[<a href='slac_connect.c.html' title=' slac_connect.c '>PREV</a>]
+			[<a href='slac_debug.c.html' title=' slac_debug.c '>PREV</a>]
 			[<a href='toolkit.html' title=' Index '>HOME</a>]
 			[<a href='slac_structs.c.html' title=' slac_structs.c '>NEXT</a>]
 			</div>
@@ -81,7 +81,7 @@
 #include &quot;../tools/memory.h&quot;
 #include &quot;../tools/error.h&quot;
 #include &quot;../tools/flags.h&quot;
-#include &quot;../slac/slac.h&quot;
+#include &quot;../iso15118/slac.h&quot;
 
 void slac_session (struct session * session) 
 
@@ -89,33 +89,33 @@ void slac_session (struct session * session)
 	if (_anyset (session-&gt;flags, SLAC_SESSION)) 
 	{ 
 		char string [256]; 
-		debug (0, __func__, &quot;session.RunID %s&quot;, HEXSTRING (string, session-&gt;RunID)); 
-		debug (0, __func__, &quot;session.APPLICATION_TYPE %d&quot;, session-&gt;APPLICATION_TYPE); 
-		debug (0, __func__, &quot;session.SECURITY_TYPE %d&quot;, session-&gt;SECURITY_TYPE); 
-		debug (0, __func__, &quot;session.RESP_TYPE %d&quot;, session-&gt;RESP_TYPE); 
-		debug (0, __func__, &quot;session.NUM_SOUNDS %d&quot;, session-&gt;NUM_SOUNDS); 
-		debug (0, __func__, &quot;session.TIME_OUT %d&quot;, session-&gt;TIME_OUT); 
-		debug (0, __func__, &quot;session.NumGroups %d&quot;, session-&gt;NumGroups); 
-		debug (0, __func__, &quot;session.AAG %s&quot;, hexstring (string, sizeof (string), session-&gt;AAG, sizeof (session-&gt;AAG))); 
-		debug (0, __func__, &quot;session.MSOUND_TARGET %s&quot;, HEXSTRING (string, session-&gt;MSOUND_TARGET)); 
-		debug (0, __func__, &quot;session.FORWARDING_STA %s&quot;, HEXSTRING (string, session-&gt;FORWARDING_STA)); 
-		debug (0, __func__, &quot;session.PEV_ID %s&quot;, HEXSTRING (string, session-&gt;PEV_ID)); 
-		debug (0, __func__, &quot;session.PEV_MAC %s&quot;, HEXSTRING (string, session-&gt;PEV_MAC)); 
-		debug (0, __func__, &quot;session.EVSE_ID %s&quot;, HEXSTRING (string, session-&gt;EVSE_ID)); 
-		debug (0, __func__, &quot;session.EVSE_MAC %s&quot;, HEXSTRING (string, session-&gt;EVSE_MAC)); 
-		debug (0, __func__, &quot;session.RND %s&quot;, HEXSTRING (string, session-&gt;RND)); 
-		debug (0, __func__, &quot;session.NMK %s&quot;, HEXSTRING (string, session-&gt;NMK)); 
-		debug (0, __func__, &quot;session.NID %s&quot;, HEXSTRING (string, session-&gt;NID)); 
-		debug (0, __func__, &quot;session.original_nmk %s&quot;, HEXSTRING (string, session-&gt;original_nmk)); 
-		debug (0, __func__, &quot;session.original_nid %s&quot;, HEXSTRING (string, session-&gt;original_nid)); 
-		debug (0, __func__, &quot;session.state %d&quot;, session-&gt;state); 
-		debug (0, __func__, &quot;session.sounds %d&quot;, session-&gt;sounds); 
-		debug (0, __func__, &quot;session.limit %d&quot;, session-&gt;limit); 
-		debug (0, __func__, &quot;session.pause %d&quot;, session-&gt;pause); 
-		debug (0, __func__, &quot;session.chargetime %d&quot;, session-&gt;chargetime); 
-		debug (0, __func__, &quot;session.settletime %d&quot;, session-&gt;settletime); 
-		debug (0, __func__, &quot;session.counter %d&quot;, session-&gt;counter); 
-		debug (0, __func__, &quot;session.flags 0x%04X&quot;, session-&gt;flags); 
+		slac_debug (session, 0, __func__, &quot;session.RunID %s&quot;, HEXSTRING (string, session-&gt;RunID)); 
+		slac_debug (session, 0, __func__, &quot;session.APPLICATION_TYPE %d&quot;, session-&gt;APPLICATION_TYPE); 
+		slac_debug (session, 0, __func__, &quot;session.SECURITY_TYPE %d&quot;, session-&gt;SECURITY_TYPE); 
+		slac_debug (session, 0, __func__, &quot;session.RESP_TYPE %d&quot;, session-&gt;RESP_TYPE); 
+		slac_debug (session, 0, __func__, &quot;session.NUM_SOUNDS %d&quot;, session-&gt;NUM_SOUNDS); 
+		slac_debug (session, 0, __func__, &quot;session.TIME_OUT %d&quot;, session-&gt;TIME_OUT); 
+		slac_debug (session, 0, __func__, &quot;session.NumGroups %d&quot;, session-&gt;NumGroups); 
+		slac_debug (session, 0, __func__, &quot;session.AAG %s&quot;, hexstring (string, sizeof (string), session-&gt;AAG, sizeof (session-&gt;AAG))); 
+		slac_debug (session, 0, __func__, &quot;session.MSOUND_TARGET %s&quot;, HEXSTRING (string, session-&gt;MSOUND_TARGET)); 
+		slac_debug (session, 0, __func__, &quot;session.FORWARDING_STA %s&quot;, HEXSTRING (string, session-&gt;FORWARDING_STA)); 
+		slac_debug (session, 0, __func__, &quot;session.PEV_ID %s&quot;, HEXSTRING (string, session-&gt;PEV_ID)); 
+		slac_debug (session, 0, __func__, &quot;session.PEV_MAC %s&quot;, HEXSTRING (string, session-&gt;PEV_MAC)); 
+		slac_debug (session, 0, __func__, &quot;session.EVSE_ID %s&quot;, HEXSTRING (string, session-&gt;EVSE_ID)); 
+		slac_debug (session, 0, __func__, &quot;session.EVSE_MAC %s&quot;, HEXSTRING (string, session-&gt;EVSE_MAC)); 
+		slac_debug (session, 0, __func__, &quot;session.RND %s&quot;, HEXSTRING (string, session-&gt;RND)); 
+		slac_debug (session, 0, __func__, &quot;session.NMK %s&quot;, HEXSTRING (string, session-&gt;NMK)); 
+		slac_debug (session, 0, __func__, &quot;session.NID %s&quot;, HEXSTRING (string, session-&gt;NID)); 
+		slac_debug (session, 0, __func__, &quot;session.original_nmk %s&quot;, HEXSTRING (string, session-&gt;original_nmk)); 
+		slac_debug (session, 0, __func__, &quot;session.original_nid %s&quot;, HEXSTRING (string, session-&gt;original_nid)); 
+		slac_debug (session, 0, __func__, &quot;session.state %d&quot;, session-&gt;state); 
+		slac_debug (session, 0, __func__, &quot;session.sounds %d&quot;, session-&gt;sounds); 
+		slac_debug (session, 0, __func__, &quot;session.limit %d&quot;, session-&gt;limit); 
+		slac_debug (session, 0, __func__, &quot;session.pause %d&quot;, session-&gt;pause); 
+		slac_debug (session, 0, __func__, &quot;session.chargetime %d&quot;, session-&gt;chargetime); 
+		slac_debug (session, 0, __func__, &quot;session.settletime %d&quot;, session-&gt;settletime); 
+		slac_debug (session, 0, __func__, &quot;session.counter %d&quot;, session-&gt;counter); 
+		slac_debug (session, 0, __func__, &quot;session.flags 0x%04X&quot;, session-&gt;flags); 
 	} 
 	return; 
 } 
@@ -125,7 +125,7 @@ void slac_session (struct session * session)
 
 </pre>
 		<div class='footerlink'>
-			[<a href='slac_connect.c.html' title=' slac_connect.c '>PREV</a>]
+			[<a href='slac_debug.c.html' title=' slac_debug.c '>PREV</a>]
 			[<a href='toolkit.html' title=' Index '>HOME</a>]
 			[<a href='slac_structs.c.html' title=' slac_structs.c '>NEXT</a>]
 			</div>

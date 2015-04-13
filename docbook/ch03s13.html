@@ -1,8 +1,8 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Endian-ness</title><link rel="stylesheet" href="docbook.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.73.2"><meta name="keywords" content="Intellon, Atheros, Qualcomm, HomePlug, powerline, communications, INT6000, INT6300, INT6400, AR7400, AR7420"><link rel="start" href="index.html" title="Qualcomm Atheros Open Powerline Toolkit"><link rel="up" href="ch03.html" title="Chapter 3.  Software"><link rel="prev" href="ch03s12.html" title="Structure Packing"><link rel="next" href="ch03s14.html" title="Packet Basics"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Endian-ness</title><meta name="generator" content="DocBook XSL Stylesheets V1.76.1"><meta name="keywords" content="Intellon, Atheros, Qualcomm, HomePlug, powerline, communications, INT6000, INT6300, INT6400, AR7400, AR7420"><link rel="home" href="index.html" title="Qualcomm Atheros Open Powerline Toolkit"><link rel="up" href="ch03.html" title="Chapter 3.  Software"><link rel="prev" href="ch03s12.html" title="Structure Packing"><link rel="next" href="ch03s14.html" title="Packet Basics"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">
 			Endian-ness 
 			</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ch03s12.html">Prev</a> </td><th width="60%" align="center">Chapter 3. 
 		Software 
-		</th><td width="20%" align="right"> <a accesskey="n" href="ch03s14.html">Next</a></td></tr></table><hr></div><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="endianess"></a>
+		</th><td width="20%" align="right"> <a accesskey="n" href="ch03s14.html">Next</a></td></tr></table><hr></div><div class="section" title="Endian-ness"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="endianess"></a>
 			Endian-ness 
 			</h2></div></div></div><p>
 			Atheros vendor-specific messages contain information in mixed endian format. The Ethernet header portion is sent <span class="emphasis"><em>big endian </em></span> but the Atheros header and payload are sent in <span class="emphasis"><em>little endian </em></span>. The traditional endian converstion functions <code class="function">htons()</code>, <code class="function">htonl()</code>, <code class="function">ntohs()</code> and <code class="function">ntohl()</code> can be used to perform platform independent conversions on the Ethernet header but not the Atheros header payload.
@@ -32,4 +32,4 @@
 				Structure Packing 
 				 </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 
 			Packet Basics 
-</td></tr></table></div></body></html>0
+</td></tr></table></div></body></html>

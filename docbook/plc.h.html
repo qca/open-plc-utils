@@ -6,7 +6,7 @@
 			plc.h
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -75,6 +75,7 @@
 #include &quot;../ether/channel.h&quot;
 #include &quot;../key/HPAVKey.h&quot;
 #include &quot;../tools/types.h&quot;
+#include &quot;../plc/chipset.h&quot;
 #include &quot;../mme/mme.h&quot;
 #include &quot;../nvm/nvm.h&quot;
 #include &quot;../pib/pib.h&quot;
@@ -83,23 +84,6 @@
  *   constants; these codes are returned in the DEVICEID field of the
  *   firmware VS_SW_VER message;
  *--------------------------------------------------------------------*/
-
-#define CHIPSET_UNKNOWN 0x00
-#define CHIPSET_INT6000 0x01
-#define CHIPSET_INT6300 0x02
-#define CHIPSET_INT6400 0x03
-#define CHIPSET_AR7400 0x04
-#define CHIPSET_AR6405 0x05
-#define CHIPSET_PANTHER_LYNX 0x06
-#define CHIPSET_QCA7450 0x07
-#define CHIPSET_QCA7451 0x08
-#define CHIPSET_QCA7452 0x09
-#define CHIPSET_QCA7420 0x20
-#define CHIPSET_QCA6410 0x21
-#define CHIPSET_QCA6411 0x21
-#define CHIPSET_QCA7000 0x22
-#define CHIPSET_QCA7005 0x22
-#define CHIPSET_QCA7000I 0x22
 
 #define PLC_MODULE_SOFTLOADER           0x00
 #define PLC_MODULE_FIRMWARE             (1 &lt;&lt; 0)
@@ -224,6 +208,8 @@
 #define PLC_BAD_DAK &quot;Have '%s' instead of DAK&quot;
 #define PLC_BAD_NMK &quot;Have '%s' instead of NMK&quot;
 
+#define PLC_EXIT(plc) ((signed) (plc-&gt;flags &amp; PLC_BAILOUT))
+
 /*====================================================================*
  *    program constants;
  *--------------------------------------------------------------------*/
@@ -317,6 +303,8 @@ typedef struct plc
 	uint8_t DAK [HPAVKEY_DAK_LEN];
 	struct _file_ CFG;
 	struct _file_ cfg;
+	struct _file_ SFT;
+	struct _file_ sft;
 	struct _file_ NVM;
 	struct _file_ nvm;
 	struct _file_ PIB;
@@ -340,6 +328,7 @@ typedef struct plc
 	unsigned count;
 	unsigned index;
 	flag_t flags;
+	flag_t flag2;
 }
 
 PLC;
@@ -385,9 +374,7 @@ signed FlashPTS (struct plc *);
 signed FlashDevice (struct plc *);
 signed FlashDevice0 (struct plc *);
 signed FlashDevice1 (struct plc *);
-signed FlashDevice1 (struct plc *);
-signed FlashDevice2 (struct plc *);
-signed FlashDevice2 (struct plc *);
+signed FlashDevice2 (struct plc *, uint32_t options);
 signed FlashFirmware (struct plc *, uint32_t options);
 signed FlashParameters (struct plc *, uint32_t options);
 signed FlashUpgrade (struct plc *, uint32_t options);
@@ -482,6 +469,7 @@ signed WaitForAssoc2 (struct plc *);
 signed WaitForBootLoader (struct plc *);
 signed WaitForReset (struct plc *, char buffer [], size_t length);
 signed WaitForStart (struct plc *, char buffer [], size_t length);
+signed WaitForRestart (struct plc *);
 signed WatchdogReport (struct plc *);
 signed WriteCFG (struct plc *);
 signed WriteExecuteApplet2 (struct plc *, unsigned module, const struct nvm_header2 *);
@@ -662,7 +650,7 @@ signed ModuleCommit (struct plc *, uint32_t flags);
 
 #ifdef __GNUC__
 
-__attribute__ ((format (printf, 2, 3)))
+__attribute__ ((format (printf, 2, 3))) 
 
 #endif
 
@@ -670,7 +658,7 @@ void Request (struct plc *, char const * format, ...);
 
 #ifdef __GNUC__
 
-__attribute__ ((format (printf, 2, 3)))
+__attribute__ ((format (printf, 2, 3))) 
 
 #endif
 
@@ -678,7 +666,7 @@ void Confirm (struct plc *, char const * format, ...);
 
 #ifdef __GNUC__
 
-__attribute__ ((format (printf, 2, 3)))
+__attribute__ ((format (printf, 2, 3))) 
 
 #endif
 
@@ -686,7 +674,7 @@ void Display (struct plc *, char const * format, ...);
 
 #ifdef __GNUC__
 
-__attribute__ ((format (printf, 2, 3)))
+__attribute__ ((format (printf, 2, 3))) 
 
 #endif
 

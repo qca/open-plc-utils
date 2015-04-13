@@ -6,7 +6,7 @@
 			pev_cm_slac_match.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -81,14 +81,14 @@
 #include &quot;../tools/memory.h&quot;
 #include &quot;../tools/error.h&quot;
 #include &quot;../tools/flags.h&quot;
-#include &quot;../slac/slac.h&quot;
+#include &quot;../iso15118/slac.h&quot;
 
 signed pev_cm_slac_match (struct session * session, struct channel * channel, struct message * message) 
 
 { 
 	struct cm_slac_match_request * request = (struct cm_slac_match_request *) (message); 
 	struct cm_slac_match_confirm * confirm = (struct cm_slac_match_confirm *) (message); 
-	debug (0, __func__, &quot;--&gt; CM_SLAC_MATCH.REQ&quot;); 
+	slac_debug (session, 0, __func__, &quot;--&gt; CM_SLAC_MATCH.REQ&quot;); 
 	memset (message, 0, sizeof (* message)); 
 	EthernetHeader (&amp; request-&gt;ethernet, session-&gt;EVSE_MAC, channel-&gt;host, channel-&gt;type); 
 	HomePlugHeader1 (&amp; request-&gt;homeplug, HOMEPLUG_MMV, (CM_SLAC_MATCH | MMTYPE_REQ)); 
@@ -100,29 +100,29 @@ signed pev_cm_slac_match (struct session * session, struct channel * channel, st
 	memcpy (request-&gt;MatchVarField.RunID, session-&gt;RunID, sizeof (request-&gt;MatchVarField.RunID)); 
 	if (sendmessage (channel, message, sizeof (* request)) &lt;= 0) 
 	{ 
-		return (debug (1, __func__, CHANNEL_CANTSEND)); 
+		return (slac_debug (session, 1, __func__, CHANNEL_CANTSEND)); 
 	} 
 	if (readmessage (channel, message, HOMEPLUG_MMV, (CM_SLAC_MATCH | MMTYPE_CNF)) &gt; 0) 
 	{ 
 		if (! memcmp (session-&gt;RunID, confirm-&gt;MatchVarField.RunID, sizeof (session-&gt;RunID))) 
 		{ 
-			debug (0, __func__, &quot;&lt;-- CM_SLAC_MATCH.CNF&quot;); 
+			slac_debug (session, 0, __func__, &quot;&lt;-- CM_SLAC_MATCH.CNF&quot;); 
 
 #if SLAC_DEBUG
 
 			if (_anyset (session-&gt;flags, SLAC_VERBOSE)) 
 			{ 
 				char string [256]; 
-				debug (0, __func__, &quot;CM_SLAC_MATCH.CNF.APPLICATION_TYPE %d&quot;, confirm-&gt;APPLICATION_TYPE); 
-				debug (0, __func__, &quot;CM_SLAC_MATCH.CNF.SECURITY_TYPE %d&quot;, confirm-&gt;SECURITY_TYPE); 
-				debug (0, __func__, &quot;CM_SLAC_MATCH.CNF.MVFLength %d&quot;, LE16TOH (confirm-&gt;MVFLength)); 
-				debug (0, __func__, &quot;CM_SLAC_MATCH.CNF.MatchVarField.PEV_ID %s&quot;, HEXSTRING (string, confirm-&gt;MatchVarField.PEV_ID)); 
-				debug (0, __func__, &quot;CM_SLAC_MATCH.CNF.MatchVarField.PEV_MAC %s&quot;, HEXSTRING (string, confirm-&gt;MatchVarField.PEV_MAC)); 
-				debug (0, __func__, &quot;CM_SLAC_MATCH.CNF.MatchVarField.EVSE_ID %s&quot;, HEXSTRING (string, confirm-&gt;MatchVarField.EVSE_ID)); 
-				debug (0, __func__, &quot;CM_SLAC_MATCH.CNF.MatchVarField.EVSE_MAC %s&quot;, HEXSTRING (string, confirm-&gt;MatchVarField.EVSE_MAC)); 
-				debug (0, __func__, &quot;CM_SLAC_MATCH.CNF.MatchVarField.RunID %s&quot;, HEXSTRING (string, confirm-&gt;MatchVarField.RunID)); 
-				debug (0, __func__, &quot;CM_SLAC_MATCH.CNF.MatchVarField.NID %s&quot;, HEXSTRING (string, confirm-&gt;MatchVarField.NID)); 
-				debug (0, __func__, &quot;CM_SLAC_MATCH.CNF.MatchVarField.NMK %s&quot;, HEXSTRING (string, confirm-&gt;MatchVarField.NMK)); 
+				slac_debug (session, 0, __func__, &quot;CM_SLAC_MATCH.CNF.APPLICATION_TYPE %d&quot;, confirm-&gt;APPLICATION_TYPE); 
+				slac_debug (session, 0, __func__, &quot;CM_SLAC_MATCH.CNF.SECURITY_TYPE %d&quot;, confirm-&gt;SECURITY_TYPE); 
+				slac_debug (session, 0, __func__, &quot;CM_SLAC_MATCH.CNF.MVFLength %d&quot;, LE16TOH (confirm-&gt;MVFLength)); 
+				slac_debug (session, 0, __func__, &quot;CM_SLAC_MATCH.CNF.MatchVarField.PEV_ID %s&quot;, HEXSTRING (string, confirm-&gt;MatchVarField.PEV_ID)); 
+				slac_debug (session, 0, __func__, &quot;CM_SLAC_MATCH.CNF.MatchVarField.PEV_MAC %s&quot;, HEXSTRING (string, confirm-&gt;MatchVarField.PEV_MAC)); 
+				slac_debug (session, 0, __func__, &quot;CM_SLAC_MATCH.CNF.MatchVarField.EVSE_ID %s&quot;, HEXSTRING (string, confirm-&gt;MatchVarField.EVSE_ID)); 
+				slac_debug (session, 0, __func__, &quot;CM_SLAC_MATCH.CNF.MatchVarField.EVSE_MAC %s&quot;, HEXSTRING (string, confirm-&gt;MatchVarField.EVSE_MAC)); 
+				slac_debug (session, 0, __func__, &quot;CM_SLAC_MATCH.CNF.MatchVarField.RunID %s&quot;, HEXSTRING (string, confirm-&gt;MatchVarField.RunID)); 
+				slac_debug (session, 0, __func__, &quot;CM_SLAC_MATCH.CNF.MatchVarField.NID %s&quot;, HEXSTRING (string, confirm-&gt;MatchVarField.NID)); 
+				slac_debug (session, 0, __func__, &quot;CM_SLAC_MATCH.CNF.MatchVarField.NMK %s&quot;, HEXSTRING (string, confirm-&gt;MatchVarField.NMK)); 
 			} 
 
 #endif
@@ -134,7 +134,7 @@ signed pev_cm_slac_match (struct session * session, struct channel * channel, st
 			return (0); 
 		} 
 	} 
-	return (debug (session-&gt;exit, __func__, &quot;&lt;-- CM_SLAC_MATCH.CNF ?&quot;)); 
+	return (slac_debug (session, session-&gt;exit, __func__, &quot;&lt;-- CM_SLAC_MATCH.CNF ?&quot;)); 
 } 
 
 #endif

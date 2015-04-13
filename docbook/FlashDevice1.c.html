@@ -6,7 +6,7 @@
 			FlashDevice1.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -99,19 +99,9 @@ signed FlashDevice1 (struct plc * plc)
 	{
 		return (-1);
 	}
-	if (_allclr (plc-&gt;flags, PLC_QUICK_FLASH))
+	if (WaitForRestart (plc))
 	{
-		char firmware [PLC_VERSION_STRING];
-		if (WaitForReset (plc, firmware, sizeof (firmware)))
-		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), 0, &quot;Device did not Reset&quot;);
-			return (-1);
-		}
-		if (WaitForStart (plc, firmware, sizeof (firmware)))
-		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), 0, &quot;Device did not Start&quot;);
-			return (-1);
-		}
+		return (-1);
 	}
 	return (0);
 }

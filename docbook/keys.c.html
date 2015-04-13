@@ -6,7 +6,7 @@
 			keys.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -58,7 +58,6 @@
  *   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
  *
  *--------------------------------------------------------------------*/
-
 /*====================================================================*
  *
  *   keys.c - Encryption Key Data and Functions;
@@ -67,7 +66,6 @@
  *
  *   Tabulate default Atheros pass phrases and their DAK, NMK and
  *   NID for search and conversion purposes;
- *
  *
  *   Contributor(s):
  *	Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
@@ -79,7 +77,7 @@
 
 #include &quot;../key/keys.h&quot;
 
-const struct key keys [KEYS] =
+struct key const keys [KEYS] =
 
 {
 	{
@@ -200,6 +198,72 @@ const struct key keys [KEYS] =
 		}
 	}
 };
+
+/*====================================================================*
+ * device access key synonym table;
+ *--------------------------------------------------------------------*/
+
+struct _term_ const daks [DAKS] =
+
+{
+	{
+		&quot;key0&quot;,
+		DAK0
+	},
+	{
+		&quot;key1&quot;,
+		DAK1
+	},
+	{
+		&quot;key2&quot;,
+		DAK2
+	},
+	{
+		&quot;none&quot;,
+		DAK0
+	},
+	{
+		&quot;secret&quot;,
+		DAK0
+	},
+	{
+		&quot;zero&quot;,
+		DAK0
+	}
+};
+
+/*====================================================================*
+ * network membership key synonym table;
+ *--------------------------------------------------------------------*/
+
+struct _term_ const nmks [NMKS] =
+
+{
+	{
+		&quot;key0&quot;,
+		NMK0
+	},
+	{
+		&quot;key1&quot;,
+		NMK1
+	},
+	{
+		&quot;key2&quot;,
+		NMK2
+	},
+	{
+		&quot;none&quot;,
+		NMK0
+	},
+	{
+		&quot;zero&quot;,
+		NMK0
+	},
+};
+
+/*====================================================================*
+ *  
+ *--------------------------------------------------------------------*/
 
 #endif
 

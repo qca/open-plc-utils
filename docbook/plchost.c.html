@@ -6,7 +6,7 @@
 			plchost.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -15,7 +15,7 @@
 		<div class='headerlink'>
 			[<a href='PLCHostBoot.c.html' title=' PLCHostBoot.c '>PREV</a>]
 			[<a href='toolkit.html' title=' Index '>HOME</a>]
-			[<a href='plchostd.c.html' title=' plchostd.c '>NEXT</a>]
+			[<a href='plchostd2.c.html' title=' plchostd2.c '>NEXT</a>]
 			</div>
 <pre>
 /*====================================================================*
@@ -269,7 +269,7 @@ signed function (struct plc * plc)
 				}
 				if (_anyset (plc-&gt;flags, PLC_FLASH_DEVICE))
 				{
-					FlashDevice2 (plc);
+					FlashDevice2 (plc, (PLC_COMMIT_FORCE | PLC_COMMIT_NORESET | PLC_COMMIT_FACTPIB));
 				}
 				continue;
 			}
@@ -479,7 +479,7 @@ int main (int argc, char const * argv [])
 			}
 			if (nvmfile2 (&amp;plc.NVM))
 			{
-				error (1, errno, &quot;Bad NVM file: %s&quot;, plc.NVM.name);
+				error (1, errno, &quot;Bad firmware file: %s&quot;, plc.NVM.name);
 			}
 			_setbits (plc.flags, PLC_WRITE_MAC);
 			break;
@@ -504,7 +504,7 @@ int main (int argc, char const * argv [])
 			}
 			if (pibfile2 (&amp;plc.PIB))
 			{
-				error (1, errno, &quot;Bad PIB file: %s&quot;, plc.PIB.name);
+				error (1, errno, &quot;Bad parameter file: %s&quot;, plc.PIB.name);
 			}
 			_setbits (plc.flags, PLC_WRITE_PIB);
 			break;
@@ -533,7 +533,7 @@ int main (int argc, char const * argv [])
 			}
 			if (nvmfile2 (&amp;plc.CFG))
 			{
-				error (1, errno, &quot;Bad NVM file: %s&quot;, plc.CFG.name);
+				error (1, errno, &quot;Bad firmware file: %s&quot;, plc.CFG.name);
 			}
 			break;
 		case 't':
@@ -604,7 +604,7 @@ int main (int argc, char const * argv [])
 		<div class='footerlink'>
 			[<a href='PLCHostBoot.c.html' title=' PLCHostBoot.c '>PREV</a>]
 			[<a href='toolkit.html' title=' Index '>HOME</a>]
-			[<a href='plchostd.c.html' title=' plchostd.c '>NEXT</a>]
+			[<a href='plchostd2.c.html' title=' plchostd2.c '>NEXT</a>]
 			</div>
 		</body>
 	</html>

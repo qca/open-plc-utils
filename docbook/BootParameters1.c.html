@@ -6,7 +6,7 @@
 			BootParameters1.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -100,15 +100,15 @@ signed BootParameters1 (struct plc * plc)
 	uint32_t offset;
 	if (lseek (plc-&gt;PIB.file, 0, SEEK_SET))
 	{
-		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, FILE_CANTHOME, plc-&gt;PIB.name);
+		error (PLC_EXIT (plc), errno, FILE_CANTHOME, plc-&gt;PIB.name);
 	}
 	if (read (plc-&gt;PIB.file, &amp;pib_header, sizeof (pib_header)) != sizeof (pib_header))
 	{
-		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, FILE_CANTREAD, plc-&gt;PIB.name);
+		error (PLC_EXIT (plc), errno, FILE_CANTREAD, plc-&gt;PIB.name);
 	}
 	if (lseek (plc-&gt;PIB.file, 0, SEEK_SET))
 	{
-		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, FILE_CANTHOME, plc-&gt;PIB.name);
+		error (PLC_EXIT (plc), errno, FILE_CANTHOME, plc-&gt;PIB.name);
 	}
 
 #if 1

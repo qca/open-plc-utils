@@ -6,7 +6,7 @@
 			hpavkey.1
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -63,16 +63,16 @@ OPTIONS
               such cases, you may need to include meta characters.
 
        -L level
-              Set security level.  The security level is encoded into the NID.  Level 0 enables pushbutton pairing.  Level 1 dis‐
-              ables it.  This option has no effect unless a NID is computed.
+              Set security level.  The security level is encoded into the NID.  Level 0 enables  pushbutton  pairing.   Level  1
+              disables it.  This option has no effect unless a NID is computed.
 
        -M     Uses HomePlug AV rules to compute Network Membership Keys (NMK) from pass phrases read from file or stdin.  An NMK
               is 16 bytes expressed as 32 hexadecimal digits.  This option over-rides any -D or -N options previously  specified
               on the command line.
 
        -N     Uses  HomePlug AV rules to compute Network Identification Keys (NID) from pass phrases read from file or stdin.  A
-              NID is 7 bytes expressed as 14 hexadecimal digits.  This  option  over-rides  any  -D  or  -M  options  previously
-              specified on the command line.
+              NID is 7 bytes expressed as 14 hexadecimal digits.  This option over-rides any -D or -M options previously  speci‐
+              fied on the command line.
 
        -q     Enable quiet mode which, for this application, has no effect.
 
@@ -137,7 +137,7 @@ TIPS&amp;TRICKS
        the dash is an option prefix which is incorrect in this case.  An error occurs because option -H is illegal.
 
           # hpavkey -vM -HomePlugAV -HomePlugAV123
-          hpavkey: Operation canceled: Option ’H’ has no meaning
+          hpavkey: Operation canceled: Option 'H' has no meaning
 
        one solution is to insert a double-dash (&quot;--&quot;) on the command line to indicate that no further options appear on the com‐
        mand line.  We include option -v to display the passwords on output.
@@ -153,8 +153,8 @@ REFERENCES
        standard FIPS180-2 sec 5.3.2 for more information on SHA256 encoding.
 
 DISCLAIMER
-       Qualcomm  Atheros  reserves  the  right  to  modify program names, functionality, input format or output format in future
-       toolkit releases without any obligation to notify or compensate toolkit users.
+       Qualcomm Atheros reserves the right to modify program names, functionality, input format or output format in future tool‐
+       kit releases without any obligation to notify or compensate toolkit users.
 
 SEE ALSO
        hpavkeys(1), mac2pw(1), mac2pwd(1), rkey(1)
@@ -162,7 +162,7 @@ SEE ALSO
 CREDITS
         Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
 
-open-plc-utils-0.0.3                                      November 2013                                               hpavkey(1)
+open-plc-utils-0.0.3                                        Mar 2014                                                  hpavkey(1)
 </pre>
 		<div class='footerlink'>
 			[<a href='hpav.1.html' title=' hpav.1 '>PREV</a>]

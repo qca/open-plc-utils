@@ -6,7 +6,7 @@
 			ExecuteApplets2.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -90,7 +90,7 @@ signed ExecuteApplets2 (struct plc * plc)
 	{
 		if (_allclr (plc-&gt;flags, PLC_SILENCE))
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, FILE_CANTHOME, plc-&gt;NVM.name);
+			error (PLC_EXIT (plc), errno, FILE_CANTHOME, plc-&gt;NVM.name);
 		}
 		return (-1);
 	}
@@ -100,7 +100,7 @@ signed ExecuteApplets2 (struct plc * plc)
 		{
 			if (_allclr (plc-&gt;flags, PLC_SILENCE))
 			{
-				error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, NVM_HDR_CANTREAD, plc-&gt;NVM.name, module);
+				error (PLC_EXIT (plc), errno, NVM_HDR_CANTREAD, plc-&gt;NVM.name, module);
 			}
 			return (-1);
 		}
@@ -108,7 +108,7 @@ signed ExecuteApplets2 (struct plc * plc)
 		{
 			if (_allclr (plc-&gt;flags, PLC_SILENCE))
 			{
-				error ((plc-&gt;flags &amp; PLC_BAILOUT), 0, NVM_HDR_VERSION, plc-&gt;NVM.name, module);
+				error (PLC_EXIT (plc), 0, NVM_HDR_VERSION, plc-&gt;NVM.name, module);
 			}
 			return (-1);
 		}
@@ -116,7 +116,7 @@ signed ExecuteApplets2 (struct plc * plc)
 		{
 			if (_allclr (plc-&gt;flags, PLC_SILENCE))
 			{
-				error ((plc-&gt;flags &amp; PLC_BAILOUT), 0, NVM_HDR_VERSION, plc-&gt;NVM.name, module);
+				error (PLC_EXIT (plc), 0, NVM_HDR_VERSION, plc-&gt;NVM.name, module);
 			}
 			return (-1);
 		}
@@ -124,7 +124,7 @@ signed ExecuteApplets2 (struct plc * plc)
 		{
 			if (_allclr (plc-&gt;flags, PLC_SILENCE))
 			{
-				error ((plc-&gt;flags &amp; PLC_BAILOUT), 0, NVM_HDR_CHECKSUM, plc-&gt;NVM.name, module);
+				error (PLC_EXIT (plc), 0, NVM_HDR_CHECKSUM, plc-&gt;NVM.name, module);
 			}
 			return (-1);
 		}

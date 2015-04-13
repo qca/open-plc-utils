@@ -6,7 +6,7 @@
 			int6kuart.1
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -58,7 +58,7 @@ COMMENTS
           # stty -F /dev/ttyS0 115200 cs8 cstopb -parenb -ixon
 
        On Linux, you can also use the minicom terminal emulator  to  communicate  using  the  underlying  serial  line  commands
-       described  in  the  COMMANDS  section.   The  minicom  program  reads default settings from configuration file /etc/mini�‐
+       described  in  the  COMMANDS  section.   The  minicom  program  reads default settings from configuration file /etc/mini‐
        com/minirc.dfl if present on startup.  A basic configuration file looks like this:
 
           pu port             /dev/ttyUSB0
@@ -153,7 +153,7 @@ OPTIONS
        -u     Force default host port settings to match the default setting for UART-enabled  Atheros  powerline  devices.   The
               setting  are  115200 baud, 8 data bits, no parity bits and 1 stop bit.  These settings will remain active when the
               program terminates and will not change unless changed by some other means, perhaps by another  application.   This
-              option  is  an easy means of establishg an initial serial connection with a powerline device, unless it’s settings
+              option  is  an easy means of establishg an initial serial connection with a powerline device, unless it's settings
               have been changed.
 
        -v     Display actual serial line commands and responses on stdout.
@@ -214,8 +214,8 @@ COMMANDS
               commands to the device at successively higher speeds until a valid response is received.
 
        ATMmessage
-              Send an Atheros vendor-specific management message over powerline. The message is expressed as a  series  of  hex‐
-              adecimal digits.
+              Send an Atheros vendor-specific management message over powerline. The message is expressed as a series  of  hexa‐
+              decimal digits.
 
        ATNI?  Read  nework information and store the information internally. Return the number of associated stations and infor‐
               mation about the first associated station. The information includes the peer station device address, TX  rate  and
@@ -258,7 +258,7 @@ COMMANDS
        ATWPFmodule,length,offset,checksum,data
               Write  a  parameter block or firmware segment to the local powerline device where module is the module identifier,
               length is the number of bytes to write, offset is the relative position from the start of the module, checksum  is
-              the  1’s  complement of the data and data is the data to be written.  Valid module identifiers are 1=FW and 2=PIB.
+              the  1's  complement of the data and data is the data to be written.  Valid module identifiers are 1=FW and 2=PIB.
               Valid length values are 0 up to 400 hexadecimal.  See options -N and -P above to write an entire  parameter  block
               or firmware images.
 
@@ -298,7 +298,7 @@ SEE ALSO
 CREDITS
         Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
 
-open-plc-utils-0.0.3                                      November 2013                                             int6kuart(1)
+open-plc-utils-0.0.3                                        Mar 2014                                                int6kuart(1)
 </pre>
 		<div class='footerlink'>
 			[<a href='int6ktone.1.html' title=' int6ktone.1 '>PREV</a>]

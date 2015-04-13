@@ -6,7 +6,7 @@
 			int6klog.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -238,7 +238,7 @@ static signed PrintRawWatchdogReport (struct plc * plc)
 	request-&gt;CLR = plc-&gt;readaction;
 	if (SendMME (plc) &lt;= 0)
 	{
-		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	do
@@ -246,7 +246,7 @@ static signed PrintRawWatchdogReport (struct plc * plc)
 		printf (&quot;%d %d\n&quot;, LE16TOH (indicate-&gt;RDATALENGTH), indicate-&gt;RDATAOFFSET);
 		if (ReadMME (plc, 0, (VS_WD_RPT | MMTYPE_IND)) &lt;= 0)
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
 		printf (&quot;%d %d\n&quot;, LE16TOH (indicate-&gt;RDATALENGTH), indicate-&gt;RDATAOFFSET);
@@ -322,7 +322,7 @@ static signed PrintWatchdogReport (struct plc * plc, char const * version)
 	request-&gt;CLR = plc-&gt;readaction;
 	if (SendMME (plc) &lt;= 0)
 	{
-		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	printf (&quot;&lt;WatchdogReport&gt;&quot;);
@@ -330,7 +330,7 @@ static signed PrintWatchdogReport (struct plc * plc, char const * version)
 	{
 		if (ReadMME (plc, 0, (VS_WD_RPT | MMTYPE_IND)) &lt; 0)
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
 		if (indicate-&gt;MSTATUS)
@@ -425,7 +425,7 @@ static signed PrintCheckpointReport (struct plc * plc, char const * version)
 	request-&gt;CLR = plc-&gt;readaction;
 	if (SendMME (plc) &lt;= 0)
 	{
-		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	printf (&quot;&lt;CheckpointReport&gt;&quot;);
@@ -433,7 +433,7 @@ static signed PrintCheckpointReport (struct plc * plc, char const * version)
 	{
 		if (ReadMME (plc, 0, (VS_CP_RPT | MMTYPE_IND)) &lt;= 0)
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
 		if (_anyset (indicate-&gt;MSTATUS, MSTATUS_STATUS))
@@ -525,12 +525,12 @@ static signed Diagnostics (struct plc * plc)
 	plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	if (SendMME (plc) &lt;= 0)
 	{
-		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	if (ReadMME (plc, 0, (VS_SW_VER | MMTYPE_CNF)) &lt;= 0)
 	{
-		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 		return (-1);
 	}
 	if (confirm-&gt;MSTATUS)

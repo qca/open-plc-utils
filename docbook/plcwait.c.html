@@ -6,7 +6,7 @@
 			plcwait.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -196,12 +196,12 @@ signed ResetAndWait (struct plc * plc)
 		plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		if (SendMME (plc) &lt;= 0)
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
 		if (ReadMME (plc, 0, (VS_RS_DEV | MMTYPE_CNF)) &lt; 0)
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
 		if (gettimeofday (&amp;tc, NULL) == -1)
@@ -288,12 +288,12 @@ signed WaitForReset (struct plc * plc, char string [], size_t length)
 		plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		if (SendMME (plc) &lt;= 0)
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
 		if (ReadMME (plc, 0, (VS_SW_VER | MMTYPE_CNF)) &lt; 0)
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
 		if (gettimeofday (&amp;tc, NULL) == -1)
@@ -381,12 +381,12 @@ signed WaitForStart (struct plc * plc, char string [], size_t length)
 		plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		if (SendMME (plc) &lt;= 0)
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
 		if (ReadMME (plc, 0, (VS_SW_VER | MMTYPE_CNF)) &lt; 0)
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
 		if (gettimeofday (&amp;tc, NULL) == -1)
@@ -511,12 +511,12 @@ signed WaitForAssoc (struct plc * plc)
 		plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		if (SendMME (plc) &lt;= 0)
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
 		if (ReadMME (plc, 1, (VS_NW_INFO | MMTYPE_CNF)) &lt; 0)
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
 		if (gettimeofday (&amp;tc, NULL) == -1)
@@ -552,16 +552,20 @@ signed WaitForAssoc (struct plc * plc)
 	return (-1);
 }
 
+#define COMPARE_TYPE_NONE     0
+#define COMPARE_TYPE_EXACT    1
+#define COMPARE_TYPE_CONTAINS 2
+
 /*====================================================================*
  *
- *   void function (struct plc * plc, char const * firmware);
+ *   void function (struct plc * plc, char const * firmware, int compare_type);
  *
  *   perform operations in a logical order;
  *
  *
  *--------------------------------------------------------------------*/
 
-static void function (struct plc * plc, char const * firmware)
+static void function (struct plc * plc, char const * firmware, int compare_type)
 
 {
 	char string [PLC_VERSION_STRING];
@@ -585,9 +589,23 @@ static void function (struct plc * plc, char const * firmware)
 		{
 			Failure (plc, &quot;Device did not Start.&quot;);
 		}
-		if ((firmware) &amp;&amp; (*firmware) &amp;&amp; strcmp (firmware, string))
+		if ((firmware) &amp;&amp; (*firmware))
 		{
-			Failure (plc, &quot;Started wrong firmware&quot;);
+			switch (compare_type)
+			{
+			case COMPARE_TYPE_EXACT:
+				if (strcmp (firmware, string))
+				{
+					Failure (plc, &quot;Started wrong firmware&quot;);
+				}
+				break;
+			case COMPARE_TYPE_CONTAINS:
+				if (strstr (string, firmware) == NULL)
+				{
+					Failure (plc, &quot;Started wrong firmware&quot;);
+				}
+				break;
+			}
 		}
 	}
 	if (_anyset (plc-&gt;flags, PLC_WAITFORASSOC))
@@ -639,12 +657,13 @@ int main (int argc, char const * argv [])
 	extern struct channel channel;
 	static char const * optv [] =
 	{
-		&quot;aef:i:p:qrRstvw:xy&quot;,
+		&quot;aef:F:i:p:qrRst:vw:xy&quot;,
 		&quot;device [device] [...] [&gt; stdout]&quot;,
 		&quot;Qualcomm Atheros Powerline Procrastinator&quot;,
 		&quot;a\twait for device assoc&quot;,
 		&quot;e\tredirect stderr to stdout&quot;,
 		&quot;f s\tconfirm firmware is revision s&quot;,
+		&quot;F s\tconfirm firmware revision contains substring s&quot;,
 
 #if defined (WINPCAP) || defined (LIBPCAP)
 
@@ -673,6 +692,7 @@ int main (int argc, char const * argv [])
 
 	char const * firmware = &quot;&quot;;
 	signed c;
+	int compare_type = COMPARE_TYPE_NONE;
 	if (getenv (PLCDEVICE))
 	{
 
@@ -700,6 +720,11 @@ int main (int argc, char const * argv [])
 			break;
 		case 'f':
 			firmware = optarg;
+			compare_type = COMPARE_TYPE_EXACT;
+			break;
+		case 'F':
+			firmware = optarg;
+			compare_type = COMPARE_TYPE_CONTAINS;
 			break;
 		case 'i':
 
@@ -759,7 +784,7 @@ int main (int argc, char const * argv [])
 	}
 	if (!argc)
 	{
-		function (&amp;plc, firmware);
+		function (&amp;plc, firmware, compare_type);
 	}
 	while ((argc) &amp;&amp; (* argv))
 	{
@@ -767,7 +792,7 @@ int main (int argc, char const * argv [])
 		{
 			error (1, errno, PLC_BAD_MAC, * argv);
 		}
-		function (&amp;plc, firmware);
+		function (&amp;plc, firmware, compare_type);
 		argv++;
 		argc--;
 	}

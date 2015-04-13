@@ -6,7 +6,7 @@
 			evse_cm_mnbc_sound.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -93,7 +93,7 @@
 #include &quot;../tools/error.h&quot;
 #include &quot;../tools/flags.h&quot;
 #include &quot;../tools/timer.h&quot;
-#include &quot;../slac/slac.h&quot;
+#include &quot;../iso15118/slac.h&quot;
 
 signed evse_cm_mnbc_sound (struct session * session, struct channel * channel, struct message * message) 
 
@@ -109,7 +109,7 @@ signed evse_cm_mnbc_sound (struct session * session, struct channel * channel, s
 	memset (session-&gt;AAG, 0, sizeof (session-&gt;AAG)); 
 	if (gettimeofday (&amp; ts, NULL) == - 1) 
 	{ 
-		debug (1, __func__, CANT_START_TIMER); 
+		slac_debug (session, 1, __func__, CANT_START_TIMER); 
 	} 
 	while ((length = readpacket (channel, message, sizeof (* message))) &gt;= 0) 
 	{ 
@@ -119,37 +119,37 @@ signed evse_cm_mnbc_sound (struct session * session, struct channel * channel, s
 		} 
 		else if (ntohs (homeplug-&gt;ethernet.MTYPE) != ETH_P_HPAV) 
 		{ 
-			debug (session-&gt;exit, __func__, &quot;bad MTYPE&quot;); 
+			slac_debug (session, session-&gt;exit, __func__, &quot;bad MTYPE&quot;); 
 		} 
 		else if (homeplug-&gt;homeplug.MMV != HOMEPLUG_MMV) 
 		{ 
-			debug (session-&gt;exit, __func__, &quot;bad MMV&quot;); 
+			slac_debug (session, session-&gt;exit, __func__, &quot;bad MMV&quot;); 
 		} 
 		else if (LE16TOH (homeplug-&gt;homeplug.MMTYPE) == (CM_MNBC_SOUND | MMTYPE_IND)) 
 		{ 
 			struct cm_mnbc_sound_indicate * indicate = (struct cm_mnbc_sound_indicate *) (message); 
 			if (! memcmp (session-&gt;RunID, indicate-&gt;MSVarField.RunID, sizeof (session-&gt;RunID))) 
 			{ 
-				debug (0, __func__, &quot;&lt;-- CM_MNBC_SOUND.IND (%d)&quot;, sounds); 
+				slac_debug (session, 0, __func__, &quot;&lt;-- CM_MNBC_SOUND.IND (%d)&quot;, sounds); 
 
 #if SLAC_DEBUG
 
 				if (_anyset (session-&gt;flags, SLAC_VERBOSE)) 
 				{ 
 					char string [256]; 
-					debug (0, __func__, &quot;CM_MNBC_SOUND.IND.APPLICATION_TYPE %d&quot;, indicate-&gt;APPLICATION_TYPE); 
-					debug (0, __func__, &quot;CM_MNBC_SOUND.IND.SECURITY_TYPE %d&quot;, indicate-&gt;SECURITY_TYPE); 
-					debug (0, __func__, &quot;CM_MNBC_SOUND.IND.MSVarField.SenderID %s&quot;, HEXSTRING (string, indicate-&gt;MSVarField.SenderID)); 
-					debug (0, __func__, &quot;CM_MNBC_SOUND.IND.MSVarField.Count %d&quot;, indicate-&gt;MSVarField.CNT); 
-					debug (0, __func__, &quot;CM_MNBC_SOUND.IND.MSVarField.RunID %s&quot;, HEXSTRING (string, indicate-&gt;MSVarField.RunID)); 
-					debug (0, __func__, &quot;CM_MNBC_SOUND.IND.MSVarField.RND %s&quot;, HEXSTRING (string, indicate-&gt;MSVarField.RND)); 
+					slac_debug (session, 0, __func__, &quot;CM_MNBC_SOUND.IND.APPLICATION_TYPE %d&quot;, indicate-&gt;APPLICATION_TYPE); 
+					slac_debug (session, 0, __func__, &quot;CM_MNBC_SOUND.IND.SECURITY_TYPE %d&quot;, indicate-&gt;SECURITY_TYPE); 
+					slac_debug (session, 0, __func__, &quot;CM_MNBC_SOUND.IND.MSVarField.SenderID %s&quot;, HEXSTRING (string, indicate-&gt;MSVarField.SenderID)); 
+					slac_debug (session, 0, __func__, &quot;CM_MNBC_SOUND.IND.MSVarField.Count %d&quot;, indicate-&gt;MSVarField.CNT); 
+					slac_debug (session, 0, __func__, &quot;CM_MNBC_SOUND.IND.MSVarField.RunID %s&quot;, HEXSTRING (string, indicate-&gt;MSVarField.RunID)); 
+					slac_debug (session, 0, __func__, &quot;CM_MNBC_SOUND.IND.MSVarField.RND %s&quot;, HEXSTRING (string, indicate-&gt;MSVarField.RND)); 
 				} 
 
 #endif
 
 				if (memcmp (session-&gt;PEV_MAC, indicate-&gt;ethernet.OSA, sizeof (session-&gt;PEV_MAC))) 
 				{ 
-					debug (session-&gt;exit, __func__, &quot;Unexpected OSA&quot;); 
+					slac_debug (session, session-&gt;exit, __func__, &quot;Unexpected OSA&quot;); 
 				} 
 				sounds++; 
 			} 
@@ -159,16 +159,16 @@ signed evse_cm_mnbc_sound (struct session * session, struct channel * channel, s
 			struct cm_atten_profile_indicate * indicate = (struct cm_atten_profile_indicate *) (message); 
 			if (! memcmp (session-&gt;PEV_MAC, indicate-&gt;PEV_MAC, sizeof (session-&gt;PEV_MAC))) 
 			{ 
-				debug (0, __func__, &quot;&lt;-- CM_ATTEN_PROFILE.IND (%d)&quot;, session-&gt;sounds); 
+				slac_debug (session, 0, __func__, &quot;&lt;-- CM_ATTEN_PROFILE.IND (%d)&quot;, session-&gt;sounds); 
 
 #if SLAC_DEBUG
 
 				if (_anyset (session-&gt;flags, SLAC_VERBOSE)) 
 				{ 
 					char string [256]; 
-					debug (0, __func__, &quot;CM_ATTEN_PROFILE.PEV_MAC %s&quot;, HEXSTRING (string, indicate-&gt;PEV_MAC)); 
-					debug (0, __func__, &quot;CM_ATTEN_PROFILE.NumGroups %d&quot;, indicate-&gt;NumGroups); 
-					debug (0, __func__, &quot;CM_ATTEN_PROFILE.AAG %s&quot;, hexstring (string, sizeof (string), indicate-&gt;AAG, indicate-&gt;NumGroups)); 
+					slac_debug (session, 0, __func__, &quot;CM_ATTEN_PROFILE.PEV_MAC %s&quot;, HEXSTRING (string, indicate-&gt;PEV_MAC)); 
+					slac_debug (session, 0, __func__, &quot;CM_ATTEN_PROFILE.NumGroups %d&quot;, indicate-&gt;NumGroups); 
+					slac_debug (session, 0, __func__, &quot;CM_ATTEN_PROFILE.AAG %s&quot;, hexstring (string, sizeof (string), indicate-&gt;AAG, indicate-&gt;NumGroups)); 
 				} 
 
 #endif
@@ -183,7 +183,7 @@ signed evse_cm_mnbc_sound (struct session * session, struct channel * channel, s
 		} 
 		if (gettimeofday (&amp; tc, NULL) == - 1) 
 		{ 
-			debug (1, __func__, CANT_RESET_TIMER); 
+			slac_debug (session, 1, __func__, CANT_RESET_TIMER); 
 		} 
 		if ((MILLISECONDS (ts, tc) &lt; timer) &amp;&amp; (session-&gt;sounds &lt; session-&gt;NUM_SOUNDS)) 
 		{ 
@@ -198,7 +198,7 @@ signed evse_cm_mnbc_sound (struct session * session, struct channel * channel, s
 		} 
 		return (0); 
 	} 
-	return (debug (session-&gt;exit, __func__, &quot;Sound timeout&quot;)); 
+	return (slac_debug (session, session-&gt;exit, __func__, &quot;Sound timeout&quot;)); 
 } 
 
 #endif

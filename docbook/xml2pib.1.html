@@ -6,7 +6,7 @@
 			xml2pib.1
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -68,50 +68,50 @@ SCHEMA
        edit PIB files.  This file should be a controlled document and instruction files should always be  validated  against  it
        before using them to edit a PIB file.  An explanation of this file appears below.
 
-          &lt;?xml version=’1.0’ encoding=’iso-8859-1’?&gt;
-          &lt;xs:schema xmlns:xs=’http://www.w3.org/2001/XMLSchema’ elementFormDefault=’qualified’&gt;
-               &lt;xs:element name=’pib’&gt;
+          &lt;?xml version='1.0' encoding='iso-8859-1'?&gt;
+          &lt;xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema' elementFormDefault='qualified'&gt;
+               &lt;xs:element name='pib'&gt;
                        &lt;xs:complexType&gt;
                                &lt;xs:sequence&gt;
-                                       &lt;xs:element maxOccurs=’unbounded’ ref=’object’/&gt;
+                                       &lt;xs:element maxOccurs='unbounded' ref='object'/&gt;
                                        &lt;/xs:sequence&gt;
                                &lt;/xs:complexType&gt;
                        &lt;/xs:element&gt;
-               &lt;xs:element name=’object’&gt;
+               &lt;xs:element name='object'&gt;
                        &lt;xs:complexType&gt;
-                               &lt;xs:attribute name=’name’ use=’required’ type=’xs:NCName’/&gt;
+                               &lt;xs:attribute name='name' use='required' type='xs:NCName'/&gt;
                                &lt;xs:sequence&gt;
                                        &lt;xs:sequence&gt;
-                                               &lt;xs:element ref=’offset’/&gt;
-                                               &lt;xs:element ref=’length’/&gt;
+                                               &lt;xs:element ref='offset'/&gt;
+                                               &lt;xs:element ref='length'/&gt;
                                                &lt;/xs:sequence&gt;
                                        &lt;xs:choice&gt;
-                                               &lt;xs:element ref=’array’/&gt;
-                                               &lt;xs:element ref=’dataString’/&gt;
-                                               &lt;xs:element ref=’dataHuge’/&gt;
-                                               &lt;xs:element ref=’dataLong’/&gt;
-                                               &lt;xs:element ref=’dataWord’/&gt;
-                                               &lt;xs:element ref=’dataByte’/&gt;
+                                               &lt;xs:element ref='array'/&gt;
+                                               &lt;xs:element ref='dataString'/&gt;
+                                               &lt;xs:element ref='dataHuge'/&gt;
+                                               &lt;xs:element ref='dataLong'/&gt;
+                                               &lt;xs:element ref='dataWord'/&gt;
+                                               &lt;xs:element ref='dataByte'/&gt;
                                                &lt;/xs:choice&gt;
                                        &lt;/xs:sequence&gt;
                                &lt;/xs:complexType&gt;
                        &lt;/xs:element&gt;
-               &lt;xs:element name=’length’ type=’xs:positiveInteger’/&gt;
-               &lt;xs:element name=’offset’ type=’xs:hexBinary’/&gt;
-               &lt;xs:element name=’array’&gt;
+               &lt;xs:element name='length' type='xs:positiveInteger'/&gt;
+               &lt;xs:element name='offset' type='xs:hexBinary'/&gt;
+               &lt;xs:element name='array'&gt;
                        &lt;xs:complexType&gt;
-                               &lt;xs:choice maxOccurs=’unbounded’&gt;
-                                       &lt;xs:element ref=’dataByte’/&gt;
-                                       &lt;xs:element ref=’dataHex’/&gt;
+                               &lt;xs:choice maxOccurs='unbounded'&gt;
+                                       &lt;xs:element ref='dataByte'/&gt;
+                                       &lt;xs:element ref='dataHex'/&gt;
                                        &lt;/xs:choice&gt;
                                &lt;/xs:complexType&gt;
                        &lt;/xs:element&gt;
-               &lt;xs:element name=’dataString’ type=’xs:string’/&gt;
-               &lt;xs:element name=’dataHuge’ type=’xs:unsignedLong’/&gt;
-               &lt;xs:element name=’dataLong’ type=’xs:unsignedInt’/&gt;
-               &lt;xs:element name=’dataWord’ type=’xs:unsignedShort’/&gt;
-               &lt;xs:element name=’dataByte’ type=’xs:unsignedByte’/&gt;
-               &lt;xs:element name=’dataHex’ type=’xs:hexBinary’/&gt;
+               &lt;xs:element name='dataString' type='xs:string'/&gt;
+               &lt;xs:element name='dataHuge' type='xs:unsignedLong'/&gt;
+               &lt;xs:element name='dataLong' type='xs:unsignedInt'/&gt;
+               &lt;xs:element name='dataWord' type='xs:unsignedShort'/&gt;
+               &lt;xs:element name='dataByte' type='xs:unsignedByte'/&gt;
+               &lt;xs:element name='dataHex' type='xs:hexBinary'/&gt;
                &lt;/xs:schema&gt;
 
 ELEMENTS
@@ -250,7 +250,7 @@ SEE ALSO
 CREDITS
         Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
 
-open-plc-utils-0.0.3                                      November 2013                                               xml2pib(1)
+open-plc-utils-0.0.3                                        Mar 2014                                                  xml2pib(1)
 </pre>
 		<div class='footerlink'>
 			[<a href='weeder.1.html' title=' weeder.1 '>PREV</a>]

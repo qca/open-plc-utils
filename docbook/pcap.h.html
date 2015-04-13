@@ -6,7 +6,7 @@
 			pcap.h
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -18,7 +18,6 @@
 			[<a href='pcap-int.h.html' title=' pcap-int.h '>NEXT</a>]
 			</div>
 <pre>
-/* -*- Mode: c; tab-width: 8; indent-tabs-mode: 1; c-basic-offset: 8; -*- */
 /*
  * Copyright (c) 1993, 1994, 1995, 1996, 1997
  *	The Regents of the University of California.  All rights reserved.
@@ -51,21 +50,20 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- * @(#) $Header: /tcpdump/master/libpcap/pcap/pcap.h,v 1.4.2.11 2008-10-06 15:38:39 gianluca Exp $ (LBL)
+ * @(#) $Header: /tcpdump/master/libpcap/pcap.h,v 1.59 2006/10/04 18:09:22 guy Exp $ (LBL)
  */
 
-#ifndef lib_pcap_pcap_h
-#define lib_pcap_pcap_h
-
-#if defined(WIN32)
-  #include &lt;pcap-stdinc.h&gt;
-#elif defined(MSDOS)
-  #include &lt;sys/types.h&gt;
-  #include &lt;sys/socket.h&gt;  /* u_int, u_char etc. */
-#else /* UN*X */
-  #include &lt;sys/types.h&gt;
-  #include &lt;sys/time.h&gt;
-#endif /* WIN32/MSDOS/UN*X */
+/*
+ * For backwards compatibility.
+ *
+ * Note to OS vendors: do NOT get rid of this file!  Many applications
+ * expect to be able to include &lt;pcap.h&gt;, and at least some of them
+ * go through contortions in their configure scripts to try to detect
+ * OSes that have &quot;helpfully&quot; moved pcap.h to &lt;pcap/pcap.h&gt; without
+ * leaving behind a &lt;pcap.h&gt; file.
+ */
+#include &lt;pcap/pcap.h&gt;
+*/
 
 #ifndef PCAP_DONT_INCLUDE_PCAP_BPF_H
 #include &lt;pcap/bpf.h&gt;

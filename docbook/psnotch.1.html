@@ -6,7 +6,7 @@
 			psnotch.1
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -72,16 +72,16 @@ OPTIONS
        -t threshold
               The  notching threshold expressed as an integer in the range 0 through 49.  A value of 0 will notch scalers in the
               specified carrier range.  A value in the range 1 through 5 is reasonable.  A value greater than 5 may result in no
-              notching  at all.  See the man page for program int6ktone for an explanation and illustration of threshold values.
+              notching at all.  See the man page for program int6ktone for an explanation and illustration of threshold values.
 
-       -v     Verbose mode.  Display a histogram on stderr showing carriers in the range specified or implied by options -L  and
+       -v     Verbose  mode.  Display a histogram on stderr showing carriers in the range specified or implied by options -L and
               -U.  The histogram shows the carrier, amplitude mask, tonemap slot values and carrier frequency.  Data columns are
               separated by specases instead of commas.  This option excludes option -c.
 
 ARGUMENTS
-       stdin  The unotched amplitude map file.  This amplitude map should conform to EMI regulations for the region  or  country
-              where  the  powerline device will operate.  A range of approved amplitude maps is available from Qualcomm Atheros.
-              Use program psout to extract the amplitude map from an existing PIB file or program psgraph to display the  ampli‐
+       stdin  The  unotched  amplitude map file.  This amplitude map should conform to EMI regulations for the region or country
+              where the powerline device will operate.  A range of approved amplitude maps is available from  Qualcomm  Atheros.
+              Use  program psout to extract the amplitude map from an existing PIB file or program psgraph to display the ampli‐
               tude map in an existing PIB file.
 
        stdout The notched amplitude map file.  If no tone map file is specified on the command line then no notches are computed
@@ -89,15 +89,15 @@ ARGUMENTS
               tone map.  Use program psin to insert an amplitude map into an existing PIB file.
 
 EXAMPLES
-       The  following  example  reads unotched amplitude map unotched.psc and creates a notched amplitude map notched.psc.  File
-       tone.map determines if and wehre notching may be required; however, only carriers from offset 57 through 66  are  notched
-       if  their mean-square values are less than 3.  No other carriers will be notched.  See the man page for program int6ktone
+       The following example reads unotched amplitude map unotched.psc and creates a notched amplitude  map  notched.psc.   File
+       tone.map  determines  if and wehre notching may be required; however, only carriers from offset 57 through 66 are notched
+       if their mean-square values are less than 3.  No other carriers will be notched.  See the man page for program  int6ktone
        for an illustration of threshold values.
 
           # psnotch &lt; unotched.psc &gt; notched.psc -f tone.map -l 57 -u 66 -t 3
 
-       The next example does the same thing but also displays a histogram on stderr.  It show, in order from left to right,  the
-       carrier,  prescaler amplitude mask, the five or six tonemap slot values, the carrier frequency and a bar representing the
+       The  next example does the same thing but also displays a histogram on stderr.  It show, in order from left to right, the
+       carrier, prescaler amplitude mask, the five or six tonemap slot values, the carrier frequency and a bar representing  the
        mean square of the slot values.  To save this output, redirect stderr to a file using &quot;2&gt; temp.txt&quot;.
 
           # psnotch &lt; unotched.psc &gt; notched.psc -f tone.map -v
@@ -1256,8 +1256,8 @@ EXAMPLES
           1152 0000 00 00 00 00 00 00 29.932
           1153 0000 00 00 00 00 00 00 29.956
 
-       ThIs next example does the same thing as the previous example but outputs information in comma-delimited  format  because
-       option  -c  was  used  instead of option -v.  This format is better suited for importing into a spreadsheet but lacks the
+       ThIs  next  example does the same thing as the previous example but outputs information in comma-delimited format because
+       option -c was used instead of option -v.  This format is better suited for importing into a  spreadsheet  but  lacks  the
        visual effect of the histogram.  Observe that prescaler values appear in decimal rather than hexadecimal.
 
           # psnotch &lt; unotched.psc &gt; notched.psc -f tone.map -c
@@ -2427,7 +2427,7 @@ SEE ALSO
 CREDITS
         Charles Maier &lt;cmaier@qca.qualcomm.com&gt;
 
-open-plc-utils-0.0.3                                      November 2013                                               psnotch(1)
+open-plc-utils-0.0.3                                        Mar 2014                                                  psnotch(1)
 </pre>
 		<div class='footerlink'>
 			[<a href='pskey.1.html' title=' pskey.1 '>PREV</a>]

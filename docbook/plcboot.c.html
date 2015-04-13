@@ -6,7 +6,7 @@
 			plcboot.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -124,6 +124,7 @@
 #include &quot;../plc/NVMSelect.c&quot;
 #include &quot;../plc/ReadMME.c&quot;
 #include &quot;../plc/Request.c&quot;
+#include &quot;../plc/ResetDevice.c&quot;
 #include &quot;../plc/SendMME.c&quot;
 #include &quot;../plc/WaitForReset.c&quot;
 #include &quot;../plc/WaitForStart.c&quot;
@@ -279,7 +280,7 @@ int main (int argc, char const * argv [])
 			}
 			if (nvmfile2 (&amp;plc.NVM))
 			{
-				error (1, errno, &quot;Bad NVM file: %s&quot;, plc.NVM.name);
+				error (1, errno, &quot;Bad firmware file: %s&quot;, plc.NVM.name);
 			}
 			_setbits (plc.flags, PLC_WRITE_MAC);
 			break;
@@ -294,7 +295,7 @@ int main (int argc, char const * argv [])
 			}
 			if (pibfile2 (&amp;plc.PIB))
 			{
-				error (1, errno, &quot;Bad PIB file: %s&quot;, plc.PIB.name);
+				error (1, errno, &quot;Bad parameter file: %s&quot;, plc.PIB.name);
 			}
 			_setbits (plc.flags, PLC_WRITE_PIB);
 			break;
@@ -313,7 +314,7 @@ int main (int argc, char const * argv [])
 			}
 			if (nvmfile2 (&amp;plc.CFG))
 			{
-				error (1, errno, &quot;Bad NVM file: %s&quot;, plc.CFG.name);
+				error (1, errno, &quot;Bad softloader file: %s&quot;, plc.CFG.name);
 			}
 			break;
 		case 't':
@@ -346,14 +347,14 @@ int main (int argc, char const * argv [])
 		Failure (&amp;plc, PLC_NODETECT);
 		exit (1);
 	}
-	if (plc.hardwareID &lt; CHIPSET_INT6400)
-	{
-		Failure (&amp;plc, &quot;Device must be %s or later; Use program int6kboot instead.&quot;, chipsetname (CHIPSET_INT6400));
-		exit (1);
-	}
 	if (strcmp (firmware, &quot;BootLoader&quot;))
 	{
 		Failure (&amp;plc, &quot;Bootloader must be running&quot;);
+		exit (1);
+	}
+	if (plc.hardwareID &lt; CHIPSET_INT6400)
+	{
+		Failure (&amp;plc, &quot;Device must be %s or later; Use program int6kboot or ampboot instead.&quot;, chipsetname (CHIPSET_INT6400));
 		exit (1);
 	}
 	if (plc.PIB.file == -1)
@@ -377,7 +378,7 @@ int main (int argc, char const * argv [])
 		{
 			if (_anyset (plc.flags, PLC_FLASH_DEVICE))
 			{
-				FlashDevice2 (&amp;plc);
+				FlashDevice2 (&amp; plc, (PLC_COMMIT_FORCE | PLC_COMMIT_NORESET | PLC_COMMIT_FACTPIB));
 			}
 		}
 	}

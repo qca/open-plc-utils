@@ -6,14 +6,14 @@
 			WaitForStart.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
 		</head>
 	<body>
 		<div class='headerlink'>
-			[<a href='WaitForReset.c.html' title=' WaitForReset.c '>PREV</a>]
+			[<a href='WaitForRestart.c.html' title=' WaitForRestart.c '>PREV</a>]
 			[<a href='toolkit.html' title=' Index '>HOME</a>]
 			[<a href='WatchdogReport.c.html' title=' WatchdogReport.c '>NEXT</a>]
 			</div>
@@ -140,12 +140,12 @@ signed WaitForStart (struct plc * plc, char string [], size_t length)
 		plc-&gt;packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 		if (SendMME (plc) &lt;= 0)
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
 		if (ReadMME (plc, 0, (VS_SW_VER | MMTYPE_CNF)) &lt; 0)
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
 		if (gettimeofday (&amp;tc, NULL) == -1)
@@ -169,7 +169,7 @@ signed WaitForStart (struct plc * plc, char string [], size_t length)
 
 </pre>
 		<div class='footerlink'>
-			[<a href='WaitForReset.c.html' title=' WaitForReset.c '>PREV</a>]
+			[<a href='WaitForRestart.c.html' title=' WaitForRestart.c '>PREV</a>]
 			[<a href='toolkit.html' title=' Index '>HOME</a>]
 			[<a href='WatchdogReport.c.html' title=' WatchdogReport.c '>NEXT</a>]
 			</div>

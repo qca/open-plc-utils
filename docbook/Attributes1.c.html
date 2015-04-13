@@ -6,7 +6,7 @@
 			Attributes1.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -154,7 +154,7 @@ signed Attributes1 (struct plc * plc)
 	request-&gt;RTYPE = 0;
 	if (SendMME (plc) &lt;= 0)
 	{
-		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+		error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 		return (-1);
 	}
 	while (ReadMME (plc, 0, (VS_OP_ATTRIBUTES | MMTYPE_CNF)) &gt; 0)
@@ -211,7 +211,7 @@ signed Attributes1 (struct plc * plc)
 		length += snprintf (string + length, sizeof (string) - length, &quot;-%-8.8s&quot;, attributes-&gt;RELEASEDATE);
 		length += snprintf (string + length, sizeof (string) - length, &quot;-%s&quot;, attributes-&gt;RELEASETYPE);
 		length += snprintf (string + length, sizeof (string) - length, &quot;-%c&quot;, attributes-&gt;SDRAMTYPE);
-		length += snprintf (string + length, sizeof (string) - length, &quot; (%dmb) &quot;, LE32TOH (attributes-&gt;SDRAMSIZE));
+		length += snprintf (string + length, sizeof (string) - length, &quot; (%dmb)&quot;, LE32TOH (attributes-&gt;SDRAMSIZE));
 		length += snprintf (string + length, sizeof (string) - length, &quot; (0x%02X) \&quot;%s\&quot; \&quot;%s\&quot; &quot;, attributes-&gt;LINEFREQ, frequency [attributes-&gt;LINEFREQ &amp; 0x03], zero_cross [(attributes-&gt;LINEFREQ &amp; 0x0C) &gt;&gt; 2]);
 		length += snprintf (string + length, sizeof (string) - length, &quot; 0x%02X&quot;, attributes-&gt;AUTHMODE);
 		Display (plc, &quot;%s&quot;, string);

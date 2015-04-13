@@ -6,7 +6,7 @@
 			ReadNVM.c
 			</title>
 		<meta http-equiv='content-type' content='text/html;iso-8859-1'/>
-		<meta name='generator' content='motley-tools 1.9.1 14:44:01 Oct 24 2013'/>
+		<meta name='generator' content='motley-tools 1.9.4 13:40:33 Feb 18 2015'/>
 		<meta name='author' content='cmaier@cmassoc.net'/>
 		<meta name='robots' content='noindex,nofollow'/>
 		<link href='toolkit.css' rel='stylesheet' type='text/css'/>
@@ -144,7 +144,7 @@ signed ReadNVM (struct plc * plc)
 	Request (plc, &quot;Read Firmware from Device&quot;);
 	if (lseek (plc-&gt;nvm.file, 0, SEEK_SET))
 	{
-		error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, FILE_CANTHOME, plc-&gt;nvm.name);
+		error (PLC_EXIT (plc), errno, FILE_CANTHOME, plc-&gt;nvm.name);
 		return (1);
 	}
 	do
@@ -158,12 +158,12 @@ signed ReadNVM (struct plc * plc)
 		request-&gt;MOFFSET = HTOLE32 (offset);
 		if (SendMME (plc) &lt;= 0)
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTSEND);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
 		if (ReadMME (plc, 0, (VS_RD_MOD | MMTYPE_CNF)) &lt;= 0)
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, CHANNEL_CANTREAD);
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
 			return (-1);
 		}
 		if (confirm-&gt;MSTATUS)
@@ -173,19 +173,19 @@ signed ReadNVM (struct plc * plc)
 		}
 		if (LE16TOH (confirm-&gt;MLENGTH) != length)
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), 0, PLC_ERR_LENGTH);
+			error (PLC_EXIT (plc), 0, PLC_ERR_LENGTH);
 			return (-1);
 		}
 		if (LE32TOH (confirm-&gt;MOFFSET) != offset)
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), 0, PLC_ERR_OFFSET);
+			error (PLC_EXIT (plc), 0, PLC_ERR_OFFSET);
 			return (-1);
 		}
 		length = LE16TOH (confirm-&gt;MLENGTH);
 		offset = LE32TOH (confirm-&gt;MOFFSET);
 		if (checksum32 (confirm-&gt;BUFFER, length, confirm-&gt;CHKSUM))
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), ECANCELED, &quot;Bad Packet Checksum&quot;);
+			error (PLC_EXIT (plc), ECANCELED, &quot;Bad Packet Checksum&quot;);
 			return (-1);
 		}
 		if (offset == extent)
@@ -193,12 +193,12 @@ signed ReadNVM (struct plc * plc)
 			struct nvm_header1 * nvm_header = (struct nvm_header1 *)(confirm-&gt;BUFFER);
 			if (checksum32 (nvm_header, sizeof (* nvm_header), 0))
 			{
-				error ((plc-&gt;flags &amp; PLC_BAILOUT), ECANCELED, &quot;Bad Header Checksum&quot;);
+				error (PLC_EXIT (plc), ECANCELED, &quot;Bad Header Checksum&quot;);
 				return (-1);
 			}
 			if (LE32TOH (nvm_header-&gt;HEADERVERSION) != 0x60000000)
 			{
-				error ((plc-&gt;flags &amp; PLC_BAILOUT), ECANCELED, &quot;Bad Header Version&quot;);
+				error (PLC_EXIT (plc), ECANCELED, &quot;Bad Header Version&quot;);
 				return (-1);
 			}
 			extent += sizeof (* nvm_header);
@@ -211,12 +211,12 @@ signed ReadNVM (struct plc * plc)
 		}
 		if (lseek (plc-&gt;nvm.file, offset, SEEK_SET) != (off_t)(offset))
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, FILE_CANTSEEK, plc-&gt;nvm.name);
+			error (PLC_EXIT (plc), errno, FILE_CANTSEEK, plc-&gt;nvm.name);
 			return (-1);
 		}
 		if (write (plc-&gt;nvm.file, confirm-&gt;BUFFER, length) != (signed)(length))
 		{
-			error ((plc-&gt;flags &amp; PLC_BAILOUT), errno, FILE_CANTSAVE, plc-&gt;nvm.name);
+			error (PLC_EXIT (plc), errno, FILE_CANTSAVE, plc-&gt;nvm.name);
 			return (-1);
 		}
 		offset += length;
