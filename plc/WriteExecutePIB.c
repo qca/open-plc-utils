@@ -119,7 +119,7 @@ signed WriteExecutePIB (struct plc * plc, uint32_t offset, struct pib_header * h
 #endif
 
 	uint32_t length = PLC_MODULE_SIZE;
-	uint32_t extent = LE32TOH (header->PIBLENGTH);
+	uint32_t extent = LE16TOH (header->PIBLENGTH);
 	Request (plc, "Write %s (0) (%08X:%d)", plc->PIB.name, offset, extent);
 	while (extent)
 	{
