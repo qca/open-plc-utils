@@ -56,6 +56,7 @@
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Werner Henze <w.henze@avm.de>
  *
  *--------------------------------------------------------------------*/
 
@@ -137,6 +138,10 @@ signed WaitForStart (struct plc * plc, char string [], size_t length)
 			chipset (confirm);
 			plc->hardwareID = confirm->MDEVICEID;
 			memcpy (channel->peer, request->ethernet.OSA, sizeof (channel->peer));
+			if (confirm->MVERLENGTH > length)
+			{
+				confirm->MVERLENGTH = length;
+			}
 			memcpy (string, confirm->MVERSION, confirm->MVERLENGTH);
 			return (0);
 		}
