@@ -78,21 +78,6 @@ static uint8_t const mod2bits [AMP_BITS] =
 	12
 };
 
-static uint8_t const mod2db [AMP_BITS] =
-
-{
-	0,
-	2,
-	4,
-	7,
-	10,
-	16,
-	22,
-	28,
-	36
-};
-
-
 #endif
 
 signed ToneMaps1 (struct plc * plc)
