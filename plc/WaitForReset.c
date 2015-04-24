@@ -41,7 +41,7 @@
 
 /*====================================================================*
  *
- *   signed WaitForReset (struct plc * plc, char string [], size_t length);
+ *   signed WaitForReset (struct plc * plc);
  *
  *   plc.h
  *
@@ -60,6 +60,7 @@
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
+ *	Werner Henze <w.henze@avm.de>
  *
  *--------------------------------------------------------------------*/
 
@@ -75,7 +76,7 @@
 #include "../tools/timer.h"
 #include "../tools/error.h"
 
-signed WaitForReset (struct plc * plc, char string [], size_t length)
+signed WaitForReset (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -94,22 +95,11 @@ signed WaitForReset (struct plc * plc, char string [], size_t length)
 		struct qualcomm_hdr qualcomm;
 	}
 	* request = (struct vs_sw_ver_request *) (message);
-	struct __packed vs_sw_ver_confirm
-	{
-		struct ethernet_hdr ethernet;
-		struct qualcomm_hdr qualcomm;
-		uint8_t MSTATUS;
-		uint8_t MDEVICEID;
-		uint8_t MVERLENGTH;
-		char MVERSION [PLC_VERSION_STRING];
-	}
-	* confirm = (struct vs_sw_ver_confirm *) (message);
 
 #ifndef __GNUC__
 #pragma pack (pop)
 #endif
 
-	memset (string, 0, length);
 	if (gettimeofday (&ts, NULL) == -1)
 	{
 		error (1, errno, CANT_START_TIMER);
@@ -136,7 +126,6 @@ signed WaitForReset (struct plc * plc, char string [], size_t length)
 		}
 		if (!plc->packetsize)
 		{
-			memcpy (string, confirm->MVERSION, confirm->MVERLENGTH);
 			return (0);
 		}
 	}

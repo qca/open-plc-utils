@@ -68,7 +68,7 @@ signed WaitForRestart (struct plc * plc)
 	if (_allclr (plc->flags, PLC_QUICK_FLASH))
 	{
 		char firmware [PLC_VERSION_STRING];
-		if (WaitForReset (plc, firmware, sizeof (firmware)))
+		if (WaitForReset (plc))
 		{
 			error (PLC_EXIT (plc), 0, "Device did not Reset");
 			return (-1);

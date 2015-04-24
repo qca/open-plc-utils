@@ -46,6 +46,8 @@
  *
  *   Contributor(s):
  *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
+ *	Werner Henze <w.henze@avm.de>
  *
  *--------------------------------------------------------------------*/
 
@@ -130,6 +132,10 @@
  *   return 0 if the device eventually responds within plc->timer
  *   seconds or -1 if not;
  *
+ *   Contributor(s):
+ *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
+ *
  *--------------------------------------------------------------------*/
 
 signed ResetAndWait (struct plc * plc)
@@ -203,7 +209,7 @@ signed ResetAndWait (struct plc * plc)
 
 /*====================================================================*
  *
- *   signed WaitForReset (struct plc * plc, char string [], size_t length);
+ *   signed WaitForReset (struct plc * plc);
  *
  *   plc.h
  *
@@ -215,9 +221,14 @@ signed ResetAndWait (struct plc * plc)
  *   this function cannot distinguish between a software reset and
  *   hardware reset;
  *
+ *   Contributor(s):
+ *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
+ *	Werner Henze <w.henze@avm.de>
+ *
  *--------------------------------------------------------------------*/
 
-signed WaitForReset (struct plc * plc, char string [], size_t length)
+signed WaitForReset (struct plc * plc)
 
 {
 	struct channel * channel = (struct channel *)(plc->channel);
@@ -240,22 +251,11 @@ signed WaitForReset (struct plc * plc, char string [], size_t length)
 		char MVERSION [PLC_VERSION_STRING];
 	}
 	* request = (struct vs_sw_ver_request *) (message);
-	struct __packed vs_sw_ver_confirm
-	{
-		struct ethernet_hdr ethernet;
-		struct qualcomm_hdr qualcomm;
-		uint8_t MSTATUS;
-		uint8_t MDEVICEID;
-		uint8_t MVERLENGTH;
-		char MVERSION [PLC_VERSION_STRING];
-	}
-	* confirm = (struct vs_sw_ver_confirm *) (message);
 
 #ifndef __GNUC__
 #pragma pack (pop)
 #endif
 
-	memset (string, 0, length);
 	Request (plc, "Allow %d seconds for Reset", plc->timer);
 	if (gettimeofday (&ts, NULL) == -1)
 	{
@@ -287,7 +287,6 @@ signed WaitForReset (struct plc * plc, char string [], size_t length)
 			{
 				Confirm (plc, "Waited %d seconds for Reset", timer);
 			}
-			memcpy (string, confirm->MVERSION, confirm->MVERLENGTH);
 			return (0);
 		}
 	}
@@ -309,6 +308,11 @@ signed WaitForReset (struct plc * plc, char string [], size_t length)
  *   until the device responds to indicate that it is active; return
  *   0 if the device eventually responds within plc->timer seconds
  *   or -1 if not;
+ *
+ *   Contributor(s):
+ *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
+ *	Werner Henze <w.henze@avm.de>
  *
  *--------------------------------------------------------------------*/
 
@@ -561,7 +565,7 @@ static void function (struct plc * plc, char const * firmware, int compare_type)
 	}
 	if (_anyset (plc->flags, PLC_WAITFORRESET))
 	{
-		if (WaitForReset (plc, string, sizeof (string)))
+		if (WaitForReset (plc))
 		{
 			Failure (plc, "Device did not Reset.");
 		}
