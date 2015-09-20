@@ -220,16 +220,7 @@ static void pibdump (signed fd, char const * filename, char const * schema, unsi
 		*sp = (char)(0);
 		if (length > 0)
 		{
-
-#if defined (WIN32)
-
-			byte * buffer = (byte *)(emalloc (length));
-
-#else
-
 			byte buffer [length];
-
-#endif
 
 			if (read (fd, buffer, length) == length)
 			{

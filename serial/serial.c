@@ -68,7 +68,7 @@
 #include <errno.h>
 
 #if defined (WIN32)
-#include <Windows.h>
+#include <windows.h>
 #else
 #include <sys/select.h>
 #endif

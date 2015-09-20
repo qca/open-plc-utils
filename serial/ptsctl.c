@@ -349,10 +349,7 @@ int main (int argc, char const * argv [])
 #if defined (WIN32)
 
 	HANDLE hSerial;
-	DCB dcbSerial =
-	{
-		0
-	};
+	DCB dcbSerial;
 
 #else
 
@@ -426,10 +423,11 @@ int main (int argc, char const * argv [])
 	{
 		error (1, errno, FILE_CANTOPEN, port.name);
 	}
+	memset(&dcbSerial, 0, sizeof(dcbSerial));
 	dcbSerial.DCBlength = sizeof (dcbSerial);
 	if (!GetCommState (hSerial, &dcbSerial))
 	{
-		error (1, 0, FILE_CANTREAD " state", port.name);
+		error (1, 0, FILE_CANTREAD, port.name);
 	}
 	dcbSerial.BaudRate = CBR_9600;
 	dcbSerial.ByteSize = 8;
@@ -437,7 +435,7 @@ int main (int argc, char const * argv [])
 	dcbSerial.Parity = NOPARITY;
 	if (!SetCommState (hSerial, &dcbSerial))
 	{
-		error (1, 0, FILE_CANTSAVE " state", port.name);
+		error (1, 0, FILE_CANTSAVE, port.name);
 	}
 	CloseHandle (hSerial);
 	if ((port.file = open (port.name, O_BINARY | O_RDWR)) == -1)
