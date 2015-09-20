@@ -19,6 +19,8 @@ TOOLS=efbu efeu efru efsu edru edsu
 
 ifneq ($(TARGET), mingw32)
 TOOLS+=nics
+else
+TOOLS+=pcapdevs
 endif
 
 PAGES=efbu.1 efeu.1 efru.1 efsu.1 edru.1 edsu.1 pcapdevs.1 nics.1
