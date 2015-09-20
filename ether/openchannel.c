@@ -87,10 +87,6 @@
 #include "../tools/flags.h"
 #include "../tools/error.h"
 
-#if defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__)
-#	include "../ether/gethwaddr.c"
-#endif
-
 signed openchannel (struct channel * channel)
 
 {
