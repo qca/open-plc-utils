@@ -62,24 +62,6 @@
 #include "../tools/error.h"
 #include "../tools/endian.h"
 
-#ifndef SIGNALTONOISE1_SOURCE
-
-static uint8_t const mod2bits [AMP_BITS] =
-
-{
-	0,
-	1,
-	2,
-	3,
-	4,
-	6,
-	8,
-	10,
-	12
-};
-
-#endif
-
 signed ToneMaps1 (struct plc * plc)
 
 {
