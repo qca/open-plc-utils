@@ -71,6 +71,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/timer.h"
 #include "../plc/plc.h"
 #include "../key/HPAVKey.h"
 #include "../ram/sdram.h"
@@ -147,7 +148,7 @@ static void manager (struct plc * plc, signed count, signed pause)
 	while (count--)
 	{
 		SlaveMembership (plc);
-		sleep (pause);
+		SLEEP (pause);
 	}
 	return;
 }

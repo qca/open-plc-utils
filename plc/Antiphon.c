@@ -64,6 +64,7 @@
 
 #include "../tools/error.h"
 #include "../tools/flags.h"
+#include "../tools/timer.h"
 #include "../plc/plc.h"
 
 signed Antiphon (struct plc * plc, byte source [], byte target [])
@@ -128,7 +129,7 @@ signed Antiphon (struct plc * plc, byte source [], byte target [])
 
 #endif
 
-	sleep (plc->timer);
+	SLEEP (plc->timer);
 	return (0);
 }
 

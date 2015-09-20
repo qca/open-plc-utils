@@ -72,6 +72,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/timer.h"
 #include "../plc/plc.h"
 
 /*====================================================================*
@@ -180,7 +181,7 @@ void manager (struct plc * plc, signed count, signed pause)
 		{
 			ResetDevice (plc);
 		}
-		sleep (pause);
+		SLEEP (pause);
 	}
 	return;
 }

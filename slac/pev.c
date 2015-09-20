@@ -98,6 +98,7 @@
 #include "../tools/files.h"
 #include "../tools/error.h"
 #include "../tools/config.h"
+#include "../tools/timer.h"
 #include "../ether/channel.h"
 #include "../slac/slac.h"
 
@@ -336,7 +337,7 @@ static void MatchedState (struct session * session, struct channel * channel, st
 #if SLAC_AVLN_EVSE
 
 	slac_debug (session, 0, __func__, "waiting for evse to settle ...");
-	sleep (session->settletime);
+	SLEEP (session->settletime);
 
 #endif
 #if SLAC_AVLN_PEV
@@ -346,18 +347,18 @@ static void MatchedState (struct session * session, struct channel * channel, st
 		session->state = PEV_STATE_DISCONNECTED;
 		return;
 	}
-	sleep (session->settletime);
+	SLEEP (session->settletime);
 
 #endif
 
 	slac_debug (session, 0, __func__, "Charging (%d) ...\n\n", session->counter++);
-	sleep (session->chargetime);
+	SLEEP (session->chargetime);
 	slac_debug (session, 0, __func__, "Disconnecting ...");
 
 #if SLAC_AVLN_EVSE
 
 	slac_debug (session, 0, __func__, "waiting for evse to settle ...");
-	sleep (session->settletime);
+	SLEEP (session->settletime);
 
 #endif
 
@@ -370,7 +371,7 @@ static void MatchedState (struct session * session, struct channel * channel, st
 		session->state = PEV_STATE_DISCONNECTED;
 		return;
 	}
-	sleep (session->settletime);
+	SLEEP (session->settletime);
 
 #endif
 
@@ -505,7 +506,7 @@ int main (int argc, char const * argv [])
 	{
 		slac_debug (& session, 1, __func__, "Can't set key");
 	}
-	sleep (session.settletime);
+	SLEEP (session.settletime);
 	while (session.state)
 	{
 		if (session.state == PEV_STATE_DISCONNECTED)

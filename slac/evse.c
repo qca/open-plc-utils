@@ -317,18 +317,18 @@ static void MatchedState (struct session * session, struct channel * channel, st
 		session->state = EVSE_STATE_UNOCCUPIED;
 		return;
 	}
-	sleep (session->settletime);
+	SLEEP (session->settletime);
 
 #endif
 #if SLAC_AVLN_PEV
 
 	slac_debug (session, 0, __func__, "waiting for pev to settle ...");
-	sleep (session->settletime);
+	SLEEP (session->settletime);
 
 #endif
 
 	slac_debug (session, 0, __func__, "Charging (%d) ...\n\n", session->counter++);
-	sleep (session->chargetime);
+	SLEEP (session->chargetime);
 	slac_debug (session, 0, __func__, "Disconnecting ...");
 
 #if SLAC_AVLN_EVSE
@@ -340,13 +340,13 @@ static void MatchedState (struct session * session, struct channel * channel, st
 		session->state = EVSE_STATE_UNOCCUPIED;
 		return;
 	}
-	sleep (session->settletime);
+	SLEEP (session->settletime);
 
 #endif
 #if SLAC_AVLN_PEV
 
 	slac_debug (session, 0, __func__, "waiting for pev to settle ...");
-	sleep (session->settletime);
+	SLEEP (session->settletime);
 
 #endif
 
@@ -476,7 +476,7 @@ int main (int argc, char const * argv [])
 	{
 		slac_debug (& session, 1, __func__, "Can't set key.");
 	}
-	sleep (session.settletime);
+	SLEEP (session.settletime);
 	while (session.state)
 	{
 		if (session.state == EVSE_STATE_UNOCCUPIED)
