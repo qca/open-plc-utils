@@ -71,6 +71,7 @@
 #include "../tools/number.h"
 #include "../tools/symbol.h"
 #include "../tools/flags.h"
+#include "../tools/permissions.h"
 #include "../ether/channel.h"
 
 /*====================================================================*
@@ -87,9 +88,11 @@
 #include "../tools/hexencode.c"
 #include "../tools/hexdump.c"
 #include "../tools/todigit.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
+#include "../ether/initchannel.c"
 #include "../ether/openchannel.c"
 #include "../ether/closechannel.c"
 #include "../ether/readpacket.c"
@@ -226,6 +229,10 @@ int main (int argc, char const * argv [])
 	unsigned timer = EFBU_TIMER;
 	unsigned pause = EFBU_PAUSE;
 	signed c;
+
+	initchannel (&channel);
+	desuid ();
+
 	if (getenv (EFBU_INTERFACE))
 	{
 

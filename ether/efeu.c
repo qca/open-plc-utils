@@ -93,6 +93,7 @@
 #include "../tools/types.h"
 #include "../tools/flags.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../ether/channel.h"
 
 /*====================================================================*
@@ -110,10 +111,12 @@
 #include "../tools/memswap.c"
 #include "../tools/todigit.c"
 #include "../tools/error.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
 #include "../ether/channel.c"
+#include "../ether/initchannel.c"
 #include "../ether/openchannel.c"
 #include "../ether/closechannel.c"
 #include "../ether/sendpacket.c"
@@ -163,6 +166,10 @@ int main (int argc, char const * argv [])
 		(char const *) (0)
 	};
 	signed c;
+
+	initchannel (&channel);
+	desuid ();
+
 	channel.type = EFEU_ETHERTYPE;
 	channel.timeout = CHANNEL_FOREVER;
 	if (getenv (EFEU_INTERFACE))

@@ -1340,13 +1340,6 @@ int main (int argc, char const * argv [])
 			{
 				error (1, errno, "%s", uart.pib.name);
 			}
-
-#ifndef WIN32
-
-			chown (optarg, getuid (), getgid ());
-
-#endif
-
 			_setbits (uart.flags, UART_ATRP);
 			break;
 		case 'q':

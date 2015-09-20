@@ -74,6 +74,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../ether/channel.h"
 #include "../plc/plc.h"
 
@@ -105,9 +106,11 @@
 #include "../tools/strfbits.c"
 #include "../tools/synonym.c"
 #include "../tools/b64dump.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
+#include "../ether/initchannel.c"
 #include "../ether/openchannel.c"
 #include "../ether/closechannel.c"
 #include "../ether/readpacket.c"
@@ -584,6 +587,10 @@ int main (int argc, char const * argv [])
 #include "../plc/plc.c"
 
 	signed c;
+
+	initchannel (&channel);
+	desuid ();
+
 	if (getenv (PLCDEVICE))
 	{
 

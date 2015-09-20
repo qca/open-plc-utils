@@ -86,6 +86,7 @@
 #include "../tools/types.h"
 #include "../tools/flags.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../ether/channel.h"
 #include "../plc/plc.h"
 #include "../mme/mme.h"
@@ -104,10 +105,12 @@
 #include "../tools/uintspec.c"
 #include "../tools/todigit.c"
 #include "../tools/error.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
 #include "../ether/channel.c"
+#include "../ether/initchannel.c"
 #include "../ether/openchannel.c"
 #include "../ether/closechannel.c"
 #include "../ether/sendpacket.c"
@@ -165,6 +168,10 @@ int main (int argc, char const * argv [])
 	flag_t flags = (flag_t)(0);
 	signed length;
 	signed c;
+
+	initchannel (&channel);
+	desuid ();
+
 	if (getenv (PLCDEVICE))
 	{
 

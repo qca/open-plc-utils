@@ -72,6 +72,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../ether/channel.h"
 #include "../key/HPAVKey.h"
 #include "../key/keys.h"
@@ -152,10 +153,12 @@
 #include "../tools/fdchecksum32.c"
 #include "../tools/strfbits.c"
 #include "../tools/typename.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
 #include "../ether/channel.c"
+#include "../ether/initchannel.c"
 #include "../ether/openchannel.c"
 #include "../ether/closechannel.c"
 #include "../ether/readpacket.c"
@@ -397,6 +400,10 @@ int main (int argc, char const * argv [])
 	signed loop = PLCTOOL_LOOP;
 	signed wait = PLCTOOL_WAIT;
 	signed c;
+
+	initchannel (&channel);
+	desuid ();
+
 	if (getenv (PLCDEVICE))
 	{
 
@@ -436,13 +443,6 @@ int main (int argc, char const * argv [])
 			{
 				error (1, errno, "%s", plc.rpt.name);
 			}
-
-#ifndef WIN32
-
-			chown (optarg, getuid (), getgid ());
-
-#endif
-
 			plc.readaction = 3;
 			break;
 		case 'D':
@@ -533,13 +533,6 @@ int main (int argc, char const * argv [])
 			{
 				error (1, errno, "%s", plc.nvm.name);
 			}
-
-#ifndef WIN32
-
-			chown (optarg, getuid (), getgid ());
-
-#endif
-
 			_setbits (plc.flags, PLC_READ_MAC);
 			break;
 		case 'P':
@@ -566,13 +559,6 @@ int main (int argc, char const * argv [])
 			{
 				error (1, errno, "%s", plc.pib.name);
 			}
-
-#ifndef WIN32
-
-			chown (optarg, getuid (), getgid ());
-
-#endif
-
 			_setbits (plc.flags, PLC_READ_PIB);
 			break;
 		case 'Q':

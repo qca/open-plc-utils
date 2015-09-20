@@ -72,6 +72,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../plc/plc.h"
 #include "../ram/nvram.h"
 #include "../ram/sdram.h"
@@ -97,6 +98,7 @@
 #include "../tools/synonym.c"
 #include "../tools/checksum32.c"
 #include "../tools/typename.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -116,6 +118,7 @@
 #endif
 
 #ifndef MAKEFILE
+#include "../ether/initchannel.c"
 #include "../ether/openchannel.c"
 #include "../ether/closechannel.c"
 #include "../ether/readpacket.c"
@@ -528,6 +531,10 @@ int main (int argc, char const * argv [])
 #include "../plc/plc.c"
 
 	signed c;
+
+	initchannel (&channel);
+	desuid ();
+
 	plc.action = PLCID_DAK;
 	plc.coupling = '\n';
 	if (getenv (PLCDEVICE))

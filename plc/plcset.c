@@ -71,6 +71,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../plc/plc.h"
 #include "../ether/channel.h"
 
@@ -105,9 +106,11 @@
 #include "../tools/binout.c"
 #include "../tools/error.c"
 #include "../tools/memencode.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
+#include "../ether/initchannel.c"
 #include "../ether/openchannel.c"
 #include "../ether/closechannel.c"
 #include "../ether/readpacket.c"
@@ -191,6 +194,10 @@ int main (int argc, char const * argv [])
 
 	struct plcproperty plcproperty;
 	signed c;
+
+	initchannel (&channel);
+	desuid ();
+
 	if (getenv (PLCDEVICE))
 	{
 
