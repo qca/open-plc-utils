@@ -159,9 +159,22 @@
 
 #if defined (WIN32)
 
-uint16_t __bswap_16 (uint16_t x);
-uint32_t __bswap_32 (uint32_t x);
-uint64_t __bswap_64 (uint64_t x);
+#define __bswap_16(x) ((((x) & 0x00ff) << 8) | \
+                       (((x) & 0xff00) >> 8))
+
+#define __bswap_32(x) ((((x) & 0x000000ff) << 24) | \
+                       (((x) & 0x0000ff00) << 8)  | \
+                       (((x) & 0x00ff0000) >> 8)  | \
+                       (((x) & 0xff000000) >> 24))
+
+#define __bswap_64(x) ((((x) & 0x00000000000000ffULL) << 56) | \
+                       (((x) & 0x000000000000ff00ULL) << 40) | \
+                       (((x) & 0x0000000000ff0000ULL) << 24) | \
+                       (((x) & 0x00000000ff000000ULL) << 8)  | \
+                       (((x) & 0x000000ff00000000ULL) >> 8)  | \
+                       (((x) & 0x0000ff0000000000ULL) >> 24) | \
+                       (((x) & 0x00ff000000000000ULL) >> 40) | \
+                       (((x) & 0xff00000000000000ULL) >> 56))
 
 #elif defined (__OpenBSD__)
 
