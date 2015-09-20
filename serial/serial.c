@@ -102,7 +102,6 @@ struct command command;
 void clearcommand ()
 
 {
-	extern struct command command;
 	memset (&command, 0, sizeof (command));
 	return;
 }
@@ -121,7 +120,6 @@ void clearcommand ()
 void sendcommand (struct _file_ * port, flag_t flags)
 
 {
-	extern struct command command;
 	if (_anyset (flags, UART_VERBOSE))
 	{
 		write (STDERR_FILENO, command.buffer, command.length);
@@ -149,7 +147,6 @@ void sendcommand (struct _file_ * port, flag_t flags)
 void readcommand (struct _file_ * port, flag_t flags)
 
 {
-	extern struct command command;
 	ssize_t tmp;
 
 #if defined (WIN32)
@@ -220,7 +217,6 @@ void readcommand (struct _file_ * port, flag_t flags)
 void insert (char c)
 
 {
-	extern struct command command;
 	if (command.length < sizeof (command.buffer))
 	{
 		command.buffer [command.length++] = c;
@@ -334,7 +330,6 @@ size_t readframe (signed fd, void * memory, size_t extent)
 void decode (void const * memory, size_t extent)
 
 {
-	extern struct command command;
 	register byte * binary = (byte *)(memory);
 	while ((command.length < sizeof (command.buffer)) && (extent--))
 	{
@@ -360,7 +355,6 @@ void decode (void const * memory, size_t extent)
 void encode (void * memory, size_t extent)
 
 {
-	extern struct command command;
 	register byte * binary = (byte *)(memory);
 	unsigned digit;
 	while ((command.offset < command.length) && (extent--))
@@ -402,7 +396,6 @@ void encode (void * memory, size_t extent)
 void string (char * string)
 
 {
-	extern struct command command;
 	while ((command.offset < command.length) && (command.buffer [command.offset] != '\"'))
 	{
 		*string++ = command.buffer [command.offset++];
@@ -427,7 +420,6 @@ void string (char * string)
 uint64_t hextoint (unsigned bytes)
 
 {
-	extern struct command command;
 	uint64_t limit = -1;
 	uint64_t value = 0;
 	unsigned radix = 16;
@@ -467,7 +459,6 @@ uint64_t hextoint (unsigned bytes)
 void mustbe (char c)
 
 {
-	extern struct command command;
 	if (command.offset >= command.length)
 	{
 		command.buffer [command.offset] = (char)(0);

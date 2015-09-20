@@ -106,8 +106,6 @@ static uint32_t mask;
 static signed mygetc ()
 
 {
-	extern unsigned row;
-	extern unsigned col;
 	signed c = getc (stdin);
 	if (c == '\n')
 	{

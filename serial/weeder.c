@@ -159,8 +159,6 @@ static signed offset = 0;
 static void function1 (struct _file_ * port, char const * units, unsigned wait, unsigned echo)
 
 {
-	extern char buffer [];
-	extern signed length;
 	while (*units)
 	{
 		length = 0;
@@ -191,8 +189,6 @@ static void function1 (struct _file_ * port, char const * units, unsigned wait, 
 static void function2 (struct _file_ * port, char const * units, unsigned wait, unsigned mode, unsigned data)
 
 {
-	extern char buffer [WEEDER_BUFFER_LENGTH];
-	extern signed length;
 	length = 0;
 	buffer [length++] = *units++;
 	buffer [length++] = 'W';
@@ -240,10 +236,6 @@ static void function2 (struct _file_ * port, char const * units, unsigned wait, 
 static void function3 (struct _file_ * port, char const * units, unsigned wait)
 
 {
-	extern char buffer [WEEDER_BUFFER_LENGTH];
-	extern char string [WEEDER_STRING_LENGTH];
-	extern signed length;
-	extern signed offset;
 	unsigned number = 0;
 	memset (string, 0, sizeof (string));
 	for (offset = 0; *units; offset += WEEDER_LEDS)

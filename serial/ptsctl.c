@@ -185,8 +185,6 @@ static void cycle (char * string, unsigned offset, unsigned length)
 static void function1 (struct _file_ * port, char const * units, unsigned wait, unsigned echo)
 
 {
-	extern char buffer [PTSCTL_BUFFER_SIZE];
-	extern signed length;
 	while (*units)
 	{
 		length = 0;
@@ -216,10 +214,6 @@ static void function1 (struct _file_ * port, char const * units, unsigned wait, 
 static void function2 (struct _file_ * port, char const * units, unsigned wait, unsigned data)
 
 {
-	extern char buffer [PTSCTL_BUFFER_SIZE];
-	extern char string [PTSCTL_STRING_SIZE];
-	extern signed length;
-	extern signed offset;
 	memset (string, 0, sizeof (string));
 	memset (buffer, 0, sizeof (buffer));
 	for (offset = 0; offset < (signed)(sizeof (string)); offset++)
@@ -258,10 +252,6 @@ static void function2 (struct _file_ * port, char const * units, unsigned wait, 
 static void function3 (struct _file_ * port, char const * units, unsigned wait)
 
 {
-	extern char buffer [PTSCTL_BUFFER_SIZE];
-	extern char string [PTSCTL_STRING_SIZE];
-	extern signed length;
-	extern signed offset;
 	signed value1 = 0;
 	signed value2 = 0;
 	memset (string, 0, sizeof (string));

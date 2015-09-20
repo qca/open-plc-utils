@@ -491,7 +491,6 @@ int main (int argc, char const * argv [])
 
 {
 	extern struct channel channel;
-	extern void terminate (signo_t);
 	static char const * optv [] =
 	{
 		"dFi:n:N:p:P:qs:S:t:vw:x",

@@ -53,8 +53,6 @@ static unsigned col = 1;
 static signed fpgetc (FILE * fp)
 
 {
-	extern unsigned row;
-	extern unsigned col;
 	signed c = getc (fp);
 	if (c == '\n')
 	{
@@ -92,8 +90,6 @@ static signed fpgetc (FILE * fp)
 size_t hexload (void * memory, size_t extent, FILE * fp)
 
 {
-	extern unsigned row;
-	extern unsigned col;
 	byte * origin = (uint8_t *)(memory);
 	byte * offset = (uint8_t *)(memory);
 	unsigned digits = sizeof (* offset) << 1;
