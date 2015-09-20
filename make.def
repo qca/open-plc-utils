@@ -8,6 +8,16 @@
 # include ../../../../build/scripts/$(BOARD_TYPE)/config.$(BOARD_TYPE)
 
 # ====================================================================
+# MinGW32 Cross Compile;
+# --------------------------------------------------------------------
+
+#TOOLPATH=/usr/local/mingw32/bin/
+#CROSS=$(TOOLPATH)/i386-mingw32-
+#EXTRA_LDFLAGS=-L../mingw/lib -lwpcap -lPacket -lws2_32
+#EXTRA_CFLAGS=-DWINPCAP -I../mingw/include
+#TARGET=mingw32
+
+# ====================================================================
 # Atheros Wifi Router Software Symbols; 
 # --------------------------------------------------------------------
 
