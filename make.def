@@ -13,7 +13,7 @@
 
 #TOOLPATH=/usr/local/mingw32/bin/
 #CROSS=$(TOOLPATH)/i386-mingw32-
-#EXTRA_LDFLAGS=-L../mingw/lib -lwpcap -lPacket -lws2_32
+#EXTRA_LDFLAGS=-s -L../mingw/lib -lwpcap -lPacket -lws2_32
 #EXTRA_CFLAGS=-DWINPCAP -I../mingw/include
 #TARGET=mingw32
 
