@@ -15,7 +15,12 @@ CFLAGS+=
 LDFLAGS+=
 TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9] *.out
 FILES=Makefile *.mak *.sh *.txt *.c *.h *.xml *.css
-TOOLS=hpav mme 
+TOOLS=mme
+
+ifneq ($(TARGET), mingw32)
+TOOLS+=hpav
+endif
+
 PAGES=hpav.1 mme.1
 
 # ====================================================================

@@ -15,7 +15,10 @@ CFLAGS+=
 LDFLAGS+=
 TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9]
 FILES=Makefile *.mak *.sh *.txt *.c *.h 
-TOOLS=int6kuart int6kbaud ttysig ptsctl weeder ttysend ttyrecv ttycat int6kdetect 
+TOOLS=int6kuart int6kbaud ptsctl weeder
+ifneq ($(TARGET), mingw32)
+TOOLS+=ttysig ttysend ttyrecv ttycat int6kdetect
+endif
 PAGES=int6kuart.1 int6kbaud.1 ttysig.1 ptsctl.1 weeder.1 ttycat.1 ttysend.1 ttyrecv.1 int6kdetect.1
 
 # ====================================================================

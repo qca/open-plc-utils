@@ -17,7 +17,12 @@ TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9]
 FILES=Makefile *.mak *.sh *.txt *.c
 TOOLS=int6k int6kboot int6keth int6kf int6khost int64host int6kid int6klist int6klog int6kmdio int6kmdio2 int6kmod int6kstat int6ktest int6krate int6krule int6ktone int6kwait CMEncrypt sada coqos_add coqos_info coqos_man coqos_mod coqos_rel mdustats
 TOOLS+=ampboot amphost ampID amplist amprate amprule ampstat amptest amptool amptone ampwait
-TOOLS+=plcboot plchost plcID plclist plcrate plcrule plcstat plctest plctool plctone plcwait plchostd plchostd2 plcget plcset plcotst plcfwd plcdevs plclog plcmdio16 plcmdio32
+TOOLS+=plcboot plchost plcID plclist plcrate plcrule plcstat plctest plctool plctone plcwait plcget plcset plcotst plcfwd plclog plcmdio16 plcmdio32
+
+ifneq ($(TARGET), mingw32)
+TOOLS+=plchostd plchostd2 plcdevs
+endif
+
 PAGES=plc.1
 PAGES+=int6k.1 int6kboot.1 int6keth.1 int6kid.1 int6kf.1 int6khost.1 int64host.1 int6klist.1 int6klog.1 int6kmdio.1 int6kmdio2.1 int6kmod.1 int6kstat.1 int6ktest.1 int6ktone.1 int6krate.1 int6krule.1 int6kwait.1 CMEncrypt.1 sada.1 coqos_add.1 coqos_info.1 coqos_man.1 coqos_mod.1 coqos_rel.1 mdustats.1
 PAGES+=ampboot.1 amphost.1 ampID.1 amplist.1 amprate.1 amprule.1 ampstat.1 amptest.1 amptool.1 amptone.1 ampwait.1
