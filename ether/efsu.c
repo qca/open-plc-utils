@@ -78,6 +78,7 @@
 #include "../tools/number.h"
 #include "../tools/symbol.h"
 #include "../tools/flags.h"
+#include "../tools/permissions.h"
 #include "../ether/channel.h"
 
 /*====================================================================*
@@ -96,9 +97,11 @@
 #include "../tools/uintspec.c"
 #include "../tools/basespec.c"
 #include "../tools/synonym.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
+#include "../ether/initchannel.c"
 #include "../ether/openchannel.c"
 #include "../ether/closechannel.c"
 #include "../ether/readpacket.c"
@@ -258,6 +261,10 @@ int main (int argc, char const * argv [])
 	unsigned delay = EFSU_DELAY;
 	unsigned loop = EFSU_LOOP;
 	signed c;
+
+	initchannel (&channel);
+	desuid ();
+
 	channel.type = EFSU_ETHERTYPE;
 	if (getenv (EFSU_INTERFACE))
 	{

@@ -199,6 +199,7 @@ CHANNEL;
  *   channel functions;
  *--------------------------------------------------------------------*/
 
+signed initchannel (struct channel *);
 signed openchannel (struct channel *);
 signed closechannel (struct channel const *);
 ssize_t sendpacket (struct channel const *, void * memory, ssize_t extent);

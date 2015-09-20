@@ -70,6 +70,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../plc/plc.h"
 
 /*====================================================================*
@@ -97,9 +98,11 @@
 #include "../tools/hexstring.c"
 #include "../tools/todigit.c"
 #include "../tools/synonym.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
+#include "../ether/initchannel.c"
 #include "../ether/openchannel.c"
 #include "../ether/closechannel.c"
 #include "../ether/readpacket.c"
@@ -175,6 +178,10 @@ int main (int argc, char const * argv [])
 
 	signed (* function)(struct plc *) = ToneMaps1;
 	signed c;
+
+	initchannel (&channel);
+	desuid ();
+
 	if (getenv (PLCDEVICE))
 	{
 

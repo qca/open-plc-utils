@@ -71,6 +71,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../ram/nvram.h"
 #include "../ram/sdram.h"
 #include "../plc/plc.h"
@@ -134,12 +135,14 @@
 #include "../tools/typename.c"
 #include "../tools/uintspec.c"
 #include "../tools/version.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
 #include "../ether/channel.c"
-#include "../ether/closechannel.c"
+#include "../ether/initchannel.c"
 #include "../ether/openchannel.c"
+#include "../ether/closechannel.c"
 #include "../ether/readpacket.c"
 #include "../ether/sendpacket.c"
 #endif
@@ -206,6 +209,10 @@ int main (int argc, char const * argv [])
 
 	char firmware [PLC_VERSION_STRING];
 	signed c;
+
+	initchannel (&channel);
+	desuid ();
+
 	if (getenv (PLCDEVICE))
 	{
 

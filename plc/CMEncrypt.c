@@ -79,6 +79,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../key/SHA256.h"
 #include "../plc/plc.h"
 
@@ -97,6 +98,7 @@
 #include "../tools/todigit.c"
 #include "../tools/error.c"
 #include "../tools/synonym.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -108,6 +110,7 @@
 
 #ifndef MAKEFILE
 #include "../ether/channel.c"
+#include "../ether/initchannel.c"
 #include "../ether/openchannel.c"
 #include "../ether/closechannel.c"
 #include "../ether/readpacket.c"
@@ -229,6 +232,10 @@ int main (int argc, char const * argv [])
 	uint8_t * buffer;
 	signed extent;
 	signed c;
+
+	initchannel (&channel);
+	desuid ();
+
 	if (getenv (PLCDEVICE))
 	{
 

@@ -70,6 +70,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../plc/plc.h"
 #include "../plc/rules.h"
 
@@ -98,6 +99,7 @@
 #include "../tools/codelist.c"
 #include "../tools/memout.c"
 #include "../tools/reword.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -117,6 +119,7 @@
 
 #ifndef MAKEFILE
 #include "../ether/channel.c"
+#include "../ether/initchannel.c"
 #include "../ether/openchannel.c"
 #include "../ether/closechannel.c"
 #include "../ether/readpacket.c"
@@ -181,6 +184,10 @@ int main (int argc, char const * argv [])
 	struct cspec cspec;
 	struct MMERule rule;
 	signed c;
+
+	initchannel (&channel);
+	desuid ();
+
 	memset (& rule, 0, sizeof (rule));
 	memset (& cspec, 0, sizeof (cspec));
 	cspec.VLAN_TAG = PLCRULE_VLAN_TAG;

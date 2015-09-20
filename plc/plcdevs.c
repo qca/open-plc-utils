@@ -94,6 +94,7 @@
 
 #ifndef MAKEFILE
 #include "../ether/hostnics.c"
+#include "../ether/initchannel.c"
 #include "../ether/openchannel.c"
 #include "../ether/readpacket.c"
 #include "../ether/sendpacket.c"
@@ -163,6 +164,7 @@ static void enumerate (struct channel * channel, struct nic nic [], unsigned siz
 #endif
 
 		channel->ifname = nic->ifname;
+		initchannel (channel);
 		openchannel (channel);
 		Platform (channel, localcast);
 		closechannel (channel);

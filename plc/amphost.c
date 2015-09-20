@@ -73,6 +73,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../ram/nvram.h"
 #include "../ram/sdram.h"
 #include "../plc/plc.h"
@@ -130,9 +131,11 @@
 #include "../tools/error.c"
 #include "../tools/strfbits.c"
 #include "../tools/typename.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
+#include "../ether/initchannel.c"
 #include "../ether/openchannel.c"
 #include "../ether/closechannel.c"
 #include "../ether/readpacket.c"
@@ -225,6 +228,7 @@ signed function (struct plc * plc)
 	char const * FactoryPIB = plc->PIB.name;
 	signed status;
 	signed action;
+
 	Request (plc, "Waiting for Host Action");
 	while (1)
 	{
@@ -421,6 +425,10 @@ int main (int argc, char const * argv [])
 #include "../plc/plc.c"
 
 	signed c;
+
+	initchannel (&channel);
+	desuid ();
+
 	if (getenv (PLCDEVICE))
 	{
 

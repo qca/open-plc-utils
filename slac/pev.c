@@ -98,6 +98,7 @@
 #include "../tools/files.h"
 #include "../tools/error.h"
 #include "../tools/config.h"
+#include "../tools/permissions.h"
 #include "../ether/channel.h"
 #include "../slac/slac.h"
 
@@ -121,6 +122,7 @@
 #include "../tools/config.c"
 #include "../tools/memincr.c"
 #include "../tools/error.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
@@ -138,6 +140,7 @@
 
 #ifndef MAKEFILE
 #include "../ether/channel.c"
+#include "../ether/initchannel.c"
 #include "../ether/openchannel.c"
 #include "../ether/closechannel.c"
 #include "../ether/sendpacket.c"
@@ -429,6 +432,10 @@ int main (int argc, char const * argv [])
 	char const * profile = PROFILE;
 	char const * section = SECTION;
 	signed c;
+
+	initchannel (&channel);
+	desuid ();
+
 	memset (& session, 0, sizeof (session));
 	memset (& message, 0, sizeof (message));
 	channel.timeout = SLAC_TIMEOUT;

@@ -72,6 +72,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/permissions.h"
 #include "../plc/plc.h"
 
 /*====================================================================*
@@ -113,9 +114,11 @@
 #include "../tools/todigit.c"
 #include "../tools/synonym.c"
 #include "../tools/typename.c"
+#include "../tools/desuid.c"
 #endif
 
 #ifndef MAKEFILE
+#include "../ether/initchannel.c"
 #include "../ether/openchannel.c"
 #include "../ether/closechannel.c"
 #include "../ether/readpacket.c"
@@ -293,6 +296,10 @@ int main (int argc, char const * argv [])
 	signed loop = AMPSTAT_LOOP;
 	signed wait = AMPSTAT_WAIT;
 	signed c;
+
+	initchannel (&channel);
+	desuid ();
+
 	if (getenv (PLCDEVICE))
 	{
 

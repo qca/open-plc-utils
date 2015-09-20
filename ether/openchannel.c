@@ -118,23 +118,8 @@ signed openchannel (struct channel * channel)
 		}
 	};
 
-/*
- *      raw packets require root privileges on linux; one does not have to be
- *      root when this program is installed setuid using 'chown root:root' and
- *      'chmod 4555';
- */
-
-	if (geteuid ())
-	{
-		error (1, EPERM, ERROR_NOTROOT);
-	}
-
-	memset (&ifreq, 0, sizeof (ifreq));
 	sockaddr_ll.sll_protocol = htons (channel->type);
-	if ((channel->fd = socket (sockaddr_ll.sll_family, SOCK_RAW, sockaddr_ll.sll_protocol)) == -1)
-	{
-		error (1, errno, "%s", channel->ifname);
-	}
+	memset (&ifreq, 0, sizeof (ifreq));
 	memcpy (ifreq.ifr_name, channel->ifname, sizeof (ifreq.ifr_name));
 	if (ioctl (channel->fd, SIOCGIFINDEX, &ifreq) == -1)
 	{
@@ -156,11 +141,8 @@ signed openchannel (struct channel * channel)
 		error (1, errno, "%s", ifreq.ifr_name);
 	}
 	channel->ifstate = ifreq.ifr_flags;
-	_setbits (ifreq.ifr_flags, (IFF_UP | IFF_BROADCAST | IFF_MULTICAST));
-	_clrbits (ifreq.ifr_flags, (IFF_ALLMULTI | IFF_PROMISC));
-	if (ioctl (channel->fd, SIOCSIFFLAGS, &ifreq) == -1)
-	{
-		error (1, errno, "%s", ifreq.ifr_name);
+	if (!(channel->ifstate & ifreq.ifr_flags & IFF_UP)) {
+		error(0, 0, "warning: interface %s is not up!", ifreq.ifr_name);
 	}
 
 #else
@@ -301,40 +283,8 @@ signed openchannel (struct channel * channel)
 	struct ifreq ifreq;
 	struct timeval timeval;
 	struct bpf * bpf;
-	char filename [sizeof (CHANNEL_BPFDEVICE) + 1];
-	unsigned count;
 	unsigned state;
-	int stat_errno = 0;
-	int open_errno = 0;
-	for (count = 0; count < 100; count++)
-	{
-		struct stat st;
-		snprintf (filename, sizeof (filename), CHANNEL_BPFDEVICE, count);
-		if (stat(filename, &st) == -1)
-		{
-			stat_errno = errno;
-			continue;
-		}
-		if ((channel->fd = open (filename, O_RDWR)) != -1)
-		{
-			break;
-		}
-		else
-		{
-			open_errno = errno;
-		}
-	}
-	if (channel->fd == -1)
-	{
-		if (open_errno)
-		{
-			error (1, open_errno, "Could not open bpf device");
-		}
-		else
-		{
-			error (1, stat_errno, "No bpf device found");
-		}
-	}
+
 	memcpy (ifreq.ifr_name, channel->ifname, sizeof (ifreq.ifr_name));
 	if (ioctl (channel->fd, BIOCSETIF, &ifreq) == -1)
 	{
