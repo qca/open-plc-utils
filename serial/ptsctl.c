@@ -196,7 +196,7 @@ static void function1 (struct _file_ * port, char const * units, unsigned wait, 
 		{
 			error (1, errno, FILE_CANTSAVE, port->name);
 		}
-		SLEEP (wait);
+		SLEEP_MS (wait);
 	}
 	return;
 }
@@ -234,7 +234,7 @@ static void function2 (struct _file_ * port, char const * units, unsigned wait, 
 		{
 			error (1, errno, FILE_CANTSAVE, port->name);
 		}
-		SLEEP (wait);
+		SLEEP_MS (wait);
 	}
 	return;
 }
@@ -265,14 +265,14 @@ static void function3 (struct _file_ * port, char const * units, unsigned wait)
 		{
 			error (1, errno, FILE_CANTSAVE, port->name);
 		}
-		SLEEP (wait);
+		SLEEP_MS (wait);
 		memset (buffer, 0, sizeof (buffer));
 		if (read (port->file, buffer, PTSCTL_LEDS + 2) == -1)
 		{
 			error (1, errno, FILE_CANTREAD, port->name);
 		}
 		memcpy (&string [offset], &buffer [1], PTSCTL_LEDS);
-		SLEEP (wait);
+		SLEEP_MS (wait);
 	}
 	cycle (string, PTSCTL_LEDS, 2);
 	while (--offset > PTSCTL_BITS)
@@ -310,7 +310,7 @@ static void function4 (struct _file_ * port, char const * units, unsigned wait)
 	{
 		function2 (port, units, wait, (value << 8) | (value << 1) | 1);
 		function3 (port, units, wait);
-		SLEEP (wait);
+		SLEEP_MS (wait);
 	}
 	return;
 }

@@ -93,7 +93,7 @@ signed Transmit (struct plc * plc, byte source [], byte target [])
 		{
 			error (1, errno, CANT_RESET_TIMER);
 		}
-		SLEEP (100);
+		SLEEP_MS (100);
 	}
 	return (0);
 }

@@ -170,7 +170,7 @@ static void function1 (struct _file_ * port, char const * units, unsigned wait, 
 		{
 			error (1, errno, FILE_CANTSAVE, port->name);
 		}
-		SLEEP (wait);
+		SLEEP_MS (wait);
 	}
 	return;
 }
@@ -205,7 +205,7 @@ static void function2 (struct _file_ * port, char const * units, unsigned wait, 
 	{
 		error (1, errno, FILE_CANTSAVE, port->name);
 	}
-	SLEEP (wait);
+	SLEEP_MS (wait);
 	length = 0;
 	buffer [length++] = *units++;
 	buffer [length++] = 'W';
@@ -219,7 +219,7 @@ static void function2 (struct _file_ * port, char const * units, unsigned wait, 
 	{
 		error (1, errno, FILE_CANTSAVE, port->name);
 	}
-	SLEEP (wait);
+	SLEEP_MS (wait);
 	return;
 }
 
@@ -248,13 +248,13 @@ static void function3 (struct _file_ * port, char const * units, unsigned wait)
 		{
 			error (1, errno, FILE_CANTSAVE, port->name);
 		}
-		SLEEP (wait);
+		SLEEP_MS (wait);
 		memset (buffer, 0, sizeof (buffer));
 		if (read (port->file, buffer, WEEDER_LEDS + 2) == -1)
 		{
 			error (1, errno, FILE_CANTREAD, port->name);
 		}
-		SLEEP (wait);
+		SLEEP_MS (wait);
 		memcpy (&string [offset], &buffer [1], WEEDER_LEDS);
 	}
 	while (offset-- > 3)

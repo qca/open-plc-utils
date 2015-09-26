@@ -88,7 +88,7 @@ signed pev_cm_mnbc_sound (struct session * session, struct channel * channel, st
 		{
 			return (slac_debug (session, 1, __func__, CHANNEL_CANTSEND));
 		}
-		SLEEP (session->pause);
+		SLEEP_MS (session->pause);
 	}
 	return (0);
 }
