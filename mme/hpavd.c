@@ -232,10 +232,6 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (geteuid ())
-	{
-		error (1, EPERM, ERROR_NOTROOT);
-	}
 	if (_anyset (flags, HPAVD_DAEMON))
 	{
 		pid_t pid = fork ();
