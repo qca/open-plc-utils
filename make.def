@@ -11,8 +11,15 @@
 # MinGW32 Cross Compile;
 # --------------------------------------------------------------------
 
+# Ubuntu
+#TOOLPATH=/usr/bin/
+#CROSS=$(TOOLPATH)/i586-mingw32msvc-
+
+# OpenBSD
 #TOOLPATH=/usr/local/mingw32/bin/
 #CROSS=$(TOOLPATH)/i386-mingw32-
+
+# Common
 #EXTRA_LDFLAGS=-s -L../mingw/lib -lwpcap -lPacket -lws2_32
 #EXTRA_CFLAGS=-DWINPCAP -I../mingw/include
 #TARGET=mingw32
