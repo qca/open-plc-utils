@@ -93,17 +93,6 @@ signed initchannel (struct channel * channel)
 
 #if defined (__linux__)
 
-/*
- *      raw packets require root privileges on linux; one does not have to be
- *      root when this program is installed setuid using 'chown root:root' and
- *      'chmod 4555';
- */
-
-	if (geteuid ())
-	{
-		error (1, EPERM, ERROR_NOTROOT);
-	}
-
 	if ((channel->fd = socket (PF_PACKET, SOCK_RAW, 0)) == -1)
 	{
 		error (1, errno, "%s", channel->ifname);
