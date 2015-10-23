@@ -75,6 +75,14 @@ signed FlashDevice2 (struct plc * plc, uint32_t options)
 		{
 			return (-1);
 		}
+		sleep (5);
+		if (WaitForStart (plc, firmware, sizeof (firmware)) == 0)
+		{
+			if (strcmp (firmware, "BootLoader"))
+			{
+				return (0);
+			}
+		}
 	}
 	else if (plc->PIB.file != -1)
 	{
