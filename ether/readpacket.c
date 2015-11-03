@@ -70,6 +70,10 @@
 #include <memory.h>
 #include <errno.h>
 
+#if defined (__linux__)
+#include <poll.h>
+#endif
+
 #include "../ether/channel.h"
 #include "../tools/memory.h"
 #include "../tools/error.h"
@@ -94,8 +98,6 @@ ssize_t readpacket (struct channel const * channel, void * memory, ssize_t exten
 	return (extent);
 
 #elif defined (__linux__)
-
-#include <sys/poll.h>
 
 	struct pollfd pollfd =
 	{

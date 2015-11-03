@@ -69,6 +69,8 @@
 
 #if defined (WIN32)
 #include <Windows.h>
+#else
+#include <sys/select.h>
 #endif
 
 /*====================================================================*
