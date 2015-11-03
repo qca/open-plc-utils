@@ -593,13 +593,13 @@ int main (int argc, char const * argv [])
 			{
 				error (1, EINVAL, "%s", optarg);
 			}
-			if ((plc.CFG.file = open (plc.CFG.name = optarg, O_BINARY|O_RDONLY)) == -1)
+			if ((plc.SFT.file = open (plc.SFT.name = optarg, O_BINARY|O_RDONLY)) == -1)
 			{
-				error (1, errno, "%s", plc.CFG.name);
+				error (1, errno, "%s", plc.SFT.name);
 			}
-			if (nvmfile2 (&plc.CFG))
+			if (nvmfile2 (&plc.SFT))
 			{
-				error (1, errno, "Bad softloader file: %s", plc.CFG.name);
+				error (1, errno, "Bad softloader file: %s", plc.SFT.name);
 			}
 			_setbits (plc.flags, PLC_FLASH_DEVICE);
 			break;
