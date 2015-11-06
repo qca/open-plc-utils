@@ -107,22 +107,8 @@ void ARPCPrint (FILE * fp, void const * memory, size_t extent)
 		*argp = LE32TOH (*argp);
 		argp++;
 	}
-
-#if defined (__UCLIBC__) 
-
-/*
- *	This is a simple fix to work around uclibc implementation issue with variable arugment lists; We are
- *	testing a better one but most PLC users will not have access to firmware that exercises this module;
- */
-
 	argp = (uint32_t *)(&data->LIST [LE16TOH (data->ARGOFFSET)]);
 	fprintf (fp, (char *)(&data->LIST [LE16TOH (data->STROFFSET)]), argp [0], argp [1], argp [2], argp [3], argp [4], argp [5], argp [6], argp [7], argp [8], argp [9], argp [10], argp [11], argp [12], argp [13], argp [14], argp [15], argp [16], argp [17], argp [18], argp [19], argp [20], argp [21], argp [22], argp [23], argp [24], argp [25], argp [26], argp [27], argp [28], argp [29], argp [30], argp [31], argp [32], argp [33], argp [34], argp [35], argp [36], argp [37], argp [38], argp [39]);
-
-#else
-
-	vfprintf (fp, (char *)(&data->LIST [LE16TOH (data->STROFFSET)]), (void *)(&data->LIST [LE16TOH (data->ARGOFFSET)]));
-
-#endif
 
 	fprintf (fp, "\n");
 	fflush (fp);
