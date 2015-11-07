@@ -270,7 +270,7 @@ static void function3 (struct _file_ * port, char const * units, unsigned wait)
 		number <<= 1;
 		number |= string [offset] - '0';
 	}
-	printf ("%d\n", number);
+	printf ("%u\n", number);
 	return;
 }
 

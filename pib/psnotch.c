@@ -1602,7 +1602,7 @@ void watch_tones (struct map * map, unsigned lower, unsigned upper)
 	while (lower < upper)
 	{
 		unsigned total = 0;
-		fprintf (stderr, "%04d %04X", lower, map->carriers [lower].amplitude);
+		fprintf (stderr, "%04u %04X", lower, map->carriers [lower].amplitude);
 		for (slot = 0; slot < map->slots; slot++)
 		{
 			unsigned value = 0;
@@ -1646,12 +1646,12 @@ void watch_tone2 (struct map * map, unsigned lower, unsigned upper)
 	while (lower < upper)
 	{
 		unsigned total = 0;
-		fprintf (stderr, "%d,%d", lower, map->carriers [lower].amplitude);
+		fprintf (stderr, "%u,%d", lower, map->carriers [lower].amplitude);
 		for (slot = 0; slot < map->slots; slot++)
 		{
 			unsigned value = 0;
 			value = map->carriers [lower].slots [slot];
-			fprintf (stderr, ",%d", value);
+			fprintf (stderr, ",%u", value);
 			value *= value;
 			total += value;
 		}
@@ -1659,7 +1659,7 @@ void watch_tone2 (struct map * map, unsigned lower, unsigned upper)
 		{
 			total /= slot;
 		}
-		fprintf (stderr, ",%d", total);
+		fprintf (stderr, ",%u", total);
 		fprintf (stderr, ",%6.3f", INDEX_TO_FREQ (lower));
 		fprintf (stderr, "\n");
 		lower++;

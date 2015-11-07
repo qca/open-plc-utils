@@ -424,7 +424,7 @@ int detect (struct serial *s, struct serial_mode *serial_mode, flag_t flags)
 					++current;
 					if (!_anyset (flags, INT6KDETECT_QUIET))
 					{
-						printf ("\rTesting mode: %03d/%03d (%.01f%%)...", current, total, current * 100.0 / total);
+						printf ("\rTesting mode: %03u/%03u (%.01f%%)...", current, total, current * 100.0 / total);
 						fflush (stdout);
 					}
 					if (!try_serial_mode (s, serial_mode, flags))

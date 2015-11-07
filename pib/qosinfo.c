@@ -173,7 +173,7 @@ int main (int argc, char const * argv [])
 			{
 				unsigned VLAN = (QoS.VLANPrioMatrix >> (c * 2)) & 0x03;
 				unsigned TOS = (QoS.TOSPrecMatrix >> (c * 2)) & 0x03;
-				printf ("VLAN %d TOS %d\n", VLAN, TOS);
+				printf ("VLAN %u TOS %u\n", VLAN, TOS);
 			}
 			for (c = 0; c < 4; c++)
 			{
