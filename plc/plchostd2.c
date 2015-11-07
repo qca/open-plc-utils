@@ -322,7 +322,7 @@ signed function (struct plc * plc, char const * socket)
 	char firmware [PLC_VERSION_STRING];
 	char const * FactoryNVM = plc->NVM.name;
 	char const * FactoryPIB = plc->PIB.name;
-	signed action;
+	unsigned action;
 	signed status;
 	write (fd, MESSAGE, strlen (MESSAGE));
 	while (!done)
