@@ -57,6 +57,7 @@
 #include <limits.h>
 #include <string.h>
 #include <ctype.h>
+#include <inttypes.h>
 
 /*====================================================================*
  *   custom header files;
@@ -182,7 +183,7 @@ static void snatch (int argc, char const * argv [], byte const * memory, size_t 
 			{ 
 				error (1, ECANCELED, GETPIB_TOOBIG, object, extent); 
 			} 
-			printf ("%u", * number); 
+			printf ("%" PRIu8, * number); 
 			memory += sizeof (* number); 
 			extent -= sizeof (* number); 
 		} 
@@ -193,7 +194,7 @@ static void snatch (int argc, char const * argv [], byte const * memory, size_t 
 			{ 
 				error (1, ECANCELED, GETPIB_TOOBIG, object, extent); 
 			} 
-			printf ("%u", LE16TOH (* number)); 
+			printf ("%" PRIu16, LE16TOH (* number)); 
 			memory += sizeof (* number); 
 			extent -= sizeof (* number); 
 		} 
@@ -204,7 +205,7 @@ static void snatch (int argc, char const * argv [], byte const * memory, size_t 
 			{ 
 				error (1, ECANCELED, GETPIB_TOOBIG, object, extent); 
 			} 
-			printf ("%u", LE32TOH (* number)); 
+			printf ("%" PRIu32, LE32TOH (* number)); 
 			memory += sizeof (* number); 
 			extent -= sizeof (* number); 
 		} 
@@ -215,7 +216,7 @@ static void snatch (int argc, char const * argv [], byte const * memory, size_t 
 			{ 
 				error (1, ECANCELED, GETPIB_TOOBIG, object, extent); 
 			} 
-			printf ("%llu", LE64TOH (* number)); 
+			printf ("%" PRIu64, LE64TOH (* number)); 
 			memory += sizeof (* number); 
 			extent -= sizeof (* number); 
 		} 
@@ -229,7 +230,7 @@ static void snatch (int argc, char const * argv [], byte const * memory, size_t 
 			{ 
 				error (1, ECANCELED, GETPIB_TOOBIG, object, extent); 
 			} 
-			printf ("0x%02X", * number); 
+			printf ("0x%02" PRIX8, * number); 
 			memory += sizeof (* number); 
 			extent -= sizeof (* number); 
 		} 
@@ -240,7 +241,7 @@ static void snatch (int argc, char const * argv [], byte const * memory, size_t 
 			{ 
 				error (1, ECANCELED, GETPIB_TOOBIG, object, extent); 
 			} 
-			printf ("0x%04X", LE16TOH (* number)); 
+			printf ("0x%04" PRIX16, LE16TOH (* number)); 
 			memory += sizeof (* number); 
 			extent -= sizeof (* number); 
 		} 
@@ -251,7 +252,7 @@ static void snatch (int argc, char const * argv [], byte const * memory, size_t 
 			{ 
 				error (1, ECANCELED, GETPIB_TOOBIG, object, extent); 
 			} 
-			printf ("0x%08X", LE32TOH (* number)); 
+			printf ("0x%08" PRIX32, LE32TOH (* number)); 
 			memory += sizeof (* number); 
 			extent -= sizeof (* number); 
 		} 
@@ -262,7 +263,7 @@ static void snatch (int argc, char const * argv [], byte const * memory, size_t 
 			{ 
 				error (1, ECANCELED, GETPIB_TOOBIG, object, extent); 
 			} 
-			printf ("0x%016llX", LE64TOH (* number)); 
+			printf ("0x%016" PRIX64, LE64TOH (* number)); 
 			memory += sizeof (* number); 
 			extent -= sizeof (* number); 
 		} 
