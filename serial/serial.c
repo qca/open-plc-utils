@@ -150,26 +150,27 @@ void readcommand (struct _file_ * port, flag_t flags)
 
 {
 	extern struct command command;
+	ssize_t tmp;
 
 #if defined (WIN32)
 
 	PAUSE (250);
 	memset (&command, 0, sizeof (command));
-	command.length = read (port->file, command.buffer, sizeof (command.buffer));
-	if (command.length < 0)
+	tmp = read (port->file, command.buffer, sizeof (command.buffer));
+	if (tmp < 0)
 	{
 		error (1, errno, "Bad response from %s", port->name);
 	}
-	if (command.length == 0)
+	if (tmp == 0)
 	{
 		error (1, errno, "No response from %s", port->name);
 	}
+	command.length = tmp;
 
 #else
 
 	struct timeval tv;
 	fd_set rfd;
-	ssize_t tmp;
 	memset (&command, 0, sizeof (command));
 	while (!strchr (command.buffer, '\r'))
 	{
