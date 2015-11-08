@@ -82,13 +82,6 @@ TO UNINSTALL
 2. Remove installed programs using "sudo make uninstall".
 3. Remove all package files using "rm -r *".
 
-Ocala Design Center
-Qualcomm Atheros, Inc.
-203 East Silver Springs Blvd #200
-Ocala FL 34470 USA
-+1-352-547-4413
-cmaier@qca.qualcomm.com
-
 CONTRIBUTORS
 ------------
 Abdel Younes <younes@leacom.fr>
