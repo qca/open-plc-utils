@@ -7,7 +7,7 @@
  *   variation of the GNU error() function that accepts a message in
  *   place of an error code and always returns -1;
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *

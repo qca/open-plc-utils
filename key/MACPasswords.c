@@ -49,7 +49,7 @@
  *   an optional usage flag in first column for PTS compatability;
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -90,7 +90,7 @@ static unsigned MACRand ()
  *   keys.h
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -120,7 +120,7 @@ void MACPassword (unsigned device, char const charset [], unsigned limit, unsign
  *   an optional usage flag in first column for PTS compatability;
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 

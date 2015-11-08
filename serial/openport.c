@@ -60,8 +60,8 @@
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
- *	Mathieu Olivari <mathieu@qca.qualcomm.com>
+ *	Charles Maier
+ *	Mathieu Olivari
  *
  *--------------------------------------------------------------------*/
 

@@ -11,7 +11,7 @@
  *   filename should appear on the command line; Ethernet addresses
  *   are also valid filenames;
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *

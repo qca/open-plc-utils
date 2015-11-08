@@ -49,7 +49,7 @@
  *   corresponding name on success or NULL on failure;
  *
  *   Contributor(s):
- *	Nathaniel Houghton <nhoughto@qca.qualcomm.com>
+ *	Nathaniel Houghton
  *
  *--------------------------------------------------------------------*/
 

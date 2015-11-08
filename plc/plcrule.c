@@ -44,7 +44,7 @@
  *   plcrule.c - Qualcomm Atheros Message MakeRules Utility;
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 

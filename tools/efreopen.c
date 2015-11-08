@@ -8,7 +8,7 @@
  *   pointer on success; print an error message to stderr and then
  *   return NULL on failure;
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *

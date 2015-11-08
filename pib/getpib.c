@@ -44,7 +44,7 @@
  *   getpib.c - PIB Data Extractor
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -397,7 +397,7 @@ static void snatch (int argc, char const * argv [], byte const * memory, size_t 
  *   it and display it;
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -441,7 +441,7 @@ static signed pibimage1 (int argc, char const * argv [], char comma)
  *   it and display it;
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -487,7 +487,7 @@ static signed pibimage2 (int argc, char const * argv [], char comma)
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 

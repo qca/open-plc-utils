@@ -56,9 +56,9 @@
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
- *	Nathaniel Houghton <nhoughto@qca.qualcomm.com>
- *      Werner Henze <w.henze@avm.de>
+ *	Charles Maier
+ *	Nathaniel Houghton
+ *      Werner Henze
  *
  *--------------------------------------------------------------------*/
 

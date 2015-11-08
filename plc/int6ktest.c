@@ -45,8 +45,8 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
- *      Matthieu Poullet <m.poullet@avm.de>
+ *      Charles Maier
+ *      Matthieu Poullet
  *
  *--------------------------------------------------------------------*/
 
@@ -151,7 +151,7 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -233,7 +233,7 @@ signed ReadMME (struct plc * plc, uint8_t MMV, uint16_t MMTYPE)
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 

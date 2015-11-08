@@ -7,7 +7,7 @@
  *   base64 encode a memory region and write to a text file; wrap
  *   the output at a given column; do not wrap when column is 0;
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *

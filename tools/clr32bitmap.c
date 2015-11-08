@@ -7,7 +7,7 @@
  *   clear the given bit in an 32-bit flagword array; macro _bits ()
  *   is defined in flags.h;
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *

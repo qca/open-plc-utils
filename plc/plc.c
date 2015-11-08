@@ -52,8 +52,8 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
- *      Alex Vasquez <avasquez@qca.qualcomm.com>
+ *      Charles Maier
+ *      Alex Vasquez
  *
  *--------------------------------------------------------------------*/
 

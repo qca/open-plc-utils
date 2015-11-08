@@ -47,7 +47,7 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -136,8 +136,8 @@
  *   or the wait period expires;
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
- *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
+ *      Charles Maier
+ *      Nathaniel Houghton
  *
  *--------------------------------------------------------------------*/
 
@@ -225,9 +225,9 @@ signed ResetAndWait (struct plc * plc)
  *   hardware reset;
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
- *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
- *	Werner Henze <w.henze@avm.de>
+ *      Charles Maier
+ *      Nathaniel Houghton
+ *	Werner Henze
  *
  *--------------------------------------------------------------------*/
 
@@ -318,8 +318,8 @@ signed WaitForReset (struct plc * plc)
  *   occurs;
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
- *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
+ *      Charles Maier
+ *      Nathaniel Houghton
  *
  *--------------------------------------------------------------------*/
 
@@ -421,8 +421,8 @@ signed WaitForStart (struct plc * plc, char string [], size_t length)
  *   -1;
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
- *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
+ *      Charles Maier
+ *      Nathaniel Houghton
  *
  *--------------------------------------------------------------------*/
 

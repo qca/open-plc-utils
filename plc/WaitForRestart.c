@@ -50,7 +50,7 @@
  *   to the command line until a flash or reset action is completed;
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 

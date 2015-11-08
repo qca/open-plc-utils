@@ -45,7 +45,7 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -153,8 +153,8 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
- *      Matthieu Poullet <m.poullet@avm.de>
+ *      Charles Maier
+ *      Matthieu Poullet
  *
  *--------------------------------------------------------------------*/
 
@@ -188,7 +188,7 @@ signed ReadMME (struct plc * plc, uint8_t MMV, uint16_t MMTYPE)
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -233,7 +233,7 @@ static void sequence (struct plc * plc, int argc, char const * argv [])
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 

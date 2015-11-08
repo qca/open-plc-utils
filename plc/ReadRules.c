@@ -48,8 +48,8 @@
  *   Read and Display the classifier rules read from a PLC device.
  *
  *   Contributor(s):
- *      Nathan Houghton <nhoughto@qca.qualcomm.com>
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Nathan Houghton
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 

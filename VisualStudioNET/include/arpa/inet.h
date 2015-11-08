@@ -32,7 +32,7 @@
  *;  For demonstration; Not for production use;
  *
  *   Contributor(s):
- *	Charles Maier <charles.maier@atheros.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 

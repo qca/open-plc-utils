@@ -56,9 +56,9 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
- *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
- *      Matthieu Poullet <m.poullet@avm.de>
+ *      Charles Maier
+ *      Nathaniel Houghton
+ *      Matthieu Poullet
  *
  *--------------------------------------------------------------------*/
 

@@ -45,9 +45,9 @@
  *
  *
  *   Contributor(s):
- *	Bill Wike <bill.wike@qca.qualcomm.com>
- *	Nathaniel Houghton <nhoughto@qca.qualcomm.com>
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Bill Wike
+ *	Nathaniel Houghton
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -179,7 +179,7 @@ static struct _code_ const types [] =
  *
  *
  *   Contributor(s):
- *	Bill Wike <bill.wike@qca.qualcomm.com>
+ *	Bill Wike
  *
  *--------------------------------------------------------------------*/
 

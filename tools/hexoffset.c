@@ -8,7 +8,7 @@
  *   hexadecimal representation of a memory offset; the result will
  *   be padded with leading zeros;
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *

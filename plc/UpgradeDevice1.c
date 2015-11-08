@@ -51,7 +51,7 @@
  *   several program like int6k, int6kf and int6khost;
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 

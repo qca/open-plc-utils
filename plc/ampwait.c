@@ -45,9 +45,9 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
- *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
- *	Werner Henze <w.henze@avm.de>
+ *      Charles Maier
+ *      Nathaniel Houghton
+ *	Werner Henze
  *
  *--------------------------------------------------------------------*/
 
@@ -135,8 +135,8 @@
  *   seconds or -1 if not;
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
- *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
+ *      Charles Maier
+ *      Nathaniel Houghton
  *
  *--------------------------------------------------------------------*/
 
@@ -224,9 +224,9 @@ signed ResetAndWait (struct plc * plc)
  *   hardware reset;
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
- *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
- *	Werner Henze <w.henze@avm.de>
+ *      Charles Maier
+ *      Nathaniel Houghton
+ *	Werner Henze
  *
  *--------------------------------------------------------------------*/
 
@@ -312,8 +312,8 @@ signed WaitForReset (struct plc * plc)
  *   or -1 if not;
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
- *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
+ *      Charles Maier
+ *      Nathaniel Houghton
  *
  *--------------------------------------------------------------------*/
 
@@ -414,8 +414,8 @@ signed WaitForStart (struct plc * plc, char string [], size_t length)
  *   network forms within plc->timer seconds or -1 if not;
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
- *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
+ *      Charles Maier
+ *      Nathaniel Houghton
  *
  *--------------------------------------------------------------------*/
 

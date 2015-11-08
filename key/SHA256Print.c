@@ -7,7 +7,7 @@
  *   print a digest in hexadecimal on stdout followed by string if
  *   string is non-empty;
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *

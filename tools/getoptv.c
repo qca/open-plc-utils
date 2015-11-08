@@ -83,7 +83,7 @@
  *
  *    }
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   licensed under the Internet Software Consortium License;
  *

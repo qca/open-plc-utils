@@ -50,7 +50,7 @@
  *   VS_CLASSIFICATION message;
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 

@@ -32,7 +32,7 @@
  *   available on all Unix systems but they were meant for network
  *   applications and lack little-endian and 64-bit variants;
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *

@@ -12,7 +12,7 @@
  *   text; a colon terminates a frame, to allow multiple frames in a
  *   on one file;
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
@@ -44,7 +44,7 @@ static unsigned col = 1;
  *   return the next input character after updating the file cursor
  *   position;
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
@@ -83,7 +83,7 @@ static signed fpgetc (FILE * fp)
  *   text; a colon terminates a frame, to allow multiple frames in a
  *   on one file;
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *

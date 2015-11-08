@@ -63,7 +63,7 @@
  *   the MDEVICE_CLASS field was named MDEVICEID at one time;
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 

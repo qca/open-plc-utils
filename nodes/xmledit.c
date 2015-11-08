@@ -4,7 +4,7 @@
  *
  *   node.h
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
@@ -56,7 +56,7 @@ static bool series = false;
  *
  *   sanity check offset and extent before editing memory;
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
@@ -89,7 +89,7 @@ static void position (size_t extent)
  *   string digits must be valid for the specifid radix; radix can be
  *   1 through 16 but 2, 8, 10 and 16 are the only sensible choices;
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
@@ -123,7 +123,7 @@ static unsigned xmlinteger (NODE const * node, unsigned radix)
  *
  *   per the schema, an series cannot have a string member;
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
@@ -171,7 +171,7 @@ static void xmlstring (void * memory, size_t extent)
  *   per the schema, if xmlmemory is not inside an series then it must
  *   match the object extent;
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
@@ -218,7 +218,7 @@ static void xmlmemory (void * memory, size_t extent)
  *   value cannot exceed length bytes and offset is incremented by
  *   length bytes;
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
@@ -267,7 +267,7 @@ static void xmlnumber (void * memory, size_t extent)
  *   per the schema, if xmlbyte is not inside an series then it must
  *   it must match the object extent which must be 1 by implication;
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
@@ -309,7 +309,7 @@ static void xmlbyte (void * memory, size_t extent)
  *
  *   static char const * xmlcontent1 (struct node const * node);
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
@@ -338,7 +338,7 @@ static char const * xmlcontent1 (struct node const * node)
  *
  *   char const * xmlvalue1 (struct node const * node);
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
@@ -367,7 +367,7 @@ char const * xmlvalue1 (struct node const * node)
  *
  *   static char const * xmlattribute1 (struct node const * node, char const * name);
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
@@ -400,7 +400,7 @@ static char const * xmlattribute1 (struct node const * node, char const * name)
  *
  *   signed xmledit (struct node const * node, void * memory, size_t extent);
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
