@@ -30,7 +30,7 @@ void xmltree (NODE const * node)
 	while (node)
 	{
 		static unsigned level = 0;
-		printf ("%03d ", node->line);
+		printf ("%03u ", node->line);
 		printf ("(%c) ", node->type);
 		output (level, "[%s]", node->text);
 		level++;

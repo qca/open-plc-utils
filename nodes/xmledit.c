@@ -75,7 +75,7 @@ static void position (size_t extent)
 	}
 	if ((offset + length) > extent)
 	{
-		error (XML_BAD_EXTENT, EPERM, "%s length of %u bytes exceeds " DATA_OBJECT " length of " SIZE_T_SPEC " bytes", member, length, extent); 
+		error (XML_BAD_EXTENT, EPERM, "%s length of %u bytes exceeds " DATA_OBJECT " length of " SIZE_T_SPEC " bytes", member, length, extent);
 	}
 	return;
 }
@@ -241,7 +241,7 @@ static void xmlnumber (void * memory, size_t extent)
 		number += *string - '0';
 		if (number > maximum)
 		{
-			error (XML_BAD_NUMBER, EINVAL, "%s value exceeds %u bytes", member, length); 
+			error (XML_BAD_NUMBER, EINVAL, "%s value exceeds %u bytes", member, length);
 		}
 		string++;
 	}
