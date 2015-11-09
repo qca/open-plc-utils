@@ -12,10 +12,10 @@ include ../make.def
 # --------------------------------------------------------------------
 
 CFLAGS+=
-LDFLAGS+= -lpcap
+LDFLAGS+=
 TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9]
-FILES=Makefile *.mak *.sh *.c *.h 
-TOOLS=efbu efeu efru efsu edru edsu nics pcapdevs
+FILES=Makefile *.mak *.sh *.c *.h
+TOOLS=efbu efeu efru efsu edru edsu nics
 PAGES=efbu.1 efeu.1 efru.1 efsu.1 edru.1 edsu.1 pcapdevs.1 nics.1
 
 # ====================================================================
