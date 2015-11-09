@@ -1,10 +1,5 @@
 language: c
 
-addons:
-  apt:
-    packages:
-      - libpcap-dev
-
 script:
   - make
 
