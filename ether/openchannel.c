@@ -141,7 +141,7 @@ signed openchannel (struct channel * channel)
 		error (1, errno, "%s", ifreq.ifr_name);
 	}
 	channel->ifstate = ifreq.ifr_flags;
-	if (!(channel->ifstate & ifreq.ifr_flags & IFF_UP)) {
+	if (!(channel->ifstate & IFF_UP)) {
 		error(0, 0, "warning: interface %s is not up!", ifreq.ifr_name);
 	}
 
