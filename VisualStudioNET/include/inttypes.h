@@ -40,5 +40,10 @@
 
 #define PRId64 "I64d"
 
+#define PRIX8  "hhX"
+#define PRIX16 "hX"
+#define PRIX32 "X"
+#define PRIX64 "llX"
+
 #endif
 
