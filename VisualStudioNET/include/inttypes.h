@@ -33,7 +33,17 @@
 #ifndef INTTYPES_HEADER
 #define INTTYPES_HEADER
 
+#define PRIu8  "hhu"
+#define PRIu16 "hu"
+#define PRIu32 "u"
+#define PRIu64 "llu"
+
 #define PRId64 "I64d"
+
+#define PRIX8  "hhX"
+#define PRIX16 "hX"
+#define PRIX32 "X"
+#define PRIX64 "llX"
 
 #endif
 
