@@ -9,7 +9,7 @@
 # host symbols;
 # --------------------------------------------------------------------
 
-. /etc/enfironment
+. /etc/environment
 . ${SCRIPTS}/hardware.sh
 . ${SCRIPTS}/firmware.sh
 
