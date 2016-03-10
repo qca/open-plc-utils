@@ -69,6 +69,16 @@ typedef unsigned char byte;
 
 #ifndef __cplusplus
 
+#ifdef false
+# undef false
+#endif
+#ifdef true
+# undef true
+#endif
+#ifdef bool
+# undef bool
+#endif
+
 typedef enum
 
 {
