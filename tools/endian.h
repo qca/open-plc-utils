@@ -70,6 +70,20 @@
  *   definitions;
  *--------------------------------------------------------------------*/
 
+/* Some systems may already define some of these, returnning void */
+#undef HTOBE16
+#undef HTOBE32
+#undef HTOBE64
+#undef HTOLE16
+#undef HTOLE32
+#undef HTOLE64
+#undef BE64TOH
+#undef BE32TOH
+#undef BE16TOH
+#undef LE16TOH
+#undef LE32TOH
+#undef LE64TOH
+
 #if defined (BYTE_ORDER)
 #       if BYTE_ORDER == LITTLE_ENDIAN
 #               define BE16TOH(x) __bswap_16(x)
