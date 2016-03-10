@@ -76,7 +76,7 @@
  *   sort out the raw socket mess;
  *--------------------------------------------------------------------*/
 
-#if defined (__linux__) || defined (__APPLE__) || defined (__OpenBSD__)
+#if defined (__linux__) || defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__)
 #       ifdef WINPCAP
 #               error "Don't enable winpcap on Linux. It won't work."
 #               endif
@@ -117,7 +117,7 @@
 #elif defined (__APPLE__)
 #       define CHANNEL_ETHDEVICE "en0"
 #       define CHANNEL_BPFDEVICE "/dev/bpf%d"
-#elif defined (__OpenBSD__)
+#elif defined (__OpenBSD__) || defined(__NetBSD__)
 #       define CHANNEL_ETHDEVICE "bce0"
 #       define CHANNEL_BPFDEVICE "/dev/bpf%d"
 #else
@@ -168,7 +168,7 @@ typedef struct channel
 
 #if defined (__linux__)
 
-#elif defined (__APPLE__) || defined (__OpenBSD__)
+#elif defined (__APPLE__) || defined (__OpenBSD__) || defined(__NetBSD__)
 
 	struct bpf
 	{

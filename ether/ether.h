@@ -30,7 +30,7 @@
 #       include <net/ethernet.h>
 #       include <arpa/inet.h>
 #       include <net/bpf.h>
-#elif defined (__OpenBSD__)
+#elif defined (__OpenBSD__) || defined (__NetBSD__)
 #       include <sys/ioctl.h>
 #       include <sys/types.h>
 #       include <sys/socket.h>

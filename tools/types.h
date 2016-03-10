@@ -37,7 +37,7 @@
 #elif defined (__APPLE__)
 	#define SIZE_T_SPEC "%zu"
 	#define OFF_T_SPEC "%lld"
-#elif defined (__OpenBSD__)
+#elif defined (__OpenBSD__) || defined (__NetBSD__)
 	#define SIZE_T_SPEC "%zu"
 	#define OFF_T_SPEC "%lld"
 #elif defined (__linux__)
