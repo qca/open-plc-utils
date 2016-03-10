@@ -65,6 +65,8 @@ We recommend that you open file docbook/index.html with a web browser
 the read Chapter 1 before attempting to install or use the toolkit 
 but the impatient may do the following and survive ...
 
+Note: 'make' is assumed to be the Gnu make command.
+
 TO INSTALL
 ----------
 
