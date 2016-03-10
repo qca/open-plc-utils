@@ -158,7 +158,7 @@ int gethwaddr (void * memory, char const * device)
 	}
 	freeifaddrs (ifaddrs);
 
-#elif defined (__OpenBSD__)
+#elif defined (__OpenBSD__) || defined(__NetBSD__)
 
 #include <ifaddrs.h>
 #include <net/if_dl.h>

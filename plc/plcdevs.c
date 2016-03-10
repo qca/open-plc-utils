@@ -144,7 +144,7 @@ static void enumerate (struct channel * channel, struct nic nic [], unsigned siz
 
 		printf (" %d", nic->ifindex);
 
-#elif defined (__linux__) || defined (__OpenBSD__) || defined (__APPLE__)
+#elif defined (__linux__) || defined (__OpenBSD__) || defined (__NetBSD__) || defined (__APPLE__)
 
 		printf (" %s", nic->ifname);
 

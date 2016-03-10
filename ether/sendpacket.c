@@ -77,7 +77,7 @@ ssize_t sendpacket (struct channel const * channel, void * memory, ssize_t exten
 
 	extent = sendto (channel->fd, memory, extent, 0, (struct sockaddr *) (0), (socklen_t) (0));
 
-#elif defined (__APPLE__) || defined (__OpenBSD__)
+#elif defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__)
 
 	extent = write (channel->fd, memory, extent);
 
