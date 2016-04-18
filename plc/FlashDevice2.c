@@ -62,6 +62,11 @@ signed FlashDevice2 (struct plc * plc, uint32_t options)
 
 {
 	char firmware [256];
+	if ((plc->NVM.file != -1) && (plc->PIB.file == -1))
+	{
+		/* do not allow a firmware only flash */
+		return (-1);
+	}
 	if (plc->SFT.file != -1)
 	{
 		if (FlashSoftloader (plc, options))
@@ -69,11 +74,19 @@ signed FlashDevice2 (struct plc * plc, uint32_t options)
 			return (-1);
 		}
 	}
-	if ((plc->NVM.file != -1) && (plc->PIB.file != -1))
+	if (plc->NVM.file != -1)
 	{
 		if (FlashFirmware (plc, options))
 		{
 			return (-1);
+		}
+		sleep (5);
+		if (WaitForStart (plc, firmware, sizeof (firmware)) == 0)
+		{
+			if (strcmp (firmware, "BootLoader"))
+			{
+				return (0);
+			}
 		}
 	}
 	else if (plc->PIB.file != -1)
