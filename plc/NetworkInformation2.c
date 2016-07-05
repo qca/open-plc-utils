@@ -165,6 +165,8 @@ signed NetworkInformation2 (struct plc * plc)
 			printf (" TEI %03d", station->TEI);
 			printf (" MAC %17s", hexstring (string, sizeof (string), station->MAC, sizeof (station->MAC)));
 			printf (" BDA %17s", hexstring (string, sizeof (string), station->BDA, sizeof (station->BDA)));
+			station->AVGTX = LE16TOH (station->AVGTX);
+			station->AVGRX = LE16TOH (station->AVGRX);
 			printf (" TX %03d", station->AVGTX);
 			printf (" RX %03d", station->AVGRX);
 			printf ("\n");
