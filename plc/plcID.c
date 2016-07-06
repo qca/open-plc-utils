@@ -479,7 +479,7 @@ int main (int argc, char const * argv [])
 	extern struct channel channel;
 	static char const * optv [] =
 	{
-		"Ac:Dei:MnNqSUv",
+		"Ac:Dei:MnNqSt:Uv",
 		"device",
 		"Qualcomm Atheros Powerline Device Identity",
 		"A\tEthernet address (MAC)",
@@ -502,6 +502,7 @@ int main (int argc, char const * argv [])
 		"N\tnetwork HFID",
 		"q\tquiet mode",
 		"S\tmanufacturer HFID",
+		"t n\tread timeout is (n) milliseconds [" LITERAL (CHANNEL_TIMEOUT) "]",
 		"U\tuser HFID",
 		"v\tverbose mode",
 		(char const *) (0)
@@ -571,6 +572,9 @@ int main (int argc, char const * argv [])
 			break;
 		case 'S':
 			plc.action = PLCID_MFG;
+			break;
+		case 't':
+			channel.timeout = (signed)(uintspec (optarg, 0, UINT_MAX));
 			break;
 		case 'U':
 			plc.action = PLCID_USR;
