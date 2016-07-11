@@ -563,7 +563,7 @@ int main (int argc, char const * argv [])
 			for (sp = optarg; isprint (*sp); ++sp);
 			if (*sp)
 			{
-				error (1, EINVAL, "NMK contains illegal characters");
+				error (1, EINVAL, "Manufacturing string contains illegal characters");
 			}
 			if ((sp - optarg) > (signed)(sizeof (sample_pib.MFG) - 1))
 			{
@@ -576,7 +576,7 @@ int main (int argc, char const * argv [])
 			for (sp = optarg; isprint (*sp); ++sp);
 			if (*sp)
 			{
-				error (1, EINVAL, "NMK contains illegal characters");
+				error (1, EINVAL, "NET string contains illegal characters");
 			}
 			if ((sp - optarg) > (signed)(sizeof (sample_pib.NET) - 1))
 			{
@@ -589,7 +589,7 @@ int main (int argc, char const * argv [])
 			for (sp = optarg; isprint (*sp); ++sp);
 			if (*sp)
 			{
-				error (1, EINVAL, "NMK contains illegal characters");
+				error (1, EINVAL, "USR string contains illegal characters");
 			}
 			if ((sp - optarg) > (signed)(sizeof (sample_pib.USR) - 1))
 			{
