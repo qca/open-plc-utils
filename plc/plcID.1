@@ -73,6 +73,13 @@ Prints the manufacturer HFID string for each specified device.
 This option and options -\fBA\fR, -\fBD\fR, -\fBM\fR, -\fBN\fR and -\fBU\fR are mutually exclusive.
 
 .TP
+-\fBt \fImilliseconds\fR
+Read timeout in milliseconds.
+Values range from 0 through UINT_MAX.
+This is the maximum time allowed for a response.
+The default is shown in brackets on the program menu.
+
+.TP
 .RB - v
 Print additional information on stdout.
 In particular, this option dumps incoming and outgoing packets which can be saved as text files for reference.
