@@ -44,7 +44,7 @@
  *   xml2pib.c -
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -114,7 +114,7 @@
  *   signed pibedit1 (struct node const * node, void * memory, size_t extent);
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -140,7 +140,7 @@ static signed pibedit1 (struct node const * node, void * memory, size_t extent)
  *   into memory and checks it there;
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -202,7 +202,7 @@ static signed pibedit2 (char const * filename, struct node const * node, char * 
  *   determine the type of file and call appropriate functions;
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -263,7 +263,7 @@ static signed function (char const * filename, struct node const * node)
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 

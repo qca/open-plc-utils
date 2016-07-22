@@ -48,7 +48,7 @@
  *   and display stored selftest results;
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 

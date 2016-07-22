@@ -45,7 +45,7 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -120,7 +120,7 @@
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -147,7 +147,7 @@ static unsigned string2vector (char ** vector, char * string, char c)
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -209,7 +209,7 @@ static void firmware (signed fd, char const * filename, unsigned module, unsigne
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -320,7 +320,7 @@ static signed nvmchain1 (signed fd, char const * filename, flag_t flags)
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -425,7 +425,7 @@ static signed nvmchain2 (signed fd, char const * filename, flag_t flags)
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -483,7 +483,7 @@ static signed chknvm (char const * filename, flag_t flags)
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 

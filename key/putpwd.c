@@ -57,7 +57,7 @@
  *   equal to count;
  *
  *   Contributors:
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 

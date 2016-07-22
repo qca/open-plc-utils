@@ -9,7 +9,7 @@
  *
  *   Read standard FIPS180-2 sec 5.3.2 for an explanation;
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *

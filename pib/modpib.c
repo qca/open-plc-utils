@@ -45,8 +45,8 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
- *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
+ *      Charles Maier
+ *      Nathaniel Houghton
  *
  *--------------------------------------------------------------------*/
 
@@ -134,8 +134,8 @@
  *
  *
  *   Contributor(s):
- *	Nathaniel Houghton <nhoughto@qca.qualcomm.com>
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Nathaniel Houghton
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -248,7 +248,7 @@ static signed pibimage1 (struct _file_ * file, simple_pib * sample_pib, signed l
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -351,7 +351,7 @@ static signed pibimage2 (struct _file_ * file, simple_pib * sample_pib, signed l
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -431,7 +431,7 @@ static signed pibchain2 (struct _file_ * file, simple_pib * sample_pib, signed l
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 

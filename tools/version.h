@@ -2,7 +2,7 @@
  *
  *   version.h - package version definitions and declarations;
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
@@ -21,7 +21,7 @@
 #define VERSION "0.0.6"
 #define RELEASE "OSRQCA-929"
 #define COMPILE __TIME__ " " __DATE__
-#define CONTACT "cmaier@qca.qualcomm.com"
+#define CONTACT "https://github.com/qca/open-plc-utils"
 #define LICENSE "Clear BSD"
 
 /*====================================================================*

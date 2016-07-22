@@ -50,7 +50,7 @@
  *   CM_SLAC_MATCH.CNF;
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 

@@ -65,8 +65,8 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
- *      Matthieu Poullet <m.poullet@avm.de>
+ *      Charles Maier
+ *      Matthieu Poullet
  *
  *--------------------------------------------------------------------*/
 

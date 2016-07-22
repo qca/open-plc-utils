@@ -50,7 +50,7 @@
  *   detection and selection may not be this simple in the future;
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 

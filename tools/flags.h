@@ -2,7 +2,7 @@
  *
  *   flags.h - bitmap flagword definitions and declarations;
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *

@@ -49,7 +49,7 @@
  *   format is suitable input for Atheros Windows Device Manager;
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 

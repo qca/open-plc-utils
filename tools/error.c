@@ -7,7 +7,7 @@
  *   custom implementation of GNU error() function for systems
  *   that do not have it; this version always returns -1;
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *

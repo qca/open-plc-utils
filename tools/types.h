@@ -5,13 +5,13 @@
  *   this file is a subset of the original that includes only those
  *   definitions and declaration needed for toolkit programs;
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *
  *   Contributor(s):
  *
- *   Werner Henze <w.henze@avm.de>
+ *   Werner Henze
  *
  *--------------------------------------------------------------------*/
 

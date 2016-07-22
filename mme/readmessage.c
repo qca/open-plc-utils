@@ -55,8 +55,8 @@
  *   a well designed UnwantedMessage function is critical here;
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
- *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
+ *      Charles Maier
+ *      Nathaniel Houghton
  *
  *--------------------------------------------------------------------*/
 

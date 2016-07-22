@@ -8,7 +8,7 @@
  *   an ASCII character display; this function is similar to but not
  *   the same as function hexdump;
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *

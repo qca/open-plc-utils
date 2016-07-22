@@ -59,8 +59,8 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
- *	Werner Henze <w.henze@avm.de>
+ *      Charles Maier
+ *	Werner Henze
  *
  *--------------------------------------------------------------------*/
 

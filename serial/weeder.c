@@ -44,9 +44,9 @@
  *   weeder.c - Weeder Solid State Relay Module Controller;
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
- *	Nathaniel Houghton <nhoughto@qca.qualcomm.com>
- *	Mathieu Olivari <mathieu@qca.qualcomm.com>
+ *	Charles Maier
+ *	Nathaniel Houghton
+ *	Mathieu Olivari
  *
  *--------------------------------------------------------------------*/
 

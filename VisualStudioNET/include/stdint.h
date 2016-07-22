@@ -26,7 +26,7 @@
  *   this is an important POSIX header that Microsoft ommits;
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 

@@ -45,8 +45,8 @@
  *
  *
  *   Contributor(s):
- *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Nathaniel Houghton
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -140,7 +140,7 @@
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -196,7 +196,7 @@ static signed pibimage1 (signed fd, char const * filename, unsigned offset, stru
  *
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 

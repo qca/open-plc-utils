@@ -108,7 +108,7 @@ void (* generate)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t
  *   and password strings having a defined letter count and grouping;
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -195,7 +195,7 @@ static void function (const char * file, unsigned alpha, unsigned bunch, unsigne
  *   must be separated by white space;
  *
  *   Contributor(s):
- *	Charles Maier <cmaier@qca.qualcomm.com>
+ *	Charles Maier
  *
  *--------------------------------------------------------------------*/
 

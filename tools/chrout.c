@@ -7,7 +7,7 @@
  *   print memory as an ASCII character string; replace non-printable
  *   characters with (c) on output; terminate output with (e);
  *
- *   Motley Tools by Charles Maier <cmaier@cmassoc.net>;
+ *   Motley Tools by Charles Maier;
  *   Copyright (c) 2001-2006 by Charles Maier Associates;
  *   Licensed under the Internet Software Consortium License;
  *

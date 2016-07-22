@@ -58,8 +58,8 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
- *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
+ *      Charles Maier
+ *      Nathaniel Houghton
  *
  *--------------------------------------------------------------------*/
 

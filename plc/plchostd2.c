@@ -46,9 +46,9 @@
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
- *      Nathaniel Houghton <nhoughto@qca.qualcomm.com>
- *      Stefan Wahren <stefan.wahren@i2se.com>
+ *      Charles Maier
+ *      Nathaniel Houghton
+ *      Stefan Wahren
  *
  *--------------------------------------------------------------------*/
 
@@ -202,7 +202,7 @@ static bool done = false;
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -220,7 +220,7 @@ static void terminate (signo_t signal)
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 
@@ -279,7 +279,7 @@ static signed opensocket (char const * socketname)
  *
  *
  *   Contributor(s):
- *      Charles Maier <cmaier@qca.qualcomm.com>
+ *      Charles Maier
  *
  *--------------------------------------------------------------------*/
 
