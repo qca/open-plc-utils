@@ -76,7 +76,6 @@
 
 #include <stdio.h>
 #include <ctype.h>
-#include <math.h>
 #include <ctype.h>
 #include <sys/types.h>
 #include <sys/stat.h>
