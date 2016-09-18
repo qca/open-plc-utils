@@ -18,7 +18,7 @@ FILES=Makefile *.mak *.sh *.txt *.c *.h *.xml *.css
 TOOLS=chkpib chkpib2 setpib getpib modpib pib2xml pibcomp pibdump pibruin xml2pib psin psout pskey
 TOOLS+=psgraph psnotch pibrump 
 PAGES=chkpib.1 chkpib2.1 setpib.1 getpib.1 modpib.1 pib2xml.1 pibcomp.1 pibdump.1 xml2pib.1 psin.1 psout.1 pskey.1
-# PAGES+=pibrump.1 pibruin.1 psgraph.1 psnotch.1
+PAGES+=pibrump.1 pibruin.1 psgraph.1 psnotch.1
 
 # ====================================================================
 # pseudo targets;
