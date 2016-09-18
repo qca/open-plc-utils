@@ -12,7 +12,7 @@ include ../make.def
 # --------------------------------------------------------------------
 
 # CFLAGS+= -DSLAC_DEBUG
-LDFLAGS+=-lm
+LDFLAGS+=
 TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9] 
 FILES=Makefile *.mak *.sh *.c *.h 
 TOOLS=evse pev

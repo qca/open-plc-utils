@@ -12,7 +12,7 @@ include ../make.def
 # --------------------------------------------------------------------
 
 CFLAGS+=
-LDFLAGS+=-lm
+LDFLAGS+=
 TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9] *.test 
 FILES=Makefile *.mak *.sh *.txt *.c *.h *.xml *.css
 TOOLS=chkpib chkpib2 setpib getpib modpib pib2xml pibcomp pibdump pibruin xml2pib psin psout pskey
