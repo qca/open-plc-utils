@@ -53,7 +53,6 @@
  *   system header files;
  *--------------------------------------------------------------------*/
 
-#include <math.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -110,90 +109,6 @@
 static void ar7x00Prescalers (struct _file_ * pib)
 
 {
-
-#if 0
-
-	uint32_t value;
-	uint32_t temp;
-	uint32_t buffer = 0;
-	unsigned bits = 0;
-	unsigned index = 0;
-	if (lseek (pib->file, AMP_PRESCALER_OFFSET, SEEK_SET) != AMP_PRESCALER_OFFSET)
-	{
-		error (1, errno, FILE_CANTSEEK, pib->name);
-	}
-
-/* no dependency on math lib */
-
-	while (index < AMP_CARRIERS)
-	{
-		if (read (pib->file, &temp, sizeof (temp)) != sizeof (temp))
-		{
-			error (1, errno, FILE_CANTREAD, pib->name);
-		}
-		temp = LE32TOH (temp);
-		buffer |= (temp << bits);
-		if (bits == 0)
-		{
-			bits = 8 * sizeof (buffer);
-		}
-		else
-		{
-			if (lseek (pib->file, -1, SEEK_CUR) == -1)
-			{
-				error (1, errno, "could not seek backwards");
-			}
-			bits += 8 * (sizeof (buffer) - 1);
-		}
-		while (bits >= 10)
-		{
-			value = (buffer & 0x000003FF);
-			printf ("%08d %08X\n", index, value);
-			buffer = buffer >> 10;
-			++index;
-			bits -= 10;
-		}
-	}
-
-#elif 0
-
-	uint32_t value;
-	uint32_t temp;
-	uint32_t buffer = 0;
-	unsigned bits = 0;
-	unsigned index = 0;
-	if (lseek (pib->file, AMP_PRESCALER_OFFSET, SEEK_SET) != AMP_PRESCALER_OFFSET)
-	{
-		error (1, errno, FILE_CANTSEEK, pib->name);
-	}
-
-/* more generic code, but requires math lib, add -lm to LFLAGS */
-
-	while (index < AMP_CARRIERS)
-	{
-		if (read (pib->file, &temp, sizeof (temp)) != sizeof (temp))
-		{
-			error (1, errno, FILE_CANTREAD, pib->name);
-		}
-		temp = LE32TOH (temp);
-		buffer |= (temp << bits);
-		if (lseek (pib->file, (off_t)(-ceil (bits / 8.0)), SEEK_CUR) == -1)
-		{
-			error (1, errno, "could not seek backwards");
-		}
-		bits += 8 * (sizeof (buffer) - (unsigned)(ceil (bits / 8.0)));
-		while (bits >= 10)
-		{
-			value = (buffer & 0x000003FF);
-			printf ("%08d %08X\n", index, value);
-			buffer = buffer >> 10;
-			++index;
-			bits -= 10;
-		}
-	}
-
-#else
-
 	uint16_t upper;
 	uint16_t lower;
 	unsigned index = 0;
@@ -228,8 +143,6 @@ static void ar7x00Prescalers (struct _file_ * pib)
 		upper = (*p++ & 0xFF) << 2;
 		printf ("%08d %08X\n", index++, upper | lower);
 	}
-
-#endif
 
 	return;
 }
