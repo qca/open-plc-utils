@@ -55,6 +55,9 @@
 #       include <libkern/OSByteOrder.h>
 #elif defined (__OpenBSD__)
 #       include <sys/types.h>
+#elif defined (__NetBSD__)
+#       include <sys/types.h>
+#       include <machine/bswap.h>
 #elif defined (WIN32)
 #       include <stdint.h>
 #       define BYTE_ORDER LITTLE_ENDIAN
@@ -69,6 +72,20 @@
 /*====================================================================*
  *   definitions;
  *--------------------------------------------------------------------*/
+
+/* Some systems may already define some of these, returnning void */
+#undef HTOBE16
+#undef HTOBE32
+#undef HTOBE64
+#undef HTOLE16
+#undef HTOLE32
+#undef HTOLE64
+#undef BE64TOH
+#undef BE32TOH
+#undef BE16TOH
+#undef LE16TOH
+#undef LE32TOH
+#undef LE64TOH
 
 #if defined (BYTE_ORDER)
 #       if BYTE_ORDER == LITTLE_ENDIAN
@@ -151,6 +168,12 @@ uint64_t __bswap_64 (uint64_t x);
 #define __bswap_16(x) swap16(x)
 #define __bswap_32(x) swap32(x)
 #define __bswap_64(x) swap64(x)
+
+#elif defined (__NetBSD__)
+
+#define __bswap_16(x) bswap16(x)
+#define __bswap_32(x) bswap32(x)
+#define __bswap_64(x) bswap64(x)
 
 #elif defined (__APPLE__)
 

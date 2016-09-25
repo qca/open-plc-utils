@@ -63,7 +63,7 @@
 #	include <termios.h>
 #elif defined (__APPLE__)
 #	include <termios.h>
-#elif defined (__OpenBSD__)
+#elif defined (__OpenBSD__) || defined (__NetBSD__)
 #	include <termios.h>
 #else
 #error "Unknown Environment"

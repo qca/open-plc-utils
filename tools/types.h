@@ -37,7 +37,7 @@
 #elif defined (__APPLE__)
 	#define SIZE_T_SPEC "%zu"
 	#define OFF_T_SPEC "%lld"
-#elif defined (__OpenBSD__)
+#elif defined (__OpenBSD__) || defined (__NetBSD__)
 	#define SIZE_T_SPEC "%zu"
 	#define OFF_T_SPEC "%lld"
 #elif defined (__linux__)
@@ -68,6 +68,16 @@ typedef unsigned char byte;
  *--------------------------------------------------------------------*/
 
 #ifndef __cplusplus
+
+#ifdef false
+# undef false
+#endif
+#ifdef true
+# undef true
+#endif
+#ifdef bool
+# undef bool
+#endif
 
 typedef enum
 

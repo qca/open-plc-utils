@@ -70,7 +70,7 @@
 #	include <sys/stat.h>
 #	include <fcntl.h>
 #	include <stdlib.h>
-#elif defined (__OpenBSD__)
+#elif defined (__OpenBSD__) || defined (__NetBSD__)
 #	include <sys/ioctl.h>
 #	include <sys/stat.h>
 #	include <sys/types.h>
@@ -87,7 +87,7 @@
 #include "../tools/flags.h"
 #include "../tools/error.h"
 
-#if defined (__APPLE__) || defined (__OpenBSD__)
+#if defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__)
 #	include "../ether/gethwaddr.c"
 #endif
 
@@ -296,7 +296,7 @@ signed openchannel (struct channel * channel)
 		}
 	};
 
-#if defined (__APPLE__) || defined (__OpenBSD__)
+#if defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__)
 
 	struct ifreq ifreq;
 	struct timeval timeval;
@@ -351,7 +351,7 @@ signed openchannel (struct channel * channel)
 		error (1, errno, "Can't allocate receive buffer");
 	}
 
-#if defined (__APPLE__)
+#if defined (__APPLE__) || defined (__NetBSD__)
 
 	state = 0;
 	if (ioctl (channel->fd, BIOCSSEESENT, &state) == -1)
