@@ -120,8 +120,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ptsctl", "ptsctl\ptsctl.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mdustats", "mdustats\mdustats.vcxproj", "{2CC88D40-5441-4645-9274-E2506C119A67}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nics", "nics\nics.vcxproj", "{2C48719C-3F90-4373-8F75-516C44EF8B32}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plcotst", "plcotst\plcotst.vcxproj", "{8F2EED11-79A2-4B53-BF3E-7C9000EC3ADA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plcget", "plcget\plcget.vcxproj", "{230D2359-37C0-4356-B913-852F4B26FA19}"
@@ -133,8 +131,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plcrate", "plcrate\plcrate.vcxproj", "{A620EE14-3D20-4728-9ECA-5E5AB17BAC48}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plctest", "plctest\plctest.vcxproj", "{39A1EDB9-6D92-4CF8-95AB-F048669AFB00}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plcdevs", "plcdevs\plcdevs.vcxproj", "{682FBC76-91BD-4675-A6E4-28A4D4FB0EE2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plctool", "plctool\plctool.vcxproj", "{AB45D421-4553-475C-AE48-C2F36960B008}"
 EndProject
@@ -210,6 +206,7 @@ Global
 		{049B107B-957D-45FF-812C-B61F74FCC454}.Release|Win32.Build.0 = Release|Win32
 		{049B107B-957D-45FF-812C-B61F74FCC454}.Release|x86.ActiveCfg = Release|Win32
 		{5CC42F12-FE38-4265-BE37-4C61977B9C4A}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{5CC42F12-FE38-4265-BE37-4C61977B9C4A}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{5CC42F12-FE38-4265-BE37-4C61977B9C4A}.Release|Win32.ActiveCfg = Release|Win32
 		{5CC42F12-FE38-4265-BE37-4C61977B9C4A}.Release|Win32.Build.0 = Release|Win32
 		{5CC42F12-FE38-4265-BE37-4C61977B9C4A}.Release|x86.ActiveCfg = Release|Win32
@@ -478,9 +475,6 @@ Global
 		{2CC88D40-5441-4645-9274-E2506C119A67}.Release|Win32.ActiveCfg = Release|Win32
 		{2CC88D40-5441-4645-9274-E2506C119A67}.Release|Win32.Build.0 = Release|Win32
 		{2CC88D40-5441-4645-9274-E2506C119A67}.Release|x86.ActiveCfg = Release|Win32
-		{2C48719C-3F90-4373-8F75-516C44EF8B32}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{2C48719C-3F90-4373-8F75-516C44EF8B32}.Release|Win32.ActiveCfg = Release|Win32
-		{2C48719C-3F90-4373-8F75-516C44EF8B32}.Release|x86.ActiveCfg = Release|Win32
 		{8F2EED11-79A2-4B53-BF3E-7C9000EC3ADA}.Release|Mixed Platforms.ActiveCfg = Release|Win32
 		{8F2EED11-79A2-4B53-BF3E-7C9000EC3ADA}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{8F2EED11-79A2-4B53-BF3E-7C9000EC3ADA}.Release|Win32.ActiveCfg = Release|Win32
@@ -511,9 +505,6 @@ Global
 		{39A1EDB9-6D92-4CF8-95AB-F048669AFB00}.Release|Win32.ActiveCfg = Release|Win32
 		{39A1EDB9-6D92-4CF8-95AB-F048669AFB00}.Release|Win32.Build.0 = Release|Win32
 		{39A1EDB9-6D92-4CF8-95AB-F048669AFB00}.Release|x86.ActiveCfg = Release|Win32
-		{682FBC76-91BD-4675-A6E4-28A4D4FB0EE2}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{682FBC76-91BD-4675-A6E4-28A4D4FB0EE2}.Release|Win32.ActiveCfg = Release|Win32
-		{682FBC76-91BD-4675-A6E4-28A4D4FB0EE2}.Release|x86.ActiveCfg = Release|Win32
 		{AB45D421-4553-475C-AE48-C2F36960B008}.Release|Mixed Platforms.ActiveCfg = Release|Win32
 		{AB45D421-4553-475C-AE48-C2F36960B008}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{AB45D421-4553-475C-AE48-C2F36960B008}.Release|Win32.ActiveCfg = Release|Win32

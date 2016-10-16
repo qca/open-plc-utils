@@ -137,16 +137,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\plc\int6k.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\ether\channel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\plc\chipset.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\plc\chipsets.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\tools\error.h">

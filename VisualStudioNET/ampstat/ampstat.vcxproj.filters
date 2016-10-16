@@ -140,9 +140,6 @@
     <ClInclude Include="..\..\tools\symbol.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\plc\amp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\tools\error.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -150,9 +147,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\tools\getoptv.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\plc\int6k.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\tools\putoptv.h">

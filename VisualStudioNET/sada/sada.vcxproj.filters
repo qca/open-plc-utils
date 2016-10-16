@@ -131,12 +131,6 @@
     <ClInclude Include="..\..\tools\putoptv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Windows\include\stdint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Windows\include\unistd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\tools\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>

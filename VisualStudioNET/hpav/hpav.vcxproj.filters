@@ -89,9 +89,6 @@
     <ClInclude Include="..\..\tools\getoptv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\hpav\hpav.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\tools\putoptv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
