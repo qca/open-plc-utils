@@ -1,5 +1,7 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "modpib", "modpib\modpib.vcxproj", "{BAD75F1F-702B-47FF-B681-1BC7EC607CF5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "chknvm", "chknvm\chknvm.vcxproj", "{C279D105-9163-46CE-9FDC-BCF89C96128F}"
@@ -161,16 +163,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ampID", "ampID\ampID.vcxproj", "{A8586996-95BE-4804-8D6B-43A3371FCEAF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plcrule", "plcrule\plcrule.vcxproj", "{EF47D9E0-F82E-46F1-B09F-6A1F47DD4731}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "amp-utils", "amp-utils\amp-utils-2010.vdproj", "{E1670FDD-2BA3-4817-AC98-ADA6FEAEE48B}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "plc-utils", "plc-utils\plc-utils-2010.vdproj", "{BE49A29D-CA27-4348-B38F-3B9F492FFDCC}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "nda-utils", "nda-utils\nda-utils-2010.vdproj", "{56150262-4823-4DBB-B8DA-010D4F713564}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "qca-utils", "qca-utils\qca-utils-2010.vdproj", "{46105F3B-D722-4F6C-8E97-F66F42D1F471}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "key-utils", "key-utils\key-utils-2010.vdproj", "{B0CDC151-6508-49E3-91D0-9787311E7F26}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pib2xml", "pib2xml\pib2xml.vcxproj", "{4064B4A5-4B8E-4074-B3C5-D9EC618C1420}"
 EndProject
@@ -592,36 +584,6 @@ Global
 		{EF47D9E0-F82E-46F1-B09F-6A1F47DD4731}.Release|Win32.ActiveCfg = Release|Win32
 		{EF47D9E0-F82E-46F1-B09F-6A1F47DD4731}.Release|Win32.Build.0 = Release|Win32
 		{EF47D9E0-F82E-46F1-B09F-6A1F47DD4731}.Release|x86.ActiveCfg = Release|Win32
-		{E1670FDD-2BA3-4817-AC98-ADA6FEAEE48B}.Release|Mixed Platforms.ActiveCfg = Release
-		{E1670FDD-2BA3-4817-AC98-ADA6FEAEE48B}.Release|Mixed Platforms.Build.0 = Release
-		{E1670FDD-2BA3-4817-AC98-ADA6FEAEE48B}.Release|Win32.ActiveCfg = Release
-		{E1670FDD-2BA3-4817-AC98-ADA6FEAEE48B}.Release|Win32.Build.0 = Release
-		{E1670FDD-2BA3-4817-AC98-ADA6FEAEE48B}.Release|x86.ActiveCfg = Release
-		{E1670FDD-2BA3-4817-AC98-ADA6FEAEE48B}.Release|x86.Build.0 = Release
-		{BE49A29D-CA27-4348-B38F-3B9F492FFDCC}.Release|Mixed Platforms.ActiveCfg = Release
-		{BE49A29D-CA27-4348-B38F-3B9F492FFDCC}.Release|Mixed Platforms.Build.0 = Release
-		{BE49A29D-CA27-4348-B38F-3B9F492FFDCC}.Release|Win32.ActiveCfg = Release
-		{BE49A29D-CA27-4348-B38F-3B9F492FFDCC}.Release|Win32.Build.0 = Release
-		{BE49A29D-CA27-4348-B38F-3B9F492FFDCC}.Release|x86.ActiveCfg = Release
-		{BE49A29D-CA27-4348-B38F-3B9F492FFDCC}.Release|x86.Build.0 = Release
-		{56150262-4823-4DBB-B8DA-010D4F713564}.Release|Mixed Platforms.ActiveCfg = Release
-		{56150262-4823-4DBB-B8DA-010D4F713564}.Release|Mixed Platforms.Build.0 = Release
-		{56150262-4823-4DBB-B8DA-010D4F713564}.Release|Win32.ActiveCfg = Release
-		{56150262-4823-4DBB-B8DA-010D4F713564}.Release|Win32.Build.0 = Release
-		{56150262-4823-4DBB-B8DA-010D4F713564}.Release|x86.ActiveCfg = Release
-		{56150262-4823-4DBB-B8DA-010D4F713564}.Release|x86.Build.0 = Release
-		{46105F3B-D722-4F6C-8E97-F66F42D1F471}.Release|Mixed Platforms.ActiveCfg = Release
-		{46105F3B-D722-4F6C-8E97-F66F42D1F471}.Release|Mixed Platforms.Build.0 = Release
-		{46105F3B-D722-4F6C-8E97-F66F42D1F471}.Release|Win32.ActiveCfg = Release
-		{46105F3B-D722-4F6C-8E97-F66F42D1F471}.Release|Win32.Build.0 = Release
-		{46105F3B-D722-4F6C-8E97-F66F42D1F471}.Release|x86.ActiveCfg = Release
-		{46105F3B-D722-4F6C-8E97-F66F42D1F471}.Release|x86.Build.0 = Release
-		{B0CDC151-6508-49E3-91D0-9787311E7F26}.Release|Mixed Platforms.ActiveCfg = Release
-		{B0CDC151-6508-49E3-91D0-9787311E7F26}.Release|Mixed Platforms.Build.0 = Release
-		{B0CDC151-6508-49E3-91D0-9787311E7F26}.Release|Win32.ActiveCfg = Release
-		{B0CDC151-6508-49E3-91D0-9787311E7F26}.Release|Win32.Build.0 = Release
-		{B0CDC151-6508-49E3-91D0-9787311E7F26}.Release|x86.ActiveCfg = Release
-		{B0CDC151-6508-49E3-91D0-9787311E7F26}.Release|x86.Build.0 = Release
 		{4064B4A5-4B8E-4074-B3C5-D9EC618C1420}.Release|Mixed Platforms.ActiveCfg = Release|Win32
 		{4064B4A5-4B8E-4074-B3C5-D9EC618C1420}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{4064B4A5-4B8E-4074-B3C5-D9EC618C1420}.Release|Win32.ActiveCfg = Release|Win32
