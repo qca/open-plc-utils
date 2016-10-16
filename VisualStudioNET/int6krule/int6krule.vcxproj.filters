@@ -185,13 +185,7 @@
     <ClInclude Include="..\..\plc\rules.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Windows\include\stdint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\tools\symbol.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Windows\include\unistd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\tools\version.h">

@@ -10,6 +10,7 @@
     <ProjectGuid>{CEEAA44C-4717-4CC3-B96A-789F5677FC79}</ProjectGuid>
     <RootNamespace>int6k</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -26,8 +27,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\Programs\2010\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\Objects\2010\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\Programs\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)\Objects\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</EmbedManifest>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</GenerateManifest>
@@ -139,7 +140,6 @@
     <ClCompile Include="..\..\plc\WritePIB.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\key\base64.h" />
     <ClInclude Include="..\..\ether\channel.h" />
     <ClInclude Include="..\..\plc\chipset.h" />
     <ClInclude Include="..\..\tools\endian.h" />
@@ -148,23 +148,17 @@
     <ClInclude Include="..\..\tools\files.h" />
     <ClInclude Include="..\..\tools\format.h" />
     <ClInclude Include="..\..\tools\getoptv.h" />
-    <ClInclude Include="..\..\plc\homeplug.h" />
     <ClInclude Include="..\include\net\if.h" />
     <ClInclude Include="..\include\netinet\if_ether.h" />
-    <ClInclude Include="..\..\plc\intellon.h" />
     <ClInclude Include="..\..\key\keys.h" />
-    <ClInclude Include="..\..\tools\markup.h" />
     <ClInclude Include="..\..\tools\memory.h" />
     <ClInclude Include="..\..\nvm\nvm.h" />
     <ClInclude Include="..\..\ram\nvram.h" />
     <ClInclude Include="..\include\pcap-bpf.h" />
-    <ClInclude Include="..\..\ether\pcap.h" />
     <ClInclude Include="..\..\pib\pib.h" />
     <ClInclude Include="..\..\plc\plc.h" />
     <ClInclude Include="..\..\tools\putoptv.h" />
     <ClInclude Include="..\..\ram\sdram.h" />
-    <ClInclude Include="..\..\tools\stdint.h" />
-    <ClInclude Include="..\..\tools\tools.h" />
     <ClInclude Include="..\..\tools\types.h" />
     <ClInclude Include="..\..\tools\version.h" />
   </ItemGroup>

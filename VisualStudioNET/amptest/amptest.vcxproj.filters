@@ -143,9 +143,6 @@
     <ClInclude Include="..\..\ether\channel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\plc\chipsets.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\tools\error.h">
       <Filter>Header Files</Filter>
     </ClInclude>

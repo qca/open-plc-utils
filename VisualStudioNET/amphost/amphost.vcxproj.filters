@@ -191,9 +191,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\plc\chipsets.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\tools\endian.h">
       <Filter>Source Files</Filter>
     </ClInclude>

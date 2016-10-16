@@ -200,9 +200,6 @@
     <ClInclude Include="..\..\tools\endian.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\plc\amp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\ether\channel.h">
       <Filter>Header Files</Filter>
     </ClInclude>

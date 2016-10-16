@@ -86,9 +86,6 @@
     <ClInclude Include="..\..\key\HPAVKey.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\plc\int6k.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\key\keys.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -105,12 +102,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\key\SHA256.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\tools\tools.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\windows\unistd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\tools\version.h">

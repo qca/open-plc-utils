@@ -86,9 +86,6 @@
     <ClInclude Include="..\..\key\SHA256.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\tools\tools.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\tools\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>

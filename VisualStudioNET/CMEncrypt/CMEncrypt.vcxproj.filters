@@ -104,9 +104,6 @@
     <ClInclude Include="..\..\tools\getoptv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\plc\homeplug.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\mme\homeplug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
