@@ -25,7 +25,7 @@
 
 # Common
 #EXTRA_LDFLAGS=-s -L../mingw/lib -lwpcap -lPacket -lws2_32
-#EXTRA_CFLAGS=-DWINPCAP -I../mingw/include
+#EXTRA_CFLAGS=-DWINPCAP -mno-ms-bitfields -I../mingw/include
 #TARGET=mingw32
 
 # ====================================================================
