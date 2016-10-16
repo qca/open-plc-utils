@@ -65,8 +65,6 @@ We recommend that you open file docbook/index.html with a web browser
 the read Chapter 1 before attempting to install or use the toolkit 
 but the impatient may do the following and survive ...
 
-Note: 'make' is assumed to be the Gnu make command.
-
 TO INSTALL
 ----------
 
@@ -77,12 +75,18 @@ TO INSTALL
 5. Add page index.html to browser favorites.
 6. Add page toolkit.html to browser favorites.
 
+Note: 'make' is assumed to be the GNU make command (often available
+      under the name 'gmake').
+
 TO UNINSTALL
 ------------
 
 1. Enter package folder using "cd open-plc-utils".
 2. Remove installed programs using "sudo make uninstall".
 3. Remove all package files using "rm -r *".
+
+Note: 'make' is assumed to be the GNU make command (often available
+      under the name 'gmake').
 
 CONTRIBUTORS
 ------------

@@ -73,7 +73,7 @@
  *   definitions;
  *--------------------------------------------------------------------*/
 
-/* Some systems may already define some of these, returnning void */
+/* Some systems may already define some of these, returning void */
 #undef HTOBE16
 #undef HTOBE32
 #undef HTOBE64
