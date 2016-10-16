@@ -13,7 +13,7 @@
 
 # Ubuntu
 #TOOLPATH=/usr/bin/
-#CROSS=$(TOOLPATH)/i586-mingw32msvc-
+#CROSS=$(TOOLPATH)/i686-w64-mingw32-
 
 # OpenBSD
 #TOOLPATH=/usr/local/mingw32/bin/

@@ -15,12 +15,6 @@
  *
  *--------------------------------------------------------------------*/
 
-#ifndef isblank
-#ifndef __CYGWIN__
-#define isblank(c) ((char)(c) == ' ') || ((char)(c) == '\t')
-#endif
-#endif
-
 #ifndef nobreak
 #define nobreak(c) ((char)(c) != '\n') && ((int)(c) != EOF)
 #endif
