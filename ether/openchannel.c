@@ -77,6 +77,7 @@
 #	include <fcntl.h>
 #	include <stdlib.h>
 #elif defined (WINPCAP)
+#	include <stdio.h>
 #	include <string.h>
 #else
 #error "Unknown environment"

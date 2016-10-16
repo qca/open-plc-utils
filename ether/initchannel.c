@@ -57,34 +57,24 @@
 #ifndef INITCHANNEL_SOURCE
 #define INITCHANNEL_SOURCE
 
-#include <unistd.h>
-#include <memory.h>
 #include <errno.h>
 
 #if defined (__linux__)
-#	include <net/if_arp.h>
-#	include <netpacket/packet.h>
-#	include <sys/ioctl.h>
+#	include <sys/socket.h>
 #elif defined (__APPLE__)
-#	include <sys/ioctl.h>
+#	include <stdio.h>
 #	include <sys/stat.h>
 #	include <fcntl.h>
-#	include <stdlib.h>
-#elif defined (__OpenBSD__)
-#	include <sys/ioctl.h>
+#elif defined (__OpenBSD__) || defined (__NetBSD__)
+#	include <stdio.h>
 #	include <sys/stat.h>
-#	include <sys/types.h>
 #	include <fcntl.h>
-#	include <stdlib.h>
 #elif defined (WINPCAP)
-#	include <string.h>
 #else
 #error "Unknown environment"
 #endif
 
 #include "../ether/channel.h"
-#include "../tools/memory.h"
-#include "../tools/flags.h"
 #include "../tools/error.h"
 
 signed initchannel (struct channel * channel)
@@ -98,7 +88,7 @@ signed initchannel (struct channel * channel)
 		error (1, errno, "%s", channel->ifname);
 	}
 
-#elif defined (__APPLE__) || defined (__OpenBSD__)
+#elif defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__)
 
 	char filename [sizeof (CHANNEL_BPFDEVICE) + 1];
 	unsigned count;
