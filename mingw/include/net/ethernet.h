@@ -38,6 +38,18 @@
 #include <stdint.h>
 
 /*====================================================================*
+ *   manage cross-platform structure packing;
+ *--------------------------------------------------------------------*/
+
+#ifndef __packed
+#ifdef __GNUC__
+#define __packed __attribute__ ((packed))
+#else
+#define __packed
+#endif
+#endif
+
+/*====================================================================*
  *   Ethernet frame lengths;
  *--------------------------------------------------------------------*/
 
@@ -68,9 +80,11 @@
  *  Ethernet frame structure;
  *--------------------------------------------------------------------*/
 
+#ifndef __GNUC__
 #pragma pack (push, 1)
+#endif
 
-struct ether_header 
+struct __packed ether_header 
 
 {
 	uint8_t ether_dhost [ETHER_ADDR_LEN];
@@ -78,7 +92,9 @@ struct ether_header
 	uint16_t ether_type;
 };
 
+#ifndef __GNUC__
 #pragma pack (pop)
+#endif
 
 /*====================================================================*
  *
