@@ -12,12 +12,16 @@
 # --------------------------------------------------------------------
 
 # Ubuntu
-#TOOLPATH=/usr/bin/
+#TOOLPATH=/usr/bin
 #CROSS=$(TOOLPATH)/i686-w64-mingw32-
 
 # OpenBSD
-#TOOLPATH=/usr/local/mingw32/bin/
+#TOOLPATH=/usr/local/mingw32/bin
 #CROSS=$(TOOLPATH)/i386-mingw32-
+
+# Cygwin
+#TOOLPATH=/usr/bin
+#CROSS=$(TOOLPATH)/i686-w64-mingw32-
 
 # Common
 #EXTRA_LDFLAGS=-s -L../mingw/lib -lwpcap -lPacket -lws2_32
