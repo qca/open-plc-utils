@@ -15,12 +15,7 @@ CFLAGS+=
 LDFLAGS+=
 TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9] *.out
 FILES=Makefile *.mak *.sh *.txt *.c *.h *.xml *.css
-TOOLS=mme
-
-ifneq ($(TARGET), mingw32)
-TOOLS+=hpav
-endif
-
+TOOLS=mme hpav
 PAGES=hpav.1 mme.1
 
 # ====================================================================
@@ -63,7 +58,12 @@ ignore:
 # programs; 
 # --------------------------------------------------------------------
 
+ifneq ($(TARGET), mingw32)
 hpav: hpav.o getoptv.o putoptv.o version.o hexdump.o hexdecode.o hexstring.o error.o channel.o openchannel.o closechannel.o sendpacket.o readpacket.o MMEPeek.o MMEName.o MMEMode.o uintspec.o todigit.o gethwaddr.o
+else
+hpav: hpav.o getoptv.o putoptv.o version.o hexdump.o hexdecode.o hexstring.o error.o channel.o openchannel.o closechannel.o sendpacket.o readpacket.o MMEPeek.o MMEName.o MMEMode.o uintspec.o todigit.o gethwaddr.o getifname.o
+endif
+
 hpavd: hpavd.o getoptv.o putoptv.o version.o hexdump.o hexdecode.o hexstring.o error.o channel.o openchannel.o closechannel.o sendpacket.o readpacket.o MMEPeek.o MMEName.o MMEMode.o 
 mme: mme.o getoptv.o putoptv.o version.o uintspec.o todigit.o output.o error.o MMEName.o MMEMode.o
 
