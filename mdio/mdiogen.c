@@ -68,6 +68,7 @@
 #include "../tools/memory.h"
 #include "../tools/endian.h"
 #include "../tools/error.h"
+#include "../tools/files.h"
 #include "../mdio/mdio.h"
 
 /*====================================================================*
@@ -205,7 +206,7 @@ int main (int argc, const char * argv [])
 		error (1, ECANCELED, "Too many command line arguments");
 	}
 	regview (&program, 0, sizeof (program), stdout);
-	if ((fd = open (MDIO_PROGRAM, O_CREAT|O_WRONLY|O_TRUNC, S_IRWXU | S_IRGRP | S_IROTH)) == -1)
+	if ((fd = open (MDIO_PROGRAM, O_CREAT|O_WRONLY|O_TRUNC, FILE_FILEMODE)) == -1)
 	{
 		error (1, errno, "Can't open %s", MDIO_PROGRAM);
 	}
