@@ -30,9 +30,6 @@
     <ClCompile Include="..\..\mme\FirmwareMessage.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\mme\FragmentHeader.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\mme\HomePlugHeader.c">
       <Filter>Source Files</Filter>
     </ClCompile>

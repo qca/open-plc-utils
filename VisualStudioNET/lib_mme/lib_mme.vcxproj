@@ -24,7 +24,6 @@
     <ClCompile Include="..\..\mme\ARPCWrite.c" />
     <ClCompile Include="..\..\mme\EthernetHeader.c" />
     <ClCompile Include="..\..\mme\FirmwareMessage.c" />
-    <ClCompile Include="..\..\mme\FragmentHeader.c" />
     <ClCompile Include="..\..\mme\HomePlugHeader.c" />
     <ClCompile Include="..\..\mme\HomePlugHeader1.c" />
     <ClCompile Include="..\..\mme\MMECode.c" />
