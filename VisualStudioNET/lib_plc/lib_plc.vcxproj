@@ -1,0 +1,287 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\plc\Antiphon.c" />
+    <ClCompile Include="..\..\plc\Attributes.c" />
+    <ClCompile Include="..\..\plc\Attributes1.c" />
+    <ClCompile Include="..\..\plc\Attributes2.c" />
+    <ClCompile Include="..\..\plc\BootDevice.c" />
+    <ClCompile Include="..\..\plc\BootDevice1.c" />
+    <ClCompile Include="..\..\plc\BootDevice2.c" />
+    <ClCompile Include="..\..\plc\BootFirmware1.c" />
+    <ClCompile Include="..\..\plc\BootFirmware2.c" />
+    <ClCompile Include="..\..\plc\BootParameters1.c" />
+    <ClCompile Include="..\..\plc\BootParameters2.c" />
+    <ClCompile Include="..\..\plc\ChangeIdent.c" />
+    <ClCompile Include="..\..\plc\chipset.c" />
+    <ClCompile Include="..\..\plc\Confirm.c" />
+    <ClCompile Include="..\..\plc\DeviceIdent.c" />
+    <ClCompile Include="..\..\plc\Devices.c" />
+    <ClCompile Include="..\..\plc\Display.c" />
+    <ClCompile Include="..\..\plc\EmulateHost.c" />
+    <ClCompile Include="..\..\plc\EmulateHost64.c" />
+    <ClCompile Include="..\..\plc\ExecuteApplets.c" />
+    <ClCompile Include="..\..\plc\ExecuteApplets1.c" />
+    <ClCompile Include="..\..\plc\ExecuteApplets2.c" />
+    <ClCompile Include="..\..\plc\FactoryDefaults.c" />
+    <ClCompile Include="..\..\plc\FactoryReset.c" />
+    <ClCompile Include="..\..\plc\Failure.c" />
+    <ClCompile Include="..\..\plc\FlashDevice1.c" />
+    <ClCompile Include="..\..\plc\FlashDevice2.c" />
+    <ClCompile Include="..\..\plc\FlashFirmware.c" />
+    <ClCompile Include="..\..\plc\FlashMOD.c" />
+    <ClCompile Include="..\..\plc\FlashNVM.c" />
+    <ClCompile Include="..\..\plc\FlashParameters.c" />
+    <ClCompile Include="..\..\plc\FlashSoftloader.c" />
+    <ClCompile Include="..\..\plc\GetProperty.c" />
+    <ClCompile Include="..\..\plc\HostActionIndicate.c" />
+    <ClCompile Include="..\..\plc\HostActionResponse.c" />
+    <ClCompile Include="..\..\plc\Identity.c" />
+    <ClCompile Include="..\..\plc\Identity1.c" />
+    <ClCompile Include="..\..\plc\Identity2.c" />
+    <ClCompile Include="..\..\plc\InitDevice.c" />
+    <ClCompile Include="..\..\plc\InitDevice1.c" />
+    <ClCompile Include="..\..\plc\InitDevice2.c" />
+    <ClCompile Include="..\..\plc\LinkStatistics.c" />
+    <ClCompile Include="..\..\plc\LinkStatus.c" />
+    <ClCompile Include="..\..\plc\ListLocalDevices.c" />
+    <ClCompile Include="..\..\plc\ListRemoteDevices.c" />
+    <ClCompile Include="..\..\plc\ListRemoteDevices1.c" />
+    <ClCompile Include="..\..\plc\ListRemoteDevices2.c" />
+    <ClCompile Include="..\..\plc\LocalDeviceList.c" />
+    <ClCompile Include="..\..\plc\LocalDevices.c" />
+    <ClCompile Include="..\..\plc\MakeRule.c" />
+    <ClCompile Include="..\..\plc\MDUTrafficStats.c" />
+    <ClCompile Include="..\..\plc\ModuleCommit.c" />
+    <ClCompile Include="..\..\plc\ModuleDump.c" />
+    <ClCompile Include="..\..\plc\ModuleRead.c" />
+    <ClCompile Include="..\..\plc\ModuleSession.c" />
+    <ClCompile Include="..\..\plc\ModuleSpec.c" />
+    <ClCompile Include="..\..\plc\ModuleWrite.c" />
+    <ClCompile Include="..\..\plc\NetInfo.c" />
+    <ClCompile Include="..\..\plc\NetInfo1.c" />
+    <ClCompile Include="..\..\plc\NetInfo2.c" />
+    <ClCompile Include="..\..\plc\NetworkDevices.c" />
+    <ClCompile Include="..\..\plc\NetworkDevices1.c" />
+    <ClCompile Include="..\..\plc\NetworkDevices2.c" />
+    <ClCompile Include="..\..\plc\NetworkInformation.c" />
+    <ClCompile Include="..\..\plc\NetworkInformation1.c" />
+    <ClCompile Include="..\..\plc\NetworkInformation2.c" />
+    <ClCompile Include="..\..\plc\NetworkTraffic.c" />
+    <ClCompile Include="..\..\plc\NetworkTraffic1.c" />
+    <ClCompile Include="..\..\plc\NetworkTraffic2.c" />
+    <ClCompile Include="..\..\plc\NVMSelect.c" />
+    <ClCompile Include="..\..\plc\NVRAMInfo.c" />
+    <ClCompile Include="..\..\plc\ParseRule.c" />
+    <ClCompile Include="..\..\plc\PhyRates.c" />
+    <ClCompile Include="..\..\plc\PhyRates1.c" />
+    <ClCompile Include="..\..\plc\PhyRates2.c" />
+    <ClCompile Include="..\..\plc\Platform.c" />
+    <ClCompile Include="..\..\plc\PLCNetworkInfo.c" />
+    <ClCompile Include="..\..\plc\PLCPhyRates.c" />
+    <ClCompile Include="..\..\plc\PLCReadParameterBlock.c" />
+    <ClCompile Include="..\..\plc\PLCSelect.c" />
+    <ClCompile Include="..\..\plc\PLCTopologyPrint.c" />
+    <ClCompile Include="..\..\plc\PrintRule.c" />
+    <ClCompile Include="..\..\plc\PushButton.c" />
+    <ClCompile Include="..\..\plc\ReadFirmware.c" />
+    <ClCompile Include="..\..\plc\ReadFirmware1.c" />
+    <ClCompile Include="..\..\plc\ReadFirmware2.c" />
+    <ClCompile Include="..\..\plc\ReadFMI.c" />
+    <ClCompile Include="..\..\plc\ReadMFG.c" />
+    <ClCompile Include="..\..\plc\ReadMME.c" />
+    <ClCompile Include="..\..\plc\ReadNVM.c" />
+    <ClCompile Include="..\..\plc\ReadParameterBlock.c" />
+    <ClCompile Include="..\..\plc\ReadParameters.c" />
+    <ClCompile Include="..\..\plc\ReadParameters1.c" />
+    <ClCompile Include="..\..\plc\ReadParameters2.c" />
+    <ClCompile Include="..\..\plc\ReadRules.c" />
+    <ClCompile Include="..\..\plc\RemoteHosts.c" />
+    <ClCompile Include="..\..\plc\Request.c" />
+    <ClCompile Include="..\..\plc\ResetAndWait.c" />
+    <ClCompile Include="..\..\plc\ResetDevice.c" />
+    <ClCompile Include="..\..\plc\rules.c" />
+    <ClCompile Include="..\..\plc\RxRates1.c" />
+    <ClCompile Include="..\..\plc\RxRates2.c" />
+    <ClCompile Include="..\..\plc\SDRAMInfo.c" />
+    <ClCompile Include="..\..\plc\SendMME.c" />
+    <ClCompile Include="..\..\plc\SetNMK.c" />
+    <ClCompile Include="..\..\plc\SetProperty.c" />
+    <ClCompile Include="..\..\plc\SignalToNoise1.c" />
+    <ClCompile Include="..\..\plc\SignalToNoise2.c" />
+    <ClCompile Include="..\..\plc\SlaveMembership.c" />
+    <ClCompile Include="..\..\plc\StartDevice1.c" />
+    <ClCompile Include="..\..\plc\StartFirmware.c" />
+    <ClCompile Include="..\..\plc\StartFirmware1.c" />
+    <ClCompile Include="..\..\plc\StartFirmware2.c" />
+    <ClCompile Include="..\..\plc\StationRole.c" />
+    <ClCompile Include="..\..\plc\ToneMaps1.c" />
+    <ClCompile Include="..\..\plc\ToneMaps2.c" />
+    <ClCompile Include="..\..\plc\Topology.c" />
+    <ClCompile Include="..\..\plc\Topology1.c" />
+    <ClCompile Include="..\..\plc\Topology2.c" />
+    <ClCompile Include="..\..\plc\Traffic.c" />
+    <ClCompile Include="..\..\plc\Traffic1.c" />
+    <ClCompile Include="..\..\plc\Traffic2.c" />
+    <ClCompile Include="..\..\plc\Transmit.c" />
+    <ClCompile Include="..\..\plc\UpgradeDevice1.c" />
+    <ClCompile Include="..\..\plc\VersionInfo1.c" />
+    <ClCompile Include="..\..\plc\VersionInfo2.c" />
+    <ClCompile Include="..\..\plc\WaitForReset.c" />
+    <ClCompile Include="..\..\plc\WaitForRestart.c" />
+    <ClCompile Include="..\..\plc\WaitForStart.c" />
+    <ClCompile Include="..\..\plc\WatchdogReport.c" />
+    <ClCompile Include="..\..\plc\WriteCFG.c" />
+    <ClCompile Include="..\..\plc\WriteExecuteApplet2.c" />
+    <ClCompile Include="..\..\plc\WriteExecuteFirmware.c" />
+    <ClCompile Include="..\..\plc\WriteExecuteFirmware1.c" />
+    <ClCompile Include="..\..\plc\WriteExecuteFirmware2.c" />
+    <ClCompile Include="..\..\plc\WriteExecuteParameters.c" />
+    <ClCompile Include="..\..\plc\WriteExecuteParameters1.c" />
+    <ClCompile Include="..\..\plc\WriteExecuteParameters2.c" />
+    <ClCompile Include="..\..\plc\WriteExecutePIB.c" />
+    <ClCompile Include="..\..\plc\WriteFirmware.c" />
+    <ClCompile Include="..\..\plc\WriteFirmware1.c" />
+    <ClCompile Include="..\..\plc\WriteFirmware2.c" />
+    <ClCompile Include="..\..\plc\WriteMEM.c" />
+    <ClCompile Include="..\..\plc\WriteMOD.c" />
+    <ClCompile Include="..\..\plc\WriteNVM.c" />
+    <ClCompile Include="..\..\plc\WriteParameters.c" />
+    <ClCompile Include="..\..\plc\WriteParameters1.c" />
+    <ClCompile Include="..\..\plc\WriteParameters2.c" />
+    <ClCompile Include="..\..\plc\WritePIB.c" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{3E2792CA-861B-492C-8618-248430858B1F}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>lib_plc</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;_CONSOLE;MAKEFILE;WINPCAP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <CompileAs>CompileAsC</CompileAs>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

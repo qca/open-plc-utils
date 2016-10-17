@@ -16,6 +16,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -43,7 +44,8 @@
       <CompileAs>CompileAsC</CompileAs>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <StringPooling>true</StringPooling>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MinimalRebuild>false</MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)hpavkeys.exe</OutputFile>
@@ -53,26 +55,11 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalLibraryDirectories>..\library;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\tools\error.c" />
-    <ClCompile Include="..\..\tools\getoptv.c" />
-    <ClCompile Include="..\..\tools\hexout.c" />
-    <ClCompile Include="..\..\key\HPAVKeyDAK.c" />
-    <ClCompile Include="..\..\key\HPAVKeyNID.c" />
-    <ClCompile Include="..\..\key\HPAVKeyNMK.c" />
-    <ClCompile Include="..\..\key\HPAVKeyOut.c" />
     <ClCompile Include="..\..\key\hpavkeys.c" />
-    <ClCompile Include="..\..\key\HPAVKeySHA.c" />
-    <ClCompile Include="..\..\tools\putoptv.c" />
-    <ClCompile Include="..\..\key\SHA256Block.c" />
-    <ClCompile Include="..\..\key\SHA256Fetch.c" />
-    <ClCompile Include="..\..\key\SHA256Reset.c" />
-    <ClCompile Include="..\..\key\SHA256Write.c" />
-    <ClCompile Include="..\..\tools\todigit.c" />
-    <ClCompile Include="..\..\tools\uintspec.c" />
-    <ClCompile Include="..\..\tools\version.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\tools\error.h" />
@@ -80,6 +67,14 @@
     <ClInclude Include="..\..\tools\putoptv.h" />
     <ClInclude Include="..\..\key\SHA256.h" />
     <ClInclude Include="..\..\tools\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\lib_key\lib_key.vcxproj">
+      <Project>{f3647060-5a9f-4fe8-bc64-97519e1b8eae}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\lib_tools\lib_tools.vcxproj">
+      <Project>{22861826-8a4c-463a-9d81-ca4caba4f703}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

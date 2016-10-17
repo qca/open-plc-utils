@@ -16,6 +16,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -43,7 +44,8 @@
       <CompileAs>CompileAsC</CompileAs>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <StringPooling>true</StringPooling>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MinimalRebuild>false</MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)setpib.exe</OutputFile>
@@ -53,29 +55,11 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalLibraryDirectories>..\library;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\nvm\nvmseek2.c" />
-    <ClCompile Include="..\..\tools\basespec.c" />
-    <ClCompile Include="..\..\tools\bytespec.c" />
-    <ClCompile Include="..\..\tools\checksum32.c" />
-    <ClCompile Include="..\..\tools\dataspec.c" />
-    <ClCompile Include="..\..\tools\emalloc.c" />
-    <ClCompile Include="..\..\tools\reverse.c" />
-    <ClCompile Include="..\..\tools\error.c" />
-    <ClCompile Include="..\..\tools\fdchecksum32.c" />
-    <ClCompile Include="..\..\tools\getoptv.c" />
-    <ClCompile Include="..\..\tools\hexdump.c" />
-    <ClCompile Include="..\..\tools\hexencode.c" />
-    <ClCompile Include="..\..\tools\hexpeek.c" />
-    <ClCompile Include="..\..\tools\memencode.c" />
-    <ClCompile Include="..\..\pib\pibfile1.c" />
-    <ClCompile Include="..\..\tools\putoptv.c" />
     <ClCompile Include="..\..\pib\setpib.c" />
-    <ClCompile Include="..\..\tools\todigit.c" />
-    <ClCompile Include="..\..\tools\uintspec.c" />
-    <ClCompile Include="..\..\tools\version.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\tools\error.h" />
@@ -86,7 +70,12 @@
     <ClInclude Include="..\..\tools\putoptv.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ReadMe.txt" />
+    <ProjectReference Include="..\lib_nvm\lib_nvm.vcxproj">
+      <Project>{cdbe586e-5e50-46e3-97ad-5acfdea2c25b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\lib_tools\lib_tools.vcxproj">
+      <Project>{22861826-8a4c-463a-9d81-ca4caba4f703}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

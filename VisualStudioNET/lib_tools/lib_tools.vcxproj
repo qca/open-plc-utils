@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\tools\assist.c" />
+    <ClCompile Include="..\..\tools\b64dump.c" />
+    <ClCompile Include="..\..\tools\basespec.c" />
+    <ClCompile Include="..\..\tools\binout.c" />
+    <ClCompile Include="..\..\tools\bytespec.c" />
+    <ClCompile Include="..\..\tools\checkfilename.c" />
+    <ClCompile Include="..\..\tools\checksum32.c" />
+    <ClCompile Include="..\..\tools\chrout.c" />
+    <ClCompile Include="..\..\tools\clr32bitmap.c" />
+    <ClCompile Include="..\..\tools\codelist.c" />
+    <ClCompile Include="..\..\tools\codename.c" />
+    <ClCompile Include="..\..\tools\config.c" />
+    <ClCompile Include="..\..\tools\dataspec.c" />
+    <ClCompile Include="..\..\tools\debug.c" />
+    <ClCompile Include="..\..\tools\decdecode.c" />
+    <ClCompile Include="..\..\tools\decout.c" />
+    <ClCompile Include="..\..\tools\decstring.c" />
+    <ClCompile Include="..\..\tools\efreopen.c" />
+    <ClCompile Include="..\..\tools\emalloc.c" />
+    <ClCompile Include="..\..\tools\error.c" />
+    <ClCompile Include="..\..\tools\extra.c" />
+    <ClCompile Include="..\..\tools\fdchecksum32.c" />
+    <ClCompile Include="..\..\tools\getargv.c" />
+    <ClCompile Include="..\..\tools\getoptv.c" />
+    <ClCompile Include="..\..\tools\gettimeofday.c" />
+    <ClCompile Include="..\..\tools\hexdecode.c" />
+    <ClCompile Include="..\..\tools\hexdump.c" />
+    <ClCompile Include="..\..\tools\hexencode.c" />
+    <ClCompile Include="..\..\tools\hexload.c" />
+    <ClCompile Include="..\..\tools\hexoffset.c" />
+    <ClCompile Include="..\..\tools\hexout.c" />
+    <ClCompile Include="..\..\tools\hexpeek.c" />
+    <ClCompile Include="..\..\tools\hexstring.c" />
+    <ClCompile Include="..\..\tools\hexview.c" />
+    <ClCompile Include="..\..\tools\hexwrite.c" />
+    <ClCompile Include="..\..\tools\ipv4spec.c" />
+    <ClCompile Include="..\..\tools\ipv6spec.c" />
+    <ClCompile Include="..\..\tools\lookup.c" />
+    <ClCompile Include="..\..\tools\memdecr.c" />
+    <ClCompile Include="..\..\tools\memencode.c" />
+    <ClCompile Include="..\..\tools\memincr.c" />
+    <ClCompile Include="..\..\tools\memout.c" />
+    <ClCompile Include="..\..\tools\memswap.c" />
+    <ClCompile Include="..\..\tools\output.c" />
+    <ClCompile Include="..\..\tools\putoptv.c" />
+    <ClCompile Include="..\..\tools\regview32.c" />
+    <ClCompile Include="..\..\tools\reverse.c" />
+    <ClCompile Include="..\..\tools\reword.c" />
+    <ClCompile Include="..\..\tools\set32bitmap.c" />
+    <ClCompile Include="..\..\tools\strdecr.c" />
+    <ClCompile Include="..\..\tools\strfbits.c" />
+    <ClCompile Include="..\..\tools\strincr.c" />
+    <ClCompile Include="..\..\tools\synonym.c" />
+    <ClCompile Include="..\..\tools\todigit.c" />
+    <ClCompile Include="..\..\tools\typelist.c" />
+    <ClCompile Include="..\..\tools\typename.c" />
+    <ClCompile Include="..\..\tools\uintspec.c" />
+    <ClCompile Include="..\..\tools\version.c" />
+    <ClCompile Include="..\..\tools\__bswap.c" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{22861826-8A4C-463A-9D81-CA4CABA4F703}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>lib_tools</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;_CONSOLE;MAKEFILE;WINPCAP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <CompileAs>CompileAsC</CompileAs>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
