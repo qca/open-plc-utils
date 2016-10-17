@@ -16,6 +16,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -43,7 +44,8 @@
       <CompileAs>CompileAsC</CompileAs>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <StringPooling>true</StringPooling>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MinimalRebuild>false</MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>packet.lib;wpcap.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -54,93 +56,11 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\plc\Attributes2.c" />
-    <ClCompile Include="..\..\plc\LinkStatus.c" />
-    <ClCompile Include="..\..\tools\basespec.c" />
-    <ClCompile Include="..\..\ether\channel.c" />
-    <ClCompile Include="..\..\tools\checkfilename.c" />
-    <ClCompile Include="..\..\tools\checksum32.c" />
-    <ClCompile Include="..\..\plc\chipset.c" />
-    <ClCompile Include="..\..\ether\closechannel.c" />
-    <ClCompile Include="..\..\plc\Confirm.c" />
-    <ClCompile Include="..\..\plc\Devices.c" />
-    <ClCompile Include="..\..\plc\Display.c" />
-    <ClCompile Include="..\..\tools\emalloc.c" />
-    <ClCompile Include="..\..\tools\error.c" />
-    <ClCompile Include="..\..\mme\EthernetHeader.c" />
-    <ClCompile Include="..\..\plc\FactoryDefaults.c" />
-    <ClCompile Include="..\..\plc\Failure.c" />
-    <ClCompile Include="..\..\tools\fdchecksum32.c" />
-    <ClCompile Include="..\..\plc\FlashDevice2.c" />
-    <ClCompile Include="..\..\plc\FlashFirmware.c" />
-    <ClCompile Include="..\..\plc\FlashNVM.c" />
-    <ClCompile Include="..\..\plc\FlashParameters.c" />
-    <ClCompile Include="..\..\plc\FlashSoftloader.c" />
-    <ClCompile Include="..\..\mme\FragmentHeader.c" />
-    <ClCompile Include="..\..\ether\gethwaddr.c" />
-    <ClCompile Include="..\..\ether\getifname.c" />
-    <ClCompile Include="..\..\tools\getoptv.c" />
-    <ClCompile Include="..\..\tools\gettimeofday.c" />
-    <ClCompile Include="..\..\tools\hexdecode.c" />
-    <ClCompile Include="..\..\tools\hexdump.c" />
-    <ClCompile Include="..\..\tools\hexencode.c" />
-    <ClCompile Include="..\..\tools\hexout.c" />
-    <ClCompile Include="..\..\tools\hexstring.c" />
-    <ClCompile Include="..\..\plc\HostActionResponse.c" />
-    <ClCompile Include="..\..\plc\Identity2.c" />
-    <ClCompile Include="..\..\key\keys.c" />
-    <ClCompile Include="..\..\mme\MMECode.c" />
-    <ClCompile Include="..\..\plc\ModuleCommit.c" />
-    <ClCompile Include="..\..\plc\ModuleRead.c" />
-    <ClCompile Include="..\..\plc\ModuleSession.c" />
-    <ClCompile Include="..\..\plc\ModuleSpec.c" />
-    <ClCompile Include="..\..\plc\ModuleWrite.c" />
-    <ClCompile Include="..\..\plc\NetInfo2.c" />
-    <ClCompile Include="..\..\nvm\nvmfile2.c" />
-    <ClCompile Include="..\..\ram\nvram.c" />
-    <ClCompile Include="..\..\plc\NVRAMInfo.c" />
-    <ClCompile Include="..\..\ram\nvrampeek.c" />
-    <ClCompile Include="..\..\ether\openchannel.c" />
-    <ClCompile Include="..\..\pib\pibfile2.c" />
-    <ClCompile Include="..\..\pib\pibpeek1.c" />
-    <ClCompile Include="..\..\pib\pibpeek2.c" />
     <ClCompile Include="..\..\plc\plctool.c" />
-    <ClCompile Include="..\..\plc\PushButton.c" />
-    <ClCompile Include="..\..\tools\putoptv.c" />
-    <ClCompile Include="..\..\mme\QualcommHeader.c" />
-    <ClCompile Include="..\..\plc\ReadFirmware1.c" />
-    <ClCompile Include="..\..\plc\ReadFMI.c" />
-    <ClCompile Include="..\..\plc\ReadMFG.c" />
-    <ClCompile Include="..\..\plc\ReadMME.c" />
-    <ClCompile Include="..\..\ether\readpacket.c" />
-    <ClCompile Include="..\..\plc\ReadParameters1.c" />
-    <ClCompile Include="..\..\plc\RemoteHosts.c" />
-    <ClCompile Include="..\..\plc\Request.c" />
-    <ClCompile Include="..\..\plc\ResetDevice.c" />
-    <ClCompile Include="..\..\ram\sdramfile.c" />
-    <ClCompile Include="..\..\plc\SDRAMInfo.c" />
-    <ClCompile Include="..\..\ram\sdrampeek.c" />
-    <ClCompile Include="..\..\plc\SendMME.c" />
-    <ClCompile Include="..\..\ether\sendpacket.c" />
-    <ClCompile Include="..\..\plc\SetNMK.c" />
-    <ClCompile Include="..\..\plc\StartFirmware2.c" />
-    <ClCompile Include="..\..\plc\StationRole.c" />
-    <ClCompile Include="..\..\tools\strfbits.c" />
-    <ClCompile Include="..\..\tools\synonym.c" />
-    <ClCompile Include="..\..\tools\todigit.c" />
-    <ClCompile Include="..\..\tools\typename.c" />
-    <ClCompile Include="..\..\tools\uintspec.c" />
-    <ClCompile Include="..\..\mme\UnwantedMessage.c" />
-    <ClCompile Include="..\..\tools\version.c" />
-    <ClCompile Include="..\..\plc\VersionInfo2.c" />
-    <ClCompile Include="..\..\plc\WaitForReset.c" />
-    <ClCompile Include="..\..\plc\WaitForStart.c" />
-    <ClCompile Include="..\..\plc\WatchdogReport.c" />
-    <ClCompile Include="..\..\plc\WriteNVM.c" />
-    <ClCompile Include="..\..\plc\WritePIB.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ether\channel.h" />
@@ -164,7 +84,30 @@
     <ClInclude Include="..\..\tools\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ReadMe.txt" />
+    <ProjectReference Include="..\lib_ether\lib_ether.vcxproj">
+      <Project>{bbd90b81-def0-436e-875d-4b2eae30817d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\lib_key\lib_key.vcxproj">
+      <Project>{f3647060-5a9f-4fe8-bc64-97519e1b8eae}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\lib_mme\lib_mme.vcxproj">
+      <Project>{a752190f-4bad-4e19-a20d-9958cd662d3e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\lib_nvm\lib_nvm.vcxproj">
+      <Project>{cdbe586e-5e50-46e3-97ad-5acfdea2c25b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\lib_pib\lib_pib.vcxproj">
+      <Project>{7862bed7-f458-4c68-9a85-6c451f9f0760}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\lib_plc\lib_plc.vcxproj">
+      <Project>{3e2792ca-861b-492c-8618-248430858b1f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\lib_ram\lib_ram.vcxproj">
+      <Project>{d0fda20c-a8ef-4bf2-aa05-ed875145f60e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\lib_tools\lib_tools.vcxproj">
+      <Project>{22861826-8a4c-463a-9d81-ca4caba4f703}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

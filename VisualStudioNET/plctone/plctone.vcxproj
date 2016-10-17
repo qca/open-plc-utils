@@ -16,6 +16,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -44,7 +45,8 @@
       <CompileAs>CompileAsC</CompileAs>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <StringPooling>true</StringPooling>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MinimalRebuild>false</MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>packet.lib;wpcap.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -55,44 +57,13 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\tools\__bswap.c" />
-    <ClCompile Include="..\..\plc\amptone.c" />
-    <ClCompile Include="..\..\ether\channel.c" />
-    <ClCompile Include="..\..\ether\closechannel.c" />
-    <ClCompile Include="..\..\plc\Devices.c" />
-    <ClCompile Include="..\..\tools\reverse.c" />
-    <ClCompile Include="..\..\tools\error.c" />
-    <ClCompile Include="..\..\mme\EthernetHeader.c" />
-    <ClCompile Include="..\..\plc\Failure.c" />
-    <ClCompile Include="..\..\mme\FragmentHeader.c" />
-    <ClCompile Include="..\..\ether\gethwaddr.c" />
-    <ClCompile Include="..\..\ether\getifname.c" />
-    <ClCompile Include="..\..\tools\getoptv.c" />
-    <ClCompile Include="..\..\tools\gettimeofday.c" />
-    <ClCompile Include="..\..\tools\hexdecode.c" />
-    <ClCompile Include="..\..\tools\hexdump.c" />
-    <ClCompile Include="..\..\tools\hexencode.c" />
-    <ClCompile Include="..\..\mme\MMECode.c" />
-    <ClCompile Include="..\..\ether\openchannel.c" />
-    <ClCompile Include="..\..\tools\putoptv.c" />
-    <ClCompile Include="..\..\plc\ReadMME.c" />
-    <ClCompile Include="..\..\ether\readpacket.c" />
-    <ClCompile Include="..\..\plc\SendMME.c" />
-    <ClCompile Include="..\..\ether\sendpacket.c" />
-    <ClCompile Include="..\..\plc\SignalToNoise2.c" />
-    <ClCompile Include="..\..\tools\synonym.c" />
-    <ClCompile Include="..\..\tools\todigit.c" />
-    <ClCompile Include="..\..\plc\ToneMaps2.c" />
-    <ClCompile Include="..\..\tools\uintspec.c" />
-    <ClCompile Include="..\..\mme\UnwantedMessage.c" />
-    <ClCompile Include="..\..\tools\version.c" />
+    <ClCompile Include="..\..\plc\plctone.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\tools\endian.h" />
-    <ClInclude Include="..\..\tools\symbol.h" />
     <ClInclude Include="..\..\ether\channel.h" />
     <ClInclude Include="..\..\tools\error.h" />
     <ClInclude Include="..\..\ether\ether.h" />
@@ -103,7 +74,18 @@
     <ClInclude Include="..\..\tools\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ReadMe.txt" />
+    <ProjectReference Include="..\lib_ether\lib_ether.vcxproj">
+      <Project>{bbd90b81-def0-436e-875d-4b2eae30817d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\lib_mme\lib_mme.vcxproj">
+      <Project>{a752190f-4bad-4e19-a20d-9958cd662d3e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\lib_plc\lib_plc.vcxproj">
+      <Project>{3e2792ca-861b-492c-8618-248430858b1f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\lib_tools\lib_tools.vcxproj">
+      <Project>{22861826-8a4c-463a-9d81-ca4caba4f703}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -16,6 +16,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -44,7 +45,8 @@
       <CompileAs>CompileAsC</CompileAs>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <StringPooling>true</StringPooling>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MinimalRebuild>false</MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)pib2xml.exe</OutputFile>
@@ -54,23 +56,22 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalLibraryDirectories>..\library;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\nvm\nvmseek2.c" />
-    <ClCompile Include="..\..\tools\checksum32.c" />
-    <ClCompile Include="..\..\tools\emalloc.c" />
-    <ClCompile Include="..\..\tools\error.c" />
-    <ClCompile Include="..\..\tools\fdchecksum32.c" />
-    <ClCompile Include="..\..\tools\getoptv.c" />
-    <ClCompile Include="..\..\tools\output.c" />
     <ClCompile Include="..\..\pib\pib2xml.c" />
-    <ClCompile Include="..\..\tools\putoptv.c" />
-    <ClCompile Include="..\..\tools\version.c" />
-    <ClCompile Include="..\..\nodes\xmlschema.c" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ReadMe.txt" />
+    <ProjectReference Include="..\lib_nodes\lib_nodes.vcxproj">
+      <Project>{22f3ef5b-c842-43dd-b1f5-016cc9991b69}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\lib_nvm\lib_nvm.vcxproj">
+      <Project>{cdbe586e-5e50-46e3-97ad-5acfdea2c25b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\lib_tools\lib_tools.vcxproj">
+      <Project>{22861826-8a4c-463a-9d81-ca4caba4f703}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
