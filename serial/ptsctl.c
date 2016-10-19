@@ -185,8 +185,6 @@ static void cycle (char * string, unsigned offset, unsigned length)
 static void function1 (struct _file_ * port, char const * units, unsigned wait, unsigned echo)
 
 {
-	extern char buffer [PTSCTL_BUFFER_SIZE];
-	extern signed length;
 	while (*units)
 	{
 		length = 0;
@@ -198,7 +196,7 @@ static void function1 (struct _file_ * port, char const * units, unsigned wait, 
 		{
 			error (1, errno, FILE_CANTSAVE, port->name);
 		}
-		SLEEP (wait);
+		SLEEP_MS (wait);
 	}
 	return;
 }
@@ -216,10 +214,6 @@ static void function1 (struct _file_ * port, char const * units, unsigned wait, 
 static void function2 (struct _file_ * port, char const * units, unsigned wait, unsigned data)
 
 {
-	extern char buffer [PTSCTL_BUFFER_SIZE];
-	extern char string [PTSCTL_STRING_SIZE];
-	extern signed length;
-	extern signed offset;
 	memset (string, 0, sizeof (string));
 	memset (buffer, 0, sizeof (buffer));
 	for (offset = 0; offset < (signed)(sizeof (string)); offset++)
@@ -240,7 +234,7 @@ static void function2 (struct _file_ * port, char const * units, unsigned wait, 
 		{
 			error (1, errno, FILE_CANTSAVE, port->name);
 		}
-		SLEEP (wait);
+		SLEEP_MS (wait);
 	}
 	return;
 }
@@ -258,10 +252,6 @@ static void function2 (struct _file_ * port, char const * units, unsigned wait, 
 static void function3 (struct _file_ * port, char const * units, unsigned wait)
 
 {
-	extern char buffer [PTSCTL_BUFFER_SIZE];
-	extern char string [PTSCTL_STRING_SIZE];
-	extern signed length;
-	extern signed offset;
 	signed value1 = 0;
 	signed value2 = 0;
 	memset (string, 0, sizeof (string));
@@ -275,14 +265,14 @@ static void function3 (struct _file_ * port, char const * units, unsigned wait)
 		{
 			error (1, errno, FILE_CANTSAVE, port->name);
 		}
-		SLEEP (wait);
+		SLEEP_MS (wait);
 		memset (buffer, 0, sizeof (buffer));
 		if (read (port->file, buffer, PTSCTL_LEDS + 2) == -1)
 		{
 			error (1, errno, FILE_CANTREAD, port->name);
 		}
 		memcpy (&string [offset], &buffer [1], PTSCTL_LEDS);
-		SLEEP (wait);
+		SLEEP_MS (wait);
 	}
 	cycle (string, PTSCTL_LEDS, 2);
 	while (--offset > PTSCTL_BITS)
@@ -320,7 +310,7 @@ static void function4 (struct _file_ * port, char const * units, unsigned wait)
 	{
 		function2 (port, units, wait, (value << 8) | (value << 1) | 1);
 		function3 (port, units, wait);
-		SLEEP (wait);
+		SLEEP_MS (wait);
 	}
 	return;
 }
@@ -359,10 +349,7 @@ int main (int argc, char const * argv [])
 #if defined (WIN32)
 
 	HANDLE hSerial;
-	DCB dcbSerial =
-	{
-		0
-	};
+	DCB dcbSerial;
 
 #else
 
@@ -436,10 +423,11 @@ int main (int argc, char const * argv [])
 	{
 		error (1, errno, FILE_CANTOPEN, port.name);
 	}
+	memset(&dcbSerial, 0, sizeof(dcbSerial));
 	dcbSerial.DCBlength = sizeof (dcbSerial);
 	if (!GetCommState (hSerial, &dcbSerial))
 	{
-		error (1, 0, FILE_CANTREAD " state", port.name);
+		error (1, 0, FILE_CANTREAD, port.name);
 	}
 	dcbSerial.BaudRate = CBR_9600;
 	dcbSerial.ByteSize = 8;
@@ -447,7 +435,7 @@ int main (int argc, char const * argv [])
 	dcbSerial.Parity = NOPARITY;
 	if (!SetCommState (hSerial, &dcbSerial))
 	{
-		error (1, 0, FILE_CANTSAVE " state", port.name);
+		error (1, 0, FILE_CANTSAVE, port.name);
 	}
 	CloseHandle (hSerial);
 	if ((port.file = open (port.name, O_BINARY | O_RDWR)) == -1)

@@ -390,8 +390,8 @@ int main (int argc, char const * argv [])
 			break;
 		case FIELD_HPAV_MME:
 			bytespec (* argv++, rule->CR_VALUE, sizeof (uint8_t) + sizeof (uint16_t));
-			byte = (uint8_t *)(rule->CR_VALUE);
-			HTOBE16 ((uint16_t)(* ++byte));
+			word = (uint16_t *)(&rule->CR_VALUE[1]);
+			*word = htons(*word);
 			break;
 		case FIELD_IPV6_TC:
 		case FIELD_IPV6_FL:

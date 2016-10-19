@@ -600,7 +600,7 @@ static void function (struct plc * plc, char const * firmware)
 	if (plc->sleep)
 	{
 		Request (plc, "Pause %d seconds", plc->sleep);
-		sleep (plc->sleep);
+		SLEEP (plc->sleep);
 	}
 	return;
 }

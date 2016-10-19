@@ -15,7 +15,14 @@ CFLAGS+=
 LDFLAGS+=
 TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9]
 FILES=Makefile *.mak *.sh *.c *.h
-TOOLS=efbu efeu efru efsu edru edsu nics
+TOOLS=efbu efeu efru efsu edru edsu
+
+ifneq ($(TARGET), mingw32)
+TOOLS+=nics
+else
+TOOLS+=pcapdevs
+endif
+
 PAGES=efbu.1 efeu.1 efru.1 efsu.1 edru.1 edsu.1 pcapdevs.1 nics.1
 
 # ====================================================================
@@ -24,8 +31,8 @@ PAGES=efbu.1 efeu.1 efru.1 efsu.1 edru.1 edsu.1 pcapdevs.1 nics.1
 
 all compile: ${TOOLS}
 compact: compile
-	if [ ! -z ${STRIP} ]; then ${STRIP} ${TOOLS}; fi
-	if [ -x /usr/local/bin/upx ]; then upx --best ${TOOLS}; fi
+	if [ ! -z ${STRIP} -a ! -z ${TOOLS} ]; then ${STRIP} ${TOOLS}; fi
+	if [ -x /usr/local/bin/upx -a ! -z ${TOOLS} ]; then upx --best ${TOOLS}; fi
 library:
 	install -m ${DIR_PERM} -o ${OWNER} -g ${GROUP} -d ${BIN}
 scripts:
@@ -59,12 +66,12 @@ ignore:
 # --------------------------------------------------------------------
 
 pcapdevs: pcapdevs.o getoptv.o putoptv.o version.o error.o hexdecode.o gethwaddr.o
-efbu: efbu.o getoptv.o putoptv.o version.o error.o todigit.o hexencode.o uintspec.o hexdump.o channel.o openchannel.o sendpacket.o readpacket.o closechannel.o todigit.o channel.o basespec.o
-efru: efru.o getoptv.o putoptv.o version.o basespec.o uintspec.o todigit.o hexdump.o error.o channel.o openchannel.o closechannel.o sendpacket.o readpacket.o 
-efeu: efeu.o getoptv.o putoptv.o version.o basespec.o uintspec.o todigit.o hexdump.o error.o channel.o openchannel.o closechannel.o sendpacket.o readpacket.o memswap.o
-efsu: efsu.o getoptv.o putoptv.o version.o error.o todigit.o hexencode.o uintspec.o hexload.o hexdump.o channel.o openchannel.o sendpacket.o readpacket.o closechannel.o todigit.o basespec.o channel.o synonym.o
-edru: edru.o getoptv.o putoptv.o version.o error.o hexdump.o hexdecode.o hexstring.o channel.o openchannel.o closechannel.o sendpacket.o readpacket.o uintspec.o todigit.o basespec.o
-edsu: edsu.o getoptv.o putoptv.o version.o efreopen.o uintspec.o todigit.o hexdump.o hexencode.o error.o channel.o openchannel.o closechannel.o readpacket.o sendpacket.o basespec.o
+efbu: efbu.o getoptv.o putoptv.o version.o error.o todigit.o hexencode.o uintspec.o hexdump.o channel.o openchannel.o sendpacket.o readpacket.o closechannel.o todigit.o channel.o basespec.o getifname.o gethwaddr.o
+efru: efru.o getoptv.o putoptv.o version.o basespec.o uintspec.o todigit.o hexdump.o error.o channel.o openchannel.o closechannel.o sendpacket.o readpacket.o getifname.o gethwaddr.o
+efeu: efeu.o getoptv.o putoptv.o version.o basespec.o uintspec.o todigit.o hexdump.o error.o channel.o openchannel.o closechannel.o sendpacket.o readpacket.o memswap.o getifname.o gethwaddr.o
+efsu: efsu.o getoptv.o putoptv.o version.o error.o todigit.o hexencode.o uintspec.o hexload.o hexdump.o channel.o openchannel.o sendpacket.o readpacket.o closechannel.o todigit.o basespec.o channel.o synonym.o getifname.o gethwaddr.o
+edru: edru.o getoptv.o putoptv.o version.o error.o hexdump.o hexdecode.o hexstring.o channel.o openchannel.o closechannel.o sendpacket.o readpacket.o uintspec.o todigit.o basespec.o getifname.o gethwaddr.o
+edsu: edsu.o getoptv.o putoptv.o version.o efreopen.o uintspec.o todigit.o hexdump.o hexencode.o error.o channel.o openchannel.o closechannel.o readpacket.o sendpacket.o basespec.o getifname.o gethwaddr.o
 nics: nics.o getoptv.o putoptv.o version.o error.o hexdecode.o decdecode.o hexstring.o decstring.o hostnics.o 
 client: client.o getoptv.o putoptv.o version.o error.o 
 server: server.o getoptv.o putoptv.o version.o error.o 

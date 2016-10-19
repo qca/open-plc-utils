@@ -106,10 +106,8 @@ void openport (struct _file_ * port, flag_t flags)
 	}
 	if (_anyset (flags, UART_DEFAULT))
 	{
-		DCB dcbSerial =
-		{
-			0
-		};
+		DCB dcbSerial;
+		memset(&dcbSerial, 0, sizeof(dcbSerial));
 		dcbSerial.DCBlength = sizeof (dcbSerial);
 		if (!GetCommState (hSerial, &dcbSerial))
 		{

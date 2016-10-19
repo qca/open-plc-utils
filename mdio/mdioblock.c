@@ -132,7 +132,6 @@ static signed mygetc ()
 static uint16_t integer (unsigned radix)
 
 {
-	extern signed c;
 	uint16_t value = 0;
 	unsigned digit = 0;
 	while ((digit = todigit (c)) < radix)
@@ -171,7 +170,6 @@ static uint16_t integer (unsigned radix)
 static void assemble (flag_t flags)
 
 {
-	extern signed c;
 	c = mygetc ();
 	while (c != EOF)
 	{

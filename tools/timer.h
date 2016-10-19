@@ -25,9 +25,11 @@
  *--------------------------------------------------------------------*/
 
 #ifdef WIN32
-#define SLEEP(n) Sleep(n)
+#define SLEEP(n) Sleep((n) * 1000)
+#define SLEEP_MS(n) Sleep((n))
 #else
-#define SLEEP(n) usleep((n)*1000)
+#define SLEEP(n) sleep((n))
+#define SLEEP_MS(n) usleep((n) * 1000)
 #endif
 
 /*====================================================================*

@@ -65,7 +65,6 @@
 
 #include "../tools/getoptv.h"
 #include "../tools/number.h"
-#include "../tools/chars.h"
 #include "../tools/types.h"
 #include "../tools/error.h"
 #include "../tools/files.h"

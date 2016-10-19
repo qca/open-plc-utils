@@ -15,7 +15,7 @@ CFLAGS+=
 LDFLAGS+=
 TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9] *.out
 FILES=Makefile *.mak *.sh *.txt *.c *.h *.xml *.css
-TOOLS=hpav mme 
+TOOLS=mme hpav
 PAGES=hpav.1 mme.1
 
 # ====================================================================
@@ -24,8 +24,8 @@ PAGES=hpav.1 mme.1
 
 all compile: ${TOOLS}
 compact: compile
-	if [ ! -z ${STRIP} ]; then ${STRIP} ${TOOLS}; fi
-	if [ -x /usr/local/bin/upx ]; then upx --best ${TOOLS}; fi
+	if [ ! -z ${STRIP} -a ! -z ${TOOLS} ]; then ${STRIP} ${TOOLS}; fi
+	if [ -x /usr/local/bin/upx -a ! -z ${TOOLS} ]; then upx --best ${TOOLS}; fi
 library:
 	install -m ${DIR_PERM} -o ${OWNER} -g ${GROUP} -d ${BIN}
 scripts:
@@ -58,7 +58,12 @@ ignore:
 # programs; 
 # --------------------------------------------------------------------
 
-hpav: hpav.o getoptv.o putoptv.o version.o hexdump.o hexdecode.o hexstring.o error.o channel.o openchannel.o closechannel.o sendpacket.o readpacket.o MMEPeek.o MMEName.o MMEMode.o uintspec.o todigit.o
+ifneq ($(TARGET), mingw32)
+hpav: hpav.o getoptv.o putoptv.o version.o hexdump.o hexdecode.o hexstring.o error.o channel.o openchannel.o closechannel.o sendpacket.o readpacket.o MMEPeek.o MMEName.o MMEMode.o uintspec.o todigit.o gethwaddr.o
+else
+hpav: hpav.o getoptv.o putoptv.o version.o hexdump.o hexdecode.o hexstring.o error.o channel.o openchannel.o closechannel.o sendpacket.o readpacket.o MMEPeek.o MMEName.o MMEMode.o uintspec.o todigit.o gethwaddr.o getifname.o
+endif
+
 hpavd: hpavd.o getoptv.o putoptv.o version.o hexdump.o hexdecode.o hexstring.o error.o channel.o openchannel.o closechannel.o sendpacket.o readpacket.o MMEPeek.o MMEName.o MMEMode.o 
 mme: mme.o getoptv.o putoptv.o version.o uintspec.o todigit.o output.o error.o MMEName.o MMEMode.o
 

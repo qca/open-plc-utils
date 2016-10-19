@@ -74,6 +74,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/timer.h"
 #include "../plc/plc.h"
 #include "../plc/coqos.h"
 
@@ -221,7 +222,7 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 			Confirm (plc, "Set up bandwidth monitoring.");
 			break;
 		}
-		sleep (1);
+		SLEEP (1);
 	}
 	while (1)
 	{
@@ -280,7 +281,7 @@ signed con_man (struct plc * plc, uint16_t TOT_BW_USED)
 			continue;
 		}
 		printf ("Connection ID: %04X suspended\n", lowcid);
-		sleep (5);
+		SLEEP (5);
 
 /* flush out old data */
 

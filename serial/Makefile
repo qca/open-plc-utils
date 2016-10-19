@@ -15,7 +15,10 @@ CFLAGS+=
 LDFLAGS+=
 TRASH=*.o *.obj *.exe t t.* *~ *.[0-9][0-9][0-9]
 FILES=Makefile *.mak *.sh *.txt *.c *.h 
-TOOLS=int6kuart int6kbaud ttysig ptsctl weeder ttysend ttyrecv ttycat int6kdetect 
+TOOLS=int6kuart int6kbaud ptsctl weeder int6kdetect
+ifneq ($(TARGET), mingw32)
+TOOLS+=ttysig ttysend ttyrecv ttycat
+endif
 PAGES=int6kuart.1 int6kbaud.1 ttysig.1 ptsctl.1 weeder.1 ttycat.1 ttysend.1 ttyrecv.1 int6kdetect.1
 
 # ====================================================================
@@ -24,8 +27,8 @@ PAGES=int6kuart.1 int6kbaud.1 ttysig.1 ptsctl.1 weeder.1 ttycat.1 ttysend.1 ttyr
 
 all compile: ${TOOLS}
 compact: compile
-	if [ ! -z ${STRIP} ]; then ${STRIP} ${TOOLS}; fi
-	if [ -x /usr/local/bin/upx ]; then upx --best ${TOOLS}; fi
+	if [ ! -z ${STRIP} -a ! -z ${TOOLS} ]; then ${STRIP} ${TOOLS}; fi
+	if [ -x /usr/local/bin/upx -a ! -z ${TOOLS} ]; then upx --best ${TOOLS}; fi
 library:
 	install -m ${DIR_PERM} -o ${OWNER} -g ${GROUP} -d ${BIN}
 scripts:
@@ -63,7 +66,13 @@ int6kuart: int6kuart.o getoptv.o putoptv.o version.o uintspec.o basespec.o todig
 int6kbaud: int6kbaud.o getoptv.o putoptv.o version.o uintspec.o basespec.o todigit.o error.o checksum32.o hexencode.o hexdump.o hexstring.o hexdecode.o synonym.o openport.o closeport.o serial.o
 ttysig: ttysig.o getoptv.o putoptv.o version.o error.o uintspec.o todigit.o
 ttysend: ttysend.o getoptv.o putoptv.o version.o error.o uintspec.o todigit.o baudrate.o
+
+ifneq ($(TARGET), mingw32)
 int6kdetect: int6kdetect.o getoptv.o putoptv.o version.o error.o baudrate.o
+else
+int6kdetect: int6kdetect.o getoptv.o putoptv.o version.o error.o
+endif
+
 ttyrecv: ttyrecv.o getoptv.o putoptv.o version.o error.o uintspec.o todigit.o baudrate.o
 weeder: weeder.o getoptv.o putoptv.o version.o uintspec.o synonym.o todigit.o error.o
 ptsctl: ptsctl.o getoptv.o putoptv.o version.o uintspec.o synonym.o todigit.o error.o

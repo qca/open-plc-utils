@@ -68,6 +68,7 @@
 #include "../tools/memory.h"
 #include "../tools/endian.h"
 #include "../tools/error.h"
+#include "../tools/files.h"
 #include "../mdio/mdio.h"
 
 /*====================================================================*

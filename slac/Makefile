@@ -24,8 +24,8 @@ PAGES=evse.1 pev.1
 
 all compile: ${TOOLS}
 compact: compile
-	if [ ! -z ${STRIP} ]; then ${STRIP} ${TOOLS}; fi
-	if [ -x /usr/local/bin/upx ]; then upx --best ${TOOLS}; fi
+	if [ ! -z ${STRIP} -a ! -z ${TOOLS} ]; then ${STRIP} ${TOOLS}; fi
+	if [ -x /usr/local/bin/upx -a ! -z ${TOOLS} ]; then upx --best ${TOOLS}; fi
 library:
 	install -m ${DIR_PERM} -o ${OWNER} -g ${GROUP} -d ${BIN}
 scripts:
@@ -57,8 +57,8 @@ ignore:
 # programs;     
 # --------------------------------------------------------------------
 
-evse: evse.o Devices.o EthernetHeader.o QualcommHeader.o HomePlugHeader1.o UnwantedMessage.o channel.o closechannel.o config.o decdecode.o decstring.o error.o evse_cm_atten_char.o evse_cm_mnbc_sound.o evse_cm_slac_match.o evse_cm_slac_param.o evse_cm_start_atten_char.o evse_cm_set_key.o getoptv.o hexdecode.o hexdump.o hexencode.o hexout.o hexstring.o openchannel.o putoptv.o readmessage.o readpacket.o sendmessage.o sendpacket.o slac_session.o strfbits.o todigit.o uintspec.o version.o slac_debug.o
-pev: pev.o Devices.o EthernetHeader.o QualcommHeader.o HomePlugHeader1.o UnwantedMessage.o channel.o closechannel.o config.o decdecode.o decstring.o error.o getoptv.o hexdecode.o hexdump.o hexencode.o hexstring.o memincr.o openchannel.o pev_cm_atten_char.o pev_cm_mnbc_sound.o pev_cm_slac_match.o pev_cm_slac_param.o pev_cm_start_atten_char.o pev_cm_set_key.o putoptv.o readmessage.o readpacket.o sendmessage.o sendpacket.o slac_connect.o slac_session.o strfbits.o todigit.o uintspec.o version.o slac_debug.o
+evse: evse.o Devices.o EthernetHeader.o QualcommHeader.o HomePlugHeader1.o UnwantedMessage.o channel.o closechannel.o config.o decdecode.o decstring.o error.o evse_cm_atten_char.o evse_cm_mnbc_sound.o evse_cm_slac_match.o evse_cm_slac_param.o evse_cm_start_atten_char.o evse_cm_set_key.o getoptv.o hexdecode.o hexdump.o hexencode.o hexout.o hexstring.o openchannel.o putoptv.o readmessage.o readpacket.o sendmessage.o sendpacket.o slac_session.o strfbits.o todigit.o uintspec.o version.o slac_debug.o getifname.o gethwaddr.o
+pev: pev.o Devices.o EthernetHeader.o QualcommHeader.o HomePlugHeader1.o UnwantedMessage.o channel.o closechannel.o config.o decdecode.o decstring.o error.o getoptv.o hexdecode.o hexdump.o hexencode.o hexstring.o memincr.o openchannel.o pev_cm_atten_char.o pev_cm_mnbc_sound.o pev_cm_slac_match.o pev_cm_slac_param.o pev_cm_start_atten_char.o pev_cm_set_key.o putoptv.o readmessage.o readpacket.o sendmessage.o sendpacket.o slac_connect.o slac_session.o strfbits.o todigit.o uintspec.o version.o slac_debug.o getifname.o gethwaddr.o
 
 # ====================================================================
 # includes;

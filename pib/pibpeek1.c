@@ -87,8 +87,6 @@ signed pibpeek1 (void const * memory)
 
 {
 	extern const struct key keys [KEYS];
-	extern char const * CCoMode [];
-	extern char const * MDURole [];
 	struct PIB1 * PIB = (struct PIB1 *)(memory);
 	char buffer [HPAVKEY_SHA_LEN * 3];
 	size_t key;

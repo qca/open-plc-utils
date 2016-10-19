@@ -11,3 +11,4 @@ t.*
 temp.*
 test.*
 *.a
+cscope.*

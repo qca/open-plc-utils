@@ -78,6 +78,7 @@
 #include "../tools/error.h"
 #include "../tools/files.h"
 #include "../tools/flags.h"
+#include "../tools/timer.h"
 #include "../ether/ether.h"
 #include "../ether/channel.h"
 
@@ -144,7 +145,7 @@ signed function (struct channel * channel, unsigned pause, signed fd)
 		{
 			error (1, errno, CHANNEL_CANTSEND);
 		}
-		sleep (pause);
+		SLEEP (pause);
 	}
 	return (0);
 }

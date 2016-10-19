@@ -338,7 +338,6 @@ static uint32_t ReflectBits (uint32_t value, uint32_t bits)
 static void InitCRCTable (uint32_t CRCTable [])
 
 {
-	extern uint32_t CRCTable [];
 	uint32_t word;
 	uint32_t bit;
 	for (word = 0; word < 256; word++)
@@ -371,7 +370,6 @@ static void InitCRCTable (uint32_t CRCTable [])
 uint32_t ComputeCRC (uint8_t buffer [], uint32_t length)
 
 {
-	extern uint32_t CRCTable [];
 	uint32_t crc = ~0;
 	while (length--)
 	{

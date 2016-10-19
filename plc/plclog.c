@@ -658,7 +658,7 @@ int main (int argc, char const * argv [])
 
 #if defined (WIN32)
 
-	if (format == INT6KLOG_FMT_RAW)
+	if (!_anyset (plc.flags, PLC_XML_FORMAT))
 	{
 		setmode (STDOUT_FILENO, O_BINARY);
 	}

@@ -112,7 +112,6 @@ void (* generate)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t
 static void function (const char * string, unsigned range, unsigned alpha, unsigned bunch, unsigned space, flag_t flags)
 
 {
-	extern void (* generate)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t);
 	const char * offset = string;
 	unsigned vendor = 0;
 	unsigned device = 0;
@@ -194,7 +193,6 @@ static void function (const char * string, unsigned range, unsigned alpha, unsig
 int main (int argc, const char * argv [])
 
 {
-	extern void (* generate)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t);
 	static const char * optv [] =
 	{
 		"b:el:mn:qv",

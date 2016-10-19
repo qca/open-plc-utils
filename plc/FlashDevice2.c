@@ -56,6 +56,7 @@
 #ifndef FLASHDEVICE2_SOURCE
 #define FLASHDEVICE2_SOURCE
 
+#include "../tools/timer.h"
 #include "../plc/plc.h"
 
 signed FlashDevice2 (struct plc * plc, uint32_t options)
@@ -80,7 +81,7 @@ signed FlashDevice2 (struct plc * plc, uint32_t options)
 		{
 			return (-1);
 		}
-		sleep (5);
+		SLEEP (5);
 		if (WaitForStart (plc, firmware, sizeof (firmware)) == 0)
 		{
 			if (strcmp (firmware, "BootLoader"))
@@ -100,7 +101,7 @@ signed FlashDevice2 (struct plc * plc, uint32_t options)
 	{
 		return (-1);
 	}
-	sleep (5);
+	SLEEP (5);
 	if (WaitForStart (plc, firmware, sizeof (firmware)))
 	{
 		return (-1);

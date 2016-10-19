@@ -62,6 +62,12 @@
 
 #ifdef WIN32
 #define FILE_FILEMODE S_IREAD|S_IWRITE
+#ifndef S_IRGRP
+#define S_IRGRP 0
+#endif
+#ifndef S_IROTH
+#define S_IROTH 0
+#endif
 #else
 #define FILE_FILEMODE S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH
 #define O_BINARY 0

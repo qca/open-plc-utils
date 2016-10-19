@@ -24,8 +24,8 @@ PAGES=chknvm.1 chknvm2.1 nvmsplit.1 nvmmerge.1
 
 all compile: ${TOOLS}
 compact: compile
-	if [ ! -z ${STRIP} ]; then ${STRIP} ${TOOLS}; fi
-	if [ -x /usr/local/bin/upx ]; then upx --best ${TOOLS}; fi
+	if [ ! -z ${STRIP} -a ! -z ${TOOLS} ]; then ${STRIP} ${TOOLS}; fi
+	if [ -x /usr/local/bin/upx -a ! -z ${TOOLS} ]; then upx --best ${TOOLS}; fi
 scripts:
 manuals:
 	test -d ${MAN} || install -m ${DIR_PERM} -o ${OWNER} -g ${GROUP} -d ${MAN}

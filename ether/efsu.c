@@ -77,6 +77,7 @@
 #include "../tools/memory.h"
 #include "../tools/number.h"
 #include "../tools/symbol.h"
+#include "../tools/timer.h"
 #include "../tools/flags.h"
 #include "../ether/channel.h"
 
@@ -209,7 +210,7 @@ static void iterate (int argc, char const * argv [], struct channel * channel, u
 		argv++;
 		if ((argc) && (* argv))
 		{
-			sleep (pause);
+			SLEEP (pause);
 		}
 	}
 	return;
@@ -335,7 +336,7 @@ int main (int argc, char const * argv [])
 		iterate (argc, argv, &channel, pause);
 		if (loop)
 		{
-			sleep (delay);
+			SLEEP (delay);
 		}
 	}
 	closechannel (&channel);

@@ -75,6 +75,7 @@
 #include "../tools/flags.h"
 #include "../tools/putoptv.h"
 #include "../tools/getoptv.h"
+#include "../tools/timer.h"
 #include "../serial/serial.h"
 
 /*====================================================================*
@@ -354,9 +355,9 @@ int at_cmd (struct serial *s)
 void wakeup (struct serial *s)
 
 {
-	sleep (1);
+	SLEEP (1);
 	if (write_serial (s, "+++", 3) == -1) error (1, 0, "could not write");
-	sleep (1);
+	SLEEP (1);
 }
 
 void dump_serial_mode (struct serial_mode *serial_mode)

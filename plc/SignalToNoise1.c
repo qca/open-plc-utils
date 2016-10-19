@@ -60,40 +60,8 @@
 #include "../tools/flags.h"
 #include "../tools/error.h"
 #include "../tools/endian.h"
+#include "../plc/modulation.h"
 #include "../plc/plc.h"
-
-#ifndef TONEMAPS1_SOURCE
-
-static uint8_t const mod2bits [AMP_BITS] =
-
-{
-	0,
-	1,
-	2,
-	3,
-	4,
-	6,
-	8,
-	10,
-	12
-};
-
-static uint8_t const mod2db [AMP_BITS] =
-
-{
-	0,
-	2,
-	4,
-	7,
-	10,
-	16,
-	22,
-	28,
-	36
-};
-
-
-#endif
 
 signed SignalToNoise1 (struct plc * plc)
 

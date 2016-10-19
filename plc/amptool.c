@@ -73,6 +73,7 @@
 #include "../tools/flags.h"
 #include "../tools/files.h"
 #include "../tools/error.h"
+#include "../tools/timer.h"
 #include "../ether/channel.h"
 #include "../key/HPAVKey.h"
 #include "../key/keys.h"
@@ -312,7 +313,7 @@ static void manager (struct plc * plc, signed count, signed pause)
 		{
 			ResetDevice (plc);
 		}
-		sleep (pause);
+		SLEEP (pause);
 	}
 	return;
 }

@@ -115,7 +115,6 @@ void (* generate)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t
 static void function (const char * file, unsigned alpha, unsigned bunch, unsigned space, flag_t flags)
 
 {
-	extern void (* generate)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t);
 	unsigned line = 1;
 	unsigned radix = 0x10;
 	unsigned width;
@@ -205,7 +204,6 @@ static void function (const char * file, unsigned alpha, unsigned bunch, unsigne
 int main (int argc, const char * argv [])
 
 {
-	extern void (* generate)(unsigned, unsigned, unsigned, unsigned, unsigned, char, flag_t);
 	static const char * optv [] =
 	{
 		"b:el:mqv",
