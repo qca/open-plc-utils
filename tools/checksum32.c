@@ -25,34 +25,29 @@
 #ifndef CHECKSUM32_SOURCE
 #define CHECKSUM32_SOURCE
 
+#include <string.h>
 #include <stdint.h>
 #include <memory.h>
 
 #include "../tools/memory.h"
 
-uint32_t checksum32 (register void const * memory, register size_t extent, register uint32_t checksum)
+uint32_t checksum32 (void const * memory, size_t extent, uint32_t checksum)
 
 {
-
-#ifdef __GNUC__
+	uint32_t temp;
 
 	while (extent >= sizeof (checksum))
 	{
-		checksum ^= *(typeof (checksum) *)(memory);
+		/* Since 'memory' might point to an unaligned address,
+		 * we use memcpy to copy the data to 'temp' which is
+		 * aligned. Otherwise, the checksum would be wrong in the
+		 * best case, or worst-case: program is killed with SIGBUS.
+		 */
+		memcpy (&temp, memory, sizeof (temp));
+		checksum ^= temp;
 		memory += sizeof (checksum);
 		extent -= sizeof (checksum);
 	}
-
-#else
-
-	uint32_t * offset = (uint32_t *)(memory);
-	while (extent >= sizeof (* offset))
-	{
-		checksum ^= *offset++;
-		extent -= sizeof (* offset);
-	}
-
-#endif
 
 	return (~checksum);
 }
