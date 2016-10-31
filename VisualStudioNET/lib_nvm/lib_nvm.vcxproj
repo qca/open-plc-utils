@@ -31,7 +31,6 @@
     <ClCompile Include="..\..\nvm\nvmpeek2.c" />
     <ClCompile Include="..\..\nvm\nvmseek1.c" />
     <ClCompile Include="..\..\nvm\nvmseek2.c" />
-    <ClCompile Include="..\..\nvm\NVMSelect.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CDBE586E-5E50-46E3-97AD-5ACFDEA2C25B}</ProjectGuid>

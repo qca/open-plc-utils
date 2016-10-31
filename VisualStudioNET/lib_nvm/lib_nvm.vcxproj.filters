@@ -51,8 +51,5 @@
     <ClCompile Include="..\..\nvm\nvmseek2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\nvm\NVMSelect.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
