@@ -29,7 +29,7 @@ void * emalloc (size_t length)
 	void * memory = malloc (length);
 	if (!memory)
 	{
-		error (1, errno, "need %lu bytes", (long)(length));
+		error (1, errno, "need %zu bytes", (length));
 	}
 	return (memory);
 }
