@@ -31,10 +31,11 @@
 
 #include "../tools/memory.h"
 
-uint32_t checksum32 (void const * memory, size_t extent, uint32_t checksum)
+uint32_t checksum32 (void const * vmemory, size_t extent, uint32_t checksum)
 
 {
 	uint32_t temp;
+	const uint8_t *memory = vmemory;
 
 	while (extent >= sizeof (checksum))
 	{
