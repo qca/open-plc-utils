@@ -71,7 +71,6 @@
 signed SetNMK (struct plc * plc)
 
 {
-	extern const byte localcast [ETHER_ADDR_LEN];
 	struct channel * channel = (struct channel *)(plc->channel);
 	struct message * message = (struct message *)(plc->message);
 
