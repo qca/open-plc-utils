@@ -86,7 +86,7 @@ signed GetProperty (struct plc * plc, struct plcproperty * plcproperty)
 		uint8_t RESERVED [2];
 		uint32_t PROP_VERSION;
 		uint32_t PROP_LENGTH;
-		uint8_t PROP_NUMBER;
+		uint32_t PROP_NUMBER;
 	}
 	* request = (struct vs_get_property_request *) (message);
 	struct __packed vs_get_property_confirm
@@ -129,6 +129,7 @@ signed GetProperty (struct plc * plc, struct plcproperty * plcproperty)
 			Failure (plc, PLC_WONTDOIT);
 			continue;
 		}
+		confirm->DATA_LENGTH = LE32TOH (confirm->DATA_LENGTH);
 		if (plcproperty->DATA_FORMAT == PLC_FORMAT_BIN)
 		{
 			binout (confirm->DATA_BUFFER, confirm->DATA_LENGTH, ' ', '\n', stdout);
