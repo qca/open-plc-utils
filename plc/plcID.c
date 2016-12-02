@@ -182,6 +182,8 @@ signed PLCSelect (struct plc * plc, signed old (struct plc *), signed new (struc
 static signed ReadKey1 (struct plc * plc)
 
 {
+	extern const byte broadcast [ETHER_ADDR_LEN];
+	extern const byte localcast [ETHER_ADDR_LEN];
 	static signed count = 0;
 	struct channel * channel = (struct channel *) (plc->channel);
 	struct message * message = (struct message *) (plc->message);
@@ -269,6 +271,11 @@ static signed ReadKey1 (struct plc * plc)
 			confirm->pib.NET [PIB_HFID_LEN -1] = (char) (0);
 			printf ("%s", confirm->pib.NET);
 		}
+		if (memcmp (channel->peer, broadcast, sizeof (channel->peer)) &&
+		    memcmp (channel->peer, localcast, sizeof (channel->peer)))
+		{
+			break;
+		}
 	}
 	if (plc->packetsize < 0)
 	{
@@ -295,6 +302,8 @@ static signed ReadKey1 (struct plc * plc)
 static signed ReadKey2 (struct plc * plc)
 
 {
+	extern const byte broadcast [ETHER_ADDR_LEN];
+	extern const byte localcast [ETHER_ADDR_LEN];
 	static signed count = 0;
 	struct channel * channel = (struct channel *) (plc->channel);
 	struct message * message = (struct message *) (plc->message);
@@ -445,7 +454,11 @@ static signed ReadKey2 (struct plc * plc)
 					pib->NET [PIB_HFID_LEN -1] = (char) (0);
 					printf ("%s", pib->NET);
 				}
-				break;
+				if (memcmp (channel->peer, broadcast, sizeof (channel->peer)) &&
+				    memcmp (channel->peer, localcast, sizeof (channel->peer)))
+				{
+					return 0;
+				}
 			}
 			if (checksum32 (& confirm->MODULE_DATA [offset], LE32TOH (nvm_header->ImageLength), nvm_header->ImageChecksum))
 			{
