@@ -173,6 +173,9 @@ signed Attributes2 (struct plc * plc)
 
 		char string [512];
 		size_t length = 0;
+		if (confirm->COOKIE != HTOLE32 (plc->cookie)) {
+			continue;
+		}
 		if (confirm->MSTATUS)
 		{
 			Failure (plc, PLC_WONTDOIT);
