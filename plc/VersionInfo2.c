@@ -126,6 +126,10 @@ signed VersionInfo2 (struct plc * plc)
 
 #endif
 
+		/* firmware doesn't fill confirm->COOKIE field at (confirm->MVERSION + confirm->MVERLENGTH + 9)
+		 * (and IDENT, STEPPING_NUM) properly, so we don't check it.
+		 */
+
 		if (confirm->MSTATUS)
 		{
 			Failure (plc, PLC_WONTDOIT);

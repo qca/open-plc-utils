@@ -112,6 +112,9 @@ signed SetProperty (struct plc * plc, struct plcproperty * plcproperty)
 	}
 	while (ReadMME (plc, 0, (VS_SET_PROPERTY | MMTYPE_CNF)) > 0)
 	{
+		if (confirm->COOKIE != HTOLE32 (plc->cookie)) {
+			continue;
+		}
 		if (confirm->MSTATUS)
 		{
 			Failure (plc, PLC_WONTDOIT);

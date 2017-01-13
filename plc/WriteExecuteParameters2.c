@@ -177,11 +177,13 @@ signed WriteExecuteParameters2 (struct plc * plc, unsigned module, const struct 
 			error (PLC_EXIT (plc), errno, CHANNEL_CANTSEND);
 			return (-1);
 		}
-		if (ReadMME (plc, 0, (VS_WRITE_AND_EXECUTE_APPLET | MMTYPE_CNF)) <= 0)
-		{
-			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
-			return (-1);
-		}
+		do {
+			if (ReadMME (plc, 0, (VS_WRITE_AND_EXECUTE_APPLET | MMTYPE_CNF)) <= 0)
+			{
+				error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
+				return (-1);
+			}
+		} while (confirm->CLIENT_SESSION_ID != HTOLE32 (plc->cookie));
 		if (confirm->MSTATUS)
 		{
 			Failure (plc, PLC_WONTDOIT);

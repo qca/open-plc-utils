@@ -145,12 +145,15 @@ signed ModuleSession (struct plc * plc, unsigned modules, struct vs_module_spec 
 		return (-1);
 	}
 	channel->timeout = PLC_MODULE_REQUEST_TIMEOUT;
-	if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0)
-	{
-		error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
-		channel->timeout = timer;
-		return (-1);
-	}
+	do {
+		if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0)
+		{
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
+			channel->timeout = timer;
+			return (-1);
+		}
+	} while (confirm->MODULE_SPEC.MOD_OP != HTOLE16 (PLC_MOD_OP_START_SESSION) ||
+	         confirm->MODULE_SPEC.MOD_OP_SESSION_ID != HTOLE32 (plc->cookie));
 	channel->timeout = timer;
 	if (confirm->MSTATUS)
 	{

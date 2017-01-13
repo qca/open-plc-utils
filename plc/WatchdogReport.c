@@ -112,7 +112,7 @@ signed WatchdogReport (struct plc * plc)
 	memset (message, 0, sizeof (* message));
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_WD_RPT | MMTYPE_REQ));
-	request->SESSIONID = HTOLE32 (plc->cookie);
+	request->SESSIONID = HTOLE16 (plc->cookie);
 	request->CLR = plc->readaction;
 	plc->packetsize = (ETHER_MIN_LEN - ETHER_CRC_LEN);
 	if (SendMME (plc) <= 0)
@@ -122,11 +122,13 @@ signed WatchdogReport (struct plc * plc)
 	}
 	do
 	{
-		if (ReadMME (plc, 0, (VS_WD_RPT | MMTYPE_IND)) <= 0)
-		{
-			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
-			return (-1);
-		}
+		do {
+			if (ReadMME (plc, 0, (VS_WD_RPT | MMTYPE_IND)) <= 0)
+			{
+				error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
+				return (-1);
+			}
+		} while (indicate->SESSIONID != HTOLE16 (plc->cookie));
 		if (indicate->MSTATUS)
 		{
 			Failure (plc, PLC_WONTDOIT);

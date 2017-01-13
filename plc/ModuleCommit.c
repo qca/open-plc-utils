@@ -101,7 +101,7 @@ signed ModuleCommit (struct plc * plc, uint32_t options)
 			uint32_t COMMIT_CODE;
 			uint8_t NUM_MODULES;
 		}
-		request;
+		confirm;
 		struct __packed
 		{
 			uint16_t MOD_STATUS;
@@ -132,12 +132,15 @@ signed ModuleCommit (struct plc * plc, uint32_t options)
 		return (-1);
 	}
 	channel->timeout = PLC_MODULE_WRITE_TIMEOUT;
-	if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0)
-	{
-		error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
-		channel->timeout = timer;
-		return (-1);
-	}
+	do {
+		if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0)
+		{
+			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
+			channel->timeout = timer;
+			return (-1);
+		}
+	} while (confirm->confirm.MOD_OP != HTOLE16 (PLC_MOD_OP_CLOSE_SESSION) ||
+	         confirm->confirm.MOD_OP_SESSION_ID != HTOLE32 (plc->cookie));
 	channel->timeout = timer;
 	if (confirm->MSTATUS)
 	{

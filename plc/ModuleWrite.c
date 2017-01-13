@@ -178,12 +178,15 @@ signed ModuleWrite (struct plc * plc, struct _file_ * file, unsigned index, stru
 			return (-1);
 		}
 		channel->timeout = PLC_MODULE_WRITE_TIMEOUT;
-		if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0)
-		{
-			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
-			channel->timeout = timer;
-			return (-1);
-		}
+		do {
+			if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0)
+			{
+				error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
+				channel->timeout = timer;
+				return (-1);
+			}
+		} while (confirm->MODULE_SPEC.MOD_OP != HTOLE16 (PLC_MOD_OP_WRITE_MODULE) ||
+			confirm->MODULE_SPEC.MOD_OP_SESSION_ID != HTOLE32 (plc->cookie));
 		channel->timeout = timer;
 
 #if 1
