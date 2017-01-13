@@ -367,7 +367,6 @@ int main (int argc, char const * argv [])
 		"e\tredirect stderr to stdout",
 		"f\tread NVRAM Configuration using VS_GET_NVM",
 		"F[F]\tflash [force] NVRAM with PIB and firmware using VS_MOD_NVM",
-		"g\tdisplay multicast group information using VS_MULTICAST_INFO",
 		"H\tstop host action requests messages with VS_HOST_ACTION.IND",
 
 #if defined (WINPCAP) || defined (LIBPCAP)
