@@ -293,6 +293,22 @@ struct plc plc =
 	PLC_FLAGS
 };
 
+#if defined (__linux__) || defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__)
+#define RANDOMIZE_COOKIE 1
+#endif
+
+#ifdef RANDOMIZE_COOKIE
+{
+	int f;
+	f = open("/dev/urandom", O_BINARY|O_RDONLY);
+	if (f >= 0) {
+		do {
+			read(f, &plc.cookie, sizeof plc.cookie);
+		} while (plc.cookie == PLCSESSION || plc.cookie == 0 || plc.cookie == 0xFFFFFFFF);
+		close(f);
+	}
+}
+#endif
 #endif
 
 
