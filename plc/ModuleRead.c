@@ -172,11 +172,16 @@ signed ModuleRead (struct plc * plc, struct _file_ * file, uint16_t source, uint
 			return (-1);
 		}
 		channel->timeout = PLC_MODULE_READ_TIMEOUT;
-		if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0)
-		{
-			error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
-			return (-1);
-		}
+		do {
+			if (ReadMME (plc, 0, (VS_MODULE_OPERATION | MMTYPE_CNF)) <= 0)
+			{
+				error (PLC_EXIT (plc), errno, CHANNEL_CANTREAD);
+				return (-1);
+			}
+		} while (confirm->MODULE_SPEC.MOD_OP != HTOLE16 (source) ||
+		         confirm->MODULE_SPEC.MODULE_ID != HTOLE16 (module) ||
+		         confirm->MODULE_SPEC.MODULE_SUB_ID != HTOLE16 (submodule) ||
+		         confirm->MODULE_SPEC.MODULE_OFFSET != HTOLE32 (offset));
 		channel->timeout = timer;
 
 #if 0
