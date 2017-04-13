@@ -150,6 +150,8 @@ signed NetInfo2 (struct plc * plc)
 	{
 		char string [24];
 		Confirm (plc, "Found %d Network(s)\n", networks->NUMAVLNS);
+		hexdecode (message->ethernet.OSA, sizeof (message->ethernet.OSA), string, sizeof (string));
+		printf("source address = %s\n\n", string);
 		network = (struct network *)(&networks->networks);
 		while (networks->NUMAVLNS--)
 		{
