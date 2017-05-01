@@ -36,6 +36,7 @@ install: $(TOOLS) library
 	install -m ${SUID_PERM} -o ${OWNER} -g ${GROUP} ${TOOLS} ${BIN}
 uninstall:
 	cd ${BIN}; rm -f ${TOOLS}
+	cd ${MAN}; rm -f ${PAGES}
 check:
 	${SHELL} ether.sh
 fresh: clean compile
