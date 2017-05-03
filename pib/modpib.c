@@ -180,6 +180,11 @@ static signed pibimage1 (struct _file_ * file, simple_pib * sample_pib, signed l
 	{
 		simple_pib.CCoSelection = sample_pib->CCoSelection;
 	}
+	if (_anyset (flags, PIB_MDU))
+	{
+		simple_pib.MDUConfiguration = sample_pib->MDUConfiguration;
+		simple_pib.MDURole = sample_pib->MDURole;
+	}
 	if (_anyset (flags, PIB_NMK | PIB_NID))
 	{
 
@@ -292,6 +297,11 @@ static signed pibimage2 (struct _file_ * file, simple_pib * sample_pib, signed l
 	if (_anyset (flags, PIB_CCO_MODE))
 	{
 		simple_pib.CCoSelection = sample_pib->CCoSelection;
+	}
+	if (_anyset (flags, PIB_MDU))
+	{
+		simple_pib.MDUConfiguration = sample_pib->MDUConfiguration;
+		simple_pib.MDURole = sample_pib->MDURole;
 	}
 	if (_anyset (flags, PIB_NMK | PIB_NID))
 	{
@@ -489,7 +499,7 @@ int main (int argc, char const * argv [])
 	extern struct _term_ const nmks [];
 	static char const * optv [] =
 	{
-		"C:D:L:M:N:S:T:U:v",
+		"C:D:L:M:N:S:T:U:vW:",
 		"file [file] [...]",
 		"modify selected PIB parameters and update checksum",
 		"C n\tCCo Selection is n",
@@ -501,6 +511,7 @@ int main (int argc, char const * argv [])
 		"T s\tNET string is s",
 		"U s\tUSR string is s",
 		"v\tverbose messages",
+		"W n\tMDU selection is n",
 		(char const *) (0)
 	};
 	struct simple_pib sample_pib;
@@ -603,6 +614,19 @@ int main (int argc, char const * argv [])
 			break;
 		case 'v':
 			_setbits (flags, PIB_VERBOSE);
+			break;
+		case 'W':
+			_setbits (flags, PIB_MDU);
+			uint8_t mdu_parameter = (uint8_t)(uintspec (optarg, 0, 2));
+			if (mdu_parameter == 0)
+			{
+				sample_pib.MDUConfiguration = 0;
+			}
+			else
+			{
+				sample_pib.MDUConfiguration = 1;
+				sample_pib.MDURole = mdu_parameter - 1;
+			}
 			break;
 		default:
 			break;

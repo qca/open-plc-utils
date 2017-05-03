@@ -107,6 +107,7 @@
 #define PIB_CCO_MODE    (1 << 10)
 #define PIB_NID         (1 << 11)
 #define PIB_CHECKED     (1 << 12)
+#define PIB_MDU         (1 << 13)
 
 #define INT_PRESCALER_OFFSET 0x0A10
 #define INT_PRESCALER_LENGTH (1155 * sizeof (uint32_t))
