@@ -167,7 +167,7 @@ static void cycle (char * string, unsigned offset, unsigned length)
 
 {
 	signed c = string [offset];
-	memcpy (&string [offset], &string [offset + 1], length);
+	memmove (&string [offset], &string [offset + 1], length);
 	string [offset + length] = c;
 	return;
 }
