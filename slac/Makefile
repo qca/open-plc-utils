@@ -35,8 +35,8 @@ manuals:
 install: compile library
 	install -m ${SUID_PERM} -o ${OWNER} -g ${GROUP} ${TOOLS} ${BIN}
 uninstall:
-	cd ${BIN}; rm -f plc ${TOOLS}
-	cd ${MAN}; rm -f plc ${PAGES}
+	cd ${BIN}; rm -f ${TOOLS}
+	cd ${MAN}; rm -f ${PAGES}
 clean:
 	rm -f ${TRASH} ${TOOLS}
 check:

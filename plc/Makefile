@@ -40,8 +40,8 @@ manuals:
 install: $(TOOLS) library
 	install -m ${SUID_PERM} -o ${OWNER} -g ${GROUP} ${TOOLS} ${BIN}
 uninstall:
-	cd ${BIN}; rm -f int6k ${TOOLS}
-	cd ${MAN}; rm -f int6k ${PAGES}
+	cd ${BIN}; rm -f ${TOOLS}
+	cd ${MAN}; rm -f ${PAGES}
 check:
 	${SHELL} plc.sh
 fresh: clean compile

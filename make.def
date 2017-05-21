@@ -67,7 +67,7 @@ STRIP=$(CROSS)strip
 
 ROOTFS?=
 BIN=${ROOTFS}/usr/local/bin
-MAN=${ROOTFS}/usr/share/man/man1
+MAN=${ROOTFS}/usr/local/man/man1
 DOC=${ROOTFS}/home/www/software
 WWW=${ROOTFS}/home/www
 FTP=${ROOTFS}/home/ftp
