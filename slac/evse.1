@@ -17,7 +17,7 @@ See the \fIHomePlug Green PHY Specification Release Version 1.1\fR for more info
 Signal Level Attenuation Characterization (SLAC) enables a station to measure the signal level of its transmission at other stations in the network.
 It is designed for automotive applications where there are multiple plug-in vehicle (PEVs) and electric vehicle supply equipment (EVSE) on the network.
 The PEV signal level is measured at multiple EVSEs to determine which EVSE the PEV is actually plugged into.
-The process leading to this determination is called "\fBGreen PHY PEV-EVSE Association\fB" (GreenPPEA).
+The process leading to this determination is called "\fBGreen PHY PEV-EVSE Association\fR" (GreenPPEA).
 
 .PP
 This program is part of the Qualcomm Atheros Powerline Toolkit.
@@ -86,9 +86,9 @@ Use this option when sending screen dumps to Atheros Technical Support so that t
 .SH PROFILE
 The default configuration profile for this program is "\fBevse.ini\fR".
 The default profile section is "\fBdefault\fR".
-Users may create addition profiles and reference them with option \fB-p\fr or add additional sections to an existing profiles and reference them with option \fB-s\fR.
+Users may create addition profiles and reference them with option \fB-p\fR or add additional sections to an existing profiles and reference them with option \fB-s\fR.
 
-.TP 
+.TP
 .B Time to Sound
 The time in 100 millisecond increments for all msounds to arrive at the msound target.
 The msound target may proceed with attenuation characterization computations should all msounds fail to arrive within this period.
@@ -96,8 +96,8 @@ This value is read but not used by program \fBpev\fR or program \fBevse\fR.
 This value is the same as CM_SLAC_PARAM.CNF.TIME_OUT.
 The default value is \fB10\fR which represents 1000 milliseconds.
 
-.TP 
-.B Number of Sounds 
+.TP
+.B Number of Sounds
 
 .TP
 The total number of msounds that will be sent to the msound target.
@@ -165,6 +165,3 @@ Use option \fB-P\fR to produce a template profile, if one is needed.
 
 .SH CREDITS
  Charles Maier
-'
-'
-
