@@ -108,10 +108,11 @@
 #define SLAC_CHARGETIME 2
 #define SLAC_FLAGS 0
 
-#define SLAC_SILENCE (1 << 0)
-#define SLAC_VERBOSE (1 << 1)
-#define SLAC_SESSION (1 << 2)
-#define SLAC_COMPARE (1 << 3)
+#define SLAC_SILENCE   (1 << 0)
+#define SLAC_VERBOSE   (1 << 1)
+#define SLAC_SESSION   (1 << 2)
+#define SLAC_COMPARE   (1 << 3)
+#define SLAC_SOUNDONLY (1 << 4)
 
 #define SLAC_CM_SETKEY_KEYTYPE 0x01
 #define SLAC_CM_SETKEY_PID 0x02

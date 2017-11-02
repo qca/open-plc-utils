@@ -164,13 +164,14 @@
 #define PROFILE "pev.ini"
 #define SECTION "default"
 
+#define PEV_STATE_NONE 0
 #define PEV_STATE_DISCONNECTED 1
 #define PEV_STATE_UNMATCHED 2
 #define PEV_STATE_MATCHED 3
 
 #define PEV_VID "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" // VehicleIdentifier
 #define PEV_NMK "50D3E4933F855B7040784DF815AA8DB7"   // HomePlugAV
-#define PEV_NID "B0F2E695666B03"		     // HomePlugAV
+#define PEV_NID "B0F2E695666B03"                     // HomePlugAV
 
 
 /*====================================================================*
@@ -308,6 +309,11 @@ static void UnmatchedState (struct session * session, struct channel * channel, 
 		session->state = PEV_STATE_DISCONNECTED;
 		return;
 	}
+	if (_allset( session->flags, SLAC_SOUNDONLY))
+	{
+		session->state = PEV_STATE_NONE;
+		return;
+	}
 	slac_debug (session, 0, __func__, "Matching ...");
 	if (pev_cm_slac_match (session, channel, message))
 	{
@@ -391,7 +397,7 @@ int main (int argc, char const * argv [])
 	extern struct channel channel;
 	static char const * optv [] =
 	{
-		"cCdi:lp:qs:t:vx",
+		"cCdi:Klp:qs:t:vx",
 		"",
 		"Qualcomm Atheros Plug-in Electric Vehicle Emulator",
 		"c\tprint template configuration file on stdout",
@@ -408,6 +414,7 @@ int main (int argc, char const * argv [])
 
 #endif
 
+		"K\tstop after sounding finished",
 		"l\tloop indefinitely",
 		"p s\tconfiguration profile is (s) [" LITERAL (PROFILE) "]",
 		"q\tsuppress normal output",
@@ -466,6 +473,9 @@ int main (int argc, char const * argv [])
 #endif
 
 			break;
+		case 'K':
+			_setbits (session.flags, SLAC_SOUNDONLY);
+			break;
 		case 'l':
 			state = PEV_STATE_DISCONNECTED;
 			break;
@@ -501,11 +511,14 @@ int main (int argc, char const * argv [])
 	openchannel (& channel);
 	identifier (& session, & channel);
 	initialize (& session, profile, section);
-	if (pev_cm_set_key (& session, & channel, & message))
+	if (_allclr (session.flags, SLAC_SOUNDONLY))
 	{
-		slac_debug (& session, 1, __func__, "Can't set key");
+		if (pev_cm_set_key (& session, & channel, & message))
+		{
+			slac_debug (& session, 1, __func__, "Can't set key");
+		}
+		sleep (session.settletime);
 	}
-	sleep (session.settletime);
 	while (session.state)
 	{
 		if (session.state == PEV_STATE_DISCONNECTED)
@@ -528,4 +541,3 @@ int main (int argc, char const * argv [])
 	closechannel (& channel);
 	return (0);
 }
-

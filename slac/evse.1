@@ -52,6 +52,15 @@ The default interface is \fBeth1\fR because most people use \fBeth0\fR as their 
 This option then takes precedence over either default.
 
 .TP
+.RB - K
+Skip the step which sets the Network Membership Key and focus on sounding only.
+
+.TP
+.RB - l
+Normally, this tool loops indefinitely. Use this parameter to exit after one iteration.
+Note, that this parameter has inverse logic compared to \fBpev\fR tool.
+
+.TP
 -\fBp \fIprofile\fR
 The EVSE-HLE configuration profile name.
 The program will supply default values for missing profile elements.
