@@ -20,7 +20,6 @@
 #define PROJECT "open-plc-utils"
 #define VERSION "0.0.6"
 #define RELEASE "OSRQCA-929"
-#define COMPILE __TIME__ " " __DATE__
 #define CONTACT "https://github.com/qca/open-plc-utils"
 #define LICENSE "Clear BSD"
 

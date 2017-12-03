@@ -29,8 +29,7 @@ void version ()
 	printf (VERSION " ");
 	printf (RELEASE " ");
 	printf ("ISO C ");
-	printf (COMPANY " ");
-	printf (COMPILE "\n");
+	printf (COMPANY "\n");
 	return;
 }
 
