@@ -41,7 +41,7 @@
 
 /*====================================================================*
  *
- *   psin.c - load prescalers into int6000 parameter file;
+ *   psin.c - load prescalers into int6000 and qca7000 parameter file;
  *
  *
  *   Contributor(s):
@@ -92,7 +92,9 @@
 #endif
 
 #ifndef MAKEFILE
+#include "../pib/pibfile.c"
 #include "../pib/pibfile1.c"
+#include "../pib/pibfile2.c"
 #include "../pib/piblock.c"
 #include "../pib/pibscalers.c"
 #endif
@@ -156,13 +158,20 @@ static signed psin (struct _file_ * pib)
 	unsigned limit = pibscalers (pib);
 	uint32_t value = 0;
 	signed c;
-	if ((limit != INT_CARRIERS) && (limit != AMP_CARRIERS))
+	if ((limit != INT_CARRIERS) && (limit != AMP_CARRIERS) && (limit != PLC_CARRIERS))
 	{
 		error (1, 0, "Don't understand this PIB's prescaler format");
 	}
 	if (limit == INT_CARRIERS)
 	{
 		if (lseek (pib->file, INT_PRESCALER_OFFSET, SEEK_SET) != INT_PRESCALER_OFFSET)
+		{
+			error (1, errno, FILE_CANTSEEK, pib->name);
+		}
+	}
+	else if (limit == PLC_CARRIERS)
+	{
+		if (lseek (pib->file, QCA_PRESCALER_OFFSET, SEEK_SET) != QCA_PRESCALER_OFFSET)
 		{
 			error (1, errno, FILE_CANTSEEK, pib->name);
 		}
@@ -227,6 +236,15 @@ static signed psin (struct _file_ * pib)
 				error (1, errno, "Can't update %s", pib->name);
 			}
 		}
+		else if (limit == PLC_CARRIERS)
+		{
+			uint8_t tmp = value & 0xff;
+			if (write (pib->file, &tmp, sizeof (tmp)) != sizeof (tmp))
+			{
+				error (1, errno, "Can't save %s", pib->name);
+			}
+		}
+
 		while (nobreak (c))
 		{
 			c = getc (stdin);
@@ -251,7 +269,7 @@ int main (int argc, char const * argv [])
 	{
 		"",
 		"pibfile [< scalers]",
-		"load prescalers into int6000 parameter file",
+		"load prescalers into int6000 and qca7000 parameter file",
 		(char const *) (0)
 	};
 	struct _file_ pib;
@@ -278,7 +296,7 @@ int main (int argc, char const * argv [])
 		{
 			error (1, errno, "Can't open %s", pib.name);
 		}
-		else if (pibfile1 (&pib))
+		else if (pibfile (&pib))
 		{
 			error (1, errno, "Bad PIB file: %s", pib.name);
 		}
