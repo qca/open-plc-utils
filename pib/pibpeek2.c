@@ -115,6 +115,7 @@ signed pibpeek2 (void const * memory)
 	}
 	printf ("\n");
 	printf ("\tNID %s\n", hexstring (buffer, sizeof (buffer), PIB->LocalDeviceConfig.PreferredNID, sizeof (PIB->LocalDeviceConfig.PreferredNID)));
+	printf ("\tSecurity level %u\n", (PIB->LocalDeviceConfig.PreferredNID[HPAVKEY_NID_LEN-1] >> 4) & 3);
 	printf ("\tNET %s\n", PIB->LocalDeviceConfig.NET);
 	printf ("\tMFG %s\n", PIB->LocalDeviceConfig.MFG);
 	printf ("\tUSR %s\n", PIB->LocalDeviceConfig.USR);
