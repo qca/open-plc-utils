@@ -5,7 +5,7 @@ pev - Qualcomm Atheros Plug-in Electric Vehicle Emulator
 
 .SH SYNOPSIS
 .BR pev
-.RI [ options ] 
+.RI [ options ]
 
 .SH DESCRIPTION
 Emulate the PEV part of the HomePlug AV Signal Level Attentuation Characterization (SLAC) protocol where a \fBPEV\fR is a "\fBPlug-in Electric Vehicle\fR" and an \fBEVSE\fR is an "\fBElectric Vehicle Supply Equipment\fR" or charging station.
@@ -32,10 +32,15 @@ The configuration profile specifies program defaults in a format that you, as a 
 Use options \fB-p\fR and \fB-s\fR to read named profiles and sections.
 
 .TP
+.RB - C
+Compare confirmation counter and warn (or exit - if \fB-x\fR is givenv) if a mismatch is detected.
+
+.TP
 .RB - d
 Print the contents of the PEV-HLE session variable on stdout.
 The session variable is an program data structure that stores information passed between the PEV-HLE and EVSE-HLE during SLAC association.
 This option is used to inspect and veriify information relevant to the process.
+
 If the program was compiled with variable SLAC_DEBUG defined then this option also prints MME message fields before messages are sent or after they are received.
 Interested parties can follow along in the source code.
 
@@ -45,6 +50,15 @@ Select the host Ethernet interface.
 All requests are sent via this host interface and only reponses received via this host interface are recognized.
 The default interface is \fBeth1\fR because most people use \fBeth0\fR as their principle network connection; however, if environment string "PLC" is defined then it takes precedence over the default interface.
 This option then takes precedence over either default.
+
+.TP
+.RB - K
+Skip the step which sets the Network Membership Key and focus on sounding only.
+
+.TP
+.RB - l
+Normally, this tool exits after one run. Use this parameter to loop indefinitely.
+Note, that this parameter has inverse logic compared to \fBevse\fR tool.
 
 .TP
 -\fBp \fIprofile\fR
@@ -66,9 +80,13 @@ See the example profile shown below.
 The default section name is "\fBdefault\fR".
 
 .TP
-.RB - v 
+.RB - v
 Enter verbose mode.
-All Etherenet frames sent or received by the program are displayed on stdout.
+All Ethernet frames sent or received by the program are displayed on stdout.
+
+.TP
+.RB - x
+Exit on error.
 
 .TP
 -\fB?\fR, --\fBhelp\fR
@@ -84,7 +102,7 @@ Use this option when sending screen dumps to Atheros Technical Support so that t
 .SH PROFILES
 The default configuration profile for this program is "\fBpev.ini\fR".
 The default profile section is "\fBdefault\fR".
-Users may create addition profiles and reference them with option \fB-p\fR or add additional sections to an existing profiles and reference them with option \fB-s\fR.
+Users may create additional profiles and reference them with option \fB-p\fR or add additional sections to an existing profiles and reference them with option \fB-s\fR.
 
 .TP
 .B Attenuation Theshold
@@ -118,7 +136,7 @@ This program uses CM_SET_KEY to sets the PEV-PLC NID to this value after disconn
 The default value is the same as that for Network Password "\fBHomePlugAV\fR".
 
 .SH REFERENCES
-See the \fIQualcomm Atheros AR7420, QCA6410 IEEE 1901, HomePlug AV and QCA7000 HomePlug Green PHY PLC Chipset Programmer''s Guide\fR or the \fIHomePlug Green PHY Specification Release Version 1.1\fR for more information on this protocol.
+See the \fIQualcomm Atheros AR7420, QCA6410 IEEE 1901, HomePlug AV and QCA7000 HomePlug Green PHY PLC Chipset Programmer's Guide\fR or the \fIHomePlug Green PHY Specification Release Version 1.1\fR for more information on this protocol.
 
 .SH EXAMPLES
 The following example starts a PEV session on interface \fBeth0\fR and wait up to 2000 milliseconds (or 2 seconds) for the EVSE to respond during any given exchange.
@@ -132,9 +150,9 @@ Use option \fB-P\fR to produce a template profile, if one is needed.
 
 .PP
    # file: pev.ini
-   # ====================================================================
+   # ========================================================
    # PEV-HLE initialization;
-   # --------------------------------------------------------------------
+   # --------------------------------------------------------
    [default]
    attenuation threshold = 10
    msound pause = 10

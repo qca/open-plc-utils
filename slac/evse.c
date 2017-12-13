@@ -168,9 +168,9 @@
 #define EVSE_STATE_UNMATCHED 2
 #define EVSE_STATE_MATCHED 3
 
-#define EVSE_SID "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"	// Station Identifier
-#define EVSE_NMK "B59319D7E8157BA001B018669CCEE30D" 	// HomePlugAV0123
-#define EVSE_NID "026BCBA5354E08"		    	// HomePlugAV0123
+#define EVSE_SID "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB" // Station Identifier
+#define EVSE_NMK "B59319D7E8157BA001B018669CCEE30D"   // HomePlugAV0123
+#define EVSE_NID "026BCBA5354E08"                     // HomePlugAV0123
 
 
 /*====================================================================*
@@ -289,6 +289,11 @@ static void UnmatchedState (struct session * session, struct channel * channel, 
 		session->state = EVSE_STATE_UNOCCUPIED;
 		return;
 	}
+	if (_allset( session->flags, SLAC_SOUNDONLY))
+	{
+		session->state = EVSE_STATE_UNAVAILABLE;
+		return;
+	}
 	slac_debug (session, 0, __func__, "Matching ...");
 	if (evse_cm_slac_match (session, channel, message))
 	{
@@ -366,7 +371,7 @@ int main (int argc, char const * argv [])
 	extern struct channel channel;
 	static char const * optv [] =
 	{
-		"cCdi:p:qs:t:vx",
+		"cCdi:Klp:qs:t:vx",
 		"",
 		"Qualcomm Atheros Electric Vehicle Supply Equipment Emulator",
 		"c\tprint template configuration file on stdout",
@@ -382,7 +387,8 @@ int main (int argc, char const * argv [])
 		"i s\thost interface is (s) [" LITERAL (CHANNEL_ETHDEVICE) "]",
 
 #endif
-
+		"K\tstop after sounding finished",
+		"l\tdo not loop but exit after one run",
 		"p s\tconfiguration profile is (s) [" LITERAL (PROFILE) "]",
 		"s s\tconfiguration section is (s) [" LITERAL (SECTION) "]",
 		"q\tquiet mode",
@@ -396,6 +402,7 @@ int main (int argc, char const * argv [])
 	char const * profile = PROFILE;
 	char const * section = SECTION;
 	signed c;
+	int dont_loop = 0;
 	memset (& session, 0, sizeof (session));
 	memset (& message, 0, sizeof (message));
 	channel.timeout = SLAC_TIMEOUT;
@@ -440,6 +447,13 @@ int main (int argc, char const * argv [])
 #endif
 
 			break;
+
+		case 'K':
+			_setbits (session.flags, SLAC_SOUNDONLY);
+			break;
+		case 'l':
+			dont_loop = 1;
+			break;
 		case 'p':
 			profile = optarg;
 			break;
@@ -472,11 +486,14 @@ int main (int argc, char const * argv [])
 	openchannel (& channel);
 	initialize (& session, profile, section);
 	identifier (& session, & channel);
-	if (evse_cm_set_key (& session, & channel, & message))
+	if (_allclr (session.flags, SLAC_SOUNDONLY))
 	{
-		slac_debug (& session, 1, __func__, "Can't set key.");
+		if (evse_cm_set_key (& session, & channel, & message))
+		{
+			slac_debug (& session, 1, __func__, "Can't set key.");
+		}
+		sleep (session.settletime);
 	}
-	sleep (session.settletime);
 	while (session.state)
 	{
 		if (session.state == EVSE_STATE_UNOCCUPIED)
@@ -487,11 +504,19 @@ int main (int argc, char const * argv [])
 		if (session.state == EVSE_STATE_UNMATCHED)
 		{
 			UnmatchedState (& session, & channel, & message);
+			if (dont_loop && session.state == EVSE_STATE_UNAVAILABLE)
+			{
+				break;
+			}
 			continue;
 		}
 		if (session.state == EVSE_STATE_MATCHED)
 		{
 			MatchedState (& session, & channel, & message);
+			if (dont_loop)
+			{
+				break;
+			}
 			continue;
 		}
 		slac_debug (& session, 1, __func__, "Illegal state!");
@@ -499,4 +524,3 @@ int main (int argc, char const * argv [])
 	closechannel (& channel);
 	exit (0);
 }
-
