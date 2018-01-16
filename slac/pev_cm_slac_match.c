@@ -77,6 +77,7 @@ signed pev_cm_slac_match (struct session * session, struct channel * channel, st
 	request->MVFLength = HTOLE16 (sizeof (request->MatchVarField));
 	memcpy (request->MatchVarField.PEV_ID, session->PEV_ID, sizeof (request->MatchVarField.PEV_ID));
 	memcpy (request->MatchVarField.PEV_MAC, session->PEV_MAC, sizeof (request->MatchVarField.PEV_MAC));
+	memcpy (request->MatchVarField.EVSE_MAC, session->EVSE_MAC, sizeof (request->MatchVarField.EVSE_MAC));
 	memcpy (request->MatchVarField.RunID, session->RunID, sizeof (request->MatchVarField.RunID));
 	if (sendmessage (channel, message, sizeof (* request)) <= 0)
 	{
@@ -108,7 +109,6 @@ signed pev_cm_slac_match (struct session * session, struct channel * channel, st
 #endif
 
 			memcpy (session->EVSE_ID, confirm->MatchVarField.EVSE_ID, sizeof (session->EVSE_ID));
-			memcpy (session->EVSE_MAC, confirm->MatchVarField.EVSE_MAC, sizeof (session->EVSE_MAC));
 			memcpy (session->NMK, confirm->MatchVarField.NMK, sizeof (session->NMK));
 			memcpy (session->NID, confirm->MatchVarField.NID, sizeof (session->NID));
 			return (0);
