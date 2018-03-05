@@ -219,7 +219,7 @@ int main (int argc, char const * argv [])
 	extern struct channel channel;
 	static char const * optv [] =
 	{
-		"cd:ei:l:o:nqrRtTuvw:x",
+		"cd:ei:l:o:nqrRstTuvw:x",
 		"device [device] [...]",
 		"Qualcomm Atheros PLC PHY Rate Monitor",
 		"c\tdisplay coded PHY rates",
@@ -242,6 +242,7 @@ int main (int argc, char const * argv [])
 		"q\tquiet mode",
 		"r\trequest device information",
 		"R\treset device with VS_RS_DEV",
+		"s\tgenerate TX traffic only",
 		"t\tgenerate network traffic (one-to-many)",
 		"T\tgenerate network traffic (many-to-many)",
 		"u\tdisplay uncoded PHY rates",
@@ -314,6 +315,9 @@ int main (int argc, char const * argv [])
 			break;
 		case 'R':
 			_setbits (plc.flags, PLC_RESET_DEVICE);
+			break;
+		case 's':
+			_setbits (plc.flags, PLC_TXONLY);
 			break;
 		case 't':
 			_setbits (plc.flags, PLC_LOCAL_TRAFFIC);

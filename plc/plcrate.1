@@ -77,6 +77,13 @@ Reads device hardware and software revision information using VS_SW_VER and prin
 Resets the device using VS_RS_DEV.
 
 .TP
+.RB - s
+Generate only TX traffic between the local device and each remote device on powerline network.
+This option is useful to speed up PLC network testing if the test is run on every node and
+each receiving side is checked individually. In other words: this flag is only used in combination
+with \fB-t\fR (one-to-many), not when generating traffic between all powerline peers.
+
+.TP
 .RB - t
 Generate powerline traffic between the local device and each remote device on each powerline network connected to the host.
 It does not generate any traffic between remote powerline device pairs.
