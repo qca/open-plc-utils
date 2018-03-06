@@ -177,7 +177,7 @@ void manager (struct plc * plc, signed count, signed pause)
 		{
 			PhyRates2 (plc);
 		}
-		if (_anyset (plc->flags, (PLC_TXONLY|PLC_RXONLY)))
+		if (_anyset (plc->flags, PLC_RXONLY))
 		{
 			RxRates2 (plc);
 		}
@@ -350,7 +350,7 @@ int main (int argc, char const * argv [])
 	}
 	argc -= optind;
 	argv += optind;
-	if (_allclr (plc.flags, (PLC_VERSION | PLC_LOCAL_TRAFFIC | PLC_NETWORK_TRAFFIC | PLC_RESET_DEVICE | PLC_TXONLY | PLC_RXONLY)))
+	if (_allclr (plc.flags, (PLC_VERSION | PLC_LOCAL_TRAFFIC | PLC_NETWORK_TRAFFIC | PLC_RESET_DEVICE | PLC_RXONLY)))
 	{
 		_setbits (plc.flags, PLC_NETWORK);
 	}

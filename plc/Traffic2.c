@@ -175,7 +175,10 @@ signed Traffic2 (struct plc * plc)
 		while (devices-- > 1)
 		{
 			Transmit (plc, devicelist [0], devicelist [devices]);
-			Antiphon (plc, devicelist [devices], devicelist [0]);
+			if (_allclr (plc->flags, PLC_TXONLY))
+			{
+				Antiphon (plc, devicelist [devices], devicelist [0]);
+			}
 		}
 	}
 	return (0);
