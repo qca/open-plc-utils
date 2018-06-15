@@ -1,0 +1,9 @@
+version: appveyor-ci-{build}
+build:
+  project: .\VisualStudioNET\
+  verbosity: minimal
+after_build:
+- cmd: 7z a open-plc-tools.zip %APPVEYOR_BUILD_FOLDER%\VisualStudioNET\Programs\*.*
+artifacts:
+- path: open-plc-tools.zip
+  name: Program-Package
