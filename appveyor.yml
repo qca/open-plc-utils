@@ -3,7 +3,7 @@ build:
   project: .\VisualStudioNET\
   verbosity: minimal
 after_build:
-- cmd: 7z a open-plc-tools.zip %APPVEYOR_BUILD_FOLDER%\VisualStudioNET\Programs\*.*
+- cmd: 7z a open-plc-tools.zip %APPVEYOR_BUILD_FOLDER%\README %APPVEYOR_BUILD_FOLDER%\LICENSE %APPVEYOR_BUILD_FOLDER%\VisualStudioNET\Programs\*.*
 artifacts:
 - path: open-plc-tools.zip
   name: Program-Package
