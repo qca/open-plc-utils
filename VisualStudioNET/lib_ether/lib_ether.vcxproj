@@ -24,6 +24,7 @@
     <ClCompile Include="..\..\ether\fcs.c" />
     <ClCompile Include="..\..\ether\gethwaddr.c" />
     <ClCompile Include="..\..\ether\getifname.c" />
+    <ClCompile Include="..\..\ether\initchannel.c" />
     <ClCompile Include="..\..\ether\openchannel.c" />
     <ClCompile Include="..\..\ether\readpacket.c" />
     <ClCompile Include="..\..\ether\sendpacket.c" />
