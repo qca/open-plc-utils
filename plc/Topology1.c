@@ -73,6 +73,7 @@
 signed Topology1 (struct plc * plc)
 
 {
+	extern const byte localcast [ETHER_ADDR_LEN];
 	struct channel * channel = (struct channel *)(plc->channel);
 	struct message * message = (struct message *)(plc->message);
 
@@ -126,7 +127,16 @@ signed Topology1 (struct plc * plc)
 #endif
 
 	byte list [255] [ETHER_ADDR_LEN];
-	signed bridges = LocalDevices (channel, message, list, sizeof (list));
+	signed bridges;
+	if (memcmp (channel->peer, localcast, sizeof (channel->peer)) != 0)
+	{
+		bridges = 1;
+		memcpy (&list, channel->peer, sizeof (channel->peer));
+	}
+	else
+	{
+		bridges = LocalDevices (channel, message, list, sizeof (list));
+	}
 	while (bridges--)
 	{
 		char address [ETHER_ADDR_LEN * 3];

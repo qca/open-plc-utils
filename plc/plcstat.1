@@ -5,9 +5,8 @@ plcstat - Qualcomm Atheros AR7x00 Link Statistics
 
 .SH SYNOPSIS
 .BR plcstat
-.RI [ options ] 
-.RI [ device ] 
-.RI [ device ] 
+.RI [ options ]
+.RI [ device ]
 [...]
 
 .SH DESCRIPTION
@@ -26,7 +25,7 @@ Older firmware versions may not recognize this message version.
 .SH OPTIONS
 
 .TP
-.RB -C
+.RB - C
 Clear device link statistics using VS_LNK_STATS.
 Statistics are read and cleared then displayed.
 The statistics that are read and displayed depend on options \fB-d\fR, \fB-p\fR and \fB-s\fR but all link statistics are cleared.
@@ -83,11 +82,13 @@ The default Link ID is \fB0xFC\fR.
 .RB - t
 Display network topology using VS_SW_VER and VS_NW_INFO messages.
 This option is similar to option \fB-m\fR but provides complete network topology plus device hardware and firmware version.
-Topology is always relative to the local host, or local hosts if present.
-Powerline devices that appear on the command line are not used for this operation.
+Topology is relative to the queried powerline device(s) given on the command line. If no device is given explicitly,
+then it is tried to determine all local devices (you can also use \fBlocal\fR instead).
+However, this can fail if you have the local powerline device(s) not directly connected but via a switch which
+does not broadcast the Qualcomm Atheros vendor specific Local Management Address (LMA) to all ports.
 
 .TP
-.RB - v 
+.RB - v
 Enter verbose mode.
 All Etherenet frames sent or received by the program are displayed on stdout.
 
