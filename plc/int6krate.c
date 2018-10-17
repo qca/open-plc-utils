@@ -282,6 +282,7 @@ int main (int argc, char const * argv [])
 			break;
 		case 'd':
 			plc.timer = (unsigned)(uintspec (optarg, 1, 60));
+			break;
 		case 'e':
 			dup2 (STDOUT_FILENO, STDERR_FILENO);
 			break;
