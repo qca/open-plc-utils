@@ -381,6 +381,7 @@ int main (int argc, char const * argv [])
 		case 'm':
 			_setbits (uart.flags, UART_ATBR);
 			uart.mode = (byte)(uintspec (synonym (optarg, modes, MODES), 0, UCHAR_MAX));
+			break;
 		case 'P':
 			_setbits (uart.flags, UART_ATBR);
 			uart.parity = (byte)(uintspec (synonym (optarg, paritybits, PARITYBITS), 0, UCHAR_MAX));
