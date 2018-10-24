@@ -131,7 +131,7 @@ ssize_t readpacket (struct channel const * channel, void * memory, ssize_t exten
 		}
 	}
 
-#elif defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__)
+#elif defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__) || defined (__FreeBSD__)
 
 	struct bpf_hdr * bpf_packet;
 	struct bpf * bpf = channel->bpf;;

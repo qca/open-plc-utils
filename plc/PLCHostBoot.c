@@ -81,7 +81,7 @@ static signed opensocket (char const * socketname)
 	struct sockaddr_un sockaddr_un =
 	{
 
-#if defined (__OpenBSD__) || defined (__NetBSD__)
+#if defined (__OpenBSD__) || defined (__NetBSD__) || defined (__FreeBSD__)
 
 		0,
 
@@ -92,7 +92,7 @@ static signed opensocket (char const * socketname)
 	};
 	strncpy (sockaddr_un.sun_path, socketname, sizeof (sockaddr_un.sun_path));
 
-#if defined (__OpenBSD__) || defined (__NetBSD__)
+#if defined (__OpenBSD__) || defined (__NetBSD__) || defined (__FreeBSD__)
 
 	sockaddr_un.sun_len = SUN_LEN (&sockaddr_un);
 

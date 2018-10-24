@@ -89,7 +89,7 @@ struct channel channel =
 
 #if defined (__linux__)
 
-#elif defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__)
+#elif defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__) || defined (__FreeBSD__)
 
 	(struct bpf *) (0),
 

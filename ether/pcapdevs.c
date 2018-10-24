@@ -62,7 +62,7 @@
 
 #if defined (__linux__)
 #elif defined (__APPLE__)
-#elif defined (__OpenBSD__) || defined (__NetBSD__)
+#elif defined (__OpenBSD__) || defined (__NetBSD__) || defined (__FreeBSD__)
 #	include <sys/types.h>
 #	include <sys/socket.h>
 #	include <net/if.h>

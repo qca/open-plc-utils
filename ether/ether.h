@@ -39,6 +39,15 @@
 #       include <netinet/if_ether.h>
 #       include <net/bpf.h>
 #       include <fcntl.h>
+#elif defined (__FreeBSD__)
+#       include <sys/ioctl.h>
+#       include <sys/types.h>
+#       include <sys/socket.h>
+#       include <net/if.h>
+#       include <net/ethernet.h>
+#       include <netinet/in.h>
+#       include <sys/time.h>
+#       include <net/bpf.h>
 #elif defined (WIN32)
 #       if defined (WINPCAP)
 #               include <pcap.h>
