@@ -70,7 +70,7 @@
 #	include <sys/stat.h>
 #	include <fcntl.h>
 #	include <stdlib.h>
-#elif defined (__OpenBSD__) || defined (__NetBSD__)
+#elif defined (__OpenBSD__) || defined (__NetBSD__) || defined (__FreeBSD__)
 #	include <sys/ioctl.h>
 #	include <sys/stat.h>
 #	include <sys/types.h>
@@ -87,7 +87,7 @@
 #include "../tools/flags.h"
 #include "../tools/error.h"
 
-#if defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__)
+#if defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__) || defined (__FreeBSD__)
 #	include "../ether/gethwaddr.c"
 #endif
 
@@ -296,7 +296,7 @@ signed openchannel (struct channel * channel)
 		}
 	};
 
-#if defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__)
+#if defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__) || defined (__FreeBSD__)
 
 	struct ifreq ifreq;
 	struct timeval timeval;
@@ -363,6 +363,14 @@ signed openchannel (struct channel * channel)
 
 	state = BPF_DIRECTION_OUT;
 	if (ioctl (channel->fd, BIOCSDIRFILT, &state) == -1)
+	{
+		error (0, errno, "Can't hide outgoing frames");
+	}
+
+#elif defined (__FreeBSD__)
+
+	state = BPF_D_IN;
+	if (ioctl (channel->fd, BIOCSDIRECTION, &state) == -1)
 	{
 		error (0, errno, "Can't hide outgoing frames");
 	}

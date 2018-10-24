@@ -69,7 +69,7 @@
 #	include <net/if.h>
 #	include <netpacket/packet.h>
 #	include <ifaddrs.h>
-#elif defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__)
+#elif defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__) || defined (__FreeBSD__)
 #	include <sys/types.h>
 #	include <sys/socket.h>
 #	include <net/if.h>
@@ -146,7 +146,7 @@ unsigned hostnics (struct nic nics [], unsigned size)
 	}
 	close (fd);
 
-#elif defined (__linux__) || defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__)
+#elif defined (__linux__) || defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__) || defined (__FreeBSD__)
 
 /*
  *	generic (POSIX) method for unix-like systems;
@@ -195,7 +195,7 @@ unsigned hostnics (struct nic nics [], unsigned size)
 				memcpy (nic->ethernet, LLADDR (sockaddr_ll), sizeof (nic->ethernet));
 			}
 
-#elif defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__)
+#elif defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__) || defined (__FreeBSD__)
 
 			if (ifaddr->ifa_addr->sa_family == AF_LINK)
 			{

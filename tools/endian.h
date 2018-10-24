@@ -55,6 +55,9 @@
 #       include <libkern/OSByteOrder.h>
 #elif defined (__OpenBSD__)
 #       include <sys/types.h>
+#elif defined (__FreeBSD__)
+#       include <sys/types.h>
+#       include <sys/endian.h>
 #elif defined (__NetBSD__)
 #       include <sys/types.h>
 #       include <machine/bswap.h>
@@ -169,7 +172,7 @@ uint64_t __bswap_64 (uint64_t x);
 #define __bswap_32(x) swap32(x)
 #define __bswap_64(x) swap64(x)
 
-#elif defined (__NetBSD__)
+#elif defined (__NetBSD__) || defined(__FreeBSD__)
 
 #define __bswap_16(x) bswap16(x)
 #define __bswap_32(x) bswap32(x)

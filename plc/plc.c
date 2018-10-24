@@ -293,7 +293,7 @@ struct plc plc =
 	PLC_FLAGS
 };
 
-#if defined (__linux__) || defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__)
+#if defined (__linux__) || defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__) || defined (__FreeBSD__)
 #define RANDOMIZE_COOKIE 1
 #endif
 

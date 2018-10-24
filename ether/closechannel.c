@@ -70,7 +70,7 @@ signed closechannel (struct channel const * channel)
 
 	return (close (channel->fd));
 
-#elif defined (__APPLE__) || (__OpenBSD__) || defined (__NetBSD__)
+#elif defined (__APPLE__) || (__OpenBSD__) || defined (__NetBSD__) || defined (__FreeBSD__)
 
 	free (channel->bpf->bpf_buffer);
 	free (channel->bpf);

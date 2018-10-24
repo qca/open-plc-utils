@@ -64,7 +64,7 @@
 #	include <net/ethernet.h>
 #elif defined (__APPLE__)
 #	include <net/ethernet.h>
-#elif defined (__OpenBSD__) || defined (__NetBSD__)
+#elif defined (__OpenBSD__) || defined (__NetBSD__) || defined (__FreeBSD__)
 #	include <sys/socket.h>
 #	include <net/if.h>
 #	include <net/if_arp.h>

@@ -40,6 +40,9 @@
 #elif defined (__OpenBSD__) || defined (__NetBSD__)
 	#define SIZE_T_SPEC "%zu"
 	#define OFF_T_SPEC "%lld"
+#elif defined(__FreeBSD__)
+	#define SIZE_T_SPEC "%zu"
+	#define OFF_T_SPEC "%ld"
 #elif defined (__linux__)
 	#define SIZE_T_SPEC "%zu"
 	#define OFF_T_SPEC "%ld"
