@@ -24,24 +24,24 @@
 #define _bits(object) (sizeof (object) << 3)
 #define _getbits(map,pos,cnt) (((map)>>((pos)-(cnt)+1))&~(~(0)<<(cnt)))
 
-#define _bitmask(bits) ~(~(0) << bits)
+#define _bitmask(bits) (~(~(0) << bits))
 
-#define _setbits(flag,mask) flag |=  (mask)
-#define _clrbits(flag,mask) flag &= ~(mask)
-#define _toggle(flag,mask)  flag = ~(flag) & ~(mask)
+#define _setbits(flag,mask) (flag |=  (mask))
+#define _clrbits(flag,mask) (flag &= ~(mask))
+#define _toggle(flag,mask)  (flag = ~(flag) & ~(mask))
 
-#define _anyset(flag,mask) ((flag) & (mask)) != (0)
-#define _anyclr(flag,mask) ((flag) & (mask)) != (mask)
-#define _allset(flag,mask) ((flag) & (mask)) == (mask)
-#define _allclr(flag,mask) ((flag) & (mask)) == (0)
+#define _anyset(flag,mask) (((flag) & (mask)) != (0))
+#define _anyclr(flag,mask) (((flag) & (mask)) != (mask))
+#define _allset(flag,mask) (((flag) & (mask)) == (mask))
+#define _allclr(flag,mask) (((flag) & (mask)) == (0))
 
 // #define _notset(flag,mask) ((flag) & (mask)) == (0)
 
-#define _anybits(flag,mask) ((flag) & (mask)) != (0)
-#define _allbits(flag,mask) ((flag) & (mask)) == (mask)
+#define _anybits(flag,mask) (((flag) & (mask)) != (0))
+#define _allbits(flag,mask) (((flag) & (mask)) == (mask))
 
-#define _clean(flag,mask) ((flag) & ~(mask)) == (0)
-#define _dirty(flag,mask) ((flag) & ~(mask)) != (0)
+#define _clean(flag,mask) (((flag) & ~(mask)) == (0))
+#define _dirty(flag,mask) (((flag) & ~(mask)) != (0))
 
 /*====================================================================*
  *
