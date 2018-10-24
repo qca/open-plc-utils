@@ -77,7 +77,9 @@ TO INSTALL
 7. Add page toolkit.html to browser favorites.
 
 Note: 'make' is assumed to be the GNU make command (often available
-      under the name 'gmake').
+      under the name 'gmake'). Also, gcc is assumed to be the system
+      default compiler. On BSD systems, this may be clang. If so,
+      replace 'gcc' with 'clang' in the top level make.def file.
 
 TO UNINSTALL
 ------------
@@ -87,7 +89,9 @@ TO UNINSTALL
 3. Remove all package files using "rm -r *".
 
 Note: 'make' is assumed to be the GNU make command (often available
-      under the name 'gmake').
+      under the name 'gmake'). Also, gcc is assumed to be the system
+      default compiler. On BSD systems, this may be clang. If so,
+      replace 'gcc' with 'clang' in the top level make.def file.
 
 CONTRIBUTORS
 ------------
