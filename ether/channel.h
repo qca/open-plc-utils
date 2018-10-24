@@ -172,7 +172,7 @@ typedef struct channel
 
 	struct bpf
 	{
-		signed bpf_length;
+		unsigned bpf_length;
 		uint8_t * bpf_buffer;
 		uint8_t * bpf_bp;
 		signed bpf_bufused;
