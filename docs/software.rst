@@ -236,11 +236,11 @@ The Atheros :program:`Open Powerline Toolkit` includes a *Visual Studio .NET* so
 
 - All projects should globally define preprocessor constant ``MAKEFILE`` to prevent proliferation of "already defined" link errors. See :ref:`Stand-alone Compiling on GNU/Linux <software-stand-alone>` for an explanation of this constant.
 
-- All projects search folder :file:`..\\include` for `stdint.h <stdint.h.html>`_ and `unistd.h <unistd.h.html>`_ because Microsoft does not provide them. These header files are customized or abbreviated versions of their POSIX counterparts and should be used when originals are available.
+- All projects search folder :file:`..\\include` for :gh-src:`stdint.h <VisualStudioNET/include/stdint.h>` and :gh-src:`unistd.h <VisualStudioNET/include/unistd.h>` because Microsoft does not provide them. These header files are customized or abbreviated versions of their POSIX counterparts and should be used when originals are available.
 
 - Projects that perform raw Ethernet I/O should globally define preprocessor constant ``WINPCAP`` to enable appropriate code segments. Preprocessor error statements should (but may not) alert you if ``WINPCAP`` is not defined on *Windows* platforms.
 
-- Projects that perform raw Ethernet I/O search folder :file:`..\\include` for :program:`WinPcap` header files. These files are taken from the :program:`WinPcap` development package and may require periodic updates.  Header files `pcap.h <pcap.h.html>`_, `pca-stdinc.h <pcap-stdinc.h.html>`_, `pcap-bpf.h <pcap-bpf.h.html>`_,  `ipv6_misc.h <ipv6_misc.h.html>`_ and `bittypes.h <bittypes.h.html>`_ belong in folder :file:`VisualStudioNET\\include`. Other header files belong in folder :file:`VisualStudioNET\\include\\pcap`.
+- Projects that perform raw Ethernet I/O search folder :file:`..\\include` for :program:`WinPcap` header files. These files are taken from the :program:`WinPcap` development package and may require periodic updates.  Header files :gh-src:`pcap.h <VisualStudioNET/include/pcap.h>`, :gh-src:`pcap-stdinc.h <VisualStudioNET/include/pcap-stdinc.h>`, :gh-src:`pcap-pbf.h <VisualStudioNET/include/pcap-bpf.h>`, and :gh-src:`bittypes.h <VisualStudioNET/include/bittypes.h>` belong in folder :file:`VisualStudioNET\\include`. Other header files belong in folder :file:`VisualStudioNET\\include\\pcap`.
 
 - Projects that perform raw Ethernet I/O should include folder :file:`..\\library` for core :program:`WinPcap` libraries.
 
@@ -251,9 +251,9 @@ The Atheros :program:`Open Powerline Toolkit` includes a *Visual Studio .NET* so
 Header Files
 ============
 
-Atheros :program:`Open Powerline Toolkit` programs reference POSIX functions and constants where possible. Specifically, they make wide use of the data types ``uint8_t``, ``uint16_t`` and ``uint32_t`` which are defined in file :file:`stdint.h`. Microsoft *Visual C* and *.NET* environments do not include this file. Consequently, Atheros provides an `alternative stdint.h <stdint.h.html>`_ in folder :file:`../Windows/include`. This file is open source and was designed to be compatible with the Microsoft development environments; however, you may occassionally experience warnings about the "benign redefinition" for some of these data types.
+Atheros :program:`Open Powerline Toolkit` programs reference POSIX functions and constants where possible. Specifically, they make wide use of the data types ``uint8_t``, ``uint16_t`` and ``uint32_t`` which are defined in file :file:`stdint.h`. Microsoft *Visual C* and *.NET* environments do not include this file. Consequently, Atheros provides an :gh-src:`alternative stdint.h <VisualStudioNET/include/stdint.h>` in folder :file:`../Windows/include`. This file is open source and was designed to be compatible with the Microsoft development environments; however, you may occassionally experience warnings about the "benign redefinition" for some of these data types.
 
-Where possible, this toolkit includes *OpenBSD* network constants because the OpenBSD project pioneered many of the common network protocols and applications used today. Some systems do not include all *OpenBSD* network header files or do not define all *OpenBSD* network constants. Specifically, Microsoft systems do not provide file :file:`netinet/if_ether.h` and so an `alternative if_ether.h <if_ether.h.html>`_ is included in folder :file:`../Windows/include/netinet` and *Windows* applications should include it.
+Where possible, this toolkit includes *OpenBSD* network constants because the OpenBSD project pioneered many of the common network protocols and applications used today. Some systems do not include all *OpenBSD* network header files or do not define all *OpenBSD* network constants. Specifically, Microsoft systems do not provide file :file:`netinet/if_ether.h` and so an :gh-src:`alternative if_ether.h <VisualStudioNET/include/netinet/if_ether.h>` is included in folder :file:`../Windows/include/netinet` and *Windows* applications should include it.
 
 When the :command:`gcc -std=iso9899:1999` option is enabled, some *OpenBSD* header files found on :program:`GNU/Linux` systems will exclude required constant definitions because they do not conform to that standard. Atheros is investigating the best way to address this problem.
 
@@ -419,7 +419,7 @@ Endian-ness
 
 Atheros vendor-specific messages contain information in mixed endian format. The Ethernet header portion is sent *big endian* but the Atheros header and payload are sent in *little endian*. The traditional endian converstion functions ``htons()``, ``htonl()``, ``ntohs()`` and ``ntohl()`` can be used to perform platform independent conversions on the Ethernet header but not the Atheros header payload.
 
-The Open Powerline Toolkit includes similar macros ``HTOLE16``, ``HTOLE32``, ``LE16TOH`` and ``LE32TOH`` in `endian.h <endian.h.html>`_ which serve the same function but conform to recommendations for standarized byte order function on Linux, OpenBSD and FreeBSD. Observe that the names are independent of any network implications.
+The Open Powerline Toolkit includes similar macros ``HTOLE16``, ``HTOLE32``, ``LE16TOH`` and ``LE32TOH`` in :gh-src:`endian.h <tools/endian.h>` which serve the same function but conform to recommendations for standarized byte order function on Linux, OpenBSD and FreeBSD. Observe that the names are independent of any network implications.
 
 .. code-block:: c
 
@@ -441,8 +441,6 @@ The Open Powerline Toolkit includes similar macros ``HTOLE16``, ``HTOLE32``, ``L
 	#error "Undefined host byte order."
 	#endif
 
-In addition, the Open Powerline Toolkit includes function :ref:`endian <support-endian>` that reverses byte order over a variable-length memory region.
-
 .. _packet-basics:
 
 Packet Basics
@@ -458,7 +456,7 @@ The Ethernet header must be transmitted in newtwork byte order which is big-endi
     | Ethernet Header                                       | Ethernet Payload    |
     +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+ ... +---+---+
 
-Ethernet headers consist of a destination address (``ODA``), a source address (``OSA``) and an ethertype (``MTYPE``). The ethertype is always 0x88E1 for Homeplug frames of any type. Programmers may use either function `EthernetHeader.c <EthernetHeader.c.html>`_ or `EncodeEthernetHeader <EncodeEthernetHeader.c.html>`_ to encode a buffer with the ODA and OSA and the HomePlug ethertype. An example appears later on. Structure ``header_eth`` is defined in `ihp.h <ihp.h.html>`_ for this purpose.
+Ethernet headers consist of a destination address (``ODA``), a source address (``OSA``) and an ethertype (``MTYPE``). The ethertype is always 0x88E1 for Homeplug frames of any type. Programmers may use either function :gh-src:`EthernetHeader.c <mme/EthernetHeader.c>` to encode a buffer with the ODA and OSA and the HomePlug ethertype. An example appears later on. Structure ``ethernet_hdr`` is defined in :gh-src:`mme.h <mme/mme.h>` for this purpose.
 
 ::
 
@@ -466,7 +464,7 @@ Ethernet headers consist of a destination address (``ODA``), a source address (`
     |          ODA          |          OSA          | MTYPE | Ethernet Payload    |
     +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+ ... +---+---+
 
-Management messages consist of a message header (MMHEADER) and a message entry (MMENTRY). The message header identifies the nature of the message entry that follows it. The acronyms MME and MMENTRY both mean Management Message Entry but they are often used to mean the entire management message or Ethernet frame. This imprecise usage can be confusing at times. Structure ``header_mme`` is defined in `ihp.h <ihp.h.html>`_ for this purpose.
+Management messages consist of a message header (MMHEADER) and a message entry (MMENTRY). The message header identifies the nature of the message entry that follows it. The acronyms MME and MMENTRY both mean Management Message Entry but they are often used to mean the entire management message or Ethernet frame. This imprecise usage can be confusing at times. Structure ``homeplug_hdr`` is defined in :gh-src:`mme.h <mme/mme.h>` for this purpose.
 
 ::
 
@@ -484,7 +482,7 @@ The message header contains message protocol version (MMV), message type (MMTYPE
 
 The MMV value, within MMHEADER, indicates the Homeplug AV Management Message protocol version which determines how the message should be interpreted. The protocol version is defined in the HomePlug AV Specification and may change from time to time. One notable change is the recent insertion of an FMI (Fragment Management Information ) field between MMTYPE and OUI , as shown below.
 
-In most cases, protocol changes are hidden from the application by the Atheros API functions; however, software developers should set the ``HOMEPLUG_MMV`` constant, defined in `ihp.h <ihp.h.html>`_, to the version appropriate for their firmware or application. The value of this constant enables or disables conditional compilation statements throughout the HomePlug API code base.
+In most cases, protocol changes are hidden from the application by the Atheros API functions; however, software developers should set the ``HOMEPLUG_MMV`` constant, defined in :gh-src:`homeplug.h <mme/homeplug.h>`, to the version appropriate for their firmware or application. The value of this constant enables or disables conditional compilation statements throughout the HomePlug API code base.
 
 To send an MME, you must encode an Ethernet frame buffer with information and transmit it. To read an MME, you must read an Ethernet frame buffer and decode it. The information necessary to encode or decode Atheros vendor-specific Ethernet frames is covered in the INT6000 Firmware Technical Reference Manual; however, the Atheros HomePlug API includes many buffer encode and decode functions that support basic operational requirements.
 
