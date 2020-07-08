@@ -57,7 +57,9 @@
  *
  *   EVSE-HLE should copy the message OSA to the session variable PEV
  *   MAC address; the PEV MAC address can then be used to respond in
- *   unicast to the right PEVHLE;
+ *   unicast to the right PEVHLE; The PEVHLE address shall also be
+ *   included in the FORWARDING_STA field of the SLAC MMEs when 
+ *   addressing other GP STA (RESP_TYPE = 1);
  *
  *   EVSE-HLE should copy the run identifier to the session variable
  *   for use later in the session; this will be used to distinguish
@@ -105,6 +107,7 @@ signed evse_cm_slac_param (struct session * session, struct channel * channel, s
 		session->APPLICATION_TYPE = request->APPLICATION_TYPE;
 		session->SECURITY_TYPE = request->SECURITY_TYPE;
 		memcpy (session->PEV_MAC, request->ethernet.OSA, sizeof (session->PEV_MAC));
+		memcpy (session->FORWARDING_STA, request->ethernet.OSA, sizeof (session->FORWARDING_STA));
 		memcpy (session->RunID, request->RunID, sizeof (session->RunID));
 
 #if SLAC_DEBUG
