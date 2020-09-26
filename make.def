@@ -87,6 +87,25 @@ DIR_PERM=0755
 MAN_PERM=0444
 BIN_PERM=0555
 WWW_PERM=0666
+
+# Setting binaries as setuid root is just one way to obtain the required
+# permissions to open raw sockets.
+#
+# There are other methods to obtain the appropriate permissions:
+#
+# OpenBSD/Mac OS X:
+# 	Change the /dev/bpfN files to have read/write
+# 	permission for the desired users.
+#
+# Linux 2.2+:
+# 	Set the permissions on the binaries to allow raw
+# 	socket access:
+#
+#		$ sudo setcap cap_net_raw=eip /path/to/binary
+#
+# If either of the above methods are used, the SUID_PERM below can
+# be set to 0555, which is more secure.
+
 SUID_PERM=4555
 
 # ====================================================================
