@@ -57,9 +57,9 @@
 #if defined (__linux__)
 #define _GNU_SOURCE
 #include <unistd.h>
-#elif defined (__APPLE__)
+#elif defined (__APPLE__) || defined (__NetBSD__)
 #include <unistd.h>
-#elif defined (__OpenBSD__)
+#elif defined (__OpenBSD__) || defined (__FreeBSD__)
 #include <sys/types.h>
 #include <unistd.h>
 #elif defined (WIN32)
@@ -70,7 +70,7 @@
 #include "../tools/error.h"
 #include "../tools/permissions.h"
 
-#if defined (__linux__) || defined (__OpenBSD__)
+#if defined (__linux__) || defined (__OpenBSD__) || defined (__FreeBSD__)
 
 void
 desuid(void)
@@ -93,7 +93,7 @@ desuid(void)
 	}
 }
 
-#elif defined (__APPLE__)
+#elif defined (__APPLE__) || defined (__NetBSD__)
 
 void
 desuid(void)

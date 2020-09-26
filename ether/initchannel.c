@@ -65,7 +65,7 @@
 #	include <stdio.h>
 #	include <sys/stat.h>
 #	include <fcntl.h>
-#elif defined (__OpenBSD__) || defined (__NetBSD__)
+#elif defined (__OpenBSD__) || defined (__NetBSD__) || defined (__FreeBSD__)
 #	include <stdio.h>
 #	include <sys/stat.h>
 #	include <fcntl.h>
@@ -88,7 +88,7 @@ signed initchannel (struct channel * channel)
 		error (1, errno, "%s", channel->ifname);
 	}
 
-#elif defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__)
+#elif defined (__APPLE__) || defined (__OpenBSD__) || defined (__NetBSD__) || defined (__FreeBSD__)
 
 	char filename [sizeof (CHANNEL_BPFDEVICE) + 1];
 	unsigned count;
