@@ -84,6 +84,7 @@
 
 #include <unistd.h>
 #include <memory.h>
+#include <string.h>
 #include <errno.h>
 
 #include "../ether/ether.h"
@@ -177,8 +178,10 @@ unsigned hostnics (struct nic nics [], unsigned size)
 			{
 				nic = tmp;
 			}
-			memcpy (nic->ifname, ifaddr->ifa_name, sizeof (nic->ifname));
-			memcpy (nic->ifdesc, ifaddr->ifa_name, sizeof (nic->ifdesc));
+			strncpy(nic->ifname, ifaddr->ifa_name, sizeof (nic->ifname));
+			nic->ifname[sizeof(nic->ifname) - 1] = '\0';
+			strncpy(nic->ifdesc, ifaddr->ifa_name, sizeof (nic->ifdesc));
+			nic->ifdesc[sizeof(nic->ifdesc) - 1] = '\0';
 			if (ifaddr->ifa_addr->sa_family == AF_INET)
 			{
 				struct sockaddr_in * sockaddr_in = (struct sockaddr_in *) (ifaddr->ifa_addr);
