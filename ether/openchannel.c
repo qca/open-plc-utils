@@ -292,6 +292,7 @@ signed openchannel (struct channel * channel)
 		error (1, errno, "%s", ifreq.ifr_name);
 	}
 	channel->bpf = bpf = malloc (sizeof (* bpf));
+	memset(bpf, 0, sizeof(*bpf));
 	if (ioctl (channel->fd, BIOCGBLEN, &bpf->bpf_length) == -1)
 	{
 		error (1, errno, "Can't determine buffer length: %s", ifreq.ifr_name);
