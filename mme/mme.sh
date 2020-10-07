@@ -13,7 +13,6 @@ gcc -Wall -Wextra -Wno-unused-parameter -o mme mme.c
 # --------------------------------------------------------------------
 
 gcc -Wall -Wextra -Wno-unused-parameter -c EthernetHeader.c
-gcc -Wall -Wextra -Wno-unused-parameter -c FragmentHeader.c
 gcc -Wall -Wextra -Wno-unused-parameter -c HomePlugHeader.c
 gcc -Wall -Wextra -Wno-unused-parameter -c QualcommHeader.c
 gcc -Wall -Wextra -Wno-unused-parameter -c MMEMode.c

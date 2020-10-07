@@ -85,6 +85,7 @@
 #include "../tools/putoptv.c"
 #include "../tools/version.c"
 #include "../tools/fdchecksum32.c"
+#include "../tools/checksum32.c"
 #include "../tools/hexdecode.c"
 #include "../tools/hexstring.c"
 #include "../tools/todigit.c"

@@ -83,8 +83,6 @@ static uint8_t const mod2bits [AMP_BITS] =
 
 #endif
 
-#ifndef TONEMAPS2_SOURCE
-
 static uint8_t const mod2db [AMP_BITS] =
 
 {
@@ -98,9 +96,6 @@ static uint8_t const mod2db [AMP_BITS] =
 	28,
 	36
 };
-
-
-#endif
 
 signed SignalToNoise2 (struct plc * plc)
 
