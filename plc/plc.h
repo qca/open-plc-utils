@@ -484,7 +484,7 @@ signed WriteParameters2 (struct plc *, unsigned module, const struct nvm_header2
 #pragma pack (push,1)
 #endif
 
-struct __packed plcproperty
+typedef struct __packed plcproperty
 
 {
 	uint8_t PROP_OPTION;
