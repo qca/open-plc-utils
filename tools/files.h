@@ -74,7 +74,6 @@
 FILE *efopen (char const *filename, char const *openmode);
 FILE *efreopen (char const *filename, char const *openmode, FILE *fp);
 bool checkfilename (char const * string);
-char const * filepart (char const * string);
 
 /*====================================================================*
  *
