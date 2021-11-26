@@ -324,9 +324,19 @@ void chipset (void const * memory)
 			CHIPSET_QCA7451A0
 		},
 		{
+			0x001CFC00,
+			0x20,
+			CHIPSET_QCA7420A0
+		},
+		{
 			0x001CFCFC,
 			0x20,
 			CHIPSET_QCA7420A0
+		},
+		{
+			0x001B587C,
+			0x22,
+			CHIPSET_QCA7005A0
 		},
 		{
 			0x001B58EC,
