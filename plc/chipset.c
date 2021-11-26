@@ -134,6 +134,48 @@ char const * chipsetname (uint8_t MDEVICE_CLASS)
 
 /*====================================================================*
  *
+ *   char const * chipsetname_by_ident (uint32_t ident, uint8_t chipset)
+ *
+ *   chipset.h
+ *
+ *   return the ASCII name string associated with the IDENT (aka STRAP)
+ *   field in the VS_SW_VER.CNF message;
+ *   in case of unknown value, fallback using chipsetname function
+ *
+ *--------------------------------------------------------------------*/
+
+char const * chipsetname_by_ident (uint32_t ident, uint8_t chipset)
+{
+	static const struct _type_ chipname [] =
+	{
+		{ 0x00000042, "INT6000" },
+		{ 0x00006300, "INT6300" },
+#if 0
+		/* don't list these two here since we would need MDEVICE_CLASS
+		 * (aka our chipset parameter) to differentiate; instead we rely
+		 *  on older chipsetname function to handle it during fallback...
+		 */
+		{ 0x00006400, " AR6405" },
+		{ 0x00006400, "INT6400" },
+#endif
+		{ 0x00007400, " AR7400" },
+		{ 0x001B587C, "QCA7005" },
+		{ 0x001B589C, "QCA7000" },
+		{ 0x001B58BC, "QCA6411" },
+		{ 0x001B58DC, "QCA7000" },
+		{ 0x001B58EC, "QCA6410" },
+		{ 0x001CFC00, "QCA7420" },
+		{ 0x001CFCFC, "QCA7420" },
+		{ 0x001D4C00, "QCA7500" },
+		{ 0x001D4C0F, "QCA7500" },
+		{ 0x0E001D1A, "QCA7451" },
+		{ 0x0F001D1A, "QCA7450" },
+	};
+	return (typename (chipname, SIZEOF (chipname), ident, chipsetname (chipset)));
+}
+
+/*====================================================================*
+ *
  *   void chipset (void const * memory, uint32_t * ident);
  *
  *   chipset.h
