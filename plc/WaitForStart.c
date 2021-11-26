@@ -135,7 +135,8 @@ signed WaitForStart (struct plc * plc, char string [], size_t length)
 		}
 		if (plc->packetsize)
 		{
-			chipset (confirm);
+			uint32_t ident;
+			chipset (confirm, & ident);
 			plc->hardwareID = confirm->MDEVICEID;
 			memcpy (channel->peer, request->ethernet.OSA, sizeof (channel->peer));
 			if (confirm->MVERLENGTH > length)

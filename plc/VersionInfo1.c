@@ -108,12 +108,13 @@ signed VersionInfo1 (struct plc * plc)
 	}
 	while (ReadMME (plc, 0, (VS_SW_VER | MMTYPE_CNF)) > 0)
 	{
+		uint32_t ident;
 		if (confirm->MSTATUS)
 		{
 			Failure (plc, PLC_WONTDOIT);
 			continue;
 		}
-		chipset (confirm);
+		chipset (confirm, & ident);
 		Display (plc, "%s %s", chipsetname (confirm->MDEVICEID), confirm->MVERSION);
 	}
 	return (0);

@@ -72,6 +72,7 @@ signed PLCPhyRates (struct plc * plc)
 
 {
 	signed status;
+	uint32_t ident;
 	struct channel * channel = (struct channel *)(plc->channel);
 	struct message * message = (struct message *)(plc->message);
 
@@ -123,7 +124,7 @@ signed PLCPhyRates (struct plc * plc)
 		Failure (plc, "Device will not start");
 		return (-1);
 	}
-	chipset (confirm);
+	chipset (confirm, & ident);
 	if ((plc->hardwareID = confirm->MDEVICEID) < CHIPSET_AR7400)
 	{
 		status = PhyRates1 (plc);

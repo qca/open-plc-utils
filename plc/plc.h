@@ -317,7 +317,7 @@ PLC;
  *  fixer-upper functions that compensate for errors and omissions;
  *--------------------------------------------------------------------*/
 
-void chipset (void const * memory);
+void chipset (void const * memory, uint32_t * ident);
 char const * chipsetname (uint8_t chipset);
 
 /*====================================================================*

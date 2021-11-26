@@ -105,7 +105,8 @@ signed Platform (struct channel * channel, const uint8_t device [])
 		{
 			if (!UnwantedMessage (&message, packetsize, 0, (VS_SW_VER | MMTYPE_CNF)))
 			{
-				chipset (confirm);
+				uint32_t ident;
+				chipset (confirm, & ident);
 				printf (" %s", chipsetname (confirm->MDEVICEID));
 				printf (" %s", confirm->MVERSION);
 				return (0);

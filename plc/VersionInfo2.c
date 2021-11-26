@@ -114,6 +114,7 @@ signed VersionInfo2 (struct plc * plc)
 	}
 	while (ReadMME (plc, 0, (VS_SW_VER | MMTYPE_CNF)) > 0)
 	{
+		uint32_t ident;
 
 #if 0
 
@@ -135,7 +136,7 @@ signed VersionInfo2 (struct plc * plc)
 			Failure (plc, PLC_WONTDOIT);
 			continue;
 		}
-		chipset (confirm);
+		chipset (confirm, & ident);
 		Display (plc, "%s %s", chipsetname (confirm->MDEVICE_CLASS), confirm->MVERSION);
 	}
 	return (0);

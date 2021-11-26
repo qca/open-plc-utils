@@ -103,7 +103,7 @@
  *--------------------------------------------------------------------*/
 
 char const * chipsetname (uint8_t chipset);
-void chipset (void const * memory);
+void chipset (void const * memory, uint32_t * ident);
 
 /*====================================================================*
  *

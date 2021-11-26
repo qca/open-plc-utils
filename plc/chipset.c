@@ -134,12 +134,14 @@ char const * chipsetname (uint8_t MDEVICE_CLASS)
 
 /*====================================================================*
  *
- *   void chipset (void const * memory);
+ *   void chipset (void const * memory, uint32_t * ident);
  *
- *   Chipset.h
+ *   chipset.h
  *
  *   replace VS_SW_VER message MDEVICE_CLASS field with correct value;
  *   the MDEVICE_CLASS field was named MDEVICEID at one time;
+ *   while at save the ident field to given (since the offset varies,
+ *   it can be used by caller later more easily);
  *
  *   Atheros chipsets are identified by code in the VS_SW_VER vendor
  *   specific management message; the chipset [] vector translates a
@@ -171,7 +173,7 @@ char const * chipsetname (uint8_t MDEVICE_CLASS)
  *
  *--------------------------------------------------------------------*/
 
-void chipset (void const * memory)
+void chipset (void const * memory, uint32_t * ident)
 
 {
 
@@ -378,6 +380,7 @@ void chipset (void const * memory)
 				continue;
 			}
 			confirm->MDEVICE_CLASS = bootrom [chip].DEVICE;
+			* ident = LE32TOH (chipinfo->STRAP);
 			return;
 		}
 	}
@@ -392,24 +395,28 @@ void chipset (void const * memory)
 			if (firmware [chip].STRAP < CHIPSET_PANTHER_LYNX)
 			{
 				confirm->MDEVICE_CLASS = firmware [chip].DEVICE;
+				* ident = LE32TOH (chipinfo->STRAP);
 				return;
 			}
 			chipinfo = (struct chipinfo *) (& confirm->MVERSION [64]);
 			if (firmware [chip].STRAP == LE32TOH (chipinfo->STRAP))
 			{
 				confirm->MDEVICE_CLASS = firmware [chip].DEVICE;
+				* ident = LE32TOH (chipinfo->STRAP);
 				return;
 			}
 			chipinfo = (struct chipinfo *) (& confirm->MVERSION [128]);
 			if (firmware [chip].STRAP == LE32TOH (chipinfo->STRAP))
 			{
 				confirm->MDEVICE_CLASS = firmware [chip].DEVICE;
+				* ident = LE32TOH (chipinfo->STRAP);
 				return;
 			}
 			chipinfo = (struct chipinfo *) (& confirm->MVERSION [253]);
 			if (firmware [chip].STRAP == LE32TOH (chipinfo->STRAP))
 			{
 				confirm->MDEVICE_CLASS = firmware [chip].DEVICE;
+				* ident = LE32TOH (chipinfo->STRAP);
 				return;
 			}
 		}
