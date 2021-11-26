@@ -137,7 +137,7 @@ signed VersionInfo2 (struct plc * plc)
 			continue;
 		}
 		chipset (confirm, & ident);
-		Display (plc, "%s %s", chipsetname (confirm->MDEVICE_CLASS), confirm->MVERSION);
+		Display (plc, "%s %s", chipsetname_by_ident (ident, confirm->MDEVICE_CLASS), confirm->MVERSION);
 	}
 	return (0);
 }
