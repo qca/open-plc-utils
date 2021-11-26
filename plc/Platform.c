@@ -107,7 +107,7 @@ signed Platform (struct channel * channel, const uint8_t device [])
 			{
 				uint32_t ident;
 				chipset (confirm, & ident);
-				printf (" %s", chipsetname (confirm->MDEVICEID));
+				printf (" %s", chipsetname_by_ident (ident, confirm->MDEVICEID));
 				printf (" %s", confirm->MVERSION);
 				return (0);
 			}

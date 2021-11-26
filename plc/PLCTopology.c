@@ -121,7 +121,7 @@ static signed PLCPlatform (struct channel * channel, struct plcstation * plcstat
 			{
 				uint32_t ident;
 				chipset (confirm, & ident);
-				strncpy (plcstation->hardware, chipsetname (confirm->MDEVICE), sizeof (plcstation->hardware));
+				strncpy (plcstation->hardware, chipsetname_by_ident (ident, confirm->MDEVICE), sizeof (plcstation->hardware));
 				strncpy (plcstation->firmware, confirm->MSTRING, sizeof (plcstation->firmware));
 				return (0);
 			}
