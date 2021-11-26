@@ -119,7 +119,8 @@ static signed PLCPlatform (struct channel * channel, struct plcstation * plcstat
 		{
 			if (!UnwantedMessage (&message, packetsize, 0, (VS_SW_VER | MMTYPE_CNF)))
 			{
-				chipset (confirm);
+				uint32_t ident;
+				chipset (confirm, & ident);
 				strncpy (plcstation->hardware, chipsetname (confirm->MDEVICE), sizeof (plcstation->hardware));
 				strncpy (plcstation->firmware, confirm->MSTRING, sizeof (plcstation->firmware));
 				return (0);
