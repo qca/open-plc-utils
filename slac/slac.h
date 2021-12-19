@@ -97,7 +97,7 @@
 #define SLAC_TIMEOUT 1000
 #define SLAC_APPLICATION_TYPE 0
 #define SLAC_SECURITY_TYPE 0
-#define SLAC_RESPONSE_TYPE 0
+#define SLAC_RESPONSE_TYPE 1
 #define SLAC_MSOUND_TARGET "FF:FF:FF:FF:FF:FF"
 #define SLAC_FORWARD_STATION "00:00:00:00:00:00"
 #define SLAC_GROUPS 58
@@ -148,7 +148,7 @@ typedef struct __packed session
 	byte PEV_MAC [ETHER_ADDR_LEN];
 	byte EVSE_ID [SLAC_UNIQUE_ID_LEN];
 	byte EVSE_MAC [ETHER_ADDR_LEN];
-	byte RND [SLAC_UNIQUE_ID_LEN];
+	byte RND [SLAC_RND_LEN];
 	byte NMK [SLAC_NMK_LEN];
 	byte NID [SLAC_NID_LEN];
 	byte original_nmk [SLAC_NMK_LEN];
@@ -301,7 +301,8 @@ typedef struct __packed cm_mnbc_sound_indicate
 		uint8_t SenderID [SLAC_UNIQUE_ID_LEN];
 		uint8_t CNT;
 		uint8_t RunID [SLAC_RUNID_LEN];
-		uint8_t RND [SLAC_UNIQUE_ID_LEN];
+		uint8_t RES [8];
+		uint8_t RND [SLAC_RND_LEN];
 	}
 	MSVarField;
 }
@@ -425,6 +426,5 @@ signed slac_debug (struct session * session, signed status, char const * string,
  *--------------------------------------------------------------------*/
 
 #endif
-
 
 
