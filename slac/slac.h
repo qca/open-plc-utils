@@ -301,7 +301,8 @@ typedef struct __packed cm_mnbc_sound_indicate
 		uint8_t SenderID [SLAC_UNIQUE_ID_LEN];
 		uint8_t CNT;
 		uint8_t RunID [SLAC_RUNID_LEN];
-		uint8_t RND [SLAC_UNIQUE_ID_LEN];
+		uint8_t RSVD [8];
+		uint8_t RND [SLAC_RND_LEN];
 	}
 	MSVarField;
 }
