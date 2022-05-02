@@ -82,23 +82,22 @@ signed pev_cm_start_atten_char (struct session * session, struct channel * chann
 		return (slac_debug (session, 1, __func__, CHANNEL_CANTSEND));
 	}
 
-#if 0
+	/*
+	 *	the GreenPHY spec says to send CM_START_ATTEN.IND three times to ensure
+	 *	that is is received;
+	 */
 
-/*
- *	the GreenPHY spec says to send CM_START_ATTEN.IND three times to ensure
- *	that is is received;
- */
-
-	if (sendmessage (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) <= 0)
-	{
-		return (slac_debug (session, 1, __func__, CHANNEL_CANTSEND));
-	}
+	slac_debug (session, 0, __func__, "--> CM_START_ATTEN_CHAR.IND");
 	if (sendmessage (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) <= 0)
 	{
 		return (slac_debug (session, 1, __func__, CHANNEL_CANTSEND));
 	}
 
-#endif
+	slac_debug (session, 0, __func__, "--> CM_START_ATTEN_CHAR.IND");
+	if (sendmessage (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) <= 0)
+	{
+		return (slac_debug (session, 1, __func__, CHANNEL_CANTSEND));
+	}
 
 	return (0);
 }
