@@ -167,7 +167,7 @@ typedef struct __packed session
 	byte PEV_MAC [ETHER_ADDR_LEN]; 
 	byte EVSE_ID [SLAC_UNIQUE_ID_LEN]; 
 	byte EVSE_MAC [ETHER_ADDR_LEN]; 
-	byte RND [SLAC_UNIQUE_ID_LEN]; 
+	byte RND [SLAC_RND_LEN]; 
 	byte NMK [SLAC_NMK_LEN]; 
 	byte NID [SLAC_NID_LEN]; 
 	byte original_nmk [SLAC_NMK_LEN]; 
