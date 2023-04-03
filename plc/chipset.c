@@ -117,6 +117,10 @@ char const * chipsetname (uint8_t MDEVICE_CLASS)
 			"QCA6410"
 		},
 		{
+			CHIPSET_QCA7006AQA0,
+			"QCA7006AQ"
+		},
+		{
 			CHIPSET_QCA7000A0,
 			"QCA7000"
 		},
@@ -161,6 +165,7 @@ char const * chipsetname_by_ident (uint32_t ident, uint8_t chipset)
 		{ 0x00007400, " AR7400" },
 		{ 0x001B587C, "QCA7005" },
 		{ 0x001B589C, "QCA7000" },
+		{ 0x001B58AC, "QCA7006AQ" },
 		{ 0x001B58BC, "QCA6411" },
 		{ 0x001B58DC, "QCA7000" },
 		{ 0x001B58EC, "QCA6410" },
@@ -205,6 +210,7 @@ char const * chipsetname_by_ident (uint32_t ident, uint8_t chipset)
  *   QCA7420   0x06 / 0x20  0x001CFCFC
  *   QCA6410   0x06 / 0x21  0x001B58EC
  *   QCA6411   0x06 / 0x21  0x001B58BC
+ *   QCA7006AQ 0x06 / 0x21  0x001B58AC
  *   QCA7000   0x06 / 0x22  0x001B589C
  *   QCA7000   0x06 / 0x22  0x001B58DC
  *   QCA7005   0x06 / 0x22  0x001B587C
@@ -305,6 +311,11 @@ void chipset (void const * memory, uint32_t * ident)
 			CHIPSET_QCA6410A0
 		},
 		{
+			0x001B58AC,
+			0x06,
+			CHIPSET_QCA7006AQA0
+		},
+		{
 			0x001B58BC,
 			0x06,
 			CHIPSET_QCA6411A0
@@ -381,6 +392,11 @@ void chipset (void const * memory, uint32_t * ident)
 			0x001B587C,
 			0x22,
 			CHIPSET_QCA7005A0
+		},
+		{
+			0x001B58AC,
+			0x21,
+			CHIPSET_QCA7006AQA0
 		},
 		{
 			0x001B58EC,
