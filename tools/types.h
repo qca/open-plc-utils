@@ -23,6 +23,7 @@
  *--------------------------------------------------------------------*/
 
 #include <stdint.h>
+#include <stdbool.h>
 
 /*====================================================================*
  *   constants;
@@ -65,33 +66,6 @@ error "Unknown environment."
 typedef signed errno_t;
 typedef signed signo_t;
 typedef unsigned char byte;
-
-/*====================================================================*
- *   define C++ style true and false for use in standard C programs;
- *--------------------------------------------------------------------*/
-
-#ifndef __cplusplus
-
-#ifdef false
-# undef false
-#endif
-#ifdef true
-# undef true
-#endif
-#ifdef bool
-# undef bool
-#endif
-
-typedef enum
-
-{
-	false,
-	true
-}
-
-bool;
-
-#endif
 
 /*====================================================================*
  *   cope with structure packing vagaries;
