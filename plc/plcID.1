@@ -30,6 +30,11 @@ Prints the Ethernet address (MAC) for each specified device.
 This option and options -\fBD\fR, -\fBM\fR, -\fBN\fR, -\fBS\fR and -\fBU\fR are mutually exclusive.
 
 .TP
+-\fBc\fR \fIc\fR
+When used with more than a single device, then the given character is used
+to separate the individual output strings. By default, a newline is used.
+
+.TP
 .RB - D
 Prints the Device Access Key (DAK) for each specified device.
 This option and options -\fBA\fR, -\fBM\fR, -\fBN\fR, -\fBS\fR and -\fBU\fR are mutually exclusive.
@@ -78,6 +83,11 @@ Read timeout in milliseconds.
 Values range from 0 through UINT_MAX.
 This is the maximum time allowed for a response.
 The default is shown in brackets on the program menu.
+
+.TP
+.RB - U
+Prints the user HFID string for each specified device.
+This option and options -\fBA\fR, -\fBD\fR, -\fBM\fR, -\fBN\fR and -\fBS\fR are mutually exclusive.
 
 .TP
 .RB - v
