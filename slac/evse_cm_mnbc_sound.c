@@ -153,6 +153,11 @@ signed evse_cm_mnbc_sound (struct session * session, struct channel * channel, s
 
 #endif
 
+				if (indicate->NumGroups > SLAC_GROUPS)
+				{
+					indicate->NumGroups = SLAC_GROUPS;
+				}
+				
 				for (session->NumGroups = 0; session->NumGroups < indicate->NumGroups; session->NumGroups++)
 				{
 					AAG [session->NumGroups] += indicate->AAG [session->NumGroups];

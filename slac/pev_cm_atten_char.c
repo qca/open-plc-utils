@@ -75,6 +75,10 @@ signed pev_cm_atten_char (struct session * session, struct channel * channel, st
 			memcpy (session->EVSE_MAC, indicate->ethernet.OSA, sizeof (session->EVSE_MAC));
 			session->NUM_SOUNDS = indicate->ACVarField.NUM_SOUNDS;
 			session->NumGroups = indicate->ACVarField.ATTEN_PROFILE.NumGroups;
+			if (session->NumGroups > SLAC_GROUPS)
+			{
+				session->NumGroups = SLAC_GROUPS;
+			}
 			memcpy (session->AAG, indicate->ACVarField.ATTEN_PROFILE.AAG, indicate->ACVarField.ATTEN_PROFILE.NumGroups);
 
 #if SLAC_DEBUG
