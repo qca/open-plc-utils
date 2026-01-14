@@ -60,13 +60,13 @@
 #include "../tools/types.h"
 #include "../tools/error.h"
 #include "../ether/channel.h"
+#include "../tools/timer.h"
 #include "../slac/slac.h"
 
 signed pev_cm_start_atten_char (struct session * session, struct channel * channel, struct message * message)
 
 {
 	struct cm_start_atten_char_indicate * indicate = (struct cm_start_atten_char_indicate *) (message);
-	slac_debug (session, 0, __func__, "--> CM_START_ATTEN_CHAR.IND");
 	memset (message, 0, sizeof (* message));
 	EthernetHeader (& indicate->ethernet, session->MSOUND_TARGET, channel->host, channel->type);
 	HomePlugHeader1 (& indicate->homeplug, HOMEPLUG_MMV, (CM_START_ATTEN_CHAR | MMTYPE_IND));
@@ -77,26 +77,21 @@ signed pev_cm_start_atten_char (struct session * session, struct channel * chann
 	indicate->ACVarField.RESP_TYPE = session->RESP_TYPE;
 	memcpy (indicate->ACVarField.FORWARDING_STA, session->FORWARDING_STA, sizeof (indicate->ACVarField.FORWARDING_STA));
 	memcpy (indicate->ACVarField.RunID, session->RunID, sizeof (indicate->ACVarField.RunID));
-	if (sendmessage (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) <= 0)
-	{
-		return (slac_debug (session, 1, __func__, CHANNEL_CANTSEND));
-	}
-
 	/*
-	 *	the GreenPHY spec says to send CM_START_ATTEN.IND three times to ensure
-	 *	that is is received;
+	 *	the ISO15118 spec says to send CM_START_ATTEN.IND three times to ensure
+	 *	that is is received, each one separated by a 20 to 50 ms interval.
 	 */
 
-	slac_debug (session, 0, __func__, "--> CM_START_ATTEN_CHAR.IND");
-	if (sendmessage (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) <= 0)
-	{
-		return (slac_debug (session, 1, __func__, CHANNEL_CANTSEND));
-	}
+	unsigned count;
 
-	slac_debug (session, 0, __func__, "--> CM_START_ATTEN_CHAR.IND");
-	if (sendmessage (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) <= 0)
+	for (count = 0; count < 3; ++count)
 	{
-		return (slac_debug (session, 1, __func__, CHANNEL_CANTSEND));
+		slac_debug (session, 0, __func__, "--> CM_START_ATTEN_CHAR.IND");
+		if (sendmessage (channel, message, (ETHER_MIN_LEN - ETHER_CRC_LEN)) <= 0)
+		{
+			return (slac_debug (session, 1, __func__, CHANNEL_CANTSEND));
+		}
+		SLEEP (session->pause);
 	}
 
 	return (0);
