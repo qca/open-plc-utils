@@ -27,13 +27,13 @@ compact: compile
 	if [ ! -z ${STRIP} ]; then ${STRIP} ${TOOLS}; fi
 	if [ -x /usr/local/bin/upx ]; then upx --best ${TOOLS}; fi
 library:
-	install -m ${DIR_PERM} -o ${OWNER} -g ${GROUP} -d ${BIN}
+	install -m ${DIR_PERM} -d ${BIN}
 scripts:
 manuals:
-	if [ ! -d ${MAN} ]; then install -m ${DIR_PERM} -o ${OWNER} -g ${GROUP} -d ${MAN}; fi
-	install -m ${MAN_PERM} -o ${OWNER} -g ${GROUP} ${PAGES} ${MAN}
+	if [ ! -d ${MAN} ]; then install -m ${DIR_PERM} -d ${MAN}; fi
+	install -m ${MAN_PERM} ${PAGES} ${MAN}
 install: compile library
-	install -m ${SUID_PERM} -o ${OWNER} -g ${GROUP} ${TOOLS} ${BIN}
+	install -m ${SUID_PERM} ${TOOLS} ${BIN}
 uninstall:
 	cd ${BIN}; rm -f ${TOOLS}
 	cd ${MAN}; rm -f ${PAGES}
@@ -69,4 +69,3 @@ include ../ether/ether.mak
 include ../mme/mme.mak
 include ../plc/plc.mak
 include ../key/key.mak
-
