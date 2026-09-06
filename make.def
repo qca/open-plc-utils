@@ -81,9 +81,9 @@ FTP ?= $(DESTDIR)/home/ftp
 # --------------------------------------------------------------------
 
 DIR_PERM=0755
-MAN_PERM=0444
-BIN_PERM=0555
-WWW_PERM=0666
+MAN_PERM=0644
+BIN_PERM=0755
+WWW_PERM=0644
 
 # Setting binaries as setuid root is just one way to obtain the required
 # permissions to open raw sockets.
