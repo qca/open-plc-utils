@@ -167,6 +167,29 @@ item;
 #pragma pack (pop)
 #endif
 
+static uint8_t * EncodeVLANIDs (uint8_t * memory, struct item const * list, unsigned items)
+
+{
+	while (items--)
+	{
+		uint16_t value;
+		unsigned count;
+		memcpy (memory, list->MAC_ADDR, sizeof (list->MAC_ADDR));
+		memory += sizeof (list->MAC_ADDR);
+		value = HTOLE16 (list->NUM_VLANIDS);
+		memcpy (memory, &value, sizeof (value));
+		memory += sizeof (value);
+		for (count = 0; count < list->NUM_VLANIDS; count++)
+		{
+			value = HTOLE16 (list->VLANID [count]);
+			memcpy (memory, &value, sizeof (value));
+			memory += sizeof (value);
+		}
+		list++;
+	}
+	return (memory);
+}
+
 /*
  *   synonym table for options -M and -S;
  */
@@ -500,28 +523,14 @@ static signed AddVLANIDs (struct plc * plc, struct item list [], unsigned items)
 #pragma pack (pop)
 #endif
 
-	struct item * item = request->LIST;
+	uint8_t * item = (uint8_t *)(request->LIST);
 	memset (message, 0, sizeof (* message));
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_FORWARD_CONFIG | MMTYPE_REQ));
 	request->MREQUEST = PLCFWD_ADD;
 	request->MVERSION = PLCFWD_VER;
 	request->ITEMS = HTOLE16 (items);
-	while (items--)
-	{
-		unsigned count;
-		memcpy (item->MAC_ADDR, list->MAC_ADDR, sizeof (item->MAC_ADDR));
-		item->NUM_VLANIDS = HTOLE16 (list->NUM_VLANIDS);
-		for (count = 0; count < list->NUM_VLANIDS; count++)
-		{
-			item->VLANID [count] = HTOLE16 (list->VLANID [count]);
-		}
-
-// item++;
-
-		item = (struct item *)(&item->VLANID [count]);
-		list++;
-	}
+	item = EncodeVLANIDs (item, list, items);
 	plc->packetsize = (signed)((uint8_t *)(item) - (uint8_t *)(request));
 	if (SendMME (plc) <= 0)
 	{
@@ -585,28 +594,14 @@ static signed RemoveVLANIDs (struct plc * plc, struct item list [], unsigned ite
 #pragma pack (pop)
 #endif
 
-	struct item * item = request->LIST;
+	uint8_t * item = (uint8_t *)(request->LIST);
 	memset (message, 0, sizeof (* message));
 	EthernetHeader (&request->ethernet, channel->peer, channel->host, channel->type);
 	QualcommHeader (&request->qualcomm, 0, (VS_FORWARD_CONFIG | MMTYPE_REQ));
 	request->MREQUEST = PLCFWD_REM;
 	request->MVERSION = PLCFWD_VER;
 	request->ITEMS = HTOLE16 (items);
-	while (items--)
-	{
-		unsigned count;
-		memcpy (item->MAC_ADDR, list->MAC_ADDR, sizeof (item->MAC_ADDR));
-		item->NUM_VLANIDS = HTOLE16 (list->NUM_VLANIDS);
-		for (count = 0; count < list->NUM_VLANIDS; count++)
-		{
-			item->VLANID [count] = HTOLE16 (list->VLANID [count]);
-		}
-
-// item++;
-
-		item = (struct item *)(&item->VLANID [count]);
-		list++;
-	}
+	item = EncodeVLANIDs (item, list, items);
 	plc->packetsize = (signed)((uint8_t *)(item) - (uint8_t *)(request));
 	if (SendMME (plc) <= 0)
 	{
@@ -1124,4 +1119,3 @@ int main (int argc, char const * argv [])
 	closechannel (&channel);
 	return (0);
 }
-
