@@ -116,6 +116,7 @@
 #define MASTER_FETCH 	(1 << 2)
 #define SLAVE_CLEAR 	(1 << 3)
 #define ETHERNET_STATS 	(1 << 4)
+#define MDU_SLAVE_BITMAP_WORDS 8
 
 /*====================================================================*
  *   variables;
@@ -335,6 +336,7 @@ signed MDUTrafficStats (struct plc * plc, uint8_t command, uint8_t session, uint
 {
 	struct channel * channel = (struct channel *)(plc->channel);
 	struct message * message = (struct message *)(plc->message);
+	uint32_t slave_bitmap [MDU_SLAVE_BITMAP_WORDS] = { 0 };
 
 #ifndef __GNUC__
 #pragma pack (push,1)
@@ -346,7 +348,7 @@ signed MDUTrafficStats (struct plc * plc, uint8_t command, uint8_t session, uint
 		struct qualcomm_hdr qualcomm;
 		uint8_t COMMAND;
 		uint8_t SESSION;
-		uint32_t SLAVE_BITMAP [8];
+		uint32_t SLAVE_BITMAP [MDU_SLAVE_BITMAP_WORDS];
 	}
 	* request = (struct vs_mdu_station_stats_request *) (message);
 	struct __packed vs_mdu_traffic_master_confirm
@@ -400,7 +402,8 @@ signed MDUTrafficStats (struct plc * plc, uint8_t command, uint8_t session, uint
 	QualcommHeader (&request->qualcomm, 0, (VS_MDU_TRAFFIC_STATS | MMTYPE_REQ));
 	request->COMMAND = command;
 	request->SESSION = session;
-	set32bitmap (request->SLAVE_BITMAP, slave);
+	set32bitmap (slave_bitmap, slave);
+	memcpy (request->SLAVE_BITMAP, slave_bitmap, sizeof (slave_bitmap));
 	plc->packetsize = sizeof (* request);
 	if (SendMME (plc) <= 0)
 	{
@@ -451,4 +454,3 @@ signed MDUTrafficStats (struct plc * plc, uint8_t command, uint8_t session, uint
 
 
 #endif
-
