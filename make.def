@@ -65,12 +65,16 @@ STRIP=$(CROSS)strip
 # installation folders;
 # --------------------------------------------------------------------
 
-ROOTFS?=
-BIN=${ROOTFS}/usr/local/bin
-MAN=${ROOTFS}/usr/local/man/man1
-DOC=${ROOTFS}/home/www/software
-WWW=${ROOTFS}/home/www
-FTP=${ROOTFS}/home/ftp
+ROOTFS ?=
+DESTDIR ?= $(ROOTFS)
+prefix ?= /usr/local
+bindir ?= $(prefix)/bin
+mandir ?= $(prefix)/man
+BIN ?= $(DESTDIR)$(bindir)
+MAN ?= $(DESTDIR)$(mandir)/man1
+DOC ?= $(DESTDIR)/home/www/software
+WWW ?= $(DESTDIR)/home/www
+FTP ?= $(DESTDIR)/home/ftp
 
 # ====================================================================
 # file ownership;
@@ -128,4 +132,3 @@ VPATH=../applets:../debian:../docbook:../docbook2:../ether:../key:../mdio:../mme
 CFLAGS=-Wall -Wextra -Wno-unused-parameter -DMAKEFILE -D__GETOPT_H__ -D_GETOPT_DEFINED_ $(EXTRA_CFLAGS)
 CXXFLAGS=-Wall -Wextra -Wno-unused-parameter -DMAKEFILE $(EXTRA_CXXFLAGS)
 LDFLAGS=$(EXTRA_LDFLAGS)
-
