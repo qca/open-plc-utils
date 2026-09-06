@@ -32,9 +32,9 @@ manuals:
 	${SHELL} ../docbook/manuals
 scripts:
 library:
-	install -m ${DIR_PERM} -o ${OWNER} -g ${GROUP} -d ${LIBRARY}
+	install -m ${DIR_PERM} -d ${LIBRARY}
 install: library
-	if [ -d ${LIBRARY} ]; then install -m ${WWW_PERM} -o ${OWNER} -g ${GROUP} *.html *.css *.png ${LIBRARY}; fi
+	if [ -d ${LIBRARY} ]; then install -m ${WWW_PERM} *.html *.css *.png ${LIBRARY}; fi
 uninstall:
 	rm -f ${LIBRARY}/*.c.html ${LIBRARY}/*.h.html ${LIBRARY}/*.1.html
 setup:
@@ -53,4 +53,3 @@ open-plc-utils.pdf: *.xml *.png
 	docbook2pdf ${<}
 open-plc-utils.txt: *.xml 
 	xmlto ${XFLAGS} txt ${<}
-

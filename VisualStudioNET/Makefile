@@ -22,10 +22,10 @@ TOOLS=
 
 all compile: ${TOOLS}
 library:
-#	install -m ${DIR_PERM} -o ${OWNER} -g ${GROUP} -d ${BIN}
+#	install -m ${DIR_PERM} -d ${BIN}
 scripts manuals:
 install: $(TOOLS) library
-#	install -m ${BIN_PERM} -o ${OWNER} -g ${GROUP} ${TOOLS} ${BIN}
+#	install -m ${BIN_PERM} ${TOOLS} ${BIN}
 uninstall:
 #	cd ${BIN}; rm -f ${TOOLS}
 #	cd ${MAN}; rm -f ${PAGES}
@@ -43,5 +43,4 @@ ignore:
 #
 #	echo ${TOOLS} | tr ' ' '\n' > .gitignore
 #
-
 
