@@ -124,6 +124,6 @@ VPATH=../applets:../debian:../docbook:../docbook2:../ether:../key:../mdio:../mme
 # default compiler and linker flags;
 # --------------------------------------------------------------------
 
-CFLAGS=-Wall -Wextra -Wno-unused-parameter -DMAKEFILE -D__GETOPT_H__ -D_GETOPT_DEFINED_ $(EXTRA_CFLAGS)
-CXXFLAGS=-Wall -Wextra -Wno-unused-parameter -DMAKEFILE $(EXTRA_CXXFLAGS)
-LDFLAGS=$(EXTRA_LDFLAGS)
+CFLAGS+=-Wall -Wextra -Wno-unused-parameter -DMAKEFILE -D__GETOPT_H__ -D_GETOPT_DEFINED_ $(EXTRA_CFLAGS)
+CXXFLAGS+=-Wall -Wextra -Wno-unused-parameter -DMAKEFILE $(EXTRA_CXXFLAGS)
+LDFLAGS+=$(EXTRA_LDFLAGS)
